@@ -1,5 +1,6 @@
 import Navigation from "@/components/navigation";
 import Hero from "@/components/hero";
+import PolicyCarousel from "@/components/policy-carousel";
 import InsuranceSection from "@/components/insurance-section";
 import ContactForm from "@/components/contact-form";
 import Footer from "@/components/footer";
@@ -83,6 +84,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Navigation />
       <Hero />
+      <PolicyCarousel />
       
       {insuranceTypes.map((insurance, index) => (
         <InsuranceSection

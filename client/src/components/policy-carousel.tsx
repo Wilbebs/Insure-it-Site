@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Car, House, Heart, UserCheck, Building, ArrowRight } from "lucide-react";
+import { Car, House, Heart, UserCheck, Building, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLocation } from "wouter";
 
 const policyTypes = [
@@ -49,6 +49,17 @@ const policyTypes = [
 export default function PolicyCarousel() {
   const [, setLocation] = useLocation();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (!isPaused) {
+      const timer = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % policyTypes.length);
+      }, 5000); // 5 seconds per slide
+
+      return () => clearInterval(timer);
+    }
+  }, [isPaused]);
 
   const getRoutePath = (title: string) => {
     return `/${title.toLowerCase().replace(/\s+/g, '-')}`;
@@ -56,6 +67,23 @@ export default function PolicyCarousel() {
 
   const handleCardClick = (title: string) => {
     setLocation(getRoutePath(title));
+  };
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % policyTypes.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + policyTypes.length) % policyTypes.length);
+  };
+
+  const getVisibleCards = () => {
+    const cards = [];
+    for (let i = 0; i < 3; i++) {
+      const index = (currentIndex + i) % policyTypes.length;
+      cards.push({ ...policyTypes[index], originalIndex: index, position: i });
+    }
+    return cards;
   };
 
   return (
@@ -66,56 +94,105 @@ export default function PolicyCarousel() {
           <p className="text-muted-foreground">Comprehensive coverage for every need</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {policyTypes.map((policy, index) => {
-            const Icon = policy.icon;
-            
-            return (
-              <motion.div
-                key={policy.title}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                onClick={() => handleCardClick(policy.title)}
-                className="relative w-full h-48 rounded-xl overflow-hidden cursor-pointer group shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105"
-                data-testid={`policy-card-${policy.title.toLowerCase().replace(/\s+/g, '-')}`}
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${policy.color} opacity-90`}></div>
-                <div className="absolute inset-0 bg-black/20"></div>
-                
-                {/* Main Content */}
-                <div className="relative h-full p-6 text-white flex flex-col justify-between">
-                  <div className="flex items-center gap-3">
-                    <Icon className="w-8 h-8" />
-                    <div>
-                      <h3 className="text-lg font-bold">{policy.title}</h3>
-                      <p className="text-xs opacity-90">{policy.subtitle}</p>
-                    </div>
-                  </div>
+        <div 
+          className="relative overflow-hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Navigation Arrows */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-primary rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
+            data-testid="carousel-prev"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-primary rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
+            data-testid="carousel-next"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+          {/* Carousel Container */}
+          <div className="flex items-center justify-center gap-8 px-20 py-8">
+            {getVisibleCards().map((policy, index) => {
+              const Icon = policy.icon;
+              const isCenter = policy.position === 1;
+              
+              return (
+                <motion.div
+                  key={`${policy.title}-${currentIndex}`}
+                  initial={{ opacity: 0, scale: 0.8, x: 100 }}
+                  animate={{ 
+                    opacity: isCenter ? 1 : 0.7,
+                    scale: isCenter ? 1 : 0.85,
+                    x: 0,
+                    zIndex: isCenter ? 10 : 1
+                  }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                  onClick={() => handleCardClick(policy.title)}
+                  className={`relative w-80 h-64 rounded-2xl overflow-hidden cursor-pointer group transition-all duration-500 ${
+                    isCenter ? 'shadow-2xl' : 'shadow-lg'
+                  }`}
+                  data-testid={`policy-card-${policy.title.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  <div className={`absolute inset-0 bg-gradient-to-br ${policy.color} opacity-90`}></div>
+                  <div className="absolute inset-0 bg-black/20"></div>
                   
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <p className="text-sm mb-3 leading-relaxed">{policy.description}</p>
-                    <div className="space-y-1">
-                      {policy.features.slice(0, 2).map((feature, featureIndex) => (
-                        <div key={featureIndex} className="flex items-center text-xs">
-                          <ArrowRight className="w-3 h-3 mr-2" />
-                          {feature}
-                        </div>
-                      ))}
+                  {/* Main Content */}
+                  <div className="relative h-full p-8 text-white flex flex-col justify-between">
+                    <div className="flex items-center gap-4">
+                      <Icon className="w-12 h-12" />
+                      <div>
+                        <h3 className="text-2xl font-bold">{policy.title}</h3>
+                        <p className="text-sm opacity-90">{policy.subtitle}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <p className="text-sm mb-4 leading-relaxed">{policy.description}</p>
+                      <div className="space-y-2">
+                        {policy.features.slice(0, 3).map((feature, featureIndex) => (
+                          <div key={featureIndex} className="flex items-center text-sm">
+                            <ArrowRight className="w-4 h-4 mr-2" />
+                            {feature}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Always visible call-to-action */}
+                    <div className="group-hover:opacity-0 transition-opacity duration-300">
+                      <p className="text-sm font-medium">Click to explore →</p>
                     </div>
                   </div>
 
-                  {/* Always visible call-to-action */}
-                  <div className="group-hover:opacity-0 transition-opacity duration-300">
-                    <p className="text-sm font-medium">Click to learn more</p>
-                  </div>
-                </div>
+                  {/* Center card highlight */}
+                  {isCenter && (
+                    <div className="absolute inset-0 ring-4 ring-white/30 rounded-2xl pointer-events-none"></div>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
 
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300"></div>
-              </motion.div>
-            );
-          })}
+          {/* Indicators */}
+          <div className="flex justify-center mt-6 gap-3">
+            {policyTypes.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? 'bg-primary scale-125 shadow-lg' 
+                    : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                }`}
+                data-testid={`carousel-indicator-${index}`}
+              />
+            ))}
+          </div>
         </div>
 
       </div>

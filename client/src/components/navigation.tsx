@@ -11,7 +11,7 @@ export default function Navigation() {
           <Shield className="text-primary text-xl" />
           <span className="font-bold text-lg gradient-text">Insure-it Group</span>
         </Link>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-6">
           <Link 
             href="/" 
             className={`transition-colors font-medium ${

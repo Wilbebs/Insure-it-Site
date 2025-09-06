@@ -8,40 +8,35 @@ const policyTypes = [
     icon: Car,
     title: "Auto Insurance",
     subtitle: "Comprehensive Vehicle Protection",
-    description: "Full coverage for your vehicle with competitive rates and excellent service.",
-    features: ["Collision Coverage", "Liability Protection", "Roadside Assistance"],
+    image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
     color: "from-blue-500 to-blue-600"
   },
   {
     icon: House,
     title: "Home Insurance",
     subtitle: "Protect Your Most Valuable Asset",
-    description: "Complete home protection including dwelling, personal property, and liability.",
-    features: ["Dwelling Protection", "Personal Property", "Liability Coverage"],
+    image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
     color: "from-green-500 to-green-600"
   },
   {
     icon: Heart,
     title: "Life Insurance",
     subtitle: "Secure Your Family's Future",
-    description: "Flexible life insurance options to provide financial security for your loved ones.",
-    features: ["Term Life", "Whole Life", "Universal Life"],
+    image: "https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
     color: "from-red-500 to-red-600"
   },
   {
     icon: UserCheck,
     title: "Health Insurance",
     subtitle: "Quality Healthcare Coverage",
-    description: "Comprehensive health plans with access to top medical networks.",
-    features: ["Individual Plans", "Family Coverage", "Preventive Care"],
+    image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
     color: "from-purple-500 to-purple-600"
   },
   {
     icon: Building,
     title: "Commercial Insurance",
     subtitle: "Business Protection Solutions",
-    description: "Tailored commercial coverage to protect your business operations.",
-    features: ["General Liability", "Property Protection", "Workers' Comp"],
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
     color: "from-orange-500 to-orange-600"
   }
 ];
@@ -138,34 +133,20 @@ export default function PolicyCarousel() {
                   }`}
                   data-testid={`policy-card-${policy.title.toLowerCase().replace(/\s+/g, '-')}`}
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${policy.color} opacity-90`}></div>
-                  <div className="absolute inset-0 bg-black/20"></div>
+                  {/* Background Image */}
+                  <img 
+                    src={policy.image} 
+                    alt={policy.title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all duration-300"></div>
                   
-                  {/* Main Content */}
-                  <div className="relative h-full p-8 text-white flex flex-col justify-between">
-                    <div className="flex items-center gap-4">
-                      <Icon className="w-12 h-12" />
-                      <div>
-                        <h3 className="text-2xl font-bold">{policy.title}</h3>
-                        <p className="text-sm opacity-90">{policy.subtitle}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-sm mb-4 leading-relaxed">{policy.description}</p>
-                      <div className="space-y-2">
-                        {policy.features.slice(0, 3).map((feature, featureIndex) => (
-                          <div key={featureIndex} className="flex items-center text-sm">
-                            <ArrowRight className="w-4 h-4 mr-2" />
-                            {feature}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Always visible call-to-action */}
-                    <div className="group-hover:opacity-0 transition-opacity duration-300">
-                      <p className="text-sm font-medium">Click to explore →</p>
+                  {/* Title Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center text-center p-8">
+                    <div className="transform group-hover:scale-110 transition-transform duration-300">
+                      <Icon className="w-16 h-16 text-white mx-auto mb-4 drop-shadow-lg" />
+                      <h3 className="text-3xl font-bold text-white drop-shadow-lg mb-2">{policy.title}</h3>
+                      <p className="text-lg text-white/90 drop-shadow-lg font-medium">{policy.subtitle}</p>
                     </div>
                   </div>
 

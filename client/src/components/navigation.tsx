@@ -11,7 +11,7 @@ export default function Navigation() {
           <Shield className="text-primary text-xl" />
           <span className="font-bold text-lg gradient-text">Insure-it Group</span>
         </Link>
-        <div className="flex items-center space-x-6">
+        <div className="flex items-center space-x-4">
           <Link 
             href="/" 
             className={`transition-colors font-medium ${
@@ -22,13 +22,58 @@ export default function Navigation() {
             Home
           </Link>
           <Link 
+            href="/auto-insurance" 
+            className={`transition-colors font-medium ${
+              location === "/auto-insurance" ? "text-primary" : "text-foreground hover:text-primary"
+            }`}
+            data-testid="nav-auto"
+          >
+            Auto
+          </Link>
+          <Link 
+            href="/home-insurance" 
+            className={`transition-colors font-medium ${
+              location === "/home-insurance" ? "text-primary" : "text-foreground hover:text-primary"
+            }`}
+            data-testid="nav-home-insurance"
+          >
+            Home
+          </Link>
+          <Link 
+            href="/life-insurance" 
+            className={`transition-colors font-medium ${
+              location === "/life-insurance" ? "text-primary" : "text-foreground hover:text-primary"
+            }`}
+            data-testid="nav-life"
+          >
+            Life
+          </Link>
+          <Link 
+            href="/health-insurance" 
+            className={`transition-colors font-medium ${
+              location === "/health-insurance" ? "text-primary" : "text-foreground hover:text-primary"
+            }`}
+            data-testid="nav-health"
+          >
+            Health
+          </Link>
+          <Link 
+            href="/commercial-insurance" 
+            className={`transition-colors font-medium ${
+              location === "/commercial-insurance" ? "text-primary" : "text-foreground hover:text-primary"
+            }`}
+            data-testid="nav-commercial"
+          >
+            Commercial
+          </Link>
+          <Link 
             href="/about" 
             className={`transition-colors font-medium ${
               location === "/about" ? "text-primary" : "text-foreground hover:text-primary"
             }`}
             data-testid="nav-about"
           >
-            About Us
+            About
           </Link>
         </div>
       </div>

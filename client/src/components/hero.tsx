@@ -2,8 +2,18 @@ import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
-    <section className="min-h-screen flex items-center justify-center pt-20" data-testid="hero-section">
-      <div className="container mx-auto px-6 text-center">
+    <section 
+      className="min-h-screen flex items-center justify-center pt-20 relative" 
+      data-testid="hero-section"
+      style={{
+        backgroundImage: 'url(https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&h=1080)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className="absolute inset-0 bg-white/85 backdrop-blur-sm"></div>
+      <div className="container mx-auto px-6 text-center relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

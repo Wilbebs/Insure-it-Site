@@ -46,10 +46,12 @@ export default function InsuranceSection({
           </div>
           <div className={reversed ? "order-2 md:order-1" : "order-1 md:order-2"}>
             <div className="insurance-card p-8 rounded-2xl">
-              <Icon className="text-5xl text-primary mb-6" data-testid={`icon-${title.toLowerCase().replace(/\s+/g, '-')}`} />
-              <h2 className="text-4xl font-bold mb-6 gradient-text" data-testid={`title-${title.toLowerCase().replace(/\s+/g, '-')}`}>
-                {title}
-              </h2>
+              <div className="flex items-center gap-4 mb-6">
+                <Icon className="text-5xl text-primary" data-testid={`icon-${title.toLowerCase().replace(/\s+/g, '-')}`} />
+                <h2 className="text-4xl font-bold gradient-text" data-testid={`title-${title.toLowerCase().replace(/\s+/g, '-')}`}>
+                  {title}
+                </h2>
+              </div>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed" data-testid={`description-${title.toLowerCase().replace(/\s+/g, '-')}`}>
                 {description}
               </p>

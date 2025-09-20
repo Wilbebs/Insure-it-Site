@@ -3,7 +3,11 @@ import { createServer, type Server } from "http";
 import multer from "multer";
 import { storage } from "./storage";
 import { insertContactSubmissionSchema } from "@shared/schema";
+import { ContactFormData } from "@shared/types";
+import { adminDb, adminStorage } from "./firebase-admin";
+import { ImageManager } from "./image-manager";
 import { z } from "zod";
+import { v4 as uuidv4 } from "uuid";
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -29,26 +33,63 @@ const upload = multer({
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
-  // Contact form submission endpoint
+  // Contact form submission endpoint with Firebase integration
   app.post("/api/contact", upload.array('documents', 5), async (req, res) => {
     try {
       const files = req.files as Express.Multer.File[];
-      const documentPaths = files ? files.map(file => file.originalname) : [];
+      const documentUrls: string[] = [];
       
-      const submissionData = {
-        ...req.body,
-        documents: documentPaths
+      // Upload files to Firebase Storage
+      if (files && files.length > 0) {
+        for (const file of files) {
+          const fileName = `documents/${Date.now()}_${uuidv4()}.${file.originalname.split('.').pop()}`;
+          const bucket = adminStorage.bucket();
+          const fileUpload = bucket.file(fileName);
+          
+          await fileUpload.save(file.buffer, {
+            metadata: {
+              contentType: file.mimetype,
+              metadata: {
+                originalName: file.originalname
+              }
+            }
+          });
+          
+          // Make file publicly accessible
+          await fileUpload.makePublic();
+          const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+          documentUrls.push(publicUrl);
+        }
+      }
+      
+      // Prepare form data for Firestore
+      const submissionData: ContactFormData = {
+        fullName: req.body.fullName,
+        phoneNumber: req.body.phoneNumber,
+        emailAddress: req.body.emailAddress,
+        policyType: req.body.policyType,
+        coverageLevel: req.body.coverageLevel,
+        additionalInformation: req.body.additionalInformation || '',
+        attachedDocuments: documentUrls,
+        submittedAt: new Date(),
+        status: 'pending'
       };
 
-      const validatedData = insertContactSubmissionSchema.parse(submissionData);
-      const submission = await storage.createContactSubmission(validatedData);
+      const validatedData = insertContactSubmissionSchema.parse({
+        ...submissionData,
+        documents: documentUrls
+      });
+      
+      // Save to Firestore
+      const docRef = await adminDb.collection('contact_submissions').add(submissionData);
       
       res.json({ 
         success: true, 
         message: "Contact form submitted successfully!",
-        submissionId: submission.id 
+        submissionId: docRef.id 
       });
     } catch (error) {
+      console.error('Contact form submission error:', error);
       if (error instanceof z.ZodError) {
         res.status(400).json({ 
           success: false, 
@@ -64,18 +105,151 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get all contact submissions (for admin purposes)
+  // Get all contact submissions from Firestore (for admin purposes)
   app.get("/api/contact", async (req, res) => {
     try {
-      const submissions = await storage.getContactSubmissions();
+      const snapshot = await adminDb.collection('contact_submissions')
+        .orderBy('submittedAt', 'desc')
+        .get();
+      
+      const submissions = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      
       res.json(submissions);
     } catch (error) {
+      console.error('Error fetching contact submissions:', error);
       res.status(500).json({ 
         success: false, 
         message: "Failed to retrieve contact submissions" 
       });
     }
   });
+
+  // Upload image to Firebase Storage
+  app.post("/api/upload-image", upload.single('image'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: 'No image file uploaded' });
+      }
+
+      const file = req.file;
+      const fileName = `images/${Date.now()}_${uuidv4()}.${file.originalname.split('.').pop()}`;
+      const bucket = adminStorage.bucket();
+      const fileUpload = bucket.file(fileName);
+      
+      await fileUpload.save(file.buffer, {
+        metadata: {
+          contentType: file.mimetype,
+          metadata: {
+            originalName: file.originalname
+          }
+        }
+      });
+      
+      // Make file publicly accessible
+      await fileUpload.makePublic();
+      const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+      
+      // Save image reference to Firestore
+      await adminDb.collection('uploaded_images').add({
+        url: publicUrl,
+        path: fileName,
+        uploadedAt: new Date(),
+        originalName: file.originalname
+      });
+      
+      res.json({
+        success: true,
+        url: publicUrl,
+        fileName: fileName
+      });
+    } catch (error) {
+      console.error('Image upload error:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to upload image" 
+      });
+    }
+  });
+
+  // Get all uploaded images (for admin/content management)
+  app.get("/api/images", async (req, res) => {
+    try {
+      const snapshot = await adminDb.collection('uploaded_images')
+        .orderBy('uploadedAt', 'desc')
+        .get();
+      
+      const images = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      
+      res.json(images);
+    } catch (error) {
+      console.error('Error fetching images:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to retrieve images" 
+      });
+    }
+  });
+
+  // Get carousel images configuration
+  app.get("/api/carousel-images", async (req, res) => {
+    try {
+      const images = await ImageManager.getCarouselImages();
+      res.json(images || { carouselImages: {} });
+    } catch (error) {
+      console.error('Error fetching carousel images:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to retrieve carousel images" 
+      });
+    }
+  });
+
+  // Update carousel image
+  app.post("/api/carousel-images/:type", upload.single('image'), async (req, res) => {
+    try {
+      const insuranceType = req.params.type as any;
+      const validTypes = ['auto', 'home', 'life', 'health', 'commercial'];
+      
+      if (!validTypes.includes(insuranceType)) {
+        return res.status(400).json({ error: 'Invalid insurance type' });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({ error: 'No image file uploaded' });
+      }
+
+      // Upload to Firebase Storage
+      const publicUrl = await ImageManager.uploadCarouselImage(
+        req.file.buffer, 
+        req.file.originalname, 
+        req.file.mimetype
+      );
+      
+      // Update in Firestore
+      await ImageManager.updateCarouselImage(insuranceType, publicUrl);
+      
+      res.json({
+        success: true,
+        url: publicUrl,
+        type: insuranceType
+      });
+    } catch (error) {
+      console.error('Carousel image upload error:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to upload carousel image" 
+      });
+    }
+  });
+
+  // Initialize default carousel images on server start
+  ImageManager.initializeCarouselImages();
 
   const httpServer = createServer(app);
   return httpServer;

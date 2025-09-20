@@ -2,42 +2,44 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Car, House, Heart, UserCheck, Building, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLocation } from "wouter";
+import { useCarouselImages } from "@/hooks/use-carousel-images";
 
-const policyTypes = [
+// Default policy types configuration (images will be loaded from Firebase)
+const basePolicyTypes = [
   {
     icon: Car,
     title: "Auto Insurance",
     subtitle: "Comprehensive Vehicle Protection",
-    image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
-    color: "from-blue-500 to-blue-600"
+    color: "from-blue-500 to-blue-600",
+    key: "auto" as const
   },
   {
     icon: House,
     title: "Home Insurance",
     subtitle: "Protect Your Most Valuable Asset",
-    image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
-    color: "from-green-500 to-green-600"
+    color: "from-green-500 to-green-600",
+    key: "home" as const
   },
   {
     icon: Heart,
     title: "Life Insurance",
     subtitle: "Secure Your Family's Future",
-    image: "https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
-    color: "from-red-500 to-red-600"
+    color: "from-red-500 to-red-600",
+    key: "life" as const
   },
   {
     icon: UserCheck,
     title: "Health Insurance",
     subtitle: "Quality Healthcare Coverage",
-    image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
-    color: "from-purple-500 to-purple-600"
+    color: "from-purple-500 to-purple-600",
+    key: "health" as const
   },
   {
     icon: Building,
     title: "Commercial Insurance",
     subtitle: "Business Protection Solutions",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
-    color: "from-orange-500 to-orange-600"
+    color: "from-orange-500 to-orange-600",
+    key: "commercial" as const
   }
 ];
 
@@ -45,6 +47,15 @@ export default function PolicyCarousel() {
   const [, setLocation] = useLocation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  
+  // Fetch carousel images from Firebase
+  const { data: carouselImages, isLoading: imagesLoading } = useCarouselImages();
+  
+  // Merge base policy data with Firebase images
+  const policyTypes = basePolicyTypes.map(policy => ({
+    ...policy,
+    image: carouselImages?.carouselImages?.[policy.key] || `https://via.placeholder.com/800x600?text=${policy.title.replace(' ', '+')}`
+  }));
 
   useEffect(() => {
     if (!isPaused) {
@@ -89,11 +100,16 @@ export default function PolicyCarousel() {
           <p className="text-muted-foreground">Comprehensive coverage for every need</p>
         </div>
         
-        <div 
-          className="relative overflow-hidden"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
+        {imagesLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        ) : (
+          <div 
+            className="relative overflow-hidden"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
@@ -174,6 +190,7 @@ export default function PolicyCarousel() {
             ))}
           </div>
         </div>
+        )}
 
       </div>
     </div>

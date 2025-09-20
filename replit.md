@@ -31,14 +31,17 @@ Preferred communication style: Simple, everyday language.
 - **Development Setup**: Vite integration for hot module replacement during development
 
 ### Data Storage Architecture
-- **Database**: PostgreSQL configured through Drizzle ORM
+- **Database**: Firebase Firestore NoSQL database for scalable data storage
+- **File Storage**: Firebase Storage for images, documents, and media files
+- **Authentication**: Firebase Authentication (configured for future admin features)
 - **Schema Management**: 
-  - Drizzle Kit for database migrations
-  - Type-safe schema definitions with Zod validation
-- **Storage Abstraction**: Interface-based storage layer supporting both in-memory (development) and database (production) implementations
+  - TypeScript interfaces with Zod validation for type safety
+  - Firestore collections for contact submissions and site configuration
+  - Server-side image management through Firebase Admin SDK
 - **Data Models**:
-  - Users table with username/password authentication
-  - Contact submissions with file attachment support
+  - Contact submissions with file attachment URLs from Firebase Storage
+  - Carousel images configuration stored in Firestore
+  - Site configuration and uploaded media tracking
 
 ### Component Architecture
 - **Modular Design**: Reusable components organized by feature
@@ -47,18 +50,27 @@ Preferred communication style: Simple, everyday language.
 - **Animation System**: Scroll-triggered animations using Intersection Observer API
 
 ### API Design
-- **RESTful Endpoints**: Clean API structure with proper HTTP methods
-- **File Upload Support**: Multi-file upload with type validation (PDF, DOC, DOCX, JPG, PNG)
+- **RESTful Endpoints**: Clean API structure with proper HTTP methods integrated with Firebase backend
+- **File Upload Support**: 
+  - Multi-file document upload with Firebase Storage integration
+  - Image upload for carousel and content management
+  - Type validation (PDF, DOC, DOCX, JPG, PNG) with 10MB size limits
 - **Error Handling**: Consistent error responses with proper HTTP status codes
 - **Request Validation**: Zod schema validation for all API inputs
+- **Firebase Integration**:
+  - Contact form data stored in Firestore with real-time capabilities
+  - Image serving through Firebase Storage with public URLs
+  - Server-side rendering support for dynamic image loading
 
 ## External Dependencies
 
 ### Core Framework Dependencies
-- **@neondatabase/serverless**: Serverless PostgreSQL database connection for production
-- **drizzle-orm & drizzle-kit**: Type-safe ORM and migration tools for PostgreSQL
+- **firebase & firebase-admin**: Firebase SDK for client and server-side operations with Firestore database and Storage
+- **@neondatabase/serverless**: Serverless PostgreSQL database connection for production (legacy - replaced by Firebase)
+- **drizzle-orm & drizzle-kit**: Type-safe ORM and migration tools for PostgreSQL (legacy - replaced by Firebase)
 - **express**: Web server framework with middleware support
 - **multer**: File upload handling middleware
+- **uuid**: Unique identifier generation for file uploads
 
 ### Frontend UI Dependencies
 - **@radix-ui/***: Headless UI primitives for accessible component foundations

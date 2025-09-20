@@ -29,12 +29,12 @@ import {
 } from "@/components/ui/select";
 
 const contactFormSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  phone: z.string().min(10, "Please enter a valid phone number"),
-  email: z.string().email("Please enter a valid email address"),
+  fullName: z.string().min(2, "Name must be at least 2 characters"),
+  phoneNumber: z.string().min(10, "Please enter a valid phone number"),
+  emailAddress: z.string().email("Please enter a valid email address"),
   policyType: z.string().min(1, "Please select a policy type"),
   coverageLevel: z.string().optional(),
-  message: z.string().optional(),
+  additionalInformation: z.string().optional(),
 });
 
 type ContactFormData = z.infer<typeof contactFormSchema>;
@@ -47,12 +47,12 @@ export default function ContactForm() {
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
-      name: "",
-      phone: "",
-      email: "",
+      fullName: "",
+      phoneNumber: "",
+      emailAddress: "",
       policyType: "",
       coverageLevel: "",
-      message: "",
+      additionalInformation: "",
     },
   });
 
@@ -139,7 +139,7 @@ export default function ContactForm() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}
-                    name="name"
+                    name="fullName"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Full Name *</FormLabel>
@@ -156,7 +156,7 @@ export default function ContactForm() {
                   />
                   <FormField
                     control={form.control}
-                    name="phone"
+                    name="phoneNumber"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Phone Number *</FormLabel>
@@ -175,7 +175,7 @@ export default function ContactForm() {
 
                 <FormField
                   control={form.control}
-                  name="email"
+                  name="emailAddress"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Email Address *</FormLabel>
@@ -245,7 +245,7 @@ export default function ContactForm() {
 
                 <FormField
                   control={form.control}
-                  name="message"
+                  name="additionalInformation"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Additional Information</FormLabel>

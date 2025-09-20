@@ -9,7 +9,7 @@ export default function Navigation() {
       <div className="flex items-center space-x-8">
         <Link href="/" className="flex items-center space-x-2" data-testid="link-home">
           <Shield className="text-primary text-xl" />
-          <span className="font-bold text-lg gradient-text">Insure-it Group</span>
+          <span className="font-bold text-lg gradient-text">Insure-it</span>
         </Link>
         <div className="flex items-center space-x-6">
           <Link 

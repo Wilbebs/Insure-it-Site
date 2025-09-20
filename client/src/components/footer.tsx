@@ -63,7 +63,7 @@ export default function Footer() {
         </div>
         
         <div className="border-t border-blue-400 mt-8 pt-8 text-center opacity-75">
-          <p>&copy; 2024 Insure-it Group. All rights reserved.</p>
+          <p>&copy; 2025 Insure-it Group. All rights reserved.</p>
         </div>
       </div>
     </footer>

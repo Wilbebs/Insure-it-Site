@@ -50,7 +50,7 @@ export default function PolicyCarousel() {
     if (!isPaused) {
       const timer = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % policyTypes.length);
-      }, 5000); // 5 seconds per slide
+      }, 7000); // 7 seconds per slide
 
       return () => clearInterval(timer);
     }

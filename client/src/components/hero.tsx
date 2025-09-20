@@ -27,43 +27,23 @@ export default function Hero() {
             tailored to your unique needs. Experience peace of mind with Insure-it Group.
           </p>
           <div className="flex gap-4 justify-center">
-            <motion.div
+            <motion.button 
+              className="bg-gradient-to-r from-blue-800 to-blue-500 text-white px-12 py-5 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+              onClick={() => document.getElementById('connect')?.scrollIntoView({ behavior: 'smooth' })}
+              data-testid="button-get-started"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="relative"
+              transition={{ duration: 0.8, delay: 0.5 }}
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: "0 20px 40px -10px rgba(30, 64, 175, 0.4)",
+              }}
+              whileTap={{ scale: 0.98 }}
             >
-              {/* Pulsing Aura Effect */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-blue-300 opacity-30 blur-md animate-pulse scale-110"></div>
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-blue-400 opacity-20 blur-lg animate-pulse scale-115 animation-delay-500"></div>
-              
-              {/* Main Button */}
-              <motion.button 
-                className="relative bg-gradient-to-r from-blue-800 to-blue-500 text-white px-12 py-5 rounded-full font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 border-2 border-white/30"
-                onClick={() => document.getElementById('connect')?.scrollIntoView({ behavior: 'smooth' })}
-                data-testid="button-get-started"
-                whileHover={{ 
-                  scale: 1.1,
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                animate={{
-                  boxShadow: [
-                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                    "0 25px 50px -12px rgba(59, 130, 246, 0.5)",
-                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-                  ]
-                }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  ✨ Get Insured Today ✨
-                </span>
-                
-                {/* Inner glow */}
-                <div className="absolute inset-1 rounded-full bg-gradient-to-r from-blue-400/15 to-blue-300/15 blur-sm"></div>
-              </motion.button>
-            </motion.div>
+              <span className="flex items-center gap-2">
+                ✨ Get Insured Today ✨
+              </span>
+            </motion.button>
             <button 
               className="border border-primary text-primary px-8 py-4 rounded-full font-semibold hover:bg-primary hover:text-primary-foreground transition-all"
               onClick={() => document.querySelector('#insurance-sections')?.scrollIntoView({ behavior: 'smooth' })}

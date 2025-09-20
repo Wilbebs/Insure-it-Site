@@ -274,6 +274,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Static image endpoints for server-side rendered images (excluding carousel)
+  app.get("/api/images/hero-bg", (req, res) => {
+    const imageUrl = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&h=1080';
+    res.redirect(imageUrl);
+  });
+
+  app.get("/api/images/about-team", (req, res) => {
+    const imageUrl = 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=600';
+    res.redirect(imageUrl);
+  });
+
+  app.get("/api/images/auto-consultation", (req, res) => {
+    const imageUrl = 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=600';
+    res.redirect(imageUrl);
+  });
+
+  app.get("/api/images/commercial-building", (req, res) => {
+    const imageUrl = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=600';
+    res.redirect(imageUrl);
+  });
+
+  app.get("/api/images/health-consultation", (req, res) => {
+    const imageUrl = 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=600';
+    res.redirect(imageUrl);
+  });
+
+  app.get("/api/images/home-exterior", (req, res) => {
+    const imageUrl = 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=600';
+    res.redirect(imageUrl);
+  });
+
+  app.get("/api/images/life-family", (req, res) => {
+    const imageUrl = 'https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=600';
+    res.redirect(imageUrl);
+  });
+
   // TODO: Initialize default carousel images after Firebase permissions are configured
   // ImageManager.initializeCarouselImages();
 

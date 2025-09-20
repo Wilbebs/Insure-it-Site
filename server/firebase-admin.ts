@@ -1,15 +1,22 @@
-// Firebase Admin SDK for server-side operations
-import admin from 'firebase-admin';
+// Firebase Client SDK for server-side operations (Replit compatible)
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
+import { getAuth } from 'firebase/auth';
 
-// Initialize Firebase Admin SDK
-if (!admin.apps.length) {
-  admin.initializeApp({
-    projectId: 'insure-it-7b5b8',
-    storageBucket: 'insure-it-7b5b8.firebasestorage.app'
-  });
-}
+// Firebase configuration using environment variables
+const firebaseConfig = {
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
+  appId: process.env.VITE_FIREBASE_APP_ID,
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: `${process.env.VITE_FIREBASE_PROJECT_ID}.firebasestorage.app`
+};
 
-export const adminDb = admin.firestore();
-export const adminStorage = admin.storage();
-export const adminAuth = admin.auth();
-export default admin;
+// Initialize Firebase app
+const app = getApps().length === 0 ? initializeApp(firebaseConfig, 'server') : getApp('server');
+
+export const adminDb = getFirestore(app);
+export const adminStorage = getStorage(app);
+export const adminAuth = getAuth(app);
+
+console.log('Firebase initialized with project:', process.env.VITE_FIREBASE_PROJECT_ID);

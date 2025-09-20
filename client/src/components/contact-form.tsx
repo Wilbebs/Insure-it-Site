@@ -82,7 +82,7 @@ export default function ContactForm() {
       
       // Append form fields
       Object.entries(data).forEach(([key, value]) => {
-        if (value) {
+        if (value !== null && value !== undefined) {
           formData.append(key, value);
         }
       });
@@ -199,7 +199,7 @@ export default function ContactForm() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Type of Policy *</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger data-testid="select-policy-type">
                               <SelectValue placeholder="Select a policy type" />
@@ -224,7 +224,7 @@ export default function ContactForm() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Coverage Level Needed</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger data-testid="select-coverage-level">
                               <SelectValue placeholder="Select coverage level" />

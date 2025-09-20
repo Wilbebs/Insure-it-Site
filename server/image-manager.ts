@@ -1,6 +1,8 @@
 // Image management service for Firebase Storage integration
 import { adminDb, adminStorage } from './firebase-admin.js';
 import { InsurancePageImages } from '@shared/types.js';
+import { collection, doc, getDoc, setDoc, updateDoc, Timestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 export class ImageManager {
   /**
@@ -9,7 +11,8 @@ export class ImageManager {
   static async initializeCarouselImages(): Promise<void> {
     try {
       // Check if carousel images are already configured
-      const configDoc = await adminDb.collection('site_config').doc('carousel_images').get();
+      const carouselImagesDoc = doc(adminDb, 'site_config', 'carousel_images');
+      const configDoc = await getDoc(carouselImagesDoc);
       
       if (!configDoc.exists) {
         // Default image URLs (we'll replace these with Firebase Storage URLs after upload)
@@ -24,9 +27,9 @@ export class ImageManager {
         };
 
         // Save to Firestore
-        await adminDb.collection('site_config').doc('carousel_images').set({
+        await setDoc(carouselImagesDoc, {
           ...defaultImages,
-          lastUpdated: new Date(),
+          lastUpdated: Timestamp.fromDate(new Date()),
           source: 'unsplash_default'
         });
 
@@ -42,7 +45,8 @@ export class ImageManager {
    */
   static async getCarouselImages(): Promise<InsurancePageImages | null> {
     try {
-      const configDoc = await adminDb.collection('site_config').doc('carousel_images').get();
+      const carouselImagesDoc = doc(adminDb, 'site_config', 'carousel_images');
+      const configDoc = await getDoc(carouselImagesDoc);
       
       if (configDoc.exists) {
         const data = configDoc.data();
@@ -66,10 +70,11 @@ export class ImageManager {
     imageUrl: string
   ): Promise<void> {
     try {
+      const carouselImagesDoc = doc(adminDb, 'site_config', 'carousel_images');
       const updatePath = `carouselImages.${insuranceType}`;
-      await adminDb.collection('site_config').doc('carousel_images').update({
+      await updateDoc(carouselImagesDoc, {
         [updatePath]: imageUrl,
-        lastUpdated: new Date()
+        lastUpdated: Timestamp.fromDate(new Date())
       });
 
       console.log(`Updated ${insuranceType} carousel image`);
@@ -87,22 +92,17 @@ export class ImageManager {
     contentType: string
   ): Promise<string> {
     try {
-      const bucket = adminStorage.bucket();
       const storageFileName = `carousel/${Date.now()}_${fileName}`;
-      const fileUpload = bucket.file(storageFileName);
+      const storageRef = ref(adminStorage, storageFileName);
       
-      await fileUpload.save(file, {
-        metadata: {
-          contentType: contentType,
-          metadata: {
-            originalName: fileName
-          }
+      const uploadResult = await uploadBytes(storageRef, file, {
+        contentType: contentType,
+        customMetadata: {
+          originalName: fileName
         }
       });
       
-      // Make file publicly accessible
-      await fileUpload.makePublic();
-      const publicUrl = `https://storage.googleapis.com/${bucket.name}/${storageFileName}`;
+      const publicUrl = await getDownloadURL(uploadResult.ref);
       
       return publicUrl;
     } catch (error) {

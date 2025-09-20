@@ -119,14 +119,13 @@ export default function PolicyCarousel() {
               return (
                 <motion.div
                   key={`${policy.title}-${currentIndex}`}
-                  initial={{ opacity: 0, scale: 0.8, x: 100 }}
+                  initial={false}
                   animate={{ 
-                    opacity: isCenter ? 1 : 0.7,
-                    scale: isCenter ? 1 : 0.85,
-                    x: 0,
+                    opacity: isCenter ? 1 : 0.8,
+                    scale: isCenter ? 1 : 0.9,
                     zIndex: isCenter ? 10 : 1
                   }}
-                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                  transition={{ duration: 0.6, ease: "easeInOut" }}
                   onClick={() => handleCardClick(policy.title)}
                   className={`relative w-80 h-64 rounded-2xl overflow-hidden cursor-pointer group transition-all duration-500 ${
                     isCenter ? 'shadow-2xl' : 'shadow-lg'
@@ -160,7 +159,7 @@ export default function PolicyCarousel() {
           </div>
 
           {/* Indicators */}
-          <div className="flex justify-center mt-6 gap-3">
+          <div className="flex justify-center mt-8 mb-4 gap-3">
             {policyTypes.map((_, index) => (
               <button
                 key={index}

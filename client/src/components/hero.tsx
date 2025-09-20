@@ -34,12 +34,12 @@ export default function Hero() {
               className="relative"
             >
               {/* Pulsing Aura Effect */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-75 blur-lg animate-pulse scale-110"></div>
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 via-purple-600 to-pink-600 opacity-50 blur-xl animate-pulse scale-125 animation-delay-500"></div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-blue-300 opacity-30 blur-md animate-pulse scale-110"></div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-blue-400 opacity-20 blur-lg animate-pulse scale-115 animation-delay-500"></div>
               
               {/* Main Button */}
               <motion.button 
-                className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white px-12 py-5 rounded-full font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 border-2 border-white/30"
+                className="relative bg-gradient-to-r from-blue-800 to-blue-500 text-white px-12 py-5 rounded-full font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 border-2 border-white/30"
                 onClick={() => document.getElementById('connect')?.scrollIntoView({ behavior: 'smooth' })}
                 data-testid="button-get-started"
                 whileHover={{ 
@@ -57,11 +57,11 @@ export default function Hero() {
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  ✨ Get Started Today ✨
+                  ✨ Get Insured Today ✨
                 </span>
                 
                 {/* Inner glow */}
-                <div className="absolute inset-1 rounded-full bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-pink-400/20 blur-sm"></div>
+                <div className="absolute inset-1 rounded-full bg-gradient-to-r from-blue-400/15 to-blue-300/15 blur-sm"></div>
               </motion.button>
             </motion.div>
             <button 

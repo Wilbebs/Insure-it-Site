@@ -81,7 +81,7 @@ export default function HealthInsurance() {
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
               <img 
-                src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=600" 
+                src="/api/images/health-consultation" 
                 alt="Healthcare consultation" 
                 className="rounded-2xl shadow-2xl hover-lift"
               />

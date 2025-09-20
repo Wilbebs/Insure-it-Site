@@ -116,7 +116,7 @@ export default function AutoInsurance() {
             </div>
             <div>
               <img 
-                src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=600" 
+                src="/api/images/auto-consultation" 
                 alt="Auto insurance consultation" 
                 className="rounded-2xl shadow-2xl hover-lift"
               />

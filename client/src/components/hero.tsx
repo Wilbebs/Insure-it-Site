@@ -19,16 +19,18 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-6xl font-bold mb-6 gradient-text leading-tight" data-testid="hero-title">
-            Professional Insurance<br />Solutions You Can Trust
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 gradient-text leading-tight" data-testid="hero-title">
+            Professional Insurance<br className="hidden sm:inline" />
+            <span className="sm:hidden">Solutions </span>
+            <span className="hidden sm:inline">Solutions </span>You Can Trust
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed" data-testid="hero-description">
+          <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed px-4" data-testid="hero-description">
             Protecting what matters most to you and your family with comprehensive coverage options 
             tailored to your unique needs. Experience peace of mind with Insure-it Group.
           </p>
-          <div className="flex gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
             <motion.button 
-              className="bg-gradient-to-r from-blue-800 to-blue-500 text-white px-12 py-5 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+              className="bg-gradient-to-r from-blue-800 to-blue-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg shadow-xl hover:shadow-2xl transition-all duration-300 w-full sm:w-auto"
               onClick={() => document.getElementById('connect')?.scrollIntoView({ behavior: 'smooth' })}
               data-testid="button-get-started"
               initial={{ opacity: 0, scale: 0.8 }}
@@ -40,12 +42,12 @@ export default function Hero() {
               }}
               whileTap={{ scale: 0.98 }}
             >
-              <span className="flex items-center gap-2">
+              <span className="flex items-center justify-center gap-2">
                 ✨ Get Insured Today ✨
               </span>
             </motion.button>
             <button 
-              className="border border-primary text-primary px-8 py-4 rounded-full font-semibold hover:bg-primary hover:text-primary-foreground transition-all"
+              className="border border-primary text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-primary hover:text-primary-foreground transition-all w-full sm:w-auto"
               onClick={() => document.querySelector('#insurance-sections')?.scrollIntoView({ behavior: 'smooth' })}
               data-testid="button-learn-more"
             >

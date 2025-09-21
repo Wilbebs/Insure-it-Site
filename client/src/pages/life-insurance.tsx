@@ -8,16 +8,16 @@ export default function LifeInsurance() {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-red-50 to-pink-100">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
-            <div className="flex justify-center mb-6">
-              <Heart className="w-20 h-20 text-primary" />
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 bg-gradient-to-br from-red-50 to-pink-100">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8 sm:mb-12">
+            <div className="flex justify-center mb-4 sm:mb-6">
+              <Heart className="w-16 h-16 sm:w-20 sm:h-20 text-primary" />
             </div>
-            <h1 className="text-6xl font-bold mb-6 gradient-text leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 gradient-text leading-tight">
               Life Insurance
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
               Secure your family's financial future with comprehensive life insurance coverage. 
               Peace of mind for life's most important moments.
             </p>
@@ -26,11 +26,11 @@ export default function LifeInsurance() {
       </section>
 
       {/* Policy Types */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-16 gradient-text">Life Insurance Options</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="insurance-card p-8 rounded-2xl hover-lift">
+      <section className="py-12 sm:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-16 gradient-text">Life Insurance Options</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="insurance-card p-6 sm:p-8 rounded-2xl hover-lift">
               <Clock className="w-12 h-12 text-primary mb-4" />
               <h3 className="text-2xl font-bold mb-4">Term Life Insurance</h3>
               <p className="text-muted-foreground mb-4">
@@ -44,7 +44,7 @@ export default function LifeInsurance() {
               </ul>
             </div>
 
-            <div className="insurance-card p-8 rounded-2xl hover-lift">
+            <div className="insurance-card p-6 sm:p-8 rounded-2xl hover-lift">
               <TrendingUp className="w-12 h-12 text-primary mb-4" />
               <h3 className="text-2xl font-bold mb-4">Whole Life Insurance</h3>
               <p className="text-muted-foreground mb-4">
@@ -58,7 +58,7 @@ export default function LifeInsurance() {
               </ul>
             </div>
 
-            <div className="insurance-card p-8 rounded-2xl hover-lift">
+            <div className="insurance-card p-6 sm:p-8 rounded-2xl hover-lift">
               <Shield className="w-12 h-12 text-primary mb-4" />
               <h3 className="text-2xl font-bold mb-4">Universal Life Insurance</h3>
               <p className="text-muted-foreground mb-4">

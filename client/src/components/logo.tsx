@@ -1,18 +1,18 @@
+import { Shield } from "lucide-react";
+
 interface LogoProps {
   className?: string;
   variant?: 'default' | 'white';
 }
 
 export default function Logo({ className = "", variant = 'default' }: LogoProps) {
+  const textColor = variant === 'white' ? 'text-white' : 'text-foreground';
+  const iconColor = variant === 'white' ? 'text-white' : 'text-primary';
+  
   return (
-    <img 
-      src="/logo.jpg" 
-      alt="Insure-it Group" 
-      className={className}
-      style={{ 
-        objectFit: 'contain',
-        filter: variant === 'white' ? 'brightness(0) invert(1)' : 'none'
-      }}
-    />
+    <div className={`flex items-center space-x-2 ${className}`}>
+      <Shield className={`w-6 h-6 ${iconColor}`} />
+      <span className={`font-bold text-xl ${textColor}`}>Insure-it</span>
+    </div>
   );
 }

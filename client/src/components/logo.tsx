@@ -6,7 +6,7 @@ interface LogoProps {
 }
 
 export default function Logo({ className = "", variant = 'default' }: LogoProps) {
-  const textColor = variant === 'white' ? 'text-white' : 'text-foreground';
+  const textColor = variant === 'white' ? 'text-white' : 'text-primary';
   const iconColor = variant === 'white' ? 'text-white' : 'text-primary';
   
   return (

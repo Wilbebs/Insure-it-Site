@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, CheckCircle, Lightbulb, TrendingUp } from 'lucide-react';
+import { Plus, CheckCircle, Lightbulb, TrendingUp, Trash2, Edit, Save, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface CustomSuggestion {
@@ -17,6 +17,9 @@ export default function PlansPage() {
   const [customSuggestions, setCustomSuggestions] = useState<CustomSuggestion[]>([]);
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editDescription, setEditDescription] = useState('');
   const { toast } = useToast();
 
   const handleAddSuggestion = () => {
@@ -44,6 +47,52 @@ export default function PlansPage() {
       title: "Suggestion added!",
       description: "Your idea has been added to the strategic plan.",
     });
+  };
+
+  const handleDeleteSuggestion = (id: string) => {
+    setCustomSuggestions(customSuggestions.filter(s => s.id !== id));
+    toast({
+      title: "Suggestion deleted",
+      description: "The suggestion has been removed from the plan.",
+    });
+  };
+
+  const handleStartEdit = (suggestion: CustomSuggestion) => {
+    setEditingId(suggestion.id);
+    setEditTitle(suggestion.title);
+    setEditDescription(suggestion.description);
+  };
+
+  const handleSaveEdit = () => {
+    if (!editTitle.trim()) {
+      toast({
+        title: "Title required",
+        description: "Please enter a title for your suggestion.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setCustomSuggestions(customSuggestions.map(s => 
+      s.id === editingId 
+        ? { ...s, title: editTitle, description: editDescription }
+        : s
+    ));
+    
+    setEditingId(null);
+    setEditTitle('');
+    setEditDescription('');
+    
+    toast({
+      title: "Suggestion updated!",
+      description: "Your changes have been saved.",
+    });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditTitle('');
+    setEditDescription('');
   };
 
   const strategicInitiatives = [
@@ -247,16 +296,75 @@ export default function PlansPage() {
               {customSuggestions.map((suggestion) => (
                 <Card key={suggestion.id} className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
                   <CardHeader>
-                    <CardTitle className="text-lg flex items-start justify-between">
-                      {suggestion.title}
-                      <span className="text-xs px-2 py-1 rounded-full font-medium bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
-                        Custom
-                      </span>
-                    </CardTitle>
-                    {suggestion.description && (
-                      <CardDescription className="text-sm mt-2">
-                        {suggestion.description}
-                      </CardDescription>
+                    {editingId === suggestion.id ? (
+                      // Edit Mode
+                      <div className="space-y-3">
+                        <Input
+                          value={editTitle}
+                          onChange={(e) => setEditTitle(e.target.value)}
+                          placeholder="Suggestion title..."
+                          data-testid={`input-edit-title-${suggestion.id}`}
+                        />
+                        <Textarea
+                          value={editDescription}
+                          onChange={(e) => setEditDescription(e.target.value)}
+                          placeholder="Description (optional)..."
+                          rows={3}
+                          data-testid={`input-edit-description-${suggestion.id}`}
+                        />
+                        <div className="flex gap-2">
+                          <Button 
+                            onClick={handleSaveEdit}
+                            size="sm"
+                            data-testid={`button-save-${suggestion.id}`}
+                          >
+                            <Save className="w-4 h-4 mr-1" />
+                            Save
+                          </Button>
+                          <Button 
+                            onClick={handleCancelEdit}
+                            variant="outline"
+                            size="sm"
+                            data-testid={`button-cancel-${suggestion.id}`}
+                          >
+                            <X className="w-4 h-4 mr-1" />
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      // View Mode
+                      <>
+                        <div className="flex items-start justify-between gap-2">
+                          <CardTitle className="text-lg flex-1">{suggestion.title}</CardTitle>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs px-2 py-1 rounded-full font-medium bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
+                              Custom
+                            </span>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleStartEdit(suggestion)}
+                              data-testid={`button-edit-${suggestion.id}`}
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDeleteSuggestion(suggestion.id)}
+                              data-testid={`button-delete-${suggestion.id}`}
+                            >
+                              <Trash2 className="w-4 h-4 text-red-500" />
+                            </Button>
+                          </div>
+                        </div>
+                        {suggestion.description && (
+                          <CardDescription className="text-sm mt-2">
+                            {suggestion.description}
+                          </CardDescription>
+                        )}
+                      </>
                     )}
                   </CardHeader>
                 </Card>

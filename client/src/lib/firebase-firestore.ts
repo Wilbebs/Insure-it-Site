@@ -12,7 +12,7 @@ import {
   where
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { ContactFormData } from '@shared/types';
+import { ContactFormData, StrategicSuggestion } from '@shared/types';
 
 export class FirebaseFirestoreService {
   /**
@@ -123,6 +123,91 @@ export class FirebaseFirestoreService {
     } catch (error) {
       console.error('Error getting submissions by status:', error);
       throw new Error('Failed to retrieve submissions');
+    }
+  }
+
+  /**
+   * Add a strategic suggestion
+   */
+  static async addSuggestion(suggestion: Omit<StrategicSuggestion, 'id' | 'createdAt'>): Promise<string> {
+    try {
+      const suggestionData: StrategicSuggestion = {
+        ...suggestion,
+        createdAt: new Date(),
+      };
+
+      const docRef = await addDoc(collection(db, 'strategic_suggestions'), {
+        ...suggestionData,
+        createdAt: Timestamp.fromDate(suggestionData.createdAt)
+      });
+
+      return docRef.id;
+    } catch (error) {
+      console.error('Error adding suggestion:', error);
+      throw new Error('Failed to add suggestion');
+    }
+  }
+
+  /**
+   * Get all strategic suggestions
+   */
+  static async getSuggestions(): Promise<StrategicSuggestion[]> {
+    try {
+      const q = query(
+        collection(db, 'strategic_suggestions'), 
+        orderBy('createdAt', 'desc')
+      );
+      
+      const querySnapshot = await getDocs(q);
+      const suggestions: StrategicSuggestion[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        suggestions.push({
+          id: doc.id,
+          title: data.title,
+          description: data.description,
+          createdAt: data.createdAt.toDate(),
+          updatedAt: data.updatedAt ? data.updatedAt.toDate() : undefined
+        });
+      });
+
+      return suggestions;
+    } catch (error) {
+      console.error('Error getting suggestions:', error);
+      throw new Error('Failed to retrieve suggestions');
+    }
+  }
+
+  /**
+   * Update a strategic suggestion
+   */
+  static async updateSuggestion(
+    suggestionId: string, 
+    updates: Partial<Pick<StrategicSuggestion, 'title' | 'description'>>
+  ): Promise<void> {
+    try {
+      const docRef = doc(db, 'strategic_suggestions', suggestionId);
+      await updateDoc(docRef, { 
+        ...updates,
+        updatedAt: Timestamp.fromDate(new Date())
+      });
+    } catch (error) {
+      console.error('Error updating suggestion:', error);
+      throw new Error('Failed to update suggestion');
+    }
+  }
+
+  /**
+   * Delete a strategic suggestion
+   */
+  static async deleteSuggestion(suggestionId: string): Promise<void> {
+    try {
+      const docRef = doc(db, 'strategic_suggestions', suggestionId);
+      await deleteDoc(docRef);
+    } catch (error) {
+      console.error('Error deleting suggestion:', error);
+      throw new Error('Failed to delete suggestion');
     }
   }
 }

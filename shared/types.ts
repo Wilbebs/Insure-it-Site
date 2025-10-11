@@ -31,3 +31,11 @@ export interface InsurancePageImages {
   aboutImages?: string[];
   testimonialImages?: string[];
 }
+
+export interface StrategicSuggestion {
+  id?: string;
+  title: string;
+  description: string;
+  createdAt: Date;
+  updatedAt?: Date;
+}

@@ -310,6 +310,137 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.redirect(imageUrl);
   });
 
+  // Strategic Suggestions API endpoints
+  app.get("/api/suggestions", async (req, res) => {
+    try {
+      const q = query(
+        collection(adminDb, 'strategic_suggestions'),
+        orderBy('createdAt', 'desc')
+      );
+      
+      const querySnapshot = await getDocs(q);
+      const suggestions: any[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        suggestions.push({
+          id: doc.id,
+          title: data.title,
+          description: data.description,
+          createdAt: data.createdAt.toDate(),
+          updatedAt: data.updatedAt ? data.updatedAt.toDate() : undefined
+        });
+      });
+
+      res.json(suggestions);
+    } catch (error) {
+      console.error('Error getting suggestions:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Failed to retrieve suggestions' 
+      });
+    }
+  });
+
+  app.post("/api/suggestions", async (req, res) => {
+    try {
+      const suggestionSchema = z.object({
+        title: z.string().min(1, "Title is required"),
+        description: z.string().optional().default('')
+      });
+
+      const validatedData = suggestionSchema.parse(req.body);
+
+      const docRef = await addDoc(collection(adminDb, 'strategic_suggestions'), {
+        title: validatedData.title,
+        description: validatedData.description,
+        createdAt: Timestamp.fromDate(new Date())
+      });
+
+      res.json({ 
+        success: true, 
+        id: docRef.id,
+        message: 'Suggestion added successfully' 
+      });
+    } catch (error) {
+      console.error('Error adding suggestion:', error);
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ 
+          success: false, 
+          message: 'Validation error',
+          errors: error.errors 
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: 'Failed to add suggestion' 
+        });
+      }
+    }
+  });
+
+  app.patch("/api/suggestions/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const updateSchema = z.object({
+        title: z.string().min(1).optional(),
+        description: z.string().optional()
+      });
+
+      const validatedData = updateSchema.parse(req.body);
+
+      const { updateDoc, doc } = await import('firebase/firestore');
+      const docRef = doc(adminDb, 'strategic_suggestions', id);
+      
+      await updateDoc(docRef, {
+        ...validatedData,
+        updatedAt: Timestamp.fromDate(new Date())
+      });
+
+      res.json({ 
+        success: true, 
+        message: 'Suggestion updated successfully' 
+      });
+    } catch (error) {
+      console.error('Error updating suggestion:', error);
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ 
+          success: false, 
+          message: 'Validation error',
+          errors: error.errors 
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: 'Failed to update suggestion' 
+        });
+      }
+    }
+  });
+
+  app.delete("/api/suggestions/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      const { deleteDoc, doc } = await import('firebase/firestore');
+      const docRef = doc(adminDb, 'strategic_suggestions', id);
+      
+      await deleteDoc(docRef);
+
+      res.json({ 
+        success: true, 
+        message: 'Suggestion deleted successfully' 
+      });
+    } catch (error) {
+      console.error('Error deleting suggestion:', error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Failed to delete suggestion' 
+      });
+    }
+  });
+
   // Reset carousel images to use new different images
   ImageManager.resetCarouselImages().catch(err => 
     console.error('Failed to reset carousel images:', err)

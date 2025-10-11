@@ -14,7 +14,7 @@ export default function Navigation() {
     { href: "/life-insurance", label: "Life", testId: "nav-life" },
     { href: "/health-insurance", label: "Health", testId: "nav-health" },
     { href: "/commercial-insurance", label: "Commercial", testId: "nav-commercial" },
-    { href: "/about", label: "About", testId: "nav-about" },
+    { href: "/about", label: "About Us", testId: "nav-about" },
   ];
 
   return (

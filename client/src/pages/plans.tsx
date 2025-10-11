@@ -1,26 +1,94 @@
 import { useState } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus, CheckCircle, Lightbulb, TrendingUp, Trash2, Edit, Save, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-
-interface CustomSuggestion {
-  id: string;
-  title: string;
-  description: string;
-  createdAt: Date;
-}
+import { queryClient, apiRequest } from '@/lib/queryClient';
+import { StrategicSuggestion } from '@shared/types';
 
 export default function PlansPage() {
-  const [customSuggestions, setCustomSuggestions] = useState<CustomSuggestion[]>([]);
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [editDescription, setEditDescription] = useState('');
   const { toast } = useToast();
+
+  // Fetch suggestions from API
+  const { data: customSuggestions = [], isLoading } = useQuery<StrategicSuggestion[]>({
+    queryKey: ['/api/suggestions'],
+  });
+
+  // Add suggestion mutation
+  const addMutation = useMutation({
+    mutationFn: async (data: { title: string; description: string }) => {
+      return apiRequest('POST', '/api/suggestions', data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/suggestions'] });
+      setNewTitle('');
+      setNewDescription('');
+      toast({
+        title: "Suggestion added!",
+        description: "Your idea has been added to the strategic plan.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to add suggestion. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Update suggestion mutation
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: { title: string; description: string } }) => {
+      return apiRequest('PATCH', `/api/suggestions/${id}`, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/suggestions'] });
+      setEditingId(null);
+      setEditTitle('');
+      setEditDescription('');
+      toast({
+        title: "Suggestion updated!",
+        description: "Your changes have been saved.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update suggestion. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Delete suggestion mutation
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      return apiRequest('DELETE', `/api/suggestions/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/suggestions'] });
+      toast({
+        title: "Suggestion deleted",
+        description: "The suggestion has been removed from the plan.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to delete suggestion. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const handleAddSuggestion = () => {
     if (!newTitle.trim()) {
@@ -32,33 +100,18 @@ export default function PlansPage() {
       return;
     }
 
-    const suggestion: CustomSuggestion = {
-      id: Date.now().toString(),
+    addMutation.mutate({
       title: newTitle,
       description: newDescription,
-      createdAt: new Date(),
-    };
-
-    setCustomSuggestions([...customSuggestions, suggestion]);
-    setNewTitle('');
-    setNewDescription('');
-    
-    toast({
-      title: "Suggestion added!",
-      description: "Your idea has been added to the strategic plan.",
     });
   };
 
   const handleDeleteSuggestion = (id: string) => {
-    setCustomSuggestions(customSuggestions.filter(s => s.id !== id));
-    toast({
-      title: "Suggestion deleted",
-      description: "The suggestion has been removed from the plan.",
-    });
+    deleteMutation.mutate(id);
   };
 
-  const handleStartEdit = (suggestion: CustomSuggestion) => {
-    setEditingId(suggestion.id);
+  const handleStartEdit = (suggestion: StrategicSuggestion) => {
+    setEditingId(suggestion.id!);
     setEditTitle(suggestion.title);
     setEditDescription(suggestion.description);
   };
@@ -73,19 +126,12 @@ export default function PlansPage() {
       return;
     }
 
-    setCustomSuggestions(customSuggestions.map(s => 
-      s.id === editingId 
-        ? { ...s, title: editTitle, description: editDescription }
-        : s
-    ));
-    
-    setEditingId(null);
-    setEditTitle('');
-    setEditDescription('');
-    
-    toast({
-      title: "Suggestion updated!",
-      description: "Your changes have been saved.",
+    updateMutation.mutate({
+      id: editingId!,
+      data: {
+        title: editTitle,
+        description: editDescription,
+      },
     });
   };
 
@@ -282,16 +328,21 @@ export default function PlansPage() {
               <Button 
                 onClick={handleAddSuggestion}
                 className="w-full md:w-auto"
+                disabled={addMutation.isPending}
                 data-testid="button-add-suggestion"
               >
                 <Plus className="w-4 h-4 mr-2" />
-                Add Suggestion
+                {addMutation.isPending ? 'Adding...' : 'Add Suggestion'}
               </Button>
             </CardContent>
           </Card>
 
           {/* Display Custom Suggestions */}
-          {customSuggestions.length > 0 && (
+          {isLoading ? (
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              <p>Loading suggestions...</p>
+            </div>
+          ) : customSuggestions.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2">
               {customSuggestions.map((suggestion) => (
                 <Card key={suggestion.id} className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
@@ -316,10 +367,11 @@ export default function PlansPage() {
                           <Button 
                             onClick={handleSaveEdit}
                             size="sm"
+                            disabled={updateMutation.isPending}
                             data-testid={`button-save-${suggestion.id}`}
                           >
                             <Save className="w-4 h-4 mr-1" />
-                            Save
+                            {updateMutation.isPending ? 'Saving...' : 'Save'}
                           </Button>
                           <Button 
                             onClick={handleCancelEdit}
@@ -352,7 +404,8 @@ export default function PlansPage() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => handleDeleteSuggestion(suggestion.id)}
+                              onClick={() => handleDeleteSuggestion(suggestion.id!)}
+                              disabled={deleteMutation.isPending}
                               data-testid={`button-delete-${suggestion.id}`}
                             >
                               <Trash2 className="w-4 h-4 text-red-500" />
@@ -370,9 +423,7 @@ export default function PlansPage() {
                 </Card>
               ))}
             </div>
-          )}
-
-          {customSuggestions.length === 0 && (
+          ) : (
             <div className="text-center py-8 text-gray-500 dark:text-gray-400">
               <Lightbulb className="w-12 h-12 mx-auto mb-3 opacity-50" />
               <p>No custom suggestions yet. Add your ideas above!</p>

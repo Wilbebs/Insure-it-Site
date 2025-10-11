@@ -10,6 +10,7 @@ import HomeInsurance from "@/pages/home-insurance";
 import LifeInsurance from "@/pages/life-insurance";
 import HealthInsurance from "@/pages/health-insurance";
 import CommercialInsurance from "@/pages/commercial-insurance";
+import PlansPage from "@/pages/plans";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/life-insurance" component={LifeInsurance} />
       <Route path="/health-insurance" component={HealthInsurance} />
       <Route path="/commercial-insurance" component={CommercialInsurance} />
+      <Route path="/plans" component={PlansPage} />
       <Route component={NotFound} />
     </Switch>
   );

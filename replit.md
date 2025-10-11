@@ -6,6 +6,8 @@ This is a modern, full-stack insurance website built with React and Express that
 
 **Business Credentials**: The site emphasizes being a proud family-owned business with 14 years of experience serving thousands of clients across Florida. The touching family story (from humble Miami beginnings in 2011 to statewide expansion) is featured prominently on the About page, creating an emotional connection with visitors.
 
+**Strategic Vision**: The company aims to transform into an enterprise-grade platform supporting 500+ employees and hundreds of thousands of clients. A dedicated strategic planning page at `/plans` outlines the expansion roadmap with 12+ initiatives across 4 phases, including growth metrics dashboards, AI chatbot integration, interactive Florida expansion maps, video testimonials, and enterprise-level features. The page includes collaborative functionality for adding custom client suggestions during presentations.
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.

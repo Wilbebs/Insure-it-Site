@@ -12,8 +12,7 @@ export default function Footer() {
               <span className="font-bold text-xl">Insure-it Group</span>
             </div>
             <p className="opacity-90 leading-relaxed">
-              Your trusted partner in comprehensive insurance solutions. 
-              Protecting what matters most to you and your family.
+              With 14 years of experience serving thousands of clients, we're your trusted partner in comprehensive insurance solutions.
             </p>
           </div>
           

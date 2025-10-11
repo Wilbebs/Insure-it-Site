@@ -25,7 +25,7 @@ export default function Hero() {
             <span className="hidden sm:inline">Solutions </span>You Can Trust
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed px-4" data-testid="hero-description">
-            Protecting what matters most to you and your family with comprehensive coverage options 
+            With 14 years of experience protecting thousands of clients, we provide comprehensive coverage options 
             tailored to your unique needs. Experience peace of mind with Insure-it Group.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">

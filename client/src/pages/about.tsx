@@ -15,8 +15,8 @@ export default function About() {
               About Insure-it Group
             </h1>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
-              Your trusted partner in comprehensive insurance solutions. 
-              We've been protecting what matters most to families and businesses for over two decades.
+              Your trusted partner in comprehensive insurance solutions for 14 years. 
+              Protecting what matters most to thousands of families and businesses across the nation.
             </p>
           </div>
 
@@ -46,7 +46,7 @@ export default function About() {
             <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
               <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
               <h3 className="text-2xl font-bold mb-2 gradient-text">Trusted</h3>
-              <p className="text-muted-foreground">Over 20 years of reliable service</p>
+              <p className="text-muted-foreground">14 years serving thousands of clients</p>
             </div>
             <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
               <Users className="w-12 h-12 text-primary mx-auto mb-4" />
@@ -75,16 +75,16 @@ export default function About() {
                   <img 
                     src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Sarah Johnson - CEO & Founder"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg hover:bg-primary hover:scale-110 transition-all duration-300 group"
                     data-testid="linkedin-sarah-johnson"
                   >
-                    <FaLinkedin className="w-16 h-16 text-white" />
+                    <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
                 <div className="p-6 text-center">
@@ -99,16 +99,16 @@ export default function About() {
                   <img 
                     src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Michael Chen - Chief Insurance Officer"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg hover:bg-primary hover:scale-110 transition-all duration-300 group"
                     data-testid="linkedin-michael-chen"
                   >
-                    <FaLinkedin className="w-16 h-16 text-white" />
+                    <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
                 <div className="p-6 text-center">
@@ -123,16 +123,16 @@ export default function About() {
                   <img 
                     src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Emily Rodriguez - Senior Claims Manager"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg hover:bg-primary hover:scale-110 transition-all duration-300 group"
                     data-testid="linkedin-emily-rodriguez"
                   >
-                    <FaLinkedin className="w-16 h-16 text-white" />
+                    <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
                 <div className="p-6 text-center">
@@ -147,16 +147,16 @@ export default function About() {
                   <img 
                     src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="David Thompson - Customer Relations Director"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg hover:bg-primary hover:scale-110 transition-all duration-300 group"
                     data-testid="linkedin-david-thompson"
                   >
-                    <FaLinkedin className="w-16 h-16 text-white" />
+                    <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
                 <div className="p-6 text-center">
@@ -171,16 +171,16 @@ export default function About() {
                   <img 
                     src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Lisa Patel - Head of Underwriting"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg hover:bg-primary hover:scale-110 transition-all duration-300 group"
                     data-testid="linkedin-lisa-patel"
                   >
-                    <FaLinkedin className="w-16 h-16 text-white" />
+                    <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
                 <div className="p-6 text-center">
@@ -195,16 +195,16 @@ export default function About() {
                   <img 
                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="James Williams - Commercial Insurance Specialist"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg hover:bg-primary hover:scale-110 transition-all duration-300 group"
                     data-testid="linkedin-james-williams"
                   >
-                    <FaLinkedin className="w-16 h-16 text-white" />
+                    <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
                 <div className="p-6 text-center">
@@ -219,16 +219,16 @@ export default function About() {
                   <img 
                     src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Rachel Kim - Life Insurance Advisor"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg hover:bg-primary hover:scale-110 transition-all duration-300 group"
                     data-testid="linkedin-rachel-kim"
                   >
-                    <FaLinkedin className="w-16 h-16 text-white" />
+                    <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
                 <div className="p-6 text-center">
@@ -243,16 +243,16 @@ export default function About() {
                   <img 
                     src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Robert Anderson - Auto Insurance Expert"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg hover:bg-primary hover:scale-110 transition-all duration-300 group"
                     data-testid="linkedin-robert-anderson"
                   >
-                    <FaLinkedin className="w-16 h-16 text-white" />
+                    <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
                 <div className="p-6 text-center">

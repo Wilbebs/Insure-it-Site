@@ -4,6 +4,8 @@
 
 This is a modern, full-stack insurance website built with React and Express that provides information about various insurance products and allows visitors to submit contact forms with document attachments. The application features a professional marketing website with sections for auto, home, and life insurance, along with a contact form that supports file uploads.
 
+**Business Credentials**: The site emphasizes 14 years of experience serving thousands of clients, showcased throughout all major pages and sections.
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
@@ -48,6 +50,7 @@ Preferred communication style: Simple, everyday language.
 - **UI System**: Comprehensive design system with shadcn/ui components
 - **Responsive Design**: Mobile-first approach with Tailwind responsive utilities
 - **Animation System**: Scroll-triggered animations using Intersection Observer API
+- **Team Section**: About page features 8 team members with professional headshots and corner-positioned LinkedIn icons (blue/white theme, hover effects)
 
 ### API Design
 - **RESTful Endpoints**: Clean API structure with proper HTTP methods integrated with Firebase backend

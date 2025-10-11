@@ -23,7 +23,7 @@ export default function Navigation() {
       <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 glass-nav rounded-full px-4 sm:px-8 py-3 hidden lg:block" data-testid="main-navigation">
         <div className="flex items-center space-x-4 xl:space-x-8">
           <Link href="/" className="flex items-center" data-testid="link-home">
-            <Logo className="h-10" />
+            <Logo className="h-12" />
           </Link>
           <div className="flex items-center space-x-3 xl:space-x-6">
             {navLinks.map(({ href, label, testId }) => (
@@ -46,7 +46,7 @@ export default function Navigation() {
       <nav className="fixed top-4 left-4 right-4 z-50 glass-nav rounded-full px-4 py-3 lg:hidden" data-testid="mobile-navigation">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center" data-testid="link-home-mobile">
-            <Logo className="h-8" />
+            <Logo className="h-10" />
           </Link>
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

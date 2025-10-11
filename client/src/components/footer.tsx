@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-8">
           <div>
             <div className="mb-4">
-              <Logo variant="white" className="h-12" />
+              <Logo variant="white" className="h-16" />
             </div>
             <p className="opacity-90 leading-relaxed mb-4">
               A proud family-owned business serving Florida for 14 years. From our roots in Miami to serving thousands of clients statewide, we're your trusted partner in comprehensive insurance solutions.

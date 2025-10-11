@@ -1,5 +1,6 @@
 import { Shield, Phone, Mail, MapPin } from "lucide-react";
 import { Link } from "wouter";
+import { FaLinkedin, FaFacebook } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -11,9 +12,29 @@ export default function Footer() {
               <Shield className="text-2xl" />
               <span className="font-bold text-xl">Insure-it Group</span>
             </div>
-            <p className="opacity-90 leading-relaxed">
-              With 14 years of experience serving thousands of clients, we're your trusted partner in comprehensive insurance solutions.
+            <p className="opacity-90 leading-relaxed mb-4">
+              A proud family-owned business serving Florida for 14 years. From our roots in Miami to serving thousands of clients statewide, we're your trusted partner in comprehensive insurance solutions.
             </p>
+            <div className="flex items-center space-x-4">
+              <a 
+                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="opacity-90 hover:opacity-100 transition-opacity"
+                data-testid="footer-linkedin"
+              >
+                <FaLinkedin className="w-6 h-6" />
+              </a>
+              <a 
+                href="https://www.facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="opacity-90 hover:opacity-100 transition-opacity"
+                data-testid="footer-facebook"
+              >
+                <FaFacebook className="w-6 h-6" />
+              </a>
+            </div>
           </div>
           
           <div>

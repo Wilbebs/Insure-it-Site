@@ -4,7 +4,7 @@
 
 This is a modern, full-stack insurance website built with React and Express that provides information about various insurance products and allows visitors to submit contact forms with document attachments. The application features a professional marketing website with sections for auto, home, and life insurance, along with a contact form that supports file uploads.
 
-**Business Credentials**: The site emphasizes 14 years of experience serving thousands of clients, showcased throughout all major pages and sections.
+**Business Credentials**: The site emphasizes being a proud family-owned business with 14 years of experience serving thousands of clients across Florida. The touching family story (from humble Miami beginnings in 2011 to statewide expansion) is featured prominently on the About page, creating an emotional connection with visitors.
 
 ## User Preferences
 

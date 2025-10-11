@@ -25,8 +25,8 @@ export default function Hero() {
             <span className="hidden sm:inline">Solutions </span>You Can Trust
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed px-4" data-testid="hero-description">
-            With 14 years of experience protecting thousands of clients, we provide comprehensive coverage options 
-            tailored to your unique needs. Experience peace of mind with Insure-it Group.
+            A family-owned Florida insurance agency with 14 years of experience protecting thousands of clients statewide. 
+            From Miami to Jacksonville, we provide comprehensive coverage tailored to your unique needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
             <motion.button 

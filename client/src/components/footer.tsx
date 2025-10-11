@@ -1,6 +1,7 @@
-import { Shield, Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { FaLinkedin, FaFacebook } from "react-icons/fa";
+import Logo from "./logo";
 
 export default function Footer() {
   return (
@@ -8,9 +9,8 @@ export default function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-8">
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <Shield className="text-2xl" />
-              <span className="font-bold text-xl">Insure-it Group</span>
+            <div className="mb-4">
+              <Logo variant="white" className="h-12" />
             </div>
             <p className="opacity-90 leading-relaxed mb-4">
               A proud family-owned business serving Florida for 14 years. From our roots in Miami to serving thousands of clients statewide, we're your trusted partner in comprehensive insurance solutions.

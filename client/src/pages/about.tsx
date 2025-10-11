@@ -1,6 +1,7 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { Shield, Users, Award, Clock } from "lucide-react";
+import { FaLinkedin } from "react-icons/fa";
 
 export default function About() {
   return (
@@ -64,36 +65,27 @@ export default function About() {
             </div>
           </div>
 
-          <div className="insurance-card p-6 sm:p-8 rounded-2xl text-center mb-12 sm:mb-20">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 gradient-text">Our Values</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-              <div>
-                <h3 className="text-xl font-semibold mb-3 text-foreground">Integrity</h3>
-                <p className="text-muted-foreground">We conduct business with the highest ethical standards and transparency.</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-3 text-foreground">Excellence</h3>
-                <p className="text-muted-foreground">We strive for excellence in every interaction and service we provide.</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-3 text-foreground">Innovation</h3>
-                <p className="text-muted-foreground">We embrace technology and innovation to better serve our clients.</p>
-              </div>
-            </div>
-          </div>
-
           {/* Meet the Team Section */}
           <div className="mb-12 sm:mb-20">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center gradient-text">Meet Our Team</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {/* Team Member 1 */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift group" data-testid="team-member-sarah-johnson">
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden relative">
                   <img 
                     src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Sarah Johnson - CEO & Founder"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
+                  <a 
+                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    data-testid="linkedin-sarah-johnson"
+                  >
+                    <FaLinkedin className="w-16 h-16 text-white" />
+                  </a>
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">Sarah Johnson</h3>
@@ -103,12 +95,21 @@ export default function About() {
 
               {/* Team Member 2 */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift group" data-testid="team-member-michael-chen">
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden relative">
                   <img 
                     src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Michael Chen - Chief Insurance Officer"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
+                  <a 
+                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    data-testid="linkedin-michael-chen"
+                  >
+                    <FaLinkedin className="w-16 h-16 text-white" />
+                  </a>
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">Michael Chen</h3>
@@ -118,12 +119,21 @@ export default function About() {
 
               {/* Team Member 3 */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift group" data-testid="team-member-emily-rodriguez">
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden relative">
                   <img 
                     src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Emily Rodriguez - Senior Claims Manager"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
+                  <a 
+                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    data-testid="linkedin-emily-rodriguez"
+                  >
+                    <FaLinkedin className="w-16 h-16 text-white" />
+                  </a>
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">Emily Rodriguez</h3>
@@ -133,12 +143,21 @@ export default function About() {
 
               {/* Team Member 4 */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift group" data-testid="team-member-david-thompson">
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden relative">
                   <img 
                     src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="David Thompson - Customer Relations Director"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
+                  <a 
+                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    data-testid="linkedin-david-thompson"
+                  >
+                    <FaLinkedin className="w-16 h-16 text-white" />
+                  </a>
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">David Thompson</h3>
@@ -148,12 +167,21 @@ export default function About() {
 
               {/* Team Member 5 */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift group" data-testid="team-member-lisa-patel">
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden relative">
                   <img 
                     src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Lisa Patel - Head of Underwriting"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
+                  <a 
+                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    data-testid="linkedin-lisa-patel"
+                  >
+                    <FaLinkedin className="w-16 h-16 text-white" />
+                  </a>
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">Lisa Patel</h3>
@@ -163,12 +191,21 @@ export default function About() {
 
               {/* Team Member 6 */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift group" data-testid="team-member-james-williams">
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden relative">
                   <img 
                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="James Williams - Commercial Insurance Specialist"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
+                  <a 
+                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    data-testid="linkedin-james-williams"
+                  >
+                    <FaLinkedin className="w-16 h-16 text-white" />
+                  </a>
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">James Williams</h3>
@@ -178,12 +215,21 @@ export default function About() {
 
               {/* Team Member 7 */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift group" data-testid="team-member-rachel-kim">
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden relative">
                   <img 
                     src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Rachel Kim - Life Insurance Advisor"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
+                  <a 
+                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    data-testid="linkedin-rachel-kim"
+                  >
+                    <FaLinkedin className="w-16 h-16 text-white" />
+                  </a>
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">Rachel Kim</h3>
@@ -193,12 +239,21 @@ export default function About() {
 
               {/* Team Member 8 */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift group" data-testid="team-member-robert-anderson">
-                <div className="aspect-square overflow-hidden">
+                <div className="aspect-square overflow-hidden relative">
                   <img 
                     src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
                     alt="Robert Anderson - Auto Insurance Expert"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
+                  <a 
+                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    data-testid="linkedin-robert-anderson"
+                  >
+                    <FaLinkedin className="w-16 h-16 text-white" />
+                  </a>
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">Robert Anderson</h3>

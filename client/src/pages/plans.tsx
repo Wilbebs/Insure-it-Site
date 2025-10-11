@@ -1,15 +1,22 @@
-import { useState } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus, CheckCircle, Lightbulb, TrendingUp, Trash2, Edit, Save, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { queryClient, apiRequest } from '@/lib/queryClient';
-import { StrategicSuggestion } from '@shared/types';
+
+interface StrategicSuggestion {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: Date;
+}
+
+const STORAGE_KEY = 'strategic_suggestions';
 
 export default function PlansPage() {
+  const [customSuggestions, setCustomSuggestions] = useState<StrategicSuggestion[]>([]);
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -17,78 +24,29 @@ export default function PlansPage() {
   const [editDescription, setEditDescription] = useState('');
   const { toast } = useToast();
 
-  // Fetch suggestions from API
-  const { data: customSuggestions = [], isLoading } = useQuery<StrategicSuggestion[]>({
-    queryKey: ['/api/suggestions'],
-  });
+  // Load suggestions from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        const suggestions = parsed.map((s: any) => ({
+          ...s,
+          createdAt: new Date(s.createdAt)
+        }));
+        setCustomSuggestions(suggestions);
+      } catch (error) {
+        console.error('Error loading suggestions:', error);
+      }
+    }
+  }, []);
 
-  // Add suggestion mutation
-  const addMutation = useMutation({
-    mutationFn: async (data: { title: string; description: string }) => {
-      return apiRequest('POST', '/api/suggestions', data);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/suggestions'] });
-      setNewTitle('');
-      setNewDescription('');
-      toast({
-        title: "Suggestion added!",
-        description: "Your idea has been added to the strategic plan.",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to add suggestion. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  // Update suggestion mutation
-  const updateMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: { title: string; description: string } }) => {
-      return apiRequest('PATCH', `/api/suggestions/${id}`, data);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/suggestions'] });
-      setEditingId(null);
-      setEditTitle('');
-      setEditDescription('');
-      toast({
-        title: "Suggestion updated!",
-        description: "Your changes have been saved.",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to update suggestion. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  // Delete suggestion mutation
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      return apiRequest('DELETE', `/api/suggestions/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/suggestions'] });
-      toast({
-        title: "Suggestion deleted",
-        description: "The suggestion has been removed from the plan.",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to delete suggestion. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
+  // Save suggestions to localStorage whenever they change
+  useEffect(() => {
+    if (customSuggestions.length > 0 || localStorage.getItem(STORAGE_KEY)) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(customSuggestions));
+    }
+  }, [customSuggestions]);
 
   const handleAddSuggestion = () => {
     if (!newTitle.trim()) {
@@ -100,18 +58,33 @@ export default function PlansPage() {
       return;
     }
 
-    addMutation.mutate({
+    const suggestion: StrategicSuggestion = {
+      id: Date.now().toString(),
       title: newTitle,
       description: newDescription,
+      createdAt: new Date(),
+    };
+
+    setCustomSuggestions([...customSuggestions, suggestion]);
+    setNewTitle('');
+    setNewDescription('');
+    
+    toast({
+      title: "Feature suggestion added!",
+      description: "Your idea has been added to the strategic plan.",
     });
   };
 
   const handleDeleteSuggestion = (id: string) => {
-    deleteMutation.mutate(id);
+    setCustomSuggestions(customSuggestions.filter(s => s.id !== id));
+    toast({
+      title: "Suggestion deleted",
+      description: "The suggestion has been removed from the plan.",
+    });
   };
 
   const handleStartEdit = (suggestion: StrategicSuggestion) => {
-    setEditingId(suggestion.id!);
+    setEditingId(suggestion.id);
     setEditTitle(suggestion.title);
     setEditDescription(suggestion.description);
   };
@@ -126,12 +99,19 @@ export default function PlansPage() {
       return;
     }
 
-    updateMutation.mutate({
-      id: editingId!,
-      data: {
-        title: editTitle,
-        description: editDescription,
-      },
+    setCustomSuggestions(customSuggestions.map(s => 
+      s.id === editingId 
+        ? { ...s, title: editTitle, description: editDescription }
+        : s
+    ));
+    
+    setEditingId(null);
+    setEditTitle('');
+    setEditDescription('');
+    
+    toast({
+      title: "Suggestion updated!",
+      description: "Your changes have been saved.",
     });
   };
 
@@ -295,22 +275,22 @@ export default function PlansPage() {
           <div className="flex items-center gap-3 mb-6">
             <Plus className="w-6 h-6 text-primary" />
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Client Suggestions
+              Feature Suggestions
             </h2>
           </div>
 
           {/* Add Suggestion Form */}
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle>Add Your Ideas</CardTitle>
+              <CardTitle>Add Feature Requests</CardTitle>
               <CardDescription>
-                Use this section to add custom suggestions during client presentations
+                Business owners can add features and ideas they want to see on the site
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
                 <Input
-                  placeholder="Suggestion title..."
+                  placeholder="Feature title..."
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   data-testid="input-suggestion-title"
@@ -328,21 +308,16 @@ export default function PlansPage() {
               <Button 
                 onClick={handleAddSuggestion}
                 className="w-full md:w-auto"
-                disabled={addMutation.isPending}
                 data-testid="button-add-suggestion"
               >
                 <Plus className="w-4 h-4 mr-2" />
-                {addMutation.isPending ? 'Adding...' : 'Add Suggestion'}
+                Add Feature Request
               </Button>
             </CardContent>
           </Card>
 
           {/* Display Custom Suggestions */}
-          {isLoading ? (
-            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-              <p>Loading suggestions...</p>
-            </div>
-          ) : customSuggestions.length > 0 ? (
+          {customSuggestions.length > 0 && (
             <div className="grid gap-4 md:grid-cols-2">
               {customSuggestions.map((suggestion) => (
                 <Card key={suggestion.id} className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
@@ -353,7 +328,7 @@ export default function PlansPage() {
                         <Input
                           value={editTitle}
                           onChange={(e) => setEditTitle(e.target.value)}
-                          placeholder="Suggestion title..."
+                          placeholder="Feature title..."
                           data-testid={`input-edit-title-${suggestion.id}`}
                         />
                         <Textarea
@@ -367,11 +342,10 @@ export default function PlansPage() {
                           <Button 
                             onClick={handleSaveEdit}
                             size="sm"
-                            disabled={updateMutation.isPending}
                             data-testid={`button-save-${suggestion.id}`}
                           >
                             <Save className="w-4 h-4 mr-1" />
-                            {updateMutation.isPending ? 'Saving...' : 'Save'}
+                            Save
                           </Button>
                           <Button 
                             onClick={handleCancelEdit}
@@ -391,7 +365,7 @@ export default function PlansPage() {
                           <CardTitle className="text-lg flex-1">{suggestion.title}</CardTitle>
                           <div className="flex items-center gap-2">
                             <span className="text-xs px-2 py-1 rounded-full font-medium bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
-                              Custom
+                              Owner Request
                             </span>
                             <Button
                               variant="ghost"
@@ -404,8 +378,7 @@ export default function PlansPage() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => handleDeleteSuggestion(suggestion.id!)}
-                              disabled={deleteMutation.isPending}
+                              onClick={() => handleDeleteSuggestion(suggestion.id)}
                               data-testid={`button-delete-${suggestion.id}`}
                             >
                               <Trash2 className="w-4 h-4 text-red-500" />
@@ -423,10 +396,12 @@ export default function PlansPage() {
                 </Card>
               ))}
             </div>
-          ) : (
+          )}
+
+          {customSuggestions.length === 0 && (
             <div className="text-center py-8 text-gray-500 dark:text-gray-400">
               <Lightbulb className="w-12 h-12 mx-auto mb-3 opacity-50" />
-              <p>No custom suggestions yet. Add your ideas above!</p>
+              <p>No feature suggestions yet. Add your ideas above!</p>
             </div>
           )}
         </div>

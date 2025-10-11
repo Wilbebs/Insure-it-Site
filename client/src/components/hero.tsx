@@ -30,19 +30,20 @@ export default function Hero() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
             <motion.button 
-              className="bg-gradient-to-r from-blue-800 to-blue-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg shadow-xl hover:shadow-2xl transition-all duration-300 w-full sm:w-auto"
+              className="relative overflow-hidden bg-gradient-to-r from-blue-800 to-blue-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg shadow-xl transition-all duration-300 w-full sm:w-auto group"
               onClick={() => document.getElementById('connect')?.scrollIntoView({ behavior: 'smooth' })}
               data-testid="button-get-started"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
               whileHover={{ 
-                scale: 1.05,
-                boxShadow: "0 20px 40px -10px rgba(30, 64, 175, 0.4)",
+                scale: 1.08,
+                boxShadow: "0 25px 50px -12px rgba(30, 64, 175, 0.5)",
               }}
               whileTap={{ scale: 0.98 }}
             >
-              <span className="flex items-center justify-center gap-2">
+              <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              <span className="relative flex items-center justify-center gap-2">
                 ✨ Get Insured Today ✨
               </span>
             </motion.button>

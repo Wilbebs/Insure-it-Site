@@ -310,8 +310,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.redirect(imageUrl);
   });
 
-  // TODO: Initialize default carousel images after Firebase permissions are configured
-  // ImageManager.initializeCarouselImages();
+  // Reset carousel images to use new different images
+  ImageManager.resetCarouselImages().catch(err => 
+    console.error('Failed to reset carousel images:', err)
+  );
 
   const httpServer = createServer(app);
   return httpServer;

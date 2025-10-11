@@ -28,13 +28,13 @@ export default function InsuranceSection({
   const bgClass = index % 2 === 1 ? "bg-gradient-to-r from-blue-50 to-indigo-50" : "";
 
   return (
-    <section className={`py-20 ${bgClass}`} ref={ref} data-testid={`insurance-section-${title.toLowerCase().replace(/\s+/g, '-')}`}>
+    <section className={`py-14 ${bgClass}`} ref={ref} data-testid={`insurance-section-${title.toLowerCase().replace(/\s+/g, '-')}`}>
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className={`grid md:grid-cols-2 gap-12 items-center mb-32 ${reversed ? 'md:space-x-reverse' : ''}`}
+          className={`grid md:grid-cols-2 gap-12 items-center mb-20 ${reversed ? 'md:space-x-reverse' : ''}`}
         >
           <div className={reversed ? "order-1 md:order-2" : "order-2 md:order-1"}>
             <img 

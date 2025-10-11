@@ -15,14 +15,14 @@ export class ImageManager {
       const configDoc = await getDoc(carouselImagesDoc);
       
       if (!configDoc.exists) {
-        // Default image URLs (we'll replace these with Firebase Storage URLs after upload)
+        // Default image URLs - Different images for carousel/grid display
         const defaultImages: InsurancePageImages = {
           carouselImages: {
-            auto: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
-            home: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600", 
-            life: "https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
-            health: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
-            commercial: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+            auto: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+            home: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600", 
+            life: "https://images.unsplash.com/photo-1609220136736-443140cffec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+            health: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+            commercial: "https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
           }
         };
 
@@ -48,7 +48,7 @@ export class ImageManager {
       const carouselImagesDoc = doc(adminDb, 'site_config', 'carousel_images');
       const configDoc = await getDoc(carouselImagesDoc);
       
-      if (configDoc.exists) {
+      if (configDoc.exists()) {
         const data = configDoc.data();
         return {
           carouselImages: data?.carouselImages || {}
@@ -80,6 +80,37 @@ export class ImageManager {
       console.log(`Updated ${insuranceType} carousel image`);
     } catch (error) {
       console.error(`Error updating ${insuranceType} carousel image:`, error);
+    }
+  }
+
+  /**
+   * Reset carousel images to new defaults
+   */
+  static async resetCarouselImages(): Promise<void> {
+    try {
+      const carouselImagesDoc = doc(adminDb, 'site_config', 'carousel_images');
+      
+      // New default image URLs - Different images for carousel/grid display
+      const defaultImages: InsurancePageImages = {
+        carouselImages: {
+          auto: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+          home: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600", 
+          life: "https://images.unsplash.com/photo-1609220136736-443140cffec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+          health: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+          commercial: "https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+        }
+      };
+
+      // Overwrite existing configuration
+      await setDoc(carouselImagesDoc, {
+        ...defaultImages,
+        lastUpdated: Timestamp.fromDate(new Date()),
+        source: 'unsplash_updated'
+      });
+
+      console.log('Reset carousel images to new defaults');
+    } catch (error) {
+      console.error('Error resetting carousel images:', error);
     }
   }
 

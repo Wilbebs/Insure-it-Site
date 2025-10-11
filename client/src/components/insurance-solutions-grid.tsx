@@ -68,7 +68,7 @@ export default function InsuranceSolutionsGrid() {
   };
 
   return (
-    <section className="bg-gradient-to-r from-primary/10 via-blue-50 to-primary/10 py-12 sm:py-16" data-testid="insurance-solutions-grid">
+    <section className="bg-gradient-to-r from-primary/10 via-blue-50 to-primary/10 py-8 sm:py-11" data-testid="insurance-solutions-grid">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold gradient-text mb-2 sm:mb-4">Our Insurance Solutions</h2>

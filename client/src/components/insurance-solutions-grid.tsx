@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Car, House, Heart, UserCheck, Building, ArrowRight } from "lucide-react";
 import { useLocation } from "wouter";
-import { useCarouselImages } from "@/hooks/use-carousel-images";
 
 // Insurance solution types configuration
 const insuranceSolutions = [
@@ -50,13 +49,19 @@ const insuranceSolutions = [
 export default function InsuranceSolutionsGrid() {
   const [, setLocation] = useLocation();
   
-  // Fetch carousel images from Firebase
-  const { data: carouselImages, isLoading: imagesLoading } = useCarouselImages();
+  // Default images for each insurance type
+  const defaultImages = {
+    auto: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+    home: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+    life: "https://images.unsplash.com/photo-1609220136736-443140cffec6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+    health: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+    commercial: "https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
+  };
   
-  // Merge base solution data with Firebase images
+  // Add images to solutions
   const solutions = insuranceSolutions.map(solution => ({
     ...solution,
-    image: carouselImages?.carouselImages?.[solution.key] || `https://via.placeholder.com/600x400?text=${solution.title.replace(' ', '+')}`
+    image: defaultImages[solution.key]
   }));
 
   const getRoutePath = (title: string) => {
@@ -75,12 +80,7 @@ export default function InsuranceSolutionsGrid() {
           <p className="text-muted-foreground text-lg">Comprehensive coverage for every need</p>
         </div>
         
-        {imagesLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 sm:gap-8">
             {solutions.map((solution, index) => {
               const Icon = solution.icon;
               
@@ -135,8 +135,7 @@ export default function InsuranceSolutionsGrid() {
                 </motion.div>
               );
             })}
-          </div>
-        )}
+        </div>
       </div>
     </section>
   );

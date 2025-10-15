@@ -28,7 +28,12 @@ export default function InsuranceSection({
   const bgClass = index % 2 === 1 ? "bg-gradient-to-r from-blue-50 to-indigo-50" : "";
 
   return (
-    <section className={`py-14 ${bgClass}`} ref={ref} data-testid={`insurance-section-${title.toLowerCase().replace(/\s+/g, '-')}`}>
+    <section className={`py-14 ${bgClass} relative`} ref={ref} data-testid={`insurance-section-${title.toLowerCase().replace(/\s+/g, '-')}`}>
+      {/* Connecting path line */}
+      {index < 4 && (
+        <div className="absolute left-1/2 bottom-0 transform -translate-x-1/2 w-1 h-20 bg-gradient-to-b from-primary to-transparent hidden md:block"></div>
+      )}
+      
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

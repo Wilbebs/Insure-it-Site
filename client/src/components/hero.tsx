@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { House, ArrowRight } from "lucide-react";
+import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import Logo from "./logo";
 
 export default function Hero() {
@@ -28,7 +29,7 @@ export default function Hero() {
             A family-owned Florida insurance agency with 14 years of experience protecting thousands of clients statewide. 
             From Miami to Jacksonville, we provide comprehensive coverage tailored to your unique needs.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center px-4 mb-6">
             <motion.button 
               className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-white px-10 sm:px-14 py-5 sm:py-6 rounded-full font-bold text-base sm:text-xl shadow-2xl w-full sm:w-auto group border-2 border-blue-300/50"
               onClick={() => document.getElementById('connect')?.scrollIntoView({ behavior: 'smooth' })}
@@ -66,6 +67,47 @@ export default function Hero() {
               Learn More
             </button>
           </div>
+          
+          {/* Social Media Links */}
+          <motion.div 
+            className="flex items-center justify-center gap-4 mt-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            <span className="text-sm text-muted-foreground hidden sm:inline">Connect with us:</span>
+            <div className="flex gap-3">
+              <a 
+                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-white/80 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
+                data-testid="hero-social-linkedin"
+              >
+                <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
+              </a>
+              
+              <a 
+                href="https://www.instagram.com/insureitgroup/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-white/80 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg"
+                data-testid="hero-social-instagram"
+              >
+                <FaInstagram className="w-5 h-5 text-pink-600 group-hover:text-white transition-colors duration-300" />
+              </a>
+              
+              <a 
+                href="https://www.facebook.com/insureitgroup"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-white/80 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg"
+                data-testid="hero-social-facebook"
+              >
+                <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
+              </a>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

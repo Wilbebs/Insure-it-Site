@@ -9,6 +9,8 @@ interface Message {
   link?: string;
 }
 
+const LIZ_AVATAR = "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200";
+
 const PRESET_QA = [
   {
     question: "What types of insurance do you offer?",
@@ -81,6 +83,7 @@ export default function ChatBot() {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [showQuestions, setShowQuestions] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
   const [, setLocation] = useLocation();
 
   useEffect(() => {
@@ -106,10 +109,19 @@ export default function ChatBot() {
   const handleQuestionClick = (qa: typeof PRESET_QA[0]) => {
     setMessages(prev => [
       ...prev,
-      { type: 'user', text: qa.question },
-      { type: 'bot', text: qa.answer, link: qa.link }
+      { type: 'user', text: qa.question }
     ]);
     setShowQuestions(false);
+    
+    // Show typing indicator
+    setIsTyping(true);
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => [
+        ...prev,
+        { type: 'bot', text: qa.answer, link: qa.link }
+      ]);
+    }, 2000);
   };
 
   const handleLinkClick = (link: string) => {
@@ -147,7 +159,10 @@ export default function ChatBot() {
              userWords.some(word => questionWords.includes(word));
     });
 
+    // Show typing indicator
+    setIsTyping(true);
     setTimeout(() => {
+      setIsTyping(false);
       if (matchedQA) {
         setMessages(prev => [...prev, { type: 'bot', text: matchedQA.answer, link: matchedQA.link }]);
       } else {
@@ -157,7 +172,7 @@ export default function ChatBot() {
           link: "/#connect"
         }]);
       }
-    }, 500);
+    }, 2000);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -179,10 +194,16 @@ export default function ChatBot() {
           {!isExpanded ? (
             <button
               onClick={handleExpand}
-              className="relative bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300"
+              className="relative group"
               data-testid="chatbot-minimized-button"
             >
-              <MessageCircle className="w-7 h-7" />
+              <div className="w-16 h-16 rounded-full overflow-hidden shadow-2xl ring-4 ring-blue-500/50 hover:ring-blue-500 transition-all hover:scale-110">
+                <img 
+                  src={LIZ_AVATAR}
+                  alt="Chat with Liz"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               {hasNotification && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
                   1
@@ -200,7 +221,7 @@ export default function ChatBot() {
               <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <img 
-                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100" 
+                    src={LIZ_AVATAR}
                     alt="Liz - Insurance Assistant"
                     className="w-10 h-10 rounded-full border-2 border-white object-cover"
                   />
@@ -246,8 +267,38 @@ export default function ChatBot() {
                   </div>
                 ))}
 
+                {/* Typing Indicator */}
+                {isTyping && (
+                  <div className="flex items-start gap-2">
+                    <img 
+                      src={LIZ_AVATAR}
+                      alt="Liz typing"
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                    <div className="bg-white p-3 rounded-2xl shadow-md">
+                      <div className="flex gap-1">
+                        <motion.div
+                          className="w-2 h-2 bg-gray-400 rounded-full"
+                          animate={{ y: [0, -8, 0] }}
+                          transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0 }}
+                        />
+                        <motion.div
+                          className="w-2 h-2 bg-gray-400 rounded-full"
+                          animate={{ y: [0, -8, 0] }}
+                          transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0, delay: 0.2 }}
+                        />
+                        <motion.div
+                          className="w-2 h-2 bg-gray-400 rounded-full"
+                          animate={{ y: [0, -8, 0] }}
+                          transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0, delay: 0.4 }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Preset Questions */}
-                {showQuestions && (
+                {showQuestions && !isTyping && (
                   <div className="space-y-2 pt-2">
                     <p className="text-xs text-gray-500 font-semibold">Quick Questions:</p>
                     {PRESET_QA.slice(0, 6).map((qa, idx) => (

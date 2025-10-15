@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Menu, X, ChevronDown } from "lucide-react";
+import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Logo from "./logo";
 import {
@@ -45,84 +46,123 @@ export default function Navigation() {
         }`}
         data-testid="main-navigation"
       >
-        <div className={`flex items-center transition-all duration-500 ${
-          isScrolled ? 'space-x-6 xl:space-x-10' : 'space-x-8 xl:space-x-12 justify-center'
-        }`}>
-          <Link href="/" className="flex items-center" data-testid="link-home">
-            <Logo />
-          </Link>
+        <div className={`flex items-center justify-between transition-all duration-500`}>
+          {/* Left side: Logo and Nav Links */}
           <div className={`flex items-center transition-all duration-500 ${
-            isScrolled ? 'space-x-5 xl:space-x-8' : 'space-x-8 xl:space-x-10'
+            isScrolled ? 'space-x-6 xl:space-x-10' : 'space-x-8 xl:space-x-12'
           }`}>
-            <Link 
-              href="/" 
-              className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
-                location === "/" ? "text-primary" : "text-foreground hover:text-primary"
-              }`}
-              data-testid="nav-home"
-            >
-              Home
+            <Link href="/" className="flex items-center" data-testid="link-home">
+              <Logo />
             </Link>
+            <div className={`flex items-center transition-all duration-500 ${
+              isScrolled ? 'space-x-5 xl:space-x-8' : 'space-x-8 xl:space-x-10'
+            }`}>
+              <Link 
+                href="/" 
+                className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
+                  location === "/" ? "text-primary" : "text-foreground hover:text-primary"
+                }`}
+                data-testid="nav-home"
+              >
+                Home
+              </Link>
 
-            {/* Conditional rendering based on scroll state */}
-            {isScrolled ? (
-              /* Collapsed: Insurance Dropdown */
-              <DropdownMenu>
-                <DropdownMenuTrigger 
-                  className={`transition-colors font-medium text-sm xl:text-base flex items-center gap-1 focus:outline-none whitespace-nowrap ${
-                    isInsurancePage ? "text-primary" : "text-foreground hover:text-primary"
-                  }`}
-                  data-testid="nav-insurance-dropdown"
-                >
-                  Insurance
-                  <ChevronDown className="w-4 h-4" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                  className="glass-nav border-white/20 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 shadow-xl" 
-                  align="center"
-                >
-                  {insuranceLinks.map(({ href, label, testId }) => (
-                    <DropdownMenuItem key={href} asChild>
-                      <Link 
-                        href={href}
-                        className={`cursor-pointer transition-colors hover:bg-primary/10 ${
-                          location === href ? "text-primary bg-primary/5 font-medium" : "text-foreground"
-                        }`}
-                        data-testid={testId}
-                      >
-                        {label}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              /* Expanded: All Insurance Links Visible */
-              <>
-                {insuranceLinks.map(({ href, label, testId }) => (
-                  <Link 
-                    key={href}
-                    href={href} 
-                    className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
-                      location === href ? "text-primary" : "text-foreground hover:text-primary"
+              {/* Conditional rendering based on scroll state */}
+              {isScrolled ? (
+                /* Collapsed: Insurance Dropdown */
+                <DropdownMenu>
+                  <DropdownMenuTrigger 
+                    className={`transition-colors font-medium text-sm xl:text-base flex items-center gap-1 focus:outline-none whitespace-nowrap ${
+                      isInsurancePage ? "text-primary" : "text-foreground hover:text-primary"
                     }`}
-                    data-testid={testId}
+                    data-testid="nav-insurance-dropdown"
                   >
-                    {label}
-                  </Link>
-                ))}
-              </>
-            )}
+                    Insurance
+                    <ChevronDown className="w-4 h-4" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent 
+                    className="glass-nav border-white/20 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 shadow-xl" 
+                    align="center"
+                  >
+                    {insuranceLinks.map(({ href, label, testId }) => (
+                      <DropdownMenuItem key={href} asChild>
+                        <Link 
+                          href={href}
+                          className={`cursor-pointer transition-colors hover:bg-primary/10 ${
+                            location === href ? "text-primary bg-primary/5 font-medium" : "text-foreground"
+                          }`}
+                          data-testid={testId}
+                        >
+                          {label}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                /* Expanded: All Insurance Links Visible */
+                <>
+                  {insuranceLinks.map(({ href, label, testId }) => (
+                    <Link 
+                      key={href}
+                      href={href} 
+                      className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
+                        location === href ? "text-primary" : "text-foreground hover:text-primary"
+                      }`}
+                      data-testid={testId}
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </>
+              )}
 
-            <Link 
-              href="/about" 
-              className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
-                location === "/about" ? "text-primary" : "text-foreground hover:text-primary"
-              }`}
-              data-testid="nav-about"
-            >
-              About Us
-            </Link>
+              <Link 
+                href="/about" 
+                className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
+                  location === "/about" ? "text-primary" : "text-foreground hover:text-primary"
+                }`}
+                data-testid="nav-about"
+              >
+                About Us
+              </Link>
+            </div>
+          </div>
+
+          {/* Right side: Social Media Links */}
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-primary font-semibold hidden xl:inline">Connect with us:</span>
+            <div className="flex gap-2">
+              <a 
+                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-white/80 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
+                data-testid="nav-social-linkedin"
+              >
+                <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
+              </a>
+              
+              <a 
+                href="https://www.instagram.com/insureitgroup/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-white/80 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg"
+                data-testid="nav-social-instagram"
+              >
+                <FaInstagram className="w-5 h-5 text-pink-600 group-hover:text-white transition-colors duration-300" />
+              </a>
+              
+              <a 
+                href="https://www.facebook.com/insureitgroup"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-white/80 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg"
+                data-testid="nav-social-facebook"
+              >
+                <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
+              </a>
+            </div>
           </div>
         </div>
       </nav>

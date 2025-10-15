@@ -19,9 +19,9 @@ export default function Logo({ className = "", variant = 'default', showTagline 
           <span className={`font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl ${textColor}`}>
             insure
           </span>
-          <div className="relative flex items-center ml-1">
-            <Shield className={`absolute w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 ${accentColor} -left-2 sm:-left-3 md:-left-4`} style={{ opacity: 0.15 }} />
-            <span className={`font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl ${accentColor} relative z-10`}>
+          <div className="relative flex items-center justify-center ml-1">
+            <Shield className={`absolute w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 ${accentColor} left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2`} style={{ opacity: 0.15 }} />
+            <span className={`font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl ${accentColor} relative z-10 px-2`}>
               it
             </span>
           </div>
@@ -38,9 +38,9 @@ export default function Logo({ className = "", variant = 'default', showTagline 
   return (
     <div className={`flex items-center relative ${className}`}>
       <span className={`font-bold text-xl ${textColor}`}>insure</span>
-      <div className="relative flex items-center">
-        <Shield className={`absolute w-5 h-5 ${accentColor} -left-1`} style={{ opacity: 0.15 }} />
-        <span className={`font-bold text-xl ${accentColor} relative z-10`}>it</span>
+      <div className="relative flex items-center justify-center">
+        <Shield className={`absolute w-7 h-7 ${accentColor} left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2`} style={{ opacity: 0.15 }} />
+        <span className={`font-bold text-xl ${accentColor} relative z-10 px-1`}>it</span>
       </div>
     </div>
   );

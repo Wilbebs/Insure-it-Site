@@ -1,32 +1,74 @@
 import { useState, useEffect } from "react";
 import { MessageCircle, X, ChevronDown, Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "wouter";
 
 interface Message {
   type: 'bot' | 'user';
   text: string;
+  link?: string;
 }
 
 const PRESET_QA = [
   {
     question: "What types of insurance do you offer?",
-    answer: "We offer Auto, Home, Life, Health, and Commercial insurance. Each policy is tailored to meet your specific needs and budget."
+    answer: "We offer Auto Insurance, Home Insurance, Life Insurance, Health Insurance, and Commercial Insurance. Click below to learn more about each type:",
+    link: "/#insurance-sections"
   },
   {
     question: "How can I get a quote?",
-    answer: "You can get a free quote by clicking the 'GET PROTECTED NOW' button on our homepage or filling out the contact form. One of our agents will reach out within 24 hours."
+    answer: "You can get a free quote by filling out our contact form. Click here to get started:",
+    link: "/#connect"
   },
   {
-    question: "What areas do you serve?",
-    answer: "We proudly serve the entire state of Florida, from Miami to Jacksonville, Tampa to Orlando, and everywhere in between!"
+    question: "What areas do you serve in Florida?",
+    answer: "We proudly serve the entire state of Florida! From Miami to Jacksonville, Tampa to Orlando, and everywhere in between. Learn more about us:",
+    link: "/about"
   },
   {
     question: "How long have you been in business?",
-    answer: "We're a family-owned business with 14 years of experience protecting Florida families and businesses since 2011."
+    answer: "We're a proud family-owned business with 14 years of experience since 2011. Read our full story:",
+    link: "/about"
   },
   {
     question: "Do you offer 24/7 support?",
-    answer: "Yes! We provide 24/7 support to ensure you're covered whenever you need us most."
+    answer: "Yes! We provide 24/7 support to ensure you're covered whenever you need us most. Contact us anytime:",
+    link: "/#connect"
+  },
+  {
+    question: "What is Auto Insurance?",
+    answer: "Our auto insurance protects you on the road with comprehensive coverage options. Learn more about our auto insurance:",
+    link: "/auto-insurance"
+  },
+  {
+    question: "What is Home Insurance?",
+    answer: "We protect your home and belongings with customized coverage. Discover our home insurance options:",
+    link: "/home-insurance"
+  },
+  {
+    question: "What is Life Insurance?",
+    answer: "Our life insurance provides financial security for your loved ones. Explore life insurance coverage:",
+    link: "/life-insurance"
+  },
+  {
+    question: "Do you offer Health Insurance?",
+    answer: "Yes! We offer comprehensive health insurance plans for individuals and families. View health insurance options:",
+    link: "/health-insurance"
+  },
+  {
+    question: "What is Commercial Insurance?",
+    answer: "We protect businesses with tailored commercial insurance solutions. Learn about business coverage:",
+    link: "/commercial-insurance"
+  },
+  {
+    question: "Who is your team?",
+    answer: "Meet our dedicated team of insurance professionals who are here to help you. See our team:",
+    link: "/about#team"
+  },
+  {
+    question: "How do I file a claim?",
+    answer: "Our claims process is simple and fast. Contact us immediately and we'll guide you through every step:",
+    link: "/#connect"
   }
 ];
 
@@ -35,10 +77,11 @@ export default function ChatBot() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasNotification, setHasNotification] = useState(true);
   const [messages, setMessages] = useState<Message[]>([
-    { type: 'bot', text: 'Hi! I\'m here to help. Choose a question below or type your own:' }
+    { type: 'bot', text: 'Hi! I\'m Liz, your insurance assistant. How can I help you today? Choose a question below or type your own:' }
   ]);
   const [inputValue, setInputValue] = useState("");
   const [showQuestions, setShowQuestions] = useState(true);
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,9 +107,29 @@ export default function ChatBot() {
     setMessages(prev => [
       ...prev,
       { type: 'user', text: qa.question },
-      { type: 'bot', text: qa.answer }
+      { type: 'bot', text: qa.answer, link: qa.link }
     ]);
     setShowQuestions(false);
+  };
+
+  const handleLinkClick = (link: string) => {
+    if (link.startsWith('/#')) {
+      // Navigate to home page and scroll to section
+      const section = link.substring(2);
+      if (window.location.pathname !== '/') {
+        setLocation('/');
+        setTimeout(() => {
+          document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+      } else {
+        document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to page
+      setLocation(link);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    setIsExpanded(false);
   };
 
   const handleSendMessage = () => {
@@ -77,18 +140,21 @@ export default function ChatBot() {
     setInputValue("");
 
     // Simple matching for preset questions
-    const matchedQA = PRESET_QA.find(qa => 
-      qa.question.toLowerCase().includes(userMessage.toLowerCase()) ||
-      userMessage.toLowerCase().includes(qa.question.toLowerCase().split(' ').slice(0, 3).join(' ').toLowerCase())
-    );
+    const matchedQA = PRESET_QA.find(qa => {
+      const questionWords = qa.question.toLowerCase().split(' ');
+      const userWords = userMessage.toLowerCase().split(' ');
+      return questionWords.some(word => userWords.includes(word)) || 
+             userWords.some(word => questionWords.includes(word));
+    });
 
     setTimeout(() => {
       if (matchedQA) {
-        setMessages(prev => [...prev, { type: 'bot', text: matchedQA.answer }]);
+        setMessages(prev => [...prev, { type: 'bot', text: matchedQA.answer, link: matchedQA.link }]);
       } else {
         setMessages(prev => [...prev, { 
           type: 'bot', 
-          text: "Thanks for your question! For personalized assistance, please contact us at (555) 123-4567 or fill out our contact form." 
+          text: "Thanks for your question! For personalized assistance, please contact us at (555) 123-4567 or fill out our contact form.",
+          link: "/#connect"
         }]);
       }
     }, 500);
@@ -133,10 +199,14 @@ export default function ChatBot() {
               {/* Header */}
               <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <MessageCircle className="w-6 h-6" />
+                  <img 
+                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100" 
+                    alt="Liz - Insurance Assistant"
+                    className="w-10 h-10 rounded-full border-2 border-white object-cover"
+                  />
                   <div>
-                    <h3 className="font-bold">Insure-it Assistant</h3>
-                    <p className="text-xs opacity-90">We're here to help!</p>
+                    <h3 className="font-bold">Liz</h3>
+                    <p className="text-xs opacity-90">Insurance Assistant</p>
                   </div>
                 </div>
                 <button
@@ -163,6 +233,15 @@ export default function ChatBot() {
                       }`}
                     >
                       <p className="text-sm">{msg.text}</p>
+                      {msg.link && msg.type === 'bot' && (
+                        <button
+                          onClick={() => handleLinkClick(msg.link!)}
+                          className="mt-2 text-xs bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700 transition-colors"
+                          data-testid="chatbot-message-link"
+                        >
+                          View →
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -170,7 +249,8 @@ export default function ChatBot() {
                 {/* Preset Questions */}
                 {showQuestions && (
                   <div className="space-y-2 pt-2">
-                    {PRESET_QA.map((qa, idx) => (
+                    <p className="text-xs text-gray-500 font-semibold">Quick Questions:</p>
+                    {PRESET_QA.slice(0, 6).map((qa, idx) => (
                       <button
                         key={idx}
                         onClick={() => handleQuestionClick(qa)}

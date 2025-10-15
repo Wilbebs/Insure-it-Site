@@ -62,6 +62,8 @@ Preferred communication style: Simple, everyday language.
   - Health insurance page: Icon pulses like a health monitor
   - Commercial insurance page: Building rises and falls (construction/growth effect)
 - **Interactive Logo**: InsureIT logo serves as homepage link with engaging hover animations (scale, rotate shield, color transitions)
+  - **Hero Shield Pulse**: Shield in large logo pulses 3 times on first page load
+  - **Tagline Typing**: "Life's Uncertain. Your Coverage Isn't." types in on page load without cursor
 - **Team Section**: About page features 8 team members with professional headshots and corner-positioned LinkedIn icons (blue/white theme, hover effects)
 - **Our Story Typing Animation**: On the About page, the "Our Story" title types in on load, followed by the final paragraph, then the signature "From our family..." with a blinking cursor at the end to create a storytelling effect
 - **AI Assistant Chatbot "Liz"**: Interactive chatbot with:

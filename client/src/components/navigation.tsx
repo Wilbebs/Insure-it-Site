@@ -57,16 +57,6 @@ export default function Navigation() {
             <div className={`flex items-center transition-all duration-500 ${
               isScrolled ? 'space-x-5 xl:space-x-8' : 'space-x-8 xl:space-x-10'
             }`}>
-              <Link 
-                href="/" 
-                className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
-                  location === "/" ? "text-primary" : "text-foreground hover:text-primary"
-                }`}
-                data-testid="nav-home"
-              >
-                Home
-              </Link>
-
               {/* Conditional rendering based on scroll state */}
               {isScrolled ? (
                 /* Collapsed: Insurance Dropdown */
@@ -186,19 +176,6 @@ export default function Navigation() {
         {isMobileMenuOpen && (
           <div className="absolute top-full left-0 right-0 mt-2 glass-nav rounded-2xl p-4 border border-white/20">
             <div className="flex flex-col space-y-3">
-              <Link 
-                href="/" 
-                className={`transition-colors font-medium text-center py-2 rounded-lg ${
-                  location === "/" 
-                    ? "text-primary bg-primary/10" 
-                    : "text-foreground hover:text-primary hover:bg-primary/5"
-                }`}
-                data-testid="nav-home-mobile"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-
               {/* Mobile Insurance Accordion */}
               <div>
                 <button

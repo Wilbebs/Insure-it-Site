@@ -55,6 +55,7 @@ Preferred communication style: Simple, everyday language.
 - **UI System**: Comprehensive design system with shadcn/ui components
 - **Responsive Design**: Mobile-first approach with Tailwind responsive utilities
 - **Animation System**: Scroll-triggered animations using Intersection Observer API
+- **Interactive Logo**: InsureIT logo serves as homepage link with engaging hover animations (scale, rotate shield, color transitions)
 - **Team Section**: About page features 8 team members with professional headshots and corner-positioned LinkedIn icons (blue/white theme, hover effects)
 - **AI Assistant Chatbot "Liz"**: Interactive chatbot with:
   - **Insurance Type Selection First**: Shows clickable buttons (Auto/Home/Life) as first step, before collecting any personal data

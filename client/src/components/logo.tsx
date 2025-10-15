@@ -36,11 +36,11 @@ export default function Logo({ className = "", variant = 'default', showTagline 
   }
   
   return (
-    <div className={`flex items-center relative ${className}`}>
-      <span className={`font-bold text-xl ${textColor}`}>insure</span>
-      <div className="relative flex items-center justify-center">
-        <Shield className={`absolute w-7 h-7 ${accentColor} left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2`} style={{ opacity: 0.15 }} />
-        <span className={`font-bold text-xl ${accentColor} relative z-10 px-1`}>it</span>
+    <div className={`flex items-center relative group cursor-pointer ${className}`}>
+      <span className={`font-bold text-xl ${textColor} transition-all duration-300 group-hover:scale-110 group-hover:text-primary`}>insure</span>
+      <div className="relative flex items-center justify-center transition-all duration-300 group-hover:rotate-12 group-hover:scale-125">
+        <Shield className={`absolute w-7 h-7 ${accentColor} left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300 group-hover:opacity-40`} style={{ opacity: 0.15 }} />
+        <span className={`font-bold text-xl ${accentColor} relative z-10 px-1 transition-all duration-300 group-hover:scale-110`}>it</span>
       </div>
     </div>
   );

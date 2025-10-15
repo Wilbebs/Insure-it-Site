@@ -2,6 +2,7 @@ import Navigation from "@/components/navigation";
 import Hero from "@/components/hero";
 import InsuranceSolutionsGrid from "@/components/insurance-solutions-grid";
 import InsuranceSection from "@/components/insurance-section";
+import Testimonials from "@/components/testimonials";
 import ContactForm from "@/components/contact-form";
 import Footer from "@/components/footer";
 import { Car, House, Heart, UserCheck, Building } from "lucide-react";
@@ -94,6 +95,7 @@ export default function Home() {
         />
       ))}
       
+      <Testimonials />
       <ContactForm />
       <Footer />
     </div>

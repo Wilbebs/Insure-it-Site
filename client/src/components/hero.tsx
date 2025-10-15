@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Shield, ArrowRight } from "lucide-react";
+import { House, ArrowRight } from "lucide-react";
 import Logo from "./logo";
 
 export default function Hero() {
@@ -30,7 +30,7 @@ export default function Hero() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
             <motion.button 
-              className="relative overflow-hidden bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 text-white px-10 sm:px-14 py-5 sm:py-6 rounded-full font-bold text-base sm:text-xl shadow-2xl w-full sm:w-auto group border-2 border-blue-400/30"
+              className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-white px-10 sm:px-14 py-5 sm:py-6 rounded-full font-bold text-base sm:text-xl shadow-2xl w-full sm:w-auto group border-2 border-blue-300/50"
               onClick={() => document.getElementById('connect')?.scrollIntoView({ behavior: 'smooth' })}
               data-testid="button-get-started"
               initial={{ opacity: 0, scale: 0.8 }}
@@ -38,22 +38,22 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.5 }}
               whileHover={{ 
                 scale: 1.05,
-                boxShadow: "0 30px 60px -15px rgba(30, 64, 175, 0.6)",
+                boxShadow: "0 30px 60px -15px rgba(59, 130, 246, 0.7)",
               }}
               whileTap={{ scale: 0.98 }}
             >
               {/* Animated shine effect */}
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
               
               {/* Pulse ring animation */}
-              <span className="absolute inset-0 rounded-full bg-blue-500/30 animate-ping opacity-0 group-hover:opacity-100"></span>
+              <span className="absolute inset-0 rounded-full bg-blue-400/40 animate-ping opacity-0 group-hover:opacity-100"></span>
               
               {/* Gradient overlay on hover */}
-              <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></span>
+              <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></span>
               
               {/* Button content */}
               <span className="relative flex items-center justify-center gap-3 font-extrabold tracking-wide">
-                <Shield className="w-6 h-6" />
+                <House className="w-6 h-6" />
                 GET PROTECTED NOW
                 <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
               </span>

@@ -12,6 +12,7 @@ import HealthInsurance from "@/pages/health-insurance";
 import CommercialInsurance from "@/pages/commercial-insurance";
 import PlansPage from "@/pages/plans";
 import NotFound from "@/pages/not-found";
+import ChatBot from "@/components/chatbot";
 
 function Router() {
   return (
@@ -35,6 +36,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <Router />
+        <ChatBot />
       </TooltipProvider>
     </QueryClientProvider>
   );

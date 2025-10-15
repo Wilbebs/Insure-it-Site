@@ -201,7 +201,7 @@ export default function ChatBot() {
                 <img 
                   src={LIZ_AVATAR}
                   alt="Chat with Liz"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center scale-110"
                 />
               </div>
               {hasNotification && (
@@ -223,7 +223,7 @@ export default function ChatBot() {
                   <img 
                     src={LIZ_AVATAR}
                     alt="Liz - Insurance Assistant"
-                    className="w-10 h-10 rounded-full border-2 border-white object-cover"
+                    className="w-10 h-10 rounded-full border-2 border-white object-cover object-center scale-110"
                   />
                   <div>
                     <h3 className="font-bold">Liz</h3>
@@ -273,7 +273,7 @@ export default function ChatBot() {
                     <img 
                       src={LIZ_AVATAR}
                       alt="Liz typing"
-                      className="w-8 h-8 rounded-full object-cover"
+                      className="w-8 h-8 rounded-full object-cover object-center scale-110"
                     />
                     <div className="bg-white p-3 rounded-2xl shadow-md">
                       <div className="flex gap-1">

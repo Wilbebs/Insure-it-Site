@@ -54,6 +54,12 @@ Preferred communication style: Simple, everyday language.
 - **Modular Design**: Reusable components organized by feature
 - **UI System**: Comprehensive design system with shadcn/ui components
 - **Responsive Design**: Mobile-first approach with Tailwind responsive utilities
+- **Homepage Insurance Cards Layout**: 
+  - Card-based grid design (2 columns on desktop, stacked on mobile)
+  - Each card features: background image with overlay, icon badge, title/subtitle, description, features list, and "Learn More" link
+  - **Zig-Zag Connector Line**: Animated SVG path flows through cards (Auto → Home → Life → Health → Commercial) with gradient glow effect
+  - Hover effects: card lift animation, border highlight, image zoom
+  - Click anywhere on card to navigate to insurance page
 - **Animation System**: 
   - Scroll-triggered animations using Intersection Observer API
   - Auto insurance page: Car crash animation on load with cartoon particle burst effect

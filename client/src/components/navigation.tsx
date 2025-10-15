@@ -130,7 +130,7 @@ export default function Navigation() {
           </div>
 
           {/* Right side: Social Media Links */}
-          <div className={`flex transition-all duration-500 ${isScrolled ? '-space-x-6' : 'gap-2'}`}>
+          <div className={`flex transition-all duration-500 ${isScrolled ? '-space-x-6 ml-8' : 'gap-2'}`}>
             <a 
               href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
               target="_blank"

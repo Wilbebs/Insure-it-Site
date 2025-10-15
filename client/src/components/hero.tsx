@@ -21,8 +21,8 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-6 gradient-text leading-tight" data-testid="hero-title">
-            Insure Your Peace of Mind,<br />
-            <span className="text-blue-600">Secure Your Tomorrow</span>
+            Life's Uncertain.<br />
+            <span className="text-blue-600">Your Coverage Isn't.</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed px-4" data-testid="hero-description">
             A family-owned Florida insurance agency with 14 years of experience protecting thousands of clients statewide. 

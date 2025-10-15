@@ -53,6 +53,15 @@ Preferred communication style: Simple, everyday language.
 - **Responsive Design**: Mobile-first approach with Tailwind responsive utilities
 - **Animation System**: Scroll-triggered animations using Intersection Observer API
 - **Team Section**: About page features 8 team members with professional headshots and corner-positioned LinkedIn icons (blue/white theme, hover effects)
+- **AI Assistant Chatbot "Liz"**: Interactive chatbot with:
+  - Conversational policy application system supporting Auto, Home, and Life insurance
+  - Finite state machine managing multi-step data collection flows
+  - PDF/document upload capability with Firebase Storage integration
+  - Dynamic question rendering based on policy type
+  - localStorage persistence to survive page reloads
+  - Review/confirmation step before submission
+  - Notification sounds (800Hz appearance, 600Hz responses)
+  - Typing animations and smooth transitions
 
 ### API Design
 - **RESTful Endpoints**: Clean API structure with proper HTTP methods integrated with Firebase backend

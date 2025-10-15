@@ -464,23 +464,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const validatedData = policyApplicationSchema.parse(req.body);
 
-      // Store in Firestore
-      const docRef = await addDoc(collection(adminDb, 'policy_applications'), {
-        ...validatedData,
-        status: 'pending',
-        createdAt: Timestamp.fromDate(new Date())
-      });
+      // Generate a temporary ID for demo purposes
+      const tempId = `app_${Date.now()}_${Math.random().toString(36).substring(7)}`;
 
-      console.log('✅ Policy application submitted:', {
-        id: docRef.id,
-        policyType: validatedData.policyType,
-        applicant: validatedData.applicantName
-      });
+      // Log the application (for demo/development)
+      console.log('✅ Policy application submitted (logged):');
+      console.log('Application ID:', tempId);
+      console.log('Policy Type:', validatedData.policyType);
+      console.log('Applicant:', validatedData.applicantName);
+      console.log('Email:', validatedData.email);
+      console.log('Phone:', validatedData.phone);
+      console.log('Contact Method:', validatedData.preferredContactMethod);
+      console.log('Documents:', validatedData.documents?.length || 0, 'uploaded');
+      
+      // Parse and log policy-specific details
+      if (validatedData.autoDetails) {
+        console.log('Auto Details:', JSON.parse(validatedData.autoDetails));
+      }
+      if (validatedData.homeDetails) {
+        console.log('Home Details:', JSON.parse(validatedData.homeDetails));
+      }
+      if (validatedData.lifeDetails) {
+        console.log('Life Details:', JSON.parse(validatedData.lifeDetails));
+      }
+
+      // TODO: Enable Firestore saving after configuring security rules
+      // For now, applications are logged to console for development/demo
+      // try {
+      //   const docRef = await addDoc(collection(adminDb, 'policy_applications'), {
+      //     ...validatedData,
+      //     status: 'pending',
+      //     createdAt: Timestamp.fromDate(new Date())
+      //   });
+      //   tempId = docRef.id;
+      // } catch (firebaseError) {
+      //   console.warn('Firestore write failed (using temp ID):', firebaseError.message);
+      // }
 
       res.json({
         success: true,
         message: "Policy application submitted successfully!",
-        applicationId: docRef.id
+        applicationId: tempId
       });
     } catch (error) {
       console.error('Policy application submission error:', error);

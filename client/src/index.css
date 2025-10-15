@@ -348,3 +348,13 @@
 .animate-shield-pulse {
   animation: shield-pulse 2s ease-in-out 3;
 }
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -50;
+  }
+}
+
+.animate-dash {
+  animation: dash 20s linear infinite;
+}

@@ -642,25 +642,45 @@ export default function ChatBot() {
               data-testid="chatbot-expanded"
             >
               {/* Header */}
-              <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <img 
-                    src={LIZ_AVATAR}
-                    alt="Liz - Insurance Assistant"
-                    className="w-10 h-10 rounded-full border-2 border-white object-cover object-center scale-110"
-                  />
-                  <div>
-                    <h3 className="font-bold">Liz</h3>
-                    <p className="text-xs opacity-90">Insurance Assistant</p>
+              <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 flex flex-col">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src={LIZ_AVATAR}
+                      alt="Liz - Insurance Assistant"
+                      className="w-10 h-10 rounded-full border-2 border-white object-cover object-center scale-110"
+                    />
+                    <div>
+                      <h3 className="font-bold">Liz</h3>
+                      <p className="text-xs opacity-90">Insurance Assistant</p>
+                    </div>
                   </div>
+                  <button
+                    onClick={handleMinimize}
+                    className="hover:bg-white/20 p-2 rounded-full transition-colors"
+                    data-testid="chatbot-minimize-button"
+                  >
+                    <ChevronDown className="w-5 h-5" />
+                  </button>
                 </div>
-                <button
-                  onClick={handleMinimize}
-                  className="hover:bg-white/20 p-2 rounded-full transition-colors"
-                  data-testid="chatbot-minimize-button"
-                >
-                  <ChevronDown className="w-5 h-5" />
-                </button>
+                
+                {/* Progress Bar */}
+                {convState.policyType && (convState.state === 'collectingCore' || convState.state === 'collectingPolicySpecific') && (
+                  <div className="mt-2">
+                    <div className="flex justify-between text-xs mb-1">
+                      <span>Application Progress</span>
+                      <span>{Math.round((convState.currentQuestionIndex / (coreQuestions.length + (convState.policyType ? policyQuestionFlows[convState.policyType].questions.length : 0))) * 100)}%</span>
+                    </div>
+                    <div className="w-full bg-white/30 rounded-full h-2">
+                      <div 
+                        className="bg-white h-2 rounded-full transition-all duration-500"
+                        style={{ 
+                          width: `${(convState.currentQuestionIndex / (coreQuestions.length + (convState.policyType ? policyQuestionFlows[convState.policyType].questions.length : 0))) * 100}%` 
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Messages */}

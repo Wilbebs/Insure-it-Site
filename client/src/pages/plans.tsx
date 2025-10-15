@@ -5,6 +5,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus, CheckCircle, Lightbulb, TrendingUp, Trash2, Edit, Save, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import Navigation from '@/components/navigation';
+import Footer from '@/components/footer';
 
 interface StrategicSuggestion {
   id: string;
@@ -224,102 +226,104 @@ export default function PlansPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-            Strategic Expansion Plan
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Transforming Insure-it Group into an enterprise-grade platform supporting 500+ employees and hundreds of thousands of clients
-          </p>
-        </div>
-
-        {/* Strategic Initiatives */}
-        <div className="space-y-8 mb-12">
-          {strategicInitiatives.map((phase, phaseIndex) => {
-            const IconComponent = phase.icon;
-            return (
-              <div key={phaseIndex}>
-                <div className="flex items-center gap-3 mb-4">
-                  <IconComponent className="w-6 h-6 text-primary" />
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {phase.category}
-                  </h2>
-                </div>
-                <div className="grid gap-4 md:grid-cols-2">
-                  {phase.items.map((item, itemIndex) => (
-                    <Card key={itemIndex} className="hover:shadow-lg transition-shadow">
-                      <CardHeader>
-                        <div className="flex items-start justify-between">
-                          <CardTitle className="text-lg">{item.title}</CardTitle>
-                          <span className={`text-xs px-2 py-1 rounded-full font-medium ${getPriorityColor(item.priority)}`}>
-                            {item.priority}
-                          </span>
-                        </div>
-                        <CardDescription className="text-sm mt-2">
-                          {item.description}
-                        </CardDescription>
-                      </CardHeader>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Custom Suggestions Section */}
-        <div className="mt-16">
-          <div className="flex items-center gap-3 mb-6">
-            <Plus className="w-6 h-6 text-primary" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Feature Suggestions
-            </h2>
+    <>
+      <Navigation />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 pt-32">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+              Strategic Expansion Plan
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              Transforming Insure-it Group into an enterprise-grade platform supporting 500+ employees and hundreds of thousands of clients
+            </p>
           </div>
 
-          {/* Add Suggestion Form */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Add Feature Requests</CardTitle>
-              <CardDescription>
-                Business owners can add features and ideas they want to see on the site
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Input
-                  placeholder="Feature title..."
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                  data-testid="input-suggestion-title"
-                />
-              </div>
-              <div>
-                <Textarea
-                  placeholder="Description (optional)..."
-                  value={newDescription}
-                  onChange={(e) => setNewDescription(e.target.value)}
-                  rows={3}
-                  data-testid="input-suggestion-description"
-                />
-              </div>
-              <Button 
-                onClick={handleAddSuggestion}
-                className="w-full md:w-auto"
-                data-testid="button-add-suggestion"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add Feature Request
-              </Button>
-            </CardContent>
-          </Card>
+          {/* Strategic Initiatives */}
+          <div className="space-y-8 mb-12">
+            {strategicInitiatives.map((phase, phaseIndex) => {
+              const IconComponent = phase.icon;
+              return (
+                <div key={phaseIndex}>
+                  <div className="flex items-center gap-3 mb-4">
+                    <IconComponent className="w-6 h-6 text-primary" />
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {phase.category}
+                    </h2>
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    {phase.items.map((item, itemIndex) => (
+                      <Card key={itemIndex} className="hover:shadow-lg transition-shadow">
+                        <CardHeader>
+                          <div className="flex items-start justify-between">
+                            <CardTitle className="text-lg">{item.title}</CardTitle>
+                            <span className={`text-xs px-2 py-1 rounded-full font-medium ${getPriorityColor(item.priority)}`}>
+                              {item.priority}
+                            </span>
+                          </div>
+                          <CardDescription className="text-sm mt-2">
+                            {item.description}
+                          </CardDescription>
+                        </CardHeader>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
 
-          {/* Display Custom Suggestions */}
-          {customSuggestions.length > 0 && (
-            <div className="grid gap-4 md:grid-cols-2">
-              {customSuggestions.map((suggestion) => (
+          {/* Custom Suggestions Section */}
+          <div className="mt-16">
+            <div className="flex items-center gap-3 mb-6">
+              <Plus className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                Feature Suggestions
+              </h2>
+            </div>
+
+            {/* Add Suggestion Form */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Add Feature Requests</CardTitle>
+                <CardDescription>
+                  Business owners can add features and ideas they want to see on the site
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Input
+                    placeholder="Feature title..."
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    data-testid="input-suggestion-title"
+                  />
+                </div>
+                <div>
+                  <Textarea
+                    placeholder="Description (optional)..."
+                    value={newDescription}
+                    onChange={(e) => setNewDescription(e.target.value)}
+                    rows={3}
+                    data-testid="input-suggestion-description"
+                  />
+                </div>
+                <Button 
+                  onClick={handleAddSuggestion}
+                  className="w-full md:w-auto"
+                  data-testid="button-add-suggestion"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Feature Request
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Display Custom Suggestions */}
+            {customSuggestions.length > 0 && (
+              <div className="grid gap-4 md:grid-cols-2">
+                {customSuggestions.map((suggestion) => (
                 <Card key={suggestion.id} className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
                   <CardHeader>
                     {editingId === suggestion.id ? (
@@ -394,18 +398,20 @@ export default function PlansPage() {
                     )}
                   </CardHeader>
                 </Card>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
 
-          {customSuggestions.length === 0 && (
-            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-              <Lightbulb className="w-12 h-12 mx-auto mb-3 opacity-50" />
-              <p>No feature suggestions yet. Add your ideas above!</p>
-            </div>
-          )}
+            {customSuggestions.length === 0 && (
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                <Lightbulb className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p>No feature suggestions yet. Add your ideas above!</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

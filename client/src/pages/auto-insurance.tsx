@@ -13,7 +13,7 @@ export default function AutoInsurance() {
           <div className="text-center mb-8 sm:mb-12">
             <div className="flex justify-center mb-4 sm:mb-6 relative h-24">
               {/* Crash particles - positioned at front of car */}
-              <div className="absolute inset-0 flex justify-center items-center" style={{ marginLeft: '72px' }}>
+              <div className="absolute inset-0 flex justify-center items-center" style={{ marginLeft: '80px' }}>
                 <div className="crash-particle crash-particle-1"></div>
                 <div className="crash-particle crash-particle-2"></div>
                 <div className="crash-particle crash-particle-3"></div>

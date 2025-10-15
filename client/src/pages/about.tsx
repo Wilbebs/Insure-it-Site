@@ -2,8 +2,54 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { Shield, Users, Award, Clock } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
 export default function About() {
+  const [titleText, setTitleText] = useState("");
+  const [lastParagraphText, setLastParagraphText] = useState("");
+  const [signatureText, setSignatureText] = useState("");
+  const [showCursor, setShowCursor] = useState(false);
+
+  const fullTitle = "Our Story";
+  const fullLastParagraph = "Today, 14 years later, we remain family-owned and family-focused. We've grown from that single office in Miami to serving thousands of clients statewide, but our mission has never changed: to treat every client like family and provide the kind of insurance coverage that brings true peace of mind.";
+  const fullSignature = "From our family to yours—protecting Florida families, one policy at a time.";
+
+  useEffect(() => {
+    let titleIndex = 0;
+    const titleInterval = setInterval(() => {
+      if (titleIndex <= fullTitle.length) {
+        setTitleText(fullTitle.slice(0, titleIndex));
+        titleIndex++;
+      } else {
+        clearInterval(titleInterval);
+        // Start typing the last paragraph after title is done
+        let paragraphIndex = 0;
+        const paragraphInterval = setInterval(() => {
+          if (paragraphIndex <= fullLastParagraph.length) {
+            setLastParagraphText(fullLastParagraph.slice(0, paragraphIndex));
+            paragraphIndex++;
+          } else {
+            clearInterval(paragraphInterval);
+            // Start typing the signature after paragraph is done
+            let signatureIndex = 0;
+            const signatureInterval = setInterval(() => {
+              if (signatureIndex <= fullSignature.length) {
+                setSignatureText(fullSignature.slice(0, signatureIndex));
+                signatureIndex++;
+              } else {
+                clearInterval(signatureInterval);
+                // Show blinking cursor when done
+                setShowCursor(true);
+              }
+            }, 30);
+          }
+        }, 20);
+      }
+    }, 100);
+
+    return () => clearInterval(titleInterval);
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Navigation />
@@ -44,7 +90,10 @@ export default function About() {
 
           {/* Our Story Section */}
           <div className="insurance-card p-6 sm:p-10 rounded-2xl mb-12 sm:mb-20">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 gradient-text text-center">Our Story</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 gradient-text text-center min-h-[3rem]">
+              {titleText}
+              {titleText.length < fullTitle.length && <span className="animate-pulse">|</span>}
+            </h2>
             <div className="max-w-4xl mx-auto space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
                 Our journey began in 2011 with a simple dream and a small office in the heart of Miami. 
@@ -64,14 +113,14 @@ export default function About() {
                 every corner of the Sunshine State. From Miami to Jacksonville, Tampa to Orlando, Pensacola 
                 to the Keys—we've had the honor of protecting what matters most to Florida families.
               </p>
-              <p className="font-semibold text-foreground">
-                Today, 14 years later, we remain family-owned and family-focused. We've grown from that 
-                single office in Miami to serving thousands of clients statewide, but our mission has never 
-                changed: to treat every client like family and provide the kind of insurance coverage that 
-                brings true peace of mind.
+              <p className="font-semibold text-foreground min-h-[8rem]">
+                {lastParagraphText}
+                {lastParagraphText.length > 0 && lastParagraphText.length < fullLastParagraph.length && <span className="animate-pulse">|</span>}
               </p>
               <p className="text-center italic text-primary pt-4">
-                "From our family to yours—protecting Florida families, one policy at a time."
+                "{signatureText}
+                {signatureText.length > 0 && signatureText.length < fullSignature.length && <span className="animate-pulse">|</span>}
+                {showCursor && <span className="typing-cursor">|</span>}"
               </p>
             </div>
           </div>

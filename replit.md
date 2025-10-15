@@ -63,6 +63,7 @@ Preferred communication style: Simple, everyday language.
   - Commercial insurance page: Building rises and falls (construction/growth effect)
 - **Interactive Logo**: InsureIT logo serves as homepage link with engaging hover animations (scale, rotate shield, color transitions)
 - **Team Section**: About page features 8 team members with professional headshots and corner-positioned LinkedIn icons (blue/white theme, hover effects)
+- **Our Story Typing Animation**: On the About page, the "Our Story" title types in on load, followed by the final paragraph, then the signature "From our family..." with a blinking cursor at the end to create a storytelling effect
 - **AI Assistant Chatbot "Liz"**: Interactive chatbot with:
   - **Insurance Type Selection First**: Shows clickable buttons (Auto/Home/Life) as first step, before collecting any personal data
   - **Page Navigation**: Clicking an insurance type navigates to that insurance page (e.g., /auto-insurance)

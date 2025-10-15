@@ -130,39 +130,36 @@ export default function Navigation() {
           </div>
 
           {/* Right side: Social Media Links */}
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-primary font-semibold hidden xl:inline">Connect with us:</span>
-            <div className="flex gap-2">
-              <a 
-                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/80 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
-                data-testid="nav-social-linkedin"
-              >
-                <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
-              </a>
-              
-              <a 
-                href="https://www.instagram.com/insureitgroup/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/80 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg"
-                data-testid="nav-social-instagram"
-              >
-                <FaInstagram className="w-5 h-5 text-pink-600 group-hover:text-white transition-colors duration-300" />
-              </a>
-              
-              <a 
-                href="https://www.facebook.com/insureitgroup"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/80 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg"
-                data-testid="nav-social-facebook"
-              >
-                <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
-              </a>
-            </div>
+          <div className="flex gap-2">
+            <a 
+              href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full bg-white/80 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
+              data-testid="nav-social-linkedin"
+            >
+              <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
+            </a>
+            
+            <a 
+              href="https://www.instagram.com/insureitgroup/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full bg-white/80 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg"
+              data-testid="nav-social-instagram"
+            >
+              <FaInstagram className="w-5 h-5 text-pink-600 group-hover:text-white transition-colors duration-300" />
+            </a>
+            
+            <a 
+              href="https://www.facebook.com/insureitgroup"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full bg-white/80 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg"
+              data-testid="nav-social-facebook"
+            >
+              <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
+            </a>
           </div>
         </div>
       </nav>

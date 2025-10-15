@@ -101,23 +101,31 @@ export default function InsuranceCardsFlow() {
         </motion.div>
 
         <div className="relative">
-          {/* Flowing connector path */}
+          {/* Zig-zag connector path through cards */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none hidden lg:block" style={{ zIndex: 0 }}>
             <defs>
-              <linearGradient id="pathGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
-                <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.5" />
-                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+              <linearGradient id="zigzagGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.6" />
+                <stop offset="50%" stopColor="hsl(217, 91%, 50%)" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.6" />
               </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
             </defs>
-            {/* Connect cards with flowing path */}
+            {/* Zig-zag path: Auto (left) -> Home (right) -> Life (left) -> Health (right) -> Commercial (center) */}
             <path
-              d="M 33% 12%, L 33% 30%, Q 33% 35%, 66% 35%, L 66% 45%, Q 66% 50%, 33% 50%, L 33% 65%, Q 33% 70%, 66% 70%, L 66% 82%"
-              stroke="url(#pathGradient)"
-              strokeWidth="2"
+              d="M 25% 16%, L 25% 22%, L 75% 22%, L 75% 28%, L 75% 38%, L 25% 38%, L 25% 48%, L 25% 60%, L 75% 60%, L 75% 70%, L 75% 82%, L 50% 82%, L 50% 88%"
+              stroke="url(#zigzagGradient)"
+              strokeWidth="3"
               fill="none"
-              strokeDasharray="5,5"
-              className="animate-dash"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              filter="url(#glow)"
             />
           </svg>
 

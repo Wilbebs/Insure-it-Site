@@ -1,7 +1,7 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import { Shield, Users, Award, Clock } from "lucide-react";
-import { FaLinkedin } from "react-icons/fa";
+import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 
 export default function About() {
   return (
@@ -73,29 +73,6 @@ export default function About() {
               <p className="text-center italic text-primary pt-4">
                 "From our family to yours—protecting Florida families, one policy at a time."
               </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-20">
-            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
-              <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2 gradient-text">Family-Owned</h3>
-              <p className="text-muted-foreground">14 years of family values & dedication</p>
-            </div>
-            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
-              <Users className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2 gradient-text">Personal</h3>
-              <p className="text-muted-foreground">Dedicated agents for every client</p>
-            </div>
-            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
-              <Award className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2 gradient-text">Award-Winning</h3>
-              <p className="text-muted-foreground">Recognized for excellence</p>
-            </div>
-            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
-              <Clock className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2 gradient-text">24/7 Support</h3>
-              <p className="text-muted-foreground">Always here when you need us</p>
             </div>
           </div>
 
@@ -294,6 +271,78 @@ export default function About() {
                   <p className="text-primary font-medium">Auto Insurance Expert</p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Why Choose Us Cards - Moved below team */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-20">
+            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
+              <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-2 gradient-text">Family-Owned</h3>
+              <p className="text-muted-foreground">14 years of family values & dedication</p>
+            </div>
+            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
+              <Users className="w-12 h-12 text-primary mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-2 gradient-text">Personal</h3>
+              <p className="text-muted-foreground">Dedicated agents for every client</p>
+            </div>
+            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
+              <Award className="w-12 h-12 text-primary mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-2 gradient-text">Award-Winning</h3>
+              <p className="text-muted-foreground">Recognized for excellence</p>
+            </div>
+            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
+              <Clock className="w-12 h-12 text-primary mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-2 gradient-text">24/7 Support</h3>
+              <p className="text-muted-foreground">Always here when you need us</p>
+            </div>
+          </div>
+
+          {/* Connect With Us Section */}
+          <div className="text-center mb-12 sm:mb-20">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 gradient-text">Connect With Us</h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Follow us on social media for insurance tips, company updates, and Florida community news
+            </p>
+            <div className="flex justify-center gap-6 sm:gap-8">
+              <a 
+                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group"
+                data-testid="social-linkedin"
+              >
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-blue-500 group-hover:to-blue-600">
+                  <FaLinkedin className="w-12 h-12 sm:w-16 sm:h-16 text-primary group-hover:text-white transition-colors duration-300" />
+                </div>
+                <p className="mt-3 font-semibold text-muted-foreground group-hover:text-primary transition-colors">LinkedIn</p>
+              </a>
+              
+              <a 
+                href="https://www.instagram.com/insureitgroup/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group"
+                data-testid="social-instagram"
+              >
+                <div className="bg-gradient-to-br from-pink-50 to-purple-100 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-pink-500 group-hover:to-purple-600">
+                  <FaInstagram className="w-12 h-12 sm:w-16 sm:h-16 text-pink-600 group-hover:text-white transition-colors duration-300" />
+                </div>
+                <p className="mt-3 font-semibold text-muted-foreground group-hover:text-pink-600 transition-colors">Instagram</p>
+              </a>
+              
+              <a 
+                href="https://www.facebook.com/insureitgroup"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group"
+                data-testid="social-facebook"
+              >
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-blue-600 group-hover:to-blue-700">
+                  <FaFacebook className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                </div>
+                <p className="mt-3 font-semibold text-muted-foreground group-hover:text-blue-600 transition-colors">Facebook</p>
+              </a>
             </div>
           </div>
         </div>

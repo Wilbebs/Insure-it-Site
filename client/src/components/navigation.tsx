@@ -15,11 +15,11 @@ export default function Navigation() {
   const [isMobileInsuranceOpen, setIsMobileInsuranceOpen] = useState(false);
 
   const insuranceLinks = [
-    { href: "/auto-insurance", label: "Auto Insurance", testId: "nav-auto" },
-    { href: "/home-insurance", label: "Home Insurance", testId: "nav-home-insurance" },
-    { href: "/life-insurance", label: "Life Insurance", testId: "nav-life" },
-    { href: "/health-insurance", label: "Health Insurance", testId: "nav-health" },
-    { href: "/commercial-insurance", label: "Commercial Insurance", testId: "nav-commercial" },
+    { href: "/auto-insurance", label: "Auto", testId: "nav-auto" },
+    { href: "/home-insurance", label: "Home", testId: "nav-home-insurance" },
+    { href: "/life-insurance", label: "Life", testId: "nav-life" },
+    { href: "/health-insurance", label: "Health", testId: "nav-health" },
+    { href: "/commercial-insurance", label: "Commercial", testId: "nav-commercial" },
   ];
 
   const isInsurancePage = insuranceLinks.some(link => link.href === location);
@@ -54,12 +54,17 @@ export default function Navigation() {
                 Insurance
                 <ChevronDown className="w-4 h-4" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="glass-nav border-white/20" align="center">
+              <DropdownMenuContent 
+                className="glass-nav border-white/20 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 shadow-xl" 
+                align="center"
+              >
                 {insuranceLinks.map(({ href, label, testId }) => (
                   <DropdownMenuItem key={href} asChild>
                     <Link 
                       href={href}
-                      className={`cursor-pointer ${location === href ? "text-primary" : ""}`}
+                      className={`cursor-pointer transition-colors hover:bg-primary/10 ${
+                        location === href ? "text-primary bg-primary/5 font-medium" : "text-foreground"
+                      }`}
                       data-testid={testId}
                     >
                       {label}

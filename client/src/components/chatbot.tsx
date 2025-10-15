@@ -9,7 +9,7 @@ interface Message {
   link?: string;
 }
 
-const LIZ_AVATAR = "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200";
+const LIZ_AVATAR = "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200";
 
 const PRESET_QA = [
   {

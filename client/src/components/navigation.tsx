@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Menu, X, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Logo from "./logo";
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ export default function Navigation() {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileInsuranceOpen, setIsMobileInsuranceOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const insuranceLinks = [
     { href: "/auto-insurance", label: "Auto", testId: "nav-auto" },
@@ -24,18 +25,38 @@ export default function Navigation() {
 
   const isInsurancePage = insuranceLinks.some(link => link.href === location);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 glass-nav rounded-full px-4 sm:px-8 py-3 hidden lg:block" data-testid="main-navigation">
-        <div className="flex items-center space-x-4 xl:space-x-8">
+      <nav 
+        className={`fixed left-1/2 transform -translate-x-1/2 z-50 glass-nav px-4 sm:px-8 py-4 hidden lg:block transition-all duration-500 ease-in-out ${
+          isScrolled 
+            ? 'top-4 rounded-full' 
+            : 'top-0 rounded-none w-full'
+        }`}
+        data-testid="main-navigation"
+      >
+        <div className={`flex items-center transition-all duration-500 ${
+          isScrolled ? 'space-x-6 xl:space-x-10' : 'space-x-8 xl:space-x-12 justify-center'
+        }`}>
           <Link href="/" className="flex items-center" data-testid="link-home">
             <Logo />
           </Link>
-          <div className="flex items-center space-x-3 xl:space-x-6">
+          <div className={`flex items-center transition-all duration-500 ${
+            isScrolled ? 'space-x-5 xl:space-x-8' : 'space-x-8 xl:space-x-10'
+          }`}>
             <Link 
               href="/" 
-              className={`transition-colors font-medium text-sm xl:text-base ${
+              className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
                 location === "/" ? "text-primary" : "text-foreground hover:text-primary"
               }`}
               data-testid="nav-home"
@@ -43,40 +64,59 @@ export default function Navigation() {
               Home
             </Link>
 
-            {/* Insurance Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger 
-                className={`transition-colors font-medium text-sm xl:text-base flex items-center gap-1 focus:outline-none ${
-                  isInsurancePage ? "text-primary" : "text-foreground hover:text-primary"
-                }`}
-                data-testid="nav-insurance-dropdown"
-              >
-                Insurance
-                <ChevronDown className="w-4 h-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent 
-                className="glass-nav border-white/20 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 shadow-xl" 
-                align="center"
-              >
+            {/* Conditional rendering based on scroll state */}
+            {isScrolled ? (
+              /* Collapsed: Insurance Dropdown */
+              <DropdownMenu>
+                <DropdownMenuTrigger 
+                  className={`transition-colors font-medium text-sm xl:text-base flex items-center gap-1 focus:outline-none whitespace-nowrap ${
+                    isInsurancePage ? "text-primary" : "text-foreground hover:text-primary"
+                  }`}
+                  data-testid="nav-insurance-dropdown"
+                >
+                  Insurance
+                  <ChevronDown className="w-4 h-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  className="glass-nav border-white/20 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 shadow-xl" 
+                  align="center"
+                >
+                  {insuranceLinks.map(({ href, label, testId }) => (
+                    <DropdownMenuItem key={href} asChild>
+                      <Link 
+                        href={href}
+                        className={`cursor-pointer transition-colors hover:bg-primary/10 ${
+                          location === href ? "text-primary bg-primary/5 font-medium" : "text-foreground"
+                        }`}
+                        data-testid={testId}
+                      >
+                        {label}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              /* Expanded: All Insurance Links Visible */
+              <>
                 {insuranceLinks.map(({ href, label, testId }) => (
-                  <DropdownMenuItem key={href} asChild>
-                    <Link 
-                      href={href}
-                      className={`cursor-pointer transition-colors hover:bg-primary/10 ${
-                        location === href ? "text-primary bg-primary/5 font-medium" : "text-foreground"
-                      }`}
-                      data-testid={testId}
-                    >
-                      {label}
-                    </Link>
-                  </DropdownMenuItem>
+                  <Link 
+                    key={href}
+                    href={href} 
+                    className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
+                      location === href ? "text-primary" : "text-foreground hover:text-primary"
+                    }`}
+                    data-testid={testId}
+                  >
+                    {label}
+                  </Link>
                 ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </>
+            )}
 
             <Link 
               href="/about" 
-              className={`transition-colors font-medium text-sm xl:text-base ${
+              className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
                 location === "/about" ? "text-primary" : "text-foreground hover:text-primary"
               }`}
               data-testid="nav-about"

@@ -150,12 +150,12 @@
   40% {
     opacity: 1;
     transform: scaleY(1);
-    background-color: rgb(239 68 68 / 0.8);
+    background-color: rgb(0 0 0 / 0.9);
   }
   45% {
     opacity: 1;
     transform: scaleY(1);
-    background-color: rgb(239 68 68 / 0.8);
+    background-color: rgb(0 0 0 / 0.9);
   }
   50% {
     opacity: 0;
@@ -170,3 +170,61 @@
 .animate-impact-line {
   animation: impact-line 2s ease-in-out;
 }
+
+.crash-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #1a1a1a;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+@keyframes particle-burst-1 {
+  0%, 35% { opacity: 0; transform: translate(0, 0) scale(0); }
+  40% { opacity: 1; transform: translate(-15px, -15px) scale(1); }
+  50% { opacity: 0; transform: translate(-25px, -25px) scale(0.5); }
+  100% { opacity: 0; }
+}
+
+@keyframes particle-burst-2 {
+  0%, 35% { opacity: 0; transform: translate(0, 0) scale(0); }
+  40% { opacity: 1; transform: translate(15px, -18px) scale(1.2); }
+  50% { opacity: 0; transform: translate(28px, -30px) scale(0.4); }
+  100% { opacity: 0; }
+}
+
+@keyframes particle-burst-3 {
+  0%, 35% { opacity: 0; transform: translate(0, 0) scale(0); }
+  40% { opacity: 1; transform: translate(-10px, 12px) scale(0.9); }
+  50% { opacity: 0; transform: translate(-20px, 22px) scale(0.3); }
+  100% { opacity: 0; }
+}
+
+@keyframes particle-burst-4 {
+  0%, 35% { opacity: 0; transform: translate(0, 0) scale(0); }
+  40% { opacity: 1; transform: translate(18px, 10px) scale(1.1); }
+  50% { opacity: 0; transform: translate(32px, 18px) scale(0.4); }
+  100% { opacity: 0; }
+}
+
+@keyframes particle-burst-5 {
+  0%, 35% { opacity: 0; transform: translate(0, 0) scale(0); }
+  40% { opacity: 1; transform: translate(-8px, -22px) scale(0.8); }
+  50% { opacity: 0; transform: translate(-15px, -35px) scale(0.2); }
+  100% { opacity: 0; }
+}
+
+@keyframes particle-burst-6 {
+  0%, 35% { opacity: 0; transform: translate(0, 0) scale(0); }
+  40% { opacity: 1; transform: translate(12px, 16px) scale(1); }
+  50% { opacity: 0; transform: translate(22px, 28px) scale(0.3); }
+  100% { opacity: 0; }
+}
+
+.crash-particle-1 { animation: particle-burst-1 2s ease-out; }
+.crash-particle-2 { animation: particle-burst-2 2s ease-out; }
+.crash-particle-3 { animation: particle-burst-3 2s ease-out; }
+.crash-particle-4 { animation: particle-burst-4 2s ease-out; }
+.crash-particle-5 { animation: particle-burst-5 2s ease-out; }
+.crash-particle-6 { animation: particle-burst-6 2s ease-out; }

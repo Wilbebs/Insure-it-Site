@@ -130,13 +130,14 @@ export default function Navigation() {
           </div>
 
           {/* Right side: Social Media Links */}
-          <div className="flex gap-2">
+          <div className={`flex transition-all duration-500 ${isScrolled ? '-space-x-2' : 'gap-2'}`}>
             <a 
               href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-full bg-white/80 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
+              className={`p-2 rounded-full bg-white/80 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
               data-testid="nav-social-linkedin"
+              style={{ zIndex: isScrolled ? 3 : 'auto' }}
             >
               <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
             </a>
@@ -145,8 +146,9 @@ export default function Navigation() {
               href="https://www.instagram.com/insureitgroup/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-full bg-white/80 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg"
+              className={`p-2 rounded-full bg-white/80 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
               data-testid="nav-social-instagram"
+              style={{ zIndex: isScrolled ? 2 : 'auto' }}
             >
               <FaInstagram className="w-5 h-5 text-pink-600 group-hover:text-white transition-colors duration-300" />
             </a>
@@ -155,8 +157,9 @@ export default function Navigation() {
               href="https://www.facebook.com/insureitgroup"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-full bg-white/80 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg"
+              className={`p-2 rounded-full bg-white/80 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
               data-testid="nav-social-facebook"
+              style={{ zIndex: isScrolled ? 1 : 'auto' }}
             >
               <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
             </a>

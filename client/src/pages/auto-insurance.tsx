@@ -12,13 +12,13 @@ export default function AutoInsurance() {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-12">
             <div className="flex justify-center mb-4 sm:mb-6 relative h-24">
-              {/* Impact line */}
+              {/* Brick wall */}
               <div className="absolute inset-0 flex justify-center items-center">
-                <div className="w-1 h-24 bg-black/0 rounded-sm animate-impact-line" style={{ marginLeft: '45px' }}></div>
+                <div className="brick-wall animate-impact-line" style={{ marginLeft: '85px' }}></div>
               </div>
               
               {/* Crash particles */}
-              <div className="absolute inset-0 flex justify-center items-center" style={{ marginLeft: '45px' }}>
+              <div className="absolute inset-0 flex justify-center items-center" style={{ marginLeft: '75px' }}>
                 <div className="crash-particle crash-particle-1"></div>
                 <div className="crash-particle crash-particle-2"></div>
                 <div className="crash-particle crash-particle-3"></div>

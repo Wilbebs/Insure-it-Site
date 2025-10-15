@@ -150,12 +150,10 @@
   40% {
     opacity: 1;
     transform: scaleY(1);
-    background-color: rgb(0 0 0 / 0.9);
   }
   45% {
     opacity: 1;
     transform: scaleY(1);
-    background-color: rgb(0 0 0 / 0.9);
   }
   50% {
     opacity: 0;
@@ -165,6 +163,29 @@
     opacity: 0;
     transform: scaleY(0);
   }
+}
+
+.brick-wall {
+  width: 8px;
+  height: 96px;
+  background-color: #1a1a1a;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 15px,
+      #000 15px,
+      #000 17px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #2a2a2a,
+      #2a2a2a 4px,
+      #1a1a1a 4px,
+      #1a1a1a 8px
+    );
+  border-radius: 2px;
+  opacity: 0;
 }
 
 .animate-impact-line {

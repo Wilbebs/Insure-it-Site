@@ -11,8 +11,11 @@ export default function AutoInsurance() {
       <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 bg-gradient-to-br from-blue-50 to-blue-100">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-12">
-            <div className="flex justify-center mb-4 sm:mb-6">
-              <Car className="w-16 h-16 sm:w-20 sm:h-20 text-primary" />
+            <div className="flex justify-center mb-4 sm:mb-6 relative">
+              <div className="absolute inset-0 flex justify-end items-center pr-4">
+                <div className="w-2 h-32 bg-gray-400 rounded-sm shadow-lg"></div>
+              </div>
+              <Car className="w-16 h-16 sm:w-20 sm:h-20 text-primary animate-car-crash relative z-10" />
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 gradient-text leading-tight">
               Auto Insurance

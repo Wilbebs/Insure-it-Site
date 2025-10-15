@@ -115,3 +115,25 @@
     background-color: hsla(217, 91%, 60%, 0.05);
   }
 }
+
+@keyframes car-crash {
+  0% {
+    transform: translateX(0) rotate(0deg);
+  }
+  40% {
+    transform: translateX(120px) rotate(-5deg);
+  }
+  45% {
+    transform: translateX(120px) rotate(5deg) scale(0.95);
+  }
+  50% {
+    transform: translateX(120px) rotate(-5deg) scale(0.95);
+  }
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+.animate-car-crash {
+  animation: car-crash 3s ease-in-out infinite;
+}

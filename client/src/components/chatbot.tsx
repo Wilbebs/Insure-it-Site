@@ -37,8 +37,8 @@ const PRESET_QA = [
     link: "/#connect"
   },
   {
-    question: "Apply for policy",
-    answer: "I can help you apply for a policy right here! Just select which type of insurance you need, and I'll guide you through the process.",
+    question: "Tell me about your insurance",
+    answer: "I'd be happy to help! What type of insurance are you interested in? We have Auto, Home, and Life insurance options available.",
     link: ""
   }
 ];
@@ -64,7 +64,6 @@ function conversationReducer(state: ConversationContext, action: ConversationAct
     case 'UPDATE_AUTO_DETAILS': {
       const [parent, child] = action.field.includes('.') ? action.field.split('.') : [action.field, null];
       if (child) {
-        // Handle nested fields like primaryVehicle.make
         const parentObj = (state.autoDetails as any)[parent] || {};
         return {
           ...state,
@@ -161,6 +160,23 @@ function conversationReducer(state: ConversationContext, action: ConversationAct
   }
 }
 
+// Natural language patterns to detect insurance interest
+const INSURANCE_PATTERNS = {
+  auto: ['car', 'auto', 'vehicle', 'driver', 'driving', 'automobile'],
+  home: ['home', 'house', 'property', 'homeowner', 'dwelling'],
+  life: ['life', 'death', 'beneficiary', 'term', 'whole life']
+};
+
+function detectInsuranceIntent(message: string): PolicyType | null {
+  const lower = message.toLowerCase();
+  for (const [type, keywords] of Object.entries(INSURANCE_PATTERNS)) {
+    if (keywords.some(kw => lower.includes(kw))) {
+      return type as PolicyType;
+    }
+  }
+  return null;
+}
+
 export default function ChatBot() {
   const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -179,7 +195,7 @@ export default function ChatBot() {
   const [convState, dispatch] = useReducer(conversationReducer, initialConversationContext);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [inPolicyFlow, setInPolicyFlow] = useState(false);
+  const [inApplicationFlow, setInApplicationFlow] = useState(false);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -188,10 +204,10 @@ export default function ChatBot() {
 
   // Persist conversation state to localStorage
   useEffect(() => {
-    if (inPolicyFlow) {
+    if (inApplicationFlow) {
       localStorage.setItem('policyConversation', JSON.stringify(convState));
     }
-  }, [convState, inPolicyFlow]);
+  }, [convState, inApplicationFlow]);
 
   // Load conversation state from localStorage on mount
   useEffect(() => {
@@ -201,7 +217,7 @@ export default function ChatBot() {
         const parsed = JSON.parse(saved);
         if (parsed.state !== 'idle' && parsed.state !== 'submitted') {
           dispatch({ type: 'LOAD_FROM_STORAGE', context: parsed });
-          setInPolicyFlow(true);
+          setInApplicationFlow(true);
         }
       } catch (e) {
         console.error('Failed to load conversation state:', e);
@@ -278,22 +294,16 @@ export default function ChatBot() {
   const handleQuestionClick = (qa: typeof PRESET_QA[0]) => {
     setMessages(prev => [...prev, { type: 'user', text: qa.question }]);
     setShowQuestions(false);
-    
-    if (qa.question === "Apply for policy") {
-      setInPolicyFlow(true);
-      addBotMessage("Great! I'll help you apply for insurance. Which type of policy are you interested in?");
-      dispatch({ type: 'TRANSITION_STATE', state: 'policySelection' });
-    } else {
-      addBotMessage(qa.answer, qa.link);
-    }
+    addBotMessage(qa.answer, qa.link);
   };
 
   const handlePolicySelection = (policyType: PolicyType) => {
     setMessages(prev => [...prev, { type: 'user', text: `${policyType.charAt(0).toUpperCase() + policyType.slice(1)} Insurance` }]);
     dispatch({ type: 'SELECT_POLICY', policyType });
+    setInApplicationFlow(true);
     
     const policyName = policyType.charAt(0).toUpperCase() + policyType.slice(1);
-    addBotMessage(`Perfect! Let's start with ${policyName} Insurance. ${coreQuestions[0].text}`);
+    addBotMessage(`Perfect! Let's get started with your ${policyName} Insurance application. ${coreQuestions[0].text}`);
   };
 
   const handleAnswerSubmit = (value: any, fieldKey: string) => {
@@ -317,7 +327,6 @@ export default function ChatBot() {
       }
     } else if (convState.state === 'collectingPolicySpecific') {
       const policyFlow = policyQuestionFlows[convState.policyType!];
-      const currentQ = policyFlow.questions[convState.currentQuestionIndex - coreQuestions.length];
       
       // Update policy-specific details (reducer handles nested fields)
       if (convState.policyType === 'auto') {
@@ -357,21 +366,34 @@ export default function ChatBot() {
       };
       setUploadedFiles(prev => [...prev, newFile]);
 
-      // Upload to server
+      // Get presigned URL from server
       try {
-        const formData = new FormData();
-        formData.append('document', file);
+        const response = await apiRequest('POST', '/api/objects/upload', {});
+        const { uploadURL } = await response.json();
 
-        const response = await apiRequest('POST', '/api/policy-documents', formData);
-        const result = await response.json();
+        // Upload directly to object storage
+        const uploadResponse = await fetch(uploadURL, {
+          method: 'PUT',
+          body: file,
+          headers: {
+            'Content-Type': file.type
+          }
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error('Upload failed');
+        }
+
+        // Extract the object URL
+        const objectURL = uploadURL.split('?')[0];
 
         // Update file with URL
         setUploadedFiles(prev => prev.map(f => 
-          f.file === file ? { ...f, uploading: false, progress: 100, url: result.url } : f
+          f.file === file ? { ...f, uploading: false, progress: 100, url: objectURL } : f
         ));
 
         // Add to conversation state
-        dispatch({ type: 'ADD_DOCUMENT', url: result.url });
+        dispatch({ type: 'ADD_DOCUMENT', url: objectURL });
         
         toast({ title: "Document Uploaded", description: `${file.name} uploaded successfully!` });
       } catch (error) {
@@ -432,7 +454,7 @@ export default function ChatBot() {
       // Clear conversation state
       localStorage.removeItem('policyConversation');
       setTimeout(() => {
-        setInPolicyFlow(false);
+        setInApplicationFlow(false);
         dispatch({ type: 'RESET_CONVERSATION' });
         setUploadedFiles([]);
       }, 3000);
@@ -477,7 +499,46 @@ export default function ChatBot() {
     const userMessage = inputValue;
     setMessages(prev => [...prev, { type: 'user', text: userMessage }]);
     setInputValue("");
+    setShowQuestions(false);
 
+    // Detect insurance intent
+    const detectedPolicy = detectInsuranceIntent(userMessage);
+    
+    if (detectedPolicy && convState.state === 'idle') {
+      // User expressed interest in a specific insurance type
+      const policyName = detectedPolicy.charAt(0).toUpperCase() + detectedPolicy.slice(1);
+      setIsTyping(true);
+      setTimeout(() => {
+        setIsTyping(false);
+        setMessages(prev => [...prev, { 
+          type: 'bot', 
+          text: `Great! ${policyName} insurance is a smart choice. Would you like to apply for ${policyName} insurance today? If yes, I'll need to collect some information to help you get started.`
+        }]);
+        playMessageSound();
+        // Transition to conversational state
+        dispatch({ type: 'TRANSITION_STATE', state: 'conversational' });
+        // Store the detected policy type
+        dispatch({ type: 'SELECT_POLICY', policyType: detectedPolicy });
+      }, 1500);
+      return;
+    }
+
+    // Check if user confirms application in conversational state
+    if (convState.state === 'conversational') {
+      const affirmative = ['yes', 'yeah', 'sure', 'ok', 'okay', 'apply', 'start', 'begin', 'let\'s do it', 'go ahead'];
+      const isAffirmative = affirmative.some(word => userMessage.toLowerCase().includes(word));
+      
+      if (isAffirmative && convState.policyType) {
+        setInApplicationFlow(true);
+        const policyName = convState.policyType.charAt(0).toUpperCase() + convState.policyType.slice(1);
+        addBotMessage(`Perfect! Let's get your ${policyName} Insurance application started. ${coreQuestions[0].text}`);
+        dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
+        dispatch({ type: 'NEXT_QUESTION' });
+        return;
+      }
+    }
+
+    // Try to match preset Q&A
     const matchedQA = PRESET_QA.find(qa => {
       const questionWords = qa.question.toLowerCase().split(' ');
       const userWords = userMessage.toLowerCase().split(' ');
@@ -502,7 +563,11 @@ export default function ChatBot() {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !inPolicyFlow) {
+    if (e.key === 'Enter') {
+      if (inApplicationFlow && getCurrentQuestion()) {
+        // Don't send via main input during application flow - use question-specific inputs
+        return;
+      }
       handleSendMessage();
     }
   };
@@ -542,7 +607,7 @@ export default function ChatBot() {
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="bg-white rounded-2xl shadow-2xl w-[350px] sm:w-[420px] overflow-hidden"
+              className="bg-white rounded-2xl shadow-2xl w-[350px] sm:w-[420px] flex flex-col h-[600px]"
               data-testid="chatbot-expanded"
             >
               {/* Header */}
@@ -568,7 +633,7 @@ export default function ChatBot() {
               </div>
 
               {/* Messages */}
-              <div className="h-[450px] overflow-y-auto p-4 space-y-3 bg-gray-50">
+              <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
                 {messages.map((msg, idx) => (
                   <div
                     key={idx}
@@ -625,23 +690,7 @@ export default function ChatBot() {
                   </div>
                 )}
 
-                {/* Policy Selection Buttons */}
-                {convState.state === 'policySelection' && !isTyping && (
-                  <div className="space-y-2">
-                    {(['auto', 'home', 'life'] as PolicyType[]).map(policyType => (
-                      <button
-                        key={policyType}
-                        onClick={() => handlePolicySelection(policyType)}
-                        className="w-full p-4 bg-white hover:bg-blue-50 rounded-lg border-2 border-blue-500 text-blue-600 font-semibold transition-colors"
-                        data-testid={`policy-select-${policyType}`}
-                      >
-                        {policyType.charAt(0).toUpperCase() + policyType.slice(1)} Insurance
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {/* Question Input UI */}
+                {/* Question Input UI - Shown inline in messages */}
                 {currentQuestion && !isTyping && (convState.state === 'collectingCore' || convState.state === 'collectingPolicySpecific') && (
                   <div className="bg-white p-4 rounded-lg shadow-md space-y-3">
                     <p className="text-sm font-semibold text-gray-700">{currentQuestion.text}</p>
@@ -736,59 +785,57 @@ export default function ChatBot() {
 
                 {/* Document Upload UI */}
                 {convState.state === 'collectingDocuments' && !isTyping && (
-                  <div className="space-y-3">
-                    <div className="bg-white p-4 rounded-lg shadow-md space-y-3">
-                      <label className="cursor-pointer block">
-                        <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors">
-                          <Upload className="w-8 h-8 mx-auto mb-2 text-blue-500" />
-                          <p className="text-sm text-gray-600">Click to upload documents</p>
-                          <p className="text-xs text-gray-400 mt-1">PDF, DOC, DOCX, JPG, PNG (Max 10MB)</p>
-                        </div>
-                        <input
-                          type="file"
-                          multiple
-                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                          onChange={handleFileSelect}
-                          className="hidden"
-                          data-testid="file-upload-input"
-                        />
-                      </label>
-                      
-                      {uploadedFiles.length > 0 && (
-                        <div className="space-y-2">
-                          {uploadedFiles.map((file, idx) => (
-                            <div key={idx} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
-                              <FileText className="w-4 h-4 text-blue-500" />
-                              <div className="flex-1 min-w-0">
-                                <p className="text-xs truncate">{file.file.name}</p>
-                                <p className="text-xs text-gray-500">{formatFileSize(file.file.size)}</p>
-                              </div>
-                              {file.uploading && (
-                                <div className="text-xs text-blue-500">Uploading...</div>
-                              )}
-                              {file.url && (
-                                <CheckCircle2 className="w-4 h-4 text-green-500" />
-                              )}
-                              <button
-                                onClick={() => handleRemoveFile(file)}
-                                className="text-red-500 hover:text-red-700"
-                                data-testid={`file-remove-${idx}`}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
+                  <div className="bg-white p-4 rounded-lg shadow-md space-y-4">
+                    <label className="cursor-pointer block relative">
+                      <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors pointer-events-none">
+                        <Upload className="w-8 h-8 mx-auto mb-2 text-blue-500" />
+                        <p className="text-sm text-gray-600">Click to upload documents</p>
+                        <p className="text-xs text-gray-400 mt-1">PDF, DOC, DOCX, JPG, PNG (Max 10MB)</p>
+                      </div>
+                      <input
+                        type="file"
+                        multiple
+                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                        onChange={handleFileSelect}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        data-testid="file-upload-input"
+                      />
+                    </label>
+                    
+                    {uploadedFiles.length > 0 && (
+                      <div className="space-y-2">
+                        {uploadedFiles.map((file, idx) => (
+                          <div key={idx} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
+                            <FileText className="w-4 h-4 text-blue-500" />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs truncate">{file.file.name}</p>
+                              <p className="text-xs text-gray-500">{formatFileSize(file.file.size)}</p>
                             </div>
-                          ))}
-                        </div>
-                      )}
-                      
-                      <button
-                        onClick={handleContinueToReview}
-                        className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 font-semibold"
-                        data-testid="continue-to-review"
-                      >
-                        Continue to Review
-                      </button>
-                    </div>
+                            {file.uploading && (
+                              <div className="text-xs text-blue-500">Uploading...</div>
+                            )}
+                            {file.url && (
+                              <CheckCircle2 className="w-4 h-4 text-green-500" />
+                            )}
+                            <button
+                              onClick={() => handleRemoveFile(file)}
+                              className="text-red-500 hover:text-red-700 z-10 relative"
+                              data-testid={`file-remove-${idx}`}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    
+                    <button
+                      onClick={handleContinueToReview}
+                      className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 font-semibold relative z-10"
+                      data-testid="continue-to-review"
+                    >
+                      Continue to Review
+                    </button>
                   </div>
                 )}
 
@@ -826,7 +873,7 @@ export default function ChatBot() {
                 )}
 
                 {/* Preset Questions */}
-                {showQuestions && !isTyping && !inPolicyFlow && (
+                {showQuestions && !isTyping && !inApplicationFlow && (
                   <div className="space-y-2 pt-2">
                     <p className="text-xs text-gray-500 font-semibold">Quick Actions:</p>
                     {PRESET_QA.map((qa, idx) => (
@@ -845,27 +892,27 @@ export default function ChatBot() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Input (only for general chat, not policy flow) */}
-              {!inPolicyFlow && (
-                <div className="p-4 bg-white border-t flex gap-2">
-                  <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Type a message..."
-                    className="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    data-testid="chatbot-input"
-                  />
-                  <button
-                    onClick={handleSendMessage}
-                    className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors"
-                    data-testid="chatbot-send-button"
-                  >
-                    <Send className="w-5 h-5" />
-                  </button>
-                </div>
-              )}
+              {/* Input - ALWAYS shown at bottom */}
+              <div className="p-4 bg-white border-t flex gap-2">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder={inApplicationFlow && currentQuestion ? "Use the form above..." : "Type a message..."}
+                  disabled={inApplicationFlow && currentQuestion !== null}
+                  className="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  data-testid="chatbot-input"
+                />
+                <button
+                  onClick={handleSendMessage}
+                  disabled={inApplicationFlow && currentQuestion !== null}
+                  className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  data-testid="chatbot-send-button"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
             </motion.div>
           )}
         </motion.div>

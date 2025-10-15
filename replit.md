@@ -35,8 +35,10 @@ Preferred communication style: Simple, everyday language.
 - **Development Setup**: Vite integration for hot module replacement during development
 
 ### Data Storage Architecture
-- **Database**: Firebase Firestore NoSQL database for scalable data storage
-- **File Storage**: Firebase Storage for images, documents, and media files
+- **Database**: Firebase Firestore NoSQL database for scalable data storage (contact forms, carousel config)
+- **File Storage**: 
+  - Replit Object Storage (similar to AWS S3) for policy application documents
+  - Firebase Storage for contact form attachments and images
 - **Authentication**: Firebase Authentication (configured for future admin features)
 - **Schema Management**: 
   - TypeScript interfaces with Zod validation for type safety
@@ -44,6 +46,7 @@ Preferred communication style: Simple, everyday language.
   - Server-side image management through Firebase Admin SDK
 - **Data Models**:
   - Contact submissions with file attachment URLs from Firebase Storage
+  - Policy applications with document URLs from Object Storage
   - Carousel images configuration stored in Firestore
   - Site configuration and uploaded media tracking
 
@@ -54,21 +57,26 @@ Preferred communication style: Simple, everyday language.
 - **Animation System**: Scroll-triggered animations using Intersection Observer API
 - **Team Section**: About page features 8 team members with professional headshots and corner-positioned LinkedIn icons (blue/white theme, hover effects)
 - **AI Assistant Chatbot "Liz"**: Interactive chatbot with:
-  - Conversational policy application system supporting Auto, Home, and Life insurance
-  - Finite state machine managing multi-step data collection flows
-  - PDF/document upload capability with Firebase Storage integration
-  - Dynamic question rendering based on policy type
-  - localStorage persistence to survive page reloads
-  - Review/confirmation step before submission
-  - Notification sounds (800Hz appearance, 600Hz responses)
-  - Typing animations and smooth transitions
+  - **Natural Conversation Flow**: Chats casually first, only collects information when user shows interest
+  - **Conversational Insurance Detection**: Detects user intent (Auto/Home/Life) from natural language
+  - **Form-Like Chat Interface**: Input box always stays at bottom for familiar UX
+  - **Multi-Step Application System**: Supports Auto, Home, and Life insurance applications
+  - **Document Upload**: PDF/DOC/DOCX/JPG/PNG files up to 10MB via Replit Object Storage
+  - **State Management**: Finite state machine with localStorage persistence
+  - **Smart Transitions**: From casual chat → interest detection → information collection → review → submit
+  - **Audio Feedback**: Notification sounds (800Hz appearance, 600Hz responses)
+  - **Visual Indicators**: Typing animations and smooth transitions
 
 ### API Design
-- **RESTful Endpoints**: Clean API structure with proper HTTP methods integrated with Firebase backend
+- **RESTful Endpoints**: Clean API structure with proper HTTP methods
 - **File Upload Support**: 
-  - Multi-file document upload with Firebase Storage integration
-  - Image upload for carousel and content management
+  - Contact forms: Firebase Storage with multi-file support
+  - Policy applications: Replit Object Storage with presigned URLs for direct upload
   - Type validation (PDF, DOC, DOCX, JPG, PNG) with 10MB size limits
+- **Object Storage Integration** (for policy documents):
+  - POST `/api/objects/upload` - Get presigned URL for client-side direct upload
+  - GET `/objects/:objectPath` - Serve uploaded documents
+  - Privacy controls via Object ACL policies
 - **Error Handling**: Consistent error responses with proper HTTP status codes
 - **Request Validation**: Zod schema validation for all API inputs
 - **Firebase Integration**:

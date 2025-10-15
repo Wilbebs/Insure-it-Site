@@ -3,6 +3,7 @@ import type { AutoDetails, HomeDetails, LifeDetails } from "@shared/schema";
 // Conversation states for the state machine
 export type ConversationState = 
   | 'idle'
+  | 'conversational' // New state for natural chat before data collection
   | 'policySelection'
   | 'collectingCore'
   | 'collectingPolicySpecific'

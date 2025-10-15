@@ -10,6 +10,7 @@ import { collection, addDoc, getDocs, orderBy, query, Timestamp } from 'firebase
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
+import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -587,6 +588,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
         success: false,
         message: "Failed to upload document"
       });
+    }
+  });
+
+  // Object Storage routes for policy applications (referenced from blueprint:javascript_object_storage)
+  
+  // Get presigned URL for object upload
+  app.post("/api/objects/upload", async (req, res) => {
+    try {
+      const objectStorageService = new ObjectStorageService();
+      const uploadURL = await objectStorageService.getObjectEntityUploadURL();
+      res.json({ uploadURL });
+    } catch (error) {
+      console.error('Error getting upload URL:', error);
+      res.status(500).json({ error: "Failed to get upload URL" });
+    }
+  });
+
+  // Serve uploaded objects (public access for policy documents)
+  app.get("/objects/:objectPath(*)", async (req, res) => {
+    try {
+      const objectStorageService = new ObjectStorageService();
+      const objectFile = await objectStorageService.getObjectEntityFile(req.path);
+      objectStorageService.downloadObject(objectFile, res);
+    } catch (error) {
+      console.error("Error accessing object:", error);
+      if (error instanceof ObjectNotFoundError) {
+        return res.sendStatus(404);
+      }
+      return res.sendStatus(500);
     }
   });
 

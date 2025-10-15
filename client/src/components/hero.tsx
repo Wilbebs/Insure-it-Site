@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Shield, ArrowRight } from "lucide-react";
+import Logo from "./logo";
 
 export default function Hero() {
   return (
@@ -20,10 +21,9 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-6 gradient-text leading-tight" data-testid="hero-title">
-            Life's Uncertain.<br />
-            <span className="text-blue-600">Your Coverage Isn't.</span>
-          </h1>
+          <div className="mb-8" data-testid="hero-title">
+            <Logo size="large" showTagline={true} />
+          </div>
           <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed px-4" data-testid="hero-description">
             A family-owned Florida insurance agency with 14 years of experience protecting thousands of clients statewide. 
             From Miami to Jacksonville, we provide comprehensive coverage tailored to your unique needs.

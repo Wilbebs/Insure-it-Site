@@ -12,8 +12,8 @@ export default function AutoInsurance() {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-12">
             <div className="flex justify-center mb-4 sm:mb-6 relative">
-              <div className="absolute inset-0 flex justify-end items-center pr-4">
-                <div className="w-2 h-32 bg-gray-400 rounded-sm shadow-lg"></div>
+              <div className="absolute inset-0 flex justify-center items-center">
+                <div className="w-1 h-24 bg-red-500/0 rounded-sm animate-impact-line" style={{ marginLeft: '45px' }}></div>
               </div>
               <Car className="w-16 h-16 sm:w-20 sm:h-20 text-primary animate-car-crash relative z-10" />
             </div>

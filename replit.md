@@ -56,7 +56,7 @@ Preferred communication style: Simple, everyday language.
 - **Responsive Design**: Mobile-first approach with Tailwind responsive utilities
 - **Animation System**: 
   - Scroll-triggered animations using Intersection Observer API
-  - Auto insurance page: Car crash animation on load (car hits street light with cartoon particle burst effect)
+  - Auto insurance page: Car crash animation on load with cartoon particle burst effect
   - Life insurance page: Heartbeat animation on heart icon (continuous double-beat pattern)
   - Home insurance page: House icon sways gently (protection/shelter effect)
   - Health insurance page: Icon pulses like a health monitor

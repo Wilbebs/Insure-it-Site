@@ -337,7 +337,8 @@ export default function ChatBot() {
         dispatch({ type: 'NEXT_QUESTION' });
         addBotMessage(policyFlow.questions[nextLocalIndex].text);
       } else {
-        // Move to document upload
+        // Increment to show 100% progress before moving to document upload
+        dispatch({ type: 'NEXT_QUESTION' });
         dispatch({ type: 'TRANSITION_STATE', state: 'collectingDocuments' });
         addBotMessage("Great! Now, do you have any documents you'd like to upload? (Driver's license, current policy, etc.) You can upload PDF, DOC, DOCX, JPG, or PNG files.");
       }

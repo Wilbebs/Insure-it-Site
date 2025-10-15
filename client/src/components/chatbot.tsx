@@ -28,8 +28,8 @@ const LIZ_AVATAR = "https://images.unsplash.com/photo-1580489944761-15a19d654956
 const PRESET_QA = [
   {
     question: "What types of insurance do you offer?",
-    answer: "We offer Auto Insurance, Home Insurance, Life Insurance, Health Insurance, and Commercial Insurance. Click below to learn more about each type:",
-    link: "/#insurance-sections"
+    answer: "We offer Auto Insurance, Home Insurance, Life Insurance, Health Insurance, and Commercial Insurance. Which one interests you?",
+    link: ""
   },
   {
     question: "How can I get a quote?",
@@ -43,15 +43,19 @@ const PRESET_QA = [
   }
 ];
 
+const INSURANCE_TYPES = [
+  { type: 'auto' as PolicyType, label: 'Auto Insurance', path: '/auto-insurance' },
+  { type: 'home' as PolicyType, label: 'Home Insurance', path: '/home-insurance' },
+  { type: 'life' as PolicyType, label: 'Life Insurance', path: '/life-insurance' },
+];
+
 // Conversation state reducer
 function conversationReducer(state: ConversationContext, action: ConversationAction): ConversationContext {
   switch (action.type) {
     case 'SELECT_POLICY':
       return {
         ...state,
-        policyType: action.policyType,
-        state: 'collectingCore',
-        currentQuestionIndex: 0
+        policyType: action.policyType
       };
     case 'UPDATE_CORE_INFO':
       return {
@@ -182,8 +186,9 @@ export default function ChatBot() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasNotification, setHasNotification] = useState(true);
   const [messages, setMessages] = useState<Message[]>([
-    { type: 'bot', text: 'Hi! I\'m Liz, your insurance assistant. How can I help you today?' }
+    { type: 'bot', text: 'Hi! I\'m Liz, your insurance assistant. What type of insurance are you interested in today?' }
   ]);
+  const [showPolicySelection, setShowPolicySelection] = useState(true);
   const [inputValue, setInputValue] = useState("");
   const [showQuestions, setShowQuestions] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
@@ -494,6 +499,29 @@ export default function ChatBot() {
     setIsExpanded(false);
   };
 
+  const handlePolicyTypeSelection = (insuranceType: { type: PolicyType; label: string; path: string }) => {
+    setShowPolicySelection(false);
+    setMessages(prev => [...prev, { type: 'user', text: insuranceType.label }]);
+    
+    // Navigate to the insurance page
+    setLocation(insuranceType.path);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Set policy type and ask if they want to apply
+    dispatch({ type: 'SELECT_POLICY', policyType: insuranceType.type });
+    
+    setIsTyping(true);
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => [...prev, { 
+        type: 'bot', 
+        text: `Great choice! Would you like to apply for ${insuranceType.label} today? I can help you get started with your application.`
+      }]);
+      playMessageSound();
+      dispatch({ type: 'TRANSITION_STATE', state: 'conversational' });
+    }, 1500);
+  };
+
   const handleSendMessage = () => {
     if (!inputValue.trim()) return;
     const userMessage = inputValue;
@@ -506,20 +534,29 @@ export default function ChatBot() {
     
     if (detectedPolicy && convState.state === 'idle') {
       // User expressed interest in a specific insurance type
-      const policyName = detectedPolicy.charAt(0).toUpperCase() + detectedPolicy.slice(1);
-      setIsTyping(true);
-      setTimeout(() => {
-        setIsTyping(false);
-        setMessages(prev => [...prev, { 
-          type: 'bot', 
-          text: `Great! ${policyName} insurance is a smart choice. Would you like to apply for ${policyName} insurance today? If yes, I'll need to collect some information to help you get started.`
-        }]);
-        playMessageSound();
-        // Transition to conversational state
-        dispatch({ type: 'TRANSITION_STATE', state: 'conversational' });
-        // Store the detected policy type
-        dispatch({ type: 'SELECT_POLICY', policyType: detectedPolicy });
-      }, 1500);
+      const insuranceType = INSURANCE_TYPES.find(it => it.type === detectedPolicy);
+      if (insuranceType) {
+        setShowPolicySelection(false);
+        
+        // Navigate to the insurance page
+        setLocation(insuranceType.path);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        const policyName = detectedPolicy.charAt(0).toUpperCase() + detectedPolicy.slice(1);
+        setIsTyping(true);
+        setTimeout(() => {
+          setIsTyping(false);
+          setMessages(prev => [...prev, { 
+            type: 'bot', 
+            text: `Great! ${policyName} insurance is a smart choice. Would you like to apply for ${policyName} insurance today? I can help you get started with your application.`
+          }]);
+          playMessageSound();
+          // Transition to conversational state
+          dispatch({ type: 'TRANSITION_STATE', state: 'conversational' });
+          // Store the detected policy type
+          dispatch({ type: 'SELECT_POLICY', policyType: detectedPolicy });
+        }, 1500);
+      }
       return;
     }
 
@@ -533,7 +570,6 @@ export default function ChatBot() {
         const policyName = convState.policyType.charAt(0).toUpperCase() + convState.policyType.slice(1);
         addBotMessage(`Perfect! Let's get your ${policyName} Insurance application started. ${coreQuestions[0].text}`);
         dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
-        dispatch({ type: 'NEXT_QUESTION' });
         return;
       }
     }
@@ -551,6 +587,11 @@ export default function ChatBot() {
       setIsTyping(false);
       if (matchedQA) {
         setMessages(prev => [...prev, { type: 'bot', text: matchedQA.answer, link: matchedQA.link }]);
+        // Show policy selection for insurance type questions
+        if (matchedQA.question.toLowerCase().includes('types of insurance') || 
+            matchedQA.question.toLowerCase().includes('tell me about')) {
+          setShowPolicySelection(true);
+        }
       } else {
         setMessages(prev => [...prev, { 
           type: 'bot', 
@@ -659,6 +700,25 @@ export default function ChatBot() {
                     </div>
                   </div>
                 ))}
+
+                {/* Insurance Type Selection Buttons */}
+                {showPolicySelection && convState.state === 'idle' && !isTyping && (
+                  <div className="bg-white p-4 rounded-lg shadow-md space-y-2">
+                    <p className="text-xs text-gray-500 mb-3">Select an insurance type:</p>
+                    <div className="grid grid-cols-1 gap-2">
+                      {INSURANCE_TYPES.map((insuranceType) => (
+                        <button
+                          key={insuranceType.type}
+                          onClick={() => handlePolicyTypeSelection(insuranceType)}
+                          className="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white p-3 rounded-lg hover:from-blue-700 hover:to-blue-600 transition-all shadow-md hover:shadow-lg font-semibold text-sm"
+                          data-testid={`select-${insuranceType.type}-insurance`}
+                        >
+                          {insuranceType.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Typing Indicator */}
                 {isTyping && (

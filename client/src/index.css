@@ -249,3 +249,25 @@
 .crash-particle-4 { animation: particle-burst-4 2s ease-out; }
 .crash-particle-5 { animation: particle-burst-5 2s ease-out; }
 .crash-particle-6 { animation: particle-burst-6 2s ease-out; }
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(1.1);
+  }
+  20% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.15);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}

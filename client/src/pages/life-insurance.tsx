@@ -12,7 +12,7 @@ export default function LifeInsurance() {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-12">
             <div className="flex justify-center mb-4 sm:mb-6">
-              <Heart className="w-16 h-16 sm:w-20 sm:h-20 text-primary" />
+              <Heart className="w-16 h-16 sm:w-20 sm:h-20 text-primary animate-heartbeat fill-primary" />
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 gradient-text leading-tight">
               Life Insurance

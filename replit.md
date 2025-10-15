@@ -56,7 +56,8 @@ Preferred communication style: Simple, everyday language.
 - **Responsive Design**: Mobile-first approach with Tailwind responsive utilities
 - **Animation System**: 
   - Scroll-triggered animations using Intersection Observer API
-  - Auto insurance page: Car crash animation on load (car hits black impact line with cartoon particle burst effect)
+  - Auto insurance page: Car crash animation on load (car hits street light with cartoon particle burst effect)
+  - Life insurance page: Heartbeat animation on heart icon (continuous double-beat pattern)
 - **Interactive Logo**: InsureIT logo serves as homepage link with engaging hover animations (scale, rotate shield, color transitions)
 - **Team Section**: About page features 8 team members with professional headshots and corner-positioned LinkedIn icons (blue/white theme, hover effects)
 - **AI Assistant Chatbot "Liz"**: Interactive chatbot with:

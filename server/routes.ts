@@ -441,6 +441,131 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Policy Application endpoints
+  
+  // Submit policy application from chatbot
+  app.post("/api/policy-applications", async (req, res) => {
+    try {
+      const policyApplicationSchema = z.object({
+        applicantName: z.string().min(2, "Name must be at least 2 characters"),
+        email: z.string().email("Please enter a valid email address"),
+        phone: z.string().min(10, "Please enter a valid phone number"),
+        policyType: z.enum(['auto', 'home', 'life'], {
+          errorMap: () => ({ message: "Please select a valid policy type" })
+        }),
+        preferredContactMethod: z.enum(['phone', 'email', 'text']).optional(),
+        coreDetails: z.string().optional(), // JSON string
+        autoDetails: z.string().optional(), // JSON string
+        homeDetails: z.string().optional(), // JSON string
+        lifeDetails: z.string().optional(), // JSON string
+        documents: z.array(z.string()).optional(),
+        notes: z.string().optional()
+      });
+
+      const validatedData = policyApplicationSchema.parse(req.body);
+
+      // Store in Firestore
+      const docRef = await addDoc(collection(adminDb, 'policy_applications'), {
+        ...validatedData,
+        status: 'pending',
+        createdAt: Timestamp.fromDate(new Date())
+      });
+
+      console.log('✅ Policy application submitted:', {
+        id: docRef.id,
+        policyType: validatedData.policyType,
+        applicant: validatedData.applicantName
+      });
+
+      res.json({
+        success: true,
+        message: "Policy application submitted successfully!",
+        applicationId: docRef.id
+      });
+    } catch (error) {
+      console.error('Policy application submission error:', error);
+      if (error instanceof z.ZodError) {
+        res.status(400).json({
+          success: false,
+          message: "Validation error",
+          errors: error.errors
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "Failed to submit policy application"
+        });
+      }
+    }
+  });
+
+  // Get all policy applications (for admin purposes)
+  app.get("/api/policy-applications", async (req, res) => {
+    try {
+      const policyApplications = collection(adminDb, 'policy_applications');
+      const q = query(policyApplications, orderBy('createdAt', 'desc'));
+      const snapshot = await getDocs(q);
+
+      const applications = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      res.json(applications);
+    } catch (error) {
+      console.error('Error fetching policy applications:', error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve policy applications"
+      });
+    }
+  });
+
+  // Upload policy document (used by chatbot during conversation)
+  app.post("/api/policy-documents", upload.single('document'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ 
+          success: false,
+          error: 'No document file uploaded' 
+        });
+      }
+
+      const file = req.file;
+      const fileName = `policy-documents/${Date.now()}_${uuidv4()}.${file.originalname.split('.').pop()}`;
+      const storageRef = ref(adminStorage, fileName);
+
+      const uploadResult = await uploadBytes(storageRef, file.buffer, {
+        contentType: file.mimetype,
+        customMetadata: {
+          originalName: file.originalname
+        }
+      });
+
+      const publicUrl = await getDownloadURL(uploadResult.ref);
+
+      console.log('✅ Policy document uploaded:', {
+        fileName: file.originalname,
+        size: file.size,
+        url: publicUrl
+      });
+
+      res.json({
+        success: true,
+        url: publicUrl,
+        storagePath: fileName,
+        originalName: file.originalname,
+        size: file.size
+      });
+    } catch (error) {
+      console.error('Policy document upload error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to upload document"
+      });
+    }
+  });
+
   // Reset carousel images to use new different images
   ImageManager.resetCarouselImages().catch(err => 
     console.error('Failed to reset carousel images:', err)

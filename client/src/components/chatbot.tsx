@@ -214,20 +214,10 @@ export default function ChatBot() {
     }
   }, [convState, inApplicationFlow]);
 
-  // Load conversation state from localStorage on mount
+  // Load conversation state from localStorage on mount (disabled for now - start fresh)
   useEffect(() => {
-    const saved = localStorage.getItem('policyConversation');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed.state !== 'idle' && parsed.state !== 'submitted') {
-          dispatch({ type: 'LOAD_FROM_STORAGE', context: parsed });
-          setInApplicationFlow(true);
-        }
-      } catch (e) {
-        console.error('Failed to load conversation state:', e);
-      }
-    }
+    // Clear any old saved state to ensure fresh start
+    localStorage.removeItem('policyConversation');
   }, []);
 
   const playNotificationSound = () => {

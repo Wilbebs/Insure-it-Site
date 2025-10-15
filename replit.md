@@ -57,15 +57,17 @@ Preferred communication style: Simple, everyday language.
 - **Animation System**: Scroll-triggered animations using Intersection Observer API
 - **Team Section**: About page features 8 team members with professional headshots and corner-positioned LinkedIn icons (blue/white theme, hover effects)
 - **AI Assistant Chatbot "Liz"**: Interactive chatbot with:
-  - **Natural Conversation Flow**: Chats casually first, only collects information when user shows interest
-  - **Conversational Insurance Detection**: Detects user intent (Auto/Home/Life) from natural language
+  - **Insurance Type Selection First**: Shows clickable buttons (Auto/Home/Life) as first step, before collecting any personal data
+  - **Page Navigation**: Clicking an insurance type navigates to that insurance page (e.g., /auto-insurance)
+  - **Confirmation Before Data Collection**: Asks "Would you like to apply?" before collecting information
   - **Form-Like Chat Interface**: Input box always stays at bottom for familiar UX
   - **Multi-Step Application System**: Supports Auto, Home, and Life insurance applications
   - **Document Upload**: PDF/DOC/DOCX/JPG/PNG files up to 10MB via Replit Object Storage
-  - **State Management**: Finite state machine with localStorage persistence
-  - **Smart Transitions**: From casual chat → interest detection → information collection → review → submit
+  - **State Management**: Finite state machine (localStorage cleared on mount for fresh sessions)
+  - **Smart Transitions**: Insurance selection → page navigation → confirmation → information collection → review → submit
   - **Audio Feedback**: Notification sounds (800Hz appearance, 600Hz responses)
   - **Visual Indicators**: Typing animations and smooth transitions
+  - **Natural Language Support**: Can also detect insurance type from conversational input (e.g., "I need car insurance")
 
 ### API Design
 - **RESTful Endpoints**: Clean API structure with proper HTTP methods

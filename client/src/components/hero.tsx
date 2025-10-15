@@ -75,7 +75,7 @@ export default function Hero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <span className="text-sm text-muted-foreground hidden sm:inline">Connect with us:</span>
+            <span className="text-sm text-primary font-semibold hidden sm:inline">Connect with us:</span>
             <div className="flex gap-3">
               <a 
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"

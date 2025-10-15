@@ -1,6 +1,6 @@
 import { Phone, Mail, MapPin } from "lucide-react";
 import { Link } from "wouter";
-import { FaLinkedin, FaFacebook } from "react-icons/fa";
+import { FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
 import Logo from "./logo";
 
 export default function Footer() {
@@ -15,24 +15,33 @@ export default function Footer() {
             <p className="opacity-90 leading-relaxed mb-4">
               A proud family-owned business serving Florida for 14 years. From our roots in Miami to serving thousands of clients statewide, we're your trusted partner in comprehensive insurance solutions.
             </p>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <a 
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="opacity-90 hover:opacity-100 transition-opacity"
+                className="bg-white/90 hover:bg-white p-2 rounded transition-all hover:scale-110"
                 data-testid="footer-linkedin"
               >
-                <FaLinkedin className="w-6 h-6" />
+                <FaLinkedin className="w-6 h-6 text-blue-600" />
               </a>
               <a 
-                href="https://www.facebook.com" 
+                href="https://www.instagram.com/insureitgroup/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="opacity-90 hover:opacity-100 transition-opacity"
+                className="bg-white/90 hover:bg-white p-2 rounded transition-all hover:scale-110"
+                data-testid="footer-instagram"
+              >
+                <FaInstagram className="w-6 h-6 text-pink-600" />
+              </a>
+              <a 
+                href="https://www.facebook.com/insureitgroup" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-white/90 hover:bg-white p-2 rounded transition-all hover:scale-110"
                 data-testid="footer-facebook"
               >
-                <FaFacebook className="w-6 h-6" />
+                <FaFacebook className="w-6 h-6 text-blue-600" />
               </a>
             </div>
           </div>

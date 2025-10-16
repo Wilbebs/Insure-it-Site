@@ -44,11 +44,11 @@ const PRESET_QA = [
 ];
 
 const INSURANCE_TYPES = [
-  { type: 'auto' as PolicyType, label: 'Auto Insurance', path: '/auto-insurance', icon: '🚗' },
-  { type: 'home' as PolicyType, label: 'Home Insurance', path: '/home-insurance', icon: '🏠' },
-  { type: 'life' as PolicyType, label: 'Life Insurance', path: '/life-insurance', icon: '❤️' },
-  { type: 'health' as PolicyType, label: 'Health Insurance', path: '/health-insurance', icon: '⚕️' },
-  { type: 'commercial' as PolicyType, label: 'Commercial Insurance', path: '/commercial-insurance', icon: '🏢' },
+  { type: 'auto' as PolicyType, label: 'Auto Insurance', path: '/auto-insurance' },
+  { type: 'home' as PolicyType, label: 'Home Insurance', path: '/home-insurance' },
+  { type: 'life' as PolicyType, label: 'Life Insurance', path: '/life-insurance' },
+  { type: 'health' as PolicyType, label: 'Health Insurance', path: '/health-insurance' },
+  { type: 'commercial' as PolicyType, label: 'Commercial Insurance', path: '/commercial-insurance' },
 ];
 
 // Conversation state reducer
@@ -726,30 +726,38 @@ export default function ChatBot() {
                         <motion.button
                           key={insuranceType.type}
                           onClick={() => handlePolicyTypeSelection(insuranceType)}
-                          className="w-full bg-gray-50 hover:bg-gray-100 text-gray-700 p-3 rounded-lg transition-all border border-gray-200 hover:border-primary font-medium text-sm relative overflow-hidden"
+                          className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white p-3 rounded-lg transition-all shadow-md hover:shadow-lg font-semibold text-sm"
                           whileHover={{ 
-                            scale: 1.01,
-                            borderColor: "hsl(217, 91%, 60%)"
+                            scale: 1.02
                           }}
                           whileTap={{
-                            scale: insuranceType.type === 'auto' ? [1, 1.15, 0.9, 1.05, 1] : 
-                                   insuranceType.type === 'home' ? [1, 0.85, 1.2, 0.95, 1] : 
-                                   insuranceType.type === 'life' ? [1, 1.1, 1.1, 1] :
-                                   insuranceType.type === 'health' ? [1, 1.2, 0.9, 1.1, 1] :
-                                   [1, 0.9, 1.15, 1],
-                            rotate: insuranceType.type === 'auto' ? [0, 5, -5, 0] : 
-                                   insuranceType.type === 'home' ? [0, -3, 3, 0] : 
-                                   insuranceType.type === 'life' ? 0 :
-                                   insuranceType.type === 'health' ? [0, -8, 8, 0] :
-                                   [0, 3, -3, 0],
+                            scale: insuranceType.type === 'auto' ? [1, 1.2, 0.85, 1.1, 1] : 
+                                   insuranceType.type === 'home' ? [1, 0.8, 1.25, 0.9, 1] : 
+                                   insuranceType.type === 'life' ? [1, 1.15, 1.15, 0.95, 1] :
+                                   insuranceType.type === 'health' ? [1, 1.3, 0.85, 1.15, 1] :
+                                   [1, 0.85, 1.2, 0.9, 1.1, 1],
+                            rotate: insuranceType.type === 'auto' ? [0, 8, -8, 5, -5, 0] : 
+                                   insuranceType.type === 'home' ? [0, -5, 5, -3, 3, 0] : 
+                                   insuranceType.type === 'life' ? [0, 0, 0, 0] :
+                                   insuranceType.type === 'health' ? [0, -10, 10, -6, 6, 0] :
+                                   [0, 4, -4, 2, -2, 0],
+                            y: insuranceType.type === 'auto' ? [0, -8, 4, -2, 0] :
+                               insuranceType.type === 'home' ? [0, 6, -4, 2, 0] :
+                               insuranceType.type === 'life' ? [0, -10, -10, 0] :
+                               insuranceType.type === 'health' ? [0, -12, 6, -3, 0] :
+                               [0, 5, -8, 3, 0],
                             transition: { 
-                              duration: 0.4,
+                              duration: insuranceType.type === 'auto' ? 0.5 : 
+                                       insuranceType.type === 'home' ? 0.6 : 
+                                       insuranceType.type === 'life' ? 0.4 :
+                                       insuranceType.type === 'health' ? 0.55 :
+                                       0.65,
                               type: "spring",
-                              stiffness: insuranceType.type === 'auto' ? 300 : 
-                                        insuranceType.type === 'home' ? 200 : 
-                                        insuranceType.type === 'life' ? 400 :
-                                        insuranceType.type === 'health' ? 350 :
-                                        250
+                              stiffness: insuranceType.type === 'auto' ? 400 : 
+                                        insuranceType.type === 'home' ? 250 : 
+                                        insuranceType.type === 'life' ? 500 :
+                                        insuranceType.type === 'health' ? 450 :
+                                        300
                             }
                           }}
                           initial={{ opacity: 0, y: 10 }}
@@ -757,10 +765,7 @@ export default function ChatBot() {
                           transition={{ delay: idx * 0.08 }}
                           data-testid={`select-${insuranceType.type}-insurance`}
                         >
-                          <span className="relative z-10 flex items-center justify-center gap-2">
-                            <span className="text-lg">{insuranceType.icon}</span>
-                            {insuranceType.label}
-                          </span>
+                          {insuranceType.label}
                         </motion.button>
                       ))}
                     </div>

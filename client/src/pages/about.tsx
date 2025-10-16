@@ -69,8 +69,8 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-16 items-center mb-12 sm:mb-20">
             <div>
               <img 
-                src="/api/images/about-team" 
-                alt="Insurance professionals team meeting" 
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800" 
+                alt="Insure-it Group family team" 
                 className="rounded-2xl shadow-2xl hover-lift"
               />
             </div>
@@ -85,23 +85,6 @@ export default function About() {
                 We take pride in building long-lasting relationships with our clients, providing expert 
                 guidance, and being there when you need us most.
               </p>
-            </div>
-          </div>
-
-          {/* Family Team Photo */}
-          <div className="mb-12 sm:mb-20">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold gradient-text mb-4">Our Family Team</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Meet the heart of Insure-it Group—our family-owned team dedicated to protecting yours
-              </p>
-            </div>
-            <div className="max-w-4xl mx-auto">
-              <img 
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800" 
-                alt="Insure-it Group family team" 
-                className="rounded-2xl shadow-2xl hover-lift w-full"
-              />
             </div>
           </div>
 

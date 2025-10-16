@@ -88,6 +88,23 @@ export default function About() {
             </div>
           </div>
 
+          {/* Family Team Photo */}
+          <div className="mb-12 sm:mb-20">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold gradient-text mb-4">Our Family Team</h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Meet the heart of Insure-it Group—our family-owned team dedicated to protecting yours
+              </p>
+            </div>
+            <div className="max-w-4xl mx-auto">
+              <img 
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800" 
+                alt="Insure-it Group family team" 
+                className="rounded-2xl shadow-2xl hover-lift w-full"
+              />
+            </div>
+          </div>
+
           {/* Our Story Section */}
           <div className="insurance-card p-6 sm:p-10 rounded-2xl mb-12 sm:mb-20">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 gradient-text text-center min-h-[3rem]">

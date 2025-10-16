@@ -12,7 +12,7 @@ export type ConversationState =
   | 'submitted';
 
 // Policy types
-export type PolicyType = 'auto' | 'home' | 'life';
+export type PolicyType = 'auto' | 'home' | 'life' | 'health' | 'commercial';
 
 // Contact method preferences
 export type ContactMethod = 'phone' | 'email' | 'text';

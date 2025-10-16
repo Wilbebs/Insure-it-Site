@@ -498,18 +498,19 @@ export default function ChatBot() {
     setLocation(insuranceType.path);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
-    // Set policy type and ask if they want to apply
+    // Set policy type and start application immediately
     dispatch({ type: 'SELECT_POLICY', policyType: insuranceType.type });
+    setInApplicationFlow(true);
     
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
       setMessages(prev => [...prev, { 
         type: 'bot', 
-        text: `Great choice! Would you like to apply for ${insuranceType.label} today? I can help you get started with your application.`
+        text: `Perfect! Let's get your ${insuranceType.label} application started. ${coreQuestions[0].text}`
       }]);
       playMessageSound();
-      dispatch({ type: 'TRANSITION_STATE', state: 'conversational' });
+      dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
     }, 1500);
   };
 
@@ -534,18 +535,20 @@ export default function ChatBot() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
         const policyName = detectedPolicy.charAt(0).toUpperCase() + detectedPolicy.slice(1);
+        
+        // Start application immediately
+        dispatch({ type: 'SELECT_POLICY', policyType: detectedPolicy });
+        setInApplicationFlow(true);
+        
         setIsTyping(true);
         setTimeout(() => {
           setIsTyping(false);
           setMessages(prev => [...prev, { 
             type: 'bot', 
-            text: `Great! ${policyName} insurance is a smart choice. Would you like to apply for ${policyName} insurance today? I can help you get started with your application.`
+            text: `Perfect! Let's get your ${policyName} Insurance application started. ${coreQuestions[0].text}`
           }]);
           playMessageSound();
-          // Transition to conversational state
-          dispatch({ type: 'TRANSITION_STATE', state: 'conversational' });
-          // Store the detected policy type
-          dispatch({ type: 'SELECT_POLICY', policyType: detectedPolicy });
+          dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
         }, 1500);
       }
       return;
@@ -717,15 +720,41 @@ export default function ChatBot() {
                   <div className="bg-white p-4 rounded-lg shadow-md space-y-2">
                     <p className="text-xs text-gray-500 mb-3">Select an insurance type:</p>
                     <div className="grid grid-cols-1 gap-2">
-                      {INSURANCE_TYPES.map((insuranceType) => (
-                        <button
+                      {INSURANCE_TYPES.map((insuranceType, idx) => (
+                        <motion.button
                           key={insuranceType.type}
                           onClick={() => handlePolicyTypeSelection(insuranceType)}
-                          className="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white p-3 rounded-lg hover:from-blue-700 hover:to-blue-600 transition-all shadow-md hover:shadow-lg font-semibold text-sm"
+                          className={`w-full text-white p-3 rounded-lg transition-all shadow-md font-semibold text-sm relative overflow-hidden ${
+                            insuranceType.type === 'auto' ? 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600' :
+                            insuranceType.type === 'home' ? 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600' :
+                            'bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600'
+                          }`}
+                          whileHover={{ 
+                            scale: 1.02,
+                            boxShadow: "0 10px 25px rgba(0,0,0,0.15)"
+                          }}
+                          whileTap={{
+                            scale: 0.95,
+                            rotate: insuranceType.type === 'auto' ? [0, -2, 2, -2, 0] : 
+                                   insuranceType.type === 'home' ? [0, 3, -3, 3, 0] : 
+                                   [0, 1, -1, 1, 0]
+                          }}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
                           data-testid={`select-${insuranceType.type}-insurance`}
                         >
-                          {insuranceType.label}
-                        </button>
+                          <motion.span
+                            className="relative z-10"
+                            whileHover={{ scale: 1.05 }}
+                          >
+                            {insuranceType.label}
+                          </motion.span>
+                          <motion.div
+                            className="absolute inset-0 bg-white opacity-0"
+                            whileHover={{ opacity: 0.1 }}
+                          />
+                        </motion.button>
                       ))}
                     </div>
                   </div>

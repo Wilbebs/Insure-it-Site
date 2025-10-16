@@ -314,13 +314,23 @@ export default function ChatBot() {
       const nextIndex = convState.currentQuestionIndex + 1;
       if (nextIndex < coreQuestions.length) {
         dispatch({ type: 'NEXT_QUESTION' });
-        addBotMessage(coreQuestions[nextIndex].text);
+        
+        // Personalize message after name is collected
+        if (fieldKey === 'name') {
+          const firstName = String(value).split(' ')[0];
+          addBotMessage(`Pleasure to meet you, ${firstName}! ${coreQuestions[nextIndex].text}`);
+        } else if (fieldKey === 'email') {
+          addBotMessage(`Great, thank you! ${coreQuestions[nextIndex].text}`);
+        } else {
+          addBotMessage(coreQuestions[nextIndex].text);
+        }
       } else {
         // Move to policy-specific questions
         dispatch({ type: 'TRANSITION_STATE', state: 'collectingPolicySpecific' });
         dispatch({ type: 'NEXT_QUESTION' });
         const policyFlow = policyQuestionFlows[convState.policyType!];
-        addBotMessage(policyFlow.questions[0].text);
+        const firstName = convState.coreInfo.name ? String(convState.coreInfo.name).split(' ')[0] : '';
+        addBotMessage(`Perfect, ${firstName}! Now let's get some details about your ${convState.policyType} insurance. ${policyFlow.questions[0].text}`);
       }
     } else if (convState.state === 'collectingPolicySpecific') {
       const policyFlow = policyQuestionFlows[convState.policyType!];

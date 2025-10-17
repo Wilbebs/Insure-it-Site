@@ -29,126 +29,100 @@ export default function HomeAlternating() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section - Split Screen Design */}
+      {/* Hero Section - Full Screen Background */}
       <section className="min-h-screen flex items-center relative overflow-hidden pt-20">
-        <div className="w-full h-full grid md:grid-cols-2 min-h-screen">
-          
-          {/* Left Side - Professional Team Photo */}
-          <motion.div 
-            className="relative bg-gradient-to-br from-slate-800 to-slate-900 overflow-hidden"
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-          >
-            {/* Team Photo - Static */}
-            <div 
-              className="absolute inset-0 bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${teamPhotoPath})`,
-              }}
-            />
-            
-            {/* Subtle gradient overlay for depth */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-slate-900/30" />
-            
-            {/* Small logo watermark in corner */}
-            <div className="absolute bottom-8 left-8 z-10">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1.2, duration: 0.6 }}
-              >
-                <Logo size="small" variant="white" showTagline={false} />
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Right Side - Content */}
-          <motion.div 
-            className="relative bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 flex items-center justify-center px-8 md:px-16 py-20"
-            initial={{ x: 100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-          >
-            {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl" />
-            
-            <div className="relative z-10 max-w-xl text-center">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              >
-                {/* Logo with Shield Pulse Animation */}
-                <div className="mb-8">
-                  <Logo size="large" showTagline={true} variant="white" />
-                </div>
-
-                <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                  14 years protecting <span className="font-bold text-amber-300">thousands of Florida families</span> with personalized coverage and genuine care
-                </p>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                  className="flex flex-col sm:flex-row gap-4 justify-center"
-                >
-                  <button
-                    onClick={() => setQuoteModalOpen(true)}
-                    className="group bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/30 transition-all hover:scale-105"
-                    data-testid="button-get-quote"
-                  >
-                    Get Free Quote
-                    <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                  <button
-                    onClick={() => document.getElementById('auto-section')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
-                    data-testid="button-explore-coverage"
-                  >
-                    Explore Coverage
-                  </button>
-                </motion.div>
-
-                {/* Trust indicators with Family-Owned badge */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={heroVisible ? { opacity: 1 } : { opacity: 0 }}
-                  transition={{ duration: 1, delay: 1 }}
-                  className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/80 text-sm"
-                >
-                  <div className="flex items-center gap-2">
-                    <Shield className="w-5 h-5" />
-                    <span>Licensed & Insured</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Heart className="w-5 h-5" />
-                    <span>A+ Rated</span>
-                  </div>
-                  <div className="inline-block">
-                    <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium border border-white/30">
-                      Family-Owned Since 2011
-                    </span>
-                  </div>
-                </motion.div>
-              </motion.div>
-            </div>
-
-            {/* Scroll Indicator */}
+        {/* Team Photo Background - Full Screen */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${teamPhotoPath})`,
+            backgroundPosition: 'center 30%',
+          }}
+        />
+        
+        {/* Blue gradient overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/90 via-blue-500/85 to-blue-600/90" />
+        
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl" />
+        
+        {/* Centered Content */}
+        <div className="relative z-10 w-full flex items-center justify-center px-8 md:px-16 py-20">
+          <div className="max-w-4xl text-center">
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-              transition={{ duration: 1, delay: 0.8, repeat: Infinity, repeatType: "reverse" }}
-              className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
+              initial={{ opacity: 0, y: 30 }}
+              animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-                <div className="w-1 h-3 bg-white/50 rounded-full mt-2" />
+              {/* Logo with Shield Pulse Animation */}
+              <div className="mb-8">
+                <Logo size="large" showTagline={true} variant="white" />
               </div>
+
+              <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
+                14 years protecting <span className="font-bold text-amber-300">thousands of Florida families</span> with personalized coverage and genuine care
+              </p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center"
+              >
+                <button
+                  onClick={() => setQuoteModalOpen(true)}
+                  className="group bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/30 transition-all hover:scale-105"
+                  data-testid="button-get-quote"
+                >
+                  Get Free Quote
+                  <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <button
+                  onClick={() => document.getElementById('auto-section')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
+                  data-testid="button-explore-coverage"
+                >
+                  Explore Coverage
+                </button>
+              </motion.div>
+
+              {/* Trust indicators with Family-Owned badge */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={heroVisible ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ duration: 1, delay: 1 }}
+                className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/80 text-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <Shield className="w-5 h-5" />
+                  <span>Licensed & Insured</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Heart className="w-5 h-5" />
+                  <span>A+ Rated</span>
+                </div>
+                <div className="inline-block">
+                  <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium border border-white/30">
+                    Family-Owned Since 2011
+                  </span>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+          transition={{ duration: 1, delay: 0.8, repeat: Infinity, repeatType: "reverse" }}
+          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-10"
+        >
+          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white/50 rounded-full mt-2" />
+          </div>
+        </motion.div>
       </section>
 
       {/* Auto Insurance - Content Left */}

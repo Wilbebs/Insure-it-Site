@@ -60,9 +60,21 @@ Preferred communication style: Simple, everyday language.
 - **Modular Design**: Reusable components organized by feature
 - **UI System**: Comprehensive design system with shadcn/ui components
 - **Responsive Design**: Mobile-first approach with Tailwind responsive utilities
-- **Homepage Modern Parallax Layout (v2 - Refined)**:
-  - **Premium Alternating Design**: Magazine-style layout with asymmetric floating cards inspired by Stripe Atlas
-  - **5 Full-Screen Insurance Sections** with staggered content placement:
+- **Homepage Split-Screen Hero (v3 - Human-Centered)**:
+  - **Split-Screen Layout**: Magazine-style split design with family photo prominently featured on left, content on right
+  - **Family Photo Showcase**: Left panel displays family/team photo with subtle parallax scrolling for depth
+  - **Personalized Content**: Right panel features:
+    - "Family-Owned Since 2011" badge for credibility
+    - Large brand name with amber accent color
+    - Tagline in elegant italic styling
+    - Warm messaging emphasizing family protection and genuine care
+    - Trust indicators (Licensed & Insured, A+ Rated)
+  - **Smooth Animations**: Slide-in effects from both sides, parallax scrolling, decorative blur elements
+  - **Human Touch**: Design prioritizes warmth and personal connection over corporate feel
+  - **Mobile Responsive**: Grid layout stacks vertically on smaller screens
+- **Insurance Sections Modern Parallax Layout**:
+  - **Premium Alternating Design**: Magazine-style layout with asymmetric floating cards
+  - **5 Full-Screen Sections** with staggered content placement:
     - Section 1 (Auto): Content LEFT (offset -5%) → Parallax image RIGHT
     - Section 2 (Home): Content RIGHT (offset +5%) → Parallax image LEFT
     - Section 3 (Life): Content LEFT (offset -5%) → Parallax image RIGHT

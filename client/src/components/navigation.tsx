@@ -15,6 +15,7 @@ export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileInsuranceOpen, setIsMobileInsuranceOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [logoHighlight, setLogoHighlight] = useState(false);
 
   const insuranceLinks = [
     { href: "/auto-insurance", label: "Auto", testId: "nav-auto" },
@@ -35,6 +36,11 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavClick = () => {
+    setLogoHighlight(true);
+    setTimeout(() => setLogoHighlight(false), 800);
+  };
+
   return (
     <>
       {/* Desktop Navigation */}
@@ -51,8 +57,14 @@ export default function Navigation() {
           <div className={`flex items-center transition-all duration-500 ${
             isScrolled ? 'space-x-6 xl:space-x-10' : 'space-x-8 xl:space-x-12'
           }`}>
-            <Link href="/" className="flex items-center" data-testid="link-home">
+            <Link href="/" className="flex flex-col items-center group relative" data-testid="link-home">
               <Logo />
+              <div className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500 ${
+                logoHighlight ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-3/4 group-hover:opacity-100'
+              }`}></div>
+              <span className="absolute -bottom-6 text-[10px] font-medium text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                Home
+              </span>
             </Link>
             <div className={`flex items-center transition-all duration-500 ${
               isScrolled ? 'space-x-5 xl:space-x-8' : 'space-x-8 xl:space-x-10'
@@ -78,6 +90,7 @@ export default function Navigation() {
                       <DropdownMenuItem key={href} asChild>
                         <Link 
                           href={href}
+                          onClick={handleNavClick}
                           className={`cursor-pointer transition-colors hover:bg-primary/10 ${
                             location === href ? "text-primary bg-primary/5 font-medium" : "text-foreground"
                           }`}
@@ -95,7 +108,8 @@ export default function Navigation() {
                   {insuranceLinks.map(({ href, label, testId }) => (
                     <Link 
                       key={href}
-                      href={href} 
+                      href={href}
+                      onClick={handleNavClick}
                       className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
                         location === href ? "text-primary" : "text-foreground hover:text-primary"
                       }`}
@@ -108,7 +122,8 @@ export default function Navigation() {
               )}
 
               <Link 
-                href="/about" 
+                href="/about"
+                onClick={handleNavClick}
                 className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
                   location === "/about" ? "text-primary" : "text-foreground hover:text-primary"
                 }`}
@@ -160,8 +175,11 @@ export default function Navigation() {
       {/* Mobile Navigation */}
       <nav className="fixed top-4 left-4 right-4 z-50 glass-nav rounded-full px-4 py-3 lg:hidden" data-testid="mobile-navigation">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center" data-testid="link-home-mobile">
+          <Link href="/" className="flex flex-col items-center group relative" data-testid="link-home-mobile">
             <Logo />
+            <div className={`absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500 ${
+              logoHighlight ? 'w-full opacity-100' : 'w-0 opacity-0'
+            }`}></div>
           </Link>
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -204,6 +222,7 @@ export default function Navigation() {
                         }`}
                         data-testid={`${testId}-mobile`}
                         onClick={() => {
+                          handleNavClick();
                           setIsMobileMenuOpen(false);
                           setIsMobileInsuranceOpen(false);
                         }}
@@ -223,7 +242,10 @@ export default function Navigation() {
                     : "text-foreground hover:text-primary hover:bg-primary/5"
                 }`}
                 data-testid="nav-about-mobile"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  handleNavClick();
+                  setIsMobileMenuOpen(false);
+                }}
               >
                 About Us
               </Link>

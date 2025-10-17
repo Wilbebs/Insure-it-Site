@@ -57,7 +57,7 @@ export default function Testimonials() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50" ref={ref} data-testid="testimonials-section">
+    <section className="py-20" ref={ref} data-testid="testimonials-section">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

@@ -5,17 +5,10 @@ import Logo from "./logo";
 export default function Hero() {
   return (
     <section 
-      className="min-h-screen flex items-center justify-center pt-20 relative" 
+      className="min-h-screen flex items-center justify-center pt-20" 
       data-testid="hero-section"
-      style={{
-        backgroundImage: 'url(/api/images/hero-bg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
     >
-      <div className="absolute inset-0 bg-white/85 backdrop-blur-sm"></div>
-      <div className="container mx-auto px-6 text-center relative z-10">
+      <div className="container mx-auto px-6 text-center">
         <motion.div 
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

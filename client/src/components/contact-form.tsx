@@ -117,7 +117,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="connect" className="py-20 bg-gradient-to-br from-primary/5 to-secondary/10" ref={ref} data-testid="contact-form-section">
+    <section id="connect" className="py-20" ref={ref} data-testid="contact-form-section">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

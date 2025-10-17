@@ -86,7 +86,7 @@ export default function InsuranceCardsFlow() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-indigo-50 relative" ref={ref} data-testid="insurance-cards-flow">
+    <section className="py-20 relative" ref={ref} data-testid="insurance-cards-flow">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

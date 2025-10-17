@@ -216,8 +216,8 @@ export default function HomeAlternating() {
         </button>
       </AlternatingParallaxSection>
 
-      {/* CTA + Testimonials Combined Section */}
-      <section className="bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden py-32">
+      {/* CTA + Testimonials + Stats Combined Section */}
+      <section className="bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden py-20 pb-32">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 80%, white 1px, transparent 1px)',
@@ -226,6 +226,7 @@ export default function HomeAlternating() {
         </div>
 
         <div className="container mx-auto px-6 text-center relative z-10">
+          {/* CTA Section */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -243,7 +244,7 @@ export default function HomeAlternating() {
               Get your personalized insurance quote in minutes.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-24">
               <button
                 onClick={() => setQuoteModalOpen(true)}
                 className="bg-white text-blue-600 px-14 py-6 rounded-full font-bold text-xl shadow-2xl hover:shadow-white/50 transition-all hover:scale-105"
@@ -260,43 +261,58 @@ export default function HomeAlternating() {
               </button>
             </div>
           </motion.div>
-        </div>
-      </section>
 
-      {/* Testimonials Carousel */}
-      <section className="bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 py-20">
-        <TestimonialsCarousel />
+          {/* What Our Clients Say Title */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              What Our Clients Say
+            </h2>
+            <p className="text-white/80 text-lg md:text-xl">
+              Trusted by thousands of Florida families and businesses
+            </p>
+          </motion.div>
 
-        {/* Statistics Below Carousel */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="container mx-auto px-6 mt-16"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto">
-            {[
-              { number: '14+', label: 'Years of Excellence' },
-              { number: '50,000+', label: 'Families Protected' },
-              { number: '98%', label: 'Client Satisfaction' }
-            ].map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent mb-3">
-                  {stat.number}
-                </div>
-                <div className="text-muted-foreground text-xl">{stat.label}</div>
-              </motion.div>
-            ))}
+          {/* Testimonials Carousel */}
+          <div className="mb-20">
+            <TestimonialsCarousel />
           </div>
-        </motion.div>
+
+          {/* Statistics Below Carousel */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+              {[
+                { number: '14+', label: 'Years of Excellence' },
+                { number: '50,000+', label: 'Families Protected' },
+                { number: '98%', label: 'Client Satisfaction' }
+              ].map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  className="text-center"
+                >
+                  <div className="text-6xl font-bold text-white mb-3">
+                    {stat.number}
+                  </div>
+                  <div className="text-white/80 text-xl">{stat.label}</div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       <Footer />

@@ -70,12 +70,12 @@ export default function AlternatingParallaxSection({
         }}
       >
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
+          className="absolute inset-0 bg-cover bg-center opacity-60"
           style={{
             backgroundImage: `url(${backgroundImage})`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/80 to-background/95" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background/70" />
       </div>
 
       {/* Content Container - Asymmetric Layout */}

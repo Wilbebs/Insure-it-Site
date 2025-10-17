@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { Car, House, Heart, Activity, Building2, ArrowRight, Shield } from "lucide-react";
 import Logo from "@/components/logo";
 import { useEffect, useState } from "react";
-import familyPhotoPath from "@assets/1000014981_1760155777527.jpg";
+import teamPhotoPath from "@assets/stock_images/business_team_profes_6f42a9b0.jpg";
 
 export default function HomeAlternating() {
   const [heroVisible, setHeroVisible] = useState(false);
@@ -33,7 +33,7 @@ export default function HomeAlternating() {
       <section className="min-h-screen flex items-center relative overflow-hidden pt-20">
         <div className="w-full h-full grid md:grid-cols-2 min-h-screen">
           
-          {/* Left Side - Family Photo */}
+          {/* Left Side - Professional Team Photo */}
           <motion.div 
             className="relative bg-gradient-to-br from-slate-800 to-slate-900 overflow-hidden"
             initial={{ x: -100, opacity: 0 }}
@@ -44,7 +44,7 @@ export default function HomeAlternating() {
             <div 
               className="absolute inset-0 bg-cover bg-center"
               style={{
-                backgroundImage: `url(${familyPhotoPath})`,
+                backgroundImage: `url(${teamPhotoPath})`,
                 transform: `translateY(${scrollY * 0.3}px) scale(1.05)`,
               }}
             />

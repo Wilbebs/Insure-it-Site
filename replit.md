@@ -61,16 +61,16 @@ Preferred communication style: Simple, everyday language.
 - **UI System**: Comprehensive design system with shadcn/ui components
 - **Responsive Design**: Mobile-first approach with Tailwind responsive utilities
 - **Homepage Split-Screen Hero (v3 - Human-Centered)**:
-  - **Split-Screen Layout**: Magazine-style split design with family photo prominently featured on left, content on right
-  - **Family Photo Showcase**: Left panel displays family/team photo with subtle parallax scrolling for depth
+  - **Split-Screen Layout**: Magazine-style split design with professional team photo on left, content on right
+  - **Team Photo Showcase**: Left panel displays full team in branded navy polos (static image, no parallax)
   - **Personalized Content**: Right panel features:
     - "Family-Owned Since 2011" badge for credibility
-    - Large brand name with amber accent color
-    - Tagline in elegant italic styling
+    - Large Logo component with shield pulse animation and typing tagline
     - Warm messaging emphasizing family protection and genuine care
+    - Two CTA buttons (Get Free Quote primary, Explore Coverage secondary)
     - Trust indicators (Licensed & Insured, A+ Rated)
-  - **Smooth Animations**: Slide-in effects from both sides, parallax scrolling, decorative blur elements
-  - **Human Touch**: Design prioritizes warmth and personal connection over corporate feel
+  - **Smooth Animations**: Slide-in effects from both sides, shield pulse (3x on load), typing tagline, decorative blur elements
+  - **Human Touch**: Professional team photo creates warm, approachable, personable feel
   - **Mobile Responsive**: Grid layout stacks vertically on smaller screens
 - **Insurance Sections Modern Parallax Layout**:
   - **Premium Alternating Design**: Magazine-style layout with asymmetric floating cards

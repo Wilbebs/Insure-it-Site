@@ -216,8 +216,8 @@ export default function HomeAlternating() {
         </button>
       </AlternatingParallaxSection>
 
-      {/* Final CTA Section - Blue Gradient */}
-      <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden py-32">
+      {/* CTA + Testimonials Combined Section */}
+      <section className="bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden py-32">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 80%, white 1px, transparent 1px)',
@@ -243,7 +243,7 @@ export default function HomeAlternating() {
               Get your personalized insurance quote in minutes.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <button
                 onClick={() => setQuoteModalOpen(true)}
                 className="bg-white text-blue-600 px-14 py-6 rounded-full font-bold text-xl shadow-2xl hover:shadow-white/50 transition-all hover:scale-105"
@@ -259,31 +259,45 @@ export default function HomeAlternating() {
                 Learn About Us
               </button>
             </div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto"
-            >
-              {[
-                { number: '14+', label: 'Years of Excellence' },
-                { number: '50,000+', label: 'Families Protected' },
-                { number: '98%', label: 'Client Satisfaction' }
-              ].map((stat, i) => (
-                <div key={stat.label} className="text-center">
-                  <div className="text-6xl font-bold text-white mb-3">{stat.number}</div>
-                  <div className="text-white/80 text-xl">{stat.label}</div>
-                </div>
-              ))}
-            </motion.div>
           </motion.div>
         </div>
       </section>
 
       {/* Testimonials Carousel */}
-      <TestimonialsCarousel />
+      <section className="bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 py-20">
+        <TestimonialsCarousel />
+
+        {/* Statistics Below Carousel */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="container mx-auto px-6 mt-16"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+            {[
+              { number: '14+', label: 'Years of Excellence' },
+              { number: '50,000+', label: 'Families Protected' },
+              { number: '98%', label: 'Client Satisfaction' }
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="text-center"
+              >
+                <div className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent mb-3">
+                  {stat.number}
+                </div>
+                <div className="text-muted-foreground text-xl">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
 
       <Footer />
 

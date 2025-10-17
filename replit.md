@@ -54,19 +54,28 @@ Preferred communication style: Simple, everyday language.
 - **Modular Design**: Reusable components organized by feature
 - **UI System**: Comprehensive design system with shadcn/ui components
 - **Responsive Design**: Mobile-first approach with Tailwind responsive utilities
-- **Homepage Advanced Parallax Layout**: 
-  - **Alternating/Staggered Split-Screen Design**: Premium product-page inspired layout (Stripe Atlas style)
-  - **5 Full-Screen Insurance Sections** with alternating content placement:
-    - Section 1 (Auto): Content LEFT → Parallax image RIGHT
-    - Section 2 (Home): Content RIGHT → Parallax image LEFT
-    - Section 3 (Life): Content LEFT → Parallax image RIGHT
-    - Section 4 (Health): Content RIGHT → Parallax image LEFT
-    - Section 5 (Commercial): Content LEFT → Parallax image RIGHT
-  - **Parallax Background Images**: Scroll at 50-60% speed (0.55x) for depth effect
-  - **Smooth Scroll Animations**: Content fades in with slide animation when entering viewport
-  - **GPU Acceleration**: Uses translate3d, willChange, backfaceVisibility for 60fps performance
-  - **Emotional Imagery**: Warm, relatable photos (family, car, home) that connect with each insurance type
-  - **Responsive Behavior**: Stacks vertically on mobile with full-width content blocks
+- **Homepage Modern Parallax Layout (v2 - Refined)**:
+  - **Premium Alternating Design**: Magazine-style layout with asymmetric floating cards inspired by Stripe Atlas
+  - **5 Full-Screen Insurance Sections** with staggered content placement:
+    - Section 1 (Auto): Content LEFT (offset -5%) → Parallax image RIGHT
+    - Section 2 (Home): Content RIGHT (offset +5%) → Parallax image LEFT
+    - Section 3 (Life): Content LEFT (offset -5%) → Parallax image RIGHT
+    - Section 4 (Health): Content RIGHT (offset +5%) → Parallax image LEFT
+    - Section 5 (Commercial): Content LEFT (offset -5%) → Parallax image RIGHT
+  - **Parallax Background Images**: Bleeding effect (120% height, -10% top) scrolling at 55% speed for organic flow
+  - **Floating Card Design**:
+    - Soft rounded corners (2.5rem/40px radius) for contemporary feel
+    - Glass morphism effect with backdrop-blur-xl and translucent backgrounds
+    - Generous padding (p-10 md:p-14 lg:p-16) for breathing room
+    - Elevated depth with shadow-2xl, subtle borders, gradient glow underneath
+  - **Premium Animations**:
+    - Smooth entrance: fade + scale + slide with custom easing [0.22, 1, 0.36, 1]
+    - Icon spring animation with bounce effect (0.4)
+    - Staggered feature reveals with 80ms delays
+    - 75% viewport activation threshold for perfect timing
+  - **Blue Color Scheme**: Hero and CTA sections use blue gradient (from-blue-600 via-blue-500 to-blue-700)
+  - **GPU Optimization**: translate3d, willChange, backfaceVisibility for 60fps
+  - **Responsive**: Stacks vertically on mobile/tablet with full-width cards
 - **Animation System**: 
   - Scroll-triggered animations using Intersection Observer API
   - Auto insurance page: Car crash animation on load with cartoon particle burst effect

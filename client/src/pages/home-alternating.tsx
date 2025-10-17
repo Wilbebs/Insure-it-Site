@@ -7,30 +7,45 @@ import { motion } from "framer-motion";
 import { Car, House, Heart, Activity, Building2, ArrowRight, Shield } from "lucide-react";
 import Logo from "@/components/logo";
 import { useEffect, useState } from "react";
+import familyPhotoPath from "@assets/1000014981_1760155777527.jpg";
 
 export default function HomeAlternating() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     setHeroVisible(true);
+    
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section - Blue Gradient */}
+      {/* Hero Section - Family Background with Blue Overlay */}
       <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-        {/* Parallax Hero Background */}
-        <div 
+        {/* Parallax Background Image */}
+        <motion.div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(/api/images/hero-bg)',
-            transform: `translateY(${typeof window !== 'undefined' ? window.scrollY * 0.5 : 0}px)`,
+            backgroundImage: `url(${familyPhotoPath})`,
+            transform: `translateY(${scrollY * 0.5}px) scale(1.1)`,
+            filter: 'brightness(0.7)',
           }}
+          initial={{ scale: 1.2, opacity: 0 }}
+          animate={{ scale: 1.1, opacity: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700" />
+        
+        {/* Semi-transparent Blue Overlay for Readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/80 via-blue-500/75 to-blue-700/80 backdrop-blur-[2px]" />
         
         <div className="container mx-auto px-6 text-center relative z-10">
           <motion.div

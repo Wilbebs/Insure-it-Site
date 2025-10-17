@@ -318,13 +318,13 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                               <FormItem>
                                 <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Vehicle Registration (Optional)</FormLabel>
                                 <FormControl>
-                                  <div className="relative">
+                                  <div className="relative flex justify-center">
                                     <Input
                                       {...field}
                                       type="file"
                                       accept=".pdf,.jpg,.jpeg,.png"
                                       onChange={(e) => onChange(e.target.files?.[0])}
-                                      className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                      className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 text-center file:mx-auto file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                                     />
                                   </div>
                                 </FormControl>
@@ -374,13 +374,15 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                               <FormItem>
                                 <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Property Documents (Optional)</FormLabel>
                                 <FormControl>
-                                  <Input
-                                    {...field}
-                                    type="file"
-                                    accept=".pdf,.jpg,.jpeg,.png"
-                                    onChange={(e) => onChange(e.target.files?.[0])}
-                                    className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                                  />
+                                  <div className="flex justify-center">
+                                    <Input
+                                      {...field}
+                                      type="file"
+                                      accept=".pdf,.jpg,.jpeg,.png"
+                                      onChange={(e) => onChange(e.target.files?.[0])}
+                                      className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 text-center file:mx-auto file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                    />
+                                  </div>
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -428,13 +430,15 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                               <FormItem>
                                 <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Medical Records (Optional)</FormLabel>
                                 <FormControl>
-                                  <Input
-                                    {...field}
-                                    type="file"
-                                    accept=".pdf,.jpg,.jpeg,.png"
-                                    onChange={(e) => onChange(e.target.files?.[0])}
-                                    className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                                  />
+                                  <div className="flex justify-center">
+                                    <Input
+                                      {...field}
+                                      type="file"
+                                      accept=".pdf,.jpg,.jpeg,.png"
+                                      onChange={(e) => onChange(e.target.files?.[0])}
+                                      className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 text-center file:mx-auto file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                    />
+                                  </div>
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -473,13 +477,15 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                               <FormItem>
                                 <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Additional Medical Records (Optional)</FormLabel>
                                 <FormControl>
-                                  <Input
-                                    {...field}
-                                    type="file"
-                                    accept=".pdf,.jpg,.jpeg,.png"
-                                    onChange={(e) => onChange(e.target.files?.[0])}
-                                    className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                                  />
+                                  <div className="flex justify-center">
+                                    <Input
+                                      {...field}
+                                      type="file"
+                                      accept=".pdf,.jpg,.jpeg,.png"
+                                      onChange={(e) => onChange(e.target.files?.[0])}
+                                      className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 text-center file:mx-auto file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                    />
+                                  </div>
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -527,13 +533,15 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                               <FormItem>
                                 <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Business License (Optional)</FormLabel>
                                 <FormControl>
-                                  <Input
-                                    {...field}
-                                    type="file"
-                                    accept=".pdf,.jpg,.jpeg,.png"
-                                    onChange={(e) => onChange(e.target.files?.[0])}
-                                    className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                                  />
+                                  <div className="flex justify-center">
+                                    <Input
+                                      {...field}
+                                      type="file"
+                                      accept=".pdf,.jpg,.jpeg,.png"
+                                      onChange={(e) => onChange(e.target.files?.[0])}
+                                      className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 text-center file:mx-auto file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                    />
+                                  </div>
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>

@@ -86,108 +86,89 @@ export default function TestimonialsCarousel() {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="py-20 bg-gradient-to-b from-background to-slate-50 dark:to-slate-950">
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
-            What Our Clients Say
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Trusted by thousands of Florida families and businesses
-          </p>
-        </motion.div>
-
-        <div className="relative">
-          {/* Carousel Container */}
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex">
-              {testimonials.map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 px-4"
-                >
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border border-gray-100 dark:border-slate-800 h-full"
-                    data-testid={`testimonial-carousel-${index}`}
-                  >
-                    <div className="flex items-center gap-4 mb-6">
-                      <img 
-                        src={testimonial.image} 
-                        alt={testimonial.name}
-                        className="w-16 h-16 rounded-full object-cover ring-2 ring-blue-500/20"
-                      />
-                      <div>
-                        <h3 className="font-bold text-lg">{testimonial.name}</h3>
-                        <p className="text-sm text-muted-foreground">{testimonial.location}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex gap-1 mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-                    
-                    <p className="text-muted-foreground mb-6 leading-relaxed text-base">
-                      "{testimonial.text}"
-                    </p>
-                    
-                    <div className="pt-4 border-t border-gray-200 dark:border-slate-700">
-                      <p className="text-sm text-blue-600 dark:text-blue-400 font-semibold">
-                        {testimonial.insurance}
-                      </p>
-                    </div>
-                  </motion.div>
+    <div className="relative max-w-7xl mx-auto">
+      {/* Carousel Container */}
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex">
+          {testimonials.map((testimonial, index) => (
+            <div
+              key={index}
+              className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 px-4"
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white rounded-3xl p-6 shadow-xl h-full"
+                data-testid={`testimonial-carousel-${index}`}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <img 
+                    src={testimonial.image} 
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full object-cover ring-2 ring-blue-500/20"
+                  />
+                  <div>
+                    <h3 className="font-bold text-gray-900">{testimonial.name}</h3>
+                    <p className="text-xs text-gray-600">{testimonial.location}</p>
+                  </div>
                 </div>
-              ))}
+                
+                <div className="flex gap-1 mb-3">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                
+                <p className="text-gray-700 text-sm leading-relaxed mb-4">
+                  "{testimonial.text}"
+                </p>
+                
+                <div className="pt-3 border-t border-gray-200">
+                  <p className="text-xs text-blue-600 font-semibold">
+                    {testimonial.insurance}
+                  </p>
+                </div>
+              </motion.div>
             </div>
-          </div>
-
-          {/* Navigation Buttons */}
-          <button
-            onClick={scrollPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white dark:bg-slate-800 rounded-full p-3 shadow-xl hover:scale-110 transition-transform z-10"
-            data-testid="carousel-prev"
-            aria-label="Previous testimonial"
-          >
-            <ChevronLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-          </button>
-          <button
-            onClick={scrollNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white dark:bg-slate-800 rounded-full p-3 shadow-xl hover:scale-110 transition-transform z-10"
-            data-testid="carousel-next"
-            aria-label="Next testimonial"
-          >
-            <ChevronRight className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-          </button>
-
-          {/* Dot Indicators */}
-          <div className="flex justify-center gap-2 mt-8">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => emblaApi?.scrollTo(index)}
-                className={`h-2 rounded-full transition-all ${
-                  index === selectedIndex 
-                    ? 'w-8 bg-blue-600' 
-                    : 'w-2 bg-gray-300 dark:bg-slate-600'
-                }`}
-                aria-label={`Go to testimonial ${index + 1}`}
-              />
-            ))}
-          </div>
+          ))}
         </div>
       </div>
-    </section>
+
+      {/* Navigation Buttons */}
+      <button
+        onClick={scrollPrev}
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
+        data-testid="carousel-prev"
+        aria-label="Previous testimonial"
+      >
+        <ChevronLeft className="w-5 h-5 text-gray-700" />
+      </button>
+      <button
+        onClick={scrollNext}
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
+        data-testid="carousel-next"
+        aria-label="Next testimonial"
+      >
+        <ChevronRight className="w-5 h-5 text-gray-700" />
+      </button>
+
+      {/* Dot Indicators */}
+      <div className="flex justify-center gap-2 mt-6">
+        {testimonials.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => emblaApi?.scrollTo(index)}
+            className={`h-2 rounded-full transition-all ${
+              index === selectedIndex 
+                ? 'w-8 bg-white' 
+                : 'w-2 bg-white/50'
+            }`}
+            aria-label={`Go to testimonial ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
   );
 }

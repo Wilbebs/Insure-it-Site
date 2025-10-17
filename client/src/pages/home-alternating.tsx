@@ -29,79 +29,132 @@ export default function HomeAlternating() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section - Family Background with Blue Overlay */}
-      <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-        {/* Parallax Background Image */}
-        <motion.div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${familyPhotoPath})`,
-            transform: `translateY(${scrollY * 0.5}px) scale(1.1)`,
-            filter: 'brightness(0.7)',
-          }}
-          initial={{ scale: 1.2, opacity: 0 }}
-          animate={{ scale: 1.1, opacity: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-        />
-        
-        {/* Semi-transparent Blue Overlay for Readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/80 via-blue-500/75 to-blue-700/80 backdrop-blur-[2px]" />
-        
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 1 }}
+      {/* Hero Section - Split Screen Design */}
+      <section className="min-h-screen flex items-center relative overflow-hidden pt-20">
+        <div className="w-full h-full grid md:grid-cols-2 min-h-screen">
+          
+          {/* Left Side - Family Photo */}
+          <motion.div 
+            className="relative bg-gradient-to-br from-slate-800 to-slate-900 overflow-hidden"
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
           >
-            <div className="mb-12">
-              <Logo size="large" showTagline={true} variant="white" />
-            </div>
+            {/* Background Image with Parallax */}
+            <div 
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${familyPhotoPath})`,
+                transform: `translateY(${scrollY * 0.3}px) scale(1.05)`,
+              }}
+            />
             
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-2xl md:text-3xl text-white/90 mb-16 max-w-4xl mx-auto leading-relaxed font-light"
-            >
-              A family-owned Florida insurance agency with <span className="font-bold text-white">14 years of experience</span> protecting thousands of clients statewide
-            </motion.h1>
+            {/* Subtle gradient overlay for depth */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-slate-900/30" />
+            
+            {/* Small logo watermark in corner */}
+            <div className="absolute bottom-8 left-8 z-10">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.2, duration: 0.6 }}
+              >
+                <Logo size="small" variant="white" showTagline={false} />
+              </motion.div>
+            </div>
+          </motion.div>
 
+          {/* Right Side - Content */}
+          <motion.div 
+            className="relative bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 flex items-center justify-center px-8 md:px-16 py-20"
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
+            {/* Decorative Elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl" />
+            
+            <div className="relative z-10 max-w-xl">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                {/* Small badge */}
+                <div className="inline-block mb-6">
+                  <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium border border-white/30">
+                    Family-Owned Since 2011
+                  </span>
+                </div>
+
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                  insure<span className="text-amber-300">it</span>
+                </h1>
+
+                <p className="text-lg md:text-xl text-amber-300/90 mb-2 italic font-light">
+                  Life's Uncertain. Your Coverage Isn't.
+                </p>
+
+                <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
+                  14 years protecting <span className="font-bold text-amber-300">thousands of Florida families</span> with personalized coverage and genuine care
+                </p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                  className="flex flex-col sm:flex-row gap-4"
+                >
+                  <button
+                    onClick={() => setQuoteModalOpen(true)}
+                    className="group bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/30 transition-all hover:scale-105"
+                    data-testid="button-get-quote"
+                  >
+                    Get Free Quote
+                    <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                  <button
+                    onClick={() => document.getElementById('auto-section')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
+                    data-testid="button-explore-coverage"
+                  >
+                    Explore Coverage
+                  </button>
+                </motion.div>
+
+                {/* Trust indicators */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={heroVisible ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ duration: 1, delay: 1 }}
+                  className="mt-12 flex items-center gap-8 text-white/80 text-sm"
+                >
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-5 h-5" />
+                    <span>Licensed & Insured</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Heart className="w-5 h-5" />
+                    <span>A+ Rated</span>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
+
+            {/* Scroll Indicator */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={heroVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-6 justify-center"
+              initial={{ opacity: 0, y: -20 }}
+              animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+              transition={{ duration: 1, delay: 0.8, repeat: Infinity, repeatType: "reverse" }}
+              className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
             >
-              <button
-                onClick={() => document.getElementById('auto-section')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group bg-white text-blue-600 px-12 py-5 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/30 transition-all hover:scale-105"
-                data-testid="button-explore-coverage"
-              >
-                Explore Coverage
-                <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button
-                onClick={() => setQuoteModalOpen(true)}
-                className="bg-transparent border-2 border-white text-white px-12 py-5 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
-                data-testid="button-get-quote"
-              >
-                Get Free Quote
-              </button>
+              <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+                <div className="w-1 h-3 bg-white/50 rounded-full mt-2" />
+              </div>
             </motion.div>
           </motion.div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 1, delay: 0.8, repeat: Infinity, repeatType: "reverse" }}
-          className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
-        >
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/50 rounded-full mt-2" />
-          </div>
-        </motion.div>
       </section>
 
       {/* Auto Insurance - Content Left */}

@@ -14,10 +14,10 @@ export const contactSubmissions = pgTable("contact_submissions", {
   name: text("name").notNull(),
   phone: text("phone").notNull(),
   email: text("email").notNull(),
-  policyType: text("policy_type").notNull(),
+  insuranceType: text("insurance_type").notNull(),
   coverageLevel: text("coverage_level"),
   message: text("message"),
-  documents: text("documents").array(),
+  documents: text("documents"),
   submittedAt: timestamp("submitted_at").defaultNow(),
 });
 

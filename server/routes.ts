@@ -81,7 +81,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         insuranceType: validatedData.policyType,
         coverageLevel: validatedData.coverageLevel || null,
         message: validatedData.additionalInformation || null,
-        documents: documentUrls.join(',') || null,
+        documents: documentUrls.length > 0 ? documentUrls.join(',') : null,
       });
       
       res.json({ 

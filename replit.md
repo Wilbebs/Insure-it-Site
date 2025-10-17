@@ -32,23 +32,22 @@ Preferred communication style: Simple, everyday language.
   - Request logging with response time tracking
   - Error handling middleware
 - **File Upload Processing**: Multer for handling multipart form data with file type validation
+- **Storage System**: In-memory storage for development with interface for easy migration to production database
 - **Development Setup**: Vite integration for hot module replacement during development
 
 ### Data Storage Architecture
-- **Database**: Firebase Firestore NoSQL database for scalable data storage (contact forms, carousel config)
+- **Database**: In-memory storage for development (contact forms, policy applications, carousel images, strategic suggestions)
 - **File Storage**: 
-  - Replit Object Storage (similar to AWS S3) for policy application documents
-  - Firebase Storage for contact form attachments and images
-- **Authentication**: Firebase Authentication (configured for future admin features)
+  - Replit Object Storage for policy application documents
+  - File uploads stored in memory during development
 - **Schema Management**: 
   - TypeScript interfaces with Zod validation for type safety
-  - Firestore collections for contact submissions and site configuration
-  - Server-side image management through Firebase Admin SDK
+  - Server-side storage interface for all data operations
 - **Data Models**:
-  - Contact submissions with file attachment URLs from Firebase Storage
+  - Contact submissions with file attachment references
   - Policy applications with document URLs from Object Storage
-  - Carousel images configuration stored in Firestore
-  - Site configuration and uploaded media tracking
+  - Carousel images configuration stored in memory
+  - Strategic suggestions for strategic planning page
 
 ### Component Architecture
 - **Modular Design**: Reusable components organized by feature
@@ -121,12 +120,11 @@ Preferred communication style: Simple, everyday language.
 ## External Dependencies
 
 ### Core Framework Dependencies
-- **firebase & firebase-admin**: Firebase SDK for client and server-side operations with Firestore database and Storage
-- **@neondatabase/serverless**: Serverless PostgreSQL database connection for production (legacy - replaced by Firebase)
-- **drizzle-orm & drizzle-kit**: Type-safe ORM and migration tools for PostgreSQL (legacy - replaced by Firebase)
+- **@neondatabase/serverless**: Serverless PostgreSQL database connection (configured but not in use)
+- **drizzle-orm & drizzle-kit**: Type-safe ORM and migration tools for PostgreSQL (configured but not in use)
 - **express**: Web server framework with middleware support
 - **multer**: File upload handling middleware
-- **uuid**: Unique identifier generation for file uploads
+- **uuid**: Unique identifier generation for file uploads and storage
 
 ### Frontend UI Dependencies
 - **@radix-ui/***: Headless UI primitives for accessible component foundations
@@ -134,6 +132,7 @@ Preferred communication style: Simple, everyday language.
 - **framer-motion**: Animation library for smooth user interactions
 - **react-hook-form & @hookform/resolvers**: Form management with validation
 - **react-dropzone**: File upload with drag-and-drop interface
+- **wouter**: Lightweight client-side routing
 
 ### Development & Build Tools
 - **vite**: Fast build tool and development server

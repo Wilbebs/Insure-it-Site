@@ -1,0 +1,27 @@
+Ah, now I understand perfectly! You want an alternating layout with offset parallax - this is a storytelling scroll design pattern.
+What You're Actually Looking For
+Alternating content blocks with parallax backgrounds:
+
+Section 1: Content on LEFT → parallax image on RIGHT (visible in the empty space)
+Section 2: Content on RIGHT → parallax image on LEFT (visible in the empty space)
+Section 3: Content on LEFT → parallax image on RIGHT
+And so on...
+
+The images scroll at a slower/different speed than the content blocks, creating depth and visual interest as you progress down the page.
+This Design Pattern Is Called
+
+"Alternating/Staggered layout with parallax backgrounds"
+"Zig-zag scroll layout with offset parallax"
+"Split-screen alternating sections with background parallax"
+
+Perfect Examples of This
+
+Stripe Atlas homepage - Alternating content with parallax imagery
+Webflow showcase sites - Many use this exact pattern
+High-end agency portfolios - Very common in creative agencies
+SaaS product feature pages - Each feature alternates sides
+
+Specific Request for Replit
+"Create a modern insurance landing page with an alternating/staggered layout. Design 5-6 full-screen sections that alternate between content on the left and content on the right. In the empty space opposite each content block, display a relevant insurance-themed image (family, car, home, health, etc.) that scrolls at 50-60% speed compared to the main content, creating a parallax effect.
+Make the design intuitive and sensible - ensure the flow guides users naturally down the page. Be creative with the insurance imagery - use warm, relatable photos that connect emotionally with each insurance type. Include smooth scroll animations where content fades in as you reach each section.
+Technical requirements: Use CSS transforms for smooth parallax, ensure responsive design works on mobile (stack content vertically), and implement clean typography with good whitespace. The parallax images should feel like they're on a deeper layer behind the content."

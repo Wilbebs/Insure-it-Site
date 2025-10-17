@@ -17,7 +17,7 @@ export default function HomeAlternating() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section - Full Width */}
+      {/* Hero Section - Blue Gradient */}
       <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
         {/* Parallax Hero Background */}
         <div 
@@ -27,7 +27,7 @@ export default function HomeAlternating() {
             transform: `translateY(${typeof window !== 'undefined' ? window.scrollY * 0.5 : 0}px)`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-blue-800/80 to-purple-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700" />
         
         <div className="container mx-auto px-6 text-center relative z-10">
           <motion.div
@@ -35,7 +35,7 @@ export default function HomeAlternating() {
             animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
             transition={{ duration: 1 }}
           >
-            <div className="mb-8">
+            <div className="mb-12">
               <Logo size="large" showTagline={true} />
             </div>
             
@@ -43,7 +43,7 @@ export default function HomeAlternating() {
               initial={{ opacity: 0, y: 30 }}
               animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-2xl md:text-3xl text-white/90 mb-12 max-w-4xl mx-auto leading-relaxed font-light"
+              className="text-2xl md:text-3xl text-white/90 mb-16 max-w-4xl mx-auto leading-relaxed font-light"
             >
               A family-owned Florida insurance agency with <span className="font-bold text-white">14 years of experience</span> protecting thousands of clients statewide
             </motion.h1>
@@ -56,7 +56,7 @@ export default function HomeAlternating() {
             >
               <button
                 onClick={() => document.getElementById('auto-section')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group bg-white text-blue-600 px-10 py-5 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/30 transition-all hover:scale-105"
+                className="group bg-white text-blue-600 px-12 py-5 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/30 transition-all hover:scale-105"
                 data-testid="button-explore-coverage"
               >
                 Explore Coverage
@@ -64,7 +64,7 @@ export default function HomeAlternating() {
               </button>
               <button
                 onClick={() => window.location.href = '/#connect'}
-                className="bg-transparent border-2 border-white text-white px-10 py-5 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
+                className="bg-transparent border-2 border-white text-white px-12 py-5 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
                 data-testid="button-get-quote"
               >
                 Get Free Quote
@@ -78,7 +78,7 @@ export default function HomeAlternating() {
           initial={{ opacity: 0, y: -20 }}
           animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 1, delay: 0.8, repeat: Infinity, repeatType: "reverse" }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
         >
           <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
             <div className="w-1 h-3 bg-white/50 rounded-full mt-2" />
@@ -86,7 +86,7 @@ export default function HomeAlternating() {
         </motion.div>
       </section>
 
-      {/* Auto Insurance - Content Left, Image Right */}
+      {/* Auto Insurance - Content Left */}
       <div id="auto-section">
         <AlternatingParallaxSection
           contentSide="left"
@@ -105,7 +105,7 @@ export default function HomeAlternating() {
         >
           <button 
             onClick={() => window.location.href = '/auto-insurance'}
-            className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-blue-500/50 transition-all hover:scale-105"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-blue-500/50 transition-all hover:scale-105"
             data-testid="button-learn-auto"
           >
             Learn More About Auto Insurance
@@ -113,7 +113,7 @@ export default function HomeAlternating() {
         </AlternatingParallaxSection>
       </div>
 
-      {/* Home Insurance - Content Right, Image Left */}
+      {/* Home Insurance - Content Right */}
       <AlternatingParallaxSection
         contentSide="right"
         title="Home Insurance"
@@ -131,14 +131,14 @@ export default function HomeAlternating() {
       >
         <button 
           onClick={() => window.location.href = '/home-insurance'}
-          className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-green-500/50 transition-all hover:scale-105"
+          className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-green-500/50 transition-all hover:scale-105"
           data-testid="button-learn-home"
         >
           Learn More About Home Insurance
         </button>
       </AlternatingParallaxSection>
 
-      {/* Life Insurance - Content Left, Image Right */}
+      {/* Life Insurance - Content Left */}
       <AlternatingParallaxSection
         contentSide="left"
         title="Life Insurance"
@@ -156,14 +156,14 @@ export default function HomeAlternating() {
       >
         <button 
           onClick={() => window.location.href = '/life-insurance'}
-          className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-red-500/50 transition-all hover:scale-105"
+          className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-red-500/50 transition-all hover:scale-105"
           data-testid="button-learn-life"
         >
           Learn More About Life Insurance
         </button>
       </AlternatingParallaxSection>
 
-      {/* Health Insurance - Content Right, Image Left */}
+      {/* Health Insurance - Content Right */}
       <AlternatingParallaxSection
         contentSide="right"
         title="Health Insurance"
@@ -181,14 +181,14 @@ export default function HomeAlternating() {
       >
         <button 
           onClick={() => window.location.href = '/health-insurance'}
-          className="bg-gradient-to-r from-purple-500 to-violet-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-purple-500/50 transition-all hover:scale-105"
+          className="bg-gradient-to-r from-purple-500 to-violet-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-purple-500/50 transition-all hover:scale-105"
           data-testid="button-learn-health"
         >
           Learn More About Health Insurance
         </button>
       </AlternatingParallaxSection>
 
-      {/* Commercial Insurance - Content Left, Image Right */}
+      {/* Commercial Insurance - Content Left */}
       <AlternatingParallaxSection
         contentSide="left"
         title="Commercial Insurance"
@@ -206,15 +206,15 @@ export default function HomeAlternating() {
       >
         <button 
           onClick={() => window.location.href = '/commercial-insurance'}
-          className="bg-gradient-to-r from-orange-500 to-amber-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-orange-500/50 transition-all hover:scale-105"
+          className="bg-gradient-to-r from-orange-500 to-amber-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-orange-500/50 transition-all hover:scale-105"
           data-testid="button-learn-commercial"
         >
           Learn More About Commercial Insurance
         </button>
       </AlternatingParallaxSection>
 
-      {/* Final CTA Section - Full Width */}
-      <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
+      {/* Final CTA Section - Blue Gradient */}
+      <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden py-32">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 80%, white 1px, transparent 1px)',
@@ -229,28 +229,28 @@ export default function HomeAlternating() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <Shield className="w-20 h-20 text-white mx-auto mb-8" />
+            <Shield className="w-24 h-24 text-white mx-auto mb-10" />
             
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8">
               Ready to Get Protected?
             </h2>
             
-            <p className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-white/90 mb-16 max-w-3xl mx-auto leading-relaxed">
               Join thousands of satisfied families and businesses across Florida. 
               Get your personalized insurance quote in minutes.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
               <button
                 onClick={() => window.location.href = '/#connect'}
-                className="bg-white text-blue-600 px-12 py-6 rounded-full font-bold text-xl shadow-2xl hover:shadow-white/50 transition-all hover:scale-105"
+                className="bg-white text-blue-600 px-14 py-6 rounded-full font-bold text-xl shadow-2xl hover:shadow-white/50 transition-all hover:scale-105"
                 data-testid="button-get-started-cta"
               >
                 Get Your Free Quote
               </button>
               <button
                 onClick={() => window.location.href = '/about'}
-                className="bg-transparent border-2 border-white text-white px-12 py-6 rounded-full font-semibold text-xl hover:bg-white hover:text-blue-600 transition-all"
+                className="bg-transparent border-2 border-white text-white px-14 py-6 rounded-full font-semibold text-xl hover:bg-white hover:text-blue-600 transition-all"
                 data-testid="button-learn-about"
               >
                 Learn About Us
@@ -260,9 +260,9 @@ export default function HomeAlternating() {
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
+              transition={{ duration: 1, delay: 0.3 }}
               viewport={{ once: true }}
-              className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+              className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto"
             >
               {[
                 { number: '14+', label: 'Years of Excellence' },
@@ -270,8 +270,8 @@ export default function HomeAlternating() {
                 { number: '98%', label: 'Client Satisfaction' }
               ].map((stat, i) => (
                 <div key={stat.label} className="text-center">
-                  <div className="text-5xl font-bold text-white mb-2">{stat.number}</div>
-                  <div className="text-white/80 text-lg">{stat.label}</div>
+                  <div className="text-6xl font-bold text-white mb-3">{stat.number}</div>
+                  <div className="text-white/80 text-xl">{stat.label}</div>
                 </div>
               ))}
             </motion.div>

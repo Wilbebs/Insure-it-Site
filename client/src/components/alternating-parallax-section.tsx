@@ -37,13 +37,13 @@ export default function AlternatingParallaxSection({
           const sectionTop = sectionRef.current!.offsetTop;
           
           // Parallax offset at 50-60% speed
-          const parallaxSpeed = 0.55; // 55% speed
+          const parallaxSpeed = 0.55;
           const offset = (scrolled - sectionTop) * parallaxSpeed;
           setScrollOffset(offset);
 
           // Check visibility for fade-in animation
           const windowHeight = window.innerHeight;
-          const isInView = rect.top < windowHeight * 0.8 && rect.bottom > 0;
+          const isInView = rect.top < windowHeight * 0.75 && rect.bottom > 0;
           setIsVisible(isInView);
           
           ticking = false;
@@ -59,10 +59,10 @@ export default function AlternatingParallaxSection({
   }, []);
 
   return (
-    <div ref={sectionRef} className="relative min-h-screen flex items-center py-20 overflow-hidden">
-      {/* Parallax Background Image (opposite side) */}
+    <div ref={sectionRef} className="relative min-h-screen flex items-center py-32 md:py-40 overflow-hidden">
+      {/* Parallax Background Image - Bleeds beyond section */}
       <div 
-        className={`absolute inset-y-0 w-1/2 ${contentSide === 'left' ? 'right-0' : 'left-0'}`}
+        className="absolute inset-0 w-full h-[120%] -top-[10%]"
         style={{
           transform: `translate3d(0, ${scrollOffset}px, 0)`,
           willChange: 'transform',
@@ -70,40 +70,63 @@ export default function AlternatingParallaxSection({
         }}
       >
         <div 
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center opacity-20"
           style={{
             backgroundImage: `url(${backgroundImage})`,
           }}
         />
-        <div className={`absolute inset-0 bg-gradient-to-${contentSide === 'left' ? 'l' : 'r'} from-background/90 via-background/50 to-transparent`} />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/80 to-background/95" />
       </div>
 
-      {/* Content Block */}
-      <div className="container mx-auto px-6 relative z-10">
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center`}>
-          {/* Content */}
+      {/* Content Container - Asymmetric Layout */}
+      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+        <div className="flex items-center justify-center lg:justify-start">
+          {/* Floating Content Card */}
           <motion.div
-            initial={{ opacity: 0, x: contentSide === 'left' ? -80 : 80 }}
-            animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: contentSide === 'left' ? -80 : 80 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className={`${contentSide === 'right' ? 'lg:col-start-2' : ''} max-w-xl ${contentSide === 'right' ? 'lg:ml-auto' : ''}`}
+            initial={{ opacity: 0, y: 60, scale: 0.95, x: 0 }}
+            animate={isVisible 
+              ? { 
+                  opacity: 1, 
+                  y: 0, 
+                  scale: 1,
+                  x: contentSide === 'left' ? '-5%' : '5%'
+                } 
+              : { 
+                  opacity: 0, 
+                  y: 60, 
+                  scale: 0.95,
+                  x: 0
+                }
+            }
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className={`
+              relative max-w-2xl lg:max-w-3xl
+              ${contentSide === 'left' ? 'lg:mr-auto' : 'lg:ml-auto'}
+              bg-background/60 backdrop-blur-xl
+              rounded-[2.5rem] p-10 md:p-14 lg:p-16
+              shadow-2xl shadow-black/20
+              border border-white/10
+            `}
           >
+            {/* Subtle gradient glow behind card */}
+            <div className={`absolute -inset-1 bg-gradient-to-r ${accentColor} opacity-10 blur-3xl rounded-[2.5rem] -z-10`} />
+
             {icon && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className={`mb-6 inline-block p-4 rounded-2xl bg-gradient-to-br ${accentColor} shadow-lg`}
+                initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+                animate={isVisible ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0.5, rotate: -10 }}
+                transition={{ duration: 0.7, delay: 0.15, type: "spring", bounce: 0.4 }}
+                className={`mb-8 inline-block p-5 rounded-3xl bg-gradient-to-br ${accentColor} shadow-xl`}
               >
                 {icon}
               </motion.div>
             )}
             
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 gradient-text leading-tight"
+              initial={{ opacity: 0, y: 30 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.7, delay: 0.25 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 gradient-text leading-tight"
             >
               {title}
             </motion.h2>
@@ -111,29 +134,29 @@ export default function AlternatingParallaxSection({
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-xl text-muted-foreground mb-8 leading-relaxed"
+              transition={{ duration: 0.7, delay: 0.35 }}
+              className="text-xl md:text-2xl text-muted-foreground/90 mb-10 leading-relaxed"
             >
               {description}
             </motion.p>
 
             {features.length > 0 && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="space-y-4"
+                initial={{ opacity: 0 }}
+                animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ duration: 0.8, delay: 0.45 }}
+                className="space-y-5 mb-10"
               >
                 {features.map((feature, index) => (
                   <motion.div
                     key={feature}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
-                    className="flex items-center gap-3"
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+                    transition={{ duration: 0.5, delay: 0.5 + index * 0.08 }}
+                    className="flex items-center gap-4"
                   >
-                    <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${accentColor}`} />
-                    <span className="text-lg text-foreground/90">{feature}</span>
+                    <div className={`w-2.5 h-2.5 rounded-full bg-gradient-to-r ${accentColor} shadow-lg`} />
+                    <span className="text-lg md:text-xl text-foreground/90">{feature}</span>
                   </motion.div>
                 ))}
               </motion.div>
@@ -143,16 +166,12 @@ export default function AlternatingParallaxSection({
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-                className="mt-8"
+                transition={{ duration: 0.7, delay: 0.65 }}
               >
                 {children}
               </motion.div>
             )}
           </motion.div>
-
-          {/* Empty space for parallax image (mobile: hidden) */}
-          <div className="hidden lg:block" />
         </div>
       </div>
     </div>

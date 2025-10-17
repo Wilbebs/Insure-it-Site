@@ -102,6 +102,20 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
       email: "",
       phone: "",
       insuranceType: "",
+      vehicleYear: "",
+      vehicleMake: "",
+      vehicleModel: "",
+      propertyAddress: "",
+      propertyValue: "",
+      yearBuilt: "",
+      dateOfBirth: "",
+      coverageAmount: "",
+      beneficiaries: "",
+      numberOfPeople: "",
+      preExistingConditions: "",
+      businessName: "",
+      businessType: "",
+      numberOfEmployees: "",
     },
   });
 
@@ -133,7 +147,47 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
   const onSubmit = async (data: QuoteFormValues) => {
     setIsSubmitting(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const payload: Record<string, any> = {
+        fullName: data.name,
+        emailAddress: data.email,
+        phoneNumber: data.phone,
+        policyType: data.insuranceType,
+      };
+
+      if (selectedInsurance === 'auto') {
+        payload.vehicleYear = data.vehicleYear;
+        payload.vehicleMake = data.vehicleMake;
+        payload.vehicleModel = data.vehicleModel;
+      } else if (selectedInsurance === 'home') {
+        payload.propertyAddress = data.propertyAddress;
+        payload.estimatedValue = data.propertyValue;
+        payload.yearBuilt = data.yearBuilt;
+      } else if (selectedInsurance === 'life') {
+        payload.dateOfBirth = data.dateOfBirth;
+        payload.coverageAmount = data.coverageAmount;
+        payload.beneficiaries = data.beneficiaries;
+      } else if (selectedInsurance === 'health') {
+        payload.numberOfPeople = data.numberOfPeople;
+        payload.preExistingConditions = data.preExistingConditions;
+      } else if (selectedInsurance === 'commercial') {
+        payload.businessName = data.businessName;
+        payload.businessType = data.businessType;
+        payload.numberOfEmployees = data.numberOfEmployees;
+      }
+
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      const result = await response.json();
       
       toast({
         title: "Quote Request Submitted!",
@@ -144,6 +198,7 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
       setSelectedInsurance("");
       onClose();
     } catch (error) {
+      console.error('Form submission error:', error);
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",

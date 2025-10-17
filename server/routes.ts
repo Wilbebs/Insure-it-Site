@@ -42,10 +42,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const files = req.files as Express.Multer.File[];
       const documentUrls: string[] = [];
       
-      // For now, store file names as placeholders (in production, upload to object storage)
+      // Upload files to Object Storage
       if (files && files.length > 0) {
+        const objectStorageService = new ObjectStorageService();
+        const privateDir = objectStorageService.getPrivateObjectDir();
+        
         for (const file of files) {
-          documentUrls.push(file.originalname);
+          try {
+            // Generate unique filename
+            const fileExtension = file.originalname.split('.').pop();
+            const uniqueFileName = `${uuidv4()}.${fileExtension}`;
+            const objectPath = `${privateDir}/contact-documents/${uniqueFileName}`;
+            
+            // Upload file to Object Storage
+            await objectStorageService.uploadObject(objectPath, file.buffer, file.mimetype);
+            
+            // Store the object path for retrieval
+            const relativePath = `/objects/contact-documents/${uniqueFileName}`;
+            documentUrls.push(relativePath);
+            console.log(`✅ Uploaded file to Object Storage: ${relativePath}`);
+          } catch (uploadError) {
+            console.error(`Failed to upload file ${file.originalname}:`, uploadError);
+            // Continue with other files even if one fails
+          }
         }
       }
 

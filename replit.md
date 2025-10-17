@@ -29,23 +29,30 @@ Preferred communication style: Simple, everyday language.
 - **Express.js Server**: RESTful API server with TypeScript
 - **Middleware Stack**:
   - JSON and URL-encoded body parsing
+  - Multer for multipart form data handling with file type validation (PDF, DOC, DOCX, JPG, PNG up to 10MB)
   - Request logging with response time tracking
   - Error handling middleware
-- **File Upload Processing**: Multer for handling multipart form data with file type validation
-- **Storage System**: In-memory storage for development with interface for easy migration to production database
+- **Storage System**: In-memory storage for all data with interface for easy migration to production database
+- **File Upload Processing**: 
+  - Server-side uploads to Replit Object Storage via ObjectStorageService
+  - Unique UUID-based filenames to prevent collisions
+  - Direct buffer upload using Google Cloud Storage SDK
 - **Development Setup**: Vite integration for hot module replacement during development
 
 ### Data Storage Architecture
-- **Database**: In-memory storage for development (contact forms, policy applications, carousel images, strategic suggestions)
+- **Database**: In-memory storage (contact submissions, policy applications, carousel images, strategic suggestions)
 - **File Storage**: 
-  - Replit Object Storage for policy application documents
-  - File uploads stored in memory during development
+  - **Replit Object Storage** (Google Cloud Storage backend) for all uploaded documents
+  - Contact form documents stored in `{PRIVATE_OBJECT_DIR}/contact-documents/`
+  - Policy application documents in `{PRIVATE_OBJECT_DIR}/uploads/`
+  - Server-to-storage uploads via ObjectStorageService.uploadObject()
+  - Client-to-storage uploads via presigned URLs from /api/objects/upload
 - **Schema Management**: 
   - TypeScript interfaces with Zod validation for type safety
   - Server-side storage interface for all data operations
 - **Data Models**:
-  - Contact submissions with file attachment references
-  - Policy applications with document URLs from Object Storage
+  - Contact submissions with comma-delimited document URLs (text field)
+  - Policy applications with document URL arrays from Object Storage
   - Carousel images configuration stored in memory
   - Strategic suggestions for strategic planning page
 

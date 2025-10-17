@@ -85,6 +85,21 @@ export class ObjectStorageService {
     return null;
   }
 
+  async uploadObject(objectPath: string, buffer: Buffer, contentType: string): Promise<File> {
+    const { bucketName, objectName } = parseObjectPath(objectPath);
+    const bucket = objectStorageClient.bucket(bucketName);
+    const file = bucket.file(objectName);
+
+    await file.save(buffer, {
+      contentType,
+      metadata: {
+        contentType,
+      },
+    });
+
+    return file;
+  }
+
   async downloadObject(file: File, res: Response, cacheTtlSec: number = 3600) {
     try {
       const [metadata] = await file.getMetadata();

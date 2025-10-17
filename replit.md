@@ -110,19 +110,16 @@ Preferred communication style: Simple, everyday language.
 ### API Design
 - **RESTful Endpoints**: Clean API structure with proper HTTP methods
 - **File Upload Support**: 
-  - Contact forms: Firebase Storage with multi-file support
-  - Policy applications: Replit Object Storage with presigned URLs for direct upload
+  - Contact forms: Multipart uploads via Multer → Server uploads to Object Storage → Returns object URLs
+  - Policy applications: Client-side direct upload via presigned URLs from /api/objects/upload
   - Type validation (PDF, DOC, DOCX, JPG, PNG) with 10MB size limits
-- **Object Storage Integration** (for policy documents):
-  - POST `/api/objects/upload` - Get presigned URL for client-side direct upload
-  - GET `/objects/:objectPath` - Serve uploaded documents
-  - Privacy controls via Object ACL policies
+- **Object Storage Integration**:
+  - POST `/api/contact` - Accepts multipart/form-data with documents array, uploads to Object Storage
+  - POST `/api/objects/upload` - Get presigned URL for client-side direct upload (chatbot applications)
+  - GET `/objects/:objectPath` - Serve uploaded documents with proper content-type headers
+  - Privacy controls via Object ACL policies (future enhancement)
 - **Error Handling**: Consistent error responses with proper HTTP status codes
 - **Request Validation**: Zod schema validation for all API inputs
-- **Firebase Integration**:
-  - Contact form data stored in Firestore with real-time capabilities
-  - Image serving through Firebase Storage with public URLs
-  - Server-side rendering support for dynamic image loading
 
 ## External Dependencies
 

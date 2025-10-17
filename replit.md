@@ -54,12 +54,19 @@ Preferred communication style: Simple, everyday language.
 - **Modular Design**: Reusable components organized by feature
 - **UI System**: Comprehensive design system with shadcn/ui components
 - **Responsive Design**: Mobile-first approach with Tailwind responsive utilities
-- **Homepage Insurance Cards Layout**: 
-  - Card-based grid design (2 columns on desktop, stacked on mobile)
-  - Each card features: background image with overlay, icon badge, title/subtitle, description, features list, and "Learn More" link
-  - **Zig-Zag Connector Line**: Animated SVG path flows through cards (Auto → Home → Life → Health → Commercial) with gradient glow effect
-  - Hover effects: card lift animation, border highlight, image zoom
-  - Click anywhere on card to navigate to insurance page
+- **Homepage Advanced Parallax Layout**: 
+  - **Alternating/Staggered Split-Screen Design**: Premium product-page inspired layout (Stripe Atlas style)
+  - **5 Full-Screen Insurance Sections** with alternating content placement:
+    - Section 1 (Auto): Content LEFT → Parallax image RIGHT
+    - Section 2 (Home): Content RIGHT → Parallax image LEFT
+    - Section 3 (Life): Content LEFT → Parallax image RIGHT
+    - Section 4 (Health): Content RIGHT → Parallax image LEFT
+    - Section 5 (Commercial): Content LEFT → Parallax image RIGHT
+  - **Parallax Background Images**: Scroll at 50-60% speed (0.55x) for depth effect
+  - **Smooth Scroll Animations**: Content fades in with slide animation when entering viewport
+  - **GPU Acceleration**: Uses translate3d, willChange, backfaceVisibility for 60fps performance
+  - **Emotional Imagery**: Warm, relatable photos (family, car, home) that connect with each insurance type
+  - **Responsive Behavior**: Stacks vertically on mobile with full-width content blocks
 - **Animation System**: 
   - Scroll-triggered animations using Intersection Observer API
   - Auto insurance page: Car crash animation on load with cartoon particle burst effect

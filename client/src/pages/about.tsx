@@ -72,9 +72,8 @@ export default function About() {
         {/* Floating Story Window */}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 py-20">
           <div className="max-w-4xl mx-auto bg-white/20 dark:bg-slate-900/30 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-2xl border border-white/30">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8 text-white text-center min-h-[3rem]">
-              {titleText}
-              {titleText.length < fullTitle.length && <span className="animate-pulse">|</span>}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8 text-white text-center">
+              Our Story
             </h2>
             <div className="space-y-6 text-base sm:text-lg text-white dark:text-white leading-relaxed">
               <p>

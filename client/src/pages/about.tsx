@@ -54,47 +54,29 @@ export default function About() {
     <div className="min-h-screen">
       <Navigation />
       
-      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12 sm:mb-16">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 gradient-text leading-tight">
-              About Insure-it Group
-            </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
-              A proud family-owned business serving Florida for 14 years. 
-              Protecting what matters most to thousands of families and businesses across the Sunshine State.
-            </p>
-          </div>
+      {/* Hero Section with Family Portrait Background */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image with Parallax */}
+        <div 
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1920&q=80)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed'
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 via-blue-800/50 to-slate-900/60"></div>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-16 items-center mb-12 sm:mb-20">
-            <div>
-              <img 
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800" 
-                alt="Insure-it Group family team" 
-                className="rounded-2xl shadow-2xl hover-lift"
-              />
-            </div>
-            <div className="insurance-card p-6 sm:p-8 rounded-2xl">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 gradient-text">Our Mission</h2>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                At Insure-it Group, we believe that everyone deserves access to quality insurance coverage 
-                that provides real protection and peace of mind. Our mission is to simplify the insurance 
-                process while delivering personalized solutions that fit your unique needs and budget.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                We take pride in building long-lasting relationships with our clients, providing expert 
-                guidance, and being there when you need us most.
-              </p>
-            </div>
-          </div>
-
-          {/* Our Story Section */}
-          <div className="insurance-card p-6 sm:p-10 rounded-2xl mb-12 sm:mb-20">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 gradient-text text-center min-h-[3rem]">
+        {/* Floating Story Window */}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 py-20">
+          <div className="max-w-4xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-2xl border border-white/20">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8 gradient-text text-center min-h-[3rem]">
               {titleText}
               {titleText.length < fullTitle.length && <span className="animate-pulse">|</span>}
             </h2>
-            <div className="max-w-4xl mx-auto space-y-6 text-lg text-muted-foreground leading-relaxed">
+            <div className="space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
               <p>
                 Our journey began in 2011 with a simple dream and a small office in the heart of Miami. 
                 What started as a family vision to help our local community find quality insurance coverage 
@@ -117,13 +99,38 @@ export default function About() {
                 {lastParagraphText}
                 {lastParagraphText.length > 0 && lastParagraphText.length < fullLastParagraph.length && <span className="animate-pulse">|</span>}
               </p>
-              <p className="text-center italic text-primary pt-4">
+              <p className="text-center italic text-primary pt-4 text-lg sm:text-xl">
                 "{signatureText}
                 {signatureText.length > 0 && signatureText.length < fullSignature.length && <span className="animate-pulse">|</span>}
                 "{showCursor && <span className="typing-cursor">|</span>}
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Mission Section */}
+      <section className="py-16 sm:py-24 bg-gradient-to-b from-background to-slate-50 dark:to-slate-950">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-5xl mx-auto">
+            <div className="insurance-card p-8 sm:p-12 rounded-[3rem] shadow-xl">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 gradient-text text-center">Our Mission</h2>
+              <p className="text-lg sm:text-xl text-muted-foreground mb-6 leading-relaxed text-center">
+                At Insure-it Group, we believe that everyone deserves access to quality insurance coverage 
+                that provides real protection and peace of mind. Our mission is to simplify the insurance 
+                process while delivering personalized solutions that fit your unique needs and budget.
+              </p>
+              <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed text-center">
+                We take pride in building long-lasting relationships with our clients, providing expert 
+                guidance, and being there when you need us most.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 sm:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
 
           {/* Meet the Team Section */}
           <div className="mb-12 sm:mb-20">

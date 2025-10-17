@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { Car, House, Heart, Activity, Building2, ArrowRight, Shield } from "lucide-react";
 import Logo from "@/components/logo";
 import { useEffect, useState } from "react";
-import teamPhotoPath from "@assets/stock_images/business_team_profes_6f42a9b0.jpg";
+import teamPhotoPath from "@assets/teamportraitAI_1760737460273.jpg";
 
 export default function HomeAlternating() {
   const [heroVisible, setHeroVisible] = useState(false);
@@ -40,12 +40,11 @@ export default function HomeAlternating() {
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            {/* Background Image with Parallax */}
+            {/* Team Photo - Static */}
             <div 
               className="absolute inset-0 bg-cover bg-center"
               style={{
                 backgroundImage: `url(${teamPhotoPath})`,
-                transform: `translateY(${scrollY * 0.3}px) scale(1.05)`,
               }}
             />
             

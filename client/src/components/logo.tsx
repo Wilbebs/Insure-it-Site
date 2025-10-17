@@ -11,7 +11,7 @@ interface LogoProps {
 export default function Logo({ className = "", variant = 'default', showTagline = false, size = 'small' }: LogoProps) {
   const textColor = variant === 'white' ? 'text-white' : 'text-gray-800';
   const accentColor = variant === 'white' ? 'text-white' : 'text-primary';
-  const taglineColor = variant === 'white' ? 'text-white/90' : 'text-muted-foreground';
+  const taglineColor = variant === 'white' ? 'text-amber-300' : 'text-muted-foreground';
   
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";

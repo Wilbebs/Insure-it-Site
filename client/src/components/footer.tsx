@@ -5,7 +5,7 @@ import Logo from "./logo";
 
 export default function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground py-12" data-testid="footer">
+    <footer className="bg-slate-900 text-white py-12" data-testid="footer">
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-8">
           <div>
@@ -91,7 +91,7 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="border-t border-blue-400 mt-8 pt-8 text-center opacity-75">
+        <div className="border-t border-slate-700 mt-8 pt-8 text-center opacity-75">
           <p>&copy; 2025 Insure-it Group. All rights reserved.</p>
         </div>
       </div>

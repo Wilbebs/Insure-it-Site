@@ -36,7 +36,7 @@ export default function HomeAlternating() {
             transition={{ duration: 1 }}
           >
             <div className="mb-12">
-              <Logo size="large" showTagline={true} />
+              <Logo size="large" showTagline={true} variant="white" />
             </div>
             
             <motion.h1

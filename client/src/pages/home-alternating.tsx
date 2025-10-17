@@ -74,19 +74,12 @@ export default function HomeAlternating() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl" />
             
-            <div className="relative z-10 max-w-xl">
+            <div className="relative z-10 max-w-xl text-center">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                {/* Small badge */}
-                <div className="inline-block mb-6">
-                  <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium border border-white/30">
-                    Family-Owned Since 2011
-                  </span>
-                </div>
-
                 {/* Logo with Shield Pulse Animation */}
                 <div className="mb-8">
                   <Logo size="large" showTagline={true} variant="white" />
@@ -100,7 +93,7 @@ export default function HomeAlternating() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.8, delay: 0.6 }}
-                  className="flex flex-col sm:flex-row gap-4"
+                  className="flex flex-col sm:flex-row gap-4 justify-center"
                 >
                   <button
                     onClick={() => setQuoteModalOpen(true)}
@@ -119,12 +112,12 @@ export default function HomeAlternating() {
                   </button>
                 </motion.div>
 
-                {/* Trust indicators */}
+                {/* Trust indicators with Family-Owned badge */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={heroVisible ? { opacity: 1 } : { opacity: 0 }}
                   transition={{ duration: 1, delay: 1 }}
-                  className="mt-12 flex items-center gap-8 text-white/80 text-sm"
+                  className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/80 text-sm"
                 >
                   <div className="flex items-center gap-2">
                     <Shield className="w-5 h-5" />
@@ -133,6 +126,11 @@ export default function HomeAlternating() {
                   <div className="flex items-center gap-2">
                     <Heart className="w-5 h-5" />
                     <span>A+ Rated</span>
+                  </div>
+                  <div className="inline-block">
+                    <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium border border-white/30">
+                      Family-Owned Since 2011
+                    </span>
                   </div>
                 </motion.div>
               </motion.div>

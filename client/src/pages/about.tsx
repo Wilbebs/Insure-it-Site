@@ -71,12 +71,12 @@ export default function About() {
 
         {/* Floating Story Window */}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 py-20">
-          <div className="max-w-4xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-2xl border border-white/20">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8 gradient-text text-center min-h-[3rem]">
+          <div className="max-w-4xl mx-auto bg-white/20 dark:bg-slate-900/30 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-2xl border border-white/30">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8 text-white text-center min-h-[3rem]">
               {titleText}
               {titleText.length < fullTitle.length && <span className="animate-pulse">|</span>}
             </h2>
-            <div className="space-y-6 text-base sm:text-lg text-muted-foreground leading-relaxed">
+            <div className="space-y-6 text-base sm:text-lg text-white dark:text-white leading-relaxed">
               <p>
                 Our journey began in 2011 with a simple dream and a small office in the heart of Miami. 
                 What started as a family vision to help our local community find quality insurance coverage 
@@ -95,11 +95,11 @@ export default function About() {
                 every corner of the Sunshine State. From Miami to Jacksonville, Tampa to Orlando, Pensacola 
                 to the Keys—we've had the honor of protecting what matters most to Florida families.
               </p>
-              <p className="font-semibold text-foreground min-h-[8rem]">
+              <p className="font-semibold text-white min-h-[8rem]">
                 {lastParagraphText}
                 {lastParagraphText.length > 0 && lastParagraphText.length < fullLastParagraph.length && <span className="animate-pulse">|</span>}
               </p>
-              <p className="text-center italic text-primary pt-4 text-lg sm:text-xl">
+              <p className="text-center italic text-white pt-4 text-lg sm:text-xl font-semibold">
                 "{signatureText}
                 {signatureText.length > 0 && signatureText.length < fullSignature.length && <span className="animate-pulse">|</span>}
                 "{showCursor && <span className="typing-cursor">|</span>}
@@ -109,27 +109,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Mission Section */}
-      <section className="py-16 sm:py-24 bg-gradient-to-b from-background to-slate-50 dark:to-slate-950">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-5xl mx-auto">
-            <div className="insurance-card p-8 sm:p-12 rounded-[3rem] shadow-xl">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 gradient-text text-center">Our Mission</h2>
-              <p className="text-lg sm:text-xl text-muted-foreground mb-6 leading-relaxed text-center">
-                At Insure-it Group, we believe that everyone deserves access to quality insurance coverage 
-                that provides real protection and peace of mind. Our mission is to simplify the insurance 
-                process while delivering personalized solutions that fit your unique needs and budget.
-              </p>
-              <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed text-center">
-                We take pride in building long-lasting relationships with our clients, providing expert 
-                guidance, and being there when you need us most.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-12 sm:py-20">
+      <section className="py-12 sm:py-20 bg-gradient-to-b from-background to-slate-50 dark:to-slate-950">
         <div className="container mx-auto px-4 sm:px-6">
 
           {/* Meet the Team Section */}
@@ -327,30 +307,6 @@ export default function About() {
                   <p className="text-primary font-medium">Auto Insurance Expert</p>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Why Choose Us Cards - Moved below team */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-20">
-            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
-              <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2 gradient-text">Family-Owned</h3>
-              <p className="text-muted-foreground">14 years of family values & dedication</p>
-            </div>
-            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
-              <Users className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2 gradient-text">Personal</h3>
-              <p className="text-muted-foreground">Dedicated agents for every client</p>
-            </div>
-            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
-              <Award className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2 gradient-text">Award-Winning</h3>
-              <p className="text-muted-foreground">Recognized for excellence</p>
-            </div>
-            <div className="text-center insurance-card p-6 rounded-2xl hover-lift">
-              <Clock className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2 gradient-text">24/7 Support</h3>
-              <p className="text-muted-foreground">Always here when you need us</p>
             </div>
           </div>
 

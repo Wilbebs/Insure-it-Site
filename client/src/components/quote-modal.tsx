@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { X, Upload } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,49 +24,59 @@ const baseFormSchema = z.object({
 });
 
 const autoInsuranceSchema = baseFormSchema.extend({
-  vehicleYear: z.string().min(4, "Enter vehicle year"),
-  vehicleMake: z.string().min(2, "Enter vehicle make"),
-  vehicleModel: z.string().min(2, "Enter vehicle model"),
+  vehicleYear: z.string().min(4, "Vehicle year is required"),
+  vehicleMake: z.string().min(2, "Vehicle make is required"),
+  vehicleModel: z.string().min(2, "Vehicle model is required"),
+  registrationDoc: z.any().optional(),
 });
 
 const homeInsuranceSchema = baseFormSchema.extend({
-  propertyAddress: z.string().min(5, "Enter property address"),
-  propertyValue: z.string().min(1, "Enter estimated property value"),
-  yearBuilt: z.string().min(4, "Enter year built"),
+  propertyAddress: z.string().min(5, "Property address is required"),
+  propertyValue: z.string().min(1, "Property value is required"),
+  yearBuilt: z.string().min(4, "Year built is required"),
+  propertyDoc: z.any().optional(),
 });
 
 const lifeInsuranceSchema = baseFormSchema.extend({
-  dateOfBirth: z.string().min(1, "Enter date of birth"),
-  coverageAmount: z.string().min(1, "Enter desired coverage amount"),
-  beneficiaries: z.string().min(2, "Enter beneficiary information"),
+  dateOfBirth: z.string().min(1, "Date of birth is required"),
+  coverageAmount: z.string().min(1, "Coverage amount is required"),
+  beneficiaries: z.string().min(2, "Beneficiary information is required"),
+  medicalDoc: z.any().optional(),
 });
 
 const healthInsuranceSchema = baseFormSchema.extend({
-  numberOfPeople: z.string().min(1, "Enter number of people to cover"),
+  numberOfPeople: z.string().min(1, "Number of people is required"),
   preExistingConditions: z.string().optional(),
+  medicalRecords: z.any().optional(),
 });
 
 const commercialInsuranceSchema = baseFormSchema.extend({
-  businessName: z.string().min(2, "Enter business name"),
-  businessType: z.string().min(2, "Enter business type"),
-  numberOfEmployees: z.string().min(1, "Enter number of employees"),
+  businessName: z.string().min(2, "Business name is required"),
+  businessType: z.string().min(2, "Business type is required"),
+  numberOfEmployees: z.string().min(1, "Number of employees is required"),
+  businessDoc: z.any().optional(),
 });
 
 type QuoteFormValues = z.infer<typeof baseFormSchema> & {
   vehicleYear?: string;
   vehicleMake?: string;
   vehicleModel?: string;
+  registrationDoc?: File;
   propertyAddress?: string;
   propertyValue?: string;
   yearBuilt?: string;
+  propertyDoc?: File;
   dateOfBirth?: string;
   coverageAmount?: string;
   beneficiaries?: string;
+  medicalDoc?: File;
   numberOfPeople?: string;
   preExistingConditions?: string;
+  medicalRecords?: File;
   businessName?: string;
   businessType?: string;
   numberOfEmployees?: string;
+  businessDoc?: File;
 };
 
 export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
@@ -163,7 +173,11 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative max-w-2xl w-full max-h-[90vh] overflow-y-auto pointer-events-auto"
+              className="relative max-w-2xl w-full max-h-[90vh] overflow-y-auto pointer-events-auto scrollbar-custom"
+              style={{
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'rgba(59, 130, 246, 0.5) transparent'
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative w-full bg-white/30 dark:bg-slate-900/30 backdrop-blur-2xl rounded-[3rem] shadow-2xl border border-white/30 overflow-hidden">
@@ -299,6 +313,25 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                               </FormItem>
                             )} />
                           </motion.div>
+                          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+                            <FormField control={form.control} name="registrationDoc" render={({ field: { value, onChange, ...field } }) => (
+                              <FormItem>
+                                <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Vehicle Registration (Optional)</FormLabel>
+                                <FormControl>
+                                  <div className="relative">
+                                    <Input
+                                      {...field}
+                                      type="file"
+                                      accept=".pdf,.jpg,.jpeg,.png"
+                                      onChange={(e) => onChange(e.target.files?.[0])}
+                                      className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )} />
+                          </motion.div>
                         </>
                       )}
 
@@ -331,6 +364,23 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                                 <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Year Built</FormLabel>
                                 <FormControl>
                                   <Input {...field} placeholder="1995" className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 text-lg" />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )} />
+                          </motion.div>
+                          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
+                            <FormField control={form.control} name="propertyDoc" render={({ field: { value, onChange, ...field } }) => (
+                              <FormItem>
+                                <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Property Documents (Optional)</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    {...field}
+                                    type="file"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    onChange={(e) => onChange(e.target.files?.[0])}
+                                    className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                  />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -373,6 +423,23 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                               </FormItem>
                             )} />
                           </motion.div>
+                          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
+                            <FormField control={form.control} name="medicalDoc" render={({ field: { value, onChange, ...field } }) => (
+                              <FormItem>
+                                <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Medical Records (Optional)</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    {...field}
+                                    type="file"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    onChange={(e) => onChange(e.target.files?.[0])}
+                                    className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )} />
+                          </motion.div>
                         </>
                       )}
 
@@ -396,6 +463,23 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                                 <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Pre-existing Conditions (Optional)</FormLabel>
                                 <FormControl>
                                   <Textarea {...field} placeholder="List any relevant medical conditions..." className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl min-h-[80px] text-lg resize-none" />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )} />
+                          </motion.div>
+                          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
+                            <FormField control={form.control} name="medicalRecords" render={({ field: { value, onChange, ...field } }) => (
+                              <FormItem>
+                                <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Additional Medical Records (Optional)</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    {...field}
+                                    type="file"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    onChange={(e) => onChange(e.target.files?.[0])}
+                                    className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                  />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -438,10 +522,27 @@ export default function QuoteModal({ isOpen, onClose }: QuoteModalProps) {
                               </FormItem>
                             )} />
                           </motion.div>
+                          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
+                            <FormField control={form.control} name="businessDoc" render={({ field: { value, onChange, ...field } }) => (
+                              <FormItem>
+                                <FormLabel className="text-gray-800 dark:text-gray-200 font-semibold">Business License (Optional)</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    {...field}
+                                    type="file"
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    onChange={(e) => onChange(e.target.files?.[0])}
+                                    className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-white/40 focus:border-blue-400 rounded-2xl h-12 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )} />
+                          </motion.div>
                         </>
                       )}
 
-                      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
+                      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
                         <Button
                           type="submit"
                           disabled={isSubmitting}

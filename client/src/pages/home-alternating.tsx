@@ -1,6 +1,8 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import AlternatingParallaxSection from "@/components/alternating-parallax-section";
+import TestimonialsCarousel from "@/components/testimonials-carousel";
+import QuoteModal from "@/components/quote-modal";
 import { motion } from "framer-motion";
 import { Car, House, Heart, Activity, Building2, ArrowRight, Shield } from "lucide-react";
 import Logo from "@/components/logo";
@@ -8,6 +10,7 @@ import { useEffect, useState } from "react";
 
 export default function HomeAlternating() {
   const [heroVisible, setHeroVisible] = useState(false);
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
 
   useEffect(() => {
     setHeroVisible(true);
@@ -63,7 +66,7 @@ export default function HomeAlternating() {
                 <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
               <button
-                onClick={() => window.location.href = '/#connect'}
+                onClick={() => setQuoteModalOpen(true)}
                 className="bg-transparent border-2 border-white text-white px-12 py-5 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
                 data-testid="button-get-quote"
               >
@@ -242,7 +245,7 @@ export default function HomeAlternating() {
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
               <button
-                onClick={() => window.location.href = '/#connect'}
+                onClick={() => setQuoteModalOpen(true)}
                 className="bg-white text-blue-600 px-14 py-6 rounded-full font-bold text-xl shadow-2xl hover:shadow-white/50 transition-all hover:scale-105"
                 data-testid="button-get-started-cta"
               >
@@ -279,7 +282,13 @@ export default function HomeAlternating() {
         </div>
       </section>
 
+      {/* Testimonials Carousel */}
+      <TestimonialsCarousel />
+
       <Footer />
+
+      {/* Quote Modal */}
+      <QuoteModal isOpen={quoteModalOpen} onClose={() => setQuoteModalOpen(false)} />
     </div>
   );
 }

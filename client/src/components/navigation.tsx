@@ -62,8 +62,8 @@ export default function Navigation() {
               <div className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500 ${
                 logoHighlight ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-3/4 group-hover:opacity-100'
               }`}></div>
-              <span className="absolute -bottom-6 text-[10px] font-medium text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                Home
+              <span className="absolute -bottom-4 text-[10px] font-medium text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                Home Page
               </span>
             </Link>
             <div className={`flex items-center transition-all duration-500 ${

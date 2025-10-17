@@ -1,4 +1,4 @@
-// Shared TypeScript types for Firebase integration
+// Shared TypeScript types
 
 export interface ContactFormData {
   id?: string;
@@ -8,15 +8,9 @@ export interface ContactFormData {
   policyType: string;
   coverageLevel: string;
   additionalInformation?: string;
-  attachedDocuments?: string[]; // Firebase Storage URLs
+  attachedDocuments?: string[];
   submittedAt: Date;
   status: 'pending' | 'reviewed' | 'contacted' | 'completed';
-}
-
-export interface FirebaseImageUrl {
-  url: string;
-  path: string;
-  uploadedAt: Date;
 }
 
 export interface InsurancePageImages {

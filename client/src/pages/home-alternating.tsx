@@ -87,13 +87,10 @@ export default function HomeAlternating() {
                   </span>
                 </div>
 
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-                  insure<span className="text-amber-300">it</span>
-                </h1>
-
-                <p className="text-lg md:text-xl text-amber-300/90 mb-2 italic font-light">
-                  Life's Uncertain. Your Coverage Isn't.
-                </p>
+                {/* Logo with Shield Pulse Animation */}
+                <div className="mb-8">
+                  <Logo size="large" showTagline={true} variant="white" />
+                </div>
 
                 <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
                   14 years protecting <span className="font-bold text-amber-300">thousands of Florida families</span> with personalized coverage and genuine care

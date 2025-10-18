@@ -655,7 +655,7 @@ export default function ChatBot() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
-                    className="absolute -top-[56px] -left-[219px] whitespace-nowrap"
+                    className="absolute -top-[53px] -left-[219px] whitespace-nowrap"
                   >
                     <div className="bg-white rounded-2xl shadow-xl px-5 py-3 relative">
                       <div className="text-sm font-medium text-gray-800">

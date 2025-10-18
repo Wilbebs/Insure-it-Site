@@ -215,7 +215,7 @@ export default function HomeAlternating() {
           'Mental Health Support'
         ]}
         icon={<Activity className="w-12 h-12 text-white" />}
-        backgroundImage="https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=1920&q=80"
+        backgroundImage="https://images.unsplash.com/photo-1609220136736-443140cffec6?w=1920&q=80"
         accentColor="from-purple-500 to-violet-600"
       >
         <button 

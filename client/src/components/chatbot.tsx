@@ -652,17 +652,17 @@ export default function ChatBot() {
               <AnimatePresence>
                 {showWelcomeBubble && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute bottom-20 left-1/2 -translate-x-1/2 whitespace-nowrap"
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    className="absolute top-1/2 -translate-y-1/2 right-20 whitespace-nowrap"
                   >
                     <div className="bg-white rounded-2xl shadow-xl px-5 py-3 relative">
                       <div className="text-sm font-medium text-gray-800">
                         I can help you get started! 👋
                       </div>
-                      {/* Speech bubble tail pointing down */}
-                      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white transform rotate-45 shadow-lg"></div>
+                      {/* Speech bubble tail pointing right */}
+                      <div className="absolute top-1/2 -translate-y-1/2 -right-2 w-4 h-4 bg-white transform rotate-45 shadow-lg"></div>
                     </div>
                   </motion.div>
                 )}

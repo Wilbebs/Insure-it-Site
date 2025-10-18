@@ -139,7 +139,7 @@ export default function HomeAlternating() {
             'Rental Car Reimbursement'
           ]}
           icon={<Car className="w-12 h-12 text-white" />}
-          backgroundImage="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80"
+          backgroundImage="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1920&q=80"
           accentColor="from-blue-500 to-blue-600"
         >
           <button 
@@ -215,7 +215,7 @@ export default function HomeAlternating() {
           'Mental Health Support'
         ]}
         icon={<Activity className="w-12 h-12 text-white" />}
-        backgroundImage="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1920&q=80"
+        backgroundImage="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1920&q=80"
         accentColor="from-purple-500 to-violet-600"
       >
         <button 

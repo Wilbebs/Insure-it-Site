@@ -655,14 +655,14 @@ export default function ChatBot() {
                     initial={{ opacity: 0, scale: 0.8, x: 20 }}
                     animate={{ opacity: 1, scale: 1, x: 0 }}
                     exit={{ opacity: 0, scale: 0.8, x: 20 }}
-                    className="absolute bottom-0 right-20 mb-2 mr-2"
+                    className="absolute bottom-2 right-20 mr-2 whitespace-nowrap"
                   >
-                    <div className="bg-white rounded-2xl shadow-2xl px-5 py-3 max-w-[200px] relative">
+                    <div className="bg-white rounded-xl shadow-2xl px-4 py-2.5 relative border border-blue-100">
                       <div className="text-sm font-medium text-gray-800">
                         I can help you get started! 👋
                       </div>
                       {/* Speech bubble tail */}
-                      <div className="absolute bottom-3 -right-2 w-4 h-4 bg-white transform rotate-45 shadow-lg"></div>
+                      <div className="absolute bottom-4 -right-1.5 w-3 h-3 bg-white transform rotate-45 border-r border-b border-blue-100"></div>
                     </div>
                   </motion.div>
                 )}

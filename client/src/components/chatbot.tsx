@@ -187,6 +187,7 @@ export default function ChatBot() {
   const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasNotification, setHasNotification] = useState(true);
+  const [showWelcomeBubble, setShowWelcomeBubble] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { type: 'bot', text: 'Hi! I\'m Liz, your insurance assistant. What type of insurance are you interested in today?' }
   ]);
@@ -270,9 +271,23 @@ export default function ChatBot() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isVisible]);
 
+  // Show welcome bubble when chatbot appears, hide after 10 seconds
+  useEffect(() => {
+    if (isVisible && !isExpanded) {
+      setShowWelcomeBubble(true);
+      const timer = setTimeout(() => {
+        setShowWelcomeBubble(false);
+      }, 10000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowWelcomeBubble(false);
+    }
+  }, [isVisible, isExpanded]);
+
   const handleExpand = () => {
     setIsExpanded(true);
     setHasNotification(false);
+    setShowWelcomeBubble(false);
   };
 
   const handleMinimize = () => {
@@ -632,24 +647,46 @@ export default function ChatBot() {
           data-testid="chatbot-widget"
         >
           {!isExpanded ? (
-            <button
-              onClick={handleExpand}
-              className="relative group"
-              data-testid="chatbot-minimized-button"
-            >
-              <div className="w-16 h-16 rounded-full overflow-hidden shadow-2xl ring-4 ring-blue-500/50 hover:ring-blue-500 transition-all hover:scale-110">
-                <img 
-                  src={LIZ_AVATAR}
-                  alt="Chat with Liz"
-                  className="w-full h-full object-cover object-center scale-110"
-                />
-              </div>
-              {hasNotification && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-                  1
-                </span>
-              )}
-            </button>
+            <div className="relative">
+              {/* Welcome Message Bubble */}
+              <AnimatePresence>
+                {showWelcomeBubble && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8, x: 20 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.8, x: 20 }}
+                    className="absolute bottom-0 right-20 mb-2 mr-2"
+                  >
+                    <div className="bg-white rounded-2xl shadow-2xl px-5 py-3 max-w-[200px] relative">
+                      <div className="text-sm font-medium text-gray-800">
+                        I can help you get started! 👋
+                      </div>
+                      {/* Speech bubble tail */}
+                      <div className="absolute bottom-3 -right-2 w-4 h-4 bg-white transform rotate-45 shadow-lg"></div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <button
+                onClick={handleExpand}
+                className="relative group"
+                data-testid="chatbot-minimized-button"
+              >
+                <div className="w-16 h-16 rounded-full overflow-hidden shadow-2xl ring-4 ring-blue-500/50 hover:ring-blue-500 transition-all hover:scale-110">
+                  <img 
+                    src={LIZ_AVATAR}
+                    alt="Chat with Liz"
+                    className="w-full h-full object-cover object-center scale-110"
+                  />
+                </div>
+                {hasNotification && !showWelcomeBubble && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                    1
+                  </span>
+                )}
+              </button>
+            </div>
           ) : (
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}

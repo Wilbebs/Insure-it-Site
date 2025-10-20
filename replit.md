@@ -60,18 +60,17 @@ Preferred communication style: Simple, everyday language.
 - **Modular Design**: Reusable components organized by feature
 - **UI System**: Comprehensive design system with shadcn/ui components
 - **Responsive Design**: Mobile-first approach with Tailwind responsive utilities
-- **Homepage Split-Screen Hero (v3 - Human-Centered)**:
-  - **Split-Screen Layout**: Magazine-style split design with professional team photo on left, content on right
-  - **Team Photo Showcase**: Left panel displays full team in branded navy polos (static image, no parallax)
-  - **Personalized Content**: Right panel features:
-    - "Family-Owned Since 2011" badge for credibility
+- **Homepage Full-Screen Hero (v4 - Light & Professional)**:
+  - **Light Blue Background**: Solid light blue (#ADD8E6) at 35% opacity with subtle gradient overlay
+  - **Transparent Team Photo Foreground**: Professional team photo (10 people in navy polos) as transparent PNG in foreground at 70% height
+  - **Centered Content**: Content overlays the hero section with:
     - Large Logo component with shield pulse animation and typing tagline
-    - Warm messaging emphasizing family protection and genuine care
-    - Two CTA buttons (Get Free Quote primary, Explore Coverage secondary)
-    - Trust indicators (Licensed & Insured, A+ Rated)
-  - **Smooth Animations**: Slide-in effects from both sides, shield pulse (3x on load), typing tagline, decorative blur elements
-  - **Human Touch**: Professional team photo creates warm, approachable, personable feel
-  - **Mobile Responsive**: Grid layout stacks vertically on smaller screens
+    - Warm messaging emphasizing family protection and genuine care (dark text on light background)
+    - Two CTA buttons (Get Free Quote primary blue, Explore Coverage outline)
+    - Trust indicators at bottom (Licensed & Insured, A+ Rated, Family-Owned Since 2011)
+  - **Smooth Animations**: Fade-in effects, shield pulse (3x on load), typing tagline, decorative blur elements
+  - **Professional & Approachable**: Light background with team photo creates clean, modern, personable feel
+  - **Mobile Responsive**: All elements stack gracefully on smaller screens
 - **Insurance Sections Modern Parallax Layout**:
   - **Premium Alternating Design**: Magazine-style layout with asymmetric floating cards
   - **5 Full-Screen Sections** with staggered content placement:

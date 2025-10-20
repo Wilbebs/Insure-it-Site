@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { Car, House, Heart, Activity, Building2, ArrowRight, Shield } from "lucide-react";
 import Logo from "@/components/logo";
 import { useEffect, useState } from "react";
-import teamPhotoPath from "@assets/IMG_20251020_173046_1760996205712.png";
+import teamPhotoPath from "@assets/teamportraitAI_1760737460273.jpg";
 
 export default function HomeAlternating() {
   const [heroVisible, setHeroVisible] = useState(false);
@@ -32,20 +32,17 @@ export default function HomeAlternating() {
 
       {/* Hero Section - Full Screen Background */}
       <section className="min-h-screen flex items-center relative overflow-hidden pt-20">
-        {/* Blue Background */}
-        <div className="absolute inset-0 bg-[#ADD8E6] opacity-35" />
+        {/* Team Photo Background - Full Screen */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${teamPhotoPath})`,
+            backgroundPosition: 'center 30%',
+          }}
+        />
         
-        {/* Blue gradient overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-blue-500/15 to-blue-600/20" />
-        
-        {/* Team Photo - Foreground Transparent PNG */}
-        <div className="absolute inset-0 flex items-end justify-center">
-          <img 
-            src={teamPhotoPath} 
-            alt="InsureIT Team" 
-            className="h-[70%] w-auto object-contain"
-          />
-        </div>
+        {/* Blue gradient overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/90 via-blue-500/85 to-blue-600/90" />
         
         {/* Decorative Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
@@ -61,11 +58,11 @@ export default function HomeAlternating() {
             >
               {/* Logo with Shield Pulse Animation */}
               <div className="mb-8">
-                <Logo size="large" showTagline={true} variant="default" />
+                <Logo size="large" showTagline={true} variant="white" />
               </div>
 
-              <p className="text-xl md:text-2xl text-gray-800 mb-8 leading-relaxed font-semibold">
-                14 years protecting <span className="font-bold text-blue-700">thousands of Florida families</span> with personalized coverage and genuine care
+              <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
+                14 years protecting <span className="font-bold text-amber-300">thousands of Florida families</span> with personalized coverage and genuine care
               </p>
 
               <motion.div
@@ -76,7 +73,7 @@ export default function HomeAlternating() {
               >
                 <button
                   onClick={() => setQuoteModalOpen(true)}
-                  className="group bg-blue-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-blue-600/30 transition-all hover:scale-105"
+                  className="group bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/30 transition-all hover:scale-105"
                   data-testid="button-get-quote"
                 >
                   Get Quoted Now
@@ -84,7 +81,7 @@ export default function HomeAlternating() {
                 </button>
                 <button
                   onClick={() => document.getElementById('auto-section')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-transparent border-2 border-blue-600 text-blue-700 px-10 py-4 rounded-full font-semibold text-lg hover:bg-blue-600 hover:text-white transition-all"
+                  className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
                   data-testid="button-explore-coverage"
                 >
                   Explore Coverage
@@ -96,7 +93,7 @@ export default function HomeAlternating() {
                 initial={{ opacity: 0 }}
                 animate={heroVisible ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ duration: 1, delay: 1 }}
-                className="mt-12 flex flex-wrap items-center justify-center gap-6 text-gray-700 text-sm"
+                className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/80 text-sm"
               >
                 <div className="flex items-center gap-2">
                   <Shield className="w-5 h-5" />
@@ -107,7 +104,7 @@ export default function HomeAlternating() {
                   <span>A+ Rated</span>
                 </div>
                 <div className="inline-block">
-                  <span className="px-4 py-2 bg-blue-600/20 backdrop-blur-sm rounded-full text-blue-800 text-sm font-medium border border-blue-600/30">
+                  <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium border border-white/30">
                     Family-Owned Since 2011
                   </span>
                 </div>
@@ -123,8 +120,8 @@ export default function HomeAlternating() {
           transition={{ duration: 1, delay: 0.8, repeat: Infinity, repeatType: "reverse" }}
           className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-10"
         >
-          <div className="w-6 h-10 border-2 border-blue-600/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-blue-600/50 rounded-full mt-2" />
+          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white/50 rounded-full mt-2" />
           </div>
         </motion.div>
       </section>

@@ -1,10 +1,11 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import multer from "multer";
-import { storage } from "./storage";
+import { storage } from "./pgStorage"; // CHANGED: Use PostgreSQL storage
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
-import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
+import { PutObjectCommand } from '@aws-sdk/client-s3'; // NEW: AWS S3 SDK
+import { s3Client, S3_BUCKET } from './s3Client'; // NEW: S3 client
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -42,25 +43,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const files = req.files as Express.Multer.File[];
       const documentUrls: string[] = [];
       
-      // Upload files to Object Storage
+      // CHANGED: Upload files to AWS S3
       if (files && files.length > 0) {
-        const objectStorageService = new ObjectStorageService();
-        const privateDir = objectStorageService.getPrivateObjectDir();
-        
         for (const file of files) {
           try {
             // Generate unique filename
             const fileExtension = file.originalname.split('.').pop();
             const uniqueFileName = `${uuidv4()}.${fileExtension}`;
-            const objectPath = `${privateDir}/contact-documents/${uniqueFileName}`;
+            const s3Key = `contact-documents/${uniqueFileName}`;
             
-            // Upload file to Object Storage
-            await objectStorageService.uploadObject(objectPath, file.buffer, file.mimetype);
+            // Upload to S3
+            await s3Client.send(new PutObjectCommand({
+              Bucket: S3_BUCKET,
+              Key: s3Key,
+              Body: file.buffer,
+              ContentType: file.mimetype,
+            }));
             
-            // Store the object path for retrieval
-            const relativePath = `/objects/contact-documents/${uniqueFileName}`;
-            documentUrls.push(relativePath);
-            console.log(`✅ Uploaded file to Object Storage: ${relativePath}`);
+            documentUrls.push(s3Key);
+            console.log(`✅ Uploaded file to S3: ${s3Key}`);
           } catch (uploadError) {
             console.error(`Failed to upload file ${file.originalname}:`, uploadError);
             // Continue with other files even if one fails
@@ -92,7 +93,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('Contact Data:', validatedData);
       console.log('Files uploaded:', documentUrls.length, 'documents');
       
-      // Create submission in storage
+      // Create submission in storage (now PostgreSQL)
       const submission = await storage.createContactSubmission({
         name: validatedData.fullName,
         email: validatedData.emailAddress,
@@ -330,32 +331,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Object Storage routes for policy applications
-  
-  // Get presigned URL for object upload
-  app.post("/api/objects/upload", async (req, res) => {
+  // NEW: S3 file download endpoint
+  app.get("/api/documents/:s3Key(*)", async (req, res) => {
     try {
-      const objectStorageService = new ObjectStorageService();
-      const uploadURL = await objectStorageService.getObjectEntityUploadURL();
-      res.json({ uploadURL });
+      const { GetObjectCommand } = await import('@aws-sdk/client-s3');
+      const s3Key = req.params.s3Key;
+      
+      const command = new GetObjectCommand({
+        Bucket: S3_BUCKET,
+        Key: s3Key,
+      });
+      
+      const response = await s3Client.send(command);
+      
+      res.set({
+        'Content-Type': response.ContentType || 'application/octet-stream',
+        'Content-Length': response.ContentLength,
+      });
+      
+      // @ts-ignore - Stream the file
+      response.Body.pipe(res);
     } catch (error) {
-      console.error('Error getting upload URL:', error);
-      res.status(500).json({ error: "Failed to get upload URL" });
-    }
-  });
-
-  // Serve uploaded objects (public access for policy documents)
-  app.get("/objects/:objectPath(*)", async (req, res) => {
-    try {
-      const objectStorageService = new ObjectStorageService();
-      const objectFile = await objectStorageService.getObjectEntityFile(req.path);
-      objectStorageService.downloadObject(objectFile, res);
-    } catch (error) {
-      console.error("Error accessing object:", error);
-      if (error instanceof ObjectNotFoundError) {
-        return res.sendStatus(404);
-      }
-      return res.sendStatus(500);
+      console.error("Error downloading from S3:", error);
+      res.status(404).json({ error: "File not found" });
     }
   });
 

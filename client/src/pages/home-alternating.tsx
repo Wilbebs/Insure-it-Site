@@ -1,3 +1,4 @@
+///client/src/pages/home-alternating.tsx
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import AlternatingParallaxSection from "@/components/alternating-parallax-section";
@@ -75,7 +76,7 @@ export default function HomeAlternating() {
                   className="group bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/30 transition-all hover:scale-105"
                   data-testid="button-get-quote"
                 >
-                  Get Free Quote
+                  Get Quoted Now
                   <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button

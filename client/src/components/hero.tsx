@@ -1,66 +1,93 @@
 import { motion } from "framer-motion";
-import { House, ArrowRight } from "lucide-react";
-import Logo from "./logo";
+import { Button } from "@/components/ui/button";
+import { Shield, Heart, Award } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
+import QuoteModal from "./quote-modal";
+import { useState } from "react";
 
 export default function Hero() {
+  const { ref, isVisible } = useScrollAnimation();
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+
   return (
-    <section 
-      className="min-h-screen flex items-center justify-center pt-20" 
-      data-testid="hero-section"
-    >
-      <div className="container mx-auto px-6 text-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <div className="mb-8" data-testid="hero-title">
-            <Logo size="large" showTagline={true} />
+    <>
+      <section
+        ref={ref}
+        className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section"
+        data-testid="hero-section"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900" />
+        
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute w-96 h-96 -top-48 -left-48 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
+          <div className="absolute w-96 h-96 -top-48 -right-48 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
+          <div className="absolute w-96 h-96 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
+        </div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-center text-white"
+          >
+            <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-tight" data-testid="hero-title">
+              insure it
+            </h1>
+            <p className="text-2xl md:text-3xl mb-4 text-yellow-300 font-semibold italic" data-testid="hero-tagline">
+              Life's Uncertain. Your Coverage Isn't.
+            </p>
+            <p className="text-xl md:text-2xl mb-12 max-w-4xl mx-auto" data-testid="hero-description">
+              14 years protecting <span className="text-yellow-300 font-semibold">thousands of Florida families</span> with personalized coverage and genuine care
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+              <Button
+                size="lg"
+                className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-6 rounded-full font-semibold shadow-xl hover-lift"
+                onClick={() => setQuoteModalOpen(true)}
+                data-testid="button-get-quote"
+              >
+                Get Quoted Now →
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-6 rounded-full font-semibold"
+                onClick={() => {
+                  document.getElementById('coverage')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                data-testid="button-explore-coverage"
+              >
+                Explore Coverage
+              </Button>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-8 text-white">
+              <div className="flex items-center gap-2">
+                <Shield className="w-6 h-6" />
+                <span className="text-lg">Licensed & Insured</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Heart className="w-6 h-6" />
+                <span className="text-lg">A+ Rated</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Award className="w-6 h-6" />
+                <span className="text-lg">Family-Owned Since 2011</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="w-8 h-12 rounded-full border-2 border-white flex items-start justify-center p-2">
+            <div className="w-1 h-3 bg-white rounded-full" />
           </div>
-          <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed px-4" data-testid="hero-description">
-            A family-owned Florida insurance agency with 14 years of experience protecting thousands of clients statewide. 
-            From Miami to Jacksonville, we provide comprehensive coverage tailored to your unique needs.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
-            <motion.button 
-              className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 text-white px-10 sm:px-14 py-5 sm:py-6 rounded-full font-bold text-base sm:text-xl shadow-2xl w-full sm:w-auto group border-2 border-blue-300/50"
-              onClick={() => document.getElementById('connect')?.scrollIntoView({ behavior: 'smooth' })}
-              data-testid="button-get-started"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: "0 30px 60px -15px rgba(59, 130, 246, 0.7)",
-              }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {/* Animated shine effect */}
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
-              
-              {/* Pulse ring animation */}
-              <span className="absolute inset-0 rounded-full bg-blue-400/40 animate-ping opacity-0 group-hover:opacity-100"></span>
-              
-              {/* Gradient overlay on hover */}
-              <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"></span>
-              
-              {/* Button content */}
-              <span className="relative flex items-center justify-center gap-3 font-extrabold tracking-wide">
-                <House className="w-6 h-6" />
-                GET PROTECTED NOW
-                <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </motion.button>
-            <button 
-              className="border-2 border-primary text-primary px-6 sm:px-8 py-4 sm:py-5 rounded-full font-semibold text-base sm:text-lg hover:bg-primary hover:text-primary-foreground transition-all w-full sm:w-auto hover:shadow-xl"
-              onClick={() => document.querySelector('#insurance-sections')?.scrollIntoView({ behavior: 'smooth' })}
-              data-testid="button-learn-more"
-            >
-              Learn More
-            </button>
-          </div>
-        </motion.div>
-      </div>
-    </section>
+        </div>
+      </section>
+
+      <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />
+    </>
   );
 }

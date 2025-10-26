@@ -57,7 +57,17 @@ export default function ContactForm() {
   });
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    setFiles(prev => [...prev, ...acceptedFiles]);
+    console.log('🔍 onDrop called with files:', acceptedFiles);
+    console.log('🔍 Number of files:', acceptedFiles.length);
+    acceptedFiles.forEach((file, i) => {
+      console.log(`🔍 File ${i}:`, file.name, file.type, file.size);
+    });
+    
+    setFiles(prev => {
+      const newFiles = [...prev, ...acceptedFiles];
+      console.log('🔍 Updated files state:', newFiles);
+      return newFiles;
+    });
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -77,21 +87,7 @@ export default function ContactForm() {
   };
 
   const submitMutation = useMutation({
-    mutationFn: async (data: ContactFormData) => {
-      const formData = new FormData();
-      
-      // Append form fields
-      Object.entries(data).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) {
-          formData.append(key, value);
-        }
-      });
-
-      // Append files
-      files.forEach(file => {
-        formData.append('documents', file);
-      });
-
+    mutationFn: async (formData: FormData) => {
       return apiRequest('POST', '/api/contact', formData);
     },
     onSuccess: () => {
@@ -113,7 +109,39 @@ export default function ContactForm() {
   });
 
   const onSubmit = (data: ContactFormData) => {
-    submitMutation.mutate(data);
+    // Create FormData here so we can include files from state
+    const formData = new FormData();
+    
+    // DEBUG: Check files state before creating FormData
+    console.log('🔍 onSubmit - Files in state:', files);
+    console.log('🔍 onSubmit - Files length:', files.length);
+    
+    // Append form fields
+    formData.append('fullName', data.fullName);
+    formData.append('phoneNumber', data.phoneNumber);
+    formData.append('emailAddress', data.emailAddress);
+    formData.append('policyType', data.policyType);
+    if (data.coverageLevel) formData.append('coverageLevel', data.coverageLevel);
+    if (data.additionalInformation) formData.append('additionalInformation', data.additionalInformation);
+    
+    // Append files from state
+    files.forEach((file, index) => {
+      console.log(`🔍 Appending file ${index}:`, file.name, file.size, file.type);
+      formData.append('documents', file);
+    });
+    
+    // DEBUG: Check FormData contents
+    console.log('🔍 FormData entries:');
+    for (let pair of formData.entries()) {
+      if (pair[1] instanceof File) {
+        console.log(pair[0], '→ File:', pair[1].name, pair[1].size);
+      } else {
+        console.log(pair[0], '→', pair[1]);
+      }
+    }
+    
+    // Now pass FormData to mutation
+    submitMutation.mutate(formData);
   };
 
   return (

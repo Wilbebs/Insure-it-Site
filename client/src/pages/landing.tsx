@@ -74,7 +74,7 @@ export default function Landing() {
               </div>
 
               <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                14 years protecting <span className="font-bold text-amber-300">2,149 Florida families</span> <span className="text-base text-white/60 font-normal">(as of Nov. 2025)</span> with personalized coverage and genuine care
+                14 years protecting <span className="font-bold text-amber-300">thousands of Florida families</span> with personalized coverage and genuine care
               </p>
 
               <motion.div
@@ -118,6 +118,11 @@ export default function Landing() {
                 <div className="inline-block">
                   <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium border border-white/30">
                     Family-Owned Since 2011
+                  </span>
+                </div>
+                <div className="inline-block">
+                  <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium border border-white/30">
+                    2,149 Families Served (Nov. 2025)
                   </span>
                 </div>
               </motion.div>

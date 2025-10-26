@@ -135,7 +135,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent 
-        className="max-w-5xl max-h-[85vh] overflow-y-auto glass-modal border-2 shadow-2xl"
+        className="max-w-5xl max-h-[85vh] overflow-y-auto glass-modal border-2 shadow-2xl !bg-transparent"
         aria-describedby="quote-form-description"
       >
         <DialogHeader>

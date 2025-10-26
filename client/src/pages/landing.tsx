@@ -281,8 +281,6 @@ export default function Landing() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <Shield className="w-16 h-16 text-white mx-auto mb-6" />
-            
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-5">
               Ready to Get Protected?
             </h2>

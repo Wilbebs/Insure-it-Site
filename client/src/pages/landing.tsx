@@ -14,8 +14,7 @@ export default function Landing() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const [showCursor, setShowCursor] = useState(false);
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [buttonAnimate, setButtonAnimate] = useState(false);
 
   useEffect(() => {
     setHeroVisible(true);
@@ -33,18 +32,9 @@ export default function Landing() {
     ctaSection?.scrollIntoView({ behavior: 'smooth' });
     
     setTimeout(() => {
-      const button = document.getElementById('quick-quote-button');
-      if (button) {
-        const rect = button.getBoundingClientRect();
-        // Position cursor tip (not center) at button center
-        const pos = { 
-          x: rect.left + rect.width / 2, 
-          y: rect.top + rect.height / 2 
-        };
-        setCursorPosition(pos);
-        setShowCursor(true);
-      }
-    }, 1000);
+      setButtonAnimate(true);
+      setTimeout(() => setButtonAnimate(false), 3000);
+    }, 800);
   };
 
   return (
@@ -303,14 +293,45 @@ export default function Landing() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <button
+              <motion.button
                 id="quick-quote-button"
                 onClick={() => setQuoteModalOpen(true)}
-                className="bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/50 transition-all hover:scale-105"
+                className="bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/50 transition-all hover:scale-105 relative"
                 data-testid="button-get-started-cta"
+                animate={buttonAnimate ? {
+                  scale: [1, 1.15, 1.1, 1.15, 1.1, 1.15, 1],
+                  boxShadow: [
+                    "0 25px 50px -12px rgba(255, 255, 255, 0.5)",
+                    "0 0 60px 10px rgba(59, 130, 246, 0.8)",
+                    "0 0 60px 10px rgba(59, 130, 246, 0.8)",
+                    "0 0 60px 10px rgba(59, 130, 246, 0.8)",
+                    "0 0 60px 10px rgba(59, 130, 246, 0.8)",
+                    "0 0 60px 10px rgba(59, 130, 246, 0.8)",
+                    "0 25px 50px -12px rgba(255, 255, 255, 0.5)"
+                  ]
+                } : {}}
+                transition={{
+                  duration: 2.5,
+                  ease: "easeInOut"
+                }}
               >
+                {buttonAnimate && (
+                  <motion.div
+                    className="absolute inset-0 rounded-full border-4 border-blue-400"
+                    initial={{ opacity: 0, scale: 1 }}
+                    animate={{
+                      opacity: [0.8, 0],
+                      scale: [1, 1.4]
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: 2,
+                      ease: "easeOut"
+                    }}
+                  />
+                )}
                 Get your Quick Quote
-              </button>
+              </motion.button>
               <button
                 onClick={() => window.location.href = '/about'}
                 className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
@@ -378,114 +399,6 @@ export default function Landing() {
 
       {/* Quote Modal */}
       <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />
-
-      {/* Tutorial Cursor Animation - FAKE CURSOR SEPARATE FROM USER'S REAL CURSOR */}
-      {showCursor && (
-        <>
-          {/* Glowing Trail Behind Cursor */}
-          <motion.div
-            initial={{ 
-              x: window.innerWidth + 100, 
-              y: 100,
-              opacity: 0
-            }}
-            animate={{ 
-              x: cursorPosition.x - 40,
-              y: cursorPosition.y - 40,
-              opacity: [0, 0.7, 0.7, 0.7, 0.7, 0]
-            }}
-            transition={{ 
-              duration: 3.5,
-              times: [0, 0.3, 0.5, 0.7, 0.85, 1],
-              ease: "easeOut"
-            }}
-            className="fixed pointer-events-none z-[98] rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 blur-xl"
-            style={{
-              width: '80px',
-              height: '80px',
-            }}
-          />
-
-          {/* Fake Cursor - Positioned so TIP points at button center */}
-          <motion.div
-            initial={{ 
-              x: window.innerWidth + 100, 
-              y: 100,
-              opacity: 0,
-              scale: 0.8
-            }}
-            animate={{ 
-              x: cursorPosition.x - 8,
-              y: cursorPosition.y - 8,
-              opacity: [0, 1, 1, 1, 1, 1, 0],
-              scale: [0.8, 1.3, 1.3, 1.3, 1.4, 1.2, 1]
-            }}
-            transition={{ 
-              duration: 3.5,
-              times: [0, 0.4, 0.6, 0.7, 0.75, 0.85, 1],
-              ease: "easeOut"
-            }}
-            onAnimationComplete={() => setShowCursor(false)}
-            className="fixed pointer-events-none z-[100] drop-shadow-2xl"
-            style={{
-              width: '60px',
-              height: '60px',
-            }}
-          >
-            {/* Cursor pointer - tip at top-left */}
-            <svg viewBox="0 0 24 24" fill="#FBBF24" stroke="#1E3A8A" strokeWidth="3" className="drop-shadow-2xl">
-              <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
-            </svg>
-            
-            {/* Pulsing Tooltip */}
-            <div className="absolute -top-14 left-8 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-2 rounded-lg text-base font-bold whitespace-nowrap shadow-2xl animate-pulse">
-              Click Here for Quote! 👇
-            </div>
-          </motion.div>
-
-          {/* Giant Click Ripple - Centered on cursor tip */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ 
-              opacity: [0, 0, 0, 0, 0.9, 0.7, 0],
-              scale: [0, 0, 0, 0, 1.5, 2.5, 3.5]
-            }}
-            transition={{ 
-              duration: 3.5,
-              times: [0, 0.5, 0.65, 0.7, 0.75, 0.85, 1]
-            }}
-            className="fixed pointer-events-none z-[99] rounded-full border-8 border-amber-400"
-            style={{
-              left: cursorPosition.x - 60,
-              top: cursorPosition.y - 60,
-              width: '120px',
-              height: '120px',
-              boxShadow: '0 0 50px rgba(251, 191, 36, 0.9)'
-            }}
-          />
-
-          {/* Click Flash at exact cursor tip position */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ 
-              opacity: [0, 0, 0, 0, 1, 0.6, 0],
-              scale: [0, 0, 0, 0, 1.8, 2.5, 0]
-            }}
-            transition={{ 
-              duration: 3.5,
-              times: [0, 0.65, 0.7, 0.72, 0.75, 0.8, 0.9]
-            }}
-            className="fixed pointer-events-none z-[101] rounded-full bg-yellow-300"
-            style={{
-              left: cursorPosition.x - 25,
-              top: cursorPosition.y - 25,
-              width: '50px',
-              height: '50px',
-              boxShadow: '0 0 80px rgba(253, 224, 71, 1)'
-            }}
-          />
-        </>
-      )}
     </div>
   );
 }

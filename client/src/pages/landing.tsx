@@ -120,11 +120,6 @@ export default function Landing() {
                     Family-Owned Since 2011
                   </span>
                 </div>
-                <div className="inline-block">
-                  <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium border border-white/30">
-                    2,149 Families Served (Nov. 2025)
-                  </span>
-                </div>
               </motion.div>
             </motion.div>
           </div>
@@ -362,7 +357,7 @@ export default function Landing() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
               {[
                 { number: '14+', label: 'Years of Excellence' },
-                { number: '2149', label: 'Families Protected', sublabel: 'as of November, 2025' },
+                { number: '2149', label: 'Families (and counting)', sublabel: 'as of November, 2025' },
                 { number: '98%', label: 'Client Satisfaction' }
               ].map((stat, i) => (
                 <motion.div

@@ -14,7 +14,8 @@ export default function Landing() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const [highlightQuoteButton, setHighlightQuoteButton] = useState(false);
+  const [showCursor, setShowCursor] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setHeroVisible(true);
@@ -32,8 +33,15 @@ export default function Landing() {
     ctaSection?.scrollIntoView({ behavior: 'smooth' });
     
     setTimeout(() => {
-      setHighlightQuoteButton(true);
-      setTimeout(() => setHighlightQuoteButton(false), 2000);
+      const button = document.getElementById('quick-quote-button');
+      if (button) {
+        const rect = button.getBoundingClientRect();
+        setCursorPosition({ 
+          x: rect.left + rect.width / 2, 
+          y: rect.top + rect.height / 2 
+        });
+        setShowCursor(true);
+      }
     }, 800);
   };
 
@@ -293,27 +301,14 @@ export default function Landing() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <motion.button
+              <button
+                id="quick-quote-button"
                 onClick={() => setQuoteModalOpen(true)}
-                className={`px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/50 transition-all hover:scale-105 ${
-                  highlightQuoteButton 
-                    ? 'bg-gradient-to-r from-yellow-200 via-white to-yellow-200 text-blue-600 shadow-[0_0_50px_10px_rgba(250,204,21,0.6)]' 
-                    : 'bg-white text-blue-600'
-                }`}
+                className="bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/50 transition-all hover:scale-105"
                 data-testid="button-get-started-cta"
-                animate={highlightQuoteButton ? {
-                  rotate: [0, -10, 10, -10, 10, -8, 8, -5, 5, -3, 3, 0],
-                  scale: [1, 1.08, 1.08, 1.12, 1.12, 1.1, 1.1, 1.06, 1.06, 1.03, 1.03, 1],
-                  y: [0, -5, -5, -10, -10, -8, -8, -5, -5, -2, -2, 0],
-                } : {}}
-                transition={{ 
-                  duration: 1.6,
-                  ease: "easeInOut",
-                  times: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1]
-                }}
               >
                 Get your Quick Quote
-              </motion.button>
+              </button>
               <button
                 onClick={() => window.location.href = '/about'}
                 className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
@@ -381,6 +376,43 @@ export default function Landing() {
 
       {/* Quote Modal */}
       <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />
+
+      {/* Animated Cursor Effect */}
+      {showCursor && (
+        <motion.div
+          initial={{ 
+            x: window.innerWidth + 100, 
+            y: -100,
+            opacity: 0,
+            scale: 0
+          }}
+          animate={{ 
+            x: cursorPosition.x - 15,
+            y: cursorPosition.y - 15,
+            opacity: [0, 1, 1, 1, 0],
+            scale: [0, 1.2, 1, 1.1, 0.8, 0]
+          }}
+          transition={{ 
+            duration: 2,
+            times: [0, 0.3, 0.6, 0.7, 0.9, 1],
+            ease: "easeInOut"
+          }}
+          onAnimationComplete={() => {
+            setShowCursor(false);
+            document.getElementById('quick-quote-button')?.click();
+          }}
+          className="fixed pointer-events-none z-[100]"
+          style={{
+            width: '50px',
+            height: '50px',
+          }}
+        >
+          <svg viewBox="0 0 24 24" fill="white" stroke="black" strokeWidth="1">
+            <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
+            <circle cx="14" cy="10" r="1.5" fill="black" />
+          </svg>
+        </motion.div>
+      )}
     </div>
   );
 }

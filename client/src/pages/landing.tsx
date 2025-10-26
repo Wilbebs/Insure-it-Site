@@ -281,16 +281,16 @@ export default function Landing() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-5">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3">
               Ready to Get Protected?
             </h2>
             
-            <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-white/90 mb-6 max-w-2xl mx-auto">
               Join thousands of satisfied families and businesses across Florida. 
               Get your personalized insurance quote in minutes.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
               <motion.button
                 id="quick-quote-button"
                 onClick={() => setQuoteModalOpen(true)}
@@ -346,18 +346,18 @@ export default function Landing() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="mb-8"
+            className="mb-4"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
               What Our Clients Say
             </h2>
-            <p className="text-white/80 text-base md:text-lg">
+            <p className="text-white/80 text-sm md:text-base">
               Trusted by thousands of Florida families and businesses
             </p>
           </motion.div>
 
-          {/* Testimonials Carousel */}
-          <div className="mb-12">
+          {/* Testimonials Carousel - Scaled Down to 2/3 */}
+          <div className="mb-6 transform scale-[0.67] origin-center">
             <TestimonialsCarousel />
           </div>
 
@@ -368,7 +368,7 @@ export default function Landing() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
               {[
                 { number: '14+', label: 'Years of Excellence' },
                 { number: '50,000+', label: 'Families Protected' },
@@ -382,10 +382,10 @@ export default function Landing() {
                   viewport={{ once: true }}
                   className="text-center"
                 >
-                  <div className="text-5xl font-bold text-white mb-2">
+                  <div className="text-4xl font-bold text-white mb-1">
                     {stat.number}
                   </div>
-                  <div className="text-white/80 text-lg">{stat.label}</div>
+                  <div className="text-white/80 text-base">{stat.label}</div>
                 </motion.div>
               ))}
             </div>

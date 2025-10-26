@@ -295,42 +295,21 @@ export default function Landing() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <motion.button
                 onClick={() => setQuoteModalOpen(true)}
-                className="bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/50 transition-all hover:scale-105"
+                className={`px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/50 transition-all hover:scale-105 ${
+                  highlightQuoteButton 
+                    ? 'bg-gradient-to-r from-yellow-200 via-white to-yellow-200 text-blue-600 shadow-[0_0_50px_10px_rgba(250,204,21,0.6)]' 
+                    : 'bg-white text-blue-600'
+                }`}
                 data-testid="button-get-started-cta"
                 animate={highlightQuoteButton ? {
-                  rotate: [0, -8, 8, -8, 8, -5, 5, -3, 3, 0],
-                  scale: [1, 1.05, 1.1, 1.05, 1.15, 1.1, 1.05, 1.08, 1.05, 1],
-                  y: [0, -4, -8, -4, -10, -6, -3, -5, -2, 0],
-                  backgroundColor: [
-                    '#ffffff',
-                    '#fef9c3',
-                    '#ffffff', 
-                    '#fef9c3',
-                    '#ffffff',
-                    '#fef9c3',
-                    '#ffffff',
-                    '#fef9c3',
-                    '#ffffff',
-                    '#ffffff'
-                  ],
-                  boxShadow: [
-                    '0 20px 25px -5px rgb(0 0 0 / 0.1)',
-                    '0 0 40px 5px rgba(250, 204, 21, 0.4)',
-                    '0 0 50px 8px rgba(250, 204, 21, 0.6)',
-                    '0 0 40px 5px rgba(250, 204, 21, 0.4)',
-                    '0 0 60px 10px rgba(250, 204, 21, 0.7)',
-                    '0 0 50px 8px rgba(250, 204, 21, 0.5)',
-                    '0 0 40px 5px rgba(250, 204, 21, 0.3)',
-                    '0 0 30px 3px rgba(250, 204, 21, 0.2)',
-                    '0 0 20px 2px rgba(250, 204, 21, 0.1)',
-                    '0 20px 25px -5px rgb(0 0 0 / 0.1)'
-                  ]
+                  rotate: [0, -10, 10, -10, 10, -8, 8, -5, 5, -3, 3, 0],
+                  scale: [1, 1.08, 1.08, 1.12, 1.12, 1.1, 1.1, 1.06, 1.06, 1.03, 1.03, 1],
+                  y: [0, -5, -5, -10, -10, -8, -8, -5, -5, -2, -2, 0],
                 } : {}}
                 transition={{ 
-                  duration: 1.8,
-                  ease: [0.34, 1.56, 0.64, 1],
-                  type: "spring",
-                  stiffness: 200
+                  duration: 1.6,
+                  ease: "easeInOut",
+                  times: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1]
                 }}
               >
                 Get your Quick Quote

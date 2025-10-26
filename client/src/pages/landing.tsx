@@ -14,6 +14,7 @@ export default function Landing() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [highlightQuoteButton, setHighlightQuoteButton] = useState(false);
 
   useEffect(() => {
     setHeroVisible(true);
@@ -25,6 +26,16 @@ export default function Landing() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const scrollToQuotes = () => {
+    const ctaSection = document.getElementById('cta-section');
+    ctaSection?.scrollIntoView({ behavior: 'smooth' });
+    
+    setTimeout(() => {
+      setHighlightQuoteButton(true);
+      setTimeout(() => setHighlightQuoteButton(false), 2000);
+    }, 800);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -72,11 +83,11 @@ export default function Landing() {
                 className="flex flex-col sm:flex-row gap-4 justify-center"
               >
                 <button
-                  onClick={() => setQuoteModalOpen(true)}
+                  onClick={scrollToQuotes}
                   className="group bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/30 transition-all hover:scale-105"
                   data-testid="button-get-quote"
                 >
-                  Get Quoted Now
+                  Jump to Quick Quotes
                   <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button
@@ -254,7 +265,7 @@ export default function Landing() {
       </AlternatingParallaxSection>
 
       {/* CTA + Testimonials + Stats Combined Section */}
-      <section className="min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden py-16 flex items-center">
+      <section id="cta-section" className="min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden py-16 flex items-center">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 80%, white 1px, transparent 1px)',
@@ -282,13 +293,24 @@ export default function Landing() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <button
+              <motion.button
                 onClick={() => setQuoteModalOpen(true)}
                 className="bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/50 transition-all hover:scale-105"
                 data-testid="button-get-started-cta"
+                animate={highlightQuoteButton ? {
+                  scale: [1, 1.1, 1, 1.1, 1],
+                  boxShadow: [
+                    '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+                    '0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 8px rgba(255, 255, 255, 0.3)',
+                    '0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 16px rgba(255, 255, 255, 0)',
+                    '0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 0 8px rgba(255, 255, 255, 0.3)',
+                    '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)'
+                  ]
+                } : {}}
+                transition={{ duration: 2 }}
               >
-                Get Your Free Quote
-              </button>
+                Get your Quick Quote
+              </motion.button>
               <button
                 onClick={() => window.location.href = '/about'}
                 className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"

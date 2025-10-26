@@ -62,10 +62,10 @@ export default function AlternatingParallaxSection({
   }, []);
 
   return (
-    <div ref={sectionRef} className="relative min-h-screen flex items-center py-32 md:py-40">
+    <div ref={sectionRef} className="relative min-h-screen flex items-center py-32 md:py-40 overflow-hidden">
       {/* Parallax Background Image - Bleeds beyond section */}
       <div 
-        className="absolute inset-0 w-full h-[120%] -top-[10%] overflow-hidden"
+        className="absolute inset-0 w-full h-[120%] -top-[10%]"
         style={{
           transform: `translate3d(0, ${scrollOffset}px, 0)`,
           willChange: 'transform',
@@ -195,7 +195,7 @@ export default function AlternatingParallaxSection({
               block: "center" 
             });
           }}
-          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20 
+          className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20 
                      bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-md
                      border border-white/30 rounded-full p-3
                      hover:from-white/30 hover:to-white/20 transition-all

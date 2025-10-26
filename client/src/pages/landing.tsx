@@ -346,7 +346,7 @@ export default function Landing() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="mb-4"
+            className="mb-1"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
               What Our Clients Say
@@ -357,7 +357,7 @@ export default function Landing() {
           </motion.div>
 
           {/* Testimonials Carousel - Scaled Down to 2/3 */}
-          <div className="mb-1 transform scale-[0.67] origin-center">
+          <div className="mb-1 mt-2 transform scale-[0.67] origin-center">
             <TestimonialsCarousel />
           </div>
 
@@ -367,8 +367,9 @@ export default function Landing() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="px-8 md:px-16"
           >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
               {[
                 { number: '14+', label: 'Years of Excellence' },
                 { number: '50,000+', label: 'Families Protected' },

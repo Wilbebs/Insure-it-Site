@@ -10,7 +10,7 @@ import Logo from "@/components/logo";
 import { useEffect, useState } from "react";
 import teamPhotoPath from "@assets/teamportraitAI_1760737460273.jpg";
 
-export default function HomeAlternating() {
+export default function Landing() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -355,7 +355,7 @@ export default function HomeAlternating() {
       <Footer />
 
       {/* Quote Modal */}
-      <QuoteModal isOpen={quoteModalOpen} onClose={() => setQuoteModalOpen(false)} />
+      <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />
     </div>
   );
 }

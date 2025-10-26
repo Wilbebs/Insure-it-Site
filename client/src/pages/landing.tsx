@@ -357,7 +357,7 @@ export default function Landing() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
               {[
                 { number: '14+', label: 'Years of Excellence' },
-                { number: '2149', label: 'Families (and counting)', sublabel: 'as of November, 2025' },
+                { number: '2149', label: 'Families', sublabel: 'as of November, 2025' },
                 { number: '98%', label: 'Client Satisfaction' }
               ].map((stat, i) => (
                 <motion.div

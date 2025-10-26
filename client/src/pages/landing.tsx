@@ -254,7 +254,7 @@ export default function Landing() {
       </AlternatingParallaxSection>
 
       {/* CTA + Testimonials + Stats Combined Section */}
-      <section className="bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden py-20 pb-32">
+      <section className="min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden py-16 flex items-center">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 80%, white 1px, transparent 1px)',
@@ -262,7 +262,7 @@ export default function Landing() {
           }} />
         </div>
 
-        <div className="container mx-auto px-6 text-center relative z-10">
+        <div className="container mx-auto px-6 text-center relative z-10 w-full">
           {/* CTA Section */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -270,28 +270,28 @@ export default function Landing() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <Shield className="w-24 h-24 text-white mx-auto mb-10" />
+            <Shield className="w-16 h-16 text-white mx-auto mb-6" />
             
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-5">
               Ready to Get Protected?
             </h2>
             
-            <p className="text-xl md:text-2xl text-white/90 mb-16 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto">
               Join thousands of satisfied families and businesses across Florida. 
               Get your personalized insurance quote in minutes.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center mb-24">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <button
                 onClick={() => setQuoteModalOpen(true)}
-                className="bg-white text-blue-600 px-14 py-6 rounded-full font-bold text-xl shadow-2xl hover:shadow-white/50 transition-all hover:scale-105"
+                className="bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/50 transition-all hover:scale-105"
                 data-testid="button-get-started-cta"
               >
                 Get Your Free Quote
               </button>
               <button
                 onClick={() => window.location.href = '/about'}
-                className="bg-transparent border-2 border-white text-white px-14 py-6 rounded-full font-semibold text-xl hover:bg-white hover:text-blue-600 transition-all"
+                className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
                 data-testid="button-learn-about"
               >
                 Learn About Us
@@ -305,18 +305,18 @@ export default function Landing() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="mb-12"
+            className="mb-8"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
               What Our Clients Say
             </h2>
-            <p className="text-white/80 text-lg md:text-xl">
+            <p className="text-white/80 text-base md:text-lg">
               Trusted by thousands of Florida families and businesses
             </p>
           </motion.div>
 
           {/* Testimonials Carousel */}
-          <div className="mb-20">
+          <div className="mb-12">
             <TestimonialsCarousel />
           </div>
 
@@ -327,7 +327,7 @@ export default function Landing() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               {[
                 { number: '14+', label: 'Years of Excellence' },
                 { number: '50,000+', label: 'Families Protected' },
@@ -341,10 +341,10 @@ export default function Landing() {
                   viewport={{ once: true }}
                   className="text-center"
                 >
-                  <div className="text-6xl font-bold text-white mb-3">
+                  <div className="text-5xl font-bold text-white mb-2">
                     {stat.number}
                   </div>
-                  <div className="text-white/80 text-xl">{stat.label}</div>
+                  <div className="text-white/80 text-lg">{stat.label}</div>
                 </motion.div>
               ))}
             </div>

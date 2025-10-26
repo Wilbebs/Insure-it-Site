@@ -30,35 +30,41 @@ export default function AlternatingParallaxSection({
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    let ticking = false;
-
     const handleScroll = () => {
-      if (!ticking && sectionRef.current) {
-        window.requestAnimationFrame(() => {
-          const rect = sectionRef.current!.getBoundingClientRect();
-          const scrolled = window.scrollY;
-          const sectionTop = sectionRef.current!.offsetTop;
-          
-          // Parallax offset at 50-60% speed
-          const parallaxSpeed = 0.55;
-          const offset = (scrolled - sectionTop) * parallaxSpeed;
-          setScrollOffset(offset);
+      if (!sectionRef.current) return;
+      
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Calculate parallax offset based on viewport position
+      // This is more stable than using offsetTop
+      const parallaxSpeed = 0.45;
+      const offset = -rect.top * parallaxSpeed;
+      setScrollOffset(offset);
 
-          // Check visibility for fade-in animation
-          const windowHeight = window.innerHeight;
-          const isInView = rect.top < windowHeight * 0.75 && rect.bottom > 0;
-          setIsVisible(isInView);
-          
-          ticking = false;
-        });
-        ticking = true;
-      }
+      // Check visibility for fade-in animation
+      const isInView = rect.top < windowHeight * 0.75 && rect.bottom > 0;
+      setIsVisible(isInView);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    // Use passive scroll listener with RAF for smooth performance
+    let rafId: number;
+    const onScroll = () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      rafId = requestAnimationFrame(handleScroll);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    handleScroll(); // Initial calculation
     
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+    };
   }, []);
 
   return (
@@ -70,12 +76,16 @@ export default function AlternatingParallaxSection({
           transform: `translate3d(0, ${scrollOffset}px, 0)`,
           willChange: 'transform',
           backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+          perspective: 1000,
+          WebkitPerspective: 1000,
         }}
       >
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-60"
           style={{
             backgroundImage: `url(${backgroundImage})`,
+            backgroundAttachment: 'scroll',
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background/70" />

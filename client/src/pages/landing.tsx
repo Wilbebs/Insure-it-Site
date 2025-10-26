@@ -341,24 +341,8 @@ export default function Landing() {
             </div>
           </motion.div>
 
-          {/* What Our Clients Say Title */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="mb-1"
-          >
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-              What Our Clients Say
-            </h2>
-            <p className="text-white/80 text-sm md:text-base max-w-xl mx-auto">
-              Trusted by thousands of Florida families and businesses
-            </p>
-          </motion.div>
-
-          {/* Testimonials Carousel - Scaled Down to 2/3 */}
-          <div className="mb-1 mt-2 transform scale-[0.67] origin-center">
+          {/* Testimonials Carousel */}
+          <div className="mb-6">
             <TestimonialsCarousel />
           </div>
 

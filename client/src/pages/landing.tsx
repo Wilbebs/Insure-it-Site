@@ -383,78 +383,106 @@ export default function Landing() {
       {/* Quote Modal */}
       <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />
 
-      {/* Tutorial Cursor Animation */}
+      {/* Tutorial Cursor Animation - FAKE CURSOR SEPARATE FROM USER'S REAL CURSOR */}
       {showCursor && (
         <>
-          {/* Cursor Icon */}
+          {/* Giant Glowing Trail */}
           <motion.div
             initial={{ 
-              x: window.innerWidth + 100, 
-              y: -100,
+              x: -200, 
+              y: -200,
               opacity: 0
             }}
             animate={{ 
-              x: cursorPosition.x - 12,
-              y: cursorPosition.y - 12,
-              opacity: [0, 1, 1, 1, 1, 0]
+              x: cursorPosition.x - 40,
+              y: cursorPosition.y - 40,
+              opacity: [0, 0.6, 0.6, 0.6, 0.6, 0]
             }}
             transition={{ 
-              duration: 2.5,
-              times: [0, 0.2, 0.5, 0.7, 0.85, 1],
-              ease: [0.43, 0.13, 0.23, 0.96]
+              duration: 3.5,
+              times: [0, 0.3, 0.5, 0.7, 0.85, 1],
+              ease: "easeInOut"
+            }}
+            className="fixed pointer-events-none z-[98] rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 blur-xl"
+            style={{
+              width: '80px',
+              height: '80px',
+            }}
+          />
+
+          {/* Fake Cursor Icon - LARGE AND OBVIOUS */}
+          <motion.div
+            initial={{ 
+              x: -200, 
+              y: -200,
+              opacity: 0,
+              scale: 0.5
+            }}
+            animate={{ 
+              x: cursorPosition.x - 30,
+              y: cursorPosition.y - 30,
+              opacity: [0, 1, 1, 1, 1, 0],
+              scale: [0.5, 1.2, 1.2, 1.2, 1.2, 0.8]
+            }}
+            transition={{ 
+              duration: 3.5,
+              times: [0, 0.3, 0.5, 0.7, 0.85, 1],
+              ease: "easeInOut"
             }}
             onAnimationComplete={() => setShowCursor(false)}
-            className="fixed pointer-events-none z-[100]"
+            className="fixed pointer-events-none z-[100] drop-shadow-2xl"
             style={{
-              width: '40px',
-              height: '40px',
+              width: '60px',
+              height: '60px',
             }}
           >
-            <svg viewBox="0 0 24 24" fill="#FBBF24" stroke="#1E40AF" strokeWidth="2">
+            <svg viewBox="0 0 24 24" fill="#FBBF24" stroke="#1E3A8A" strokeWidth="2.5" className="drop-shadow-lg">
               <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
             </svg>
-            <div className="absolute -top-8 left-0 bg-blue-600 text-white px-2 py-1 rounded text-xs whitespace-nowrap">
-              Click Here! 👇
+            <div className="absolute -top-12 -left-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap shadow-2xl animate-pulse">
+              👆 Click Here for Quote! 
             </div>
           </motion.div>
 
-          {/* Click Ripple Effect */}
+          {/* Giant Click Ripple Effect */}
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0, scale: 0 }}
             animate={{ 
-              opacity: [0, 0, 0.8, 0.8, 0],
-              scale: [1, 1, 1.5, 1.5, 2]
+              opacity: [0, 0, 0, 0.9, 0.7, 0],
+              scale: [0, 0, 0, 1, 2, 3]
             }}
             transition={{ 
-              duration: 2.5,
-              times: [0, 0.5, 0.6, 0.7, 0.85]
+              duration: 3.5,
+              times: [0, 0.5, 0.65, 0.7, 0.8, 1]
             }}
-            className="fixed pointer-events-none z-[99] rounded-full border-4 border-blue-400"
+            className="fixed pointer-events-none z-[99] rounded-full border-8 border-amber-400"
+            style={{
+              left: cursorPosition.x - 60,
+              top: cursorPosition.y - 60,
+              width: '120px',
+              height: '120px',
+              boxShadow: '0 0 40px rgba(251, 191, 36, 0.8)'
+            }}
+          />
+
+          {/* Click Flash */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ 
+              opacity: [0, 0, 0, 1, 0.5, 0],
+              scale: [0, 0, 0, 1.5, 2, 0]
+            }}
+            transition={{ 
+              duration: 3.5,
+              times: [0, 0.6, 0.65, 0.7, 0.75, 0.85]
+            }}
+            className="fixed pointer-events-none z-[101] rounded-full bg-yellow-300"
             style={{
               left: cursorPosition.x - 20,
               top: cursorPosition.y - 20,
               width: '40px',
-              height: '40px'
-            }}
-          />
-
-          {/* Click Indicator (small dot) */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ 
-              opacity: [0, 0, 1, 1, 0],
-              scale: [0, 0, 1.2, 0.8, 0]
-            }}
-            transition={{ 
-              duration: 2.5,
-              times: [0, 0.5, 0.6, 0.7, 0.8]
-            }}
-            className="fixed pointer-events-none z-[101] rounded-full bg-blue-400"
-            style={{
-              left: cursorPosition.x - 6,
-              top: cursorPosition.y - 6,
-              width: '12px',
-              height: '12px'
+              height: '40px',
+              boxShadow: '0 0 60px rgba(253, 224, 71, 0.9)'
             }}
           />
         </>

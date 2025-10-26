@@ -174,38 +174,43 @@ export default function AlternatingParallaxSection({
                 {children}
               </motion.div>
             )}
+
+            {/* Navigation Arrow to Next Section */}
+            {nextSectionId && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.7, delay: 0.75 }}
+                className="mt-8 flex justify-center"
+              >
+                <motion.button
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    ease: "easeInOut"
+                  }}
+                  onClick={() => {
+                    document.getElementById(nextSectionId)?.scrollIntoView({ 
+                      behavior: "smooth", 
+                      block: "center" 
+                    });
+                  }}
+                  className="bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-md
+                             border border-white/30 rounded-full p-3
+                             hover:from-white/30 hover:to-white/20 transition-all
+                             hover:scale-110 cursor-pointer shadow-lg"
+                  data-testid="button-next-section"
+                  aria-label="Scroll to next section"
+                >
+                  <ChevronDown className="w-6 h-6 text-white" />
+                </motion.button>
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </div>
-
-      {/* Navigation Arrow to Next Section */}
-      {nextSectionId && (
-        <motion.button
-          initial={{ opacity: 0, y: -10 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
-          transition={{
-            duration: 1,
-            delay: 0.8,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-          onClick={() => {
-            document.getElementById(nextSectionId)?.scrollIntoView({ 
-              behavior: "smooth", 
-              block: "center" 
-            });
-          }}
-          className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20 
-                     bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-md
-                     border border-white/30 rounded-full p-3
-                     hover:from-white/30 hover:to-white/20 transition-all
-                     hover:scale-110 cursor-pointer shadow-lg"
-          data-testid="button-next-section"
-          aria-label="Scroll to next section"
-        >
-          <ChevronDown className="w-6 h-6 text-white" />
-        </motion.button>
-      )}
     </div>
   );
 }

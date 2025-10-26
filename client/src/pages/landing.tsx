@@ -74,7 +74,7 @@ export default function Landing() {
               </div>
 
               <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                14 years protecting <span className="font-bold text-amber-300">thousands of Florida families</span> with personalized coverage and genuine care
+                14 years protecting <span className="font-bold text-amber-300">2,149 Florida families</span> <span className="text-base text-white/60 font-normal">(as of Nov. 2025)</span> with personalized coverage and genuine care
               </p>
 
               <motion.div
@@ -357,7 +357,7 @@ export default function Landing() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
               {[
                 { number: '14+', label: 'Years of Excellence' },
-                { number: '2149', label: 'Families (and counting)', sublabel: 'as of November, 2025' },
+                { number: '2149', label: 'Families Protected', sublabel: 'as of November, 2025' },
                 { number: '98%', label: 'Client Satisfaction' }
               ].map((stat, i) => (
                 <motion.div

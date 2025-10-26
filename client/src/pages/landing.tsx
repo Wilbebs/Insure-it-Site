@@ -377,41 +377,78 @@ export default function Landing() {
       {/* Quote Modal */}
       <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />
 
-      {/* Animated Cursor Effect */}
+      {/* Tutorial Cursor Animation */}
       {showCursor && (
-        <motion.div
-          initial={{ 
-            x: window.innerWidth + 100, 
-            y: -100,
-            opacity: 0,
-            scale: 0
-          }}
-          animate={{ 
-            x: cursorPosition.x - 15,
-            y: cursorPosition.y - 15,
-            opacity: [0, 1, 1, 1, 0],
-            scale: [0, 1.2, 1, 1.1, 0.8, 0]
-          }}
-          transition={{ 
-            duration: 2,
-            times: [0, 0.3, 0.6, 0.7, 0.9, 1],
-            ease: "easeInOut"
-          }}
-          onAnimationComplete={() => {
-            setShowCursor(false);
-            document.getElementById('quick-quote-button')?.click();
-          }}
-          className="fixed pointer-events-none z-[100]"
-          style={{
-            width: '50px',
-            height: '50px',
-          }}
-        >
-          <svg viewBox="0 0 24 24" fill="white" stroke="black" strokeWidth="1">
-            <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
-            <circle cx="14" cy="10" r="1.5" fill="black" />
-          </svg>
-        </motion.div>
+        <>
+          {/* Cursor Icon */}
+          <motion.div
+            initial={{ 
+              x: window.innerWidth + 100, 
+              y: -100,
+              opacity: 0
+            }}
+            animate={{ 
+              x: cursorPosition.x - 12,
+              y: cursorPosition.y - 12,
+              opacity: [0, 1, 1, 1, 1, 0]
+            }}
+            transition={{ 
+              duration: 2.5,
+              times: [0, 0.2, 0.5, 0.7, 0.85, 1],
+              ease: [0.43, 0.13, 0.23, 0.96]
+            }}
+            onAnimationComplete={() => setShowCursor(false)}
+            className="fixed pointer-events-none z-[100]"
+            style={{
+              width: '40px',
+              height: '40px',
+            }}
+          >
+            <svg viewBox="0 0 24 24" fill="white" stroke="black" strokeWidth="1.5">
+              <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
+            </svg>
+          </motion.div>
+
+          {/* Click Ripple Effect */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: [0, 0, 0.8, 0.8, 0],
+              scale: [1, 1, 1.5, 1.5, 2]
+            }}
+            transition={{ 
+              duration: 2.5,
+              times: [0, 0.5, 0.6, 0.7, 0.85]
+            }}
+            className="fixed pointer-events-none z-[99] rounded-full border-4 border-blue-400"
+            style={{
+              left: cursorPosition.x - 20,
+              top: cursorPosition.y - 20,
+              width: '40px',
+              height: '40px'
+            }}
+          />
+
+          {/* Click Indicator (small dot) */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: [0, 0, 1, 1, 0],
+              scale: [0, 0, 1.2, 0.8, 0]
+            }}
+            transition={{ 
+              duration: 2.5,
+              times: [0, 0.5, 0.6, 0.7, 0.8]
+            }}
+            className="fixed pointer-events-none z-[101] rounded-full bg-blue-400"
+            style={{
+              left: cursorPosition.x - 6,
+              top: cursorPosition.y - 6,
+              width: '12px',
+              height: '12px'
+            }}
+          />
+        </>
       )}
     </div>
   );

@@ -29,24 +29,20 @@ export default function Landing() {
   }, []);
 
   const scrollToQuotes = () => {
-    console.log('🎯 scrollToQuotes clicked!');
     const ctaSection = document.getElementById('cta-section');
     ctaSection?.scrollIntoView({ behavior: 'smooth' });
     
     setTimeout(() => {
       const button = document.getElementById('quick-quote-button');
-      console.log('🎯 Looking for button:', button);
       if (button) {
         const rect = button.getBoundingClientRect();
-        console.log('🎯 Button position:', rect);
+        // Position cursor tip (not center) at button center
         const pos = { 
           x: rect.left + rect.width / 2, 
           y: rect.top + rect.height / 2 
         };
-        console.log('🎯 Setting cursor to:', pos);
         setCursorPosition(pos);
         setShowCursor(true);
-        console.log('🎯 Cursor should now be visible!');
       }
     }, 1000);
   };
@@ -386,22 +382,22 @@ export default function Landing() {
       {/* Tutorial Cursor Animation - FAKE CURSOR SEPARATE FROM USER'S REAL CURSOR */}
       {showCursor && (
         <>
-          {/* Giant Glowing Trail */}
+          {/* Glowing Trail Behind Cursor */}
           <motion.div
             initial={{ 
-              x: -200, 
-              y: -200,
+              x: window.innerWidth + 100, 
+              y: 100,
               opacity: 0
             }}
             animate={{ 
               x: cursorPosition.x - 40,
               y: cursorPosition.y - 40,
-              opacity: [0, 0.6, 0.6, 0.6, 0.6, 0]
+              opacity: [0, 0.7, 0.7, 0.7, 0.7, 0]
             }}
             transition={{ 
               duration: 3.5,
               times: [0, 0.3, 0.5, 0.7, 0.85, 1],
-              ease: "easeInOut"
+              ease: "easeOut"
             }}
             className="fixed pointer-events-none z-[98] rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 blur-xl"
             style={{
@@ -410,24 +406,24 @@ export default function Landing() {
             }}
           />
 
-          {/* Fake Cursor Icon - LARGE AND OBVIOUS */}
+          {/* Fake Cursor - Positioned so TIP points at button center */}
           <motion.div
             initial={{ 
-              x: -200, 
-              y: -200,
+              x: window.innerWidth + 100, 
+              y: 100,
               opacity: 0,
-              scale: 0.5
+              scale: 0.8
             }}
             animate={{ 
-              x: cursorPosition.x - 30,
-              y: cursorPosition.y - 30,
-              opacity: [0, 1, 1, 1, 1, 0],
-              scale: [0.5, 1.2, 1.2, 1.2, 1.2, 0.8]
+              x: cursorPosition.x - 8,
+              y: cursorPosition.y - 8,
+              opacity: [0, 1, 1, 1, 1, 1, 0],
+              scale: [0.8, 1.3, 1.3, 1.3, 1.4, 1.2, 1]
             }}
             transition={{ 
               duration: 3.5,
-              times: [0, 0.3, 0.5, 0.7, 0.85, 1],
-              ease: "easeInOut"
+              times: [0, 0.4, 0.6, 0.7, 0.75, 0.85, 1],
+              ease: "easeOut"
             }}
             onAnimationComplete={() => setShowCursor(false)}
             className="fixed pointer-events-none z-[100] drop-shadow-2xl"
@@ -436,24 +432,27 @@ export default function Landing() {
               height: '60px',
             }}
           >
-            <svg viewBox="0 0 24 24" fill="#FBBF24" stroke="#1E3A8A" strokeWidth="2.5" className="drop-shadow-lg">
+            {/* Cursor pointer - tip at top-left */}
+            <svg viewBox="0 0 24 24" fill="#FBBF24" stroke="#1E3A8A" strokeWidth="3" className="drop-shadow-2xl">
               <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
             </svg>
-            <div className="absolute -top-12 -left-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap shadow-2xl animate-pulse">
-              👆 Click Here for Quote! 
+            
+            {/* Pulsing Tooltip */}
+            <div className="absolute -top-14 left-8 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-4 py-2 rounded-lg text-base font-bold whitespace-nowrap shadow-2xl animate-pulse">
+              Click Here for Quote! 👇
             </div>
           </motion.div>
 
-          {/* Giant Click Ripple Effect */}
+          {/* Giant Click Ripple - Centered on cursor tip */}
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ 
-              opacity: [0, 0, 0, 0.9, 0.7, 0],
-              scale: [0, 0, 0, 1, 2, 3]
+              opacity: [0, 0, 0, 0, 0.9, 0.7, 0],
+              scale: [0, 0, 0, 0, 1.5, 2.5, 3.5]
             }}
             transition={{ 
               duration: 3.5,
-              times: [0, 0.5, 0.65, 0.7, 0.8, 1]
+              times: [0, 0.5, 0.65, 0.7, 0.75, 0.85, 1]
             }}
             className="fixed pointer-events-none z-[99] rounded-full border-8 border-amber-400"
             style={{
@@ -461,28 +460,28 @@ export default function Landing() {
               top: cursorPosition.y - 60,
               width: '120px',
               height: '120px',
-              boxShadow: '0 0 40px rgba(251, 191, 36, 0.8)'
+              boxShadow: '0 0 50px rgba(251, 191, 36, 0.9)'
             }}
           />
 
-          {/* Click Flash */}
+          {/* Click Flash at exact cursor tip position */}
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ 
-              opacity: [0, 0, 0, 1, 0.5, 0],
-              scale: [0, 0, 0, 1.5, 2, 0]
+              opacity: [0, 0, 0, 0, 1, 0.6, 0],
+              scale: [0, 0, 0, 0, 1.8, 2.5, 0]
             }}
             transition={{ 
               duration: 3.5,
-              times: [0, 0.6, 0.65, 0.7, 0.75, 0.85]
+              times: [0, 0.65, 0.7, 0.72, 0.75, 0.8, 0.9]
             }}
             className="fixed pointer-events-none z-[101] rounded-full bg-yellow-300"
             style={{
-              left: cursorPosition.x - 20,
-              top: cursorPosition.y - 20,
-              width: '40px',
-              height: '40px',
-              boxShadow: '0 0 60px rgba(253, 224, 71, 0.9)'
+              left: cursorPosition.x - 25,
+              top: cursorPosition.y - 25,
+              width: '50px',
+              height: '50px',
+              boxShadow: '0 0 80px rgba(253, 224, 71, 1)'
             }}
           />
         </>

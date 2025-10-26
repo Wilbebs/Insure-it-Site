@@ -1,0 +1,57 @@
+# Clarification: We HAVE Migrated to AWS
+
+## You're Looking at Outdated Documentation
+
+The `replit.md` file you're referencing is **OUTDATED**. We have **already migrated** from Replit Object Storage to AWS S3 and from in-memory storage to AWS RDS PostgreSQL.
+
+## Current Architecture (What Actually Exists NOW)
+
+Please check the ACTUAL current files in the project:
+
+### Backend Files (Check These):
+1. **`/server/routes.ts`** - Contains `/api/contact` endpoint with S3 upload using multer-s3
+2. **`/server/s3.ts`** - AWS S3 client configuration and multer-s3 setup
+3. **`/server/db.ts`** - PostgreSQL connection using `pg` library
+4. **`/db/schema.sql`** - PostgreSQL schema for contacts table
+5. **`.env`** - Contains AWS credentials (AWS_REGION, S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, DATABASE_URL)
+
+### Files That Should NOT Exist Anymore (Delete if Found):
+- `/server/storage.ts` (old in-memory storage)
+- `/server/objectStorage.ts` (old Replit Object Storage)
+- Any code importing from `@replit/object-storage`
+
+## What I Need You To Do
+
+**STEP 1: Verify Current Architecture**
+Look at the actual files in `/server/` directory right now:
+- What files exist?
+- Open `/server/routes.ts` - does it use multer-s3 and AWS S3?
+- Open `/server/db.ts` - does it use PostgreSQL?
+- Check if old storage files still exist
+
+**STEP 2: If Old Files Exist**
+- Delete `/server/storage.ts`
+- Delete `/server/objectStorage.ts`
+- Remove any imports of Replit Object Storage
+- Remove any in-memory storage code
+
+**STEP 3: Execute the Cleanup Tasks**
+Once you've confirmed the current architecture, proceed with:
+1. Rename landing page file to `landing.tsx` (currently `home-alternating.tsx`)
+2. Remove duplicate home page files
+3. Fix the "Get Quoted Today Now" button so it's clickable
+4. Ensure file upload to S3 works correctly
+5. Remove any other redundant files
+
+## Stop Looking at `replit.md`
+
+The `replit.md` file is documentation from an OLD version of the project. Ignore it completely. Look at the ACTUAL CODE FILES that exist right now.
+
+## Answer These Questions:
+
+1. Does `/server/routes.ts` currently have AWS S3 upload code? (Yes/No)
+2. Does `/server/db.ts` currently have PostgreSQL connection code? (Yes/No)
+3. Do old files `/server/storage.ts` or `/server/objectStorage.ts` still exist? (Yes/No)
+4. What does the current `/api/contact` endpoint in `/server/routes.ts` actually do?
+
+Please check the actual files and report back what you find, then we can proceed with the cleanup.

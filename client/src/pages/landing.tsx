@@ -17,6 +17,7 @@ export default function Landing() {
   const [buttonAnimate, setButtonAnimate] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setHeroVisible(true);
     
     const handleScroll = () => {

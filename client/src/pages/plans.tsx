@@ -1,417 +1,330 @@
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, CheckCircle, Lightbulb, TrendingUp, Trash2, Edit, Save, X } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import Navigation from '@/components/navigation';
-import Footer from '@/components/footer';
+// /client/src/pages/plans.tsx
 
-interface StrategicSuggestion {
-  id: string;
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import {
+  Lightbulb,
+  Users,
+  TrendingUp,
+  Shield,
+  Rocket,
+  CheckCircle2,
+  MessageSquarePlus,
+} from "lucide-react";
+
+interface FeatureRequest {
+  id: number;
   title: string;
   description: string;
-  createdAt: Date;
+  priority: string;
+  status: string;
+  created_at: string;
 }
 
-const STORAGE_KEY = 'strategic_suggestions';
-
 export default function PlansPage() {
-  const [customSuggestions, setCustomSuggestions] = useState<StrategicSuggestion[]>([]);
-  const [newTitle, setNewTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editTitle, setEditTitle] = useState('');
-  const [editDescription, setEditDescription] = useState('');
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
-  // Load suggestions from localStorage on mount
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        const suggestions = parsed.map((s: any) => ({
-          ...s,
-          createdAt: new Date(s.createdAt)
-        }));
-        setCustomSuggestions(suggestions);
-      } catch (error) {
-        console.error('Error loading suggestions:', error);
-      }
-    }
-  }, []);
+  // Fetch feature requests
+  const { data: featureRequests, isLoading } = useQuery({
+    queryKey: ["/api/feature-requests"],
+    queryFn: async () => {
+      const response = await apiRequest("GET", "/api/feature-requests");
+      return response.data as FeatureRequest[];
+    },
+  });
 
-  // Save suggestions to localStorage whenever they change
-  useEffect(() => {
-    if (customSuggestions.length > 0 || localStorage.getItem(STORAGE_KEY)) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(customSuggestions));
-    }
-  }, [customSuggestions]);
-
-  const handleAddSuggestion = () => {
-    if (!newTitle.trim()) {
+  // Submit feature request
+  const submitMutation = useMutation({
+    mutationFn: async (data: { title: string; description: string }) => {
+      return apiRequest("POST", "/api/feature-requests", data);
+    },
+    onSuccess: () => {
       toast({
-        title: "Title required",
-        description: "Please enter a title for your suggestion.",
+        title: "Success!",
+        description: "Your feature request has been submitted.",
+      });
+      setTitle("");
+      setDescription("");
+      queryClient.invalidateQueries({ queryKey: ["/api/feature-requests"] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to submit request. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a feature title.",
         variant: "destructive",
       });
       return;
     }
-
-    const suggestion: StrategicSuggestion = {
-      id: Date.now().toString(),
-      title: newTitle,
-      description: newDescription,
-      createdAt: new Date(),
-    };
-
-    setCustomSuggestions([...customSuggestions, suggestion]);
-    setNewTitle('');
-    setNewDescription('');
-    
-    toast({
-      title: "Feature suggestion added!",
-      description: "Your idea has been added to the strategic plan.",
-    });
+    submitMutation.mutate({ title, description });
   };
 
-  const handleDeleteSuggestion = (id: string) => {
-    setCustomSuggestions(customSuggestions.filter(s => s.id !== id));
-    toast({
-      title: "Suggestion deleted",
-      description: "The suggestion has been removed from the plan.",
-    });
-  };
-
-  const handleStartEdit = (suggestion: StrategicSuggestion) => {
-    setEditingId(suggestion.id);
-    setEditTitle(suggestion.title);
-    setEditDescription(suggestion.description);
-  };
-
-  const handleSaveEdit = () => {
-    if (!editTitle.trim()) {
-      toast({
-        title: "Title required",
-        description: "Please enter a title for your suggestion.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setCustomSuggestions(customSuggestions.map(s => 
-      s.id === editingId 
-        ? { ...s, title: editTitle, description: editDescription }
-        : s
-    ));
-    
-    setEditingId(null);
-    setEditTitle('');
-    setEditDescription('');
-    
-    toast({
-      title: "Suggestion updated!",
-      description: "Your changes have been saved.",
-    });
-  };
-
-  const handleCancelEdit = () => {
-    setEditingId(null);
-    setEditTitle('');
-    setEditDescription('');
-  };
-
-  const strategicInitiatives = [
+  const phases = [
     {
-      category: "Phase 1: Enterprise Proof & Scale",
-      icon: TrendingUp,
-      items: [
+      phase: 1,
+      title: "Foundation & Core Features",
+      icon: Rocket,
+      color: "text-blue-500",
+      features: [
         {
-          title: "Growth Metrics Dashboard",
-          description: "Dynamic stats section showing expansion: '15,000+ Families Across Florida', '$500M+ in Coverage Protected', '24/7 Claims Support'. Live counter animations for policies written and claims processed.",
-          priority: "High Impact",
-        },
-        {
-          title: "Interactive Florida Expansion Map",
-          description: "Visual map showing coverage areas with expansion timeline. Demonstrates statewide presence and growth trajectory with interactive elements.",
-          priority: "High Impact",
-        },
-        {
-          title: "Industry Expertise & Specializations",
-          description: "Industry-specific solutions: Healthcare providers, restaurants, construction, tech startups. Commercial fleet management, multi-state expansion capabilities, risk management consulting.",
-          priority: "Medium",
-        },
-        {
-          title: "Technology Showcase",
-          description: "'Get a Quote in 60 Seconds' with AI-powered instant quotes. Digital policy management portal preview, mobile app roadmap, 24/7 AI chatbot for instant support.",
-          priority: "High Impact",
-        },
-      ],
-    },
-    {
-      category: "Phase 2: Enterprise Client Experience",
-      icon: CheckCircle,
-      items: [
-        {
-          title: "AI Chatbot Integration",
-          description: "24/7 intelligent chatbot for instant customer support, quotes, and policy questions. Shows tech-forward approach and scalability.",
-          priority: "High Impact",
-        },
-        {
-          title: "Video Testimonials Section",
-          description: "Professional video testimonials from clients and business owners. Case studies showing $100K+ claims handled smoothly, ROI calculator showing savings.",
-          priority: "High Impact",
-        },
-        {
-          title: "Intelligent Resource Center",
-          description: "Insurance education hub with articles, videos, webinars. Industry reports & whitepapers positioning as thought leaders. Interactive risk assessment tools.",
-          priority: "Medium",
-        },
-        {
-          title: "Partner Ecosystem",
-          description: "Network of 500+ repair shops and contractors. Preferred vendor partnerships, insurance carrier relationships, healthcare provider networks.",
-          priority: "Medium",
-        },
-      ],
-    },
-    {
-      category: "Phase 3: Growth & Career Hub",
-      icon: Lightbulb,
-      items: [
-        {
-          title: "Careers & Hiring Section",
-          description: "'Join Our Team of 150+ Insurance Professionals'. Hiring in Tampa, Orlando, Jacksonville, Miami. Leadership development programs, agent success stories, open positions map.",
-          priority: "Medium",
-        },
-        {
-          title: "Leadership & Expertise",
-          description: "Executive team profiles with credentials, industry awards & recognitions, community involvement & charitable work, speaking engagements & media appearances.",
-          priority: "Low",
-        },
-      ],
-    },
-    {
-      category: "Phase 4: Trust & Sophistication",
-      icon: CheckCircle,
-      items: [
-        {
-          title: "Security & Compliance",
-          description: "SOC 2 compliance roadmap, data encryption badges, privacy policy & HIPAA compliance for health insurance, regulatory licenses displayed prominently.",
-          priority: "Medium",
-        },
-        {
-          title: "Real-Time Features",
-          description: "Live chat with licensed agents, appointment scheduling with calendar integration, instant policy binding capabilities, real-time claim status tracking.",
+          name: "Professional Homepage",
           priority: "High",
+          description:
+            "Modern landing page with hero section, insurance type cards, testimonials carousel, and contact form with file upload to AWS S3.",
+        },
+        {
+          name: "Insurance Detail Pages",
+          priority: "High",
+          description:
+            "Dedicated pages for Auto, Home, Life, Health, and Commercial insurance with detailed coverage information and visual animations.",
+        },
+      ],
+    },
+    {
+      phase: 2,
+      title: "User Experience & Engagement",
+      icon: Users,
+      color: "text-green-500",
+      features: [
+        {
+          name: "Interactive Quote Calculator",
+          priority: "High",
+          description:
+            "Step-by-step quote form with dynamic pricing estimates, policy comparison tools, and instant quote generation.",
+        },
+        {
+          name: "Customer Portal",
+          priority: "Medium",
+          description:
+            "Secure login for clients to view policies, make payments, file claims, upload documents, and track claim status.",
+        },
+      ],
+    },
+    {
+      phase: 3,
+      title: "Growth & Career Hub",
+      icon: TrendingUp,
+      color: "text-purple-500",
+      features: [
+        {
+          name: "Careers & Hiring Section",
+          priority: "Medium",
+          description:
+            "'Join Our Team of 150+ Insurance Professionals': Hiring in Tampa, Orlando, Jacksonville, Miami. Leadership development programs, agent success stories, open positions map.",
+        },
+        {
+          name: "Leadership & Expertise",
+          priority: "Low",
+          description:
+            "Executive team profiles with credentials, industry awards & recognitions, community involvement & charitable work, speaking engagements & media appearances.",
+        },
+      ],
+    },
+    {
+      phase: 4,
+      title: "Trust & Sophistication",
+      icon: Shield,
+      color: "text-orange-500",
+      features: [
+        {
+          name: "Security & Compliance",
+          priority: "Medium",
+          description:
+            "SOC 2 compliance roadmap, data encryption badges, privacy policy & HIPAA compliance for health insurance, regulatory licenses displayed prominently.",
+        },
+        {
+          name: "Real-Time Features",
+          priority: "High",
+          description:
+            "Live chat with licensed agents, appointment scheduling with calendar integration, instant policy binding capabilities, real-time claim status tracking.",
         },
       ],
     },
   ];
 
   const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case "High Impact":
-        return "text-green-600 bg-green-50 dark:bg-green-950 dark:text-green-400";
-      case "High":
-        return "text-blue-600 bg-blue-50 dark:bg-blue-950 dark:text-blue-400";
-      case "Medium":
-        return "text-yellow-600 bg-yellow-50 dark:bg-yellow-950 dark:text-yellow-400";
-      case "Low":
-        return "text-gray-600 bg-gray-50 dark:bg-gray-800 dark:text-gray-400";
+    switch (priority.toLowerCase()) {
+      case "high":
+        return "text-red-500";
+      case "medium":
+        return "text-yellow-500";
+      case "low":
+        return "text-green-500";
       default:
-        return "text-gray-600 bg-gray-50";
+        return "text-gray-500";
     }
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Navigation />
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 px-4 pt-32">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              Strategic Expansion Plan
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-              Transforming Insure-it Group into an enterprise-grade platform supporting 500+ employees and hundreds of thousands of clients
-            </p>
+
+      <div className="container mx-auto px-6 py-24">
+        <div className="text-center mb-16">
+          <div className="flex justify-center mb-6">
+            <Lightbulb className="w-16 h-16 text-yellow-500" />
           </div>
+          <h1 className="text-5xl font-bold mb-6 gradient-text">
+            Development Roadmap
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Building a world-class insurance platform for Insure-it Group.
+            Track our progress and suggest new features below.
+          </p>
+        </div>
 
-          {/* Strategic Initiatives */}
-          <div className="space-y-8 mb-12">
-            {strategicInitiatives.map((phase, phaseIndex) => {
-              const IconComponent = phase.icon;
-              return (
-                <div key={phaseIndex}>
-                  <div className="flex items-center gap-3 mb-4">
-                    <IconComponent className="w-6 h-6 text-primary" />
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {phase.category}
-                    </h2>
+        {phases.map((phase) => {
+          const Icon = phase.icon;
+          return (
+            <div key={phase.phase} className="mb-16">
+              <div className="flex items-center gap-4 mb-8">
+                <Icon className={`w-10 h-10 ${phase.color}`} />
+                <h2 className="text-3xl font-bold">
+                  Phase {phase.phase}: {phase.title}
+                </h2>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                {phase.features.map((feature, idx) => (
+                  <div
+                    key={idx}
+                    className="insurance-card p-6 rounded-2xl hover-lift"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <h3 className="text-xl font-bold">{feature.name}</h3>
+                      <span
+                        className={`text-sm font-semibold ${getPriorityColor(
+                          feature.priority
+                        )}`}
+                      >
+                        {feature.priority}
+                      </span>
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {feature.description}
+                    </p>
                   </div>
-                  <div className="grid gap-4 md:grid-cols-2">
-                    {phase.items.map((item, itemIndex) => (
-                      <Card key={itemIndex} className="hover:shadow-lg transition-shadow">
-                        <CardHeader>
-                          <div className="flex items-start justify-between">
-                            <CardTitle className="text-lg">{item.title}</CardTitle>
-                            <span className={`text-xs px-2 py-1 rounded-full font-medium ${getPriorityColor(item.priority)}`}>
-                              {item.priority}
-                            </span>
-                          </div>
-                          <CardDescription className="text-sm mt-2">
-                            {item.description}
-                          </CardDescription>
-                        </CardHeader>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Custom Suggestions Section */}
-          <div className="mt-16">
-            <div className="flex items-center gap-3 mb-6">
-              <Plus className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Feature Suggestions
-              </h2>
-            </div>
-
-            {/* Add Suggestion Form */}
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Add Feature Requests</CardTitle>
-                <CardDescription>
-                  Business owners can add features and ideas they want to see on the site
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Input
-                    placeholder="Feature title..."
-                    value={newTitle}
-                    onChange={(e) => setNewTitle(e.target.value)}
-                    data-testid="input-suggestion-title"
-                  />
-                </div>
-                <div>
-                  <Textarea
-                    placeholder="Description (optional)..."
-                    value={newDescription}
-                    onChange={(e) => setNewDescription(e.target.value)}
-                    rows={3}
-                    data-testid="input-suggestion-description"
-                  />
-                </div>
-                <Button 
-                  onClick={handleAddSuggestion}
-                  className="w-full md:w-auto"
-                  data-testid="button-add-suggestion"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Feature Request
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Display Custom Suggestions */}
-            {customSuggestions.length > 0 && (
-              <div className="grid gap-4 md:grid-cols-2">
-                {customSuggestions.map((suggestion) => (
-                <Card key={suggestion.id} className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
-                  <CardHeader>
-                    {editingId === suggestion.id ? (
-                      // Edit Mode
-                      <div className="space-y-3">
-                        <Input
-                          value={editTitle}
-                          onChange={(e) => setEditTitle(e.target.value)}
-                          placeholder="Feature title..."
-                          data-testid={`input-edit-title-${suggestion.id}`}
-                        />
-                        <Textarea
-                          value={editDescription}
-                          onChange={(e) => setEditDescription(e.target.value)}
-                          placeholder="Description (optional)..."
-                          rows={3}
-                          data-testid={`input-edit-description-${suggestion.id}`}
-                        />
-                        <div className="flex gap-2">
-                          <Button 
-                            onClick={handleSaveEdit}
-                            size="sm"
-                            data-testid={`button-save-${suggestion.id}`}
-                          >
-                            <Save className="w-4 h-4 mr-1" />
-                            Save
-                          </Button>
-                          <Button 
-                            onClick={handleCancelEdit}
-                            variant="outline"
-                            size="sm"
-                            data-testid={`button-cancel-${suggestion.id}`}
-                          >
-                            <X className="w-4 h-4 mr-1" />
-                            Cancel
-                          </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      // View Mode
-                      <>
-                        <div className="flex items-start justify-between gap-2">
-                          <CardTitle className="text-lg flex-1">{suggestion.title}</CardTitle>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs px-2 py-1 rounded-full font-medium bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400">
-                              Owner Request
-                            </span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleStartEdit(suggestion)}
-                              data-testid={`button-edit-${suggestion.id}`}
-                            >
-                              <Edit className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleDeleteSuggestion(suggestion.id)}
-                              data-testid={`button-delete-${suggestion.id}`}
-                            >
-                              <Trash2 className="w-4 h-4 text-red-500" />
-                            </Button>
-                          </div>
-                        </div>
-                        {suggestion.description && (
-                          <CardDescription className="text-sm mt-2">
-                            {suggestion.description}
-                          </CardDescription>
-                        )}
-                      </>
-                    )}
-                  </CardHeader>
-                </Card>
                 ))}
               </div>
-            )}
+            </div>
+          );
+        })}
 
-            {customSuggestions.length === 0 && (
-              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                <Lightbulb className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                <p>No feature suggestions yet. Add your ideas above!</p>
-              </div>
-            )}
+        <div className="mb-16">
+          <div className="flex items-center gap-4 mb-8">
+            <MessageSquarePlus className="w-10 h-10 text-blue-500" />
+            <h2 className="text-3xl font-bold">Feature Suggestions</h2>
+          </div>
+
+          <div className="insurance-card p-8 rounded-2xl">
+            <h3 className="text-2xl font-bold mb-4">Add Feature Requests</h3>
+            <p className="text-muted-foreground mb-6">
+              Business owners can add features and ideas they want to see on the
+              site
+            </p>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <Input
+                placeholder="Feature title..."
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="text-lg"
+              />
+              <Textarea
+                placeholder="Description (optional)..."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={4}
+                className="resize-none"
+              />
+              <Button
+                type="submit"
+                disabled={submitMutation.isPending}
+                className="w-full"
+              >
+                <MessageSquarePlus className="w-4 h-4 mr-2" />
+                {submitMutation.isPending
+                  ? "Submitting..."
+                  : "Add Feature Request"}
+              </Button>
+            </form>
           </div>
         </div>
+
+        {/* Display submitted feature requests */}
+        <div>
+          <div className="flex items-center gap-4 mb-8">
+            <CheckCircle2 className="w-10 h-10 text-green-500" />
+            <h2 className="text-3xl font-bold">Submitted Requests</h2>
+          </div>
+
+          {isLoading ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Loading requests...</p>
+            </div>
+          ) : featureRequests && featureRequests.length > 0 ? (
+            <div className="grid md:grid-cols-2 gap-6">
+              {featureRequests.map((request) => (
+                <div
+                  key={request.id}
+                  className="insurance-card p-6 rounded-2xl"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 className="text-xl font-bold">{request.title}</h3>
+                    <span className="text-xs text-muted-foreground">
+                      {new Date(request.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                  {request.description && (
+                    <p className="text-muted-foreground mb-3">
+                      {request.description}
+                    </p>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`text-sm font-semibold px-3 py-1 rounded-full ${
+                        request.status === "pending"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-green-100 text-green-700"
+                      }`}
+                    >
+                      {request.status}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 insurance-card rounded-2xl">
+              <p className="text-muted-foreground">
+                No feature requests yet. Be the first to suggest one!
+              </p>
+            </div>
+          )}
+        </div>
       </div>
+
       <Footer />
-    </>
+    </div>
   );
 }

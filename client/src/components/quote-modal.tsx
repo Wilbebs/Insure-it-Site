@@ -121,25 +121,28 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     }
     
     console.log('🔍 FormData entries:');
-    for (let pair of formData.entries()) {
+    Array.from(formData.entries()).forEach(pair => {
       if (pair[1] instanceof File) {
         console.log(pair[0], '→ File:', pair[1].name, pair[1].size);
       } else {
         console.log(pair[0], '→', pair[1]);
       }
-    }
+    });
     
     submitMutation.mutate(formData);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent 
+        className="max-w-2xl max-h-[90vh] overflow-y-auto glass-modal border-2"
+        aria-describedby="quote-form-description"
+      >
         <DialogHeader>
           <DialogTitle className="text-3xl font-bold gradient-text">
             Get Your Free Quote
           </DialogTitle>
-          <p className="text-muted-foreground">
+          <p id="quote-form-description" className="text-muted-foreground">
             Fill out the form below and we'll get back to you shortly
           </p>
         </DialogHeader>

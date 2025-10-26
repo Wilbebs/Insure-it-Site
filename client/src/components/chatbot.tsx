@@ -643,7 +643,7 @@ export default function ChatBot() {
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 100 }}
-          className="fixed bottom-6 right-6 z-50"
+          className="fixed bottom-6 right-6 z-[60]"
           data-testid="chatbot-widget"
         >
           {!isExpanded ? (

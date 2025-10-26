@@ -84,15 +84,16 @@
   }
 
   .glass-modal {
-    backdrop-filter: blur(24px);
-    background: hsla(210, 40%, 98%, 0.85);
-    border: 1px solid hsla(210, 40%, 88%, 0.4);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    backdrop-filter: blur(32px);
+    background: hsla(210, 40%, 100%, 0.75);
+    border: 1px solid hsla(210, 40%, 88%, 0.5);
+    box-shadow: 0 20px 60px 0 rgba(31, 38, 135, 0.3);
   }
 
   .dark .glass-modal {
-    background: hsla(210, 40%, 10%, 0.85);
-    border: 1px solid hsla(210, 40%, 20%, 0.4);
+    background: hsla(210, 40%, 8%, 0.75);
+    border: 1px solid hsla(210, 40%, 20%, 0.5);
+    box-shadow: 0 20px 60px 0 rgba(0, 0, 0, 0.5);
   }
 
   .gradient-text {

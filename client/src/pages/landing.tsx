@@ -29,20 +29,26 @@ export default function Landing() {
   }, []);
 
   const scrollToQuotes = () => {
+    console.log('🎯 scrollToQuotes clicked!');
     const ctaSection = document.getElementById('cta-section');
     ctaSection?.scrollIntoView({ behavior: 'smooth' });
     
     setTimeout(() => {
       const button = document.getElementById('quick-quote-button');
+      console.log('🎯 Looking for button:', button);
       if (button) {
         const rect = button.getBoundingClientRect();
-        setCursorPosition({ 
+        console.log('🎯 Button position:', rect);
+        const pos = { 
           x: rect.left + rect.width / 2, 
           y: rect.top + rect.height / 2 
-        });
+        };
+        console.log('🎯 Setting cursor to:', pos);
+        setCursorPosition(pos);
         setShowCursor(true);
+        console.log('🎯 Cursor should now be visible!');
       }
-    }, 800);
+    }, 1000);
   };
 
   return (
@@ -404,9 +410,12 @@ export default function Landing() {
               height: '40px',
             }}
           >
-            <svg viewBox="0 0 24 24" fill="white" stroke="black" strokeWidth="1.5">
+            <svg viewBox="0 0 24 24" fill="#FBBF24" stroke="#1E40AF" strokeWidth="2">
               <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
             </svg>
+            <div className="absolute -top-8 left-0 bg-blue-600 text-white px-2 py-1 rounded text-xs whitespace-nowrap">
+              Click Here! 👇
+            </div>
           </motion.div>
 
           {/* Click Ripple Effect */}

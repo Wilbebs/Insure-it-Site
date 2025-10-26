@@ -281,7 +281,7 @@ export default function Landing() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 gradient-text leading-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 leading-tight">
               Ready to Get Protected?
             </h2>
             
@@ -351,7 +351,7 @@ export default function Landing() {
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
               What Our Clients Say
             </h2>
-            <p className="text-white/80 text-sm md:text-base">
+            <p className="text-white/80 text-sm md:text-base max-w-xl mx-auto">
               Trusted by thousands of Florida families and businesses
             </p>
           </motion.div>

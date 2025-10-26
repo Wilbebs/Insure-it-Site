@@ -1,0 +1,445 @@
+# Codebase Cleanup, Refactoring, and File Upload Fix
+
+## Overview
+This codebase has accumulated redundant files and duplicate functionality over multiple iterations. Your task is to audit the entire project, identify redundancies, consolidate duplicate code, establish a clean maintainable structure, and fix the file upload functionality.
+
+---
+
+## CRITICAL: Current Backend Architecture
+
+### What We've Built (PRESERVE THIS):
+We have implemented a **fully functional backend** with the following architecture:
+
+**Database: PostgreSQL (AWS RDS)**
+- Location: AWS RDS instance
+- Schema defined in `/db/schema.sql`
+- Tables: `contacts` table stores form submissions with fields:
+  - `id`, `full_name`, `phone_number`, `email_address`, `policy_type`
+  - `coverage_level`, `additional_information`, `document_urls` (JSONB array)
+  - Auto insurance fields: `vehicle_year`, `vehicle_make`, `vehicle_model`
+  - Timestamps: `created_at`
+
+**File Storage: AWS S3**
+- Configuration in `/server/s3.ts`
+- Using `multer-s3` for direct uploads
+- Bucket and credentials configured via environment variables in `.env`
+- Files stored in S3 with organized paths: `contact-documents/[timestamp]-[filename]`
+- Public read access for uploaded files
+
+**API Endpoint: `/api/contact`**
+- Method: POST
+- Accepts: `multipart/form-data` (FormData)
+- File field name: `documents` (multiple files supported)
+- Process flow:
+  1. Receives form data with files
+  2. Uploads files to S3 via multer-s3
+  3. Stores contact data + S3 URLs in RDS
+  4. Returns success response
+
+**Key Backend Files (DO NOT DELETE OR MODIFY):**
+- `/server/routes.ts` - Contains the working `/api/contact` endpoint with S3 upload and RDS integration
+- `/server/s3.ts` - S3 client configuration and multer-s3 setup
+- `/server/db.ts` - PostgreSQL connection using `pg` library
+- `/db/schema.sql` - Database schema
+- `.env` - Contains AWS credentials (AWS_REGION, S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, DATABASE_URL)
+
+### What to Remove (DISCARD ALL OF THIS):
+**Delete any remnants of:**
+1. **Firebase** - Any Firebase imports, config files, or storage implementations
+2. **Replit Database** - Any Replit DB code or @replit/database imports
+3. **Local File Storage** - Any code that saves files to local filesystem (we use S3 only)
+4. **In-Memory Storage** - Any temporary file storage solutions
+5. **Old Database Implementations** - SQLite, old PostgreSQL code not matching our current schema
+
+**Specific files/code to remove if found:**
+- Any `firebase.ts`, `firebase-config.ts`, or Firebase SDK imports
+- Any code using `fs.writeFile`, `fs.createWriteStream` for uploaded files
+- Any `upload.single()` or `upload.array()` middleware not using multer-s3
+- Any database files in `/db/` except `schema.sql`
+- Legacy environment variables for old services
+
+---
+
+## Primary Objectives
+
+### 1. Landing Page Consolidation
+**CRITICAL**: Rename the primary landing page file to `landing.tsx`
+
+**Current State Analysis Needed:**
+- We have multiple home page files: `home.tsx`, `home-alternating.tsx`, `home-advanced.tsx`
+- Check `/client/src/App.tsx` to see which file is currently routed as the landing page
+- That file should be renamed to `/client/src/pages/landing.tsx`
+
+**Required Landing Page Components:**
+The landing page MUST include (in order):
+1. **Hero Section**
+   - Animated blob background (blue gradient with floating blobs)
+   - Title: "insure it"
+   - Tagline: "Life's Uncertain. Your Coverage Isn't."
+   - Two buttons:
+     - "Get Quoted Today Now →" (white button, opens QuoteModal)
+     - "Explore Coverage" (outline button, scrolls to coverage section)
+   - Trust badges: "Licensed & Insured", "A+ Rated", "Family-Owned Since 2011"
+
+2. **PolicyCarousel** section (id="coverage")
+
+3. **Five AlternatingParallaxSection components** with icons:
+   - Auto Insurance (left side, blue accent, Car icon)
+   - Home Insurance (right side, green accent, House icon)
+   - Life Insurance (left side, red accent, Heart icon)
+   - Health Insurance (right side, purple accent, UserCheck icon)
+   - Commercial Insurance (left side, orange accent, Building icon)
+
+4. **TestimonialsCarousel** section (blue gradient background)
+
+5. **Footer**
+
+6. **QuoteModal** component (with state management for open/close)
+
+**Action Items:**
+1. Identify which file is the actual landing page
+2. Rename it to `landing.tsx`
+3. Update `App.tsx` routing: `<Route path="/" component={Landing} />`
+4. Delete the other unused home variants after confirming they're not needed
+5. Ensure all imports are updated
+
+---
+
+### 2. Fix File Upload Functionality
+
+**THE PROBLEM:**
+The "Get Quoted Today Now" button may not be clickable OR the file upload in the quote form is not working properly.
+
+**Current Implementation (Frontend):**
+- `/client/src/components/quote-modal.tsx` - The main quote form
+- Uses React Hook Form with Zod validation
+- File selection via hidden `<input type="file">`
+- Creates `FormData` object in `onSubmit`
+- Appends files with field name `documents`
+- Sends to `/api/contact` via `apiRequest` function
+
+**Current Implementation (API Layer):**
+- `/client/src/lib/queryClient.ts` contains `apiRequest` function
+- MUST handle `FormData` correctly:
+  - Detect if data is `FormData`
+  - If FormData: Send as-is with NO Content-Type header (browser sets it automatically)
+  - If JSON: Stringify and set Content-Type to application/json
+
+**Current Implementation (Backend):**
+- `/server/routes.ts` has working S3 upload logic
+- Uses `upload.array('documents', 10)` middleware
+- Files are uploaded to S3 automatically via multer-s3
+- File URLs are stored in database
+
+**What Needs Fixing:**
+1. **Button Click Issue:**
+   - Verify `QuoteModal` is imported in landing page
+   - Verify state management: `const [quoteModalOpen, setQuoteModalOpen] = useState(false)`
+   - Verify button has: `onClick={() => setQuoteModalOpen(true)}`
+   - Verify modal is rendered: `<QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />`
+   - Check for CSS/z-index issues preventing clicks
+
+2. **File Upload Issue:**
+   - Verify `apiRequest` in `queryClient.ts` correctly detects FormData
+   - Verify FormData is sent without manual Content-Type header
+   - Verify backend multer-s3 configuration matches file field name `documents`
+   - Verify S3 credentials in `.env` are correct
+   - Add console logging to trace file upload flow
+
+3. **Debug the Flow:**
+   - Add `console.log` statements in:
+     - `quote-modal.tsx` onSubmit to confirm files are in FormData
+     - `queryClient.ts` apiRequest to confirm FormData is detected
+     - `/server/routes.ts` to confirm files are received
+   - Test file upload with browser DevTools Network tab open
+   - Check for CORS issues or network errors
+
+**Required Testing:**
+After fixes, verify:
+- ✅ "Get Quoted Today Now" button is clickable
+- ✅ Modal opens with form visible
+- ✅ File input accepts files (PDF, DOC, DOCX, JPG, PNG)
+- ✅ Selected file appears in UI
+- ✅ Form submits successfully
+- ✅ Files upload to S3 (check S3 bucket)
+- ✅ Contact data saves to RDS (check database)
+- ✅ Success toast appears
+- ✅ Modal closes after submission
+
+---
+
+### 3. Remove Duplicate Components
+
+**Identify and eliminate duplicates:**
+
+**Components to Audit:**
+- Multiple Hero implementations (keep one in landing page)
+- `contact-form.tsx` vs `quote-modal.tsx` (keep `quote-modal.tsx`, delete `contact-form.tsx`)
+- Multiple parallax components (consolidate if similar)
+- Duplicate insurance section components
+- Any old form implementations
+
+**Process:**
+1. Search codebase for each component name
+2. Check where it's imported/used
+3. If never used: DELETE
+4. If duplicate functionality: Consolidate into one component
+5. Update all imports to use the consolidated version
+
+**Specific Deletions:**
+- `/client/src/components/contact-form.tsx` (redundant with quote-modal)
+- Any unused hero component files
+- Old parallax implementations not being used
+
+---
+
+### 4. Code Organization & File Structure
+
+**Directory Structure Should Be:**
+```
+client/src/
+├── components/          # Reusable UI components
+│   ├── quote-modal.tsx  # Main quote form (KEEP)
+│   ├── navigation.tsx
+│   ├── footer.tsx
+│   ├── alternating-parallax-section.tsx
+│   ├── testimonials-carousel.tsx
+│   ├── policy-carousel.tsx
+│   ├── logo.tsx
+│   └── [other reusable components]
+├── pages/               # Route pages
+│   ├── landing.tsx      # Main landing page (RENAME FROM home-alternating.tsx)
+│   ├── about.tsx
+│   ├── auto-insurance.tsx
+│   ├── home-insurance.tsx
+│   ├── life-insurance.tsx
+│   ├── health-insurance.tsx
+│   ├── commercial-insurance.tsx
+│   └── not-found.tsx
+├── lib/
+│   └── queryClient.ts   # API request handler (KEEP)
+└── hooks/
+    └── [custom hooks]
+
+server/
+├── routes.ts            # API endpoints (KEEP - DO NOT MODIFY)
+├── s3.ts               # S3 config (KEEP - DO NOT MODIFY)
+└── db.ts               # Database config (KEEP - DO NOT MODIFY)
+```
+
+**Cleanup Actions:**
+1. Remove all files not in this structure
+2. Remove files that are never imported anywhere
+3. Consolidate duplicate functionality
+4. Ensure proper separation: components vs pages
+
+---
+
+### 5. Routing Cleanup
+
+**Review `/client/src/App.tsx`:**
+- Ensure `<Route path="/" component={Landing} />` uses the renamed landing page
+- Remove routes to deleted files
+- Verify all insurance detail pages have routes
+- Confirm all routes resolve to existing files
+
+**Expected Routes:**
+```typescript
+<Route path="/" component={Landing} />
+<Route path="/about" component={About} />
+<Route path="/auto-insurance" component={AutoInsurance} />
+<Route path="/home-insurance" component={HomeInsurance} />
+<Route path="/life-insurance" component={LifeInsurance} />
+<Route path="/health-insurance" component={HealthInsurance} />
+<Route path="/commercial-insurance" component={CommercialInsurance} />
+<Route component={NotFound} />
+```
+
+---
+
+### 6. Import & TypeScript Cleanup
+
+**Fix Import Issues:**
+- Remove unused imports across all files
+- Update import paths for renamed files
+- Check for circular dependencies
+- Ensure all imports resolve correctly
+
+**TypeScript Fixes:**
+- Fix any compilation errors
+- Ensure proper typing throughout
+- Remove `any` types where possible
+- Fix type mismatches
+
+---
+
+### 7. Environment Variables Verification
+
+**Confirm `.env` contains (DO NOT expose values):**
+```
+AWS_REGION=us-east-1
+S3_BUCKET_NAME=your-bucket-name
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+DATABASE_URL=postgresql://user:password@host:5432/database
+```
+
+**Verify `.gitignore` includes:**
+```
+.env
+.env.local
+.env.production
+node_modules/
+dist/
+*.log
+```
+
+---
+
+## Files to PRESERVE (DO NOT DELETE)
+
+### Backend (Absolutely Critical):
+- `/server/routes.ts`
+- `/server/s3.ts`
+- `/server/db.ts`
+- `/db/schema.sql`
+
+### Frontend Core:
+- `/client/src/components/quote-modal.tsx`
+- `/client/src/components/navigation.tsx`
+- `/client/src/components/footer.tsx`
+- `/client/src/components/alternating-parallax-section.tsx`
+- `/client/src/components/testimonials-carousel.tsx`
+- `/client/src/components/policy-carousel.tsx`
+- `/client/src/lib/queryClient.ts`
+- All insurance detail pages
+
+### Configuration:
+- `.env`
+- `.gitignore`
+- `package.json`
+- `tsconfig.json`
+
+---
+
+## Testing Checklist
+
+After all changes, verify:
+
+**Functionality Tests:**
+- [ ] Landing page loads at `/`
+- [ ] "Get Quoted Today Now" button is clickable
+- [ ] Quote modal opens when button clicked
+- [ ] All form fields work (name, email, phone, policy type)
+- [ ] Auto insurance fields appear when "Auto Insurance" selected
+- [ ] File input accepts files
+- [ ] Selected files show in UI with remove button
+- [ ] Form submission works
+- [ ] Files upload to S3 successfully
+- [ ] Contact data saves to RDS database
+- [ ] Success message appears
+- [ ] Modal closes after submission
+- [ ] Form resets for next use
+
+**Navigation Tests:**
+- [ ] All navigation links work
+- [ ] Insurance detail pages load correctly
+- [ ] Footer links work
+- [ ] About page loads
+
+**Technical Tests:**
+- [ ] No console errors in browser
+- [ ] No TypeScript compilation errors
+- [ ] No 404 errors for missing files
+- [ ] No broken imports
+- [ ] S3 uploads working (check bucket)
+- [ ] Database inserts working (check RDS)
+
+---
+
+## Output Required
+
+Provide detailed report including:
+
+1. **Files Deleted:**
+   - List each deleted file
+   - Explain why it was deleted
+   - Confirm it wasn't imported anywhere
+
+2. **Files Renamed:**
+   - List each renamed file
+   - Show old name → new name
+   - Confirm all imports were updated
+
+3. **Consolidated Functionality:**
+   - Describe what was consolidated
+   - Explain the benefits
+   - List all files affected
+
+4. **Backend Cleanup:**
+   - List any old backend code removed
+   - Confirm current S3/RDS implementation preserved
+
+5. **File Upload Fix:**
+   - Describe what was wrong
+   - Explain what was fixed
+   - Show test results proving it works
+
+6. **Updated File Structure:**
+   - Provide tree view of new structure
+   - Highlight major changes
+
+7. **Breaking Changes:**
+   - List any breaking changes (there shouldn't be many)
+   - Provide migration notes if needed
+
+8. **Test Results:**
+   - Confirm all checklist items pass
+   - Provide screenshots of working file upload
+
+---
+
+## Important Constraints
+
+- **DO NOT** refactor working code just to make it "prettier"
+- **DO NOT** change backend API endpoints
+- **DO NOT** modify S3 or RDS configuration
+- **DO NOT** change environment variable names
+- **PRESERVE** all working functionality
+- **FOCUS** on removing true duplicates and fixing the file upload
+- **ASK** before making major architectural changes
+- **TEST** thoroughly before marking as complete
+
+---
+
+## Getting Started
+
+**Step 1:** Analyze the current codebase
+- Identify which file is the landing page
+- Map out all file dependencies
+- Find all duplicate/unused files
+- Document current file upload flow
+
+**Step 2:** Create cleanup plan
+- List files to delete
+- List files to rename
+- List files to consolidate
+- Get confirmation before proceeding
+
+**Step 3:** Execute cleanup
+- Make changes incrementally
+- Test after each major change
+- Keep backup of deleted code
+
+**Step 4:** Fix file upload
+- Debug the button click issue
+- Debug the file upload flow
+- Add logging for troubleshooting
+- Test end-to-end
+
+**Step 5:** Verify everything works
+- Run full test checklist
+- Generate detailed report
+- Provide documentation
+
+Begin by analyzing the codebase and providing your cleanup plan before making any changes.

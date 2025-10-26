@@ -39,6 +39,7 @@ export default function Navigation() {
   const handleNavClick = () => {
     setLogoHighlight(true);
     setTimeout(() => setLogoHighlight(false), 800);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

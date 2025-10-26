@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 interface AlternatingParallaxSectionProps {
   contentSide: 'left' | 'right';
@@ -10,6 +11,7 @@ interface AlternatingParallaxSectionProps {
   backgroundImage: string;
   accentColor?: string;
   children?: ReactNode;
+  nextSectionId?: string;
 }
 
 export default function AlternatingParallaxSection({
@@ -20,7 +22,8 @@ export default function AlternatingParallaxSection({
   icon,
   backgroundImage,
   accentColor = 'from-blue-500 to-blue-600',
-  children
+  children,
+  nextSectionId
 }: AlternatingParallaxSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [scrollOffset, setScrollOffset] = useState(0);
@@ -174,6 +177,35 @@ export default function AlternatingParallaxSection({
           </motion.div>
         </div>
       </div>
+
+      {/* Navigation Arrow to Next Section */}
+      {nextSectionId && (
+        <motion.button
+          initial={{ opacity: 0, y: -10 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
+          transition={{
+            duration: 1,
+            delay: 0.8,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+          onClick={() => {
+            document.getElementById(nextSectionId)?.scrollIntoView({ 
+              behavior: "smooth", 
+              block: "center" 
+            });
+          }}
+          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20 
+                     bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-md
+                     border border-white/30 rounded-full p-3
+                     hover:from-white/30 hover:to-white/20 transition-all
+                     hover:scale-110 cursor-pointer shadow-lg"
+          data-testid="button-next-section"
+          aria-label="Scroll to next section"
+        >
+          <ChevronDown className="w-6 h-6 text-white" />
+        </motion.button>
+      )}
     </div>
   );
 }

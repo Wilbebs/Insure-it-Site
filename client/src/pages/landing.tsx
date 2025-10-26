@@ -179,6 +179,7 @@ export default function Landing() {
           icon={<Car className="w-12 h-12 text-white" />}
           backgroundImage="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1920&q=80"
           accentColor="from-blue-500 to-blue-600"
+          nextSectionId="home-section"
         >
           <button
             onClick={() => (window.location.href = "/auto-insurance")}
@@ -191,104 +192,116 @@ export default function Landing() {
       </div>
 
       {/* Home Insurance - Content Right */}
-      <AlternatingParallaxSection
-        contentSide="right"
-        title="Home Insurance"
-        description="Your home is your sanctuary and your biggest investment. Protect it with comprehensive coverage designed for Florida's unique climate challenges."
-        features={[
-          "Hurricane & Wind Damage Coverage",
-          "Dwelling & Structure Protection",
-          "Personal Property Insurance",
-          "Liability Coverage up to $500K",
-          "Additional Living Expenses",
-        ]}
-        icon={<House className="w-12 h-12 text-white" />}
-        backgroundImage="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1920&q=80"
-        accentColor="from-green-500 to-emerald-600"
-      >
-        <button
-          onClick={() => (window.location.href = "/home-insurance")}
-          className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-green-500/50 transition-all hover:scale-105"
-          data-testid="button-learn-home"
+      <div id="home-section">
+        <AlternatingParallaxSection
+          contentSide="right"
+          title="Home Insurance"
+          description="Your home is your sanctuary and your biggest investment. Protect it with comprehensive coverage designed for Florida's unique climate challenges."
+          features={[
+            "Hurricane & Wind Damage Coverage",
+            "Dwelling & Structure Protection",
+            "Personal Property Insurance",
+            "Liability Coverage up to $500K",
+            "Additional Living Expenses",
+          ]}
+          icon={<House className="w-12 h-12 text-white" />}
+          backgroundImage="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1920&q=80"
+          accentColor="from-green-500 to-emerald-600"
+          nextSectionId="life-section"
         >
-          Learn More About Home Insurance
-        </button>
-      </AlternatingParallaxSection>
+          <button
+            onClick={() => (window.location.href = "/home-insurance")}
+            className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-green-500/50 transition-all hover:scale-105"
+            data-testid="button-learn-home"
+          >
+            Learn More About Home Insurance
+          </button>
+        </AlternatingParallaxSection>
+      </div>
 
       {/* Life Insurance - Content Left */}
-      <AlternatingParallaxSection
-        contentSide="left"
-        title="Life Insurance"
-        description="Secure your family's financial future. Our life insurance policies provide the protection and peace of mind your loved ones deserve."
-        features={[
-          "Term Life Insurance (10-30 years)",
-          "Whole Life Coverage",
-          "Universal Life Options",
-          "Flexible Premium Plans",
-          "Living Benefits Riders",
-        ]}
-        icon={<Heart className="w-12 h-12 text-white" />}
-        backgroundImage="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1920&q=80"
-        accentColor="from-red-500 to-pink-600"
-      >
-        <button
-          onClick={() => (window.location.href = "/life-insurance")}
-          className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-red-500/50 transition-all hover:scale-105"
-          data-testid="button-learn-life"
+      <div id="life-section">
+        <AlternatingParallaxSection
+          contentSide="left"
+          title="Life Insurance"
+          description="Secure your family's financial future. Our life insurance policies provide the protection and peace of mind your loved ones deserve."
+          features={[
+            "Term Life Insurance (10-30 years)",
+            "Whole Life Coverage",
+            "Universal Life Options",
+            "Flexible Premium Plans",
+            "Living Benefits Riders",
+          ]}
+          icon={<Heart className="w-12 h-12 text-white" />}
+          backgroundImage="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1920&q=80"
+          accentColor="from-red-500 to-pink-600"
+          nextSectionId="health-section"
         >
-          Learn More About Life Insurance
-        </button>
-      </AlternatingParallaxSection>
+          <button
+            onClick={() => (window.location.href = "/life-insurance")}
+            className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-red-500/50 transition-all hover:scale-105"
+            data-testid="button-learn-life"
+          >
+            Learn More About Life Insurance
+          </button>
+        </AlternatingParallaxSection>
+      </div>
 
       {/* Health Insurance - Content Right */}
-      <AlternatingParallaxSection
-        contentSide="right"
-        title="Health Insurance"
-        description="Access quality healthcare when you need it most. Our health insurance plans connect you with trusted providers across Florida."
-        features={[
-          "Individual & Family Plans",
-          "Preventive Care Coverage",
-          "Prescription Drug Benefits",
-          "Emergency Services",
-          "Mental Health Support",
-        ]}
-        icon={<Activity className="w-12 h-12 text-white" />}
-        backgroundImage="https://images.unsplash.com/photo-1609220136736-443140cffec6?w=1920&q=80"
-        accentColor="from-purple-500 to-violet-600"
-      >
-        <button
-          onClick={() => (window.location.href = "/health-insurance")}
-          className="bg-gradient-to-r from-purple-500 to-violet-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-purple-500/50 transition-all hover:scale-105"
-          data-testid="button-learn-health"
+      <div id="health-section">
+        <AlternatingParallaxSection
+          contentSide="right"
+          title="Health Insurance"
+          description="Access quality healthcare when you need it most. Our health insurance plans connect you with trusted providers across Florida."
+          features={[
+            "Individual & Family Plans",
+            "Preventive Care Coverage",
+            "Prescription Drug Benefits",
+            "Emergency Services",
+            "Mental Health Support",
+          ]}
+          icon={<Activity className="w-12 h-12 text-white" />}
+          backgroundImage="https://images.unsplash.com/photo-1609220136736-443140cffec6?w=1920&q=80"
+          accentColor="from-purple-500 to-violet-600"
+          nextSectionId="commercial-section"
         >
-          Learn More About Health Insurance
-        </button>
-      </AlternatingParallaxSection>
+          <button
+            onClick={() => (window.location.href = "/health-insurance")}
+            className="bg-gradient-to-r from-purple-500 to-violet-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-purple-500/50 transition-all hover:scale-105"
+            data-testid="button-learn-health"
+          >
+            Learn More About Health Insurance
+          </button>
+        </AlternatingParallaxSection>
+      </div>
 
       {/* Commercial Insurance - Content Left */}
-      <AlternatingParallaxSection
-        contentSide="left"
-        title="Commercial Insurance"
-        description="Protect your business with comprehensive coverage tailored to your industry. We understand the unique risks Florida businesses face."
-        features={[
-          "General Liability Coverage",
-          "Property & Equipment Insurance",
-          "Workers' Compensation",
-          "Business Interruption Protection",
-          "Professional Liability",
-        ]}
-        icon={<Building2 className="w-12 h-12 text-white" />}
-        backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80"
-        accentColor="from-orange-500 to-amber-600"
-      >
-        <button
-          onClick={() => (window.location.href = "/commercial-insurance")}
-          className="bg-gradient-to-r from-orange-500 to-amber-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-orange-500/50 transition-all hover:scale-105"
-          data-testid="button-learn-commercial"
+      <div id="commercial-section">
+        <AlternatingParallaxSection
+          contentSide="left"
+          title="Commercial Insurance"
+          description="Protect your business with comprehensive coverage tailored to your industry. We understand the unique risks Florida businesses face."
+          features={[
+            "General Liability Coverage",
+            "Property & Equipment Insurance",
+            "Workers' Compensation",
+            "Business Interruption Protection",
+            "Professional Liability",
+          ]}
+          icon={<Building2 className="w-12 h-12 text-white" />}
+          backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80"
+          accentColor="from-orange-500 to-amber-600"
+          nextSectionId="cta-section"
         >
-          Learn More About Commercial Insurance
-        </button>
-      </AlternatingParallaxSection>
+          <button
+            onClick={() => (window.location.href = "/commercial-insurance")}
+            className="bg-gradient-to-r from-orange-500 to-amber-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-orange-500/50 transition-all hover:scale-105"
+            data-testid="button-learn-commercial"
+          >
+            Learn More About Commercial Insurance
+          </button>
+        </AlternatingParallaxSection>
+      </div>
 
       {/* CTA + Testimonials + Stats Combined Section */}
       <section

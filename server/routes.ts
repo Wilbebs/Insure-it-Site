@@ -357,6 +357,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Placeholder images endpoint for insurance pages
+  app.get("/api/images/:imageName", (req, res) => {
+    const { imageName } = req.params;
+    
+    // Map image names to stock images from Unsplash
+    const imageMap: Record<string, string> = {
+      'auto-consultation': 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80',
+      'home-exterior': 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80',
+      'life-family': 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80',
+      'health-consultation': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80',
+      'commercial-building': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80'
+    };
+    
+    const imageUrl = imageMap[imageName];
+    
+    if (imageUrl) {
+      // Redirect to the stock image
+      res.redirect(imageUrl);
+    } else {
+      // Return a simple SVG placeholder
+      const svg = `
+        <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+          <rect width="800" height="600" fill="#e5e7eb"/>
+          <text x="50%" y="50%" font-family="Arial" font-size="24" fill="#6b7280" text-anchor="middle" dominant-baseline="middle">
+            Insurance Image Placeholder
+          </text>
+        </svg>
+      `;
+      res.setHeader('Content-Type', 'image/svg+xml');
+      res.send(svg);
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

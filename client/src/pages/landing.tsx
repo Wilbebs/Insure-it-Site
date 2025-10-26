@@ -357,7 +357,7 @@ export default function Landing() {
           </motion.div>
 
           {/* Testimonials Carousel - Scaled Down to 2/3 */}
-          <div className="mb-6 transform scale-[0.67] origin-center">
+          <div className="mb-1 transform scale-[0.67] origin-center">
             <TestimonialsCarousel />
           </div>
 

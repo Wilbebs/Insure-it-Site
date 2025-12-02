@@ -5,12 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Landing from "@/pages/landing";
 import About from "@/pages/about";
-import AutoInsurance from "@/pages/auto-insurance";
-import HomeInsurance from "@/pages/home-insurance";
-import LifeInsurance from "@/pages/life-insurance";
-import HealthInsurance from "@/pages/health-insurance";
-import CommercialInsurance from "@/pages/commercial-insurance";
-import PlansPage from "@/pages/plans";
 import NotFound from "@/pages/not-found";
 import ChatBot from "@/components/chatbot";
 
@@ -19,12 +13,6 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/about" component={About} />
-      <Route path="/auto-insurance" component={AutoInsurance} />
-      <Route path="/home-insurance" component={HomeInsurance} />
-      <Route path="/life-insurance" component={LifeInsurance} />
-      <Route path="/health-insurance" component={HealthInsurance} />
-      <Route path="/commercial-insurance" component={CommercialInsurance} />
-      <Route path="/plans" component={PlansPage} />
       <Route component={NotFound} />
     </Switch>
   );

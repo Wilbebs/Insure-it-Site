@@ -1,7 +1,5 @@
-///client/src/pages/home-alternating.tsx
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
-import AlternatingParallaxSection from "@/components/alternating-parallax-section";
 import TestimonialsCarousel from "@/components/testimonials-carousel";
 import QuoteModal from "@/components/quote-modal";
 import { motion } from "framer-motion";
@@ -9,50 +7,64 @@ import {
   Car,
   House,
   Heart,
-  Activity,
   Building2,
-  ArrowRight,
+  Phone,
+  Mail,
+  MapPin,
   Shield,
+  ArrowRight,
 } from "lucide-react";
 import Logo from "@/components/logo";
 import { useEffect, useState } from "react";
 import teamPhotoPath from "@assets/teamportraitAI_1760737460273.jpg";
 
+const insuranceTypes = [
+  {
+    icon: <Car className="w-12 h-12" />,
+    title: "Home / Auto",
+    description: "Whether it's your home or your vehicle—personal, business, or specialty—we provide coverage you can trust, giving you peace of mind every step of the way.",
+    color: "text-blue-600",
+    bgColor: "bg-blue-50",
+  },
+  {
+    icon: <House className="w-12 h-12" />,
+    title: "Flood",
+    description: "Protect your home and peace of mind with reliable flood insurance coverage tailored to safeguard against the unexpected.",
+    color: "text-emerald-600",
+    bgColor: "bg-emerald-50",
+  },
+  {
+    icon: <Heart className="w-12 h-12" />,
+    title: "Life",
+    description: "We're here to help protect what matters most with coverage tailored to support your loved ones when they need it most.",
+    color: "text-rose-600",
+    bgColor: "bg-rose-50",
+  },
+  {
+    icon: <Building2 className="w-12 h-12" />,
+    title: "Business",
+    description: "Having insurance is a crucial part of running a business. We offer many coverage plans to make sure you get the options you need.",
+    color: "text-amber-600",
+    bgColor: "bg-amber-50",
+  },
+];
+
 export default function Landing() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  const [buttonAnimate, setButtonAnimate] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setHeroVisible(true);
-
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const scrollToQuotes = () => {
-    const ctaSection = document.getElementById("cta-section");
-    ctaSection?.scrollIntoView({ behavior: "smooth" });
-
-    setTimeout(() => {
-      setButtonAnimate(true);
-      setTimeout(() => setButtonAnimate(false), 3000);
-    }, 800);
-  };
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section - Full Screen Background */}
-      <section className="min-h-screen flex items-center relative overflow-hidden pt-20">
-        {/* Team Photo Background - Full Screen */}
+      {/* Hero Section */}
+      <section className="min-h-[85vh] flex items-center relative overflow-hidden pt-20">
+        {/* Team Photo Background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -61,379 +73,176 @@ export default function Landing() {
           }}
         />
 
-        {/* Blue gradient overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/90 via-blue-500/85 to-blue-600/90" />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-800/80 to-slate-900/85" />
 
-        {/* Decorative Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl" />
-
-        {/* Centered Content */}
-        <div className="relative z-10 w-full flex items-center justify-center px-8 md:px-16 py-20">
+        {/* Content */}
+        <div className="relative z-10 w-full flex items-center justify-center px-6 md:px-16">
           <div className="max-w-4xl text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              animate={
-                heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
-              }
-              transition={{ duration: 0.8, delay: 0.3 }}
+              animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              {/* Logo with Shield Pulse Animation */}
-              <div className="mb-8">
+              {/* Badge */}
+              <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white/90 text-sm font-medium border border-white/20 mb-6">
+                Independent Insurance Agency
+              </span>
+
+              {/* Logo */}
+              <div className="mb-6">
                 <Logo size="large" showTagline={true} variant="white" />
               </div>
 
-              <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                14 years protecting{" "}
-                <span className="font-bold text-amber-300">
-                  thousands of Florida families
-                </span>{" "}
-                with personalized coverage and genuine care
+              <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
+                Your Trusted Partner for Home, Auto & Business Insurance
               </p>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                animate={
-                  heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-                }
-                transition={{ duration: 0.8, delay: 0.6 }}
+                animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
                 className="flex flex-col sm:flex-row gap-4 justify-center"
               >
                 <button
-                  onClick={scrollToQuotes}
-                  className="group bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/30 transition-all hover:scale-105"
+                  onClick={() => setQuoteModalOpen(true)}
+                  className="group bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg font-semibold text-lg shadow-xl transition-all hover:scale-105"
                   data-testid="button-get-quote"
                 >
-                  Jump to Quick Quotes
+                  Get A Quote
                   <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button
-                  onClick={() =>
-                    document
-                      .getElementById("auto-section")
-                      ?.scrollIntoView({ behavior: "smooth", block: "center" })
-                  }
-                  className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
-                  data-testid="button-explore-coverage"
+                <a
+                  href="tel:+13059185339"
+                  className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-slate-900 transition-all flex items-center justify-center gap-2"
+                  data-testid="button-call-us"
                 >
-                  Explore Coverage
-                </button>
-              </motion.div>
-
-              {/* Trust indicators with Family-Owned badge */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={heroVisible ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ duration: 1, delay: 1 }}
-                className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/80 text-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <Shield className="w-5 h-5" />
-                  <span>Licensed & Insured</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Heart className="w-5 h-5" />
-                  <span>A+ Rated</span>
-                </div>
-                <div className="inline-block">
-                  <span className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium border border-white/30">
-                    Family-Owned Since 2011
-                  </span>
-                </div>
+                  <Phone className="w-5 h-5" />
+                  Call Us Now
+                </a>
               </motion.div>
             </motion.div>
           </div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{
-            duration: 1,
-            delay: 0.8,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-10"
-        >
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/50 rounded-full mt-2" />
-          </div>
-        </motion.div>
       </section>
 
-      {/* Auto Insurance - Content Left */}
-      <div id="auto-section">
-        <AlternatingParallaxSection
-          contentSide="left"
-          title="Auto Insurance"
-          description="Drive with complete peace of mind. Our comprehensive auto insurance protects you, your passengers, and your vehicle on every Florida road."
-          features={[
-            "Collision & Comprehensive Coverage",
-            "Liability Protection up to $1M",
-            "Uninsured Motorist Coverage",
-            "24/7 Roadside Assistance",
-            "Rental Car Reimbursement",
-          ]}
-          icon={<Car className="w-12 h-12 text-white" />}
-          backgroundImage="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1920&q=80"
-          accentColor="from-blue-500 to-blue-600"
-          nextSectionId="home-section"
-        >
-          <button
-            onClick={() => (window.location.href = "/auto-insurance")}
-            className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-blue-500/50 transition-all hover:scale-105"
-            data-testid="button-learn-auto"
-          >
-            Learn More About Auto Insurance
-          </button>
-        </AlternatingParallaxSection>
-      </div>
-
-      {/* Home Insurance - Content Right */}
-      <div id="home-section">
-        <AlternatingParallaxSection
-          contentSide="right"
-          title="Home Insurance"
-          description="Your home is your sanctuary and your biggest investment. Protect it with comprehensive coverage designed for Florida's unique climate challenges."
-          features={[
-            "Hurricane & Wind Damage Coverage",
-            "Dwelling & Structure Protection",
-            "Personal Property Insurance",
-            "Liability Coverage up to $500K",
-            "Additional Living Expenses",
-          ]}
-          icon={<House className="w-12 h-12 text-white" />}
-          backgroundImage="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1920&q=80"
-          accentColor="from-green-500 to-emerald-600"
-          nextSectionId="life-section"
-        >
-          <button
-            onClick={() => (window.location.href = "/home-insurance")}
-            className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-green-500/50 transition-all hover:scale-105"
-            data-testid="button-learn-home"
-          >
-            Learn More About Home Insurance
-          </button>
-        </AlternatingParallaxSection>
-      </div>
-
-      {/* Life Insurance - Content Left */}
-      <div id="life-section">
-        <AlternatingParallaxSection
-          contentSide="left"
-          title="Life Insurance"
-          description="Secure your family's financial future. Our life insurance policies provide the protection and peace of mind your loved ones deserve."
-          features={[
-            "Term Life Insurance (10-30 years)",
-            "Whole Life Coverage",
-            "Universal Life Options",
-            "Flexible Premium Plans",
-            "Living Benefits Riders",
-          ]}
-          icon={<Heart className="w-12 h-12 text-white" />}
-          backgroundImage="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1920&q=80"
-          accentColor="from-red-500 to-pink-600"
-          nextSectionId="health-section"
-        >
-          <button
-            onClick={() => (window.location.href = "/life-insurance")}
-            className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-red-500/50 transition-all hover:scale-105"
-            data-testid="button-learn-life"
-          >
-            Learn More About Life Insurance
-          </button>
-        </AlternatingParallaxSection>
-      </div>
-
-      {/* Health Insurance - Content Right */}
-      <div id="health-section">
-        <AlternatingParallaxSection
-          contentSide="right"
-          title="Health Insurance"
-          description="Access quality healthcare when you need it most. Our health insurance plans connect you with trusted providers across Florida."
-          features={[
-            "Individual & Family Plans",
-            "Preventive Care Coverage",
-            "Prescription Drug Benefits",
-            "Emergency Services",
-            "Mental Health Support",
-          ]}
-          icon={<Activity className="w-12 h-12 text-white" />}
-          backgroundImage="https://images.unsplash.com/photo-1609220136736-443140cffec6?w=1920&q=80"
-          accentColor="from-purple-500 to-violet-600"
-          nextSectionId="commercial-section"
-        >
-          <button
-            onClick={() => (window.location.href = "/health-insurance")}
-            className="bg-gradient-to-r from-purple-500 to-violet-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-purple-500/50 transition-all hover:scale-105"
-            data-testid="button-learn-health"
-          >
-            Learn More About Health Insurance
-          </button>
-        </AlternatingParallaxSection>
-      </div>
-
-      {/* Commercial Insurance - Content Left */}
-      <div id="commercial-section">
-        <AlternatingParallaxSection
-          contentSide="left"
-          title="Commercial Insurance"
-          description="Protect your business with comprehensive coverage tailored to your industry. We understand the unique risks Florida businesses face."
-          features={[
-            "General Liability Coverage",
-            "Property & Equipment Insurance",
-            "Workers' Compensation",
-            "Business Interruption Protection",
-            "Professional Liability",
-          ]}
-          icon={<Building2 className="w-12 h-12 text-white" />}
-          backgroundImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80"
-          accentColor="from-orange-500 to-amber-600"
-          nextSectionId="cta-section"
-        >
-          <button
-            onClick={() => (window.location.href = "/commercial-insurance")}
-            className="bg-gradient-to-r from-orange-500 to-amber-600 text-white px-10 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-orange-500/50 transition-all hover:scale-105"
-            data-testid="button-learn-commercial"
-          >
-            Learn More About Commercial Insurance
-          </button>
-        </AlternatingParallaxSection>
-      </div>
-
-      {/* CTA + Testimonials + Stats Combined Section */}
-      <section
-        id="cta-section"
-        className="min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden py-16 flex items-center"
-      >
-        <div className="absolute inset-0 opacity-10">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 80%, white 1px, transparent 1px)",
-              backgroundSize: "50px 50px",
-            }}
-          />
-        </div>
-
-        <div className="container mx-auto px-6 text-center relative z-10 w-full">
-          {/* CTA Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 leading-tight">
-              Ready to Get Protected?
+      {/* Who We Are Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-6">
+              Who We Are
             </h2>
-
-            <p className="text-base md:text-lg text-white/90 mb-6 max-w-2xl mx-auto">
-              Join thousands of satisfied families and businesses across
-              Florida. Get your personalized insurance quote in minutes.
+            <div className="w-16 h-1 bg-green-500 mx-auto mb-8"></div>
+            
+            <h3 className="text-xl md:text-2xl font-bold text-slate-700 mb-4">
+              Dependable Home, Auto, and Business Insurance
+            </h3>
+            
+            <p className="text-lg text-slate-600 leading-relaxed mb-8">
+              We are a family-owned insurance agency based in sunny Miami, FL. Since 2011, 
+              we have been helping families all over Florida with their home, auto, and 
+              business insurance needs. Our team takes pride in providing personalized 
+              service and finding the best coverage at competitive rates.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
-              <motion.button
-                id="quick-quote-button"
-                onClick={() => setQuoteModalOpen(true)}
-                className="bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-white/50 transition-all hover:scale-105 relative"
-                data-testid="button-get-started-cta"
-                animate={
-                  buttonAnimate
-                    ? {
-                        scale: [1, 1.15, 1.1, 1.15, 1.1, 1.15, 1],
-                        boxShadow: [
-                          "0 25px 50px -12px rgba(255, 255, 255, 0.5)",
-                          "0 0 60px 10px rgba(59, 130, 246, 0.8)",
-                          "0 0 60px 10px rgba(59, 130, 246, 0.8)",
-                          "0 0 60px 10px rgba(59, 130, 246, 0.8)",
-                          "0 0 60px 10px rgba(59, 130, 246, 0.8)",
-                          "0 0 60px 10px rgba(59, 130, 246, 0.8)",
-                          "0 25px 50px -12px rgba(255, 255, 255, 0.5)",
-                        ],
-                      }
-                    : {}
-                }
-                transition={{
-                  duration: 2.5,
-                  ease: "easeInOut",
-                }}
-              >
-                {buttonAnimate && (
-                  <motion.div
-                    className="absolute inset-0 rounded-full border-4 border-blue-400"
-                    initial={{ opacity: 0, scale: 1 }}
-                    animate={{
-                      opacity: [0.8, 0],
-                      scale: [1, 1.4],
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: 2,
-                      ease: "easeOut",
-                    }}
-                  />
-                )}
-                Get your Quick Quote
-              </motion.button>
-              <button
-                onClick={() => (window.location.href = "/about")}
-                className="bg-transparent border-2 border-white text-white px-10 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
-                data-testid="button-learn-about"
-              >
-                Learn About Us
-              </button>
-            </div>
-          </motion.div>
-
-          {/* Testimonials Carousel */}
-          <div className="mb-6">
-            <TestimonialsCarousel />
+            <button
+              onClick={() => window.location.href = '/about'}
+              className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-semibold transition-all hover:scale-105"
+              data-testid="button-read-more"
+            >
+              Read More
+            </button>
           </div>
+        </div>
+      </section>
 
-          {/* Statistics Below Carousel */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="px-8 md:px-16"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
-              {[
-                { number: "14+", label: "Years of Excellence" },
-                {
-                  number: "2100",
-                  label: "Families",
-                  sublabel: "as of November, 2025",
-                },
-                { number: "98%", label: "Client Satisfaction" },
-              ].map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  viewport={{ once: true }}
-                  className="text-center"
-                >
-                  <div className="text-4xl font-bold text-white mb-1">
-                    {stat.number}
-                  </div>
-                  <div className="text-white/80 text-base">{stat.label}</div>
-                  {stat.sublabel && (
-                    <div className="text-white/60 text-sm mt-1">
-                      {stat.sublabel}
-                    </div>
-                  )}
-                </motion.div>
-              ))}
+      {/* Insurance Types Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-12">
+            A Wide Variety of Insurance Needs
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {insuranceTypes.map((type, index) => (
+              <motion.div
+                key={type.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-all text-center"
+              >
+                <div className={`${type.bgColor} ${type.color} w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5`}>
+                  {type.icon}
+                </div>
+                <h3 className="text-xl font-bold text-slate-800 mb-3">
+                  {type.title}
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  {type.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-12">
+            Client Testimonials
+          </h2>
+          <TestimonialsCarousel />
+        </div>
+      </section>
+
+      {/* Contact Info Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-green-600 mb-8">
+            Contact Info
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl">
+            <div className="flex items-center gap-4">
+              <Phone className="w-6 h-6 text-slate-600" />
+              <div>
+                <a href="tel:+13059185339" className="text-slate-800 hover:text-green-600 transition-colors font-medium">
+                  (305) 918-5339
+                </a>
+              </div>
             </div>
-          </motion.div>
+            
+            <div className="flex items-center gap-4">
+              <Mail className="w-6 h-6 text-slate-600" />
+              <div>
+                <a href="mailto:info@insure-itgroup.com" className="text-slate-800 hover:text-green-600 transition-colors font-medium">
+                  info@insure-itgroup.com
+                </a>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <MapPin className="w-6 h-6 text-slate-600" />
+              <div>
+                <span className="text-slate-800 font-medium">
+                  Miami, FL
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <Shield className="w-6 h-6 text-slate-600" />
+              <div>
+                <span className="text-slate-800 font-medium">
+                  Licensed & Insured
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

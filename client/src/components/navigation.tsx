@@ -79,7 +79,7 @@ export default function Navigation() {
             {!isScrolled && (
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full bg-white/90 dark:bg-slate-800/90 hover:bg-primary dark:hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg mr-2"
+                className="p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg mr-2"
                 data-testid="theme-toggle"
                 aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
               >

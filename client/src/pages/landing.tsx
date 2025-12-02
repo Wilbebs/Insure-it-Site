@@ -55,7 +55,7 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       {/* Hero Section */}
@@ -69,8 +69,8 @@ export default function Landing() {
           }}
         />
 
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-900/90" />
+        {/* Overlay - adapts to theme */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-900/90 dark:from-slate-900/90 dark:via-slate-900/80 dark:to-slate-900/90" />
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-6 md:px-16">
@@ -102,7 +102,7 @@ export default function Landing() {
               >
                 <button
                   onClick={() => setQuoteModalOpen(true)}
-                  className="group bg-sky-500 hover:bg-sky-400 text-white px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-sky-500/25 transition-all hover:scale-105"
+                  className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105"
                   data-testid="button-get-quote"
                 >
                   Get Quoted Today
@@ -110,7 +110,7 @@ export default function Landing() {
                 </button>
                 <a
                   href="tel:+13059185339"
-                  className="bg-transparent border-2 border-sky-400 text-sky-300 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-sky-500 hover:text-white hover:border-sky-500 transition-all flex items-center justify-center gap-2"
+                  className="bg-transparent border-2 border-sky-400 text-sky-300 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary hover:text-white hover:border-primary transition-all flex items-center justify-center gap-2"
                   data-testid="button-call-us"
                 >
                   <Phone className="w-5 h-5" />
@@ -123,19 +123,19 @@ export default function Landing() {
       </section>
 
       {/* Who We Are Section */}
-      <section className="py-16 bg-slate-800">
+      <section className="py-16 bg-muted dark:bg-slate-800">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
               Who We Are
             </h2>
-            <div className="w-16 h-1 bg-sky-500 mx-auto mb-8"></div>
+            <div className="w-16 h-1 bg-primary mx-auto mb-8"></div>
             
-            <h3 className="text-xl md:text-2xl font-bold text-sky-300 mb-4">
+            <h3 className="text-xl md:text-2xl font-bold text-primary mb-4">
               Dependable Home, Auto, and Business Insurance
             </h3>
             
-            <p className="text-lg text-slate-300 leading-relaxed mb-8">
+            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
               We are a family-owned insurance agency based in sunny Miami, FL. Since 2011, 
               we have been helping families all over Florida with their home, auto, and 
               business insurance needs. Our team takes pride in providing personalized 
@@ -144,7 +144,7 @@ export default function Landing() {
 
             <button
               onClick={() => window.location.href = '/about'}
-              className="bg-sky-500 hover:bg-sky-400 text-white px-8 py-3 rounded-lg font-semibold transition-all hover:scale-105"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all hover:scale-105"
               data-testid="button-read-more"
             >
               Read More
@@ -154,9 +154,9 @@ export default function Landing() {
       </section>
 
       {/* Insurance Types Section */}
-      <section className="py-16 bg-slate-900">
+      <section className="py-16 bg-background dark:bg-slate-900">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-12">
             A Wide Variety of Insurance Needs
           </h2>
 
@@ -182,7 +182,7 @@ export default function Landing() {
                 
                 {/* Content */}
                 <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                  <div className="text-sky-400 mb-3 transition-transform duration-300 group-hover:scale-110">
+                  <div className="text-primary mb-3 transition-transform duration-300 group-hover:scale-110">
                     {type.icon}
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2">
@@ -199,9 +199,9 @@ export default function Landing() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-slate-800">
+      <section className="py-16 bg-muted dark:bg-slate-800">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-12">
             Client Testimonials
           </h2>
           <TestimonialsCarousel />
@@ -209,46 +209,46 @@ export default function Landing() {
       </section>
 
       {/* Contact Info Section - Centered */}
-      <section className="py-16 bg-slate-900">
+      <section className="py-16 bg-background dark:bg-slate-900">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-sky-400 mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-primary mb-10">
               Contact Info
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
               <div className="flex flex-col items-center gap-3" data-testid="contact-phone">
-                <div className="w-12 h-12 rounded-full bg-sky-500/20 flex items-center justify-center">
-                  <Phone className="w-6 h-6 text-sky-400" />
+                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Phone className="w-6 h-6 text-primary" />
                 </div>
-                <a href="tel:+13059185339" className="text-white hover:text-sky-400 transition-colors font-medium" data-testid="link-phone">
+                <a href="tel:+13059185339" className="text-foreground hover:text-primary transition-colors font-medium" data-testid="link-phone">
                   (305) 918-5339
                 </a>
               </div>
               
               <div className="flex flex-col items-center gap-3" data-testid="contact-email">
-                <div className="w-12 h-12 rounded-full bg-sky-500/20 flex items-center justify-center">
-                  <Mail className="w-6 h-6 text-sky-400" />
+                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Mail className="w-6 h-6 text-primary" />
                 </div>
-                <a href="mailto:info@insure-itgroup.com" className="text-white hover:text-sky-400 transition-colors font-medium text-sm" data-testid="link-email">
+                <a href="mailto:info@insure-itgroup.com" className="text-foreground hover:text-primary transition-colors font-medium text-sm" data-testid="link-email">
                   info@insure-itgroup.com
                 </a>
               </div>
 
               <div className="flex flex-col items-center gap-3" data-testid="contact-location">
-                <div className="w-12 h-12 rounded-full bg-sky-500/20 flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-sky-400" />
+                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                  <MapPin className="w-6 h-6 text-primary" />
                 </div>
-                <span className="text-white font-medium" data-testid="text-location">
+                <span className="text-foreground font-medium" data-testid="text-location">
                   St. Johns, FL
                 </span>
               </div>
 
               <div className="flex flex-col items-center gap-3" data-testid="contact-license">
-                <div className="w-12 h-12 rounded-full bg-sky-500/20 flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-sky-400" />
+                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Shield className="w-6 h-6 text-primary" />
                 </div>
-                <span className="text-white font-medium" data-testid="text-license">
+                <span className="text-foreground font-medium" data-testid="text-license">
                   Licensed & Insured
                 </span>
               </div>
@@ -257,7 +257,7 @@ export default function Landing() {
             {/* Get Quoted Today Button */}
             <button
               onClick={() => setQuoteModalOpen(true)}
-              className="group bg-sky-500 hover:bg-sky-400 text-white px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-sky-500/25 transition-all hover:scale-105"
+              className="group bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105"
               data-testid="button-get-quote-contact"
             >
               Get Quoted Today

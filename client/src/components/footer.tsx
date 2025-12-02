@@ -5,7 +5,7 @@ import Logo from "./logo";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-white py-12" data-testid="footer">
+    <footer className="bg-slate-900 dark:bg-slate-950 text-white py-12" data-testid="footer">
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-8">
           <div>

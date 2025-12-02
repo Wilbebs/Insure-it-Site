@@ -94,12 +94,12 @@ export default function TestimonialsCarousel() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-3xl p-6 shadow-xl h-full"
+                className="bg-card dark:bg-slate-800 rounded-3xl p-6 shadow-xl h-full"
                 data-testid={`testimonial-carousel-${index}`}
               >
                 <div className="mb-4">
-                  <h3 className="font-bold text-gray-900">{testimonial.name}</h3>
-                  <p className="text-xs text-gray-600">{testimonial.location}</p>
+                  <h3 className="font-bold text-foreground">{testimonial.name}</h3>
+                  <p className="text-xs text-muted-foreground">{testimonial.location}</p>
                 </div>
                 
                 <div className="flex gap-1 mb-3">
@@ -108,12 +108,12 @@ export default function TestimonialsCarousel() {
                   ))}
                 </div>
                 
-                <p className="text-gray-700 text-sm leading-relaxed mb-4">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                   "{testimonial.text}"
                 </p>
                 
-                <div className="pt-3 border-t border-gray-200">
-                  <p className="text-xs text-blue-600 font-semibold">
+                <div className="pt-3 border-t border-border">
+                  <p className="text-xs text-primary font-semibold">
                     {testimonial.insurance}
                   </p>
                 </div>
@@ -126,19 +126,19 @@ export default function TestimonialsCarousel() {
       {/* Navigation Buttons */}
       <button
         onClick={scrollPrev}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
         data-testid="carousel-prev"
         aria-label="Previous testimonial"
       >
-        <ChevronLeft className="w-5 h-5 text-gray-700" />
+        <ChevronLeft className="w-5 h-5 text-foreground" />
       </button>
       <button
         onClick={scrollNext}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
         data-testid="carousel-next"
         aria-label="Next testimonial"
       >
-        <ChevronRight className="w-5 h-5 text-gray-700" />
+        <ChevronRight className="w-5 h-5 text-foreground" />
       </button>
 
       {/* Dot Indicators */}
@@ -149,8 +149,8 @@ export default function TestimonialsCarousel() {
             onClick={() => emblaApi?.scrollTo(index)}
             className={`h-2 rounded-full transition-all ${
               index === selectedIndex 
-                ? 'w-8 bg-white' 
-                : 'w-2 bg-white/50'
+                ? 'w-8 bg-primary' 
+                : 'w-2 bg-primary/50'
             }`}
             aria-label={`Go to testimonial ${index + 1}`}
           />

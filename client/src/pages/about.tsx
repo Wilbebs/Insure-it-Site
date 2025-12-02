@@ -51,7 +51,7 @@ export default function About() {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       {/* Hero Section with Family Portrait Background */}
@@ -75,7 +75,7 @@ export default function About() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8 text-white text-center">
               Our Story
             </h2>
-            <div className="space-y-6 text-base sm:text-lg text-white dark:text-white leading-relaxed">
+            <div className="space-y-6 text-base sm:text-lg text-white leading-relaxed">
               <p>
                 Our journey began in 2011 with a simple dream and a small office in the heart of Miami. 
                 What started as a family vision to help our local community find quality insurance coverage 
@@ -108,7 +108,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-gradient-to-b from-background to-slate-50 dark:to-slate-950">
+      <section className="py-12 sm:py-20 bg-muted dark:bg-slate-900">
         <div className="container mx-auto px-4 sm:px-6">
 
           {/* Meet the Team Section */}
@@ -323,7 +323,7 @@ export default function About() {
                 className="group"
                 data-testid="social-linkedin"
               >
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-blue-500 group-hover:to-blue-600">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-blue-500 group-hover:to-blue-600">
                   <FaLinkedin className="w-12 h-12 sm:w-16 sm:h-16 text-primary group-hover:text-white transition-colors duration-300" />
                 </div>
                 <p className="mt-3 font-semibold text-muted-foreground group-hover:text-primary transition-colors">LinkedIn</p>
@@ -336,8 +336,8 @@ export default function About() {
                 className="group"
                 data-testid="social-instagram"
               >
-                <div className="bg-gradient-to-br from-pink-50 to-purple-100 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-pink-500 group-hover:to-purple-600">
-                  <FaInstagram className="w-12 h-12 sm:w-16 sm:h-16 text-pink-600 group-hover:text-white transition-colors duration-300" />
+                <div className="bg-gradient-to-br from-pink-50 to-purple-100 dark:from-pink-900/50 dark:to-purple-900/50 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-pink-500 group-hover:to-purple-600">
+                  <FaInstagram className="w-12 h-12 sm:w-16 sm:h-16 text-pink-600 dark:text-pink-400 group-hover:text-white transition-colors duration-300" />
                 </div>
                 <p className="mt-3 font-semibold text-muted-foreground group-hover:text-pink-600 transition-colors">Instagram</p>
               </a>
@@ -349,8 +349,8 @@ export default function About() {
                 className="group"
                 data-testid="social-facebook"
               >
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-blue-600 group-hover:to-blue-700">
-                  <FaFacebook className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-blue-600 group-hover:to-blue-700">
+                  <FaFacebook className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300" />
                 </div>
                 <p className="mt-3 font-semibold text-muted-foreground group-hover:text-blue-600 transition-colors">Facebook</p>
               </a>

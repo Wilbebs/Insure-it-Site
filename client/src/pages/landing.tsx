@@ -240,7 +240,7 @@ export default function Landing() {
                   <MapPin className="w-6 h-6 text-sky-400" />
                 </div>
                 <span className="text-white font-medium" data-testid="text-location">
-                  Miami, FL
+                  St. Johns, FL
                 </span>
               </div>
 

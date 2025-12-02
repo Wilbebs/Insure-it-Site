@@ -36,22 +36,18 @@ export default function Navigation() {
         }`}
         data-testid="main-navigation"
       >
-        <div className={`flex items-center transition-all duration-500 ${
-          isScrolled ? 'justify-between' : 'justify-center'
-        }`}>
-          {/* Logo - only show when scrolled */}
-          {isScrolled && (
-            <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative" data-testid="link-home">
-              <Logo />
-              <div className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500 ${
-                logoHighlight ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-3/4 group-hover:opacity-100'
-              }`}></div>
-            </Link>
-          )}
+        <div className="flex items-center justify-between w-full">
+          {/* Left side: Logo */}
+          <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative" data-testid="link-home">
+            <Logo />
+            <div className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500 ${
+              logoHighlight ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-3/4 group-hover:opacity-100'
+            }`}></div>
+          </Link>
 
           {/* Center Nav Links */}
           <div className={`flex items-center transition-all duration-500 ${
-            isScrolled ? 'space-x-5 xl:space-x-8' : 'space-x-12'
+            isScrolled ? 'space-x-5 xl:space-x-8' : 'space-x-8 xl:space-x-10'
           }`}>
             <Link 
               href="/"
@@ -75,43 +71,41 @@ export default function Navigation() {
             </Link>
           </div>
 
-          {/* Right side: Social Media Links - only show when scrolled */}
-          {isScrolled && (
-            <div className="flex -space-x-6 ml-8">
-              <a 
-                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg hover:z-30 hover:scale-110"
-                data-testid="nav-social-linkedin"
-                style={{ zIndex: 3 }}
-              >
-                <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
-              </a>
-              
-              <a 
-                href="https://www.instagram.com/insureitgroup/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/90 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg hover:z-30 hover:scale-110"
-                data-testid="nav-social-instagram"
-                style={{ zIndex: 2 }}
-              >
-                <FaInstagram className="w-5 h-5 text-pink-600 group-hover:text-white transition-colors duration-300" />
-              </a>
-              
-              <a 
-                href="https://www.facebook.com/insureitgroup"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-white/90 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg hover:z-30 hover:scale-110"
-                data-testid="nav-social-facebook"
-                style={{ zIndex: 1 }}
-              >
-                <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
-              </a>
-            </div>
-          )}
+          {/* Right side: Social Media Links */}
+          <div className={`flex transition-all duration-500 ${isScrolled ? '-space-x-6' : 'gap-2'}`}>
+            <a 
+              href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
+              data-testid="nav-social-linkedin"
+              style={{ zIndex: isScrolled ? 3 : 'auto' }}
+            >
+              <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
+            </a>
+            
+            <a 
+              href="https://www.instagram.com/insureitgroup/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-2 rounded-full bg-white/90 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
+              data-testid="nav-social-instagram"
+              style={{ zIndex: isScrolled ? 2 : 'auto' }}
+            >
+              <FaInstagram className="w-5 h-5 text-pink-600 group-hover:text-white transition-colors duration-300" />
+            </a>
+            
+            <a 
+              href="https://www.facebook.com/insureitgroup"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-2 rounded-full bg-white/90 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
+              data-testid="nav-social-facebook"
+              style={{ zIndex: isScrolled ? 1 : 'auto' }}
+            >
+              <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
+            </a>
+          </div>
         </div>
       </nav>
 

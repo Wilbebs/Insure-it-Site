@@ -73,23 +73,8 @@ export default function Navigation() {
             </Link>
           </div>
 
-          {/* Right side: Theme Toggle + Social Media Links */}
+          {/* Right side: Social Media Links + Theme Toggle */}
           <div className={`flex items-center flex-shrink-0 transition-all duration-500 ${isScrolled ? '-space-x-6' : 'gap-2'}`}>
-            {/* Theme Toggle - Only visible when navbar is full-sized */}
-            {!isScrolled && (
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg mr-2"
-                data-testid="theme-toggle"
-                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              >
-                {theme === "dark" ? (
-                  <Sun className="w-5 h-5 text-yellow-500 group-hover:text-white transition-colors duration-300" />
-                ) : (
-                  <Moon className="w-5 h-5 text-slate-600 group-hover:text-white transition-colors duration-300" />
-                )}
-              </button>
-            )}
             <a 
               href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
               target="_blank"
@@ -122,6 +107,22 @@ export default function Navigation() {
             >
               <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
             </a>
+
+            {/* Theme Toggle - Far right, only visible when navbar is full-sized */}
+            {!isScrolled && (
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-2"
+                data-testid="theme-toggle"
+                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              >
+                {theme === "dark" ? (
+                  <Sun className="w-5 h-5 text-yellow-500 group-hover:text-white transition-colors duration-300" />
+                ) : (
+                  <Moon className="w-5 h-5 text-slate-600 group-hover:text-white transition-colors duration-300" />
+                )}
+              </button>
+            )}
           </div>
         </div>
       </nav>

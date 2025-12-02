@@ -31,12 +31,12 @@ export default function Navigation() {
       <nav 
         className={`fixed left-1/2 transform -translate-x-1/2 z-50 glass-nav py-4 hidden lg:block transition-all duration-500 ease-in-out ${
           isScrolled 
-            ? 'top-4 rounded-full px-20' 
+            ? 'top-4 rounded-full px-6' 
             : 'top-0 rounded-none w-full px-4 sm:px-8'
         }`}
         data-testid="main-navigation"
       >
-        <div className="flex items-center justify-between w-full gap-8">
+        <div className="flex items-center justify-between w-full gap-12">
           {/* Left side: Logo */}
           <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative flex-shrink-0" data-testid="link-home">
             <Logo />
@@ -57,7 +57,7 @@ export default function Navigation() {
               }`}
               data-testid="nav-home"
             >
-              Home
+              Get a Quote
             </Link>
             <Link 
               href="/about"
@@ -144,7 +144,7 @@ export default function Navigation() {
                   setIsMobileMenuOpen(false);
                 }}
               >
-                Home
+                Get a Quote
               </Link>
               <Link 
                 href="/about" 

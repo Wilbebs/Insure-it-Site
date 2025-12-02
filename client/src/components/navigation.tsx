@@ -36,9 +36,9 @@ export default function Navigation() {
         }`}
         data-testid="main-navigation"
       >
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center justify-between w-full gap-8">
           {/* Left side: Logo */}
-          <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative" data-testid="link-home">
+          <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative flex-shrink-0" data-testid="link-home">
             <Logo />
             <div className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500 ${
               logoHighlight ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-3/4 group-hover:opacity-100'
@@ -46,8 +46,8 @@ export default function Navigation() {
           </Link>
 
           {/* Center Nav Links */}
-          <div className={`flex items-center transition-all duration-500 ${
-            isScrolled ? 'space-x-5 xl:space-x-8' : 'space-x-8 xl:space-x-10'
+          <div className={`flex items-center justify-center flex-1 transition-all duration-500 ${
+            isScrolled ? 'space-x-8' : 'space-x-8 xl:space-x-10'
           }`}>
             <Link 
               href="/"
@@ -72,7 +72,7 @@ export default function Navigation() {
           </div>
 
           {/* Right side: Social Media Links */}
-          <div className={`flex transition-all duration-500 ${isScrolled ? '-space-x-6' : 'gap-2'}`}>
+          <div className={`flex flex-shrink-0 transition-all duration-500 ${isScrolled ? '-space-x-6' : 'gap-2'}`}>
             <a 
               href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
               target="_blank"

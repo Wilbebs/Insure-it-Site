@@ -105,7 +105,7 @@ export default function Landing() {
                   className="group bg-sky-500 hover:bg-sky-400 text-white px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-sky-500/25 transition-all hover:scale-105"
                   data-testid="button-get-quote"
                 >
-                  Get A Quote
+                  Get Quoted Today
                   <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <a
@@ -254,13 +254,13 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Get a Quote Button */}
+            {/* Get Quoted Today Button */}
             <button
               onClick={() => setQuoteModalOpen(true)}
               className="group bg-sky-500 hover:bg-sky-400 text-white px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-sky-500/25 transition-all hover:scale-105"
               data-testid="button-get-quote-contact"
             >
-              Get A Quote
+              Get Quoted Today
               <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>

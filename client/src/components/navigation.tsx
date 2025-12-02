@@ -57,7 +57,7 @@ export default function Navigation() {
               }`}
               data-testid="nav-home"
             >
-              Get a Quote
+              Get Quoted
             </Link>
             <Link 
               href="/about"
@@ -144,7 +144,7 @@ export default function Navigation() {
                   setIsMobileMenuOpen(false);
                 }}
               >
-                Get a Quote
+                Get Quoted
               </Link>
               <Link 
                 href="/about" 

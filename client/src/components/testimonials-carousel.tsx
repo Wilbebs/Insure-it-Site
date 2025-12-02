@@ -8,7 +8,6 @@ const testimonials = [
   {
     name: "Maria Garcia",
     location: "Miami, FL",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
     rating: 5,
     text: "Switching to Insure-it Group was the best decision for our family. They found us better coverage at a lower price, and the personal service is unmatched. Highly recommend!",
     insurance: "Auto & Home Insurance"
@@ -16,7 +15,6 @@ const testimonials = [
   {
     name: "James Thompson",
     location: "Orlando, FL",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
     rating: 5,
     text: "After my accident, Insure-it Group made the claims process so easy. They handled everything and kept me informed every step of the way. True professionals who actually care.",
     insurance: "Auto Insurance"
@@ -24,7 +22,6 @@ const testimonials = [
   {
     name: "Jennifer Lee",
     location: "Tampa, FL",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
     rating: 5,
     text: "As a small business owner, finding the right commercial insurance was challenging until I met the team at Insure-it. They took time to understand my needs and got me excellent coverage.",
     insurance: "Commercial Insurance"
@@ -32,7 +29,6 @@ const testimonials = [
   {
     name: "Robert Martinez",
     location: "Jacksonville, FL",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
     rating: 5,
     text: "I've been with Insure-it Group for 8 years now. They've always been there when I needed them, and their rates are incredibly competitive. A truly family-oriented company.",
     insurance: "Life & Health Insurance"
@@ -40,7 +36,6 @@ const testimonials = [
   {
     name: "Sarah Williams",
     location: "Fort Lauderdale, FL",
-    image: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
     rating: 5,
     text: "When Hurricane season hit, Insure-it Group was proactive in reviewing my home coverage. Their attention to detail gave me peace of mind during a stressful time. Grateful for their service!",
     insurance: "Home Insurance"
@@ -48,7 +43,6 @@ const testimonials = [
   {
     name: "David Chen",
     location: "Tallahassee, FL",
-    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200",
     rating: 5,
     text: "The team helped me understand all my life insurance options without any pressure. They made sure I got the right policy for my family's future. Can't thank them enough!",
     insurance: "Life Insurance"
@@ -103,16 +97,9 @@ export default function TestimonialsCarousel() {
                 className="bg-white rounded-3xl p-6 shadow-xl h-full"
                 data-testid={`testimonial-carousel-${index}`}
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <img 
-                    src={testimonial.image} 
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover ring-2 ring-blue-500/20"
-                  />
-                  <div>
-                    <h3 className="font-bold text-gray-900">{testimonial.name}</h3>
-                    <p className="text-xs text-gray-600">{testimonial.location}</p>
-                  </div>
+                <div className="mb-4">
+                  <h3 className="font-bold text-gray-900">{testimonial.name}</h3>
+                  <p className="text-xs text-gray-600">{testimonial.location}</p>
                 </div>
                 
                 <div className="flex gap-1 mb-3">

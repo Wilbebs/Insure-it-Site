@@ -29,7 +29,7 @@ const insuranceTypes = [
     icon: <House className="w-10 h-10" />,
     title: "Flood",
     description: "Protect your home and peace of mind with reliable flood insurance coverage tailored to safeguard against the unexpected.",
-    image: "https://images.unsplash.com/photo-1513061379531-1678e1e47e8f?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=800&q=80",
   },
   {
     icon: <Heart className="w-10 h-10" />,

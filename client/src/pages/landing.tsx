@@ -20,32 +20,28 @@ import teamPhotoPath from "@assets/teamportraitAI_1760737460273.jpg";
 
 const insuranceTypes = [
   {
-    icon: <Car className="w-12 h-12" />,
+    icon: <Car className="w-10 h-10" />,
     title: "Home / Auto",
-    description: "Whether it's your home or your vehicle—personal, business, or specialty—we provide coverage you can trust, giving you peace of mind every step of the way.",
-    color: "text-blue-600",
-    bgColor: "bg-blue-50",
+    description: "Whether it's your home or your vehicle—personal, business, or specialty—we provide coverage you can trust.",
+    image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80",
   },
   {
-    icon: <House className="w-12 h-12" />,
+    icon: <House className="w-10 h-10" />,
     title: "Flood",
     description: "Protect your home and peace of mind with reliable flood insurance coverage tailored to safeguard against the unexpected.",
-    color: "text-emerald-600",
-    bgColor: "bg-emerald-50",
+    image: "https://images.unsplash.com/photo-1513061379531-1678e1e47e8f?w=800&q=80",
   },
   {
-    icon: <Heart className="w-12 h-12" />,
+    icon: <Heart className="w-10 h-10" />,
     title: "Life",
-    description: "We're here to help protect what matters most with coverage tailored to support your loved ones when they need it most.",
-    color: "text-rose-600",
-    bgColor: "bg-rose-50",
+    description: "We're here to help protect what matters most with coverage tailored to support your loved ones.",
+    image: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80",
   },
   {
-    icon: <Building2 className="w-12 h-12" />,
+    icon: <Building2 className="w-10 h-10" />,
     title: "Business",
-    description: "Having insurance is a crucial part of running a business. We offer many coverage plans to make sure you get the options you need.",
-    color: "text-amber-600",
-    bgColor: "bg-amber-50",
+    description: "Having insurance is a crucial part of running a business. We offer many coverage plans for your needs.",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
   },
 ];
 
@@ -59,7 +55,7 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-slate-900">
       <Navigation />
 
       {/* Hero Section */}
@@ -73,8 +69,8 @@ export default function Landing() {
           }}
         />
 
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-800/80 to-slate-900/85" />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/80 to-slate-900/90" />
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-6 md:px-16">
@@ -85,7 +81,7 @@ export default function Landing() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {/* Badge */}
-              <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white/90 text-sm font-medium border border-white/20 mb-6">
+              <span className="inline-block px-4 py-2 bg-sky-500/20 backdrop-blur-sm rounded-full text-sky-300 text-sm font-medium border border-sky-400/30 mb-6">
                 Independent Insurance Agency
               </span>
 
@@ -94,7 +90,7 @@ export default function Landing() {
                 <Logo size="large" showTagline={true} variant="white" />
               </div>
 
-              <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
                 Your Trusted Partner for Home, Auto & Business Insurance
               </p>
 
@@ -106,7 +102,7 @@ export default function Landing() {
               >
                 <button
                   onClick={() => setQuoteModalOpen(true)}
-                  className="group bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg font-semibold text-lg shadow-xl transition-all hover:scale-105"
+                  className="group bg-sky-500 hover:bg-sky-400 text-white px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-sky-500/25 transition-all hover:scale-105"
                   data-testid="button-get-quote"
                 >
                   Get A Quote
@@ -114,7 +110,7 @@ export default function Landing() {
                 </button>
                 <a
                   href="tel:+13059185339"
-                  className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-slate-900 transition-all flex items-center justify-center gap-2"
+                  className="bg-transparent border-2 border-sky-400 text-sky-300 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-sky-500 hover:text-white hover:border-sky-500 transition-all flex items-center justify-center gap-2"
                   data-testid="button-call-us"
                 >
                   <Phone className="w-5 h-5" />
@@ -127,19 +123,19 @@ export default function Landing() {
       </section>
 
       {/* Who We Are Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-slate-800">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
               Who We Are
             </h2>
-            <div className="w-16 h-1 bg-green-500 mx-auto mb-8"></div>
+            <div className="w-16 h-1 bg-sky-500 mx-auto mb-8"></div>
             
-            <h3 className="text-xl md:text-2xl font-bold text-slate-700 mb-4">
+            <h3 className="text-xl md:text-2xl font-bold text-sky-300 mb-4">
               Dependable Home, Auto, and Business Insurance
             </h3>
             
-            <p className="text-lg text-slate-600 leading-relaxed mb-8">
+            <p className="text-lg text-slate-300 leading-relaxed mb-8">
               We are a family-owned insurance agency based in sunny Miami, FL. Since 2011, 
               we have been helping families all over Florida with their home, auto, and 
               business insurance needs. Our team takes pride in providing personalized 
@@ -148,7 +144,7 @@ export default function Landing() {
 
             <button
               onClick={() => window.location.href = '/about'}
-              className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-semibold transition-all hover:scale-105"
+              className="bg-sky-500 hover:bg-sky-400 text-white px-8 py-3 rounded-lg font-semibold transition-all hover:scale-105"
               data-testid="button-read-more"
             >
               Read More
@@ -158,9 +154,9 @@ export default function Landing() {
       </section>
 
       {/* Insurance Types Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-900">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
             A Wide Variety of Insurance Needs
           </h2>
 
@@ -172,17 +168,30 @@ export default function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-all text-center"
+                className="group relative rounded-xl overflow-hidden h-72 cursor-pointer"
+                data-testid={`card-insurance-${type.title.toLowerCase().replace(/\s+/g, '-')}`}
               >
-                <div className={`${type.bgColor} ${type.color} w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5`}>
-                  {type.icon}
+                {/* Background Image */}
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                  style={{ backgroundImage: `url(${type.image})` }}
+                />
+                
+                {/* Gradient Overlay - stronger on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent transition-all duration-300 group-hover:from-blue-900 group-hover:via-blue-900/80 group-hover:to-blue-900/40" />
+                
+                {/* Content */}
+                <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                  <div className="text-sky-400 mb-3 transition-transform duration-300 group-hover:scale-110">
+                    {type.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    {type.title}
+                  </h3>
+                  <p className="text-slate-300 text-sm leading-relaxed opacity-0 translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                    {type.description}
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-3">
-                  {type.title}
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  {type.description}
-                </p>
               </motion.div>
             ))}
           </div>
@@ -190,58 +199,70 @@ export default function Landing() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-slate-800">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
             Client Testimonials
           </h2>
           <TestimonialsCarousel />
         </div>
       </section>
 
-      {/* Contact Info Section */}
-      <section className="py-16 bg-gray-50">
+      {/* Contact Info Section - Centered */}
+      <section className="py-16 bg-slate-900">
         <div className="container mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-green-600 mb-8">
-            Contact Info
-          </h2>
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-sky-400 mb-10">
+              Contact Info
+            </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl">
-            <div className="flex items-center gap-4">
-              <Phone className="w-6 h-6 text-slate-600" />
-              <div>
-                <a href="tel:+13059185339" className="text-slate-800 hover:text-green-600 transition-colors font-medium">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+              <div className="flex flex-col items-center gap-3" data-testid="contact-phone">
+                <div className="w-12 h-12 rounded-full bg-sky-500/20 flex items-center justify-center">
+                  <Phone className="w-6 h-6 text-sky-400" />
+                </div>
+                <a href="tel:+13059185339" className="text-white hover:text-sky-400 transition-colors font-medium" data-testid="link-phone">
                   (305) 918-5339
                 </a>
               </div>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <Mail className="w-6 h-6 text-slate-600" />
-              <div>
-                <a href="mailto:info@insure-itgroup.com" className="text-slate-800 hover:text-green-600 transition-colors font-medium">
+              
+              <div className="flex flex-col items-center gap-3" data-testid="contact-email">
+                <div className="w-12 h-12 rounded-full bg-sky-500/20 flex items-center justify-center">
+                  <Mail className="w-6 h-6 text-sky-400" />
+                </div>
+                <a href="mailto:info@insure-itgroup.com" className="text-white hover:text-sky-400 transition-colors font-medium text-sm" data-testid="link-email">
                   info@insure-itgroup.com
                 </a>
               </div>
-            </div>
 
-            <div className="flex items-center gap-4">
-              <MapPin className="w-6 h-6 text-slate-600" />
-              <div>
-                <span className="text-slate-800 font-medium">
+              <div className="flex flex-col items-center gap-3" data-testid="contact-location">
+                <div className="w-12 h-12 rounded-full bg-sky-500/20 flex items-center justify-center">
+                  <MapPin className="w-6 h-6 text-sky-400" />
+                </div>
+                <span className="text-white font-medium" data-testid="text-location">
                   Miami, FL
                 </span>
               </div>
-            </div>
 
-            <div className="flex items-center gap-4">
-              <Shield className="w-6 h-6 text-slate-600" />
-              <div>
-                <span className="text-slate-800 font-medium">
+              <div className="flex flex-col items-center gap-3" data-testid="contact-license">
+                <div className="w-12 h-12 rounded-full bg-sky-500/20 flex items-center justify-center">
+                  <Shield className="w-6 h-6 text-sky-400" />
+                </div>
+                <span className="text-white font-medium" data-testid="text-license">
                   Licensed & Insured
                 </span>
               </div>
             </div>
+
+            {/* Get a Quote Button */}
+            <button
+              onClick={() => setQuoteModalOpen(true)}
+              className="group bg-sky-500 hover:bg-sky-400 text-white px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-sky-500/25 transition-all hover:scale-105"
+              data-testid="button-get-quote-contact"
+            >
+              Get A Quote
+              <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
           </div>
         </div>
       </section>

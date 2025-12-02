@@ -44,11 +44,9 @@ const PRESET_QA = [
 ];
 
 const INSURANCE_TYPES = [
-  { type: 'auto' as PolicyType, label: 'Auto Insurance', path: '/auto-insurance' },
-  { type: 'home' as PolicyType, label: 'Home Insurance', path: '/home-insurance' },
-  { type: 'life' as PolicyType, label: 'Life Insurance', path: '/life-insurance' },
-  { type: 'health' as PolicyType, label: 'Health Insurance', path: '/health-insurance' },
-  { type: 'commercial' as PolicyType, label: 'Commercial Insurance', path: '/commercial-insurance' },
+  { type: 'auto' as PolicyType, label: 'Auto Insurance' },
+  { type: 'home' as PolicyType, label: 'Home Insurance' },
+  { type: 'life' as PolicyType, label: 'Life Insurance' },
 ];
 
 // Conversation state reducer
@@ -517,15 +515,11 @@ export default function ChatBot() {
     setIsExpanded(false);
   };
 
-  const handlePolicyTypeSelection = (insuranceType: { type: PolicyType; label: string; path: string }) => {
+  const handlePolicyTypeSelection = (insuranceType: { type: PolicyType; label: string }) => {
     setShowPolicySelection(false);
     setMessages(prev => [...prev, { type: 'user', text: insuranceType.label }]);
     
-    // Navigate to the insurance page
-    setLocation(insuranceType.path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    // Set policy type and start application immediately
+    // Set policy type and start application immediately (no navigation)
     dispatch({ type: 'SELECT_POLICY', policyType: insuranceType.type });
     setInApplicationFlow(true);
     
@@ -557,13 +551,9 @@ export default function ChatBot() {
       if (insuranceType) {
         setShowPolicySelection(false);
         
-        // Navigate to the insurance page
-        setLocation(insuranceType.path);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        
         const policyName = detectedPolicy.charAt(0).toUpperCase() + detectedPolicy.slice(1);
         
-        // Start application immediately
+        // Start application immediately (no navigation)
         dispatch({ type: 'SELECT_POLICY', policyType: detectedPolicy });
         setInApplicationFlow(true);
         

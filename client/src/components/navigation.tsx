@@ -55,7 +55,7 @@ export default function Navigation() {
               href="/"
               onClick={handleNavClick}
               className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
-                location === "/" ? "text-primary" : "text-foreground hover:text-primary"
+                location === "/" ? "text-blue-600" : "text-slate-800 hover:text-black"
               }`}
               data-testid="nav-home"
             >
@@ -65,7 +65,7 @@ export default function Navigation() {
               href="/about"
               onClick={handleNavClick}
               className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
-                location === "/about" ? "text-primary" : "text-foreground hover:text-primary"
+                location === "/about" ? "text-blue-600" : "text-slate-800 hover:text-black"
               }`}
               data-testid="nav-about"
             >
@@ -137,7 +137,7 @@ export default function Navigation() {
           </Link>
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-foreground hover:text-primary transition-colors"
+            className="text-slate-800 hover:text-black transition-colors"
             data-testid="mobile-menu-toggle"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -152,8 +152,8 @@ export default function Navigation() {
                 href="/" 
                 className={`transition-colors font-medium text-center py-2 rounded-lg ${
                   location === "/" 
-                    ? "text-primary bg-primary/10" 
-                    : "text-foreground hover:text-primary hover:bg-primary/5"
+                    ? "text-blue-600 bg-blue-50" 
+                    : "text-slate-800 hover:text-black hover:bg-slate-50"
                 }`}
                 data-testid="nav-home-mobile"
                 onClick={() => {
@@ -167,8 +167,8 @@ export default function Navigation() {
                 href="/about" 
                 className={`transition-colors font-medium text-center py-2 rounded-lg ${
                   location === "/about" 
-                    ? "text-primary bg-primary/10" 
-                    : "text-foreground hover:text-primary hover:bg-primary/5"
+                    ? "text-blue-600 bg-blue-50" 
+                    : "text-slate-800 hover:text-black hover:bg-slate-50"
                 }`}
                 data-testid="nav-about-mobile"
                 onClick={() => {

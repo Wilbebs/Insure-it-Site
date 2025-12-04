@@ -670,7 +670,7 @@ export default function ChatBot() {
                   <img 
                     src={LIZ_AVATAR}
                     alt="Chat with Liz"
-                    className="w-full h-full object-cover object-center scale-110"
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
                 {hasNotification && !showWelcomeBubble && (
@@ -694,7 +694,7 @@ export default function ChatBot() {
                     <img 
                       src={LIZ_AVATAR}
                       alt="Liz - Insurance Assistant"
-                      className="w-10 h-10 rounded-full border-2 border-white object-cover object-center scale-110"
+                      className="w-10 h-10 rounded-full border-2 border-white object-cover object-top"
                     />
                     <div>
                       <h3 className="font-bold">Liz</h3>
@@ -818,7 +818,7 @@ export default function ChatBot() {
                     <img 
                       src={LIZ_AVATAR}
                       alt="Liz typing"
-                      className="w-8 h-8 rounded-full object-cover object-center scale-110"
+                      className="w-8 h-8 rounded-full object-cover object-top"
                     />
                     <div className="bg-white dark:bg-slate-700 p-3 rounded-2xl shadow-md">
                       <div className="flex gap-1">

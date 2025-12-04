@@ -1,6 +1,7 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import TestimonialsCarousel from "@/components/testimonials-carousel";
+import PartnersCarousel from "@/components/partners-carousel";
 import QuoteModal from "@/components/quote-modal";
 import { motion } from "framer-motion";
 import {
@@ -262,6 +263,9 @@ export default function Landing() {
           </div>
         </div>
       </section>
+
+      {/* Partners Carousel */}
+      <PartnersCarousel />
 
       <Footer />
 

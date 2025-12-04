@@ -134,7 +134,7 @@ export default function Landing() {
               viewport={{ once: true }}
               className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-1">14+</div>
+              <div className="text-3xl md:text-4xl font-bold text-sky-400 mb-1">14+</div>
               <div className="text-sm text-slate-400">Years Experience</div>
             </motion.div>
             <motion.div
@@ -144,7 +144,7 @@ export default function Landing() {
               viewport={{ once: true }}
               className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
-              <div className="text-3xl md:text-4xl font-bold text-sky-400 mb-1">1000+</div>
+              <div className="text-3xl md:text-4xl font-bold text-blue-400 mb-1">1000+</div>
               <div className="text-sm text-slate-400">Happy Clients</div>
             </motion.div>
             <motion.div
@@ -154,7 +154,7 @@ export default function Landing() {
               viewport={{ once: true }}
               className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
-              <div className="text-3xl md:text-4xl font-bold text-emerald-400 mb-1">24hr</div>
+              <div className="text-3xl md:text-4xl font-bold text-cyan-400 mb-1">24hr</div>
               <div className="text-sm text-slate-400">Response Time</div>
             </motion.div>
             <motion.div
@@ -164,7 +164,7 @@ export default function Landing() {
               viewport={{ once: true }}
               className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
-              <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-1">A+</div>
+              <div className="text-3xl md:text-4xl font-bold text-indigo-400 mb-1">A+</div>
               <div className="text-sm text-slate-400">Customer Rating</div>
             </motion.div>
           </div>
@@ -185,7 +185,7 @@ export default function Landing() {
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
                 More Than Insurance—<span className="text-primary">Peace of Mind</span>
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-primary to-sky-400 rounded-full"></div>
+              <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full"></div>
             </div>
             
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -215,8 +215,8 @@ export default function Landing() {
               <div className="space-y-4">
                 <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <Shield className="w-5 h-5 text-primary" />
+                    <div className="w-10 h-10 rounded-lg bg-sky-500/10 flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-5 h-5 text-sky-500" />
                     </div>
                     <div>
                       <h4 className="font-semibold text-foreground mb-1 select-none">Licensed & Trusted</h4>
@@ -226,8 +226,8 @@ export default function Landing() {
                 </div>
                 <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-sky-500/10 flex items-center justify-center flex-shrink-0">
-                      <Heart className="w-5 h-5 text-sky-500" />
+                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                      <Heart className="w-5 h-5 text-blue-500" />
                     </div>
                     <div>
                       <h4 className="font-semibold text-foreground mb-1 select-none">Family Values</h4>
@@ -237,8 +237,8 @@ export default function Landing() {
                 </div>
                 <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-                      <Phone className="w-5 h-5 text-emerald-500" />
+                    <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
+                      <Phone className="w-5 h-5 text-indigo-500" />
                     </div>
                     <div>
                       <h4 className="font-semibold text-foreground mb-1 select-none">Always Available</h4>
@@ -255,8 +255,8 @@ export default function Landing() {
       {/* Insurance Types Section */}
       <section className="py-20 bg-background dark:bg-slate-900 relative">
         {/* Decorative diagonal accent */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-primary/5 to-transparent pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-sky-500/5 to-transparent pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-500/5 to-transparent pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-blue-500/5 to-transparent pointer-events-none"></div>
         
         <div className="container mx-auto px-6">
           {/* Creative section header */}

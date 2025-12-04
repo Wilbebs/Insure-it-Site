@@ -3,6 +3,7 @@ import { MessageCircle, X, ChevronDown, Send, Upload, FileText, Trash2, CheckCir
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import { useTheme } from "./theme-provider";
 import type { ConversationContext, ConversationAction, ConversationState, PolicyType, ContactMethod } from "@/lib/conversation-types";
 import { initialConversationContext } from "@/lib/conversation-types";
 import { coreQuestions, policyQuestionFlows } from "@/lib/policy-questions";
@@ -195,6 +196,7 @@ export default function ChatBot() {
   const [isTyping, setIsTyping] = useState(false);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { theme } = useTheme();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   // Conversation state management
@@ -647,12 +649,12 @@ export default function ChatBot() {
                     exit={{ opacity: 0, scale: 0.9 }}
                     className="absolute -top-[53px] -left-[219px] whitespace-nowrap"
                   >
-                    <div className="bg-white rounded-2xl shadow-xl px-5 py-3 relative">
-                      <div className="text-sm font-medium text-gray-800">
+                    <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl px-5 py-3 relative">
+                      <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
                         I can help you get started! 👋
                       </div>
                       {/* Speech bubble tail pointing to 320-degree mark on avatar circle */}
-                      <div className="absolute bottom-0 right-3 w-4 h-4 bg-white transform rotate-45 translate-y-2 shadow-md"></div>
+                      <div className="absolute bottom-0 right-3 w-4 h-4 bg-white dark:bg-slate-800 transform rotate-45 translate-y-2 shadow-md"></div>
                     </div>
                   </motion.div>
                 )}
@@ -681,7 +683,7 @@ export default function ChatBot() {
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="bg-white rounded-2xl shadow-2xl w-[350px] sm:w-[420px] flex flex-col h-[600px]"
+              className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-[350px] sm:w-[420px] flex flex-col h-[600px]"
               data-testid="chatbot-expanded"
             >
               {/* Header */}
@@ -727,7 +729,7 @@ export default function ChatBot() {
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+              <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 dark:bg-slate-800">
                 {messages.map((msg, idx) => (
                   <div
                     key={idx}
@@ -737,7 +739,7 @@ export default function ChatBot() {
                       className={`max-w-[80%] p-3 rounded-2xl ${
                         msg.type === 'user'
                           ? 'bg-blue-600 text-white'
-                          : 'bg-white text-gray-800 shadow-md'
+                          : 'bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-200 shadow-md'
                       }`}
                     >
                       <p className="text-sm">{msg.text}</p>
@@ -756,8 +758,8 @@ export default function ChatBot() {
 
                 {/* Insurance Type Selection Buttons */}
                 {showPolicySelection && convState.state === 'idle' && !isTyping && (
-                  <div className="bg-white p-4 rounded-lg shadow-md space-y-2">
-                    <p className="text-xs text-gray-500 mb-3">Select an insurance type:</p>
+                  <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-2">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">Select an insurance type:</p>
                     <div className="grid grid-cols-1 gap-2">
                       {INSURANCE_TYPES.map((insuranceType, idx) => (
                         <motion.button
@@ -817,20 +819,20 @@ export default function ChatBot() {
                       alt="Liz typing"
                       className="w-8 h-8 rounded-full object-cover object-center scale-110"
                     />
-                    <div className="bg-white p-3 rounded-2xl shadow-md">
+                    <div className="bg-white dark:bg-slate-700 p-3 rounded-2xl shadow-md">
                       <div className="flex gap-1">
                         <motion.div
-                          className="w-2 h-2 bg-gray-400 rounded-full"
+                          className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full"
                           animate={{ y: [0, -8, 0] }}
                           transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0 }}
                         />
                         <motion.div
-                          className="w-2 h-2 bg-gray-400 rounded-full"
+                          className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full"
                           animate={{ y: [0, -8, 0] }}
                           transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0, delay: 0.2 }}
                         />
                         <motion.div
-                          className="w-2 h-2 bg-gray-400 rounded-full"
+                          className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full"
                           animate={{ y: [0, -8, 0] }}
                           transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0, delay: 0.4 }}
                         />
@@ -841,16 +843,16 @@ export default function ChatBot() {
 
                 {/* Question Input UI - Shown inline in messages */}
                 {currentQuestion && !isTyping && (convState.state === 'collectingCore' || convState.state === 'collectingPolicySpecific') && (
-                  <div className="bg-white p-4 rounded-lg shadow-md space-y-3">
-                    <p className="text-sm font-semibold text-gray-700">{currentQuestion.text}</p>
+                  <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-3">
+                    <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">{currentQuestion.text}</p>
                     {currentQuestion.helperText && (
-                      <p className="text-xs text-gray-500">{currentQuestion.helperText}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{currentQuestion.helperText}</p>
                     )}
                     
                     {currentQuestion.type === 'select' && (
                       <select
                         onChange={(e) => handleAnswerSubmit(e.target.value, currentQuestion.fieldKey)}
-                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-2 border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200"
                         data-testid="question-select"
                       >
                         <option value="">Select...</option>
@@ -863,7 +865,7 @@ export default function ChatBot() {
                     {currentQuestion.type === 'multiselect' && (
                       <div className="space-y-2">
                         {currentQuestion.options?.map(opt => (
-                          <label key={opt} className="flex items-center gap-2">
+                          <label key={opt} className="flex items-center gap-2 text-gray-700 dark:text-gray-200">
                             <input type="checkbox" value={opt} className="rounded" />
                             <span className="text-sm">{opt}</span>
                           </label>
@@ -892,7 +894,7 @@ export default function ChatBot() {
                         </button>
                         <button
                           onClick={() => handleAnswerSubmit(false, currentQuestion.fieldKey)}
-                          className="flex-1 bg-gray-300 text-gray-700 p-2 rounded-lg hover:bg-gray-400"
+                          className="flex-1 bg-gray-300 dark:bg-slate-600 text-gray-700 dark:text-gray-200 p-2 rounded-lg hover:bg-gray-400 dark:hover:bg-slate-500"
                           data-testid="question-boolean-no"
                         >
                           No
@@ -905,7 +907,7 @@ export default function ChatBot() {
                         <input
                           type={currentQuestion.type}
                           placeholder="Your answer..."
-                          className="flex-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                          className="flex-1 p-2 border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
                           onKeyPress={(e) => {
                             if (e.key === 'Enter') {
                               const value = (e.target as HTMLInputElement).value;
@@ -934,12 +936,12 @@ export default function ChatBot() {
 
                 {/* Document Upload UI */}
                 {convState.state === 'collectingDocuments' && !isTyping && (
-                  <div className="bg-white p-4 rounded-lg shadow-md space-y-4">
+                  <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-4">
                     <label className="cursor-pointer block relative">
-                      <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors pointer-events-none">
+                      <div className="border-2 border-dashed border-blue-300 dark:border-blue-500 rounded-lg p-6 text-center hover:border-blue-500 dark:hover:border-blue-400 transition-colors pointer-events-none">
                         <Upload className="w-8 h-8 mx-auto mb-2 text-blue-500" />
-                        <p className="text-sm text-gray-600">Click to upload documents</p>
-                        <p className="text-xs text-gray-400 mt-1">PDF, DOC, DOCX, JPG, PNG (Max 10MB)</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Click to upload documents</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">PDF, DOC, DOCX, JPG, PNG (Max 10MB)</p>
                       </div>
                       <input
                         type="file"
@@ -954,11 +956,11 @@ export default function ChatBot() {
                     {uploadedFiles.length > 0 && (
                       <div className="space-y-2">
                         {uploadedFiles.map((file, idx) => (
-                          <div key={idx} className="flex items-center gap-2 p-2 bg-gray-50 rounded">
+                          <div key={idx} className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-slate-600 rounded">
                             <FileText className="w-4 h-4 text-blue-500" />
                             <div className="flex-1 min-w-0">
-                              <p className="text-xs truncate">{file.file.name}</p>
-                              <p className="text-xs text-gray-500">{formatFileSize(file.file.size)}</p>
+                              <p className="text-xs truncate text-gray-700 dark:text-gray-200">{file.file.name}</p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">{formatFileSize(file.file.size)}</p>
                             </div>
                             {file.uploading && (
                               <div className="text-xs text-blue-500">Uploading...</div>
@@ -990,9 +992,9 @@ export default function ChatBot() {
 
                 {/* Review & Submit UI */}
                 {convState.state === 'reviewing' && !isTyping && (
-                  <div className="bg-white p-4 rounded-lg shadow-md space-y-3">
-                    <h3 className="font-bold text-gray-800">Application Summary</h3>
-                    <div className="space-y-2 text-sm">
+                  <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-3">
+                    <h3 className="font-bold text-gray-800 dark:text-gray-200">Application Summary</h3>
+                    <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                       <div>
                         <span className="font-semibold">Policy Type:</span> {convState.policyType}
                       </div>
@@ -1024,12 +1026,12 @@ export default function ChatBot() {
                 {/* Preset Questions */}
                 {showQuestions && !isTyping && !inApplicationFlow && (
                   <div className="space-y-2 pt-2">
-                    <p className="text-xs text-gray-500 font-semibold">Quick Actions:</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold">Quick Actions:</p>
                     {PRESET_QA.map((qa, idx) => (
                       <button
                         key={idx}
                         onClick={() => handleQuestionClick(qa)}
-                        className="w-full text-left p-3 bg-white hover:bg-blue-50 rounded-lg border border-blue-200 text-sm text-blue-600 transition-colors"
+                        className="w-full text-left p-3 bg-white dark:bg-slate-700 hover:bg-blue-50 dark:hover:bg-slate-600 rounded-lg border border-blue-200 dark:border-slate-600 text-sm text-blue-600 dark:text-blue-400 transition-colors"
                         data-testid={`chatbot-question-${idx}`}
                       >
                         {qa.question}
@@ -1042,7 +1044,7 @@ export default function ChatBot() {
               </div>
 
               {/* Input - ALWAYS shown at bottom */}
-              <div className="p-4 bg-white border-t flex gap-2">
+              <div className="p-4 bg-white dark:bg-slate-900 border-t dark:border-slate-700 flex gap-2">
                 <input
                   type="text"
                   value={inputValue}
@@ -1050,7 +1052,7 @@ export default function ChatBot() {
                   onKeyPress={handleKeyPress}
                   placeholder={inApplicationFlow && currentQuestion ? "Use the form above..." : "Type a message..."}
                   disabled={inApplicationFlow && currentQuestion !== null}
-                  className="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  className="flex-1 px-4 py-2 border dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 dark:disabled:bg-slate-700 disabled:cursor-not-allowed bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
                   data-testid="chatbot-input"
                 />
                 <button

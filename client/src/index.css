@@ -82,6 +82,11 @@
     border: 1px solid hsla(210, 40%, 88%, 0.3);
   }
 
+  .dark .glass-nav {
+    background: hsla(210, 40%, 8%, 0.9);
+    border: 1px solid hsla(210, 40%, 20%, 0.4);
+  }
+
   .glass-modal {
     backdrop-filter: blur(32px);
     background: hsla(210, 40%, 100%, 0.75);

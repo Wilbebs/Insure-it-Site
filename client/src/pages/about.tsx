@@ -150,7 +150,7 @@ export default function About() {
                   <img 
                     src={elizabethPhoto} 
                     alt="Elizabeth Hernandez - Founder"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover object-top"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"

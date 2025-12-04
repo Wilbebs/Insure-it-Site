@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Logo from "@/components/logo";
 import { useEffect, useState } from "react";
-import teamPhotoPath from "@assets/teamportraitAI_1760737460273.jpg";
+import jacksonvilleSkyline from "@assets/stock_images/downtown_jacksonvill_8488fc38.jpg";
 
 const insuranceTypes = [
   {
@@ -60,12 +60,12 @@ export default function Landing() {
 
       {/* Hero Section */}
       <section className="min-h-[85vh] flex items-center relative overflow-hidden pt-20">
-        {/* Team Photo Background */}
+        {/* Jacksonville Skyline Background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(${teamPhotoPath})`,
-            backgroundPosition: "center 30%",
+            backgroundImage: `url(${jacksonvilleSkyline})`,
+            backgroundPosition: "center 40%",
           }}
         />
 

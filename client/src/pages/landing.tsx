@@ -308,9 +308,6 @@ export default function Landing() {
 
       {/* Testimonials Section */}
       <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative">
-        {/* Decorative quote marks */}
-        <div className="absolute top-12 left-1/2 -translate-x-1/2 text-primary/10 text-[200px] font-serif leading-none select-none pointer-events-none">"</div>
-        
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
             <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">What Neighbors Say</p>
@@ -331,7 +328,7 @@ export default function Landing() {
           <div className="max-w-3xl mx-auto text-center">
             {/* Section header */}
             <div className="mb-10">
-              <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">Talk to a Human in St. Johns</p>
+              <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">Connect with an Agent Now</p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 select-none">
                 Ready to Get Started?
               </h2>

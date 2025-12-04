@@ -82,11 +82,6 @@ export default function Footer({ onGetQuote }: FooterProps) {
                   Get Quote
                 </button>
               </li>
-              <li>
-                <a href="#" className="hover:opacity-100 transition-opacity" data-testid="footer-link-claims">
-                  Claims
-                </a>
-              </li>
             </ul>
           </div>
           

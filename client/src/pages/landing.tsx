@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Logo from "@/components/logo";
 import { useEffect, useState } from "react";
-import jacksonvilleSkyline from "@assets/stock_images/downtown_jacksonvill_35811629.jpg";
+import jacksonvilleSkyline from "@assets/stock_images/downtown_jacksonvill_1040941d.jpg";
 
 const insuranceTypes = [
   {

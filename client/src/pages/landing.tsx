@@ -24,25 +24,25 @@ const insuranceTypes = [
     icon: <Car className="w-10 h-10" />,
     title: "Home / Auto",
     description: "Whether it's your home or your vehicle—personal, business, or specialty—we provide coverage you can trust.",
-    image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
   },
   {
     icon: <House className="w-10 h-10" />,
     title: "Flood",
     description: "Protect your home and peace of mind with reliable flood insurance coverage tailored to safeguard against the unexpected.",
-    image: "https://images.unsplash.com/photo-1547683905-f686c993aae5?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
   },
   {
     icon: <Heart className="w-10 h-10" />,
     title: "Life",
     description: "We're here to help protect what matters most with coverage tailored to support your loved ones.",
-    image: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80",
   },
   {
     icon: <Building2 className="w-10 h-10" />,
     title: "Business",
     description: "Having insurance is a crucial part of running a business. We offer many coverage plans for your needs.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
   },
 ];
 
@@ -298,15 +298,15 @@ export default function Landing() {
                 {/* Gradient Overlay - stronger on hover */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent transition-all duration-300 group-hover:from-blue-900 group-hover:via-blue-900/80 group-hover:to-blue-900/40" />
                 
-                {/* Content - Fixed positioning for alignment */}
-                <div className="absolute inset-x-0 bottom-0 p-6">
-                  <div className="text-primary mb-3 transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-16">
+                {/* Content - Grid layout for consistent alignment */}
+                <div className="absolute inset-x-0 bottom-0 p-6 grid grid-rows-[auto_auto_60px]">
+                  <div className="text-primary mb-2 transition-transform duration-300 group-hover:scale-110">
                     {type.icon}
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2 transition-transform duration-300 group-hover:-translate-y-16">
+                  <h3 className="text-xl font-bold text-white">
                     {type.title}
                   </h3>
-                  <p className="text-slate-300 text-sm leading-relaxed opacity-0 transition-all duration-300 group-hover:opacity-100">
+                  <p className="text-slate-300 text-sm leading-relaxed opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 pt-2">
                     {type.description}
                   </p>
                 </div>

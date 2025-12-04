@@ -199,7 +199,7 @@ export default function Landing() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-muted dark:bg-slate-800">
+      <section className="pt-16 pb-[74px] bg-muted dark:bg-slate-800">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-12">
             Client Testimonials

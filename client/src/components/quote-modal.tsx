@@ -135,12 +135,12 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent 
-        className="max-w-5xl max-h-[85vh] overflow-y-auto glass-modal border-2 shadow-2xl !bg-transparent"
+        className="max-w-5xl max-h-[85vh] overflow-y-auto glass-modal border-2 shadow-2xl !bg-transparent select-none"
         aria-describedby="quote-form-description"
       >
         <DialogHeader>
           <DialogTitle className="text-3xl font-bold gradient-text">
-            Get Your Free Quote
+            Get Quoted Today
           </DialogTitle>
           <p id="quote-form-description" className="text-muted-foreground">
             Fill out the form below and we'll get back to you shortly
@@ -304,7 +304,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
               className="w-full"
               disabled={submitMutation.isPending}
             >
-              {submitMutation.isPending ? "Submitting..." : "Get Your Free Quote"}
+              {submitMutation.isPending ? "Submitting..." : "Submit"}
             </Button>
           </form>
         </Form>

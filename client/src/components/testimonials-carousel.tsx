@@ -82,8 +82,8 @@ export default function TestimonialsCarousel() {
   return (
     <div className="relative max-w-7xl mx-auto">
       {/* Carousel Container */}
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex">
+      <div className="overflow-hidden pb-4" ref={emblaRef}>
+        <div className="flex pb-6">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}

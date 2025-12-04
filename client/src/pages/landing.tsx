@@ -267,7 +267,7 @@ export default function Landing() {
       {/* Partners Carousel */}
       <PartnersCarousel />
 
-      <Footer />
+      <Footer onGetQuote={() => setQuoteModalOpen(true)} />
 
       {/* Quote Modal */}
       <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />

@@ -1,5 +1,6 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import QuoteModal from "@/components/quote-modal";
 import { Shield, Users, Award, Clock } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
@@ -9,6 +10,7 @@ export default function About() {
   const [lastParagraphText, setLastParagraphText] = useState("");
   const [signatureText, setSignatureText] = useState("");
   const [showCursor, setShowCursor] = useState(false);
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
 
   const fullTitle = "Our Story";
   const fullLastParagraph = "Today, 14 years later, we remain family-owned and family-focused. We've grown from that single office in Miami to serving thousands of clients statewide, but our mission has never changed: to treat every client like family and provide the kind of insurance coverage that brings true peace of mind.";
@@ -239,7 +241,9 @@ export default function About() {
         </div>
       </section>
 
-      <Footer />
+      <Footer onGetQuote={() => setQuoteModalOpen(true)} />
+
+      <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />
     </div>
   );
 }

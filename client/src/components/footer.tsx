@@ -3,7 +3,11 @@ import { Link } from "wouter";
 import { FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
 import Logo from "./logo";
 
-export default function Footer() {
+interface FooterProps {
+  onGetQuote?: () => void;
+}
+
+export default function Footer({ onGetQuote }: FooterProps) {
   return (
     <footer className="bg-slate-900 dark:bg-slate-950 text-white py-12" data-testid="footer">
       <div className="container mx-auto px-6">
@@ -60,9 +64,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="#connect" className="hover:opacity-100 transition-opacity" data-testid="footer-link-quote">
+                <button 
+                  onClick={onGetQuote} 
+                  className="hover:opacity-100 transition-opacity text-left"
+                  data-testid="footer-link-quote"
+                >
                   Get Quote
-                </a>
+                </button>
               </li>
               <li>
                 <a href="#" className="hover:opacity-100 transition-opacity" data-testid="footer-link-claims">

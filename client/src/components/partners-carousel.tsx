@@ -41,26 +41,27 @@ export default function PartnersCarousel() {
   }, []);
 
   return (
-    <section className="py-12 bg-background dark:bg-slate-900 border-t border-border">
+    <section className="py-12 bg-background dark:bg-slate-900 border-t border-border select-none">
       <div className="container mx-auto px-6">
         <div className="text-center mb-8">
+          <p className="text-sm uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Trusted By The Best</p>
           <h3 className="text-xl font-semibold text-primary">
-            Our Partners
+            Our Carrier Partners
           </h3>
         </div>
 
         <div 
           ref={scrollRef}
-          className="flex overflow-hidden gap-12 items-center"
+          className="flex overflow-hidden gap-6 items-center"
           style={{ scrollBehavior: 'auto' }}
         >
           {[...partners, ...partners].map((partner, index) => (
             <div
               key={`${partner.name}-${index}`}
-              className="flex-shrink-0 px-6"
+              className="flex-shrink-0"
               data-testid={`partner-logo-${partner.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <span className="text-2xl md:text-3xl font-bold text-slate-400 dark:text-slate-500 whitespace-nowrap tracking-tight opacity-70 hover:opacity-100 transition-opacity">
+              <span className="inline-block px-5 py-2.5 rounded-full bg-slate-100 dark:bg-slate-800 text-base md:text-lg font-semibold text-slate-500 dark:text-slate-400 whitespace-nowrap tracking-tight border border-slate-200 dark:border-slate-700 hover:border-primary dark:hover:border-primary hover:text-primary dark:hover:text-primary transition-all duration-300">
                 {partner.logo}
               </span>
             </div>

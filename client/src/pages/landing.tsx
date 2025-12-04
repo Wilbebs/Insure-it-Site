@@ -123,43 +123,150 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Who We Are Section */}
-      <section className="py-16 bg-muted dark:bg-slate-800">
+      {/* Stats Bar - Glassmorphism */}
+      <section className="py-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 select-none">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Who We Are
-            </h2>
-            <div className="w-16 h-1 bg-primary mx-auto mb-8"></div>
-            
-            <h3 className="text-xl md:text-2xl font-bold text-primary mb-4">
-              Dependable Home, Auto, and Business Insurance
-            </h3>
-            
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-              We are a family-owned insurance agency based in sunny Miami, FL. Since 2011, 
-              we have been helping families all over Florida with their home, auto, and 
-              business insurance needs. Our team takes pride in providing personalized 
-              service and finding the best coverage at competitive rates.
-            </p>
-
-            <button
-              onClick={() => window.location.href = '/about'}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all hover:scale-105"
-              data-testid="button-read-more"
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
-              Read More
-            </button>
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-1">14+</div>
+              <div className="text-sm text-slate-400">Years Experience</div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+            >
+              <div className="text-3xl md:text-4xl font-bold text-sky-400 mb-1">1000+</div>
+              <div className="text-sm text-slate-400">Happy Clients</div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+            >
+              <div className="text-3xl md:text-4xl font-bold text-emerald-400 mb-1">24hr</div>
+              <div className="text-sm text-slate-400">Response Time</div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
+            >
+              <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-1">A+</div>
+              <div className="text-sm text-slate-400">Customer Rating</div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Who We Are Section - Asymmetric Layout */}
+      <section className="py-20 bg-muted dark:bg-slate-800 relative overflow-hidden">
+        {/* Decorative accent */}
+        <div className="absolute top-0 left-0 w-1 h-32 bg-gradient-to-b from-primary to-transparent"></div>
+        <div className="absolute bottom-0 right-0 w-1 h-32 bg-gradient-to-t from-primary to-transparent"></div>
+        
+        <div className="container mx-auto px-6">
+          <div className="max-w-5xl mx-auto">
+            {/* Left-aligned header with accent */}
+            <div className="mb-10">
+              <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">Our Promise to Florida Families</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
+                More Than Insurance—<span className="text-primary">Peace of Mind</span>
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-primary to-sky-400 rounded-full"></div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                  We are a family-owned insurance agency based in sunny St. Johns, FL. Since 2011, 
+                  we have been helping families all over Florida with their home, auto, and 
+                  business insurance needs.
+                </p>
+                <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                  Our team takes pride in providing personalized service and finding the best 
+                  coverage at competitive rates. When you call us, you talk to a real person 
+                  who genuinely cares.
+                </p>
+
+                <button
+                  onClick={() => window.location.href = '/about'}
+                  className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all hover:scale-105 select-none"
+                  data-testid="button-read-more"
+                >
+                  Meet Our Team
+                  <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+              
+              {/* Feature highlights */}
+              <div className="space-y-4">
+                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-1 select-none">Licensed & Trusted</h4>
+                      <p className="text-sm text-muted-foreground">Fully licensed in Florida with a proven track record of protecting families.</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-sky-500/10 flex items-center justify-center flex-shrink-0">
+                      <Heart className="w-5 h-5 text-sky-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-1 select-none">Family Values</h4>
+                      <p className="text-sm text-muted-foreground">We treat every client like family, because that's what community means to us.</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                      <Phone className="w-5 h-5 text-emerald-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-1 select-none">Always Available</h4>
+                      <p className="text-sm text-muted-foreground">Real humans answer your calls—no automated systems or long hold times.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Insurance Types Section */}
-      <section className="py-16 bg-background dark:bg-slate-900">
+      <section className="py-20 bg-background dark:bg-slate-900 relative">
+        {/* Decorative diagonal accent */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-primary/5 to-transparent pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-sky-500/5 to-transparent pointer-events-none"></div>
+        
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-12">
-            A Wide Variety of Insurance Needs
-          </h2>
+          {/* Creative section header */}
+          <div className="max-w-3xl mx-auto text-center mb-14">
+            <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">Coverage Built Around You</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
+              Protection for Every Chapter of Life
+            </h2>
+            <p className="text-muted-foreground">From your first car to your dream home, we've got you covered at every turn.</p>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {insuranceTypes.map((type, index) => (
@@ -200,23 +307,40 @@ export default function Landing() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="pt-16 pb-[74px] bg-muted dark:bg-slate-800">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-12">
-            Client Testimonials
-          </h2>
+      <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative">
+        {/* Decorative quote marks */}
+        <div className="absolute top-12 left-1/2 -translate-x-1/2 text-primary/10 text-[200px] font-serif leading-none select-none pointer-events-none">"</div>
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-3xl mx-auto text-center mb-14">
+            <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">What Neighbors Say</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground select-none">
+              Real Stories from Real Floridians
+            </h2>
+          </div>
           <TestimonialsCarousel />
         </div>
       </section>
 
       {/* Contact Info Section - Centered */}
-      <section className="py-16 bg-background dark:bg-slate-900">
+      <section className="py-20 bg-background dark:bg-slate-900 relative">
+        {/* Decorative wave */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+        
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center">
+            {/* Section header */}
+            <div className="mb-10">
+              <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">Talk to a Human in St. Johns</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 select-none">
+                Ready to Get Started?
+              </h2>
+            </div>
+
             {/* Get Quoted Today Button */}
             <button
               onClick={() => setQuoteModalOpen(true)}
-              className="group bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105 mb-10"
+              className="group bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105 mb-12 select-none"
               data-testid="button-get-quote-contact"
             >
               Get Quoted Today

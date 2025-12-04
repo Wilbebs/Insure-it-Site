@@ -212,11 +212,17 @@ export default function Landing() {
       <section className="py-16 bg-background dark:bg-slate-900">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-primary mb-10">
-              Contact Info
-            </h2>
+            {/* Get Quoted Today Button */}
+            <button
+              onClick={() => setQuoteModalOpen(true)}
+              className="group bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105 mb-10"
+              data-testid="button-get-quote-contact"
+            >
+              Get Quoted Today
+              <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="flex flex-col items-center gap-3" data-testid="contact-phone">
                 <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
                   <Phone className="w-6 h-6 text-primary" />
@@ -253,16 +259,6 @@ export default function Landing() {
                 </span>
               </div>
             </div>
-
-            {/* Get Quoted Today Button */}
-            <button
-              onClick={() => setQuoteModalOpen(true)}
-              className="group bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105"
-              data-testid="button-get-quote-contact"
-            >
-              Get Quoted Today
-              <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
           </div>
         </div>
       </section>

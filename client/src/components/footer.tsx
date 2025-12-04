@@ -54,12 +54,22 @@ export default function Footer({ onGetQuote }: FooterProps) {
             <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
             <ul className="space-y-2 opacity-90">
               <li>
-                <Link href="/" className="hover:opacity-100 transition-opacity" data-testid="footer-link-home">
+                <Link 
+                  href="/" 
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="hover:opacity-100 transition-opacity" 
+                  data-testid="footer-link-home"
+                >
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:opacity-100 transition-opacity" data-testid="footer-link-about">
+                <Link 
+                  href="/about" 
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="hover:opacity-100 transition-opacity" 
+                  data-testid="footer-link-about"
+                >
                   About Us
                 </Link>
               </li>

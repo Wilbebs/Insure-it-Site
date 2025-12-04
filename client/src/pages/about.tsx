@@ -4,6 +4,9 @@ import QuoteModal from "@/components/quote-modal";
 import { Shield, Users, Award, Clock } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import wilbertPhoto from "@assets/image_1764878413663.png";
+import elizabethPhoto from "@assets/image_1764878433544.png";
+import davidPhoto from "@assets/image_1764878441647.png";
 
 export default function About() {
   const [titleText, setTitleText] = useState("");
@@ -121,7 +124,7 @@ export default function About() {
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift" data-testid="team-member-wilbert-hernandez">
                 <div className="aspect-square overflow-hidden relative group">
                   <img 
-                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
+                    src={wilbertPhoto} 
                     alt="Wilbert Hernandez - CEO"
                     className="w-full h-full object-cover"
                   />
@@ -145,7 +148,7 @@ export default function About() {
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift" data-testid="team-member-elizabeth-hernandez">
                 <div className="aspect-square overflow-hidden relative group">
                   <img 
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
+                    src={elizabethPhoto} 
                     alt="Elizabeth Hernandez - Founder"
                     className="w-full h-full object-cover"
                   />
@@ -169,7 +172,7 @@ export default function About() {
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift" data-testid="team-member-david-hernandez">
                 <div className="aspect-square overflow-hidden relative group">
                   <img 
-                    src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600" 
+                    src={davidPhoto} 
                     alt="David Hernandez - Insurance Agent"
                     className="w-full h-full object-cover"
                   />

@@ -183,7 +183,8 @@ export default function Landing() {
             <div className="mb-10">
               <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">Our Promise to Florida Families</p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
-                More Than Insurance—<span className="text-primary">Peace of Mind</span>
+                More Than Insurance.<br className="hidden md:block" />
+                <span className="text-primary">Peace of Mind.</span>
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full"></div>
             </div>

@@ -49,10 +49,18 @@ const insuranceTypes = [
 export default function Landing() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setHeroVisible(true);
+    
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -61,12 +69,13 @@ export default function Landing() {
 
       {/* Hero Section */}
       <section className="min-h-[85vh] flex items-center relative overflow-hidden pt-20">
-        {/* Jacksonville Skyline Background */}
+        {/* Jacksonville Skyline Background - Parallax */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute -inset-x-0 -top-20 -bottom-40 bg-cover bg-center will-change-transform"
           style={{
             backgroundImage: `url(${jacksonvilleSkyline})`,
             backgroundPosition: "center 40%",
+            transform: `translateY(${scrollY * 0.4}px)`,
           }}
         />
 

@@ -44,9 +44,8 @@ export default function PartnersCarousel() {
     <section className="py-12 bg-background dark:bg-slate-900 border-t border-border">
       <div className="container mx-auto px-6">
         <div className="text-center mb-8">
-          <h3 className="text-xl font-semibold text-primary inline-flex items-center gap-3">
+          <h3 className="text-xl font-semibold text-primary">
             Our Partners
-            <span className="w-8 h-0.5 bg-primary"></span>
           </h3>
         </div>
 

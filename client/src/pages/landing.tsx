@@ -69,13 +69,13 @@ export default function Landing() {
 
       {/* Hero Section */}
       <section className="min-h-[85vh] flex items-center relative overflow-hidden pt-20">
-        {/* Jacksonville Skyline Background - Parallax */}
+        {/* Jacksonville Skyline Background - Parallax with blur */}
         <div
-          className="absolute -inset-x-0 -top-20 -bottom-40 bg-cover bg-center will-change-transform"
+          className="absolute -inset-x-0 -top-20 -bottom-40 bg-cover bg-center will-change-transform blur-[2px]"
           style={{
             backgroundImage: `url(${jacksonvilleSkyline})`,
             backgroundPosition: "center 40%",
-            transform: `translateY(${scrollY * 0.4}px)`,
+            transform: `translateY(${scrollY * 0.4}px) scale(1.02)`,
           }}
         />
 

@@ -9,6 +9,7 @@ import { initialConversationContext } from "@/lib/conversation-types";
 import { coreQuestions, policyQuestionFlows } from "@/lib/policy-questions";
 import { validatePolicyDocument, formatFileSize } from "@/lib/file-upload";
 import { apiRequest } from "@/lib/queryClient";
+import elizabethPhoto from "@assets/image_1764878433544.png";
 
 interface Message {
   type: 'bot' | 'user' | 'system';
@@ -24,7 +25,7 @@ interface UploadedFile {
   error?: string;
 }
 
-const LIZ_AVATAR = "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200";
+const LIZ_AVATAR = elizabethPhoto;
 
 const PRESET_QA = [
   {

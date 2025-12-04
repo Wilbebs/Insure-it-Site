@@ -298,15 +298,15 @@ export default function Landing() {
                 {/* Gradient Overlay - stronger on hover */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent transition-all duration-300 group-hover:from-blue-900 group-hover:via-blue-900/80 group-hover:to-blue-900/40" />
                 
-                {/* Content - Grid layout for consistent alignment */}
-                <div className="absolute inset-x-0 bottom-0 p-6 grid grid-rows-[auto_auto_60px]">
+                {/* Content - Moves up on hover to show full description */}
+                <div className="absolute inset-x-0 bottom-0 p-6 transition-transform duration-300 group-hover:-translate-y-4">
                   <div className="text-primary mb-2 transition-transform duration-300 group-hover:scale-110">
                     {type.icon}
                   </div>
-                  <h3 className="text-xl font-bold text-white">
+                  <h3 className="text-xl font-bold text-white mb-2">
                     {type.title}
                   </h3>
-                  <p className="text-slate-300 text-sm leading-relaxed opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 pt-2">
+                  <p className="text-slate-300 text-sm leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-24 group-hover:opacity-100">
                     {type.description}
                   </p>
                 </div>

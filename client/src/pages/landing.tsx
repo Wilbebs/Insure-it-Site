@@ -92,11 +92,6 @@ export default function Landing() {
               <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/30 shadow-2xl shadow-black/20">
                 {/* Subtle gradient glow effect */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
-                
-                {/* Badge */}
-                <span className="relative inline-block px-4 py-2 bg-slate-800/50 rounded-full text-slate-300 text-sm font-medium border border-slate-600/30 mb-6">
-                  Independent Insurance Agency
-                </span>
 
                 {/* Logo */}
                 <div className="relative mb-4">

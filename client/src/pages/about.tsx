@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import wilbertPhoto from "@assets/image_1764878413663.png";
 import elizabethPhoto from "@assets/image_1764878433544.png";
 import davidPhoto from "@assets/image_1764878441647.png";
-import familyBeachPhoto from "@assets/betterimage_1764961836143.jpg";
+import familyBeachPhoto from "@assets/imageatbeach_1764961674893.jpg";
 
 export default function About() {
   const [titleText, setTitleText] = useState("");
@@ -68,7 +68,7 @@ export default function About() {
           style={{
             backgroundImage: `url(${familyBeachPhoto})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'right center',
+            backgroundPosition: 'center',
             backgroundAttachment: 'fixed'
           }}
         >

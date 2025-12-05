@@ -110,7 +110,7 @@ export default function Landing() {
                 >
                   <button
                     onClick={() => setQuoteModalOpen(true)}
-                    className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105"
+                    className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105 select-none"
                     data-testid="button-get-quote"
                   >
                     Get Quoted Today
@@ -118,7 +118,7 @@ export default function Landing() {
                   </button>
                   <a
                     href="tel:+13059185339"
-                    className="bg-transparent border-2 border-primary text-primary px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2"
+                    className="bg-transparent border-2 border-primary text-primary px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 select-none"
                     data-testid="button-call-us"
                   >
                     <Phone className="w-5 h-5" />

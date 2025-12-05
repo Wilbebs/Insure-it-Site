@@ -37,7 +37,7 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
           className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto"
         />
         {showTagline && (
-          <p className="mt-4 text-lg sm:text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <p className="mt-4 text-lg sm:text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
             {taglineText}
           </p>
         )}

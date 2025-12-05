@@ -79,8 +79,6 @@ export default function Landing() {
           }}
         />
 
-        {/* Overlay - lighter to show logo clearly */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/40 to-slate-900/60 dark:from-slate-900/60 dark:via-slate-900/50 dark:to-slate-900/70" />
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-6 md:px-16">

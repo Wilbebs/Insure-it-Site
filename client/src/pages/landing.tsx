@@ -154,7 +154,7 @@ export default function Landing() {
               className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
               <div className="text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">2000+</div>
-              <div className="text-sm text-slate-400">Policies Written</div>
+              <div className="text-sm text-slate-400">Families Protected</div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}

@@ -106,7 +106,8 @@ export default function About() {
               <p className="text-center italic text-white pt-4 text-lg sm:text-xl font-semibold">
                 "{signatureText}
                 {signatureText.length > 0 && signatureText.length < fullSignature.length && <span className="animate-pulse">|</span>}
-                "{showCursor && <span className="typing-cursor">|</span>}
+                {signatureText.length === fullSignature.length && '"'}
+                {showCursor && <span className="typing-cursor">|</span>}
               </p>
             </div>
           </div>

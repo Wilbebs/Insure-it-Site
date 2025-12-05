@@ -103,8 +103,9 @@ export default function About() {
                 {lastParagraphText}
                 {lastParagraphText.length > 0 && lastParagraphText.length < fullLastParagraph.length && <span className="animate-pulse">|</span>}
               </p>
-              <p className="text-center italic text-white pt-4 text-lg sm:text-xl font-semibold">
-                "{signatureText}
+              <p className="text-center italic text-white pt-4 text-lg sm:text-xl font-semibold min-h-[2rem]">
+                {signatureText.length > 0 && '"'}
+                {signatureText}
                 {signatureText.length > 0 && signatureText.length < fullSignature.length && <span className="animate-pulse">|</span>}
                 {signatureText.length === fullSignature.length && '"'}
                 {showCursor && <span className="typing-cursor">|</span>}

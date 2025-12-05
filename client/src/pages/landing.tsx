@@ -88,49 +88,49 @@ export default function Landing() {
               animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              {/* Badge */}
-              <span className="inline-block px-4 py-2 bg-sky-500/20 backdrop-blur-sm rounded-full text-sky-300 text-sm font-medium border border-sky-400/30 mb-6">
-                Independent Insurance Agency
-              </span>
-
-              {/* Glass Window Container */}
-              <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-8 md:p-10 border border-white/20 shadow-2xl shadow-black/20 mb-8">
+              {/* Glass Window Container - Everything inside */}
+              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/30 shadow-2xl shadow-black/20">
                 {/* Subtle gradient glow effect */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
                 
+                {/* Badge */}
+                <span className="relative inline-block px-4 py-2 bg-slate-800/50 rounded-full text-slate-300 text-sm font-medium border border-slate-600/30 mb-6">
+                  Independent Insurance Agency
+                </span>
+
                 {/* Logo */}
                 <div className="relative mb-4">
                   <Logo size="large" showTagline={true} variant="white" />
                 </div>
 
-                <p className="relative text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+                <p className="relative text-lg md:text-xl text-slate-700 dark:text-white/90 max-w-2xl mx-auto leading-relaxed mb-8">
                   Your Trusted Partner for Home, Auto & Business Insurance
                 </p>
-              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center"
-              >
-                <button
-                  onClick={() => setQuoteModalOpen(true)}
-                  className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105"
-                  data-testid="button-get-quote"
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                  className="relative flex flex-col sm:flex-row gap-4 justify-center"
                 >
-                  Get Quoted Today
-                  <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-                <a
-                  href="tel:+13059185339"
-                  className="bg-transparent border-2 border-sky-400 text-sky-300 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary hover:text-white hover:border-primary transition-all flex items-center justify-center gap-2"
-                  data-testid="button-call-us"
-                >
-                  <Phone className="w-5 h-5" />
-                  Call Us Now
-                </a>
-              </motion.div>
+                  <button
+                    onClick={() => setQuoteModalOpen(true)}
+                    className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105"
+                    data-testid="button-get-quote"
+                  >
+                    Get Quoted Today
+                    <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                  <a
+                    href="tel:+13059185339"
+                    className="bg-transparent border-2 border-primary text-primary px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2"
+                    data-testid="button-call-us"
+                  >
+                    <Phone className="w-5 h-5" />
+                    Call Us Now
+                  </a>
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </div>

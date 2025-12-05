@@ -95,14 +95,20 @@ export default function Landing() {
                 Independent Insurance Agency
               </span>
 
-              {/* Logo */}
-              <div className="mb-6">
-                <Logo size="large" showTagline={true} variant="white" />
-              </div>
+              {/* Glass Window Container */}
+              <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-8 md:p-10 border border-white/20 shadow-2xl shadow-black/20 mb-8">
+                {/* Subtle gradient glow effect */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
+                
+                {/* Logo */}
+                <div className="relative mb-4">
+                  <Logo size="large" showTagline={true} variant="white" />
+                </div>
 
-              <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-                Your Trusted Partner for Home, Auto & Business Insurance
-              </p>
+                <p className="relative text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+                  Your Trusted Partner for Home, Auto & Business Insurance
+                </p>
+              </div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

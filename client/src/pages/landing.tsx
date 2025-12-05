@@ -98,7 +98,7 @@ export default function Landing() {
                   <Logo size="large" showTagline={true} variant="white" />
                 </div>
 
-                <p className="relative text-lg md:text-xl text-slate-700 dark:text-white/90 max-w-2xl mx-auto leading-relaxed mb-8">
+                <p className="relative text-lg md:text-xl text-slate-700 dark:text-white/90 max-w-2xl mx-auto leading-relaxed mb-8 select-none">
                   Your Trusted Partner for Home, Auto & Business Insurance
                 </p>
 

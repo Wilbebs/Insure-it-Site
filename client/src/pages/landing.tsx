@@ -328,9 +328,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Partners Carousel */}
-      <PartnersCarousel />
-
       {/* Contact Info Section - Centered */}
       <section className="py-20 bg-background dark:bg-slate-900 relative">
         {/* Decorative wave */}
@@ -396,6 +393,9 @@ export default function Landing() {
           </div>
         </div>
       </section>
+
+      {/* Partners Carousel */}
+      <PartnersCarousel />
 
       <Footer onGetQuote={() => setQuoteModalOpen(true)} />
 

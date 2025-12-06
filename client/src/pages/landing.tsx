@@ -71,7 +71,7 @@ export default function Landing() {
       <section className="min-h-[85vh] flex items-center relative overflow-hidden pt-20">
         {/* Jacksonville Skyline Background - Parallax with blur */}
         <div
-          className="absolute -inset-x-0 -top-20 -bottom-40 bg-cover bg-center will-change-transform blur-[0.9px]"
+          className="absolute -inset-x-0 -top-20 -bottom-40 bg-cover bg-center will-change-transform blur-[1.5px]"
           style={{
             backgroundImage: `url(${jacksonvilleSkyline})`,
             backgroundPosition: "center 40%",

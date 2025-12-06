@@ -71,7 +71,7 @@ export default function Landing() {
       <section className="min-h-[85vh] flex items-center relative overflow-hidden pt-20">
         {/* Jacksonville Skyline Background - Parallax with blur */}
         <div
-          className="absolute -inset-x-0 -top-20 -bottom-40 bg-cover bg-center will-change-transform blur-[2.5px]"
+          className="absolute -inset-x-0 -top-20 -bottom-40 bg-cover bg-center will-change-transform blur-[2.5px] dark:brightness-75"
           style={{
             backgroundImage: `url(${jacksonvilleSkyline})`,
             backgroundPosition: "center 40%",
@@ -98,7 +98,7 @@ export default function Landing() {
                   <Logo size="large" showTagline={true} variant="white" />
                 </div>
 
-                <p className="relative text-lg md:text-xl text-slate-700 dark:text-white/90 max-w-2xl mx-auto leading-relaxed mb-8 select-none">
+                <p className="relative text-lg md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-8 select-none">
                   Your Trusted Partner for Home, Auto & Business Insurance
                 </p>
 

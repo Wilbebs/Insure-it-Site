@@ -684,11 +684,11 @@ export default function ChatBot() {
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl w-[350px] sm:w-[420px] flex flex-col h-[600px]"
+              className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-[350px] sm:w-[420px] flex flex-col h-[600px]"
               data-testid="chatbot-expanded"
             >
               {/* Header */}
-              <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 flex flex-col">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 flex flex-col rounded-t-3xl">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
                     <img 

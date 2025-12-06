@@ -122,12 +122,12 @@ export default function About() {
           <div className="mb-12 sm:mb-20">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center gradient-text">Meet Our Team</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto">
-              {/* Wilbert Hernandez - CEO */}
+              {/* Wilbert Hernandez - President */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift" data-testid="team-member-wilbert-hernandez">
                 <div className="aspect-square overflow-hidden relative group">
                   <img 
                     src={wilbertPhoto} 
-                    alt="Wilbert Hernandez - CEO"
+                    alt="Wilbert Hernandez - President"
                     className="w-full h-full object-cover"
                   />
                   <a 
@@ -142,16 +142,16 @@ export default function About() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">Wilbert Hernandez</h3>
-                  <p className="text-primary font-medium">CEO</p>
+                  <p className="text-primary font-medium">President</p>
                 </div>
               </div>
 
-              {/* Elizabeth Hernandez - Founder */}
+              {/* Elizabeth Hernandez - Operations Manager */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift" data-testid="team-member-elizabeth-hernandez">
                 <div className="aspect-square overflow-hidden relative group">
                   <img 
                     src={elizabethPhoto} 
-                    alt="Elizabeth Hernandez - Founder"
+                    alt="Elizabeth Hernandez - Operations Manager"
                     className="w-full h-full object-cover object-top"
                   />
                   <a 
@@ -166,16 +166,16 @@ export default function About() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">Elizabeth Hernandez</h3>
-                  <p className="text-primary font-medium">Founder</p>
+                  <p className="text-primary font-medium">Operations Manager</p>
                 </div>
               </div>
 
-              {/* David Hernandez - Insurance Agent */}
+              {/* David Hernandez - Account Executive */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift" data-testid="team-member-david-hernandez">
                 <div className="aspect-square overflow-hidden relative group">
                   <img 
                     src={davidPhoto} 
-                    alt="David Hernandez - Insurance Agent"
+                    alt="David Hernandez - Account Executive"
                     className="w-full h-full object-cover"
                   />
                   <a 
@@ -190,7 +190,7 @@ export default function About() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">David Hernandez</h3>
-                  <p className="text-primary font-medium">Insurance Agent</p>
+                  <p className="text-primary font-medium">Account Executive</p>
                 </div>
               </div>
             </div>

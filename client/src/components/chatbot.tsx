@@ -684,7 +684,7 @@ export default function ChatBot() {
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-[350px] sm:w-[420px] flex flex-col h-[600px]"
+              className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl w-[350px] sm:w-[420px] flex flex-col h-[600px]"
               data-testid="chatbot-expanded"
             >
               {/* Header */}

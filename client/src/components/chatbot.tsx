@@ -759,7 +759,7 @@ export default function ChatBot() {
 
                 {/* Insurance Type Selection Buttons */}
                 {showPolicySelection && convState.state === 'idle' && !isTyping && (
-                  <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-2">
+                  <div className="bg-white dark:bg-slate-700 p-4 rounded-md shadow-md space-y-2">
                     <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">Select an insurance type:</p>
                     <div className="grid grid-cols-1 gap-2">
                       {INSURANCE_TYPES.map((insuranceType, idx) => (

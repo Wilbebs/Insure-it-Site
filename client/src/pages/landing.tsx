@@ -89,7 +89,7 @@ export default function Landing() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {/* Glass Window Container - Everything inside */}
-              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl pt-4 md:pt-6 pb-8 px-8 md:pb-12 md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[400px] md:h-[430px] overflow-hidden">
+              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl pt-2 md:pt-4 pb-8 px-8 md:pb-12 md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[400px] md:h-[430px] overflow-hidden">
                 {/* Subtle gradient glow effect */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 

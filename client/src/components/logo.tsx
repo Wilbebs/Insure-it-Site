@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import logoImage from "@assets/Insure_it_logo._1764880597905.png";
-import shieldVideo from "@assets/Shield-popin_1765209929149.webm";
+import shieldVideo from "@assets/Ins_orginal_color_1765213135711.webm";
 
 interface LogoProps {
   className?: string;

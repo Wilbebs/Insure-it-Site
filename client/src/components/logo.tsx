@@ -36,7 +36,7 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
           <img 
             src={logoImage} 
             alt="Insure-it Group Corp" 
-            className="max-w-[300px] sm:max-w-[350px] md:max-w-[400px] lg:max-w-[450px] w-full h-auto opacity-0"
+            className="max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[750px] w-full h-auto opacity-0"
           />
           <div 
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
@@ -46,7 +46,7 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
               loop 
               muted 
               playsInline
-              className="max-w-[300px] sm:max-w-[350px] md:max-w-[400px] lg:max-w-[450px] w-full h-auto"
+              className="max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[750px] w-full h-auto"
             >
               <source src={shieldVideo} type="video/webm" />
             </video>

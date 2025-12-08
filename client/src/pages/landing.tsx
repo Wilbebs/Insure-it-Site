@@ -94,7 +94,7 @@ export default function Landing() {
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
                 {/* Logo */}
-                <div className="relative mb-4">
+                <div className="relative mb-4 z-10">
                   <Logo size="large" showTagline={true} variant="white" />
                 </div>
 

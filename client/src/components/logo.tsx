@@ -32,13 +32,17 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
   if (size === 'large') {
     return (
       <div className={`flex flex-col items-center ${className}`}>
-        <div className="relative h-[180px] md:h-[200px] w-full">
+        <div className="relative h-[180px] md:h-[200px] w-full overflow-visible">
           <video 
             autoPlay 
             loop 
             muted 
             playsInline
-            className="absolute top-0 left-1/2 -translate-x-1/2 max-w-[800px] sm:max-w-[900px] md:max-w-[950px] lg:max-w-[1000px] w-full h-auto pointer-events-none z-10"
+            className="absolute top-1/2 left-1/2 w-[600px] md:w-[800px] lg:w-[1000px] h-auto pointer-events-none z-10"
+            style={{ 
+              transform: 'translate(-50%, -50%) scale(1.5)',
+              transformOrigin: 'center center'
+            }}
           >
             <source src={shieldVideo} type="video/webm" />
           </video>

@@ -38,7 +38,7 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
             loop 
             muted 
             playsInline
-            className="absolute top-0 left-1/2 -translate-x-1/2 max-w-[550px] sm:max-w-[600px] md:max-w-[650px] w-full h-auto pointer-events-none z-10"
+            className="absolute top-0 left-1/2 -translate-x-1/2 max-w-[800px] sm:max-w-[900px] md:max-w-[950px] lg:max-w-[1000px] w-full h-auto pointer-events-none z-10"
           >
             <source src={shieldVideo} type="video/webm" />
           </video>

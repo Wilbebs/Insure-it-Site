@@ -37,10 +37,10 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
           autoPlay
           muted
           playsInline
-          className="h-[21rem] sm:h-96 md:h-[27rem] lg:h-[30rem] w-auto"
+          className="max-w-[320px] h-auto w-full"
         />
         {showTagline && (
-          <p className="mt-4 text-lg sm:text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
+          <p className="mt-4 mb-4 text-lg sm:text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
             {taglineText}
           </p>
         )}

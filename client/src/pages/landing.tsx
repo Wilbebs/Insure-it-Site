@@ -89,16 +89,16 @@ export default function Landing() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {/* Glass Window Container - Everything inside */}
-              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/30 shadow-2xl shadow-black/20">
+              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl p-4 md:p-6 border border-white/30 shadow-2xl shadow-black/20">
                 {/* Subtle gradient glow effect */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
                 {/* Logo */}
-                <div className="relative mb-4">
+                <div className="relative mb-2">
                   <Logo size="large" showTagline={true} variant="white" />
                 </div>
 
-                <p className="relative text-lg md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-8 select-none">
+                <p className="relative text-lg md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-4 select-none">
                   Your Trusted Partner for Home, Auto & Business Insurance
                 </p>
 

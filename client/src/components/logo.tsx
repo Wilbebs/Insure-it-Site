@@ -32,11 +32,11 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
   if (size === 'large') {
     return (
       <div className={`flex flex-col items-center ${className}`}>
-        <div className="relative">
+        <div className="relative flex items-center justify-center">
           <img 
             src={logoImage} 
             alt="Insure-it Group Corp" 
-            className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto opacity-0"
+            className="max-w-[300px] sm:max-w-[350px] md:max-w-[400px] lg:max-w-[450px] w-full h-auto opacity-0"
           />
           <div 
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
@@ -46,7 +46,7 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
               loop 
               muted 
               playsInline
-              className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto"
+              className="max-w-[300px] sm:max-w-[350px] md:max-w-[400px] lg:max-w-[450px] w-full h-auto"
             >
               <source src={shieldVideo} type="video/webm" />
             </video>

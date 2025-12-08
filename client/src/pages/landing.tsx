@@ -68,7 +68,7 @@ export default function Landing() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="h-[620px] flex flex-col justify-center items-center relative overflow-hidden py-16 px-5">
+      <section className="h-[520px] flex flex-col justify-center items-center relative overflow-hidden py-10 px-5">
         {/* Jacksonville Skyline Background - Parallax with blur */}
         <div
           className="absolute inset-0 bg-cover bg-center will-change-transform blur-[2.5px] dark:brightness-75"
@@ -87,16 +87,16 @@ export default function Landing() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           {/* Glass Window Container */}
-          <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl px-6 md:px-10 py-8 md:py-10 border border-white/30 shadow-2xl shadow-black/20 flex flex-col items-center text-center">
+          <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl px-6 md:px-10 py-6 border border-white/30 shadow-2xl shadow-black/20 flex flex-col items-center text-center">
             {/* Subtle gradient glow effect */}
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
             {/* Logo */}
-            <div className="relative mb-10">
+            <div className="relative mb-6">
               <Logo size="large" showTagline={true} variant="white" />
             </div>
 
-            <p className="relative text-lg md:text-xl text-slate-700 max-w-2xl leading-relaxed mb-6 select-none">
+            <p className="relative text-lg md:text-xl text-slate-700 max-w-2xl leading-relaxed mb-5 select-none">
               Your Trusted Partner for Home, Auto & Business Insurance
             </p>
 

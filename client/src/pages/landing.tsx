@@ -68,67 +68,63 @@ export default function Landing() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="min-h-[70vh] flex items-center relative overflow-hidden pt-20">
+      <section className="h-[620px] flex flex-col justify-center items-center relative overflow-hidden py-16 px-5">
         {/* Jacksonville Skyline Background - Parallax with blur */}
         <div
-          className="absolute -inset-x-0 -top-20 -bottom-40 bg-cover bg-center will-change-transform blur-[2.5px] dark:brightness-75"
+          className="absolute inset-0 bg-cover bg-center will-change-transform blur-[2.5px] dark:brightness-75"
           style={{
             backgroundImage: `url(${jacksonvilleSkyline})`,
             backgroundPosition: "center 40%",
-            transform: `translateY(${scrollY * 0.4}px) scale(1.02)`,
+            transform: `translateY(${scrollY * 0.3}px)`,
           }}
         />
 
-
         {/* Content */}
-        <div className="relative z-10 w-full flex items-center justify-center px-6 md:px-16">
-          <div className="max-w-4xl text-center">
+        <motion.div
+          className="relative z-10 w-full max-w-4xl"
+          initial={{ opacity: 0, y: 30 }}
+          animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          {/* Glass Window Container */}
+          <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl px-6 md:px-10 py-8 md:py-10 border border-white/30 shadow-2xl shadow-black/20 flex flex-col items-center text-center">
+            {/* Subtle gradient glow effect */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
+
+            {/* Logo */}
+            <div className="relative mb-10">
+              <Logo size="large" showTagline={true} variant="white" />
+            </div>
+
+            <p className="relative text-lg md:text-xl text-slate-700 max-w-2xl leading-relaxed mb-6 select-none">
+              Your Trusted Partner for Home, Auto & Business Insurance
+            </p>
+
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="relative flex flex-col sm:flex-row gap-4 justify-center"
             >
-              {/* Glass Window Container - Everything inside */}
-              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl px-6 md:px-10 py-6 md:py-8 border border-white/30 shadow-2xl shadow-black/20">
-                {/* Subtle gradient glow effect */}
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
-
-                {/* Logo */}
-                <div className="relative mb-6">
-                  <Logo size="large" showTagline={true} variant="white" />
-                </div>
-
-                <p className="relative text-lg md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-4 select-none">
-                  Your Trusted Partner for Home, Auto & Business Insurance
-                </p>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.8, delay: 0.5 }}
-                  className="relative flex flex-col sm:flex-row gap-4 justify-center"
-                >
-                  <button
-                    onClick={() => setQuoteModalOpen(true)}
-                    className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105 select-none"
-                    data-testid="button-get-quote"
-                  >
-                    Get Quoted Today
-                    <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                  <a
-                    href="tel:+13059185339"
-                    className="bg-transparent border-2 border-primary text-primary px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 select-none"
-                    data-testid="button-call-us"
-                  >
-                    <Phone className="w-5 h-5" />
-                    Call Us Now
-                  </a>
-                </motion.div>
-              </div>
+              <button
+                onClick={() => setQuoteModalOpen(true)}
+                className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105 select-none"
+                data-testid="button-get-quote"
+              >
+                Get Quoted Today
+                <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+              <a
+                href="tel:+13059185339"
+                className="bg-transparent border-2 border-primary text-primary px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 select-none"
+                data-testid="button-call-us"
+              >
+                <Phone className="w-5 h-5" />
+                Call Us Now
+              </a>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Stats Bar - Glassmorphism */}

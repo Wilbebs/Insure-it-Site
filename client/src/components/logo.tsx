@@ -32,25 +32,16 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
   if (size === 'large') {
     return (
       <div className={`flex flex-col items-center ${className}`}>
-        <div className="relative flex items-center justify-center">
-          <img 
-            src={logoImage} 
-            alt="Insure-it Group Corp" 
-            className="max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[750px] w-full h-auto opacity-0"
-          />
-          <div 
-            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        <div className="relative flex items-center justify-center h-[180px] md:h-[200px]">
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[750px] w-full h-auto pointer-events-none"
           >
-            <video 
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              className="max-w-[500px] sm:max-w-[600px] md:max-w-[700px] lg:max-w-[750px] w-full h-auto"
-            >
-              <source src={shieldVideo} type="video/webm" />
-            </video>
-          </div>
+            <source src={shieldVideo} type="video/webm" />
+          </video>
         </div>
         {showTagline && (
           <p className="mt-4 text-lg sm:text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">

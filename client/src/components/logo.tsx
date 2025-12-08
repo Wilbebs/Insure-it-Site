@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import logoImage from "@assets/Insure_it_logo._1764880597905.png";
+import shieldVideo from "@assets/Shield-popin_1765209929149.webm";
 
 interface LogoProps {
   className?: string;
@@ -31,11 +32,26 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
   if (size === 'large') {
     return (
       <div className={`flex flex-col items-center ${className}`}>
-        <img 
-          src={logoImage} 
-          alt="Insure-it Group Corp" 
-          className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto"
-        />
+        <div className="relative">
+          <img 
+            src={logoImage} 
+            alt="Insure-it Group Corp" 
+            className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto opacity-0"
+          />
+          <div 
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          >
+            <video 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto"
+            >
+              <source src={shieldVideo} type="video/webm" />
+            </video>
+          </div>
+        </div>
         {showTagline && (
           <p className="mt-4 text-lg sm:text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
             {taglineText}

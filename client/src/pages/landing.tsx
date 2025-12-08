@@ -16,7 +16,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Logo from "@/components/logo";
-import { FloatingShield, CornerBrackets } from "@/components/decorative-elements";
+import { FloatingShield } from "@/components/decorative-elements";
 import { useEffect, useState } from "react";
 import jacksonvilleSkyline from "@assets/stock_images/jacksonville_florida_13db0295.jpg";
 
@@ -187,8 +187,8 @@ export default function Landing() {
         <div className="absolute bottom-0 right-0 w-1 h-32 bg-gradient-to-t from-primary to-transparent"></div>
         
         {/* Floating shield decorations */}
-        <FloatingShield className="top-16 left-[8%]" size={50} opacity={0.06} delay={0} />
-        <FloatingShield className="bottom-24 right-[6%]" size={40} opacity={0.05} delay={0.8} />
+        <FloatingShield className="top-16 left-[8%]" size={80} opacity={0.15} delay={0} />
+        <FloatingShield className="bottom-24 right-[6%]" size={60} opacity={0.12} delay={0.8} />
         
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
@@ -227,8 +227,7 @@ export default function Landing() {
               
               {/* Feature highlights */}
               <div className="space-y-4">
-                <div className="relative p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
-                  <CornerBrackets size={20} className="opacity-60" />
+                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-lg bg-sky-500/10 flex items-center justify-center flex-shrink-0">
                       <Shield className="w-5 h-5 text-sky-500" />
@@ -239,8 +238,7 @@ export default function Landing() {
                     </div>
                   </div>
                 </div>
-                <div className="relative p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
-                  <CornerBrackets size={20} className="opacity-60" />
+                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
                       <Heart className="w-5 h-5 text-blue-500" />
@@ -251,8 +249,7 @@ export default function Landing() {
                     </div>
                   </div>
                 </div>
-                <div className="relative p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
-                  <CornerBrackets size={20} className="opacity-60" />
+                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
                       <Phone className="w-5 h-5 text-indigo-500" />
@@ -276,8 +273,8 @@ export default function Landing() {
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-blue-500/5 to-transparent pointer-events-none"></div>
         
         {/* Floating shield decorations */}
-        <FloatingShield className="top-32 right-[10%]" size={45} opacity={0.05} delay={0.3} />
-        <FloatingShield className="bottom-20 left-[5%]" size={55} opacity={0.04} delay={1.2} />
+        <FloatingShield className="top-32 right-[10%]" size={70} opacity={0.12} delay={0.3} />
+        <FloatingShield className="bottom-20 left-[5%]" size={90} opacity={0.1} delay={1.2} />
         
         <div className="container mx-auto px-6">
           {/* Creative section header */}

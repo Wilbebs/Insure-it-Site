@@ -16,7 +16,6 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Logo from "@/components/logo";
-import { FloatingShield } from "@/components/decorative-elements";
 import { useEffect, useState } from "react";
 import jacksonvilleSkyline from "@assets/stock_images/jacksonville_florida_13db0295.jpg";
 
@@ -186,10 +185,6 @@ export default function Landing() {
         <div className="absolute top-0 left-0 w-1 h-32 bg-gradient-to-b from-primary to-transparent"></div>
         <div className="absolute bottom-0 right-0 w-1 h-32 bg-gradient-to-t from-primary to-transparent"></div>
         
-        {/* Floating shield decorations */}
-        <FloatingShield className="top-16 left-[8%]" size={80} opacity={0.15} delay={0} />
-        <FloatingShield className="bottom-24 right-[6%]" size={60} opacity={0.12} delay={0.8} />
-        
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
             {/* Left-aligned header with accent */}
@@ -267,14 +262,10 @@ export default function Landing() {
       </section>
 
       {/* Insurance Types Section */}
-      <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
+      <section className="py-20 bg-background dark:bg-slate-900 relative">
         {/* Decorative diagonal accent */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-500/5 to-transparent pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-blue-500/5 to-transparent pointer-events-none"></div>
-        
-        {/* Floating shield decorations */}
-        <FloatingShield className="top-32 right-[10%]" size={70} opacity={0.12} delay={0.3} />
-        <FloatingShield className="bottom-20 left-[5%]" size={90} opacity={0.1} delay={1.2} />
         
         <div className="container mx-auto px-6">
           {/* Creative section header */}

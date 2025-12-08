@@ -39,7 +39,7 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
             playsInline
             className="absolute left-1/2 w-[600px] md:w-[800px] lg:w-[1000px] h-auto pointer-events-none z-10"
             style={{ 
-              top: '0px',
+              top: '-5px',
               transform: 'translateX(-50%) scale(1.5)',
               transformOrigin: 'center center'
             }}

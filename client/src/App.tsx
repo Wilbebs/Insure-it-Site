@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import Landing from "@/pages/landing";
 import About from "@/pages/about";
+import Plans from "@/pages/plans";
 import NotFound from "@/pages/not-found";
 import ChatBot from "@/components/chatbot";
 
@@ -14,6 +15,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/about" component={About} />
+      <Route path="/plans" component={Plans} />
       <Route component={NotFound} />
     </Switch>
   );

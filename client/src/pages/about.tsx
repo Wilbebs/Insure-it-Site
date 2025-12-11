@@ -6,7 +6,7 @@ import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import wilbertPhoto from "@assets/image_1764878413663.png";
 import elizabethPhoto from "@assets/image_1764878433544.png";
-import davidPhoto from "@assets/image_1764878441647.png";
+import davidPhoto from "@assets/image_1765442735571.png";
 
 export default function About() {
   const [titleText, setTitleText] = useState("");
@@ -176,7 +176,7 @@ export default function About() {
                   <img 
                     src={davidPhoto} 
                     alt="David Hernandez - Account Executive"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover scale-110 object-top"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"

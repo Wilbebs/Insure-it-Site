@@ -128,7 +128,7 @@ export default function About() {
                   <img 
                     src={wilbertPhoto} 
                     alt="Wilbert Hernandez - President"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover scale-[1.1] object-top"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
@@ -152,7 +152,7 @@ export default function About() {
                   <img 
                     src={elizabethPhoto} 
                     alt="Elizabeth Hernandez - Operations Manager"
-                    className="w-full h-full object-cover object-top scale-[0.95]"
+                    className="w-full h-full object-cover object-top"
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"

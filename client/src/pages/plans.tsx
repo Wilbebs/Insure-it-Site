@@ -32,11 +32,14 @@ export default function PlansPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const { data: featureRequests, isLoading } = useQuery({
+  const { data: featureRequests, isLoading, error } = useQuery({
     queryKey: ["/api/feature-requests"],
     queryFn: async () => {
       const response = await apiRequest("GET", "/api/feature-requests");
-      return response.data as FeatureRequest[];
+      if (response.success && response.data) {
+        return response.data as FeatureRequest[];
+      }
+      return [];
     },
   });
 

@@ -1,9 +1,12 @@
 import { Pool } from 'pg';
 
-console.log('🔍 DATABASE_URL in db.ts:', process.env.DATABASE_URL);
-
+// Use explicit connection parameters for more reliable connection
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  host: 'database-1.c69qosw28o1m.us-east-1.rds.amazonaws.com',
+  port: 5432,
+  user: 'wilbebs',
+  password: process.env.DB_PASSWORD || '0221021wW!!',
+  database: 'postgres',
   ssl: {
     rejectUnauthorized: false
   }

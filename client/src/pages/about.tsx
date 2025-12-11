@@ -128,7 +128,7 @@ export default function About() {
                   <img 
                     src={wilbertPhoto} 
                     alt="Wilbert Hernandez - President"
-                    className="w-full h-full object-cover scale-[1.1]" style={{ objectPosition: 'center calc(50% - 5px)' }}
+                    className="w-full h-full object-cover scale-[1.1]" style={{ objectPosition: 'center calc(50% - 2px)' }}
                   />
                   <a 
                     href="https://www.linkedin.com/in/hernandez-wilbert/"

@@ -6,9 +6,7 @@ import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { PutObjectCommand } from '@aws-sdk/client-s3'; // NEW: AWS S3 SDK
 import { s3Client, S3_BUCKET } from './s3Client'; // NEW: S3 client
-
-// In-memory storage for feature requests (temporary until database is configured)
-const featureRequests: Array<{ id: number; title: string; description: string; priority: string; created_at: Date }> = [];
+import { pool } from './db';
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -143,34 +141,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Feature requests endpoints (using in-memory storage for now)
   app.get("/api/feature-requests", async (req, res) => {
-    try {
-      const sorted = [...featureRequests].sort((a, b) => 
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      );
-      res.json({ success: true, data: sorted });
-    } catch (error) {
-      console.error('Error fetching feature requests:', error);
-      res.status(500).json({ success: false, message: 'Failed to fetch requests' });
-    }
-  });
+  try {
+    const result = await pool.query(
+      'SELECT * FROM feature_requests ORDER BY created_at DESC'
+    );
+    res.json({ success: true, data: result.rows });
+  } catch (error) {
+    console.error('Error fetching feature requests:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch requests' });
+  }
+});
 
   // POST new feature request for plans page
   app.post("/api/feature-requests", async (req, res) => {
     try {
       const { title, description, priority } = req.body;
       
-      const newRequest = {
-        id: featureRequests.length + 1,
-        title,
-        description,
-        priority: priority || 'medium',
-        created_at: new Date()
-      };
+      const result = await pool.query(
+        'INSERT INTO feature_requests (title, description, priority) VALUES ($1, $2, $3) RETURNING *',
+        [title, description, priority || 'medium']
+      );
       
-      featureRequests.push(newRequest);
-      res.json({ success: true, data: newRequest });
+      res.json({ success: true, data: result.rows[0] });
     } catch (error) {
       console.error('Error creating feature request:', error);
       res.status(500).json({ success: false, message: 'Failed to create request' });

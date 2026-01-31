@@ -508,51 +508,52 @@
   }
 }
 
-/* Dark Glass Modal Styling */
-.dark-glass-modal {
+/* Light Glass Modal Styling */
+.light-glass-modal {
   --background: transparent;
-  --foreground: hsl(0, 0%, 100%);
-  --muted-foreground: hsl(0, 0%, 70%);
+  --foreground: hsl(210, 40%, 20%);
+  --muted-foreground: hsl(210, 20%, 40%);
 }
 
-.dark-glass-modal label {
-  color: white !important;
+.light-glass-modal label {
+  color: #334155 !important;
 }
 
-.dark-glass-modal input,
-.dark-glass-modal textarea {
+.light-glass-modal input,
+.light-glass-modal textarea {
   background-color: white !important;
-  color: black !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
+  color: #1e293b !important;
+  border-color: #e2e8f0 !important;
 }
 
-.dark-glass-modal input::placeholder,
-.dark-glass-modal textarea::placeholder {
-  color: #6b7280 !important;
+.light-glass-modal input::placeholder,
+.light-glass-modal textarea::placeholder {
+  color: #94a3b8 !important;
 }
 
-.dark-glass-modal input:focus,
-.dark-glass-modal textarea:focus {
-  ring-color: #3b82f6 !important;
+.light-glass-modal input:focus,
+.light-glass-modal textarea:focus {
   border-color: #3b82f6 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
 }
 
-.dark-glass-modal [data-radix-select-trigger] {
+.light-glass-modal [data-radix-select-trigger] {
   background-color: white !important;
-  color: black !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
+  color: #1e293b !important;
+  border-color: #e2e8f0 !important;
 }
 
-.dark-glass-modal [data-radix-select-content] {
+.light-glass-modal [data-radix-select-content] {
   background-color: white !important;
-  color: black !important;
+  color: #1e293b !important;
 }
 
-.dark-glass-modal [role="option"] {
-  color: black !important;
+.light-glass-modal [role="option"] {
+  color: #1e293b !important;
 }
 
-.dark-glass-modal [role="option"]:hover,
-.dark-glass-modal [role="option"][data-highlighted] {
-  background-color: #f3f4f6 !important;
+.light-glass-modal [role="option"]:hover,
+.light-glass-modal [role="option"][data-highlighted] {
+  background-color: #f1f5f9 !important;
 }

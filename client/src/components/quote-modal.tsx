@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -174,6 +174,13 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const policyType = form.watch("policyType");
   const currentlyInsured = form.watch("currentlyInsured");
 
+  // Reset to step 2 when policy type changes (to avoid invalid step states)
+  useEffect(() => {
+    if (policyType && currentStep > 2) {
+      setCurrentStep(2);
+    }
+  }, [policyType]);
+
   // Calculate total steps based on policy type
   const getTotalSteps = () => {
     if (!policyType) return 2;
@@ -306,7 +313,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
             <FormItem>
               <FormLabel>First Name *</FormLabel>
               <FormControl>
-                <Input placeholder="John" {...field} />
+                <Input placeholder="John" data-testid="input-first-name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -319,7 +326,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
             <FormItem>
               <FormLabel>Last Name *</FormLabel>
               <FormControl>
-                <Input placeholder="Smith" {...field} />
+                <Input placeholder="Smith" data-testid="input-last-name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -334,7 +341,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           <FormItem>
             <FormLabel>Email Address *</FormLabel>
             <FormControl>
-              <Input type="email" placeholder="john.smith@email.com" {...field} />
+              <Input type="email" placeholder="john.smith@email.com" data-testid="input-email" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -349,7 +356,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
             <FormItem>
               <FormLabel>Phone Number *</FormLabel>
               <FormControl>
-                <Input placeholder="(555) 123-4567" {...field} />
+                <Input placeholder="(555) 123-4567" data-testid="input-phone" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -362,7 +369,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
             <FormItem>
               <FormLabel>Zip Code *</FormLabel>
               <FormControl>
-                <Input placeholder="32256" {...field} />
+                <Input placeholder="32256" data-testid="input-zipcode" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -395,6 +402,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                       key={option.value}
                       type="button"
                       onClick={() => field.onChange(option.value)}
+                      data-testid={`policy-option-${option.value}`}
                       className={`p-6 rounded-xl border-2 transition-all duration-300 text-left ${
                         isSelected
                           ? "border-primary bg-primary/10 shadow-lg"
@@ -1353,6 +1361,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                 onClick={handleBack}
                 disabled={currentStep === 1}
                 className="gap-2"
+                data-testid="button-back"
               >
                 <ChevronLeft className="w-4 h-4" />
                 Back
@@ -1363,6 +1372,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   type="button"
                   onClick={handleNext}
                   className="gap-2"
+                  data-testid="button-next"
                 >
                   Next
                   <ChevronRight className="w-4 h-4" />
@@ -1372,6 +1382,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   type="submit"
                   disabled={submitMutation.isPending}
                   className="gap-2 bg-primary hover:bg-primary/90"
+                  data-testid="button-submit-quote"
                 >
                   {submitMutation.isPending ? "Submitting..." : "Submit Quote Request"}
                 </Button>

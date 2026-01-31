@@ -19,7 +19,6 @@ import Logo from "@/components/logo";
 import { useEffect, useState, useRef } from "react";
 import jacksonvilleSkyline from "@assets/stock_images/jacksonville_florida_13db0295.jpg";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
-import shieldVideo from "@assets/Shield-popin_1765209929149.webm";
 
 const floatingShields = [
   { top: "8%", left: "5%", size: 60, delay: 0, duration: 4 },
@@ -38,28 +37,11 @@ function FloatingShield({ style, size, delay, duration }: {
   duration: number 
 }) {
   const [isHovered, setIsHovered] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
-    }
-  };
-  
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
-  };
   
   return (
     <div
       className={`absolute z-0 transition-all duration-300 cursor-pointer ${
-        isHovered ? 'opacity-100 scale-110' : 'opacity-[0.08] dark:opacity-[0.12]'
+        isHovered ? 'opacity-100 scale-125' : 'opacity-[0.08] dark:opacity-[0.12]'
       }`}
       style={{
         ...style,
@@ -67,21 +49,14 @@ function FloatingShield({ style, size, delay, duration }: {
         height: size,
         animation: `float-bob ${duration}s ease-in-out ${delay}s infinite`,
       }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <img 
         src={shieldIcon} 
         alt="" 
-        className={`absolute inset-0 w-full h-full object-contain select-none pointer-events-none transition-opacity duration-200 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
+        className="w-full h-full object-contain select-none pointer-events-none"
         draggable={false}
-      />
-      <video
-        ref={videoRef}
-        src={shieldVideo}
-        muted
-        playsInline
-        className={`absolute inset-0 w-full h-full object-contain select-none pointer-events-none transition-opacity duration-200 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
       />
     </div>
   );

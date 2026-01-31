@@ -1,0 +1,111 @@
+Refactor the current "Get Quoted Today" form. Instead of a single simple page, convert it into a Multi-Step Wizard. The form should start with basic contact info and then dynamically show specific questions based on the "Policy Type" the user selects.
+
+Global Data (Step 1): Keep these fields for every user to capture the lead immediately.
+
+First Name & Last Name
+
+Email Address
+
+Phone Number
+
+Zip Code (New field: Required for accurate rating)
+
+Branch Logic (Step 2):
+
+Ask: "What would you like to insure?"
+
+Options: Auto, Home, Life, Commercial
+
+Based on this selection, show the following specific steps:
+
+Option A: Auto Insurance Fields
+Vehicle Details:
+
+Year, Make, Model (Dropdowns) OR VIN Input.
+
+Primary Use (Commuting, Pleasure, Business, Rideshare).
+
+Ownership Status (Owned, Financed, Leased).
+
+Driver Details:
+
+Date of Birth.
+
+Marital Status.
+
+License State & Number (Optional for now, but good to have).
+
+Traffic Violations: "Any accidents or tickets in the last 3 years?" (Yes/No toggle).
+
+Current Coverage:
+
+"Are you currently insured?" (Yes/No).
+
+If Yes: "Current Carrier" and "Current Bodily Injury Limits" (e.g., 50/100).
+
+Option B: Homeowners Insurance Fields
+Property Details:
+
+Full Property Address (Street, City, State, Zip).
+
+Property Type (Single Family, Condo, Townhome, Multi-family).
+
+Year Built.
+
+Estimated Square Footage.
+
+Risk Factors (The "4-Point" Data):
+
+Roof: "Approximate year roof was replaced?"
+
+Systems: "Have you updated Electrical, Plumbing, or Heating in the last 20 years?" (Yes/No).
+
+Occupancy:
+
+"Is this your Primary Residence?" (Yes/No).
+
+"Do you have a Swimming Pool?" (Yes/No).
+
+Option C: Life Insurance Fields
+Personal Stats:
+
+Date of Birth.
+
+Gender.
+
+Height & Weight.
+
+Health:
+
+"Have you used tobacco/nicotine in the last 12 months?" (Yes/No).
+
+"Do you have any major medical conditions (Heart, Cancer, Diabetes)?" (Yes/No).
+
+Coverage Needs:
+
+Type: Term vs. Permanent.
+
+Coverage Amount: (e.g., $250k, $500k, $1M).
+
+Term Length: (10, 20, 30 years).
+
+Option D: Commercial Insurance Fields
+Business Profile:
+
+Business Name.
+
+Industry / Operation Description (e.g., "Plumbing Contractor").
+
+Years in Business.
+
+Scale:
+
+Estimated Annual Revenue.
+
+Number of Employees (Full-time vs. Part-time).
+
+Needs:
+
+Checkboxes for: General Liability, Workers Comp, Professional Liability, Cyber.
+
+Submission Output: On the final "Submit", please consolidate all gathered data into a single JSON object and log it to the console (or send to our backend endpoint if ready), ensuring we capture both the Lead Contact Info and the Risk Specific Data.

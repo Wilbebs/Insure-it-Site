@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
-import { X } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Car, Home, Heart, Building2, Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import {
@@ -29,15 +29,72 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
 
+// Comprehensive schema for all policy types
 const quoteFormSchema = z.object({
-  fullName: z.string().min(2, "Name must be at least 2 characters"),
-  phoneNumber: z.string().min(10, "Please enter a valid phone number"),
-  emailAddress: z.string().email("Please enter a valid email address"),
-  policyType: z.string().min(1, "Please select a policy type"),
+  // Step 1: Contact Info
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Please enter a valid email"),
+  phone: z.string().min(10, "Please enter a valid phone number"),
+  zipCode: z.string().min(5, "Please enter a valid zip code"),
+  
+  // Step 2: Policy Type
+  policyType: z.string().min(1, "Please select what you'd like to insure"),
+  
+  // Auto Insurance Fields
   vehicleYear: z.string().optional(),
   vehicleMake: z.string().optional(),
   vehicleModel: z.string().optional(),
+  vehicleVin: z.string().optional(),
+  primaryUse: z.string().optional(),
+  ownershipStatus: z.string().optional(),
+  driverDob: z.string().optional(),
+  maritalStatus: z.string().optional(),
+  licenseState: z.string().optional(),
+  licenseNumber: z.string().optional(),
+  hasViolations: z.string().optional(),
+  currentlyInsured: z.string().optional(),
+  currentCarrier: z.string().optional(),
+  currentLimits: z.string().optional(),
+  
+  // Home Insurance Fields
+  propertyAddress: z.string().optional(),
+  propertyCity: z.string().optional(),
+  propertyState: z.string().optional(),
+  propertyZip: z.string().optional(),
+  propertyType: z.string().optional(),
+  yearBuilt: z.string().optional(),
+  squareFootage: z.string().optional(),
+  roofYear: z.string().optional(),
+  systemsUpdated: z.string().optional(),
+  isPrimaryResidence: z.string().optional(),
+  hasPool: z.string().optional(),
+  
+  // Life Insurance Fields
+  lifeDob: z.string().optional(),
+  gender: z.string().optional(),
+  height: z.string().optional(),
+  weight: z.string().optional(),
+  usesTobacco: z.string().optional(),
+  hasMedicalConditions: z.string().optional(),
+  lifeType: z.string().optional(),
+  coverageAmount: z.string().optional(),
+  termLength: z.string().optional(),
+  
+  // Commercial Insurance Fields
+  businessName: z.string().optional(),
+  industryDescription: z.string().optional(),
+  yearsInBusiness: z.string().optional(),
+  annualRevenue: z.string().optional(),
+  fullTimeEmployees: z.string().optional(),
+  partTimeEmployees: z.string().optional(),
+  needsGeneralLiability: z.boolean().optional(),
+  needsWorkersComp: z.boolean().optional(),
+  needsProfessionalLiability: z.boolean().optional(),
+  needsCyber: z.boolean().optional(),
 });
 
 type QuoteFormData = z.infer<typeof quoteFormSchema>;
@@ -47,39 +104,102 @@ interface QuoteModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const policyOptions = [
+  { value: "auto", label: "Auto", icon: Car, description: "Cars, trucks, motorcycles" },
+  { value: "home", label: "Home", icon: Home, description: "Houses, condos, rentals" },
+  { value: "life", label: "Life", icon: Heart, description: "Term & permanent coverage" },
+  { value: "commercial", label: "Commercial", icon: Building2, description: "Business protection" },
+];
+
 export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const { toast } = useToast();
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
+  const [currentStep, setCurrentStep] = useState(1);
+  
   const form = useForm<QuoteFormData>({
     resolver: zodResolver(quoteFormSchema),
     defaultValues: {
-      fullName: "",
-      phoneNumber: "",
-      emailAddress: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      zipCode: "",
       policyType: "",
       vehicleYear: "",
       vehicleMake: "",
       vehicleModel: "",
+      vehicleVin: "",
+      primaryUse: "",
+      ownershipStatus: "",
+      driverDob: "",
+      maritalStatus: "",
+      licenseState: "",
+      licenseNumber: "",
+      hasViolations: "",
+      currentlyInsured: "",
+      currentCarrier: "",
+      currentLimits: "",
+      propertyAddress: "",
+      propertyCity: "",
+      propertyState: "",
+      propertyZip: "",
+      propertyType: "",
+      yearBuilt: "",
+      squareFootage: "",
+      roofYear: "",
+      systemsUpdated: "",
+      isPrimaryResidence: "",
+      hasPool: "",
+      lifeDob: "",
+      gender: "",
+      height: "",
+      weight: "",
+      usesTobacco: "",
+      hasMedicalConditions: "",
+      lifeType: "",
+      coverageAmount: "",
+      termLength: "",
+      businessName: "",
+      industryDescription: "",
+      yearsInBusiness: "",
+      annualRevenue: "",
+      fullTimeEmployees: "",
+      partTimeEmployees: "",
+      needsGeneralLiability: false,
+      needsWorkersComp: false,
+      needsProfessionalLiability: false,
+      needsCyber: false,
     },
   });
 
   const policyType = form.watch("policyType");
+  const currentlyInsured = form.watch("currentlyInsured");
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      console.log('🔍 File selected:', file.name, file.size, file.type);
-      setSelectedFile(file);
+  // Calculate total steps based on policy type
+  const getTotalSteps = () => {
+    if (!policyType) return 2;
+    switch (policyType) {
+      case "auto": return 5; // Contact, Type, Vehicle, Driver, Coverage
+      case "home": return 5; // Contact, Type, Property, Risk, Occupancy
+      case "life": return 5; // Contact, Type, Personal, Health, Coverage
+      case "commercial": return 5; // Contact, Type, Business, Scale, Needs
+      default: return 2;
     }
   };
 
-  const removeFile = () => {
-    setSelectedFile(null);
-  };
+  const totalSteps = getTotalSteps();
 
   const submitMutation = useMutation({
-    mutationFn: async (formData: FormData) => {
+    mutationFn: async (data: QuoteFormData) => {
+      // Log the consolidated JSON object
+      console.log("📋 Quote Submission Data:", JSON.stringify(data, null, 2));
+      
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== "") {
+          formData.append(key, String(value));
+        }
+      });
+      
       return apiRequest('POST', '/api/contact', formData);
     },
     onSuccess: () => {
@@ -88,7 +208,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         description: "Thank you! We'll contact you within 24 hours with your personalized quote.",
       });
       form.reset();
-      setSelectedFile(null);
+      setCurrentStep(1);
       onOpenChange(false);
     },
     onError: (error) => {
@@ -101,211 +221,1162 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     },
   });
 
-  const onSubmit = (data: QuoteFormData) => {
-    const formData = new FormData();
+  const validateCurrentStep = async () => {
+    let fieldsToValidate: (keyof QuoteFormData)[] = [];
     
-    console.log('🔍 onSubmit - Selected file:', selectedFile);
-    
-    formData.append('fullName', data.fullName);
-    formData.append('phoneNumber', data.phoneNumber);
-    formData.append('emailAddress', data.emailAddress);
-    formData.append('policyType', data.policyType);
-    
-    if (data.vehicleYear) formData.append('vehicleYear', data.vehicleYear);
-    if (data.vehicleMake) formData.append('vehicleMake', data.vehicleMake);
-    if (data.vehicleModel) formData.append('vehicleModel', data.vehicleModel);
-    
-    if (selectedFile) {
-      console.log('🔍 Appending file:', selectedFile.name, selectedFile.size);
-      formData.append('documents', selectedFile);
+    switch (currentStep) {
+      case 1:
+        fieldsToValidate = ["firstName", "lastName", "email", "phone", "zipCode"];
+        break;
+      case 2:
+        fieldsToValidate = ["policyType"];
+        break;
+      // Policy-specific steps don't require validation for optional fields
     }
     
-    console.log('🔍 FormData entries:');
-    Array.from(formData.entries()).forEach(pair => {
-      if (pair[1] instanceof File) {
-        console.log(pair[0], '→ File:', pair[1].name, pair[1].size);
-      } else {
-        console.log(pair[0], '→', pair[1]);
-      }
-    });
+    if (fieldsToValidate.length > 0) {
+      const result = await form.trigger(fieldsToValidate);
+      return result;
+    }
+    return true;
+  };
+
+  const handleNext = async () => {
+    const isValid = await validateCurrentStep();
+    if (isValid) {
+      setCurrentStep(prev => Math.min(prev + 1, totalSteps));
+    }
+  };
+
+  const handleBack = () => {
+    setCurrentStep(prev => Math.max(prev - 1, 1));
+  };
+
+  const onSubmit = (data: QuoteFormData) => {
+    submitMutation.mutate(data);
+  };
+
+  const handleClose = () => {
+    form.reset();
+    setCurrentStep(1);
+    onOpenChange(false);
+  };
+
+  // Step indicator component
+  const StepIndicator = () => (
+    <div className="flex items-center justify-center gap-2 mb-6">
+      {Array.from({ length: totalSteps }, (_, i) => i + 1).map((step) => (
+        <div key={step} className="flex items-center">
+          <div
+            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
+              step < currentStep
+                ? "bg-primary text-primary-foreground"
+                : step === currentStep
+                ? "bg-primary text-primary-foreground ring-4 ring-primary/30"
+                : "bg-muted text-muted-foreground"
+            }`}
+          >
+            {step < currentStep ? <Check className="w-4 h-4" /> : step}
+          </div>
+          {step < totalSteps && (
+            <div
+              className={`w-8 h-0.5 transition-all duration-300 ${
+                step < currentStep ? "bg-primary" : "bg-muted"
+              }`}
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+
+  // Step 1: Contact Info
+  const Step1ContactInfo = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Let's start with your contact info</h3>
+        <p className="text-muted-foreground text-sm">We'll use this to send you your personalized quote</p>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name *</FormLabel>
+              <FormControl>
+                <Input placeholder="John" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name *</FormLabel>
+              <FormControl>
+                <Input placeholder="Smith" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <FormField
+        control={form.control}
+        name="email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Email Address *</FormLabel>
+            <FormControl>
+              <Input type="email" placeholder="john.smith@email.com" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number *</FormLabel>
+              <FormControl>
+                <Input placeholder="(555) 123-4567" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="zipCode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Zip Code *</FormLabel>
+              <FormControl>
+                <Input placeholder="32256" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+    </div>
+  );
+
+  // Step 2: Policy Type Selection
+  const Step2PolicyType = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">What would you like to insure?</h3>
+        <p className="text-muted-foreground text-sm">Select the type of coverage you're looking for</p>
+      </div>
+      
+      <FormField
+        control={form.control}
+        name="policyType"
+        render={({ field }) => (
+          <FormItem>
+            <FormControl>
+              <div className="grid grid-cols-2 gap-4">
+                {policyOptions.map((option) => {
+                  const Icon = option.icon;
+                  const isSelected = field.value === option.value;
+                  return (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => field.onChange(option.value)}
+                      className={`p-6 rounded-xl border-2 transition-all duration-300 text-left ${
+                        isSelected
+                          ? "border-primary bg-primary/10 shadow-lg"
+                          : "border-muted hover:border-primary/50 hover:bg-muted/50"
+                      }`}
+                    >
+                      <Icon className={`w-8 h-8 mb-3 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
+                      <div className="font-semibold">{option.label}</div>
+                      <div className="text-sm text-muted-foreground">{option.description}</div>
+                    </button>
+                  );
+                })}
+              </div>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+
+  // Auto Insurance Steps
+  const AutoStep3VehicleDetails = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Tell us about your vehicle</h3>
+        <p className="text-muted-foreground text-sm">Enter your vehicle details or VIN</p>
+      </div>
+      
+      <div className="grid grid-cols-3 gap-4">
+        <FormField
+          control={form.control}
+          name="vehicleYear"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Year</FormLabel>
+              <FormControl>
+                <Input placeholder="2024" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="vehicleMake"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Make</FormLabel>
+              <FormControl>
+                <Input placeholder="Toyota" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="vehicleModel"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Model</FormLabel>
+              <FormControl>
+                <Input placeholder="Camry" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <div className="text-center text-muted-foreground text-sm">— or —</div>
+
+      <FormField
+        control={form.control}
+        name="vehicleVin"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>VIN (Vehicle Identification Number)</FormLabel>
+            <FormControl>
+              <Input placeholder="1HGBH41JXMN109186" {...field} />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="primaryUse"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Primary Use</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select usage" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="commuting">Commuting</SelectItem>
+                  <SelectItem value="pleasure">Pleasure</SelectItem>
+                  <SelectItem value="business">Business</SelectItem>
+                  <SelectItem value="rideshare">Rideshare</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="ownershipStatus"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Ownership Status</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="owned">Owned</SelectItem>
+                  <SelectItem value="financed">Financed</SelectItem>
+                  <SelectItem value="leased">Leased</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+      </div>
+    </div>
+  );
+
+  const AutoStep4DriverDetails = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Driver Information</h3>
+        <p className="text-muted-foreground text-sm">Tell us about the primary driver</p>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="driverDob"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Date of Birth</FormLabel>
+              <FormControl>
+                <Input type="date" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="maritalStatus"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Marital Status</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="single">Single</SelectItem>
+                  <SelectItem value="married">Married</SelectItem>
+                  <SelectItem value="divorced">Divorced</SelectItem>
+                  <SelectItem value="widowed">Widowed</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="licenseState"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>License State (Optional)</FormLabel>
+              <FormControl>
+                <Input placeholder="FL" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="licenseNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>License Number (Optional)</FormLabel>
+              <FormControl>
+                <Input placeholder="D123-456-78-901-0" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <FormField
+        control={form.control}
+        name="hasViolations"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Any accidents or tickets in the last 3 years?</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="no">No</SelectItem>
+                <SelectItem value="yes">Yes</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+
+  const AutoStep5CurrentCoverage = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Current Coverage</h3>
+        <p className="text-muted-foreground text-sm">Help us understand your existing insurance</p>
+      </div>
+      
+      <FormField
+        control={form.control}
+        name="currentlyInsured"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Are you currently insured?</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="yes">Yes</SelectItem>
+                <SelectItem value="no">No</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+
+      {currentlyInsured === "yes" && (
+        <div className="space-y-4 p-4 bg-muted/50 rounded-lg">
+          <FormField
+            control={form.control}
+            name="currentCarrier"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Current Insurance Carrier</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., State Farm, Geico" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="currentLimits"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Current Bodily Injury Limits</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select limits" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="25/50">25/50</SelectItem>
+                    <SelectItem value="50/100">50/100</SelectItem>
+                    <SelectItem value="100/300">100/300</SelectItem>
+                    <SelectItem value="250/500">250/500</SelectItem>
+                    <SelectItem value="unsure">Not Sure</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+        </div>
+      )}
+    </div>
+  );
+
+  // Home Insurance Steps
+  const HomeStep3PropertyDetails = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Property Details</h3>
+        <p className="text-muted-foreground text-sm">Tell us about the property you want to insure</p>
+      </div>
+      
+      <FormField
+        control={form.control}
+        name="propertyAddress"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Street Address</FormLabel>
+            <FormControl>
+              <Input placeholder="123 Main Street" {...field} />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+
+      <div className="grid grid-cols-3 gap-4">
+        <FormField
+          control={form.control}
+          name="propertyCity"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>City</FormLabel>
+              <FormControl>
+                <Input placeholder="Jacksonville" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="propertyState"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>State</FormLabel>
+              <FormControl>
+                <Input placeholder="FL" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="propertyZip"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Zip Code</FormLabel>
+              <FormControl>
+                <Input placeholder="32256" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="propertyType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Property Type</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="single-family">Single Family</SelectItem>
+                  <SelectItem value="condo">Condo</SelectItem>
+                  <SelectItem value="townhome">Townhome</SelectItem>
+                  <SelectItem value="multi-family">Multi-family</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="yearBuilt"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Year Built</FormLabel>
+              <FormControl>
+                <Input placeholder="2005" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <FormField
+        control={form.control}
+        name="squareFootage"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Estimated Square Footage</FormLabel>
+            <FormControl>
+              <Input placeholder="2,500" {...field} />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+
+  const HomeStep4RiskFactors = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Property Condition</h3>
+        <p className="text-muted-foreground text-sm">This helps us get you the best rate (4-point inspection data)</p>
+      </div>
+      
+      <FormField
+        control={form.control}
+        name="roofYear"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Approximate year roof was replaced?</FormLabel>
+            <FormControl>
+              <Input placeholder="2018" {...field} />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="systemsUpdated"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Have you updated Electrical, Plumbing, or Heating in the last 20 years?</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="yes">Yes</SelectItem>
+                <SelectItem value="no">No</SelectItem>
+                <SelectItem value="unsure">Not Sure</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+
+  const HomeStep5Occupancy = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Occupancy Information</h3>
+        <p className="text-muted-foreground text-sm">A few more details about the property</p>
+      </div>
+      
+      <FormField
+        control={form.control}
+        name="isPrimaryResidence"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Is this your primary residence?</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="yes">Yes</SelectItem>
+                <SelectItem value="no">No (Secondary/Investment)</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="hasPool"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Do you have a swimming pool?</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="no">No</SelectItem>
+                <SelectItem value="yes-fenced">Yes, with fence</SelectItem>
+                <SelectItem value="yes-unfenced">Yes, no fence</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+
+  // Life Insurance Steps
+  const LifeStep3PersonalStats = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Personal Information</h3>
+        <p className="text-muted-foreground text-sm">Basic details for your life insurance quote</p>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="lifeDob"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Date of Birth</FormLabel>
+              <FormControl>
+                <Input type="date" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="gender"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Gender</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="height"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Height</FormLabel>
+              <FormControl>
+                <Input placeholder="5'10&quot;" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="weight"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Weight (lbs)</FormLabel>
+              <FormControl>
+                <Input placeholder="175" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </div>
+    </div>
+  );
+
+  const LifeStep4Health = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Health Information</h3>
+        <p className="text-muted-foreground text-sm">This helps determine your coverage options</p>
+      </div>
+      
+      <FormField
+        control={form.control}
+        name="usesTobacco"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Have you used tobacco/nicotine in the last 12 months?</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="no">No</SelectItem>
+                <SelectItem value="yes">Yes</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="hasMedicalConditions"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Do you have any major medical conditions (Heart, Cancer, Diabetes)?</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="no">No</SelectItem>
+                <SelectItem value="yes">Yes</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+
+  const LifeStep5CoverageNeeds = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Coverage Needs</h3>
+        <p className="text-muted-foreground text-sm">Tell us about the coverage you're looking for</p>
+      </div>
+      
+      <FormField
+        control={form.control}
+        name="lifeType"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Type of Life Insurance</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select type" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="term">Term Life</SelectItem>
+                <SelectItem value="permanent">Permanent (Whole Life)</SelectItem>
+                <SelectItem value="unsure">Not Sure - Help Me Decide</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="coverageAmount"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Coverage Amount</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select amount" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="100k">$100,000</SelectItem>
+                <SelectItem value="250k">$250,000</SelectItem>
+                <SelectItem value="500k">$500,000</SelectItem>
+                <SelectItem value="1m">$1,000,000</SelectItem>
+                <SelectItem value="2m">$2,000,000+</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="termLength"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Term Length (if applicable)</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select term" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="10">10 Years</SelectItem>
+                <SelectItem value="20">20 Years</SelectItem>
+                <SelectItem value="30">30 Years</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+
+  // Commercial Insurance Steps
+  const CommercialStep3BusinessProfile = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Business Profile</h3>
+        <p className="text-muted-foreground text-sm">Tell us about your business</p>
+      </div>
+      
+      <FormField
+        control={form.control}
+        name="businessName"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Business Name</FormLabel>
+            <FormControl>
+              <Input placeholder="ABC Company LLC" {...field} />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="industryDescription"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Industry / Operation Description</FormLabel>
+            <FormControl>
+              <Textarea placeholder="e.g., Plumbing Contractor, Restaurant, IT Consulting" {...field} />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="yearsInBusiness"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Years in Business</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="startup">Less than 1 year</SelectItem>
+                <SelectItem value="1-3">1-3 years</SelectItem>
+                <SelectItem value="3-5">3-5 years</SelectItem>
+                <SelectItem value="5-10">5-10 years</SelectItem>
+                <SelectItem value="10+">10+ years</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+
+  const CommercialStep4Scale = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Business Scale</h3>
+        <p className="text-muted-foreground text-sm">Help us understand the size of your operation</p>
+      </div>
+      
+      <FormField
+        control={form.control}
+        name="annualRevenue"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Estimated Annual Revenue</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select range" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="under-100k">Under $100,000</SelectItem>
+                <SelectItem value="100k-500k">$100,000 - $500,000</SelectItem>
+                <SelectItem value="500k-1m">$500,000 - $1,000,000</SelectItem>
+                <SelectItem value="1m-5m">$1,000,000 - $5,000,000</SelectItem>
+                <SelectItem value="5m+">$5,000,000+</SelectItem>
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="fullTimeEmployees"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Full-Time Employees</FormLabel>
+              <FormControl>
+                <Input placeholder="10" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="partTimeEmployees"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Part-Time Employees</FormLabel>
+              <FormControl>
+                <Input placeholder="5" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </div>
+    </div>
+  );
+
+  const CommercialStep5Needs = () => (
+    <div className="space-y-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-semibold">Coverage Needs</h3>
+        <p className="text-muted-foreground text-sm">Select all the coverage types you're interested in</p>
+      </div>
+      
+      <div className="space-y-4">
+        <FormField
+          control={form.control}
+          name="needsGeneralLiability"
+          render={({ field }) => (
+            <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+              <FormControl>
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+              </FormControl>
+              <div>
+                <FormLabel className="font-medium cursor-pointer">General Liability</FormLabel>
+                <p className="text-sm text-muted-foreground">Protection against third-party claims</p>
+              </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="needsWorkersComp"
+          render={({ field }) => (
+            <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+              <FormControl>
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+              </FormControl>
+              <div>
+                <FormLabel className="font-medium cursor-pointer">Workers Compensation</FormLabel>
+                <p className="text-sm text-muted-foreground">Coverage for employee injuries</p>
+              </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="needsProfessionalLiability"
+          render={({ field }) => (
+            <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+              <FormControl>
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+              </FormControl>
+              <div>
+                <FormLabel className="font-medium cursor-pointer">Professional Liability (E&O)</FormLabel>
+                <p className="text-sm text-muted-foreground">Protection against professional mistakes</p>
+              </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="needsCyber"
+          render={({ field }) => (
+            <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+              <FormControl>
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+              </FormControl>
+              <div>
+                <FormLabel className="font-medium cursor-pointer">Cyber Liability</FormLabel>
+                <p className="text-sm text-muted-foreground">Protection against data breaches</p>
+              </div>
+            </FormItem>
+          )}
+        />
+      </div>
+    </div>
+  );
+
+  // Render the appropriate step content
+  const renderStepContent = () => {
+    if (currentStep === 1) return <Step1ContactInfo />;
+    if (currentStep === 2) return <Step2PolicyType />;
     
-    submitMutation.mutate(formData);
+    // Policy-specific steps
+    if (policyType === "auto") {
+      if (currentStep === 3) return <AutoStep3VehicleDetails />;
+      if (currentStep === 4) return <AutoStep4DriverDetails />;
+      if (currentStep === 5) return <AutoStep5CurrentCoverage />;
+    }
+    
+    if (policyType === "home") {
+      if (currentStep === 3) return <HomeStep3PropertyDetails />;
+      if (currentStep === 4) return <HomeStep4RiskFactors />;
+      if (currentStep === 5) return <HomeStep5Occupancy />;
+    }
+    
+    if (policyType === "life") {
+      if (currentStep === 3) return <LifeStep3PersonalStats />;
+      if (currentStep === 4) return <LifeStep4Health />;
+      if (currentStep === 5) return <LifeStep5CoverageNeeds />;
+    }
+    
+    if (policyType === "commercial") {
+      if (currentStep === 3) return <CommercialStep3BusinessProfile />;
+      if (currentStep === 4) return <CommercialStep4Scale />;
+      if (currentStep === 5) return <CommercialStep5Needs />;
+    }
+    
+    return null;
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent 
-        className="max-w-5xl max-h-[85vh] overflow-y-auto glass-modal border-2 shadow-2xl !bg-transparent select-none"
+        className="max-w-2xl max-h-[90vh] overflow-y-auto glass-modal border-2 shadow-2xl !bg-transparent select-none"
         aria-describedby="quote-form-description"
       >
         <DialogHeader>
-          <DialogTitle className="text-3xl font-bold gradient-text">
+          <DialogTitle className="text-3xl font-bold gradient-text text-center">
             Get Quoted Today
           </DialogTitle>
-          <p id="quote-form-description" className="text-muted-foreground">
-            Fill out the form below and we'll get back to you shortly
+          <p id="quote-form-description" className="text-muted-foreground text-center">
+            Complete the form to receive your personalized quote
           </p>
         </DialogHeader>
 
+        <StepIndicator />
+
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your full name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="emailAddress"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input type="email" placeholder="your.email@example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="phoneNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone</FormLabel>
-                    <FormControl>
-                      <Input placeholder="(555) 123-4567" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="min-h-[300px]">
+              {renderStepContent()}
             </div>
 
-            <FormField
-              control={form.control}
-              name="policyType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Insurance Type</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a policy type" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="auto">Auto Insurance</SelectItem>
-                      <SelectItem value="home">Home Insurance</SelectItem>
-                      <SelectItem value="life">Life Insurance</SelectItem>
-                      <SelectItem value="health">Health Insurance</SelectItem>
-                      <SelectItem value="commercial">Commercial Insurance</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
+            <div className="flex justify-between pt-4 border-t">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleBack}
+                disabled={currentStep === 1}
+                className="gap-2"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Back
+              </Button>
+              
+              {currentStep < totalSteps ? (
+                <Button
+                  type="button"
+                  onClick={handleNext}
+                  className="gap-2"
+                >
+                  Next
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  disabled={submitMutation.isPending}
+                  className="gap-2 bg-primary hover:bg-primary/90"
+                >
+                  {submitMutation.isPending ? "Submitting..." : "Submit Quote Request"}
+                </Button>
               )}
-            />
-
-            {policyType === "auto" && (
-              <div className="space-y-4 p-4 bg-muted rounded-lg">
-                <h3 className="font-semibold">Vehicle Information</h3>
-                <div className="grid grid-cols-3 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="vehicleYear"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Year</FormLabel>
-                        <FormControl>
-                          <Input placeholder="2020" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="vehicleMake"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Make</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Toyota" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="vehicleModel"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Model</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Camry" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div>
-                  <FormLabel>Vehicle Registration (Optional)</FormLabel>
-                  <div className="mt-2">
-                    <input
-                      type="file"
-                      onChange={handleFileChange}
-                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                      className="hidden"
-                      id="file-upload"
-                    />
-                    <label
-                      htmlFor="file-upload"
-                      className="cursor-pointer inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
-                    >
-                      Choose File
-                    </label>
-                    {selectedFile && (
-                      <div className="mt-2 flex items-center justify-between p-2 bg-background rounded-lg border">
-                        <span className="text-sm">{selectedFile.name}</span>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={removeFile}
-                        >
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={submitMutation.isPending}
-            >
-              {submitMutation.isPending ? "Submitting..." : "Submit"}
-            </Button>
+            </div>
           </form>
         </Form>
       </DialogContent>

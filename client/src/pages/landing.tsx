@@ -198,7 +198,7 @@ export default function Landing() {
                 >
                   <button
                     onClick={() => setQuoteModalOpen(true)}
-                    className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105 select-none"
+                    className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
                     data-testid="button-get-quote"
                   >
                     Get Quoted Today
@@ -277,7 +277,7 @@ export default function Landing() {
           <div className="max-w-5xl mx-auto">
             {/* Left-aligned header with accent */}
             <div className="mb-10">
-              <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">Our Promise to Florida Families</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">Our Promise to Florida Families</p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
                 More Than Insurance.<br className="hidden md:block" />
                 <span className="text-primary">Peace of Mind.</span>
@@ -300,7 +300,7 @@ export default function Landing() {
 
                 <button
                   onClick={() => window.location.href = '/about'}
-                  className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all hover:scale-105 select-none"
+                  className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] select-none"
                   data-testid="button-read-more"
                 >
                   Meet Our Team
@@ -351,11 +351,14 @@ export default function Landing() {
 
       {/* Insurance Types Section */}
       <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
+        {/* Subtle noise texture overlay */}
+        <div className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03] pointer-events-none bg-noise"></div>
+        
         {/* Decorative diagonal accent */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-500/5 to-transparent pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-blue-500/5 to-transparent pointer-events-none"></div>
         
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 relative z-10">
           {/* Creative section header - Staggered animation */}
           <motion.div 
             className="max-w-3xl mx-auto text-center mb-14"
@@ -364,7 +367,7 @@ export default function Landing() {
             viewport={{ once: true }}
           >
             <motion.p 
-              className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none"
+              className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -373,7 +376,7 @@ export default function Landing() {
               Coverage Built Around You
             </motion.p>
             <motion.h2 
-              className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none"
+              className="text-3xl md:text-4xl font-bold text-foreground mb-5 select-none leading-tight"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
@@ -382,7 +385,7 @@ export default function Landing() {
               Protection for Every Chapter of Life
             </motion.h2>
             <motion.p 
-              className="text-muted-foreground"
+              className="text-muted-foreground leading-relaxed text-lg"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
@@ -404,7 +407,7 @@ export default function Landing() {
       <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
-            <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">Client Experiences</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">Client Experiences</p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground select-none">
               What Our Clients Say
             </h2>
@@ -422,7 +425,7 @@ export default function Landing() {
           <div className="max-w-3xl mx-auto text-center">
             {/* Section header */}
             <div className="mb-10">
-              <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">Connect with an Agent Now</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">Connect with an Agent Now</p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 select-none">
                 Ready to Get Started?
               </h2>
@@ -431,7 +434,7 @@ export default function Landing() {
             {/* Get Quoted Today Button */}
             <button
               onClick={() => setQuoteModalOpen(true)}
-              className="group bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all hover:scale-105 mb-12 select-none"
+              className="group bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] mb-12 select-none"
               data-testid="button-get-quote-contact"
             >
               Get Quoted Today

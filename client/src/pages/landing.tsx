@@ -25,24 +25,28 @@ const insuranceTypes = [
     title: "Home / Auto",
     description: "Whether it's your home or your vehicle—personal, business, or specialty—we provide coverage you can trust.",
     image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+    color: "sky",
   },
   {
     icon: <House className="w-10 h-10" />,
     title: "Flood",
     description: "Protect your home and peace of mind with reliable flood insurance coverage tailored to safeguard against the unexpected.",
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+    color: "blue",
   },
   {
     icon: <Heart className="w-10 h-10" />,
     title: "Life",
     description: "We're here to help protect what matters most with coverage tailored to support your loved ones.",
     image: "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80",
+    color: "indigo",
   },
   {
     icon: <Building2 className="w-10 h-10" />,
     title: "Business",
     description: "Having insurance is a crucial part of running a business. We offer many coverage plans for your needs.",
     image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
+    color: "violet",
   },
 ];
 
@@ -278,39 +282,56 @@ export default function Landing() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {insuranceTypes.map((type, index) => (
-              <motion.div
-                key={type.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="group relative rounded-xl overflow-hidden h-72 cursor-pointer"
-                data-testid={`card-insurance-${type.title.toLowerCase().replace(/\s+/g, '-')}`}
-              >
-                {/* Background Image */}
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                  style={{ backgroundImage: `url(${type.image})` }}
-                />
-                
-                {/* Gradient Overlay - stronger on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent transition-all duration-300 group-hover:from-blue-900 group-hover:via-blue-900/80 group-hover:to-blue-900/40" />
-                
-                {/* Content - Moves up on hover to show full description */}
-                <div className="absolute inset-x-0 bottom-0 p-6 transition-transform duration-300 group-hover:-translate-y-4">
-                  <div className="text-primary mb-2 transition-transform duration-300 group-hover:scale-110">
-                    {type.icon}
+            {insuranceTypes.map((type, index) => {
+              const colorClasses = {
+                sky: "from-sky-800 via-sky-800/70 to-sky-700/30",
+                blue: "from-blue-900 via-blue-900/70 to-blue-800/30",
+                indigo: "from-indigo-900 via-indigo-900/70 to-indigo-800/30",
+                violet: "from-violet-900 via-violet-900/70 to-violet-800/30",
+              };
+              const hoverColorClasses = {
+                sky: "group-hover:from-sky-700 group-hover:via-sky-700/85 group-hover:to-sky-600/50",
+                blue: "group-hover:from-blue-800 group-hover:via-blue-800/85 group-hover:to-blue-700/50",
+                indigo: "group-hover:from-indigo-800 group-hover:via-indigo-800/85 group-hover:to-indigo-700/50",
+                violet: "group-hover:from-violet-800 group-hover:via-violet-800/85 group-hover:to-violet-700/50",
+              };
+              const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
+              const hoverClass = hoverColorClasses[type.color as keyof typeof hoverColorClasses];
+              
+              return (
+                <motion.div
+                  key={type.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="group relative rounded-xl overflow-hidden h-72 cursor-pointer"
+                  data-testid={`card-insurance-${type.title.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  {/* Background Image */}
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                    style={{ backgroundImage: `url(${type.image})` }}
+                  />
+                  
+                  {/* Gradient Overlay - Different blue shades per card */}
+                  <div className={`absolute inset-0 bg-gradient-to-t transition-all duration-300 ${gradientClass} ${hoverClass}`} />
+                  
+                  {/* Content - Moves up on hover to show full description */}
+                  <div className="absolute inset-x-0 bottom-0 p-6 transition-transform duration-300 group-hover:-translate-y-4">
+                    <div className="text-white mb-2 transition-transform duration-300 group-hover:scale-110">
+                      {type.icon}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {type.title}
+                    </h3>
+                    <p className="text-slate-200 text-sm leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-24 group-hover:opacity-100">
+                      {type.description}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {type.title}
-                  </h3>
-                  <p className="text-slate-300 text-sm leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-24 group-hover:opacity-100">
-                    {type.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

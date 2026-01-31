@@ -114,6 +114,7 @@ const policyOptions = [
 export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
+  const [showSuccess, setShowSuccess] = useState(false);
   
   const form = useForm<QuoteFormData>({
     resolver: zodResolver(quoteFormSchema),
@@ -210,13 +211,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       return apiRequest('POST', '/api/contact', formData);
     },
     onSuccess: () => {
-      toast({
-        title: "Success!",
-        description: "Thank you! We'll contact you within 24 hours with your personalized quote.",
-      });
-      form.reset();
-      setCurrentStep(1);
-      onOpenChange(false);
+      setShowSuccess(true);
+      setHighestProgress(100);
     },
     onError: (error) => {
       toast({
@@ -270,11 +266,17 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     form.reset();
     setCurrentStep(1);
     setHighestProgress(0);
+    setShowSuccess(false);
     onOpenChange(false);
   };
 
   // Calculate weighted progress percentage
   const calculateWeightedProgress = () => {
+    // Show 100% when success
+    if (showSuccess) {
+      return 100;
+    }
+    
     // Step 1 (Contact): 0% -> 20%
     // Step 2 (Policy): 35%
     // Steps 3-4 (Risk Details): 35% -> 85% (divided by screens)
@@ -296,6 +298,27 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       return 35 + (currentRiskStep - 1) * progressPerRiskStep;
     }
   };
+
+  // Success screen content
+  const successContent = (
+    <div className="text-center py-12 space-y-6">
+      <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
+        <Check className="w-10 h-10 text-green-600" />
+      </div>
+      <div className="space-y-2">
+        <h3 className="text-2xl font-bold text-slate-800">Thank You!</h3>
+        <p className="text-slate-600 max-w-md mx-auto">
+          Your quote request has been submitted successfully. One of our insurance specialists will contact you within 24 hours with your personalized quote.
+        </p>
+      </div>
+      <Button
+        onClick={handleClose}
+        className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40 px-8"
+      >
+        Close
+      </Button>
+    </div>
+  );
 
   // Calculate current progress
   const rawProgress = calculateWeightedProgress();
@@ -526,7 +549,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                     <SelectValue placeholder="Select usage" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent position="popper" className="z-[9999]">
                   <SelectItem value="commuting">Commuting</SelectItem>
                   <SelectItem value="pleasure">Pleasure</SelectItem>
                   <SelectItem value="business">Business</SelectItem>
@@ -548,7 +571,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent position="popper" className="z-[9999]">
                   <SelectItem value="owned">Owned</SelectItem>
                   <SelectItem value="financed">Financed</SelectItem>
                   <SelectItem value="leased">Leased</SelectItem>
@@ -593,7 +616,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent position="popper" className="z-[9999]">
                   <SelectItem value="single">Single</SelectItem>
                   <SelectItem value="married">Married</SelectItem>
                   <SelectItem value="divorced">Divorced</SelectItem>
@@ -644,7 +667,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="no">No</SelectItem>
                 <SelectItem value="yes">Yes</SelectItem>
               </SelectContent>
@@ -674,7 +697,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="yes">Yes</SelectItem>
                 <SelectItem value="no">No</SelectItem>
               </SelectContent>
@@ -709,7 +732,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                       <SelectValue placeholder="Select limits" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent position="popper" className="z-[9999]">
                     <SelectItem value="25/50">25/50</SelectItem>
                     <SelectItem value="50/100">50/100</SelectItem>
                     <SelectItem value="100/300">100/300</SelectItem>
@@ -798,7 +821,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                     <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent position="popper" className="z-[9999]">
                   <SelectItem value="single-family">Single Family</SelectItem>
                   <SelectItem value="condo">Condo</SelectItem>
                   <SelectItem value="townhome">Townhome</SelectItem>
@@ -869,7 +892,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="yes">Yes</SelectItem>
                 <SelectItem value="no">No</SelectItem>
                 <SelectItem value="unsure">Not Sure</SelectItem>
@@ -900,7 +923,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="yes">Yes</SelectItem>
                 <SelectItem value="no">No (Secondary/Investment)</SelectItem>
               </SelectContent>
@@ -921,7 +944,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="no">No</SelectItem>
                 <SelectItem value="yes-fenced">Yes, with fence</SelectItem>
                 <SelectItem value="yes-unfenced">Yes, no fence</SelectItem>
@@ -966,7 +989,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent position="popper" className="z-[9999]">
                   <SelectItem value="male">Male</SelectItem>
                   <SelectItem value="female">Female</SelectItem>
                 </SelectContent>
@@ -1024,7 +1047,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="no">No</SelectItem>
                 <SelectItem value="yes">Yes</SelectItem>
               </SelectContent>
@@ -1045,7 +1068,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="no">No</SelectItem>
                 <SelectItem value="yes">Yes</SelectItem>
               </SelectContent>
@@ -1075,7 +1098,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="term">Term Life</SelectItem>
                 <SelectItem value="permanent">Permanent (Whole Life)</SelectItem>
                 <SelectItem value="unsure">Not Sure - Help Me Decide</SelectItem>
@@ -1097,7 +1120,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select amount" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="100k">$100,000</SelectItem>
                 <SelectItem value="250k">$250,000</SelectItem>
                 <SelectItem value="500k">$500,000</SelectItem>
@@ -1121,7 +1144,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select term" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="10">10 Years</SelectItem>
                 <SelectItem value="20">20 Years</SelectItem>
                 <SelectItem value="30">30 Years</SelectItem>
@@ -1179,7 +1202,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="startup">Less than 1 year</SelectItem>
                 <SelectItem value="1-3">1-3 years</SelectItem>
                 <SelectItem value="3-5">3-5 years</SelectItem>
@@ -1212,7 +1235,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   <SelectValue placeholder="Select range" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="under-100k">Under $100,000</SelectItem>
                 <SelectItem value="100k-500k">$100,000 - $500,000</SelectItem>
                 <SelectItem value="500k-1m">$500,000 - $1,000,000</SelectItem>
@@ -1367,57 +1390,63 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       >
         <DialogHeader className="pb-2">
           <DialogTitle className="text-3xl font-bold text-slate-800 text-center">
-            Get Quoted Today
+            {showSuccess ? "Quote Submitted" : "Get Quoted Today"}
           </DialogTitle>
-          <p id="quote-form-description" className="text-slate-600 text-center text-sm">
-            Complete the form to receive your personalized quote
-          </p>
+          {!showSuccess && (
+            <p id="quote-form-description" className="text-slate-600 text-center text-sm">
+              Complete the form to receive your personalized quote
+            </p>
+          )}
         </DialogHeader>
 
         {stepIndicator}
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="min-h-[300px]">
-              {renderStepContent()}
-            </div>
+        {showSuccess ? (
+          successContent
+        ) : (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="min-h-[300px]">
+                {renderStepContent()}
+              </div>
 
-            <div className="flex justify-between pt-6 border-t border-slate-200">
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={handleBack}
-                disabled={currentStep === 1}
-                className="gap-2 text-slate-600 hover:text-slate-800 hover:bg-slate-100 disabled:opacity-30"
-                data-testid="button-back"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                Back
-              </Button>
-              
-              {currentStep < totalSteps ? (
+              <div className="flex justify-between pt-6 border-t border-slate-200">
                 <Button
                   type="button"
-                  onClick={handleNext}
-                  className="gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40"
-                  data-testid="button-next"
+                  variant="ghost"
+                  onClick={handleBack}
+                  disabled={currentStep === 1}
+                  className="gap-2 text-slate-600 hover:text-slate-800 hover:bg-slate-100 disabled:opacity-30"
+                  data-testid="button-back"
                 >
-                  Next
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronLeft className="w-4 h-4" />
+                  Back
                 </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  disabled={submitMutation.isPending}
-                  className="gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40"
-                  data-testid="button-submit-quote"
-                >
-                  {submitMutation.isPending ? "Submitting..." : "Submit Quote Request"}
-                </Button>
-              )}
-            </div>
-          </form>
-        </Form>
+                
+                {currentStep < totalSteps ? (
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    className="gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40"
+                    data-testid="button-next"
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    disabled={submitMutation.isPending}
+                    className="gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40"
+                    data-testid="button-submit-quote"
+                  >
+                    {submitMutation.isPending ? "Submitting..." : "Submit Quote Request"}
+                  </Button>
+                )}
+              </div>
+            </form>
+          </Form>
+        )}
       </DialogContent>
     </Dialog>
   );

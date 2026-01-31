@@ -269,40 +269,31 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     onOpenChange(false);
   };
 
-  // Step indicator component
-  const StepIndicator = () => (
-    <div className="flex items-center justify-center gap-2 mb-6">
-      {Array.from({ length: totalSteps }, (_, i) => i + 1).map((step) => (
-        <div key={step} className="flex items-center">
-          <div
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
-              step < currentStep
-                ? "bg-primary text-primary-foreground"
-                : step === currentStep
-                ? "bg-primary text-primary-foreground ring-4 ring-primary/30"
-                : "bg-muted text-muted-foreground"
-            }`}
-          >
-            {step < currentStep ? <Check className="w-4 h-4" /> : step}
-          </div>
-          {step < totalSteps && (
-            <div
-              className={`w-8 h-0.5 transition-all duration-300 ${
-                step < currentStep ? "bg-primary" : "bg-muted"
-              }`}
-            />
-          )}
+  // Progress bar step indicator
+  const StepIndicator = () => {
+    const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+    return (
+      <div className="mb-8">
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Progress</span>
+          <span className="text-xs font-semibold text-blue-400">Step {currentStep} of {totalSteps}</span>
         </div>
-      ))}
-    </div>
-  );
+        <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
+    );
+  };
 
   // Step 1: Contact Info
   const Step1ContactInfo = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Let's start with your contact info</h3>
-        <p className="text-muted-foreground text-sm">We'll use this to send you your personalized quote</p>
+        <h3 className="text-xl font-semibold text-white">Let's start with your contact info</h3>
+        <p className="text-gray-400 text-sm">We'll use this to send you your personalized quote</p>
       </div>
       
       <div className="grid grid-cols-2 gap-4">
@@ -383,8 +374,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const Step2PolicyType = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">What would you like to insure?</h3>
-        <p className="text-muted-foreground text-sm">Select the type of coverage you're looking for</p>
+        <h3 className="text-xl font-semibold text-white">What would you like to insure?</h3>
+        <p className="text-gray-400 text-sm">Select the type of coverage you're looking for</p>
       </div>
       
       <FormField
@@ -403,15 +394,15 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                       type="button"
                       onClick={() => field.onChange(option.value)}
                       data-testid={`policy-option-${option.value}`}
-                      className={`p-6 rounded-xl border-2 transition-all duration-300 text-left ${
+                      className={`p-6 rounded-2xl border transition-all duration-300 text-left ${
                         isSelected
-                          ? "border-primary bg-primary/10 shadow-lg"
-                          : "border-muted hover:border-primary/50 hover:bg-muted/50"
+                          ? "border-blue-500 bg-blue-500/20 shadow-lg shadow-blue-500/20"
+                          : "border-white/10 bg-white/5 hover:border-blue-400/50 hover:bg-white/10"
                       }`}
                     >
-                      <Icon className={`w-8 h-8 mb-3 ${isSelected ? "text-primary" : "text-muted-foreground"}`} />
-                      <div className="font-semibold">{option.label}</div>
-                      <div className="text-sm text-muted-foreground">{option.description}</div>
+                      <Icon className={`w-8 h-8 mb-3 ${isSelected ? "text-blue-400" : "text-gray-400"}`} />
+                      <div className={`font-semibold ${isSelected ? "text-white" : "text-gray-200"}`}>{option.label}</div>
+                      <div className="text-sm text-gray-500">{option.description}</div>
                     </button>
                   );
                 })}
@@ -428,8 +419,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const AutoStep3VehicleDetails = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Tell us about your vehicle</h3>
-        <p className="text-muted-foreground text-sm">Enter your vehicle details or VIN</p>
+        <h3 className="text-xl font-semibold text-white">Tell us about your vehicle</h3>
+        <p className="text-gray-400 text-sm">Enter your vehicle details or VIN</p>
       </div>
       
       <div className="grid grid-cols-3 gap-4">
@@ -537,8 +528,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const AutoStep4DriverDetails = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Driver Information</h3>
-        <p className="text-muted-foreground text-sm">Tell us about the primary driver</p>
+        <h3 className="text-xl font-semibold text-white">Driver Information</h3>
+        <p className="text-gray-400 text-sm">Tell us about the primary driver</p>
       </div>
       
       <div className="grid grid-cols-2 gap-4">
@@ -631,8 +622,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const AutoStep5CurrentCoverage = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Current Coverage</h3>
-        <p className="text-muted-foreground text-sm">Help us understand your existing insurance</p>
+        <h3 className="text-xl font-semibold text-white">Current Coverage</h3>
+        <p className="text-gray-400 text-sm">Help us understand your existing insurance</p>
       </div>
       
       <FormField
@@ -702,8 +693,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const HomeStep3PropertyDetails = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Property Details</h3>
-        <p className="text-muted-foreground text-sm">Tell us about the property you want to insure</p>
+        <h3 className="text-xl font-semibold text-white">Property Details</h3>
+        <p className="text-gray-400 text-sm">Tell us about the property you want to insure</p>
       </div>
       
       <FormField
@@ -813,8 +804,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const HomeStep4RiskFactors = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Property Condition</h3>
-        <p className="text-muted-foreground text-sm">This helps us get you the best rate (4-point inspection data)</p>
+        <h3 className="text-xl font-semibold text-white">Property Condition</h3>
+        <p className="text-gray-400 text-sm">This helps us get you the best rate (4-point inspection data)</p>
       </div>
       
       <FormField
@@ -857,8 +848,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const HomeStep5Occupancy = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Occupancy Information</h3>
-        <p className="text-muted-foreground text-sm">A few more details about the property</p>
+        <h3 className="text-xl font-semibold text-white">Occupancy Information</h3>
+        <p className="text-gray-400 text-sm">A few more details about the property</p>
       </div>
       
       <FormField
@@ -910,8 +901,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const LifeStep3PersonalStats = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Personal Information</h3>
-        <p className="text-muted-foreground text-sm">Basic details for your life insurance quote</p>
+        <h3 className="text-xl font-semibold text-white">Personal Information</h3>
+        <p className="text-gray-400 text-sm">Basic details for your life insurance quote</p>
       </div>
       
       <div className="grid grid-cols-2 gap-4">
@@ -981,8 +972,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const LifeStep4Health = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Health Information</h3>
-        <p className="text-muted-foreground text-sm">This helps determine your coverage options</p>
+        <h3 className="text-xl font-semibold text-white">Health Information</h3>
+        <p className="text-gray-400 text-sm">This helps determine your coverage options</p>
       </div>
       
       <FormField
@@ -1032,8 +1023,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const LifeStep5CoverageNeeds = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Coverage Needs</h3>
-        <p className="text-muted-foreground text-sm">Tell us about the coverage you're looking for</p>
+        <h3 className="text-xl font-semibold text-white">Coverage Needs</h3>
+        <p className="text-gray-400 text-sm">Tell us about the coverage you're looking for</p>
       </div>
       
       <FormField
@@ -1110,8 +1101,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const CommercialStep3BusinessProfile = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Business Profile</h3>
-        <p className="text-muted-foreground text-sm">Tell us about your business</p>
+        <h3 className="text-xl font-semibold text-white">Business Profile</h3>
+        <p className="text-gray-400 text-sm">Tell us about your business</p>
       </div>
       
       <FormField
@@ -1169,8 +1160,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const CommercialStep4Scale = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Business Scale</h3>
-        <p className="text-muted-foreground text-sm">Help us understand the size of your operation</p>
+        <h3 className="text-xl font-semibold text-white">Business Scale</h3>
+        <p className="text-gray-400 text-sm">Help us understand the size of your operation</p>
       </div>
       
       <FormField
@@ -1229,8 +1220,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const CommercialStep5Needs = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold">Coverage Needs</h3>
-        <p className="text-muted-foreground text-sm">Select all the coverage types you're interested in</p>
+        <h3 className="text-xl font-semibold text-white">Coverage Needs</h3>
+        <p className="text-gray-400 text-sm">Select all the coverage types you're interested in</p>
       </div>
       
       <div className="space-y-4">
@@ -1334,14 +1325,14 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent 
-        className="max-w-2xl max-h-[90vh] overflow-y-auto glass-modal border-2 shadow-2xl !bg-transparent select-none"
+        className="max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-900/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-3xl select-none"
         aria-describedby="quote-form-description"
       >
-        <DialogHeader>
-          <DialogTitle className="text-3xl font-bold gradient-text text-center">
+        <DialogHeader className="pb-2">
+          <DialogTitle className="text-3xl font-bold text-white text-center">
             Get Quoted Today
           </DialogTitle>
-          <p id="quote-form-description" className="text-muted-foreground text-center">
+          <p id="quote-form-description" className="text-gray-400 text-center text-sm">
             Complete the form to receive your personalized quote
           </p>
         </DialogHeader>
@@ -1354,13 +1345,13 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
               {renderStepContent()}
             </div>
 
-            <div className="flex justify-between pt-4 border-t">
+            <div className="flex justify-between pt-6 border-t border-white/10">
               <Button
                 type="button"
-                variant="outline"
+                variant="ghost"
                 onClick={handleBack}
                 disabled={currentStep === 1}
-                className="gap-2"
+                className="gap-2 text-white/70 hover:text-white hover:bg-white/10 disabled:opacity-30"
                 data-testid="button-back"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -1371,7 +1362,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                 <Button
                   type="button"
                   onClick={handleNext}
-                  className="gap-2"
+                  className="gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40"
                   data-testid="button-next"
                 >
                   Next
@@ -1381,7 +1372,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                 <Button
                   type="submit"
                   disabled={submitMutation.isPending}
-                  className="gap-2 bg-primary hover:bg-primary/90"
+                  className="gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40"
                   data-testid="button-submit-quote"
                 >
                   {submitMutation.isPending ? "Submitting..." : "Submit Quote Request"}

@@ -297,33 +297,32 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     }
   };
 
-  // Progress bar step indicator
-  const StepIndicator = () => {
-    const rawProgress = calculateWeightedProgress();
-    
-    // Update highest progress (prevents backwards animation)
-    useEffect(() => {
-      if (rawProgress > highestProgress) {
-        setHighestProgress(rawProgress);
-      }
-    }, [rawProgress]);
-    
-    const displayProgress = Math.max(rawProgress, highestProgress);
-    
-    return (
-      <div className="mb-8">
-        <div className="flex justify-end items-center mb-3">
-          <span className="text-xs font-semibold text-blue-600">{Math.round(displayProgress)}% Complete</span>
-        </div>
-        <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full transition-all duration-500 ease-in-out"
-            style={{ width: `${displayProgress}%` }}
-          />
-        </div>
+  // Calculate current progress
+  const rawProgress = calculateWeightedProgress();
+  
+  // Update highest progress (prevents backwards animation)
+  useEffect(() => {
+    if (rawProgress > highestProgress) {
+      setHighestProgress(rawProgress);
+    }
+  }, [rawProgress, highestProgress]);
+  
+  const displayProgress = Math.max(rawProgress, highestProgress);
+
+  // Progress bar step indicator - render as JSX variable
+  const stepIndicator = (
+    <div className="mb-8">
+      <div className="flex justify-end items-center mb-3">
+        <span className="text-xs font-semibold text-blue-600">{Math.round(displayProgress)}% Complete</span>
       </div>
-    );
-  };
+      <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
+        <div 
+          className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full transition-all duration-500 ease-in-out"
+          style={{ width: `${displayProgress}%` }}
+        />
+      </div>
+    </div>
+  );
 
   // Step 1: Contact Info
   const Step1ContactInfo = () => (
@@ -1326,34 +1325,34 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     </div>
   );
 
-  // Render the appropriate step content
+  // Render the appropriate step content - call as functions to avoid re-mounting
   const renderStepContent = () => {
-    if (currentStep === 1) return <Step1ContactInfo />;
-    if (currentStep === 2) return <Step2PolicyType />;
+    if (currentStep === 1) return Step1ContactInfo();
+    if (currentStep === 2) return Step2PolicyType();
     
     // Policy-specific steps
     if (policyType === "auto") {
-      if (currentStep === 3) return <AutoStep3VehicleDetails />;
-      if (currentStep === 4) return <AutoStep4DriverDetails />;
-      if (currentStep === 5) return <AutoStep5CurrentCoverage />;
+      if (currentStep === 3) return AutoStep3VehicleDetails();
+      if (currentStep === 4) return AutoStep4DriverDetails();
+      if (currentStep === 5) return AutoStep5CurrentCoverage();
     }
     
     if (policyType === "home") {
-      if (currentStep === 3) return <HomeStep3PropertyDetails />;
-      if (currentStep === 4) return <HomeStep4RiskFactors />;
-      if (currentStep === 5) return <HomeStep5Occupancy />;
+      if (currentStep === 3) return HomeStep3PropertyDetails();
+      if (currentStep === 4) return HomeStep4RiskFactors();
+      if (currentStep === 5) return HomeStep5Occupancy();
     }
     
     if (policyType === "life") {
-      if (currentStep === 3) return <LifeStep3PersonalStats />;
-      if (currentStep === 4) return <LifeStep4Health />;
-      if (currentStep === 5) return <LifeStep5CoverageNeeds />;
+      if (currentStep === 3) return LifeStep3PersonalStats();
+      if (currentStep === 4) return LifeStep4Health();
+      if (currentStep === 5) return LifeStep5CoverageNeeds();
     }
     
     if (policyType === "commercial") {
-      if (currentStep === 3) return <CommercialStep3BusinessProfile />;
-      if (currentStep === 4) return <CommercialStep4Scale />;
-      if (currentStep === 5) return <CommercialStep5Needs />;
+      if (currentStep === 3) return CommercialStep3BusinessProfile();
+      if (currentStep === 4) return CommercialStep4Scale();
+      if (currentStep === 5) return CommercialStep5Needs();
     }
     
     return null;
@@ -1375,7 +1374,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           </p>
         </DialogHeader>
 
-        <StepIndicator />
+        {stepIndicator}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

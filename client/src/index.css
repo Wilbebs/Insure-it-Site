@@ -507,3 +507,52 @@
     transform: translateY(6px) rotate(-2deg);
   }
 }
+
+/* Dark Glass Modal Styling */
+.dark-glass-modal {
+  --background: transparent;
+  --foreground: hsl(0, 0%, 100%);
+  --muted-foreground: hsl(0, 0%, 70%);
+}
+
+.dark-glass-modal label {
+  color: white !important;
+}
+
+.dark-glass-modal input,
+.dark-glass-modal textarea {
+  background-color: white !important;
+  color: black !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.dark-glass-modal input::placeholder,
+.dark-glass-modal textarea::placeholder {
+  color: #6b7280 !important;
+}
+
+.dark-glass-modal input:focus,
+.dark-glass-modal textarea:focus {
+  ring-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+}
+
+.dark-glass-modal [data-radix-select-trigger] {
+  background-color: white !important;
+  color: black !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.dark-glass-modal [data-radix-select-content] {
+  background-color: white !important;
+  color: black !important;
+}
+
+.dark-glass-modal [role="option"] {
+  color: black !important;
+}
+
+.dark-glass-modal [role="option"]:hover,
+.dark-glass-modal [role="option"][data-highlighted] {
+  background-color: #f3f4f6 !important;
+}

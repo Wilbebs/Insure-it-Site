@@ -1325,7 +1325,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent 
-        className="max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-900/75 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl select-none [&_label]:text-white [&_input]:bg-white [&_input]:text-black [&_input]:placeholder:text-gray-500 [&_select]:bg-white [&_select]:text-black [&_textarea]:bg-white [&_textarea]:text-black"
+        className="dark-glass-modal max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-900/75 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl select-none"
         aria-describedby="quote-form-description"
       >
         <DialogHeader className="pb-2">

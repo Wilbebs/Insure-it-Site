@@ -68,16 +68,9 @@ function FloatingShield({ style, size, delay, duration }: {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Glow effect on hover */}
-      <div 
-        className={`absolute inset-0 rounded-full transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
-        style={{
-          boxShadow: isHovered ? '0 0 30px 10px rgba(59, 130, 246, 0.4), 0 0 60px 20px rgba(99, 102, 241, 0.2)' : 'none',
-        }}
-      />
       {/* Dynamic mouse-following shimmer */}
       <div 
-        className={`absolute inset-0 rounded-full transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none ${isHovered ? 'opacity-100' : 'opacity-0'}`}
         style={dynamicGradientStyle}
       />
       <img 

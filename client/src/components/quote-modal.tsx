@@ -1405,7 +1405,16 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           successContent
         ) : (
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form 
+              onSubmit={form.handleSubmit(onSubmit)} 
+              className="space-y-6"
+              onKeyDown={(e) => {
+                // Prevent Enter key from submitting form unless on final step
+                if (e.key === 'Enter' && currentStep < totalSteps) {
+                  e.preventDefault();
+                }
+              }}
+            >
               <div className="min-h-[300px]">
                 {renderStepContent()}
               </div>

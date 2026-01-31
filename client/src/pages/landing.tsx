@@ -37,11 +37,26 @@ function FloatingShield({ style, size, delay, duration }: {
   duration: number 
 }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
+  const shieldRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!shieldRef.current) return;
+    const rect = shieldRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setMousePosition({ x, y });
+  };
+
+  const dynamicGradientStyle = isHovered ? {
+    background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.4) 0%, transparent 60%)`,
+  } : {};
   
   return (
     <div
-      className={`absolute z-0 transition-all duration-300 cursor-pointer ${
-        isHovered ? 'opacity-100 scale-125' : 'opacity-[0.08] dark:opacity-[0.12]'
+      ref={shieldRef}
+      className={`absolute z-50 transition-all duration-300 cursor-pointer ${
+        isHovered ? 'opacity-100 scale-125' : 'opacity-[0.12] dark:opacity-[0.15]'
       }`}
       style={{
         ...style,
@@ -49,13 +64,26 @@ function FloatingShield({ style, size, delay, duration }: {
         height: size,
         animation: `float-bob ${duration}s ease-in-out ${delay}s infinite`,
       }}
+      onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Glow effect on hover */}
+      <div 
+        className={`absolute inset-0 rounded-full transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+        style={{
+          boxShadow: isHovered ? '0 0 30px 10px rgba(59, 130, 246, 0.4), 0 0 60px 20px rgba(99, 102, 241, 0.2)' : 'none',
+        }}
+      />
+      {/* Dynamic mouse-following shimmer */}
+      <div 
+        className={`absolute inset-0 rounded-full transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+        style={dynamicGradientStyle}
+      />
       <img 
         src={shieldIcon} 
         alt="" 
-        className="w-full h-full object-contain select-none pointer-events-none"
+        className="relative w-full h-full object-contain select-none pointer-events-none"
         draggable={false}
       />
     </div>

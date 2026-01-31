@@ -1325,7 +1325,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent 
-        className="light-glass-modal max-w-2xl max-h-[90vh] overflow-y-auto bg-white/85 backdrop-blur-xl border border-white/50 shadow-2xl rounded-3xl select-none"
+        className="light-glass-modal custom-scrollbar max-w-2xl max-h-[90vh] overflow-y-auto backdrop-blur-[20px] border shadow-2xl rounded-3xl select-none"
+        style={{ background: 'hsla(210, 40%, 98%, 0.85)', borderColor: 'hsla(210, 40%, 88%, 0.3)' }}
         aria-describedby="quote-form-description"
       >
         <DialogHeader className="pb-2">

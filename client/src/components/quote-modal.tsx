@@ -263,25 +263,62 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     submitMutation.mutate(data);
   };
 
+  // Track highest progress to prevent backwards animation
+  const [highestProgress, setHighestProgress] = useState(0);
+
   const handleClose = () => {
     form.reset();
     setCurrentStep(1);
+    setHighestProgress(0);
     onOpenChange(false);
+  };
+
+  // Calculate weighted progress percentage
+  const calculateWeightedProgress = () => {
+    // Step 1 (Contact): 0% -> 20%
+    // Step 2 (Policy): 35%
+    // Steps 3-4 (Risk Details): 35% -> 85% (divided by screens)
+    // Step 5 (Final): 95%
+    // After submit: 100%
+    
+    if (currentStep === 1) {
+      return 0;
+    } else if (currentStep === 2) {
+      return 20;
+    } else if (currentStep === totalSteps) {
+      // Final step before submit
+      return 95;
+    } else {
+      // Steps 3 to (totalSteps - 1) map to 35% -> 85%
+      const riskSteps = totalSteps - 3; // Number of "risk detail" steps
+      const currentRiskStep = currentStep - 2; // Which risk step we're on (1-indexed)
+      const progressPerRiskStep = 50 / Math.max(riskSteps, 1); // Divide 50% (35->85) among risk steps
+      return 35 + (currentRiskStep - 1) * progressPerRiskStep;
+    }
   };
 
   // Progress bar step indicator
   const StepIndicator = () => {
-    const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+    const rawProgress = calculateWeightedProgress();
+    
+    // Update highest progress (prevents backwards animation)
+    useEffect(() => {
+      if (rawProgress > highestProgress) {
+        setHighestProgress(rawProgress);
+      }
+    }, [rawProgress]);
+    
+    const displayProgress = Math.max(rawProgress, highestProgress);
+    
     return (
       <div className="mb-8">
-        <div className="flex justify-between items-center mb-3">
-          <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">Progress</span>
-          <span className="text-xs font-semibold text-blue-600">Step {currentStep} of {totalSteps}</span>
+        <div className="flex justify-end items-center mb-3">
+          <span className="text-xs font-semibold text-blue-600">{Math.round(displayProgress)}% Complete</span>
         </div>
         <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
           <div 
-            className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full transition-all duration-500 ease-out"
-            style={{ width: `${progress}%` }}
+            className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full transition-all duration-500 ease-in-out"
+            style={{ width: `${displayProgress}%` }}
           />
         </div>
       </div>

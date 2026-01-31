@@ -16,8 +16,92 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Logo from "@/components/logo";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import jacksonvilleSkyline from "@assets/stock_images/jacksonville_florida_13db0295.jpg";
+
+function InsuranceCard({ type, index }: { type: typeof insuranceTypes[0], index: number }) {
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
+  const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setMousePosition({ x, y });
+  };
+
+  const colorClasses = {
+    sky: "from-sky-800 via-sky-800/70 to-sky-700/30",
+    blue: "from-blue-900 via-blue-900/70 to-blue-800/30",
+    indigo: "from-indigo-900 via-indigo-900/70 to-indigo-800/30",
+    violet: "from-violet-900 via-violet-900/70 to-violet-800/30",
+  };
+
+  const iconAnimations = {
+    "Home / Auto": "group-hover:animate-bounce-subtle",
+    "Flood": "group-hover:animate-ripple",
+    "Life": "group-hover:animate-pulse-heart",
+    "Business": "group-hover:animate-grow",
+  };
+
+  const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
+  const iconAnimation = iconAnimations[type.title as keyof typeof iconAnimations] || "";
+
+  const dynamicGradientStyle = isHovered ? {
+    background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.15) 0%, transparent 50%)`,
+  } : {};
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 + index * 0.1, ease: "easeOut" }}
+      viewport={{ once: true }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative rounded-xl overflow-hidden h-72 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/30"
+      style={{
+        boxShadow: isHovered ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${type.color === 'sky' ? 'rgba(56, 189, 248, 0.3)' : type.color === 'blue' ? 'rgba(59, 130, 246, 0.3)' : type.color === 'indigo' ? 'rgba(99, 102, 241, 0.3)' : 'rgba(139, 92, 246, 0.3)'}` : undefined,
+      }}
+      data-testid={`card-insurance-${type.title.toLowerCase().replace(/\s+/g, '-')}`}
+    >
+      {/* Glassmorphism border on hover */}
+      <div className="absolute inset-0 rounded-xl border-2 border-transparent transition-all duration-300 group-hover:border-white/30 z-20 pointer-events-none" />
+      
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+        style={{ backgroundImage: `url(${type.image})` }}
+      />
+      
+      {/* Base Gradient Overlay */}
+      <div className={`absolute inset-0 bg-gradient-to-t transition-all duration-500 ${gradientClass}`} />
+      
+      {/* Dynamic mouse-following gradient */}
+      <div 
+        className="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100 z-10"
+        style={dynamicGradientStyle}
+      />
+      
+      {/* Content */}
+      <div className="absolute inset-x-0 bottom-0 p-6 transition-transform duration-300 group-hover:-translate-y-4 z-10">
+        <div className={`text-white mb-2 transition-all duration-300 group-hover:scale-110 ${iconAnimation}`}>
+          {type.icon}
+        </div>
+        <h3 className="text-xl font-bold text-white mb-2">
+          {type.title}
+        </h3>
+        <p className="text-slate-200 text-sm leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-24 group-hover:opacity-100">
+          {type.description}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
 
 const insuranceTypes = [
   {
@@ -266,72 +350,52 @@ export default function Landing() {
       </section>
 
       {/* Insurance Types Section */}
-      <section className="py-20 bg-background dark:bg-slate-900 relative">
+      <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
         {/* Decorative diagonal accent */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-500/5 to-transparent pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-blue-500/5 to-transparent pointer-events-none"></div>
         
         <div className="container mx-auto px-6">
-          {/* Creative section header */}
-          <div className="max-w-3xl mx-auto text-center mb-14">
-            <p className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none">Coverage Built Around You</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
+          {/* Creative section header - Staggered animation */}
+          <motion.div 
+            className="max-w-3xl mx-auto text-center mb-14"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <motion.p 
+              className="text-sm uppercase tracking-widest text-primary font-medium mb-3 select-none"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              Coverage Built Around You
+            </motion.p>
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+            >
               Protection for Every Chapter of Life
-            </h2>
-            <p className="text-muted-foreground">From your first car to your dream home, we've got you covered at every turn.</p>
-          </div>
+            </motion.h2>
+            <motion.p 
+              className="text-muted-foreground"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              viewport={{ once: true }}
+            >
+              From your first car to your dream home, we've got you covered at every turn.
+            </motion.p>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {insuranceTypes.map((type, index) => {
-              const colorClasses = {
-                sky: "from-sky-800 via-sky-800/70 to-sky-700/30",
-                blue: "from-blue-900 via-blue-900/70 to-blue-800/30",
-                indigo: "from-indigo-900 via-indigo-900/70 to-indigo-800/30",
-                violet: "from-violet-900 via-violet-900/70 to-violet-800/30",
-              };
-              const hoverColorClasses = {
-                sky: "group-hover:from-sky-700 group-hover:via-sky-700/85 group-hover:to-sky-600/50",
-                blue: "group-hover:from-blue-800 group-hover:via-blue-800/85 group-hover:to-blue-700/50",
-                indigo: "group-hover:from-indigo-800 group-hover:via-indigo-800/85 group-hover:to-indigo-700/50",
-                violet: "group-hover:from-violet-800 group-hover:via-violet-800/85 group-hover:to-violet-700/50",
-              };
-              const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
-              const hoverClass = hoverColorClasses[type.color as keyof typeof hoverColorClasses];
-              
-              return (
-                <motion.div
-                  key={type.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group relative rounded-xl overflow-hidden h-72 cursor-pointer"
-                  data-testid={`card-insurance-${type.title.toLowerCase().replace(/\s+/g, '-')}`}
-                >
-                  {/* Background Image */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                    style={{ backgroundImage: `url(${type.image})` }}
-                  />
-                  
-                  {/* Gradient Overlay - Different blue shades per card */}
-                  <div className={`absolute inset-0 bg-gradient-to-t transition-all duration-300 ${gradientClass} ${hoverClass}`} />
-                  
-                  {/* Content - Moves up on hover to show full description */}
-                  <div className="absolute inset-x-0 bottom-0 p-6 transition-transform duration-300 group-hover:-translate-y-4">
-                    <div className="text-white mb-2 transition-transform duration-300 group-hover:scale-110">
-                      {type.icon}
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      {type.title}
-                    </h3>
-                    <p className="text-slate-200 text-sm leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-24 group-hover:opacity-100">
-                      {type.description}
-                    </p>
-                  </div>
-                </motion.div>
-              );
-            })}
+            {insuranceTypes.map((type, index) => (
+              <InsuranceCard key={type.title} type={type} index={index} />
+            ))}
           </div>
         </div>
       </section>

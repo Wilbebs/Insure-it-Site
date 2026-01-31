@@ -68,16 +68,16 @@ function FloatingShield({ style, size, delay, duration }: {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Dynamic mouse-following shimmer */}
-      <div 
-        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none ${isHovered ? 'opacity-100' : 'opacity-0'}`}
-        style={dynamicGradientStyle}
-      />
       <img 
         src={shieldIcon} 
         alt="" 
-        className="relative w-full h-full object-contain select-none pointer-events-none"
+        className="w-full h-full object-contain select-none pointer-events-none"
         draggable={false}
+      />
+      {/* Dynamic mouse-following shimmer - on top of image */}
+      <div 
+        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+        style={dynamicGradientStyle}
       />
     </div>
   );

@@ -17,6 +17,58 @@ const floatingShields = [
   { top: "85%", left: "8%", size: 35, delay: 0.8, duration: 4.2 },
 ];
 
+function SocialButton({ href, icon, label, colorClass, hoverColorClass, textHoverClass, testId }: {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+  colorClass: string;
+  hoverColorClass: string;
+  textHoverClass: string;
+  testId: string;
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!buttonRef.current) return;
+    const rect = buttonRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setMousePosition({ x, y });
+  };
+
+  const dynamicGradientStyle = isHovered ? {
+    background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.5) 0%, transparent 60%)`,
+  } : {};
+
+  return (
+    <a 
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group"
+      data-testid={testId}
+    >
+      <div 
+        ref={buttonRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className={`relative overflow-hidden ${colorClass} p-6 rounded-2xl hover-lift transition-all duration-300 ${hoverColorClass}`}
+      >
+        {icon}
+        {/* Mouse-following shimmer */}
+        <div 
+          className={`absolute inset-0 rounded-2xl transition-opacity duration-300 pointer-events-none ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+          style={dynamicGradientStyle}
+        />
+      </div>
+      <p className={`mt-3 font-semibold text-muted-foreground ${textHoverClass} transition-colors`}>{label}</p>
+    </a>
+  );
+}
+
 function FloatingShield({ style, size, delay, duration }: { 
   style: React.CSSProperties, 
   size: number, 
@@ -275,44 +327,35 @@ export default function About() {
               Follow us on social media for insurance tips, company updates, and Florida community news
             </p>
             <div className="flex justify-center gap-6 sm:gap-8 relative z-10">
-              <a 
+              <SocialButton
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group"
-                data-testid="social-linkedin"
-              >
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-blue-500 group-hover:to-blue-600">
-                  <FaLinkedin className="w-12 h-12 sm:w-16 sm:h-16 text-primary group-hover:text-white transition-colors duration-300" />
-                </div>
-                <p className="mt-3 font-semibold text-muted-foreground group-hover:text-primary transition-colors">LinkedIn</p>
-              </a>
+                icon={<FaLinkedin className="w-12 h-12 sm:w-16 sm:h-16 text-primary group-hover:text-white transition-colors duration-300 relative z-10" />}
+                label="LinkedIn"
+                colorClass="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50"
+                hoverColorClass="group-hover:from-blue-500 group-hover:to-blue-600"
+                textHoverClass="group-hover:text-primary"
+                testId="social-linkedin"
+              />
               
-              <a 
+              <SocialButton
                 href="https://www.instagram.com/insureitgroup/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group"
-                data-testid="social-instagram"
-              >
-                <div className="bg-gradient-to-br from-pink-50 to-purple-100 dark:from-pink-900/50 dark:to-purple-900/50 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-pink-500 group-hover:to-purple-600">
-                  <FaInstagram className="w-12 h-12 sm:w-16 sm:h-16 text-pink-600 dark:text-pink-400 group-hover:text-white transition-colors duration-300" />
-                </div>
-                <p className="mt-3 font-semibold text-muted-foreground group-hover:text-pink-600 transition-colors">Instagram</p>
-              </a>
+                icon={<FaInstagram className="w-12 h-12 sm:w-16 sm:h-16 text-pink-600 dark:text-pink-400 group-hover:text-white transition-colors duration-300 relative z-10" />}
+                label="Instagram"
+                colorClass="bg-gradient-to-br from-pink-50 to-purple-100 dark:from-pink-900/50 dark:to-purple-900/50"
+                hoverColorClass="group-hover:from-pink-500 group-hover:to-purple-600"
+                textHoverClass="group-hover:text-pink-600"
+                testId="social-instagram"
+              />
               
-              <a 
+              <SocialButton
                 href="https://www.facebook.com/insureitgroup"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group"
-                data-testid="social-facebook"
-              >
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 p-6 rounded-2xl hover-lift transition-all duration-300 group-hover:from-blue-600 group-hover:to-blue-700">
-                  <FaFacebook className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300" />
-                </div>
-                <p className="mt-3 font-semibold text-muted-foreground group-hover:text-blue-600 transition-colors">Facebook</p>
-              </a>
+                icon={<FaFacebook className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300 relative z-10" />}
+                label="Facebook"
+                colorClass="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50"
+                hoverColorClass="group-hover:from-blue-600 group-hover:to-blue-700"
+                textHoverClass="group-hover:text-blue-600"
+                testId="social-facebook"
+              />
             </div>
           </div>
         </div>

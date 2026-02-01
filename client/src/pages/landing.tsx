@@ -83,6 +83,27 @@ function FloatingShield({ style, size, delay, duration }: {
   );
 }
 
+function DecorativeRays({ className = "" }: { className?: string }) {
+  return (
+    <>
+      {/* Top-left corner rays */}
+      <div className={`absolute top-0 left-0 pointer-events-none ${className}`}>
+        <div className="absolute top-0 left-0 w-[200px] h-[1px] bg-gradient-to-r from-primary/40 to-transparent origin-left rotate-[25deg]" />
+        <div className="absolute top-0 left-0 w-[160px] h-[1px] bg-gradient-to-r from-primary/30 to-transparent origin-left rotate-[40deg]" />
+        <div className="absolute top-0 left-0 w-[120px] h-[1px] bg-gradient-to-r from-primary/20 to-transparent origin-left rotate-[55deg]" />
+        <div className="absolute top-0 left-0 w-[180px] h-[1px] bg-gradient-to-r from-sky-500/30 to-transparent origin-left rotate-[12deg]" />
+      </div>
+      {/* Bottom-right corner rays */}
+      <div className={`absolute bottom-0 right-0 pointer-events-none ${className}`}>
+        <div className="absolute bottom-0 right-0 w-[200px] h-[1px] bg-gradient-to-l from-primary/40 to-transparent origin-right rotate-[-25deg]" />
+        <div className="absolute bottom-0 right-0 w-[160px] h-[1px] bg-gradient-to-l from-primary/30 to-transparent origin-right rotate-[-40deg]" />
+        <div className="absolute bottom-0 right-0 w-[120px] h-[1px] bg-gradient-to-l from-primary/20 to-transparent origin-right rotate-[-55deg]" />
+        <div className="absolute bottom-0 right-0 w-[180px] h-[1px] bg-gradient-to-l from-sky-500/30 to-transparent origin-right rotate-[-12deg]" />
+      </div>
+    </>
+  );
+}
+
 function InsuranceCard({ type, index }: { type: typeof insuranceTypes[0], index: number }) {
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
   const [isHovered, setIsHovered] = useState(false);
@@ -283,8 +304,9 @@ export default function Landing() {
       </section>
 
       {/* Stats Bar - Glassmorphism */}
-      <section className="py-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 select-none">
-        <div className="container mx-auto px-6">
+      <section className="py-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 select-none relative overflow-hidden">
+        <DecorativeRays />
+        <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -332,9 +354,7 @@ export default function Landing() {
 
       {/* Who We Are Section - Asymmetric Layout */}
       <section className="py-20 bg-muted dark:bg-slate-800 relative overflow-hidden">
-        {/* Decorative accent */}
-        <div className="absolute top-0 left-0 w-1 h-32 bg-gradient-to-b from-primary to-transparent"></div>
-        <div className="absolute bottom-0 right-0 w-1 h-32 bg-gradient-to-t from-primary to-transparent"></div>
+        <DecorativeRays />
         
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
@@ -414,12 +434,9 @@ export default function Landing() {
 
       {/* Insurance Types Section */}
       <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
+        <DecorativeRays />
         {/* Subtle noise texture overlay */}
         <div className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03] pointer-events-none bg-noise"></div>
-        
-        {/* Decorative diagonal accent */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-500/5 to-transparent pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-blue-500/5 to-transparent pointer-events-none"></div>
         
         <motion.div 
           className="container mx-auto px-6 relative z-10"
@@ -450,7 +467,8 @@ export default function Landing() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative">
+      <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative overflow-hidden">
+        <DecorativeRays />
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
             <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">Client Experiences</p>
@@ -464,6 +482,7 @@ export default function Landing() {
 
       {/* Contact Info Section - Centered */}
       <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
+        <DecorativeRays />
         {/* Floating shield background elements */}
         {floatingShields.map((shield, index) => (
           <FloatingShield

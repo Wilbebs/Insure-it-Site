@@ -69,6 +69,27 @@ function SocialButton({ href, icon, label, colorClass, hoverColorClass, textHove
   );
 }
 
+function DecorativeRays({ className = "" }: { className?: string }) {
+  return (
+    <>
+      {/* Top-left corner rays */}
+      <div className={`absolute top-0 left-0 pointer-events-none ${className}`}>
+        <div className="absolute top-0 left-0 w-[200px] h-[1px] bg-gradient-to-r from-primary/40 to-transparent origin-left rotate-[25deg]" />
+        <div className="absolute top-0 left-0 w-[160px] h-[1px] bg-gradient-to-r from-primary/30 to-transparent origin-left rotate-[40deg]" />
+        <div className="absolute top-0 left-0 w-[120px] h-[1px] bg-gradient-to-r from-primary/20 to-transparent origin-left rotate-[55deg]" />
+        <div className="absolute top-0 left-0 w-[180px] h-[1px] bg-gradient-to-r from-sky-500/30 to-transparent origin-left rotate-[12deg]" />
+      </div>
+      {/* Bottom-right corner rays */}
+      <div className={`absolute bottom-0 right-0 pointer-events-none ${className}`}>
+        <div className="absolute bottom-0 right-0 w-[200px] h-[1px] bg-gradient-to-l from-primary/40 to-transparent origin-right rotate-[-25deg]" />
+        <div className="absolute bottom-0 right-0 w-[160px] h-[1px] bg-gradient-to-l from-primary/30 to-transparent origin-right rotate-[-40deg]" />
+        <div className="absolute bottom-0 right-0 w-[120px] h-[1px] bg-gradient-to-l from-primary/20 to-transparent origin-right rotate-[-55deg]" />
+        <div className="absolute bottom-0 right-0 w-[180px] h-[1px] bg-gradient-to-l from-sky-500/30 to-transparent origin-right rotate-[-12deg]" />
+      </div>
+    </>
+  );
+}
+
 function FloatingShield({ style, size, delay, duration }: { 
   style: React.CSSProperties, 
   size: number, 
@@ -229,8 +250,9 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-muted dark:bg-slate-900">
-        <div className="container mx-auto px-4 sm:px-6">
+      <section className="py-12 sm:py-20 bg-muted dark:bg-slate-900 relative overflow-hidden">
+        <DecorativeRays />
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
 
           {/* Meet the Team Section */}
           <div className="mb-12 sm:mb-20">
@@ -312,6 +334,7 @@ export default function About() {
 
           {/* Connect With Us Section */}
           <div className="text-center mb-12 sm:mb-20 relative overflow-hidden py-8">
+            <DecorativeRays />
             {/* Floating shield background elements */}
             {floatingShields.map((shield, index) => (
               <FloatingShield

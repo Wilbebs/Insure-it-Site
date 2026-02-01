@@ -7,6 +7,15 @@ import { useState, useEffect, useRef } from "react";
 import wilbertPhoto from "@assets/image_1764878413663.png";
 import elizabethPhoto from "@assets/image_1764878433544.png";
 import davidPhoto from "@assets/image_1765442735571.png";
+import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
+
+const floatingShields = [
+  { top: "5%", left: "5%", size: 55, delay: 0, duration: 4 },
+  { top: "10%", right: "8%", size: 40, delay: 0.5, duration: 3.5 },
+  { top: "50%", left: "3%", size: 50, delay: 1, duration: 4.5 },
+  { top: "75%", right: "5%", size: 45, delay: 1.5, duration: 3.8 },
+  { top: "85%", left: "8%", size: 35, delay: 0.8, duration: 4.2 },
+];
 
 function SocialButton({ href, icon, label, colorClass, hoverColorClass, textHoverClass, testId }: {
   href: string;
@@ -57,6 +66,59 @@ function SocialButton({ href, icon, label, colorClass, hoverColorClass, textHove
       </div>
       <p className={`mt-3 font-semibold text-muted-foreground ${textHoverClass} transition-colors`}>{label}</p>
     </a>
+  );
+}
+
+function FloatingShield({ style, size, delay, duration }: { 
+  style: React.CSSProperties, 
+  size: number, 
+  delay: number, 
+  duration: number 
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
+  const shieldRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!shieldRef.current) return;
+    const rect = shieldRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setMousePosition({ x, y });
+  };
+
+  const dynamicGradientStyle = isHovered ? {
+    background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.4) 0%, transparent 60%)`,
+  } : {};
+  
+  return (
+    <div
+      ref={shieldRef}
+      className={`absolute z-50 transition-all duration-300 cursor-pointer ${
+        isHovered ? 'opacity-100 scale-125' : 'opacity-[0.12] dark:opacity-[0.15]'
+      }`}
+      style={{
+        ...style,
+        width: size,
+        height: size,
+        animation: `float-bob ${duration}s ease-in-out ${delay}s infinite`,
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <img 
+        src={shieldIcon} 
+        alt="" 
+        className="w-full h-full object-contain select-none pointer-events-none"
+        draggable={false}
+      />
+      {/* Dynamic mouse-following shimmer - on top of image */}
+      <div 
+        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+        style={dynamicGradientStyle}
+      />
+    </div>
   );
 }
 
@@ -167,10 +229,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-muted dark:bg-slate-900 relative overflow-hidden">
-        {/* Corner accent rectangles */}
-        <div className="absolute top-0 left-0 w-16 h-16 border-l-4 border-t-4 border-primary/30 pointer-events-none"></div>
-        <div className="absolute bottom-0 right-0 w-16 h-16 border-r-4 border-b-4 border-primary/30 pointer-events-none"></div>
+      <section className="py-12 sm:py-20 bg-muted dark:bg-slate-900">
         <div className="container mx-auto px-4 sm:px-6">
 
           {/* Meet the Team Section */}
@@ -253,9 +312,16 @@ export default function About() {
 
           {/* Connect With Us Section */}
           <div className="text-center mb-12 sm:mb-20 relative overflow-hidden py-8">
-            {/* Corner accent rectangles */}
-            <div className="absolute top-0 left-0 w-16 h-16 border-l-4 border-t-4 border-primary/30 pointer-events-none"></div>
-            <div className="absolute bottom-0 right-0 w-16 h-16 border-r-4 border-b-4 border-primary/30 pointer-events-none"></div>
+            {/* Floating shield background elements */}
+            {floatingShields.map((shield, index) => (
+              <FloatingShield
+                key={index}
+                style={{ top: shield.top, left: shield.left, right: shield.right }}
+                size={shield.size}
+                delay={shield.delay}
+                duration={shield.duration}
+              />
+            ))}
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 gradient-text relative z-10">Connect With Us</h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto relative z-10">
               Follow us on social media for insurance tips, company updates, and Florida community news

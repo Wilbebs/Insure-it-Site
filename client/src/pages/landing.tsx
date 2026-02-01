@@ -18,6 +18,70 @@ import {
 import Logo from "@/components/logo";
 import { useEffect, useState, useRef } from "react";
 import jacksonvilleSkyline from "@assets/stock_images/jacksonville_florida_13db0295.jpg";
+import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
+
+const floatingShields = [
+  { top: "8%", left: "5%", size: 60, delay: 0, duration: 4 },
+  { top: "15%", right: "8%", size: 45, delay: 0.5, duration: 3.5 },
+  { top: "45%", left: "3%", size: 55, delay: 1, duration: 4.5 },
+  { top: "70%", right: "4%", size: 50, delay: 1.5, duration: 3.8 },
+  { top: "85%", left: "10%", size: 40, delay: 0.8, duration: 4.2 },
+  { top: "25%", right: "3%", size: 35, delay: 2, duration: 3.6 },
+  { top: "60%", left: "8%", size: 48, delay: 0.3, duration: 4.1 },
+];
+
+function FloatingShield({ style, size, delay, duration }: { 
+  style: React.CSSProperties, 
+  size: number, 
+  delay: number, 
+  duration: number 
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
+  const shieldRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!shieldRef.current) return;
+    const rect = shieldRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setMousePosition({ x, y });
+  };
+
+  const dynamicGradientStyle = isHovered ? {
+    background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.4) 0%, transparent 60%)`,
+  } : {};
+  
+  return (
+    <div
+      ref={shieldRef}
+      className={`absolute z-50 transition-all duration-300 cursor-pointer ${
+        isHovered ? 'opacity-100 scale-125' : 'opacity-[0.12] dark:opacity-[0.15]'
+      }`}
+      style={{
+        ...style,
+        width: size,
+        height: size,
+        animation: `float-bob ${duration}s ease-in-out ${delay}s infinite`,
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <img 
+        src={shieldIcon} 
+        alt="" 
+        className="w-full h-full object-contain select-none pointer-events-none"
+        draggable={false}
+      />
+      {/* Dynamic mouse-following shimmer - on top of image */}
+      <div 
+        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+        style={dynamicGradientStyle}
+      />
+    </div>
+  );
+}
 
 function InsuranceCard({ type, index }: { type: typeof insuranceTypes[0], index: number }) {
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
@@ -268,9 +332,9 @@ export default function Landing() {
 
       {/* Who We Are Section - Asymmetric Layout */}
       <section className="py-20 bg-muted dark:bg-slate-800 relative overflow-hidden">
-        {/* Corner accent rectangles */}
-        <div className="absolute top-0 left-0 w-16 h-16 border-l-4 border-t-4 border-primary/30 pointer-events-none"></div>
-        <div className="absolute bottom-0 right-0 w-16 h-16 border-r-4 border-b-4 border-primary/30 pointer-events-none"></div>
+        {/* Decorative accent */}
+        <div className="absolute top-0 left-0 w-1 h-32 bg-gradient-to-b from-primary to-transparent"></div>
+        <div className="absolute bottom-0 right-0 w-1 h-32 bg-gradient-to-t from-primary to-transparent"></div>
         
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
@@ -350,11 +414,12 @@ export default function Landing() {
 
       {/* Insurance Types Section */}
       <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
-        {/* Corner accent rectangles */}
-        <div className="absolute top-0 left-0 w-16 h-16 border-l-4 border-t-4 border-primary/30 pointer-events-none"></div>
-        <div className="absolute bottom-0 right-0 w-16 h-16 border-r-4 border-b-4 border-primary/30 pointer-events-none"></div>
         {/* Subtle noise texture overlay */}
         <div className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03] pointer-events-none bg-noise"></div>
+        
+        {/* Decorative diagonal accent */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-500/5 to-transparent pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-blue-500/5 to-transparent pointer-events-none"></div>
         
         <motion.div 
           className="container mx-auto px-6 relative z-10"
@@ -385,10 +450,7 @@ export default function Landing() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative overflow-hidden">
-        {/* Corner accent rectangles */}
-        <div className="absolute top-0 left-0 w-16 h-16 border-l-4 border-t-4 border-primary/30 pointer-events-none"></div>
-        <div className="absolute bottom-0 right-0 w-16 h-16 border-r-4 border-b-4 border-primary/30 pointer-events-none"></div>
+      <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
             <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">Client Experiences</p>
@@ -402,9 +464,16 @@ export default function Landing() {
 
       {/* Contact Info Section - Centered */}
       <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
-        {/* Corner accent rectangles */}
-        <div className="absolute top-0 left-0 w-16 h-16 border-l-4 border-t-4 border-primary/30 pointer-events-none"></div>
-        <div className="absolute bottom-0 right-0 w-16 h-16 border-r-4 border-b-4 border-primary/30 pointer-events-none"></div>
+        {/* Floating shield background elements */}
+        {floatingShields.map((shield, index) => (
+          <FloatingShield
+            key={index}
+            style={{ top: shield.top, left: shield.left, right: shield.right }}
+            size={shield.size}
+            delay={shield.delay}
+            duration={shield.duration}
+          />
+        ))}
         
         {/* Decorative wave */}
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent z-10"></div>

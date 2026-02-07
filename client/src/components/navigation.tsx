@@ -4,6 +4,8 @@ import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Logo from "./logo";
 import { useTranslation } from "./theme-provider";
+import usaFlagIcon from "@assets/united_states_of_america_round_icon_64_(1)_1770501803978.png";
+import spainFlagIcon from "@assets/spain_round_icon_64_1770501803977.png";
 
 export default function Navigation() {
   const [location] = useLocation();
@@ -119,9 +121,12 @@ export default function Navigation() {
                 <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
                   {language === "en" ? "EN" : "ES"}
                 </span>
-                <span className="absolute -top-1.5 -right-1.5 text-xs leading-none rotate-[25deg]" aria-hidden="true">
-                  {language === "en" ? "🇺🇸" : "🇪🇸"}
-                </span>
+                <img
+                  src={language === "en" ? usaFlagIcon : spainFlagIcon}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute -top-2 -right-2 w-5 h-5 rotate-[25deg] drop-shadow-sm"
+                />
               </button>
             )}
           </div>
@@ -147,9 +152,12 @@ export default function Navigation() {
               <span className="text-xs font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
                 {language === "en" ? "EN" : "ES"}
               </span>
-              <span className="absolute -top-1.5 -right-1.5 text-[10px] leading-none rotate-[25deg]" aria-hidden="true">
-                {language === "en" ? "🇺🇸" : "🇪🇸"}
-              </span>
+              <img
+                src={language === "en" ? usaFlagIcon : spainFlagIcon}
+                alt=""
+                aria-hidden="true"
+                className="absolute -top-1.5 -right-1.5 w-4 h-4 rotate-[25deg] drop-shadow-sm"
+              />
             </button>
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

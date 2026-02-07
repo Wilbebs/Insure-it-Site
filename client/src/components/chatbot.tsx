@@ -694,7 +694,7 @@ export default function ChatBot() {
                         <p className="text-xs opacity-90">{t.chatbot.subtitle}</p>
                         <button
                           onClick={toggleLanguage}
-                          className="relative px-2 py-0.5 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300" style={{ transform: 'translateY(-3.5px)' }}
+                          className="relative px-2 py-0.5 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300" style={{ transform: 'translateY(-7px)' }}
                           data-testid="chatbot-language-toggle"
                           aria-label={t.nav.switchLang}
                         >

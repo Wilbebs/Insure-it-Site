@@ -577,18 +577,14 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       </div>
       
       <div className="grid grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="driverDob"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Date of Birth</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        <div className="space-y-2">
+          <label className="text-sm font-medium leading-none">Date of Birth</label>
+          <Input
+            type="date"
+            value={allValues.driverDob || ""}
+            onChange={(e) => form.setValue("driverDob", e.target.value)}
+          />
+        </div>
         <div className="space-y-2">
           <label className="text-sm font-medium leading-none">Marital Status</label>
           <Select onValueChange={(val) => form.setValue("maritalStatus", val)} value={allValues.maritalStatus || ""}>
@@ -886,18 +882,14 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       </div>
       
       <div className="grid grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="lifeDob"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Date of Birth</FormLabel>
-              <FormControl>
-                <Input type="date" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        <div className="space-y-2">
+          <label className="text-sm font-medium leading-none">Date of Birth</label>
+          <Input
+            type="date"
+            value={allValues.lifeDob || ""}
+            onChange={(e) => form.setValue("lifeDob", e.target.value)}
+          />
+        </div>
         <div className="space-y-2">
           <label className="text-sm font-medium leading-none">Gender</label>
           <Select onValueChange={(val) => form.setValue("gender", val)} value={allValues.gender || ""}>

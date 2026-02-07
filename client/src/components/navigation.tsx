@@ -1,16 +1,16 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Logo from "./logo";
-import { useTheme } from "./theme-provider";
+import { useLanguage } from "./theme-provider";
 
 export default function Navigation() {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoHighlight, setLogoHighlight] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const { language, toggleLanguage } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -108,19 +108,20 @@ export default function Navigation() {
               <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
             </a>
 
-            {/* Theme Toggle - Far right, only visible when navbar is full-sized */}
+            {/* Language Toggle - Far right, only visible when navbar is full-sized */}
             {!isScrolled && (
               <button
-                onClick={toggleTheme}
-                className="p-2 rounded-full bg-white/90 dark:bg-slate-700/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-6"
-                data-testid="theme-toggle"
-                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                onClick={toggleLanguage}
+                className="relative px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-6"
+                data-testid="language-toggle"
+                aria-label={language === "en" ? "Switch to Spanish" : "Cambiar a Inglés"}
               >
-                {theme === "dark" ? (
-                  <Sun className="w-5 h-5 text-yellow-500 group-hover:text-white transition-colors duration-300" />
-                ) : (
-                  <Moon className="w-5 h-5 text-slate-600 group-hover:text-white transition-colors duration-300" />
-                )}
+                <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
+                  {language === "en" ? "EN" : "ES"}
+                </span>
+                <span className="absolute -top-1.5 -right-1.5 text-xs leading-none" aria-hidden="true">
+                  {language === "en" ? "🇺🇸" : "🇪🇸"}
+                </span>
               </button>
             )}
           </div>

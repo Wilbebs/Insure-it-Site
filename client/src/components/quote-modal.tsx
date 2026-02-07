@@ -1405,16 +1405,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           successContent
         ) : (
           <Form {...form}>
-            <form 
-              onSubmit={form.handleSubmit(onSubmit)} 
-              className="space-y-6"
-              onKeyDown={(e) => {
-                // Prevent Enter key from submitting form unless on final step
-                if (e.key === 'Enter' && currentStep < totalSteps) {
-                  e.preventDefault();
-                }
-              }}
-            >
+            <div className="space-y-6">
               <div className="min-h-[300px]">
                 {renderStepContent()}
               </div>
@@ -1444,7 +1435,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   </Button>
                 ) : (
                   <Button
-                    type="submit"
+                    type="button"
+                    onClick={form.handleSubmit(onSubmit)}
                     disabled={submitMutation.isPending}
                     className="gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40"
                     data-testid="button-submit-quote"
@@ -1453,7 +1445,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   </Button>
                 )}
               </div>
-            </form>
+            </div>
           </Form>
         )}
       </DialogContent>

@@ -168,8 +168,8 @@ export class PostgresStorage implements IStorage {
     const id = randomUUID();
     const result = await pool.query(
       `INSERT INTO policy_applications 
-       (id, applicant_name, email, phone, policy_type, preferred_contact_method, core_details, auto_details, home_details, life_details, documents, notes)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+       (id, applicant_name, email, phone, policy_type, preferred_contact_method, core_details, auto_details, home_details, life_details, commercial_details, documents, notes)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
        RETURNING *`,
       [
         id,
@@ -182,6 +182,7 @@ export class PostgresStorage implements IStorage {
         application.autoDetails,
         application.homeDetails,
         application.lifeDetails,
+        application.commercialDetails,
         JSON.stringify(application.documents),
         application.notes
       ]

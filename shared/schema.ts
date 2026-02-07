@@ -26,13 +26,14 @@ export const policyApplications = pgTable("policy_applications", {
   applicantName: text("applicant_name").notNull(),
   email: text("email").notNull(),
   phone: text("phone").notNull(),
-  policyType: text("policy_type").notNull(), // 'auto', 'home', 'life'
-  preferredContactMethod: text("preferred_contact_method"), // 'phone', 'email', 'text'
-  status: text("status").notNull().default("pending"), // 'pending', 'reviewed', 'approved', 'declined'
-  coreDetails: text("core_details"), // JSON string for shared details
-  autoDetails: text("auto_details"), // JSON string for auto-specific fields
-  homeDetails: text("home_details"), // JSON string for home-specific fields
-  lifeDetails: text("life_details"), // JSON string for life-specific fields
+  policyType: text("policy_type").notNull(), // 'auto', 'home', 'life', 'commercial'
+  preferredContactMethod: text("preferred_contact_method"),
+  status: text("status").notNull().default("pending"),
+  coreDetails: text("core_details"),
+  autoDetails: text("auto_details"),
+  homeDetails: text("home_details"),
+  lifeDetails: text("life_details"),
+  commercialDetails: text("commercial_details"),
   documents: text("documents").array(), // Array of document URLs/keys
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow(),
@@ -54,45 +55,61 @@ export const insertPolicyApplicationSchema = createInsertSchema(policyApplicatio
   status: true,
 });
 
-// Zod schemas for policy-specific details
+// Zod schemas for policy-specific details (aligned with quote modal fields)
 export const autoDetailsSchema = z.object({
-  driverCount: z.number().min(1),
-  primaryVehicle: z.object({
-    make: z.string(),
-    model: z.string(),
-    year: z.number().min(1900).max(new Date().getFullYear() + 1),
-    vin: z.string().optional(),
-  }),
-  usageProfile: z.string(), // e.g., "commute", "pleasure", "business"
-  desiredCoverages: z.array(z.string()), // e.g., ["liability", "collision", "comprehensive"]
-  currentInsurer: z.string().optional(),
-  policyExpiration: z.string().optional(),
-  claimsHistory: z.string().optional(),
+  vehicleYear: z.string().optional(),
+  vehicleMake: z.string().optional(),
+  vehicleModel: z.string().optional(),
+  vehicleVin: z.string().optional(),
+  primaryUse: z.string().optional(),
+  ownershipStatus: z.string().optional(),
+  driverDob: z.string().optional(),
+  maritalStatus: z.string().optional(),
+  licenseState: z.string().optional(),
+  licenseNumber: z.string().optional(),
+  hasViolations: z.string().optional(),
+  currentlyInsured: z.string().optional(),
+  currentCarrier: z.string().optional(),
+  currentLimits: z.string().optional(),
 });
 
 export const homeDetailsSchema = z.object({
-  propertyAddress: z.string(),
-  ownershipStatus: z.string(), // "own", "mortgage"
-  dwellingType: z.string(), // "single-family", "condo", "townhome"
-  constructionYear: z.number().min(1800),
-  squareFootage: z.number().min(1),
-  securityFeatures: z.array(z.string()).optional(), // e.g., ["alarm", "deadbolts", "cameras"]
-  desiredCoverages: z.array(z.string()),
-  currentInsurer: z.string().optional(),
-  policyExpiration: z.string().optional(),
-  claimsHistory: z.string().optional(),
+  propertyAddress: z.string().optional(),
+  propertyCity: z.string().optional(),
+  propertyState: z.string().optional(),
+  propertyZip: z.string().optional(),
+  propertyType: z.string().optional(),
+  yearBuilt: z.string().optional(),
+  squareFootage: z.string().optional(),
+  roofYear: z.string().optional(),
+  systemsUpdated: z.string().optional(),
+  isPrimaryResidence: z.string().optional(),
+  hasPool: z.string().optional(),
 });
 
 export const lifeDetailsSchema = z.object({
-  age: z.number().min(18).max(100),
-  gender: z.string(),
-  smokerStatus: z.boolean(),
-  healthConditions: z.string().optional(),
-  coverageGoal: z.string(), // e.g., "income replacement", "mortgage protection", "final expenses"
-  desiredCoverageAmount: z.number().min(1000),
-  beneficiariesCount: z.number().min(1),
-  beneficiaryRelationships: z.string().optional(),
-  existingPolicies: z.string().optional(),
+  lifeDob: z.string().optional(),
+  gender: z.string().optional(),
+  height: z.string().optional(),
+  weight: z.string().optional(),
+  usesTobacco: z.string().optional(),
+  hasMedicalConditions: z.string().optional(),
+  lifeType: z.string().optional(),
+  coverageAmount: z.string().optional(),
+  termLength: z.string().optional(),
+});
+
+export const commercialDetailsSchema = z.object({
+  businessName: z.string().optional(),
+  industryDescription: z.string().optional(),
+  yearsInBusiness: z.string().optional(),
+  annualRevenue: z.string().optional(),
+  fullTimeEmployees: z.string().optional(),
+  partTimeEmployees: z.string().optional(),
+  needsGeneralLiability: z.string().optional(),
+  needsWorkersComp: z.string().optional(),
+  needsProfessionalLiability: z.string().optional(),
+  needsCyber: z.string().optional(),
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -104,3 +121,4 @@ export type PolicyApplication = typeof policyApplications.$inferSelect;
 export type AutoDetails = z.infer<typeof autoDetailsSchema>;
 export type HomeDetails = z.infer<typeof homeDetailsSchema>;
 export type LifeDetails = z.infer<typeof lifeDetailsSchema>;
+export type CommercialDetails = z.infer<typeof commercialDetailsSchema>;

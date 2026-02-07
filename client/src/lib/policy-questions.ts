@@ -1,14 +1,22 @@
 import type { PolicyQuestionFlow, ConversationQuestion } from './conversation-types';
 
-// Core questions asked for all policy types
+// Core questions asked for all policy types (matches quote modal: firstName, lastName, email, phone, zipCode)
 export const coreQuestions: ConversationQuestion[] = [
   {
-    id: 'name',
-    text: "What's your full name?",
+    id: 'firstName',
+    text: "What's your first name?",
     type: 'text',
-    fieldKey: 'name',
+    fieldKey: 'firstName',
     validation: { required: true },
-    helperText: 'Please provide your first and last name'
+    helperText: 'Your first name'
+  },
+  {
+    id: 'lastName',
+    text: "What's your last name?",
+    type: 'text',
+    fieldKey: 'lastName',
+    validation: { required: true },
+    helperText: 'Your last name'
   },
   {
     id: 'email',
@@ -16,7 +24,7 @@ export const coreQuestions: ConversationQuestion[] = [
     type: 'text',
     fieldKey: 'email',
     validation: { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
-    helperText: 'We\'ll use this to send you policy information'
+    helperText: "We'll use this to send you policy information"
   },
   {
     id: 'phone',
@@ -27,267 +35,392 @@ export const coreQuestions: ConversationQuestion[] = [
     helperText: 'Include area code (e.g., 305-555-1234)'
   },
   {
-    id: 'preferredContactMethod',
-    text: "How would you prefer us to contact you?",
-    type: 'select',
-    fieldKey: 'preferredContactMethod',
-    options: ['phone', 'email', 'text'],
-    validation: { required: true }
+    id: 'zipCode',
+    text: "What's your ZIP code?",
+    type: 'text',
+    fieldKey: 'zipCode',
+    validation: { required: true },
+    helperText: 'Your 5-digit ZIP code'
   }
 ];
 
-// Auto insurance specific questions
+// Auto insurance questions (matches quote modal fields)
 export const autoQuestionFlow: PolicyQuestionFlow = {
   policyType: 'auto',
   questions: [
     {
-      id: 'driverCount',
-      text: "How many drivers will be on this policy?",
-      type: 'number',
-      fieldKey: 'driverCount',
-      validation: { required: true, min: 1 },
-      helperText: 'Include yourself and anyone else who will drive the vehicle'
+      id: 'vehicleYear',
+      text: "What year is your vehicle?",
+      type: 'text',
+      fieldKey: 'vehicleYear',
+      validation: { required: false },
+      helperText: 'e.g., 2024'
     },
     {
       id: 'vehicleMake',
-      text: "What's the make of your primary vehicle?",
+      text: "What's the make of your vehicle?",
       type: 'text',
-      fieldKey: 'primaryVehicle.make',
-      validation: { required: true },
+      fieldKey: 'vehicleMake',
+      validation: { required: false },
       helperText: 'e.g., Toyota, Honda, Ford'
     },
     {
       id: 'vehicleModel',
       text: "What's the model?",
       type: 'text',
-      fieldKey: 'primaryVehicle.model',
-      validation: { required: true },
+      fieldKey: 'vehicleModel',
+      validation: { required: false },
       helperText: 'e.g., Camry, Accord, F-150'
-    },
-    {
-      id: 'vehicleYear',
-      text: "What year is your vehicle?",
-      type: 'number',
-      fieldKey: 'primaryVehicle.year',
-      validation: { required: true, min: 1900, max: new Date().getFullYear() + 1 },
-      helperText: 'Model year of the vehicle'
     },
     {
       id: 'vehicleVin',
       text: "Do you have the VIN (Vehicle Identification Number)?",
       type: 'text',
-      fieldKey: 'primaryVehicle.vin',
+      fieldKey: 'vehicleVin',
       validation: { required: false },
       helperText: 'Optional - helps us provide more accurate quotes'
     },
     {
-      id: 'usageProfile',
+      id: 'primaryUse',
       text: "How do you primarily use your vehicle?",
       type: 'select',
-      fieldKey: 'usageProfile',
-      options: ['commute', 'pleasure', 'business'],
-      validation: { required: true },
+      fieldKey: 'primaryUse',
+      options: ['commuting', 'pleasure', 'business', 'rideshare'],
+      validation: { required: false },
       helperText: 'This helps determine your coverage needs'
     },
     {
-      id: 'desiredCoverages',
-      text: "What types of coverage are you interested in?",
-      type: 'multiselect',
-      fieldKey: 'desiredCoverages',
-      options: ['liability', 'collision', 'comprehensive', 'uninsured motorist', 'personal injury protection'],
-      validation: { required: true },
-      helperText: 'Select all that apply'
+      id: 'ownershipStatus',
+      text: "What's your vehicle ownership status?",
+      type: 'select',
+      fieldKey: 'ownershipStatus',
+      options: ['owned', 'financed', 'leased'],
+      validation: { required: false }
     },
     {
-      id: 'currentInsurer',
-      text: "Do you currently have auto insurance? If yes, who's your current insurer?",
+      id: 'driverDob',
+      text: "What's your date of birth?",
       type: 'text',
-      fieldKey: 'currentInsurer',
+      fieldKey: 'driverDob',
       validation: { required: false },
-      helperText: 'Leave blank if you don\'t have current coverage'
+      helperText: 'MM/DD/YYYY format'
     },
     {
-      id: 'policyExpiration',
-      text: "When does your current policy expire?",
-      type: 'text',
-      fieldKey: 'policyExpiration',
-      validation: { required: false },
-      helperText: 'Optional - e.g., MM/DD/YYYY'
+      id: 'maritalStatus',
+      text: "What's your marital status?",
+      type: 'select',
+      fieldKey: 'maritalStatus',
+      options: ['single', 'married', 'divorced', 'widowed'],
+      validation: { required: false }
     },
     {
-      id: 'claimsHistory',
-      text: "Have you had any accidents or claims in the past 3 years?",
+      id: 'licenseState',
+      text: "What state is your driver's license from?",
       type: 'text',
-      fieldKey: 'claimsHistory',
+      fieldKey: 'licenseState',
       validation: { required: false },
-      helperText: 'Please describe briefly or say "none"'
+      helperText: 'e.g., FL'
+    },
+    {
+      id: 'licenseNumber',
+      text: "What's your driver's license number?",
+      type: 'text',
+      fieldKey: 'licenseNumber',
+      validation: { required: false },
+      helperText: 'Optional - helps verify your driving record'
+    },
+    {
+      id: 'hasViolations',
+      text: "Have you had any accidents or violations in the past 3 years?",
+      type: 'select',
+      fieldKey: 'hasViolations',
+      options: ['no', 'yes'],
+      validation: { required: false }
+    },
+    {
+      id: 'currentlyInsured',
+      text: "Are you currently insured?",
+      type: 'select',
+      fieldKey: 'currentlyInsured',
+      options: ['yes', 'no'],
+      validation: { required: false }
+    },
+    {
+      id: 'currentCarrier',
+      text: "Who is your current insurance carrier?",
+      type: 'text',
+      fieldKey: 'currentCarrier',
+      validation: { required: false },
+      helperText: 'e.g., State Farm, Geico'
+    },
+    {
+      id: 'currentLimits',
+      text: "What are your current coverage limits?",
+      type: 'select',
+      fieldKey: 'currentLimits',
+      options: ['25/50', '50/100', '100/300', '250/500', 'unsure'],
+      validation: { required: false }
     }
   ]
 };
 
-// Home insurance specific questions
+// Home insurance questions (matches quote modal fields)
 export const homeQuestionFlow: PolicyQuestionFlow = {
   policyType: 'home',
   questions: [
     {
       id: 'propertyAddress',
-      text: "What's the address of the property you want to insure?",
+      text: "What's the street address of the property?",
       type: 'text',
       fieldKey: 'propertyAddress',
-      validation: { required: true },
-      helperText: 'Full street address including city and ZIP'
+      validation: { required: false },
+      helperText: 'Full street address'
     },
     {
-      id: 'ownershipStatus',
-      text: "Do you own the property outright or have a mortgage?",
-      type: 'select',
-      fieldKey: 'ownershipStatus',
-      options: ['own', 'mortgage'],
-      validation: { required: true }
+      id: 'propertyCity',
+      text: "What city is the property in?",
+      type: 'text',
+      fieldKey: 'propertyCity',
+      validation: { required: false },
+      helperText: 'e.g., Jacksonville'
     },
     {
-      id: 'dwellingType',
-      text: "What type of dwelling is it?",
+      id: 'propertyState',
+      text: "What state?",
+      type: 'text',
+      fieldKey: 'propertyState',
+      validation: { required: false },
+      helperText: 'e.g., FL'
+    },
+    {
+      id: 'propertyZip',
+      text: "Property ZIP code?",
+      type: 'text',
+      fieldKey: 'propertyZip',
+      validation: { required: false },
+      helperText: 'e.g., 32256'
+    },
+    {
+      id: 'propertyType',
+      text: "What type of property is it?",
       type: 'select',
-      fieldKey: 'dwellingType',
+      fieldKey: 'propertyType',
       options: ['single-family', 'condo', 'townhome', 'multi-family'],
-      validation: { required: true }
+      validation: { required: false }
     },
     {
-      id: 'constructionYear',
+      id: 'yearBuilt',
       text: "What year was the home built?",
-      type: 'number',
-      fieldKey: 'constructionYear',
-      validation: { required: true, min: 1800 },
+      type: 'text',
+      fieldKey: 'yearBuilt',
+      validation: { required: false },
       helperText: 'Approximate year is fine'
     },
     {
       id: 'squareFootage',
       text: "What's the approximate square footage?",
-      type: 'number',
-      fieldKey: 'squareFootage',
-      validation: { required: true, min: 1 },
-      helperText: 'Total living space in square feet'
-    },
-    {
-      id: 'securityFeatures',
-      text: "What security features does your home have?",
-      type: 'multiselect',
-      fieldKey: 'securityFeatures',
-      options: ['alarm system', 'deadbolts', 'security cameras', 'gated community', 'smoke detectors', 'sprinkler system'],
-      validation: { required: false },
-      helperText: 'Select all that apply - may qualify for discounts!'
-    },
-    {
-      id: 'desiredCoverages',
-      text: "What types of coverage do you need?",
-      type: 'multiselect',
-      fieldKey: 'desiredCoverages',
-      options: ['dwelling', 'personal property', 'liability', 'loss of use', 'flood', 'hurricane'],
-      validation: { required: true },
-      helperText: 'Florida-specific options included'
-    },
-    {
-      id: 'currentInsurer',
-      text: "Do you currently have home insurance? If yes, who's your current insurer?",
       type: 'text',
-      fieldKey: 'currentInsurer',
+      fieldKey: 'squareFootage',
+      validation: { required: false },
+      helperText: 'Total living space'
+    },
+    {
+      id: 'roofYear',
+      text: "When was the roof last replaced or installed?",
+      type: 'text',
+      fieldKey: 'roofYear',
+      validation: { required: false },
+      helperText: 'Year of last roof replacement'
+    },
+    {
+      id: 'systemsUpdated',
+      text: "Have the major systems (plumbing, electrical, HVAC) been updated?",
+      type: 'select',
+      fieldKey: 'systemsUpdated',
+      options: ['yes', 'no', 'unsure'],
       validation: { required: false }
     },
     {
-      id: 'policyExpiration',
-      text: "When does your current policy expire?",
-      type: 'text',
-      fieldKey: 'policyExpiration',
-      validation: { required: false },
-      helperText: 'Optional - e.g., MM/DD/YYYY'
+      id: 'isPrimaryResidence',
+      text: "Is this your primary residence?",
+      type: 'select',
+      fieldKey: 'isPrimaryResidence',
+      options: ['yes', 'no'],
+      validation: { required: false }
     },
     {
-      id: 'claimsHistory',
-      text: "Have you filed any claims in the past 5 years?",
-      type: 'text',
-      fieldKey: 'claimsHistory',
-      validation: { required: false },
-      helperText: 'Please describe briefly or say "none"'
+      id: 'hasPool',
+      text: "Does the property have a pool?",
+      type: 'select',
+      fieldKey: 'hasPool',
+      options: ['no', 'yes-fenced', 'yes-unfenced'],
+      validation: { required: false }
     }
   ]
 };
 
-// Life insurance specific questions
+// Life insurance questions (matches quote modal fields)
 export const lifeQuestionFlow: PolicyQuestionFlow = {
   policyType: 'life',
   questions: [
     {
-      id: 'age',
-      text: "What's your age?",
-      type: 'number',
-      fieldKey: 'age',
-      validation: { required: true, min: 18, max: 100 },
-      helperText: 'Used to calculate premiums'
+      id: 'lifeDob',
+      text: "What's your date of birth?",
+      type: 'text',
+      fieldKey: 'lifeDob',
+      validation: { required: false },
+      helperText: 'MM/DD/YYYY format'
     },
     {
       id: 'gender',
       text: "What's your gender?",
       type: 'select',
       fieldKey: 'gender',
-      options: ['male', 'female', 'other'],
-      validation: { required: true }
+      options: ['male', 'female'],
+      validation: { required: false }
     },
     {
-      id: 'smokerStatus',
-      text: "Have you used tobacco products in the past 12 months?",
-      type: 'boolean',
-      fieldKey: 'smokerStatus',
-      validation: { required: true },
-      helperText: 'Includes cigarettes, cigars, vaping, or chewing tobacco'
-    },
-    {
-      id: 'healthConditions',
-      text: "Do you have any pre-existing health conditions?",
+      id: 'height',
+      text: "What's your height?",
       type: 'text',
-      fieldKey: 'healthConditions',
+      fieldKey: 'height',
       validation: { required: false },
-      helperText: 'Optional - helps us find the best policy for you'
+      helperText: "e.g., 5'10\""
     },
     {
-      id: 'coverageGoal',
-      text: "What's your primary goal for life insurance?",
+      id: 'weight',
+      text: "What's your weight in pounds?",
+      type: 'text',
+      fieldKey: 'weight',
+      validation: { required: false },
+      helperText: 'e.g., 175'
+    },
+    {
+      id: 'usesTobacco',
+      text: "Do you use tobacco products?",
       type: 'select',
-      fieldKey: 'coverageGoal',
-      options: ['income replacement', 'mortgage protection', 'final expenses', 'legacy/inheritance', 'business protection'],
-      validation: { required: true }
+      fieldKey: 'usesTobacco',
+      options: ['no', 'yes'],
+      validation: { required: false }
     },
     {
-      id: 'desiredCoverageAmount',
+      id: 'hasMedicalConditions',
+      text: "Do you have any pre-existing medical conditions?",
+      type: 'select',
+      fieldKey: 'hasMedicalConditions',
+      options: ['no', 'yes'],
+      validation: { required: false }
+    },
+    {
+      id: 'lifeType',
+      text: "What type of life insurance are you interested in?",
+      type: 'select',
+      fieldKey: 'lifeType',
+      options: ['term', 'permanent', 'unsure'],
+      validation: { required: false }
+    },
+    {
+      id: 'coverageAmount',
       text: "How much coverage are you looking for?",
-      type: 'number',
-      fieldKey: 'desiredCoverageAmount',
-      validation: { required: true, min: 1000 },
-      helperText: 'Amount in dollars (e.g., 500000 for $500,000)'
+      type: 'select',
+      fieldKey: 'coverageAmount',
+      options: ['100k', '250k', '500k', '1m', '2m'],
+      validation: { required: false }
     },
     {
-      id: 'beneficiariesCount',
-      text: "How many beneficiaries will you name?",
-      type: 'number',
-      fieldKey: 'beneficiariesCount',
-      validation: { required: true, min: 1 },
-      helperText: 'People who will receive the benefit'
-    },
+      id: 'termLength',
+      text: "What term length are you considering?",
+      type: 'select',
+      fieldKey: 'termLength',
+      options: ['10', '20', '30'],
+      validation: { required: false }
+    }
+  ]
+};
+
+// Commercial insurance questions (matches quote modal fields)
+export const commercialQuestionFlow: PolicyQuestionFlow = {
+  policyType: 'commercial',
+  questions: [
     {
-      id: 'beneficiaryRelationships',
-      text: "What's their relationship to you?",
+      id: 'businessName',
+      text: "What's your business name?",
       type: 'text',
-      fieldKey: 'beneficiaryRelationships',
+      fieldKey: 'businessName',
       validation: { required: false },
-      helperText: 'e.g., spouse, children, parents'
+      helperText: 'Legal business name'
     },
     {
-      id: 'existingPolicies',
-      text: "Do you have any existing life insurance policies?",
+      id: 'industryDescription',
+      text: "What industry or type of business do you operate?",
       type: 'text',
-      fieldKey: 'existingPolicies',
+      fieldKey: 'industryDescription',
       validation: { required: false },
-      helperText: 'If yes, please provide details'
+      helperText: 'e.g., Plumbing Contractor, Restaurant, IT Consulting'
+    },
+    {
+      id: 'yearsInBusiness',
+      text: "How long has your business been operating?",
+      type: 'select',
+      fieldKey: 'yearsInBusiness',
+      options: ['startup', '1-3', '3-5', '5-10', '10+'],
+      validation: { required: false }
+    },
+    {
+      id: 'annualRevenue',
+      text: "What's your approximate annual revenue?",
+      type: 'select',
+      fieldKey: 'annualRevenue',
+      options: ['under-250k', '250k-500k', '500k-1m', '1m-5m', '5m+'],
+      validation: { required: false }
+    },
+    {
+      id: 'fullTimeEmployees',
+      text: "How many full-time employees do you have?",
+      type: 'text',
+      fieldKey: 'fullTimeEmployees',
+      validation: { required: false },
+      helperText: 'Number of full-time employees'
+    },
+    {
+      id: 'partTimeEmployees',
+      text: "How many part-time employees?",
+      type: 'text',
+      fieldKey: 'partTimeEmployees',
+      validation: { required: false },
+      helperText: 'Number of part-time employees'
+    },
+    {
+      id: 'needsGeneralLiability',
+      text: "Do you need General Liability coverage?",
+      type: 'select',
+      fieldKey: 'needsGeneralLiability',
+      options: ['yes', 'no', 'unsure'],
+      validation: { required: false }
+    },
+    {
+      id: 'needsWorkersComp',
+      text: "Do you need Workers' Compensation coverage?",
+      type: 'select',
+      fieldKey: 'needsWorkersComp',
+      options: ['yes', 'no', 'unsure'],
+      validation: { required: false }
+    },
+    {
+      id: 'needsProfessionalLiability',
+      text: "Do you need Professional Liability (E&O) coverage?",
+      type: 'select',
+      fieldKey: 'needsProfessionalLiability',
+      options: ['yes', 'no', 'unsure'],
+      validation: { required: false }
+    },
+    {
+      id: 'needsCyber',
+      text: "Do you need Cyber Liability coverage?",
+      type: 'select',
+      fieldKey: 'needsCyber',
+      options: ['yes', 'no', 'unsure'],
+      validation: { required: false }
     }
   ]
 };
@@ -296,5 +429,6 @@ export const lifeQuestionFlow: PolicyQuestionFlow = {
 export const policyQuestionFlows: Record<string, PolicyQuestionFlow> = {
   auto: autoQuestionFlow,
   home: homeQuestionFlow,
-  life: lifeQuestionFlow
+  life: lifeQuestionFlow,
+  commercial: commercialQuestionFlow
 };

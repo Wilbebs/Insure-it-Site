@@ -45,66 +45,26 @@ function conversationReducer(state: ConversationContext, action: ConversationAct
           [action.field]: action.value
         }
       };
-    case 'UPDATE_AUTO_DETAILS': {
-      const [parent, child] = action.field.includes('.') ? action.field.split('.') : [action.field, null];
-      if (child) {
-        const parentObj = (state.autoDetails as any)[parent] || {};
-        return {
-          ...state,
-          autoDetails: {
-            ...state.autoDetails,
-            [parent]: { ...parentObj, [child]: action.value }
-          }
-        };
-      }
+    case 'UPDATE_AUTO_DETAILS':
       return {
         ...state,
-        autoDetails: {
-          ...state.autoDetails,
-          [action.field]: action.value
-        }
+        autoDetails: { ...state.autoDetails, [action.field]: action.value }
       };
-    }
-    case 'UPDATE_HOME_DETAILS': {
-      const [parent, child] = action.field.includes('.') ? action.field.split('.') : [action.field, null];
-      if (child) {
-        const parentObj = (state.homeDetails as any)[parent] || {};
-        return {
-          ...state,
-          homeDetails: {
-            ...state.homeDetails,
-            [parent]: { ...parentObj, [child]: action.value }
-          }
-        };
-      }
+    case 'UPDATE_HOME_DETAILS':
       return {
         ...state,
-        homeDetails: {
-          ...state.homeDetails,
-          [action.field]: action.value
-        }
+        homeDetails: { ...state.homeDetails, [action.field]: action.value }
       };
-    }
-    case 'UPDATE_LIFE_DETAILS': {
-      const [parent, child] = action.field.includes('.') ? action.field.split('.') : [action.field, null];
-      if (child) {
-        const parentObj = (state.lifeDetails as any)[parent] || {};
-        return {
-          ...state,
-          lifeDetails: {
-            ...state.lifeDetails,
-            [parent]: { ...parentObj, [child]: action.value }
-          }
-        };
-      }
+    case 'UPDATE_LIFE_DETAILS':
       return {
         ...state,
-        lifeDetails: {
-          ...state.lifeDetails,
-          [action.field]: action.value
-        }
+        lifeDetails: { ...state.lifeDetails, [action.field]: action.value }
       };
-    }
+    case 'UPDATE_COMMERCIAL_DETAILS':
+      return {
+        ...state,
+        commercialDetails: { ...state.commercialDetails, [action.field]: action.value }
+      };
     case 'ADD_DOCUMENT':
       return {
         ...state,
@@ -148,7 +108,8 @@ function conversationReducer(state: ConversationContext, action: ConversationAct
 const INSURANCE_PATTERNS = {
   auto: ['car', 'auto', 'vehicle', 'driver', 'driving', 'automobile'],
   home: ['home', 'house', 'property', 'homeowner', 'dwelling'],
-  life: ['life', 'death', 'beneficiary', 'term', 'whole life']
+  life: ['life', 'death', 'beneficiary', 'term', 'whole life'],
+  commercial: ['commercial', 'business', 'company', 'liability', 'workers comp', 'professional']
 };
 
 function detectInsuranceIntent(message: string): PolicyType | null {
@@ -178,6 +139,7 @@ export default function ChatBot() {
     { type: 'auto' as PolicyType, label: t.chatbot.autoInsurance },
     { type: 'home' as PolicyType, label: t.chatbot.homeInsurance },
     { type: 'life' as PolicyType, label: t.chatbot.lifeInsurance },
+    { type: 'commercial' as PolicyType, label: t.chatbot.commercialInsurance },
   ];
 
   const [messages, setMessages] = useState<Message[]>([
@@ -302,7 +264,7 @@ export default function ChatBot() {
   };
 
   const handlePolicySelection = (policyType: PolicyType) => {
-    const policyLabel = policyType === 'auto' ? t.chatbot.autoInsurance : policyType === 'home' ? t.chatbot.homeInsurance : t.chatbot.lifeInsurance;
+    const policyLabel = policyType === 'auto' ? t.chatbot.autoInsurance : policyType === 'home' ? t.chatbot.homeInsurance : policyType === 'life' ? t.chatbot.lifeInsurance : t.chatbot.commercialInsurance;
     setMessages(prev => [...prev, { type: 'user', text: policyLabel }]);
     dispatch({ type: 'SELECT_POLICY', policyType });
     setInApplicationFlow(true);
@@ -324,9 +286,8 @@ export default function ChatBot() {
         dispatch({ type: 'NEXT_QUESTION' });
         
         // Personalize message after name is collected
-        if (fieldKey === 'name') {
-          const firstName = String(value).split(' ')[0];
-          addBotMessage(t.chatbot.niceToMeet.replace('{name}', firstName).replace('{question}', coreQuestions[nextIndex].text));
+        if (fieldKey === 'firstName') {
+          addBotMessage(t.chatbot.niceToMeet.replace('{name}', String(value)).replace('{question}', coreQuestions[nextIndex].text));
         } else if (fieldKey === 'email') {
           addBotMessage(t.chatbot.thankEmail.replace('{question}', coreQuestions[nextIndex].text));
         } else {
@@ -337,7 +298,7 @@ export default function ChatBot() {
         dispatch({ type: 'TRANSITION_STATE', state: 'collectingPolicySpecific' });
         dispatch({ type: 'NEXT_QUESTION' });
         const policyFlow = policyQuestionFlows[convState.policyType!];
-        const firstName = convState.coreInfo.name ? String(convState.coreInfo.name).split(' ')[0] : '';
+        const firstName = convState.coreInfo.firstName || '';
         addBotMessage(t.chatbot.policySpecificMsg.replace('{name}', firstName).replace('{policy}', convState.policyType!).replace('{question}', policyFlow.questions[0].text));
       }
     } else if (convState.state === 'collectingPolicySpecific') {
@@ -348,6 +309,8 @@ export default function ChatBot() {
         dispatch({ type: 'UPDATE_AUTO_DETAILS', field: fieldKey as any, value });
       } else if (convState.policyType === 'home') {
         dispatch({ type: 'UPDATE_HOME_DETAILS', field: fieldKey as any, value });
+      } else if (convState.policyType === 'commercial') {
+        dispatch({ type: 'UPDATE_COMMERCIAL_DETAILS', field: fieldKey as any, value });
       } else {
         dispatch({ type: 'UPDATE_LIFE_DETAILS', field: fieldKey as any, value });
       }
@@ -439,23 +402,23 @@ export default function ChatBot() {
     try {
       // Prepare submission data
       const submissionData: any = {
-        applicantName: convState.coreInfo.name,
+        applicantName: `${convState.coreInfo.firstName || ''} ${convState.coreInfo.lastName || ''}`.trim(),
         email: convState.coreInfo.email,
         phone: convState.coreInfo.phone,
         policyType: convState.policyType,
-        preferredContactMethod: convState.coreInfo.preferredContactMethod,
         coreDetails: JSON.stringify(convState.coreInfo),
         documents: convState.documents,
         notes: convState.notes
       };
 
-      // Add policy-specific details
       if (convState.policyType === 'auto') {
         submissionData.autoDetails = JSON.stringify(convState.autoDetails);
       } else if (convState.policyType === 'home') {
         submissionData.homeDetails = JSON.stringify(convState.homeDetails);
       } else if (convState.policyType === 'life') {
         submissionData.lifeDetails = JSON.stringify(convState.lifeDetails);
+      } else if (convState.policyType === 'commercial') {
+        submissionData.commercialDetails = JSON.stringify(convState.commercialDetails);
       }
 
       const response = await apiRequest('POST', '/api/policy-applications', submissionData);
@@ -784,29 +747,29 @@ export default function ChatBot() {
                             scale: insuranceType.type === 'auto' ? [1, 1.2, 0.85, 1.1, 1] : 
                                    insuranceType.type === 'home' ? [1, 0.8, 1.25, 0.9, 1] : 
                                    insuranceType.type === 'life' ? [1, 1.15, 1.15, 0.95, 1] :
-                                   insuranceType.type === 'health' ? [1, 1.3, 0.85, 1.15, 1] :
+                                   insuranceType.type === 'commercial' ? [1, 1.3, 0.85, 1.15, 1] :
                                    [1, 0.85, 1.2, 0.9, 1.1, 1],
                             rotate: insuranceType.type === 'auto' ? [0, 8, -8, 5, -5, 0] : 
                                    insuranceType.type === 'home' ? [0, -5, 5, -3, 3, 0] : 
                                    insuranceType.type === 'life' ? [0, 0, 0, 0] :
-                                   insuranceType.type === 'health' ? [0, -10, 10, -6, 6, 0] :
+                                   insuranceType.type === 'commercial' ? [0, -10, 10, -6, 6, 0] :
                                    [0, 4, -4, 2, -2, 0],
                             y: insuranceType.type === 'auto' ? [0, -8, 4, -2, 0] :
                                insuranceType.type === 'home' ? [0, 6, -4, 2, 0] :
                                insuranceType.type === 'life' ? [0, -10, -10, 0] :
-                               insuranceType.type === 'health' ? [0, -12, 6, -3, 0] :
+                               insuranceType.type === 'commercial' ? [0, -12, 6, -3, 0] :
                                [0, 5, -8, 3, 0],
                             transition: { 
                               duration: insuranceType.type === 'auto' ? 0.5 : 
                                        insuranceType.type === 'home' ? 0.6 : 
                                        insuranceType.type === 'life' ? 0.4 :
-                                       insuranceType.type === 'health' ? 0.55 :
+                                       insuranceType.type === 'commercial' ? 0.55 :
                                        0.65,
                               type: "spring",
                               stiffness: insuranceType.type === 'auto' ? 400 : 
                                         insuranceType.type === 'home' ? 250 : 
                                         insuranceType.type === 'life' ? 500 :
-                                        insuranceType.type === 'health' ? 450 :
+                                        insuranceType.type === 'commercial' ? 450 :
                                         300
                             }
                           }}
@@ -1010,7 +973,7 @@ export default function ChatBot() {
                         <span className="font-semibold">{t.chatbot.policyTypeLabel}</span> {convState.policyType}
                       </div>
                       <div>
-                        <span className="font-semibold">{t.chatbot.nameLabel}</span> {convState.coreInfo.name}
+                        <span className="font-semibold">{t.chatbot.nameLabel}</span> {convState.coreInfo.firstName} {convState.coreInfo.lastName}
                       </div>
                       <div>
                         <span className="font-semibold">{t.chatbot.emailLabel}</span> {convState.coreInfo.email}

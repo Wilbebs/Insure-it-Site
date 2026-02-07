@@ -297,9 +297,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }),
         preferredContactMethod: z.string().optional(),
         coreDetails: z.string().optional(), // JSON string
-        autoDetails: z.string().optional(), // JSON string
-        homeDetails: z.string().optional(), // JSON string
-        lifeDetails: z.string().optional(), // JSON string
+        autoDetails: z.string().optional(),
+        homeDetails: z.string().optional(),
+        lifeDetails: z.string().optional(),
+        commercialDetails: z.string().optional(),
         documents: z.array(z.string()).optional(),
         notes: z.string().optional()
       });
@@ -316,6 +317,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         autoDetails: validatedData.autoDetails,
         homeDetails: validatedData.homeDetails,
         lifeDetails: validatedData.lifeDetails,
+        commercialDetails: validatedData.commercialDetails,
         documents: validatedData.documents || [],
         notes: validatedData.notes
       });

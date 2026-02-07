@@ -1,9 +1,9 @@
-import type { AutoDetails, HomeDetails, LifeDetails } from "@shared/schema";
+import type { AutoDetails, HomeDetails, LifeDetails, CommercialDetails } from "@shared/schema";
 
 // Conversation states for the state machine
 export type ConversationState = 
   | 'idle'
-  | 'conversational' // New state for natural chat before data collection
+  | 'conversational'
   | 'policySelection'
   | 'collectingCore'
   | 'collectingPolicySpecific'
@@ -12,17 +12,18 @@ export type ConversationState =
   | 'submitted';
 
 // Policy types
-export type PolicyType = 'auto' | 'home' | 'life' | 'health' | 'commercial';
+export type PolicyType = 'auto' | 'home' | 'life' | 'commercial';
 
 // Contact method preferences
 export type ContactMethod = 'phone' | 'email' | 'text';
 
 // Core applicant information (collected for all policy types)
 export interface CoreApplicantInfo {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
-  preferredContactMethod: ContactMethod;
+  zipCode: string;
 }
 
 // Conversation context that persists throughout the flow
@@ -33,7 +34,8 @@ export interface ConversationContext {
   autoDetails: Partial<AutoDetails>;
   homeDetails: Partial<HomeDetails>;
   lifeDetails: Partial<LifeDetails>;
-  documents: string[]; // URLs/keys of uploaded documents
+  commercialDetails: Partial<CommercialDetails>;
+  documents: string[];
   notes: string;
   currentQuestionIndex: number;
 }
@@ -43,8 +45,8 @@ export interface ConversationQuestion {
   id: string;
   text: string;
   type: 'text' | 'number' | 'select' | 'multiselect' | 'boolean' | 'file';
-  options?: string[]; // For select/multiselect
-  fieldKey: string; // Key in the details object
+  options?: string[];
+  fieldKey: string;
   validation?: {
     required?: boolean;
     min?: number;
@@ -67,6 +69,7 @@ export type ConversationAction =
   | { type: 'UPDATE_AUTO_DETAILS'; field: keyof AutoDetails; value: any }
   | { type: 'UPDATE_HOME_DETAILS'; field: keyof HomeDetails; value: any }
   | { type: 'UPDATE_LIFE_DETAILS'; field: keyof LifeDetails; value: any }
+  | { type: 'UPDATE_COMMERCIAL_DETAILS'; field: keyof CommercialDetails; value: any }
   | { type: 'ADD_DOCUMENT'; url: string }
   | { type: 'REMOVE_DOCUMENT'; url: string }
   | { type: 'UPDATE_NOTES'; notes: string }
@@ -84,6 +87,7 @@ export const initialConversationContext: ConversationContext = {
   autoDetails: {},
   homeDetails: {},
   lifeDetails: {},
+  commercialDetails: {},
   documents: [],
   notes: '',
   currentQuestionIndex: 0,

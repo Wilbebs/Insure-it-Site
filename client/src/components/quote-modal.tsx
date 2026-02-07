@@ -174,6 +174,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
 
   const policyType = form.watch("policyType");
   const currentlyInsured = form.watch("currentlyInsured");
+  const allValues = form.watch();
 
   // Reset to step 2 when policy type changes (to avoid invalid step states)
   useEffect(() => {

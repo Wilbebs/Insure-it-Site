@@ -690,34 +690,34 @@ export default function ChatBot() {
                     />
                     <div>
                       <h3 className="font-bold">{t.chatbot.title}</h3>
-                      <p className="text-xs opacity-90">{t.chatbot.subtitle}</p>
+                      <div className="flex items-center gap-1.5">
+                        <p className="text-xs opacity-90">{t.chatbot.subtitle}</p>
+                        <button
+                          onClick={toggleLanguage}
+                          className="relative px-2 py-0.5 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300"
+                          data-testid="chatbot-language-toggle"
+                          aria-label={t.nav.switchLang}
+                        >
+                          <span className="text-[10px] font-bold text-white">
+                            {language === "en" ? "EN" : "ES"}
+                          </span>
+                          <img
+                            src={language === "en" ? usaFlagIcon : spainFlagIcon}
+                            alt=""
+                            aria-hidden="true"
+                            className="absolute -top-1 -right-1 w-3.5 h-3.5 object-contain rounded-full drop-shadow-sm"
+                          />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={toggleLanguage}
-                      className="relative px-2.5 py-1 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 group"
-                      data-testid="chatbot-language-toggle"
-                      aria-label={t.nav.switchLang}
-                    >
-                      <span className="text-xs font-bold text-white">
-                        {language === "en" ? "EN" : "ES"}
-                      </span>
-                      <img
-                        src={language === "en" ? usaFlagIcon : spainFlagIcon}
-                        alt=""
-                        aria-hidden="true"
-                        className="absolute -top-1 -right-1 w-4 h-4 object-contain rounded-full drop-shadow-sm"
-                      />
-                    </button>
-                    <button
-                      onClick={handleMinimize}
-                      className="hover:bg-white/20 p-2 rounded-full transition-colors"
-                      data-testid="chatbot-minimize-button"
-                    >
-                      <ChevronDown className="w-5 h-5" />
-                    </button>
-                  </div>
+                  <button
+                    onClick={handleMinimize}
+                    className="hover:bg-white/20 p-2 rounded-full transition-colors"
+                    data-testid="chatbot-minimize-button"
+                  >
+                    <ChevronDown className="w-5 h-5" />
+                  </button>
                 </div>
                 
                 {/* Progress Bar */}

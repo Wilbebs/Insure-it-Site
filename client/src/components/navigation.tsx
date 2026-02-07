@@ -112,11 +112,16 @@ export default function Navigation() {
             {!isScrolled && (
               <button
                 onClick={toggleLanguage}
-                className="relative p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-6 text-xl leading-none"
+                className="relative px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-6"
                 data-testid="language-toggle"
                 aria-label={t.nav.switchLang}
               >
-                {language === "en" ? "🇺🇸" : "🇪🇸"}
+                <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
+                  {language === "en" ? "EN" : "ES"}
+                </span>
+                <span className="absolute -top-1.5 -right-1.5 text-xs leading-none rotate-[25deg]" aria-hidden="true">
+                  {language === "en" ? "🇺🇸" : "🇪🇸"}
+                </span>
               </button>
             )}
           </div>
@@ -135,11 +140,16 @@ export default function Navigation() {
           <div className="flex items-center gap-2">
             <button
               onClick={toggleLanguage}
-              className="relative p-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg text-lg leading-none"
+              className="relative px-2.5 py-1 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="language-toggle-mobile"
               aria-label={t.nav.switchLang}
             >
-              {language === "en" ? "🇺🇸" : "🇪🇸"}
+              <span className="text-xs font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
+                {language === "en" ? "EN" : "ES"}
+              </span>
+              <span className="absolute -top-1.5 -right-1.5 text-[10px] leading-none rotate-[25deg]" aria-hidden="true">
+                {language === "en" ? "🇺🇸" : "🇪🇸"}
+              </span>
             </button>
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

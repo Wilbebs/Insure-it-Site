@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "./theme-provider";
-import type { ConversationContext, ConversationAction, ConversationState, PolicyType, ContactMethod } from "@/lib/conversation-types";
+import type { ConversationContext, ConversationAction, ConversationState, PolicyType, ContactMethod, QuestionGroup } from "@/lib/conversation-types";
 import { initialConversationContext } from "@/lib/conversation-types";
-import { coreQuestions, policyQuestionFlows } from "@/lib/policy-questions";
+import { coreQuestions, coreQuestionGroups, policyQuestionFlows } from "@/lib/policy-questions";
 import { validatePolicyDocument, formatFileSize } from "@/lib/file-upload";
 import { apiRequest } from "@/lib/queryClient";
 import elizabethPhoto from "@assets/image_1764878433544.png";
@@ -29,7 +29,6 @@ interface UploadedFile {
 
 const LIZ_AVATAR = elizabethPhoto;
 
-// Conversation state reducer
 function conversationReducer(state: ConversationContext, action: ConversationAction): ConversationContext {
   switch (action.type) {
     case 'SELECT_POLICY':
@@ -104,7 +103,6 @@ function conversationReducer(state: ConversationContext, action: ConversationAct
   }
 }
 
-// Natural language patterns to detect insurance interest
 const INSURANCE_PATTERNS = {
   auto: ['car', 'auto', 'vehicle', 'driver', 'driving', 'automobile'],
   home: ['home', 'house', 'property', 'homeowner', 'dwelling'],
@@ -153,27 +151,24 @@ export default function ChatBot() {
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
-  // Conversation state management
   const [convState, dispatch] = useReducer(conversationReducer, initialConversationContext);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [inApplicationFlow, setInApplicationFlow] = useState(false);
+  const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
+  const [groupFormValues, setGroupFormValues] = useState<Record<string, string>>({});
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  // Persist conversation state to localStorage
   useEffect(() => {
     if (inApplicationFlow) {
       localStorage.setItem('policyConversation', JSON.stringify(convState));
     }
   }, [convState, inApplicationFlow]);
 
-  // Load conversation state from localStorage on mount (disabled for now - start fresh)
   useEffect(() => {
-    // Clear any old saved state to ensure fresh start
     localStorage.removeItem('policyConversation');
   }, []);
 
@@ -225,7 +220,6 @@ export default function ChatBot() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isVisible]);
 
-  // Show welcome bubble when chatbot appears, hide after 10 seconds
   useEffect(() => {
     if (isVisible && !isExpanded) {
       setShowWelcomeBubble(true);
@@ -254,7 +248,7 @@ export default function ChatBot() {
       setIsTyping(false);
       setMessages(prev => [...prev, { type: 'bot', text, link }]);
       playMessageSound();
-    }, 1500);
+    }, 800);
   };
 
   const handleQuestionClick = (qa: typeof PRESET_QA[0]) => {
@@ -263,69 +257,125 @@ export default function ChatBot() {
     addBotMessage(qa.answer, qa.link);
   };
 
-  const handlePolicySelection = (policyType: PolicyType) => {
-    const policyLabel = policyType === 'auto' ? t.chatbot.autoInsurance : policyType === 'home' ? t.chatbot.homeInsurance : policyType === 'life' ? t.chatbot.lifeInsurance : t.chatbot.commercialInsurance;
-    setMessages(prev => [...prev, { type: 'user', text: policyLabel }]);
-    dispatch({ type: 'SELECT_POLICY', policyType });
-    setInApplicationFlow(true);
-    
-    const policyName = policyType.charAt(0).toUpperCase() + policyType.slice(1);
-    addBotMessage(t.chatbot.startMsg.replace('{policy}', policyName).replace('{question}', coreQuestions[0].text));
+  const getCurrentGroups = (): QuestionGroup[] => {
+    if (convState.state === 'collectingCore') {
+      return coreQuestionGroups;
+    } else if (convState.state === 'collectingPolicySpecific' && convState.policyType) {
+      return policyQuestionFlows[convState.policyType].groups;
+    }
+    return [];
   };
 
-  const handleAnswerSubmit = (value: any, fieldKey: string) => {
-    // Add user message
-    setMessages(prev => [...prev, { type: 'user', text: String(value) }]);
+  const getCurrentGroup = (): QuestionGroup | null => {
+    const groups = getCurrentGroups();
+    if (currentGroupIndex < groups.length) {
+      return groups[currentGroupIndex];
+    }
+    return null;
+  };
 
-    // Determine which detail type to update
+  const getTotalGroupCount = (): number => {
+    return coreQuestionGroups.length + (convState.policyType ? policyQuestionFlows[convState.policyType].groups.length : 0);
+  };
+
+  const getCompletedGroupCount = (): number => {
     if (convState.state === 'collectingCore') {
-      dispatch({ type: 'UPDATE_CORE_INFO', field: fieldKey as any, value });
-      
-      const nextIndex = convState.currentQuestionIndex + 1;
-      if (nextIndex < coreQuestions.length) {
-        dispatch({ type: 'NEXT_QUESTION' });
-        
-        // Personalize message after name is collected
-        if (fieldKey === 'firstName') {
-          addBotMessage(t.chatbot.niceToMeet.replace('{name}', String(value)).replace('{question}', coreQuestions[nextIndex].text));
-        } else if (fieldKey === 'email') {
-          addBotMessage(t.chatbot.thankEmail.replace('{question}', coreQuestions[nextIndex].text));
-        } else {
-          addBotMessage(coreQuestions[nextIndex].text);
-        }
-      } else {
-        // Move to policy-specific questions
-        dispatch({ type: 'TRANSITION_STATE', state: 'collectingPolicySpecific' });
-        dispatch({ type: 'NEXT_QUESTION' });
-        const policyFlow = policyQuestionFlows[convState.policyType!];
-        const firstName = convState.coreInfo.firstName || '';
-        addBotMessage(t.chatbot.policySpecificMsg.replace('{name}', firstName).replace('{policy}', convState.policyType!).replace('{question}', policyFlow.questions[0].text));
-      }
+      return currentGroupIndex;
     } else if (convState.state === 'collectingPolicySpecific') {
-      const policyFlow = policyQuestionFlows[convState.policyType!];
+      return coreQuestionGroups.length + currentGroupIndex;
+    } else if (convState.state === 'collectingDocuments' || convState.state === 'reviewing' || convState.state === 'submitted') {
+      return getTotalGroupCount();
+    }
+    return 0;
+  };
+
+  const handleGroupSubmit = () => {
+    const currentGroup = getCurrentGroup();
+    if (!currentGroup) return;
+
+    const requiredFields = currentGroup.questions.filter(q => q.validation?.required);
+    const missingRequired = requiredFields.filter(q => !groupFormValues[q.fieldKey]?.trim());
+    if (missingRequired.length > 0) {
+      toast({
+        title: t.chatbot.requiredFields || "Required fields missing",
+        description: missingRequired.map(q => q.text.replace("?", "")).join(", "),
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const filledValues = Object.entries(groupFormValues)
+      .filter(([_, v]) => v.trim() !== '')
+      .map(([k, v]) => {
+        const q = currentGroup.questions.find(q => q.fieldKey === k);
+        return q ? `${q.text.replace("What's your ", "").replace("?", "")}: ${v}` : `${k}: ${v}`;
+      });
+    
+    const summaryText = filledValues.length > 0 ? filledValues.join(', ') : 'Skipped';
+    setMessages(prev => [...prev, { type: 'user', text: summaryText }]);
+
+    if (convState.state === 'collectingCore') {
+      const savedFirstName = groupFormValues['firstName'] || '';
       
-      // Update policy-specific details (reducer handles nested fields)
-      if (convState.policyType === 'auto') {
-        dispatch({ type: 'UPDATE_AUTO_DETAILS', field: fieldKey as any, value });
-      } else if (convState.policyType === 'home') {
-        dispatch({ type: 'UPDATE_HOME_DETAILS', field: fieldKey as any, value });
-      } else if (convState.policyType === 'commercial') {
-        dispatch({ type: 'UPDATE_COMMERCIAL_DETAILS', field: fieldKey as any, value });
-      } else {
-        dispatch({ type: 'UPDATE_LIFE_DETAILS', field: fieldKey as any, value });
+      for (const q of currentGroup.questions) {
+        const value = groupFormValues[q.fieldKey] || '';
+        if (value) {
+          dispatch({ type: 'UPDATE_CORE_INFO', field: q.fieldKey as any, value });
+        }
       }
+
+      const groups = coreQuestionGroups;
+      const nextGroupIndex = currentGroupIndex + 1;
       
-      const nextLocalIndex = convState.currentQuestionIndex - coreQuestions.length + 1;
-      if (nextLocalIndex < policyFlow.questions.length) {
-        dispatch({ type: 'NEXT_QUESTION' });
-        addBotMessage(policyFlow.questions[nextLocalIndex].text);
+      if (nextGroupIndex < groups.length) {
+        setCurrentGroupIndex(nextGroupIndex);
+        setGroupFormValues({});
+        addBotMessage(groups[nextGroupIndex].title);
       } else {
-        // Increment to show 100% progress before moving to document upload
-        dispatch({ type: 'NEXT_QUESTION' });
+        if (!convState.policyType) return;
+        const policyFlow = policyQuestionFlows[convState.policyType];
+        if (!policyFlow || !policyFlow.groups.length) return;
+        
+        dispatch({ type: 'TRANSITION_STATE', state: 'collectingPolicySpecific' });
+        setCurrentGroupIndex(0);
+        setGroupFormValues({});
+        const firstName = savedFirstName || convState.coreInfo.firstName || '';
+        addBotMessage(t.chatbot.policySpecificMsg
+          .replace('{name}', firstName)
+          .replace('{policy}', convState.policyType)
+          .replace('{question}', policyFlow.groups[0].title));
+      }
+    } else if (convState.state === 'collectingPolicySpecific' && convState.policyType) {
+      const updateAction = convState.policyType === 'auto' ? 'UPDATE_AUTO_DETAILS' :
+                          convState.policyType === 'home' ? 'UPDATE_HOME_DETAILS' :
+                          convState.policyType === 'commercial' ? 'UPDATE_COMMERCIAL_DETAILS' :
+                          'UPDATE_LIFE_DETAILS';
+
+      for (const q of currentGroup.questions) {
+        const value = groupFormValues[q.fieldKey] || '';
+        if (value) {
+          dispatch({ type: updateAction, field: q.fieldKey as any, value });
+        }
+      }
+
+      const policyFlow = policyQuestionFlows[convState.policyType];
+      if (!policyFlow) return;
+      const nextGroupIndex = currentGroupIndex + 1;
+      
+      if (nextGroupIndex < policyFlow.groups.length) {
+        setCurrentGroupIndex(nextGroupIndex);
+        setGroupFormValues({});
+        addBotMessage(policyFlow.groups[nextGroupIndex].title);
+      } else {
         dispatch({ type: 'TRANSITION_STATE', state: 'collectingDocuments' });
+        setGroupFormValues({});
         addBotMessage(t.chatbot.documentUploadMsg);
       }
     }
+  };
+
+  const handleGroupFieldChange = (fieldKey: string, value: string) => {
+    setGroupFormValues(prev => ({ ...prev, [fieldKey]: value }));
   };
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -337,7 +387,6 @@ export default function ChatBot() {
         continue;
       }
 
-      // Add file to uploading state
       const newFile: UploadedFile = {
         file,
         uploading: true,
@@ -345,12 +394,10 @@ export default function ChatBot() {
       };
       setUploadedFiles(prev => [...prev, newFile]);
 
-      // Get presigned URL from server
       try {
         const response = await apiRequest('POST', '/api/objects/upload', {});
         const { uploadURL } = await response.json();
 
-        // Upload directly to object storage
         const uploadResponse = await fetch(uploadURL, {
           method: 'PUT',
           body: file,
@@ -363,15 +410,12 @@ export default function ChatBot() {
           throw new Error('Upload failed');
         }
 
-        // Extract the object URL
         const objectURL = uploadURL.split('?')[0];
 
-        // Update file with URL
         setUploadedFiles(prev => prev.map(f => 
           f.file === file ? { ...f, uploading: false, progress: 100, url: objectURL } : f
         ));
 
-        // Add to conversation state
         dispatch({ type: 'ADD_DOCUMENT', url: objectURL });
         
         toast({ title: "Document Uploaded", description: `${file.name} uploaded successfully!` });
@@ -400,7 +444,6 @@ export default function ChatBot() {
   const handleSubmitApplication = async () => {
     setIsSubmitting(true);
     try {
-      // Prepare submission data
       const submissionData: any = {
         applicantName: `${convState.coreInfo.firstName || ''} ${convState.coreInfo.lastName || ''}`.trim(),
         email: convState.coreInfo.email,
@@ -430,28 +473,19 @@ export default function ChatBot() {
       
       toast({ title: "Application Submitted", description: "We'll be in touch soon!" });
       
-      // Clear conversation state
       localStorage.removeItem('policyConversation');
       setTimeout(() => {
         setInApplicationFlow(false);
         dispatch({ type: 'RESET_CONVERSATION' });
         setUploadedFiles([]);
+        setCurrentGroupIndex(0);
+        setGroupFormValues({});
       }, 3000);
     } catch (error) {
       toast({ title: "Submission Failed", description: "Please try again or contact us directly.", variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const getCurrentQuestion = () => {
-    if (convState.state === 'collectingCore') {
-      return coreQuestions[convState.currentQuestionIndex];
-    } else if (convState.state === 'collectingPolicySpecific') {
-      const policyFlow = policyQuestionFlows[convState.policyType!];
-      return policyFlow.questions[convState.currentQuestionIndex - coreQuestions.length];
-    }
-    return null;
   };
 
   const handleLinkClick = (link: string) => {
@@ -477,20 +511,21 @@ export default function ChatBot() {
     setShowPolicySelection(false);
     setMessages(prev => [...prev, { type: 'user', text: insuranceType.label }]);
     
-    // Set policy type and start application immediately (no navigation)
     dispatch({ type: 'SELECT_POLICY', policyType: insuranceType.type });
     setInApplicationFlow(true);
+    setCurrentGroupIndex(0);
+    setGroupFormValues({});
     
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
       setMessages(prev => [...prev, { 
         type: 'bot', 
-        text: t.chatbot.startMsgShort.replace('{policy}', insuranceType.label).replace('{question}', coreQuestions[0].text)
+        text: t.chatbot.startMsgShort.replace('{policy}', insuranceType.label).replace('{question}', coreQuestionGroups[0].title)
       }]);
       playMessageSound();
       dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
-    }, 1500);
+    }, 800);
   };
 
   const handleSendMessage = () => {
@@ -500,50 +535,46 @@ export default function ChatBot() {
     setInputValue("");
     setShowQuestions(false);
 
-    // Detect insurance intent
     const detectedPolicy = detectInsuranceIntent(userMessage);
     
     if (detectedPolicy && convState.state === 'idle') {
-      // User expressed interest in a specific insurance type
       const insuranceType = INSURANCE_TYPES.find(it => it.type === detectedPolicy);
       if (insuranceType) {
         setShowPolicySelection(false);
         
-        const policyName = detectedPolicy.charAt(0).toUpperCase() + detectedPolicy.slice(1);
-        
-        // Start application immediately (no navigation)
         dispatch({ type: 'SELECT_POLICY', policyType: detectedPolicy });
         setInApplicationFlow(true);
+        setCurrentGroupIndex(0);
+        setGroupFormValues({});
         
         setIsTyping(true);
         setTimeout(() => {
           setIsTyping(false);
           setMessages(prev => [...prev, { 
             type: 'bot', 
-            text: t.chatbot.startMsgShort.replace('{policy}', policyName).replace('{question}', coreQuestions[0].text)
+            text: t.chatbot.startMsgShort.replace('{policy}', insuranceType.label).replace('{question}', coreQuestionGroups[0].title)
           }]);
           playMessageSound();
           dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
-        }, 1500);
+        }, 800);
       }
       return;
     }
 
-    // Check if user confirms application in conversational state
     if (convState.state === 'conversational') {
       const affirmative = ['yes', 'yeah', 'sure', 'ok', 'okay', 'apply', 'start', 'begin', 'let\'s do it', 'go ahead'];
       const isAffirmative = affirmative.some(word => userMessage.toLowerCase().includes(word));
       
       if (isAffirmative && convState.policyType) {
         setInApplicationFlow(true);
-        const policyName = convState.policyType.charAt(0).toUpperCase() + convState.policyType.slice(1);
-        addBotMessage(t.chatbot.startMsgShort.replace('{policy}', policyName).replace('{question}', coreQuestions[0].text));
+        setCurrentGroupIndex(0);
+        setGroupFormValues({});
+        addBotMessage(t.chatbot.startMsgShort.replace('{policy}', convState.policyType).replace('{question}', coreQuestionGroups[0].title));
         dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
         return;
       }
     }
 
-    // Try to match preset Q&A
     const matchedQA = PRESET_QA.find(qa => {
       const questionWords = qa.question.toLowerCase().split(' ');
       const userWords = userMessage.toLowerCase().split(' ');
@@ -556,7 +587,6 @@ export default function ChatBot() {
       setIsTyping(false);
       if (matchedQA) {
         setMessages(prev => [...prev, { type: 'bot', text: matchedQA.answer, link: matchedQA.link }]);
-        // Show policy selection for insurance type questions
         if (matchedQA.question.toLowerCase().includes('types of insurance') || 
             matchedQA.question.toLowerCase().includes('tell me about')) {
           setShowPolicySelection(true);
@@ -574,15 +604,15 @@ export default function ChatBot() {
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      if (inApplicationFlow && getCurrentQuestion()) {
-        // Don't send via main input during application flow - use question-specific inputs
+      if (inApplicationFlow && getCurrentGroup()) {
         return;
       }
       handleSendMessage();
     }
   };
 
-  const currentQuestion = getCurrentQuestion();
+  const currentGroup = getCurrentGroup();
+  const progressPercent = getTotalGroupCount() > 0 ? Math.round((getCompletedGroupCount() / getTotalGroupCount()) * 100) : 0;
 
   return (
     <AnimatePresence>
@@ -596,20 +626,18 @@ export default function ChatBot() {
         >
           {!isExpanded ? (
             <div className="relative">
-              {/* Welcome Message Bubble */}
               <AnimatePresence>
                 {showWelcomeBubble && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
-                    className="absolute -top-[53px] -left-[219px] whitespace-nowrap"
+                    className="absolute -top-[53px] right-0 whitespace-nowrap"
                   >
                     <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl px-5 py-3 relative">
                       <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
                         {t.chatbot.welcomeBubble}
                       </div>
-                      {/* Speech bubble tail pointing to 320-degree mark on avatar circle */}
                       <div className="absolute bottom-0 right-3 w-4 h-4 bg-white dark:bg-slate-800 transform rotate-45 translate-y-2 shadow-md"></div>
                     </div>
                   </motion.div>
@@ -688,14 +716,12 @@ export default function ChatBot() {
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
                       <span>{t.chatbot.applicationProgress}</span>
-                      <span>{Math.round((convState.currentQuestionIndex / (coreQuestions.length + (convState.policyType ? policyQuestionFlows[convState.policyType].questions.length : 0))) * 100)}%</span>
+                      <span>{progressPercent}%</span>
                     </div>
                     <div className="w-full bg-white/30 rounded-full h-2">
                       <div 
                         className="bg-white h-2 rounded-full transition-all duration-500"
-                        style={{ 
-                          width: `${(convState.currentQuestionIndex / (coreQuestions.length + (convState.policyType ? policyQuestionFlows[convState.policyType].questions.length : 0))) * 100}%` 
-                        }}
+                        style={{ width: `${progressPercent}%` }}
                       ></div>
                     </div>
                   </div>
@@ -815,97 +841,58 @@ export default function ChatBot() {
                   </div>
                 )}
 
-                {/* Question Input UI - Shown inline in messages */}
-                {currentQuestion && !isTyping && (convState.state === 'collectingCore' || convState.state === 'collectingPolicySpecific') && (
-                  <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-3">
-                    <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">{currentQuestion.text}</p>
-                    {currentQuestion.helperText && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400">{currentQuestion.helperText}</p>
-                    )}
+                {/* Grouped Question Form - All fields in a group shown together */}
+                {currentGroup && !isTyping && (convState.state === 'collectingCore' || convState.state === 'collectingPolicySpecific') && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-3"
+                    data-testid="question-group-form"
+                  >
+                    <p className="text-sm font-bold text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-slate-600 pb-2">
+                      {currentGroup.title}
+                    </p>
                     
-                    {currentQuestion.type === 'select' && (
-                      <select
-                        onChange={(e) => handleAnswerSubmit(e.target.value, currentQuestion.fieldKey)}
-                        className="w-full p-2 border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200"
-                        data-testid="question-select"
-                      >
-                        <option value="">{t.chatbot.selectPlaceholder}</option>
-                        {currentQuestion.options?.map(opt => (
-                          <option key={opt} value={opt}>{opt}</option>
-                        ))}
-                      </select>
-                    )}
-                    
-                    {currentQuestion.type === 'multiselect' && (
-                      <div className="space-y-2">
-                        {currentQuestion.options?.map(opt => (
-                          <label key={opt} className="flex items-center gap-2 text-gray-700 dark:text-gray-200">
-                            <input type="checkbox" value={opt} className="rounded" />
-                            <span className="text-sm">{opt}</span>
-                          </label>
-                        ))}
-                        <button
-                          onClick={() => {
-                            const checked = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map((el: any) => el.value);
-                            handleAnswerSubmit(checked, currentQuestion.fieldKey);
-                          }}
-                          className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
-                          data-testid="question-multiselect-submit"
-                        >
-                          {t.chatbot.continueBtn}
-                        </button>
+                    {currentGroup.questions.map((q) => (
+                      <div key={q.id} className="space-y-1">
+                        <label className="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                          {q.text}
+                          {q.validation?.required && <span className="text-red-400 ml-0.5">*</span>}
+                        </label>
+                        
+                        {q.type === 'select' ? (
+                          <select
+                            value={groupFormValues[q.fieldKey] || ''}
+                            onChange={(e) => handleGroupFieldChange(q.fieldKey, e.target.value)}
+                            className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200"
+                            data-testid={`group-field-${q.fieldKey}`}
+                          >
+                            <option value="">{t.chatbot.selectPlaceholder}</option>
+                            {q.options?.map(opt => (
+                              <option key={opt} value={opt}>{opt}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          <input
+                            type={q.type === 'number' ? 'number' : 'text'}
+                            value={groupFormValues[q.fieldKey] || ''}
+                            onChange={(e) => handleGroupFieldChange(q.fieldKey, e.target.value)}
+                            placeholder={q.placeholder || q.helperText || ''}
+                            className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                            data-testid={`group-field-${q.fieldKey}`}
+                          />
+                        )}
                       </div>
-                    )}
+                    ))}
                     
-                    {currentQuestion.type === 'boolean' && (
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => handleAnswerSubmit(true, currentQuestion.fieldKey)}
-                          className="flex-1 bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
-                          data-testid="question-boolean-yes"
-                        >
-                          {t.chatbot.yesBtn}
-                        </button>
-                        <button
-                          onClick={() => handleAnswerSubmit(false, currentQuestion.fieldKey)}
-                          className="flex-1 bg-gray-300 dark:bg-slate-600 text-gray-700 dark:text-gray-200 p-2 rounded-lg hover:bg-gray-400 dark:hover:bg-slate-500"
-                          data-testid="question-boolean-no"
-                        >
-                          {t.chatbot.noBtn}
-                        </button>
-                      </div>
-                    )}
-                    
-                    {(currentQuestion.type === 'text' || currentQuestion.type === 'number') && (
-                      <div className="flex gap-2">
-                        <input
-                          type={currentQuestion.type}
-                          placeholder={t.chatbot.yourAnswer}
-                          className="flex-1 p-2 border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-                          onKeyPress={(e) => {
-                            if (e.key === 'Enter') {
-                              const value = (e.target as HTMLInputElement).value;
-                              handleAnswerSubmit(currentQuestion.type === 'number' ? parseFloat(value) : value, currentQuestion.fieldKey);
-                              (e.target as HTMLInputElement).value = '';
-                            }
-                          }}
-                          data-testid="question-text-input"
-                        />
-                        <button
-                          onClick={(e) => {
-                            const input = (e.currentTarget.previousSibling as HTMLInputElement);
-                            const value = input.value;
-                            handleAnswerSubmit(currentQuestion.type === 'number' ? parseFloat(value) : value, currentQuestion.fieldKey);
-                            input.value = '';
-                          }}
-                          className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
-                          data-testid="question-text-submit"
-                        >
-                          <Send className="w-5 h-5" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                    <button
+                      onClick={handleGroupSubmit}
+                      className="w-full bg-blue-600 text-white p-2.5 rounded-lg hover:bg-blue-700 font-semibold text-sm transition-colors mt-2"
+                      data-testid="group-submit-button"
+                    >
+                      {t.chatbot.continueBtn}
+                    </button>
+                  </motion.div>
                 )}
 
                 {/* Document Upload UI */}
@@ -1024,14 +1011,14 @@ export default function ChatBot() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder={inApplicationFlow && currentQuestion ? t.chatbot.useFormAbove : t.chatbot.typeMessage}
-                  disabled={inApplicationFlow && currentQuestion !== null}
+                  placeholder={inApplicationFlow && currentGroup ? t.chatbot.useFormAbove : t.chatbot.typeMessage}
+                  disabled={inApplicationFlow && currentGroup !== null}
                   className="flex-1 px-4 py-2 border dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 dark:disabled:bg-slate-700 disabled:cursor-not-allowed bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
                   data-testid="chatbot-input"
                 />
                 <button
                   onClick={handleSendMessage}
-                  disabled={inApplicationFlow && currentQuestion !== null}
+                  disabled={inApplicationFlow && currentGroup !== null}
                   className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                   data-testid="chatbot-send-button"
                 >

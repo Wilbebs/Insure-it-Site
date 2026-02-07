@@ -1,4 +1,4 @@
-import type { PolicyQuestionFlow, ConversationQuestion } from './conversation-types';
+import type { PolicyQuestionFlow, ConversationQuestion, QuestionGroup } from './conversation-types';
 
 // Core questions asked for all policy types (matches quote modal: firstName, lastName, email, phone, zipCode)
 export const coreQuestions: ConversationQuestion[] = [
@@ -8,7 +8,8 @@ export const coreQuestions: ConversationQuestion[] = [
     type: 'text',
     fieldKey: 'firstName',
     validation: { required: true },
-    helperText: 'Your first name'
+    helperText: 'Your first name',
+    placeholder: 'First name'
   },
   {
     id: 'lastName',
@@ -16,7 +17,8 @@ export const coreQuestions: ConversationQuestion[] = [
     type: 'text',
     fieldKey: 'lastName',
     validation: { required: true },
-    helperText: 'Your last name'
+    helperText: 'Your last name',
+    placeholder: 'Last name'
   },
   {
     id: 'email',
@@ -24,7 +26,8 @@ export const coreQuestions: ConversationQuestion[] = [
     type: 'text',
     fieldKey: 'email',
     validation: { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
-    helperText: "We'll use this to send you policy information"
+    helperText: "We'll use this to send you policy information",
+    placeholder: 'email@example.com'
   },
   {
     id: 'phone',
@@ -32,7 +35,8 @@ export const coreQuestions: ConversationQuestion[] = [
     type: 'text',
     fieldKey: 'phone',
     validation: { required: true },
-    helperText: 'Include area code (e.g., 305-555-1234)'
+    helperText: 'Include area code (e.g., 305-555-1234)',
+    placeholder: '305-555-1234'
   },
   {
     id: 'zipCode',
@@ -40,7 +44,23 @@ export const coreQuestions: ConversationQuestion[] = [
     type: 'text',
     fieldKey: 'zipCode',
     validation: { required: true },
-    helperText: 'Your 5-digit ZIP code'
+    helperText: 'Your 5-digit ZIP code',
+    placeholder: '33101'
+  }
+];
+
+// Core questions grouped for faster form filling
+export const coreQuestionGroups: QuestionGroup[] = [
+  {
+    id: 'personal-info',
+    title: 'Your Information',
+    questions: [
+      coreQuestions[0], // firstName
+      coreQuestions[1], // lastName
+      coreQuestions[2], // email
+      coreQuestions[3], // phone
+      coreQuestions[4], // zipCode
+    ]
   }
 ];
 
@@ -54,7 +74,8 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'vehicleYear',
       validation: { required: false },
-      helperText: 'e.g., 2024'
+      helperText: 'e.g., 2024',
+      placeholder: '2024'
     },
     {
       id: 'vehicleMake',
@@ -62,7 +83,8 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'vehicleMake',
       validation: { required: false },
-      helperText: 'e.g., Toyota, Honda, Ford'
+      helperText: 'e.g., Toyota, Honda, Ford',
+      placeholder: 'Toyota'
     },
     {
       id: 'vehicleModel',
@@ -70,7 +92,8 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'vehicleModel',
       validation: { required: false },
-      helperText: 'e.g., Camry, Accord, F-150'
+      helperText: 'e.g., Camry, Accord, F-150',
+      placeholder: 'Camry'
     },
     {
       id: 'vehicleVin',
@@ -78,7 +101,8 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'vehicleVin',
       validation: { required: false },
-      helperText: 'Optional - helps us provide more accurate quotes'
+      helperText: 'Optional - helps us provide more accurate quotes',
+      placeholder: 'Optional'
     },
     {
       id: 'primaryUse',
@@ -103,7 +127,8 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'driverDob',
       validation: { required: false },
-      helperText: 'MM/DD/YYYY format'
+      helperText: 'MM/DD/YYYY format',
+      placeholder: 'MM/DD/YYYY'
     },
     {
       id: 'maritalStatus',
@@ -119,7 +144,8 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'licenseState',
       validation: { required: false },
-      helperText: 'e.g., FL'
+      helperText: 'e.g., FL',
+      placeholder: 'FL'
     },
     {
       id: 'licenseNumber',
@@ -127,7 +153,8 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'licenseNumber',
       validation: { required: false },
-      helperText: 'Optional - helps verify your driving record'
+      helperText: 'Optional - helps verify your driving record',
+      placeholder: 'Optional'
     },
     {
       id: 'hasViolations',
@@ -151,7 +178,8 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'currentCarrier',
       validation: { required: false },
-      helperText: 'e.g., State Farm, Geico'
+      helperText: 'e.g., State Farm, Geico',
+      placeholder: 'e.g., State Farm'
     },
     {
       id: 'currentLimits',
@@ -161,8 +189,36 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
       options: ['25/50', '50/100', '100/300', '250/500', 'unsure'],
       validation: { required: false }
     }
+  ],
+  groups: [
+    {
+      id: 'vehicle-info',
+      title: 'Vehicle Information',
+      questions: [] // filled below
+    },
+    {
+      id: 'vehicle-usage',
+      title: 'Vehicle Usage & Status',
+      questions: []
+    },
+    {
+      id: 'driver-info',
+      title: 'Driver Information',
+      questions: []
+    },
+    {
+      id: 'insurance-history',
+      title: 'Insurance History',
+      questions: []
+    }
   ]
 };
+
+// Wire up auto groups by reference
+autoQuestionFlow.groups[0].questions = autoQuestionFlow.questions.slice(0, 4);   // year, make, model, vin
+autoQuestionFlow.groups[1].questions = autoQuestionFlow.questions.slice(4, 6);   // primaryUse, ownershipStatus
+autoQuestionFlow.groups[2].questions = autoQuestionFlow.questions.slice(6, 10);  // dob, marital, licenseState, licenseNumber
+autoQuestionFlow.groups[3].questions = autoQuestionFlow.questions.slice(10, 14); // violations, insured, carrier, limits
 
 // Home insurance questions (matches quote modal fields)
 export const homeQuestionFlow: PolicyQuestionFlow = {
@@ -174,7 +230,8 @@ export const homeQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'propertyAddress',
       validation: { required: false },
-      helperText: 'Full street address'
+      helperText: 'Full street address',
+      placeholder: '123 Main St'
     },
     {
       id: 'propertyCity',
@@ -182,7 +239,8 @@ export const homeQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'propertyCity',
       validation: { required: false },
-      helperText: 'e.g., Jacksonville'
+      helperText: 'e.g., Jacksonville',
+      placeholder: 'Jacksonville'
     },
     {
       id: 'propertyState',
@@ -190,7 +248,8 @@ export const homeQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'propertyState',
       validation: { required: false },
-      helperText: 'e.g., FL'
+      helperText: 'e.g., FL',
+      placeholder: 'FL'
     },
     {
       id: 'propertyZip',
@@ -198,7 +257,8 @@ export const homeQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'propertyZip',
       validation: { required: false },
-      helperText: 'e.g., 32256'
+      helperText: 'e.g., 32256',
+      placeholder: '32256'
     },
     {
       id: 'propertyType',
@@ -214,7 +274,8 @@ export const homeQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'yearBuilt',
       validation: { required: false },
-      helperText: 'Approximate year is fine'
+      helperText: 'Approximate year is fine',
+      placeholder: '1995'
     },
     {
       id: 'squareFootage',
@@ -222,7 +283,8 @@ export const homeQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'squareFootage',
       validation: { required: false },
-      helperText: 'Total living space'
+      helperText: 'Total living space',
+      placeholder: '1800'
     },
     {
       id: 'roofYear',
@@ -230,7 +292,8 @@ export const homeQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'roofYear',
       validation: { required: false },
-      helperText: 'Year of last roof replacement'
+      helperText: 'Year of last roof replacement',
+      placeholder: '2020'
     },
     {
       id: 'systemsUpdated',
@@ -256,8 +319,29 @@ export const homeQuestionFlow: PolicyQuestionFlow = {
       options: ['no', 'yes-fenced', 'yes-unfenced'],
       validation: { required: false }
     }
+  ],
+  groups: [
+    {
+      id: 'property-address',
+      title: 'Property Address',
+      questions: []
+    },
+    {
+      id: 'property-details',
+      title: 'Property Details',
+      questions: []
+    },
+    {
+      id: 'property-features',
+      title: 'Property Features',
+      questions: []
+    }
   ]
 };
+
+homeQuestionFlow.groups[0].questions = homeQuestionFlow.questions.slice(0, 4);  // address, city, state, zip
+homeQuestionFlow.groups[1].questions = homeQuestionFlow.questions.slice(4, 8);  // type, yearBuilt, sqft, roofYear
+homeQuestionFlow.groups[2].questions = homeQuestionFlow.questions.slice(8, 11); // systems, primary, pool
 
 // Life insurance questions (matches quote modal fields)
 export const lifeQuestionFlow: PolicyQuestionFlow = {
@@ -269,7 +353,8 @@ export const lifeQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'lifeDob',
       validation: { required: false },
-      helperText: 'MM/DD/YYYY format'
+      helperText: 'MM/DD/YYYY format',
+      placeholder: 'MM/DD/YYYY'
     },
     {
       id: 'gender',
@@ -285,7 +370,8 @@ export const lifeQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'height',
       validation: { required: false },
-      helperText: "e.g., 5'10\""
+      helperText: "e.g., 5'10\"",
+      placeholder: "5'10\""
     },
     {
       id: 'weight',
@@ -293,7 +379,8 @@ export const lifeQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'weight',
       validation: { required: false },
-      helperText: 'e.g., 175'
+      helperText: 'e.g., 175',
+      placeholder: '175'
     },
     {
       id: 'usesTobacco',
@@ -335,8 +422,29 @@ export const lifeQuestionFlow: PolicyQuestionFlow = {
       options: ['10', '20', '30'],
       validation: { required: false }
     }
+  ],
+  groups: [
+    {
+      id: 'personal-health',
+      title: 'Personal & Health Info',
+      questions: []
+    },
+    {
+      id: 'health-conditions',
+      title: 'Health & Lifestyle',
+      questions: []
+    },
+    {
+      id: 'coverage-preferences',
+      title: 'Coverage Preferences',
+      questions: []
+    }
   ]
 };
+
+lifeQuestionFlow.groups[0].questions = lifeQuestionFlow.questions.slice(0, 4);  // dob, gender, height, weight
+lifeQuestionFlow.groups[1].questions = lifeQuestionFlow.questions.slice(4, 6);  // tobacco, medical
+lifeQuestionFlow.groups[2].questions = lifeQuestionFlow.questions.slice(6, 9);  // type, amount, term
 
 // Commercial insurance questions (matches quote modal fields)
 export const commercialQuestionFlow: PolicyQuestionFlow = {
@@ -348,7 +456,8 @@ export const commercialQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'businessName',
       validation: { required: false },
-      helperText: 'Legal business name'
+      helperText: 'Legal business name',
+      placeholder: 'Acme Corp'
     },
     {
       id: 'industryDescription',
@@ -356,7 +465,8 @@ export const commercialQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'industryDescription',
       validation: { required: false },
-      helperText: 'e.g., Plumbing Contractor, Restaurant, IT Consulting'
+      helperText: 'e.g., Plumbing Contractor, Restaurant, IT Consulting',
+      placeholder: 'e.g., IT Consulting'
     },
     {
       id: 'yearsInBusiness',
@@ -380,7 +490,8 @@ export const commercialQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'fullTimeEmployees',
       validation: { required: false },
-      helperText: 'Number of full-time employees'
+      helperText: 'Number of full-time employees',
+      placeholder: '10'
     },
     {
       id: 'partTimeEmployees',
@@ -388,7 +499,8 @@ export const commercialQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'partTimeEmployees',
       validation: { required: false },
-      helperText: 'Number of part-time employees'
+      helperText: 'Number of part-time employees',
+      placeholder: '5'
     },
     {
       id: 'needsGeneralLiability',
@@ -422,8 +534,29 @@ export const commercialQuestionFlow: PolicyQuestionFlow = {
       options: ['yes', 'no', 'unsure'],
       validation: { required: false }
     }
+  ],
+  groups: [
+    {
+      id: 'business-info',
+      title: 'Business Information',
+      questions: []
+    },
+    {
+      id: 'business-size',
+      title: 'Business Size & Revenue',
+      questions: []
+    },
+    {
+      id: 'coverage-needs',
+      title: 'Coverage Needs',
+      questions: []
+    }
   ]
 };
+
+commercialQuestionFlow.groups[0].questions = commercialQuestionFlow.questions.slice(0, 2);  // name, industry
+commercialQuestionFlow.groups[1].questions = commercialQuestionFlow.questions.slice(2, 6);  // years, revenue, employees
+commercialQuestionFlow.groups[2].questions = commercialQuestionFlow.questions.slice(6, 10); // coverage types
 
 // Map policy types to their question flows
 export const policyQuestionFlows: Record<string, PolicyQuestionFlow> = {

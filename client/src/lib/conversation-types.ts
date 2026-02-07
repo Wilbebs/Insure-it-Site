@@ -54,12 +54,21 @@ export interface ConversationQuestion {
     pattern?: RegExp;
   };
   helperText?: string;
+  placeholder?: string;
+}
+
+// A group of related questions shown together as a mini-form
+export interface QuestionGroup {
+  id: string;
+  title: string;
+  questions: ConversationQuestion[];
 }
 
 // Policy-specific question flows
 export interface PolicyQuestionFlow {
   policyType: PolicyType;
   questions: ConversationQuestion[];
+  groups: QuestionGroup[];
 }
 
 // Action types for state machine reducer

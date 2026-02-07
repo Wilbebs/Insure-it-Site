@@ -370,8 +370,8 @@ export const lifeQuestionFlow: PolicyQuestionFlow = {
       type: 'text',
       fieldKey: 'height',
       validation: { required: false },
-      helperText: "e.g., 5'10\"",
-      placeholder: "5'10\""
+      helperText: "e.g., 5'9\"",
+      placeholder: "5'9\""
     },
     {
       id: 'weight',

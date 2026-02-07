@@ -125,7 +125,7 @@ export default function Navigation() {
                   src={language === "en" ? usaFlagIcon : spainFlagIcon}
                   alt=""
                   aria-hidden="true"
-                  className="absolute -top-2 -right-2 w-5 h-5 drop-shadow-sm"
+                  className="absolute -top-2 -right-2 w-5 h-5 object-contain rounded-full drop-shadow-sm"
                 />
               </button>
             )}
@@ -156,7 +156,7 @@ export default function Navigation() {
                 src={language === "en" ? usaFlagIcon : spainFlagIcon}
                 alt=""
                 aria-hidden="true"
-                className="absolute -top-1.5 -right-1.5 w-4 h-4 drop-shadow-sm"
+                className="absolute -top-1.5 -right-1.5 w-4 h-4 object-contain rounded-full drop-shadow-sm"
               />
             </button>
             <button 

@@ -689,7 +689,7 @@ export default function ChatBot() {
                       className="w-10 h-10 rounded-full border-2 border-white object-cover object-top"
                     />
                     <div>
-                      <h3 className="font-bold" style={{ transform: 'translateY(3px)' }}>{t.chatbot.title}</h3>
+                      <h3 className="font-bold" style={{ transform: 'translateY(8px)' }}>{t.chatbot.title}</h3>
                       <div className="flex items-center gap-1.5">
                         <p className="text-xs opacity-90">{t.chatbot.subtitle}</p>
                         <button
@@ -698,7 +698,7 @@ export default function ChatBot() {
                           data-testid="chatbot-language-toggle"
                           aria-label={t.nav.switchLang}
                         >
-                          <span className="text-[10px] font-bold text-white">
+                          <span className="text-[10px] font-bold text-white flex items-center justify-center">
                             {language === "en" ? "EN" : "ES"}
                           </span>
                           <img

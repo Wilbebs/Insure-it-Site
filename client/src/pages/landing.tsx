@@ -170,6 +170,12 @@ export default function Landing() {
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
+  useEffect(() => {
+    const openQuote = () => setQuoteModalOpen(true);
+    window.addEventListener('open-quote-modal', openQuote);
+    return () => window.removeEventListener('open-quote-modal', openQuote);
+  }, []);
+
   const insuranceTypes = [
     {
       icon: <Car className="w-10 h-10" />,

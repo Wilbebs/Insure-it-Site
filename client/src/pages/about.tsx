@@ -131,6 +131,12 @@ export default function About() {
   const [showCursor, setShowCursor] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
 
+  useEffect(() => {
+    const openQuote = () => setQuoteModalOpen(true);
+    window.addEventListener('open-quote-modal', openQuote);
+    return () => window.removeEventListener('open-quote-modal', openQuote);
+  }, []);
+
   const fullTitle = t.about.ourStory;
   const fullLastParagraph = t.about.storyP4;
   const fullSignature = t.about.signature;

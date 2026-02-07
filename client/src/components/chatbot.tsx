@@ -490,6 +490,13 @@ export default function ChatBot() {
 
   const handleLinkClick = (link: string) => {
     if (!link) return;
+    if (link === '/#connect' || link === 'open-quote') {
+      setIsExpanded(false);
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('open-quote-modal'));
+      }, 300);
+      return;
+    }
     if (link.startsWith('/#')) {
       const section = link.substring(2);
       if (window.location.pathname !== '/') {

@@ -55,7 +55,7 @@ export default function Navigation() {
               href="/"
               onClick={handleNavClick}
               className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
-                location === "/" ? "text-blue-600" : "text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white"
+                location === "/" ? "text-blue-600" : "text-slate-800 hover:text-black"
               }`}
               data-testid="nav-home"
             >
@@ -65,7 +65,7 @@ export default function Navigation() {
               href="/about"
               onClick={handleNavClick}
               className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
-                location === "/about" ? "text-blue-600" : "text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white"
+                location === "/about" ? "text-blue-600" : "text-slate-800 hover:text-black"
               }`}
               data-testid="nav-about"
             >
@@ -79,7 +79,7 @@ export default function Navigation() {
               href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 rounded-full bg-white/90 dark:bg-slate-700/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
+              className={`p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
               data-testid="nav-social-linkedin"
               style={{ zIndex: isScrolled ? 3 : 'auto' }}
             >
@@ -90,7 +90,7 @@ export default function Navigation() {
               href="https://www.instagram.com/insureitgroup/"
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 rounded-full bg-white/90 dark:bg-slate-700/90 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
+              className={`p-2 rounded-full bg-white/90 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
               data-testid="nav-social-instagram"
               style={{ zIndex: isScrolled ? 2 : 'auto' }}
             >
@@ -101,7 +101,7 @@ export default function Navigation() {
               href="https://www.facebook.com/insureitgroup"
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 rounded-full bg-white/90 dark:bg-slate-700/90 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
+              className={`p-2 rounded-full bg-white/90 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
               data-testid="nav-social-facebook"
               style={{ zIndex: isScrolled ? 1 : 'auto' }}
             >
@@ -137,25 +137,40 @@ export default function Navigation() {
               logoHighlight ? 'w-full opacity-100' : 'w-0 opacity-0'
             }`}></div>
           </Link>
-          <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white transition-colors"
-            data-testid="mobile-menu-toggle"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleLanguage}
+              className="relative px-2.5 py-1 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
+              data-testid="language-toggle-mobile"
+              aria-label={language === "en" ? "Switch to Spanish" : "Cambiar a Inglés"}
+            >
+              <span className="text-xs font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
+                {language === "en" ? "EN" : "ES"}
+              </span>
+              <span className="absolute -top-1.5 -right-1.5 text-[10px] leading-none" aria-hidden="true">
+                {language === "en" ? "🇺🇸" : "🇪🇸"}
+              </span>
+            </button>
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-slate-800 hover:text-black transition-colors"
+              data-testid="mobile-menu-toggle"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu Dropdown */}
         {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 right-0 mt-2 glass-nav rounded-2xl p-4 border border-white/20 dark:border-slate-700/40">
+          <div className="absolute top-full left-0 right-0 mt-2 glass-nav rounded-2xl p-4 border border-white/20">
             <div className="flex flex-col space-y-3">
               <Link 
                 href="/" 
                 className={`transition-colors font-medium text-center py-2 rounded-lg ${
                   location === "/" 
-                    ? "text-blue-600 bg-blue-50 dark:bg-blue-900/30" 
-                    : "text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                    ? "text-blue-600 bg-blue-50" 
+                    : "text-slate-800 hover:text-black hover:bg-slate-50"
                 }`}
                 data-testid="nav-home-mobile"
                 onClick={() => {
@@ -169,8 +184,8 @@ export default function Navigation() {
                 href="/about" 
                 className={`transition-colors font-medium text-center py-2 rounded-lg ${
                   location === "/about" 
-                    ? "text-blue-600 bg-blue-50 dark:bg-blue-900/30" 
-                    : "text-slate-800 dark:text-slate-200 hover:text-black dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                    ? "text-blue-600 bg-blue-50" 
+                    : "text-slate-800 hover:text-black hover:bg-slate-50"
                 }`}
                 data-testid="nav-about-mobile"
                 onClick={() => {

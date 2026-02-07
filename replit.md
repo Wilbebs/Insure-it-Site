@@ -11,6 +11,9 @@ This is a simplified, professional insurance website built with React and Expres
 - Preferred communication style: Simple, everyday language.
 - Design philosophy: Simple, minimal scrolling, easy form access
 - Users likely already know what insurance they need - focus on quick quote access
+- Dark mode: Disabled for the time being (may be re-enabled later)
+- Language toggle: EN/ES button with flag emoji badges (🇺🇸/🇪🇸) replaces dark mode toggle
+- Form fields: Select dropdowns and date inputs use direct form.setValue + form.watch() pattern (NOT FormField/Controller) to ensure immediate visual updates
 
 ## Site Structure
 

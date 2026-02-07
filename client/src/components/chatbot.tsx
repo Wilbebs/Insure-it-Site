@@ -689,12 +689,12 @@ export default function ChatBot() {
                       className="w-10 h-10 rounded-full border-2 border-white object-cover object-top"
                     />
                     <div>
-                      <h3 className="font-bold">{t.chatbot.title}</h3>
+                      <h3 className="font-bold" style={{ transform: 'translateY(3px)' }}>{t.chatbot.title}</h3>
                       <div className="flex items-center gap-1.5">
                         <p className="text-xs opacity-90">{t.chatbot.subtitle}</p>
                         <button
                           onClick={toggleLanguage}
-                          className="relative px-2 py-0.5 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300" style={{ transform: 'translateY(-7px)' }}
+                          className="relative px-2 py-0.5 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300" style={{ transform: 'translateY(-8.5px)' }}
                           data-testid="chatbot-language-toggle"
                           aria-label={t.nav.switchLang}
                         >

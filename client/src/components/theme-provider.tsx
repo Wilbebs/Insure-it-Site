@@ -1,6 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
-
-type Language = "en" | "es";
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
+import { getTranslations, type Language } from "@/lib/translations";
 
 interface LanguageContextType {
   language: Language;
@@ -41,6 +40,12 @@ export function useLanguage() {
     throw new Error("useLanguage must be used within a LanguageProvider");
   }
   return context;
+}
+
+export function useTranslation() {
+  const { language, toggleLanguage } = useLanguage();
+  const t = useMemo(() => getTranslations(language), [language]);
+  return { t, language, toggleLanguage };
 }
 
 export function useTheme() {

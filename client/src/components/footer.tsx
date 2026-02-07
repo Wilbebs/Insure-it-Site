@@ -2,12 +2,14 @@ import { Phone, Mail, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
 import Logo from "./logo";
+import { useTranslation } from "./theme-provider";
 
 interface FooterProps {
   onGetQuote?: () => void;
 }
 
 export default function Footer({ onGetQuote }: FooterProps) {
+  const { t } = useTranslation();
   return (
     <footer className="bg-slate-900 dark:bg-slate-950 text-white py-12" data-testid="footer">
       <div className="container mx-auto px-6">
@@ -17,7 +19,7 @@ export default function Footer({ onGetQuote }: FooterProps) {
               <Logo variant="white" />
             </div>
             <p className="opacity-90 leading-relaxed mb-4">
-              A proud family-owned business serving Florida for 14 years. From our roots in Miami to serving thousands of clients statewide, we're your trusted partner in comprehensive insurance solutions.
+              {t.footer.description}
             </p>
             <div className="flex items-center space-x-3">
               <a 
@@ -51,7 +53,7 @@ export default function Footer({ onGetQuote }: FooterProps) {
           </div>
           
           <div>
-            <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
+            <h3 className="font-semibold text-lg mb-4">{t.footer.quickLinks}</h3>
             <ul className="space-y-2 opacity-90">
               <li>
                 <Link 
@@ -60,7 +62,7 @@ export default function Footer({ onGetQuote }: FooterProps) {
                   className="hover:opacity-100 transition-opacity" 
                   data-testid="footer-link-home"
                 >
-                  Home
+                  {t.footer.home}
                 </Link>
               </li>
               <li>
@@ -70,7 +72,7 @@ export default function Footer({ onGetQuote }: FooterProps) {
                   className="hover:opacity-100 transition-opacity" 
                   data-testid="footer-link-about"
                 >
-                  About Us
+                  {t.footer.aboutUs}
                 </Link>
               </li>
               <li>
@@ -79,14 +81,14 @@ export default function Footer({ onGetQuote }: FooterProps) {
                   className="hover:opacity-100 transition-opacity text-left"
                   data-testid="footer-link-quote"
                 >
-                  Get Quote
+                  {t.footer.getQuote}
                 </button>
               </li>
             </ul>
           </div>
           
           <div>
-            <h3 className="font-semibold text-lg mb-4">Contact Info</h3>
+            <h3 className="font-semibold text-lg mb-4">{t.footer.contactInfo}</h3>
             <div className="space-y-2 opacity-90">
               <div className="flex items-center" data-testid="contact-phone">
                 <Phone className="w-4 h-4 mr-2" />
@@ -105,7 +107,7 @@ export default function Footer({ onGetQuote }: FooterProps) {
         </div>
         
         <div className="border-t border-slate-700 mt-8 pt-8 text-center opacity-75">
-          <p>&copy; 2025 Insure-it Group. All rights reserved.</p>
+          <p>{t.footer.copyright}</p>
         </div>
       </div>
     </footer>

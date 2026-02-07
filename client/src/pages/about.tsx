@@ -4,6 +4,7 @@ import QuoteModal from "@/components/quote-modal";
 import { Shield, Users, Award, Clock } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "@/components/theme-provider";
 import wilbertPhoto from "@assets/image_1764878413663.png";
 import elizabethPhoto from "@assets/image_1764878433544.png";
 import davidPhoto from "@assets/image_1765442735571.png";
@@ -123,17 +124,24 @@ function FloatingShield({ style, size, delay, duration }: {
 }
 
 export default function About() {
+  const { t } = useTranslation();
   const [titleText, setTitleText] = useState("");
   const [lastParagraphText, setLastParagraphText] = useState("");
   const [signatureText, setSignatureText] = useState("");
   const [showCursor, setShowCursor] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
 
-  const fullTitle = "Our Story";
-  const fullLastParagraph = "Today, 14 years later, we remain family-owned and family-focused. We've grown from that single office in Miami to serving thousands of clients statewide, but our mission has never changed: to treat every client like family and provide the kind of insurance coverage that brings true peace of mind.";
-  const fullSignature = "From our family to yours—protecting Florida families, one policy at a time.";
+  const fullTitle = t.about.ourStory;
+  const fullLastParagraph = t.about.storyP4;
+  const fullSignature = t.about.signature;
 
   useEffect(() => {
+    setTitleText("");
+    setLastParagraphText("");
+    setSignatureText("");
+    setShowCursor(false);
+
+    const intervals: ReturnType<typeof setInterval>[] = [];
     let titleIndex = 0;
     const titleInterval = setInterval(() => {
       if (titleIndex <= fullTitle.length) {
@@ -141,7 +149,6 @@ export default function About() {
         titleIndex++;
       } else {
         clearInterval(titleInterval);
-        // Start typing the last paragraph after title is done
         let paragraphIndex = 0;
         const paragraphInterval = setInterval(() => {
           if (paragraphIndex <= fullLastParagraph.length) {
@@ -149,7 +156,6 @@ export default function About() {
             paragraphIndex++;
           } else {
             clearInterval(paragraphInterval);
-            // Start typing the signature after paragraph is done
             let signatureIndex = 0;
             const signatureInterval = setInterval(() => {
               if (signatureIndex <= fullSignature.length) {
@@ -157,17 +163,19 @@ export default function About() {
                 signatureIndex++;
               } else {
                 clearInterval(signatureInterval);
-                // Show blinking cursor when done
                 setShowCursor(true);
               }
             }, 30);
+            intervals.push(signatureInterval);
           }
         }, 20);
+        intervals.push(paragraphInterval);
       }
     }, 100);
+    intervals.push(titleInterval);
 
-    return () => clearInterval(titleInterval);
-  }, []);
+    return () => intervals.forEach(id => clearInterval(id));
+  }, [fullTitle, fullLastParagraph, fullSignature]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -192,26 +200,17 @@ export default function About() {
         <div className="relative z-10 container mx-auto px-4 sm:px-6 py-20">
           <div className="max-w-4xl mx-auto bg-white/20 dark:bg-slate-900/30 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-2xl border border-white/30">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8 text-white text-center">
-              Our Story
+              {t.about.ourStory}
             </h2>
             <div className="space-y-6 text-base sm:text-lg text-white leading-relaxed">
               <p>
-                Our journey began in 2011 with a simple dream and a small office in the heart of Miami. 
-                What started as a family vision to help our local community find quality insurance coverage 
-                has grown into something we're incredibly proud of—a trusted partner to thousands of families 
-                across the entire state of Florida.
+                {t.about.storyP1}
               </p>
               <p>
-                We remember those early days vividly—sitting down with families at their kitchen tables, 
-                listening to their concerns, understanding their needs, and working tirelessly to find them 
-                the right protection. That personal touch, that genuine care for each client as if they were 
-                part of our own family, became the foundation of everything we do.
+                {t.about.storyP2}
               </p>
               <p>
-                As word spread about our commitment to putting people first, we began expanding throughout 
-                South Florida. Then came Central Florida, the Space Coast, the Panhandle, and eventually 
-                every corner of the Sunshine State. From Miami to Jacksonville, Tampa to Orlando, Pensacola 
-                to the Keys—we've had the honor of protecting what matters most to Florida families.
+                {t.about.storyP3}
               </p>
               <p className="font-semibold text-white min-h-[8rem]">
                 {lastParagraphText}
@@ -234,7 +233,7 @@ export default function About() {
 
           {/* Meet the Team Section */}
           <div className="mb-12 sm:mb-20">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center gradient-text">Meet Our Team</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center gradient-text">{t.about.meetTeam}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto">
               {/* Wilbert Hernandez - President */}
               <div className="insurance-card rounded-2xl overflow-hidden hover-lift" data-testid="team-member-wilbert-hernandez">
@@ -256,7 +255,7 @@ export default function About() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">Wilbert Hernandez</h3>
-                  <p className="text-primary font-medium">President</p>
+                  <p className="text-primary font-medium">{t.about.president}</p>
                 </div>
               </div>
 
@@ -280,7 +279,7 @@ export default function About() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">Elizabeth Hernandez</h3>
-                  <p className="text-primary font-medium">Operations Manager</p>
+                  <p className="text-primary font-medium">{t.about.operationsManager}</p>
                 </div>
               </div>
 
@@ -304,7 +303,7 @@ export default function About() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">David Hernandez</h3>
-                  <p className="text-primary font-medium">Account Executive</p>
+                  <p className="text-primary font-medium">{t.about.accountExecutive}</p>
                 </div>
               </div>
             </div>
@@ -322,9 +321,9 @@ export default function About() {
                 duration={shield.duration}
               />
             ))}
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 gradient-text relative z-10">Connect With Us</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 gradient-text relative z-10">{t.about.connectTitle}</h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto relative z-10">
-              Follow us on social media for insurance tips, company updates, and Florida community news
+              {t.about.connectDesc}
             </p>
             <div className="flex justify-center gap-6 sm:gap-8 relative z-10">
               <SocialButton

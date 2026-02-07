@@ -16,6 +16,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import Logo from "@/components/logo";
+import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef } from "react";
 import jacksonvilleSkyline from "@assets/stock_images/jacksonville_florida_13db0295.jpg";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
@@ -83,7 +84,7 @@ function FloatingShield({ style, size, delay, duration }: {
   );
 }
 
-function InsuranceCard({ type, index }: { type: typeof insuranceTypes[0], index: number }) {
+function InsuranceCard({ type, index }: { type: { icon: React.ReactNode, title: string, description: string, image: string, color: string }, index: number }) {
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -104,14 +105,14 @@ function InsuranceCard({ type, index }: { type: typeof insuranceTypes[0], index:
   };
 
   const iconAnimations = {
-    "Home / Auto": "group-hover:animate-bounce-subtle",
-    "Flood": "group-hover:animate-ripple",
-    "Life": "group-hover:animate-pulse-heart",
-    "Business": "group-hover:animate-grow",
+    sky: "group-hover:animate-bounce-subtle",
+    blue: "group-hover:animate-ripple",
+    indigo: "group-hover:animate-pulse-heart",
+    violet: "group-hover:animate-grow",
   };
 
   const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
-  const iconAnimation = iconAnimations[type.title as keyof typeof iconAnimations] || "";
+  const iconAnimation = iconAnimations[type.color as keyof typeof iconAnimations] || "";
 
   const dynamicGradientStyle = isHovered ? {
     background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.15) 0%, transparent 50%)`,
@@ -163,41 +164,42 @@ function InsuranceCard({ type, index }: { type: typeof insuranceTypes[0], index:
   );
 }
 
-const insuranceTypes = [
-  {
-    icon: <Car className="w-10 h-10" />,
-    title: "Home / Auto",
-    description: "Whether it's your home or your vehicle—personal, business, or specialty—we provide coverage you can trust.",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-    color: "sky",
-  },
-  {
-    icon: <House className="w-10 h-10" />,
-    title: "Flood",
-    description: "Protect your home and peace of mind with reliable flood insurance coverage tailored to safeguard against the unexpected.",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
-    color: "blue",
-  },
-  {
-    icon: <Heart className="w-10 h-10" />,
-    title: "Life",
-    description: "We're here to help protect what matters most with coverage tailored to support your loved ones.",
-    image: "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80",
-    color: "indigo",
-  },
-  {
-    icon: <Building2 className="w-10 h-10" />,
-    title: "Business",
-    description: "Having insurance is a crucial part of running a business. We offer many coverage plans for your needs.",
-    image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
-    color: "violet",
-  },
-];
-
 export default function Landing() {
+  const { t } = useTranslation();
   const [heroVisible, setHeroVisible] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+
+  const insuranceTypes = [
+    {
+      icon: <Car className="w-10 h-10" />,
+      title: t.insurance.homeAutoTitle,
+      description: t.insurance.homeAutoDesc,
+      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+      color: "sky",
+    },
+    {
+      icon: <House className="w-10 h-10" />,
+      title: t.insurance.floodTitle,
+      description: t.insurance.floodDesc,
+      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      color: "blue",
+    },
+    {
+      icon: <Heart className="w-10 h-10" />,
+      title: t.insurance.lifeTitle,
+      description: t.insurance.lifeDesc,
+      image: "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80",
+      color: "indigo",
+    },
+    {
+      icon: <Building2 className="w-10 h-10" />,
+      title: t.insurance.businessTitle,
+      description: t.insurance.businessDesc,
+      image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
+      color: "violet",
+    },
+  ];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -247,7 +249,7 @@ export default function Landing() {
                 </div>
 
                 <p className="relative text-lg md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-8 select-none">
-                  Your Trusted Partner for Home, Auto & Business Insurance
+                  {t.hero.tagline}
                 </p>
 
                 <motion.div
@@ -262,7 +264,7 @@ export default function Landing() {
                     data-testid="button-get-quote"
                   >
                     <span className="relative z-10">
-                      Get Quoted Today
+                      {t.hero.getQuoted}
                       <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </span>
                     <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
@@ -273,7 +275,7 @@ export default function Landing() {
                     data-testid="button-call-us"
                   >
                     <Phone className="w-5 h-5" />
-                    Call Us Now
+                    {t.hero.callUs}
                   </a>
                 </motion.div>
               </div>
@@ -294,7 +296,7 @@ export default function Landing() {
               className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
               <div className="text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">14+</div>
-              <div className="text-sm text-slate-400">Years Experience</div>
+              <div className="text-sm text-slate-400">{t.stats.years}</div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -304,7 +306,7 @@ export default function Landing() {
               className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
               <div className="text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">2000+</div>
-              <div className="text-sm text-slate-400">Families Protected</div>
+              <div className="text-sm text-slate-400">{t.stats.families}</div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -314,7 +316,7 @@ export default function Landing() {
               className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
               <div className="text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">24hr</div>
-              <div className="text-sm text-slate-400">Response Time</div>
+              <div className="text-sm text-slate-400">{t.stats.response}</div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -324,7 +326,7 @@ export default function Landing() {
               className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
             >
               <div className="text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">A+</div>
-              <div className="text-sm text-slate-400">Customer Rating</div>
+              <div className="text-sm text-slate-400">{t.stats.rating}</div>
             </motion.div>
           </div>
         </div>
@@ -340,10 +342,10 @@ export default function Landing() {
           <div className="max-w-5xl mx-auto">
             {/* Left-aligned header with accent */}
             <div className="mb-10">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">Our Promise to Florida Families</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">{t.whoWeAre.subtitle}</p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
-                More Than Insurance.<br className="hidden md:block" />
-                <span className="text-primary">Peace of Mind.</span>
+                {t.whoWeAre.titleLine1}<br className="hidden md:block" />
+                <span className="text-primary">{t.whoWeAre.titleLine2}</span>
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full"></div>
             </div>
@@ -351,14 +353,10 @@ export default function Landing() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  We are a family-owned insurance agency based in sunny St. Johns, FL. Since 2011, 
-                  we have been helping families all over Florida with their home, auto, and 
-                  business insurance needs.
+                  {t.whoWeAre.paragraph1}
                 </p>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                  Our team takes pride in providing personalized service and finding the best 
-                  coverage at competitive rates. When you call us, you talk to a real person 
-                  who genuinely cares.
+                  {t.whoWeAre.paragraph2}
                 </p>
 
                 <button
@@ -366,7 +364,7 @@ export default function Landing() {
                   className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] select-none"
                   data-testid="button-read-more"
                 >
-                  Meet Our Team
+                  {t.whoWeAre.meetTeam}
                   <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
@@ -379,8 +377,8 @@ export default function Landing() {
                       <Shield className="w-5 h-5 text-sky-500" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground mb-1 select-none">Licensed & Trusted</h4>
-                      <p className="text-sm text-muted-foreground">Fully licensed in Florida with a proven track record of protecting families.</p>
+                      <h4 className="font-semibold text-foreground mb-1 select-none">{t.whoWeAre.licensedTitle}</h4>
+                      <p className="text-sm text-muted-foreground">{t.whoWeAre.licensedDesc}</p>
                     </div>
                   </div>
                 </div>
@@ -390,8 +388,8 @@ export default function Landing() {
                       <Heart className="w-5 h-5 text-blue-500" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground mb-1 select-none">Family Values</h4>
-                      <p className="text-sm text-muted-foreground">We treat every client like family, because that's what community means to us.</p>
+                      <h4 className="font-semibold text-foreground mb-1 select-none">{t.whoWeAre.familyTitle}</h4>
+                      <p className="text-sm text-muted-foreground">{t.whoWeAre.familyDesc}</p>
                     </div>
                   </div>
                 </div>
@@ -401,8 +399,8 @@ export default function Landing() {
                       <Phone className="w-5 h-5 text-indigo-500" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground mb-1 select-none">Always Available</h4>
-                      <p className="text-sm text-muted-foreground">Real humans answer your calls—no automated systems or long hold times.</p>
+                      <h4 className="font-semibold text-foreground mb-1 select-none">{t.whoWeAre.availableTitle}</h4>
+                      <p className="text-sm text-muted-foreground">{t.whoWeAre.availableDesc}</p>
                     </div>
                   </div>
                 </div>
@@ -431,13 +429,13 @@ export default function Landing() {
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center mb-14">
             <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
-              Coverage Built Around You
+              {t.insurance.subtitle}
             </p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-5 select-none leading-tight">
-              Protection for Every Chapter of Life
+              {t.insurance.title}
             </h2>
             <p className="text-muted-foreground leading-relaxed text-lg">
-              From your first car to your dream home, we've got you covered at every turn.
+              {t.insurance.description}
             </p>
           </div>
 
@@ -453,9 +451,9 @@ export default function Landing() {
       <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
-            <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">Client Experiences</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">{t.testimonials.subtitle}</p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground select-none">
-              What Our Clients Say
+              {t.testimonials.title}
             </h2>
           </div>
           <TestimonialsCarousel />
@@ -482,9 +480,9 @@ export default function Landing() {
           <div className="max-w-3xl mx-auto text-center">
             {/* Section header */}
             <div className="mb-10">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">Connect with an Agent Now</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">{t.contact.subtitle}</p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 select-none">
-                Ready to Get Started?
+                {t.contact.title}
               </h2>
             </div>
 
@@ -495,7 +493,7 @@ export default function Landing() {
               data-testid="button-get-quote-contact"
             >
               <span className="relative z-10">
-                Get Quoted Today
+                {t.contact.getQuoted}
                 <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
               <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
@@ -525,7 +523,7 @@ export default function Landing() {
                   <MapPin className="w-6 h-6 text-primary" />
                 </div>
                 <span className="text-foreground font-medium" data-testid="text-location">
-                  St. Johns, FL
+                  {t.contact.location}
                 </span>
               </div>
 
@@ -534,7 +532,7 @@ export default function Landing() {
                   <Shield className="w-6 h-6 text-primary" />
                 </div>
                 <span className="text-foreground font-medium" data-testid="text-license">
-                  Licensed & Insured
+                  {t.contact.licensed}
                 </span>
               </div>
             </div>

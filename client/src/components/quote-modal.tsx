@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -6,6 +6,7 @@ import { z } from "zod";
 import { X, ChevronLeft, ChevronRight, Car, Home, Heart, Building2, Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { useTranslation } from "./theme-provider";
 import {
   Dialog,
   DialogContent,
@@ -32,19 +33,16 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 
-// Comprehensive schema for all policy types
-const quoteFormSchema = z.object({
-  // Step 1: Contact Info
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  email: z.string().email("Please enter a valid email"),
-  phone: z.string().min(10, "Please enter a valid phone number"),
-  zipCode: z.string().min(5, "Please enter a valid zip code"),
+function createQuoteFormSchema(t: ReturnType<typeof import("@/lib/translations").getTranslations>) {
+  return z.object({
+    firstName: z.string().min(1, t.quote.validationFirstName),
+    lastName: z.string().min(1, t.quote.validationLastName),
+    email: z.string().email(t.quote.validationEmail),
+    phone: z.string().min(10, t.quote.validationPhone),
+    zipCode: z.string().min(5, t.quote.validationZip),
+
+    policyType: z.string().min(1, t.quote.validationPolicyType),
   
-  // Step 2: Policy Type
-  policyType: z.string().min(1, "Please select what you'd like to insure"),
-  
-  // Auto Insurance Fields
   vehicleYear: z.string().optional(),
   vehicleMake: z.string().optional(),
   vehicleModel: z.string().optional(),
@@ -60,7 +58,6 @@ const quoteFormSchema = z.object({
   currentCarrier: z.string().optional(),
   currentLimits: z.string().optional(),
   
-  // Home Insurance Fields
   propertyAddress: z.string().optional(),
   propertyCity: z.string().optional(),
   propertyState: z.string().optional(),
@@ -73,7 +70,6 @@ const quoteFormSchema = z.object({
   isPrimaryResidence: z.string().optional(),
   hasPool: z.string().optional(),
   
-  // Life Insurance Fields
   lifeDob: z.string().optional(),
   gender: z.string().optional(),
   height: z.string().optional(),
@@ -84,7 +80,6 @@ const quoteFormSchema = z.object({
   coverageAmount: z.string().optional(),
   termLength: z.string().optional(),
   
-  // Commercial Insurance Fields
   businessName: z.string().optional(),
   industryDescription: z.string().optional(),
   yearsInBusiness: z.string().optional(),
@@ -95,26 +90,30 @@ const quoteFormSchema = z.object({
   needsWorkersComp: z.boolean().optional(),
   needsProfessionalLiability: z.boolean().optional(),
   needsCyber: z.boolean().optional(),
-});
+  });
+}
 
-type QuoteFormData = z.infer<typeof quoteFormSchema>;
+type QuoteFormData = z.infer<ReturnType<typeof createQuoteFormSchema>>;
 
 interface QuoteModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-const policyOptions = [
-  { value: "auto", label: "Auto", icon: Car, description: "Cars, trucks, motorcycles" },
-  { value: "home", label: "Home", icon: Home, description: "Houses, condos, rentals" },
-  { value: "life", label: "Life", icon: Heart, description: "Term & permanent coverage" },
-  { value: "commercial", label: "Commercial", icon: Building2, description: "Business protection" },
-];
-
 export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccess, setShowSuccess] = useState(false);
+
+  const policyOptions = [
+    { value: "auto", label: t.quote.auto, icon: Car, description: t.quote.autoDesc },
+    { value: "home", label: t.quote.home, icon: Home, description: t.quote.homeDesc },
+    { value: "life", label: t.quote.life, icon: Heart, description: t.quote.lifeDesc },
+    { value: "commercial", label: t.quote.commercial, icon: Building2, description: t.quote.commercialDesc },
+  ];
+
+  const quoteFormSchema = useMemo(() => createQuoteFormSchema(t), [t]);
   
   const form = useForm<QuoteFormData>({
     resolver: zodResolver(quoteFormSchema),
@@ -176,21 +175,19 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const currentlyInsured = form.watch("currentlyInsured");
   const allValues = form.watch();
 
-  // Reset to step 2 when policy type changes (to avoid invalid step states)
   useEffect(() => {
     if (policyType && currentStep > 2) {
       setCurrentStep(2);
     }
   }, [policyType]);
 
-  // Calculate total steps based on policy type
   const getTotalSteps = () => {
     if (!policyType) return 2;
     switch (policyType) {
-      case "auto": return 5; // Contact, Type, Vehicle, Driver, Coverage
-      case "home": return 5; // Contact, Type, Property, Risk, Occupancy
-      case "life": return 5; // Contact, Type, Personal, Health, Coverage
-      case "commercial": return 5; // Contact, Type, Business, Scale, Needs
+      case "auto": return 5;
+      case "home": return 5;
+      case "life": return 5;
+      case "commercial": return 5;
       default: return 2;
     }
   };
@@ -199,7 +196,6 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
 
   const submitMutation = useMutation({
     mutationFn: async (data: QuoteFormData) => {
-      // Log the consolidated JSON object
       console.log("📋 Quote Submission Data:", JSON.stringify(data, null, 2));
       
       const formData = new FormData();
@@ -235,7 +231,6 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       case 2:
         fieldsToValidate = ["policyType"];
         break;
-      // Policy-specific steps don't require validation for optional fields
     }
     
     if (fieldsToValidate.length > 0) {
@@ -260,7 +255,6 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     submitMutation.mutate(data);
   };
 
-  // Track highest progress to prevent backwards animation
   const [highestProgress, setHighestProgress] = useState(0);
 
   const handleClose = () => {
@@ -271,60 +265,47 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     onOpenChange(false);
   };
 
-  // Calculate weighted progress percentage
   const calculateWeightedProgress = () => {
-    // Show 100% when success
     if (showSuccess) {
       return 100;
     }
-    
-    // Step 1 (Contact): 0% -> 20%
-    // Step 2 (Policy): 35%
-    // Steps 3-4 (Risk Details): 35% -> 85% (divided by screens)
-    // Step 5 (Final): 95%
-    // After submit: 100%
     
     if (currentStep === 1) {
       return 0;
     } else if (currentStep === 2) {
       return 20;
     } else if (currentStep === totalSteps) {
-      // Final step before submit
       return 95;
     } else {
-      // Steps 3 to (totalSteps - 1) map to 35% -> 85%
-      const riskSteps = totalSteps - 3; // Number of "risk detail" steps
-      const currentRiskStep = currentStep - 2; // Which risk step we're on (1-indexed)
-      const progressPerRiskStep = 50 / Math.max(riskSteps, 1); // Divide 50% (35->85) among risk steps
+      const riskSteps = totalSteps - 3;
+      const currentRiskStep = currentStep - 2;
+      const progressPerRiskStep = 50 / Math.max(riskSteps, 1);
       return 35 + (currentRiskStep - 1) * progressPerRiskStep;
     }
   };
 
-  // Success screen content
   const successContent = (
     <div className="text-center py-12 space-y-6">
       <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
         <Check className="w-10 h-10 text-green-600" />
       </div>
       <div className="space-y-2">
-        <h3 className="text-2xl font-bold text-slate-800">Thank You!</h3>
+        <h3 className="text-2xl font-bold text-slate-800">{t.quote.thankYou}</h3>
         <p className="text-slate-600 max-w-md mx-auto">
-          Your quote request has been submitted successfully. One of our insurance specialists will contact you within 24 hours with your personalized quote.
+          {t.quote.successMessage}
         </p>
       </div>
       <Button
         onClick={handleClose}
         className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40 px-8"
       >
-        Close
+        {t.quote.close}
       </Button>
     </div>
   );
 
-  // Calculate current progress
   const rawProgress = calculateWeightedProgress();
   
-  // Update highest progress (prevents backwards animation)
   useEffect(() => {
     if (rawProgress > highestProgress) {
       setHighestProgress(rawProgress);
@@ -333,7 +314,6 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   
   const displayProgress = Math.max(rawProgress, highestProgress);
 
-  // Progress bar step indicator - render as JSX variable
   const stepIndicator = (
     <div className="mb-8">
       <div className="flex justify-end items-center mb-3">
@@ -348,12 +328,11 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     </div>
   );
 
-  // Step 1: Contact Info
   const Step1ContactInfo = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Let's start with your contact info</h3>
-        <p className="text-slate-500 text-sm">We'll use this to send you your personalized quote</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.step1Title}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.step1Subtitle}</p>
       </div>
       
       <div className="grid grid-cols-2 gap-4">
@@ -362,7 +341,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name *</FormLabel>
+              <FormLabel>{t.quote.firstName}</FormLabel>
               <FormControl>
                 <Input placeholder="John" data-testid="input-first-name" {...field} />
               </FormControl>
@@ -375,7 +354,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="lastName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Last Name *</FormLabel>
+              <FormLabel>{t.quote.lastName}</FormLabel>
               <FormControl>
                 <Input placeholder="Smith" data-testid="input-last-name" {...field} />
               </FormControl>
@@ -390,7 +369,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         name="email"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Email Address *</FormLabel>
+            <FormLabel>{t.quote.email}</FormLabel>
             <FormControl>
               <Input type="email" placeholder="john.smith@email.com" data-testid="input-email" {...field} />
             </FormControl>
@@ -405,7 +384,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone Number *</FormLabel>
+              <FormLabel>{t.quote.phone}</FormLabel>
               <FormControl>
                 <Input placeholder="(555) 123-4567" data-testid="input-phone" {...field} />
               </FormControl>
@@ -418,7 +397,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="zipCode"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Zip Code *</FormLabel>
+              <FormLabel>{t.quote.zipCode}</FormLabel>
               <FormControl>
                 <Input placeholder="32256" data-testid="input-zipcode" {...field} />
               </FormControl>
@@ -430,12 +409,11 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     </div>
   );
 
-  // Step 2: Policy Type Selection
   const Step2PolicyType = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">What would you like to insure?</h3>
-        <p className="text-slate-500 text-sm">Select the type of coverage you're looking for</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.step2Title}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.step2Subtitle}</p>
       </div>
       
       <FormField
@@ -475,12 +453,11 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     </div>
   );
 
-  // Auto Insurance Steps
   const AutoStep3VehicleDetails = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Tell us about your vehicle</h3>
-        <p className="text-slate-500 text-sm">Enter your vehicle details or VIN</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.vehicleDetailsTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.vehicleDetailsSubtitle}</p>
       </div>
       
       <div className="grid grid-cols-3 gap-4">
@@ -489,7 +466,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="vehicleYear"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Year</FormLabel>
+              <FormLabel>{t.quote.vehicleYear}</FormLabel>
               <FormControl>
                 <Input placeholder="2024" {...field} />
               </FormControl>
@@ -501,7 +478,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="vehicleMake"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Make</FormLabel>
+              <FormLabel>{t.quote.vehicleMake}</FormLabel>
               <FormControl>
                 <Input placeholder="Toyota" {...field} />
               </FormControl>
@@ -513,7 +490,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="vehicleModel"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Model</FormLabel>
+              <FormLabel>{t.quote.vehicleModel}</FormLabel>
               <FormControl>
                 <Input placeholder="Camry" {...field} />
               </FormControl>
@@ -529,7 +506,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         name="vehicleVin"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>VIN (Vehicle Identification Number)</FormLabel>
+            <FormLabel>{t.quote.vehicleVin}</FormLabel>
             <FormControl>
               <Input placeholder="1HGBH41JXMN109186" {...field} />
             </FormControl>
@@ -539,29 +516,29 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium leading-none">Primary Use</label>
+          <label className="text-sm font-medium leading-none">{t.quote.primaryUse}</label>
           <Select onValueChange={(val) => form.setValue("primaryUse", val)} value={allValues.primaryUse || ""}>
             <SelectTrigger>
-              <SelectValue placeholder="Select usage" />
+              <SelectValue placeholder={t.quote.selectUsage} />
             </SelectTrigger>
             <SelectContent position="popper" className="z-[9999]">
-              <SelectItem value="commuting">Commuting</SelectItem>
-              <SelectItem value="pleasure">Pleasure</SelectItem>
-              <SelectItem value="business">Business</SelectItem>
+              <SelectItem value="commuting">{t.quote.commuting}</SelectItem>
+              <SelectItem value="pleasure">{t.quote.pleasure}</SelectItem>
+              <SelectItem value="business">{t.quote.business}</SelectItem>
               <SelectItem value="rideshare">Rideshare</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium leading-none">Ownership Status</label>
+          <label className="text-sm font-medium leading-none">{t.quote.ownershipStatus}</label>
           <Select onValueChange={(val) => form.setValue("ownershipStatus", val)} value={allValues.ownershipStatus || ""}>
             <SelectTrigger>
-              <SelectValue placeholder="Select status" />
+              <SelectValue placeholder={t.quote.selectStatus} />
             </SelectTrigger>
             <SelectContent position="popper" className="z-[9999]">
-              <SelectItem value="owned">Owned</SelectItem>
-              <SelectItem value="financed">Financed</SelectItem>
-              <SelectItem value="leased">Leased</SelectItem>
+              <SelectItem value="owned">{t.quote.owned}</SelectItem>
+              <SelectItem value="financed">{t.quote.financed}</SelectItem>
+              <SelectItem value="leased">{t.quote.leased}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -572,13 +549,13 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const AutoStep4DriverDetails = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Driver Information</h3>
-        <p className="text-slate-500 text-sm">Tell us about the primary driver</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.driverInfoTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.driverInfoSubtitle}</p>
       </div>
       
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium leading-none">Date of Birth</label>
+          <label className="text-sm font-medium leading-none">{t.quote.dob}</label>
           <Input
             type="date"
             value={allValues.driverDob || ""}
@@ -586,16 +563,16 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium leading-none">Marital Status</label>
+          <label className="text-sm font-medium leading-none">{t.quote.maritalStatus}</label>
           <Select onValueChange={(val) => form.setValue("maritalStatus", val)} value={allValues.maritalStatus || ""}>
             <SelectTrigger>
-              <SelectValue placeholder="Select status" />
+              <SelectValue placeholder={t.quote.selectMarital} />
             </SelectTrigger>
             <SelectContent position="popper" className="z-[9999]">
-              <SelectItem value="single">Single</SelectItem>
-              <SelectItem value="married">Married</SelectItem>
-              <SelectItem value="divorced">Divorced</SelectItem>
-              <SelectItem value="widowed">Widowed</SelectItem>
+              <SelectItem value="single">{t.quote.single}</SelectItem>
+              <SelectItem value="married">{t.quote.married}</SelectItem>
+              <SelectItem value="divorced">{t.quote.divorced}</SelectItem>
+              <SelectItem value="widowed">{t.quote.widowed}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -607,7 +584,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="licenseState"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>License State (Optional)</FormLabel>
+              <FormLabel>{t.quote.licenseState}</FormLabel>
               <FormControl>
                 <Input placeholder="FL" {...field} />
               </FormControl>
@@ -619,7 +596,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="licenseNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>License Number (Optional)</FormLabel>
+              <FormLabel>{t.quote.licenseNumber}</FormLabel>
               <FormControl>
                 <Input placeholder="D123-456-78-901-0" {...field} />
               </FormControl>
@@ -629,14 +606,14 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Any accidents or tickets in the last 3 years?</label>
+        <label className="text-sm font-medium leading-none">{t.quote.accidents}</label>
         <Select onValueChange={(val) => form.setValue("hasViolations", val)} value={allValues.hasViolations || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select" />
+            <SelectValue placeholder={t.quote.selectAccidents} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
-            <SelectItem value="no">No</SelectItem>
-            <SelectItem value="yes">Yes</SelectItem>
+            <SelectItem value="no">{t.quote.no}</SelectItem>
+            <SelectItem value="yes">{t.quote.yes}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -646,19 +623,19 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const AutoStep5CurrentCoverage = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Current Coverage</h3>
-        <p className="text-slate-500 text-sm">Help us understand your existing insurance</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.currentCoverageTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.currentCoverageSubtitle}</p>
       </div>
       
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Are you currently insured?</label>
+        <label className="text-sm font-medium leading-none">{t.quote.currentlyInsured}</label>
         <Select onValueChange={(val) => form.setValue("currentlyInsured", val)} value={allValues.currentlyInsured || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select" />
+            <SelectValue placeholder={t.quote.selectAccidents} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
-            <SelectItem value="yes">Yes</SelectItem>
-            <SelectItem value="no">No</SelectItem>
+            <SelectItem value="yes">{t.quote.yes}</SelectItem>
+            <SelectItem value="no">{t.quote.no}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -670,7 +647,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
             name="currentCarrier"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Current Insurance Carrier</FormLabel>
+                <FormLabel>{t.quote.currentCarrier}</FormLabel>
                 <FormControl>
                   <Input placeholder="e.g., State Farm, Geico" {...field} />
                 </FormControl>
@@ -678,17 +655,17 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
             )}
           />
           <div className="space-y-2">
-            <label className="text-sm font-medium leading-none">Current Bodily Injury Limits</label>
+            <label className="text-sm font-medium leading-none">{t.quote.currentLimits}</label>
             <Select onValueChange={(val) => form.setValue("currentLimits", val)} value={allValues.currentLimits || ""}>
               <SelectTrigger>
-                <SelectValue placeholder="Select limits" />
+                <SelectValue placeholder={t.quote.selectLimits} />
               </SelectTrigger>
               <SelectContent position="popper" className="z-[9999]">
                 <SelectItem value="25/50">25/50</SelectItem>
                 <SelectItem value="50/100">50/100</SelectItem>
                 <SelectItem value="100/300">100/300</SelectItem>
                 <SelectItem value="250/500">250/500</SelectItem>
-                <SelectItem value="unsure">Not Sure</SelectItem>
+                <SelectItem value="unsure">{t.quote.notSure}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -697,12 +674,11 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     </div>
   );
 
-  // Home Insurance Steps
   const HomeStep3PropertyDetails = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Property Details</h3>
-        <p className="text-slate-500 text-sm">Tell us about the property you want to insure</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.propertyDetailsTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.propertyDetailsSubtitle}</p>
       </div>
       
       <FormField
@@ -710,7 +686,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         name="propertyAddress"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Street Address</FormLabel>
+            <FormLabel>{t.quote.streetAddress}</FormLabel>
             <FormControl>
               <Input placeholder="123 Main Street" {...field} />
             </FormControl>
@@ -724,7 +700,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="propertyCity"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>City</FormLabel>
+              <FormLabel>{t.quote.city}</FormLabel>
               <FormControl>
                 <Input placeholder="Jacksonville" {...field} />
               </FormControl>
@@ -736,7 +712,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="propertyState"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>State</FormLabel>
+              <FormLabel>{t.quote.state}</FormLabel>
               <FormControl>
                 <Input placeholder="FL" {...field} />
               </FormControl>
@@ -748,7 +724,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="propertyZip"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Zip Code</FormLabel>
+              <FormLabel>{t.quote.zipCode}</FormLabel>
               <FormControl>
                 <Input placeholder="32256" {...field} />
               </FormControl>
@@ -759,16 +735,16 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium leading-none">Property Type</label>
+          <label className="text-sm font-medium leading-none">{t.quote.propertyType}</label>
           <Select onValueChange={(val) => form.setValue("propertyType", val)} value={allValues.propertyType || ""}>
             <SelectTrigger>
-              <SelectValue placeholder="Select type" />
+              <SelectValue placeholder={t.quote.selectType} />
             </SelectTrigger>
             <SelectContent position="popper" className="z-[9999]">
-              <SelectItem value="single-family">Single Family</SelectItem>
-              <SelectItem value="condo">Condo</SelectItem>
-              <SelectItem value="townhome">Townhome</SelectItem>
-              <SelectItem value="multi-family">Multi-family</SelectItem>
+              <SelectItem value="single-family">{t.quote.singleFamily}</SelectItem>
+              <SelectItem value="condo">{t.quote.condo}</SelectItem>
+              <SelectItem value="townhome">{t.quote.townhome}</SelectItem>
+              <SelectItem value="multi-family">{t.quote.multiFamily}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -777,7 +753,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="yearBuilt"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Year Built</FormLabel>
+              <FormLabel>{t.quote.yearBuilt}</FormLabel>
               <FormControl>
                 <Input placeholder="2005" {...field} />
               </FormControl>
@@ -791,7 +767,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         name="squareFootage"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Estimated Square Footage</FormLabel>
+            <FormLabel>{t.quote.squareFootage}</FormLabel>
             <FormControl>
               <Input placeholder="2,500" {...field} />
             </FormControl>
@@ -804,8 +780,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const HomeStep4RiskFactors = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Property Condition</h3>
-        <p className="text-slate-500 text-sm">This helps us get you the best rate (4-point inspection data)</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.propertyConditionTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.propertyConditionSubtitle}</p>
       </div>
       
       <FormField
@@ -813,7 +789,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         name="roofYear"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Approximate year roof was replaced?</FormLabel>
+            <FormLabel>{t.quote.roofYear}</FormLabel>
             <FormControl>
               <Input placeholder="2018" {...field} />
             </FormControl>
@@ -822,15 +798,15 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       />
 
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Have you updated Electrical, Plumbing, or Heating in the last 20 years?</label>
+        <label className="text-sm font-medium leading-none">{t.quote.systemsUpdated}</label>
         <Select onValueChange={(val) => form.setValue("systemsUpdated", val)} value={allValues.systemsUpdated || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select" />
+            <SelectValue placeholder={t.quote.selectAccidents} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
-            <SelectItem value="yes">Yes</SelectItem>
-            <SelectItem value="no">No</SelectItem>
-            <SelectItem value="unsure">Not Sure</SelectItem>
+            <SelectItem value="yes">{t.quote.yes}</SelectItem>
+            <SelectItem value="no">{t.quote.no}</SelectItem>
+            <SelectItem value="unsure">{t.quote.notSure}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -840,50 +816,49 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const HomeStep5Occupancy = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Occupancy Information</h3>
-        <p className="text-slate-500 text-sm">A few more details about the property</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.occupancyTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.occupancySubtitle}</p>
       </div>
       
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Is this your primary residence?</label>
+        <label className="text-sm font-medium leading-none">{t.quote.primaryResidence}</label>
         <Select onValueChange={(val) => form.setValue("isPrimaryResidence", val)} value={allValues.isPrimaryResidence || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select" />
+            <SelectValue placeholder={t.quote.selectAccidents} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
-            <SelectItem value="yes">Yes</SelectItem>
-            <SelectItem value="no">No (Secondary/Investment)</SelectItem>
+            <SelectItem value="yes">{t.quote.yes}</SelectItem>
+            <SelectItem value="no">{t.quote.noSecondary}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Do you have a swimming pool?</label>
+        <label className="text-sm font-medium leading-none">{t.quote.pool}</label>
         <Select onValueChange={(val) => form.setValue("hasPool", val)} value={allValues.hasPool || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select" />
+            <SelectValue placeholder={t.quote.selectAccidents} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
-            <SelectItem value="no">No</SelectItem>
-            <SelectItem value="yes-fenced">Yes, with fence</SelectItem>
-            <SelectItem value="yes-unfenced">Yes, no fence</SelectItem>
+            <SelectItem value="no">{t.quote.no}</SelectItem>
+            <SelectItem value="yes-fenced">{t.quote.yesFenced}</SelectItem>
+            <SelectItem value="yes-unfenced">{t.quote.yesUnfenced}</SelectItem>
           </SelectContent>
         </Select>
       </div>
     </div>
   );
 
-  // Life Insurance Steps
   const LifeStep3PersonalStats = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Personal Information</h3>
-        <p className="text-slate-500 text-sm">Basic details for your life insurance quote</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.personalInfoTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.personalInfoSubtitle}</p>
       </div>
       
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium leading-none">Date of Birth</label>
+          <label className="text-sm font-medium leading-none">{t.quote.dob}</label>
           <Input
             type="date"
             value={allValues.lifeDob || ""}
@@ -891,14 +866,14 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium leading-none">Gender</label>
+          <label className="text-sm font-medium leading-none">{t.quote.gender}</label>
           <Select onValueChange={(val) => form.setValue("gender", val)} value={allValues.gender || ""}>
             <SelectTrigger>
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder={t.quote.selectAccidents} />
             </SelectTrigger>
             <SelectContent position="popper" className="z-[9999]">
-              <SelectItem value="male">Male</SelectItem>
-              <SelectItem value="female">Female</SelectItem>
+              <SelectItem value="male">{t.quote.male}</SelectItem>
+              <SelectItem value="female">{t.quote.female}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -910,7 +885,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="height"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Height</FormLabel>
+              <FormLabel>{t.quote.height}</FormLabel>
               <FormControl>
                 <Input placeholder="5'10&quot;" {...field} />
               </FormControl>
@@ -922,7 +897,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="weight"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Weight (lbs)</FormLabel>
+              <FormLabel>{t.quote.weight}</FormLabel>
               <FormControl>
                 <Input placeholder="175" {...field} />
               </FormControl>
@@ -936,32 +911,32 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const LifeStep4Health = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Health Information</h3>
-        <p className="text-slate-500 text-sm">This helps determine your coverage options</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.healthTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.healthSubtitle}</p>
       </div>
       
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Have you used tobacco/nicotine in the last 12 months?</label>
+        <label className="text-sm font-medium leading-none">{t.quote.tobacco}</label>
         <Select onValueChange={(val) => form.setValue("usesTobacco", val)} value={allValues.usesTobacco || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select" />
+            <SelectValue placeholder={t.quote.selectAccidents} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
-            <SelectItem value="no">No</SelectItem>
-            <SelectItem value="yes">Yes</SelectItem>
+            <SelectItem value="no">{t.quote.no}</SelectItem>
+            <SelectItem value="yes">{t.quote.yes}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Do you have any major medical conditions (Heart, Cancer, Diabetes)?</label>
+        <label className="text-sm font-medium leading-none">{t.quote.medicalConditions}</label>
         <Select onValueChange={(val) => form.setValue("hasMedicalConditions", val)} value={allValues.hasMedicalConditions || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select" />
+            <SelectValue placeholder={t.quote.selectAccidents} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
-            <SelectItem value="no">No</SelectItem>
-            <SelectItem value="yes">Yes</SelectItem>
+            <SelectItem value="no">{t.quote.no}</SelectItem>
+            <SelectItem value="yes">{t.quote.yes}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -971,29 +946,29 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const LifeStep5CoverageNeeds = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Coverage Needs</h3>
-        <p className="text-slate-500 text-sm">Tell us about the coverage you're looking for</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.coverageNeedsTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.coverageNeedsSubtitle}</p>
       </div>
       
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Type of Life Insurance</label>
+        <label className="text-sm font-medium leading-none">{t.quote.lifeType}</label>
         <Select onValueChange={(val) => form.setValue("lifeType", val)} value={allValues.lifeType || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select type" />
+            <SelectValue placeholder={t.quote.selectLifeType} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
-            <SelectItem value="term">Term Life</SelectItem>
-            <SelectItem value="permanent">Permanent (Whole Life)</SelectItem>
-            <SelectItem value="unsure">Not Sure - Help Me Decide</SelectItem>
+            <SelectItem value="term">{t.quote.termLife}</SelectItem>
+            <SelectItem value="permanent">{t.quote.permanentLife}</SelectItem>
+            <SelectItem value="unsure">{t.quote.helpDecide}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Coverage Amount</label>
+        <label className="text-sm font-medium leading-none">{t.quote.coverageAmount}</label>
         <Select onValueChange={(val) => form.setValue("coverageAmount", val)} value={allValues.coverageAmount || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select amount" />
+            <SelectValue placeholder={t.quote.selectAmount} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
             <SelectItem value="100k">$100,000</SelectItem>
@@ -1006,27 +981,26 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Term Length (if applicable)</label>
+        <label className="text-sm font-medium leading-none">{t.quote.termLength}</label>
         <Select onValueChange={(val) => form.setValue("termLength", val)} value={allValues.termLength || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select term" />
+            <SelectValue placeholder={t.quote.selectTerm} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
-            <SelectItem value="10">10 Years</SelectItem>
-            <SelectItem value="20">20 Years</SelectItem>
-            <SelectItem value="30">30 Years</SelectItem>
+            <SelectItem value="10">{t.quote.years10}</SelectItem>
+            <SelectItem value="20">{t.quote.years20}</SelectItem>
+            <SelectItem value="30">{t.quote.years30}</SelectItem>
           </SelectContent>
         </Select>
       </div>
     </div>
   );
 
-  // Commercial Insurance Steps
   const CommercialStep3BusinessProfile = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Business Profile</h3>
-        <p className="text-slate-500 text-sm">Tell us about your business</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.businessProfileTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.businessProfileSubtitle}</p>
       </div>
       
       <FormField
@@ -1034,7 +1008,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         name="businessName"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Business Name</FormLabel>
+            <FormLabel>{t.quote.businessName}</FormLabel>
             <FormControl>
               <Input placeholder="ABC Company LLC" {...field} />
             </FormControl>
@@ -1047,7 +1021,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         name="industryDescription"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Industry / Operation Description</FormLabel>
+            <FormLabel>{t.quote.industryDesc}</FormLabel>
             <FormControl>
               <Textarea placeholder="e.g., Plumbing Contractor, Restaurant, IT Consulting" {...field} />
             </FormControl>
@@ -1056,17 +1030,17 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       />
 
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Years in Business</label>
+        <label className="text-sm font-medium leading-none">{t.quote.yearsInBusiness}</label>
         <Select onValueChange={(val) => form.setValue("yearsInBusiness", val)} value={allValues.yearsInBusiness || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select" />
+            <SelectValue placeholder={t.quote.selectAccidents} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
-            <SelectItem value="startup">Less than 1 year</SelectItem>
-            <SelectItem value="1-3">1-3 years</SelectItem>
-            <SelectItem value="3-5">3-5 years</SelectItem>
-            <SelectItem value="5-10">5-10 years</SelectItem>
-            <SelectItem value="10+">10+ years</SelectItem>
+            <SelectItem value="startup">{t.quote.lessThan1}</SelectItem>
+            <SelectItem value="1-3">{t.quote.years1to3}</SelectItem>
+            <SelectItem value="3-5">{t.quote.years3to5}</SelectItem>
+            <SelectItem value="5-10">{t.quote.years5to10}</SelectItem>
+            <SelectItem value="10+">{t.quote.years10plus}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -1076,15 +1050,15 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const CommercialStep4Scale = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Business Scale</h3>
-        <p className="text-slate-500 text-sm">Help us understand the size of your operation</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.businessScaleTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.businessScaleSubtitle}</p>
       </div>
       
       <div className="space-y-2">
-        <label className="text-sm font-medium leading-none">Estimated Annual Revenue</label>
+        <label className="text-sm font-medium leading-none">{t.quote.annualRevenue}</label>
         <Select onValueChange={(val) => form.setValue("annualRevenue", val)} value={allValues.annualRevenue || ""}>
           <SelectTrigger>
-            <SelectValue placeholder="Select range" />
+            <SelectValue placeholder={t.quote.selectRange} />
           </SelectTrigger>
           <SelectContent position="popper" className="z-[9999]">
             <SelectItem value="under-100k">Under $100,000</SelectItem>
@@ -1102,7 +1076,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="fullTimeEmployees"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full-Time Employees</FormLabel>
+              <FormLabel>{t.quote.fullTimeEmployees}</FormLabel>
               <FormControl>
                 <Input placeholder="10" {...field} />
               </FormControl>
@@ -1114,7 +1088,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           name="partTimeEmployees"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Part-Time Employees</FormLabel>
+              <FormLabel>{t.quote.partTimeEmployees}</FormLabel>
               <FormControl>
                 <Input placeholder="5" {...field} />
               </FormControl>
@@ -1128,8 +1102,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const CommercialStep5Needs = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">Coverage Needs</h3>
-        <p className="text-slate-500 text-sm">Select all the coverage types you're interested in</p>
+        <h3 className="text-xl font-semibold text-slate-800">{t.quote.coverageTypesTitle}</h3>
+        <p className="text-slate-500 text-sm">{t.quote.coverageTypesSubtitle}</p>
       </div>
       
       <div className="space-y-4">
@@ -1142,8 +1116,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <div>
-                <FormLabel className="font-medium cursor-pointer">General Liability</FormLabel>
-                <p className="text-sm text-muted-foreground">Protection against third-party claims</p>
+                <FormLabel className="font-medium cursor-pointer">{t.quote.generalLiability}</FormLabel>
+                <p className="text-sm text-muted-foreground">{t.quote.generalLiabilityDesc}</p>
               </div>
             </FormItem>
           )}
@@ -1157,8 +1131,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <div>
-                <FormLabel className="font-medium cursor-pointer">Workers Compensation</FormLabel>
-                <p className="text-sm text-muted-foreground">Coverage for employee injuries</p>
+                <FormLabel className="font-medium cursor-pointer">{t.quote.workersComp}</FormLabel>
+                <p className="text-sm text-muted-foreground">{t.quote.workersCompDesc}</p>
               </div>
             </FormItem>
           )}
@@ -1172,8 +1146,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <div>
-                <FormLabel className="font-medium cursor-pointer">Professional Liability (E&O)</FormLabel>
-                <p className="text-sm text-muted-foreground">Protection against professional mistakes</p>
+                <FormLabel className="font-medium cursor-pointer">{t.quote.professionalLiability}</FormLabel>
+                <p className="text-sm text-muted-foreground">{t.quote.professionalLiabilityDesc}</p>
               </div>
             </FormItem>
           )}
@@ -1187,8 +1161,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <div>
-                <FormLabel className="font-medium cursor-pointer">Cyber Liability</FormLabel>
-                <p className="text-sm text-muted-foreground">Protection against data breaches</p>
+                <FormLabel className="font-medium cursor-pointer">{t.quote.cyberInsurance}</FormLabel>
+                <p className="text-sm text-muted-foreground">{t.quote.cyberInsuranceDesc}</p>
               </div>
             </FormItem>
           )}
@@ -1197,12 +1171,10 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     </div>
   );
 
-  // Render the appropriate step content - call as functions to avoid re-mounting
   const renderStepContent = () => {
     if (currentStep === 1) return Step1ContactInfo();
     if (currentStep === 2) return Step2PolicyType();
     
-    // Policy-specific steps
     if (policyType === "auto") {
       if (currentStep === 3) return AutoStep3VehicleDetails();
       if (currentStep === 4) return AutoStep4DriverDetails();
@@ -1239,11 +1211,11 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       >
         <DialogHeader className="pb-2">
           <DialogTitle className="text-3xl font-bold text-slate-800 text-center">
-            {showSuccess ? "Quote Submitted" : "Get Quoted Today"}
+            {showSuccess ? t.quote.successTitle : t.quote.dialogTitle}
           </DialogTitle>
           {!showSuccess && (
             <p id="quote-form-description" className="text-slate-600 text-center text-sm">
-              Complete the form to receive your personalized quote
+              {t.quote.dialogSubtitle}
             </p>
           )}
         </DialogHeader>
@@ -1269,7 +1241,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                   data-testid="button-back"
                 >
                   <ChevronLeft className="w-4 h-4" />
-                  Back
+                  {t.quote.back}
                 </Button>
                 
                 {currentStep < totalSteps ? (
@@ -1279,7 +1251,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                     className="gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40"
                     data-testid="button-next"
                   >
-                    Next
+                    {t.quote.next}
                     <ChevronRight className="w-4 h-4" />
                   </Button>
                 ) : (
@@ -1290,7 +1262,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                     className="gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40"
                     data-testid="button-submit-quote"
                   >
-                    {submitMutation.isPending ? "Submitting..." : "Submit Quote Request"}
+                    {submitMutation.isPending ? "Submitting..." : t.quote.submitQuote}
                   </Button>
                 )}
               </div>

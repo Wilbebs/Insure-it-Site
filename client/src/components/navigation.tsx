@@ -3,14 +3,14 @@ import { Menu, X } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Logo from "./logo";
-import { useLanguage } from "./theme-provider";
+import { useTranslation } from "./theme-provider";
 
 export default function Navigation() {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoHighlight, setLogoHighlight] = useState(false);
-  const { language, toggleLanguage } = useLanguage();
+  const { t, language, toggleLanguage } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,7 +59,7 @@ export default function Navigation() {
               }`}
               data-testid="nav-home"
             >
-              Get Quoted
+              {t.nav.getQuoted}
             </Link>
             <Link 
               href="/about"
@@ -69,7 +69,7 @@ export default function Navigation() {
               }`}
               data-testid="nav-about"
             >
-              About Us
+              {t.nav.aboutUs}
             </Link>
           </div>
 
@@ -112,16 +112,11 @@ export default function Navigation() {
             {!isScrolled && (
               <button
                 onClick={toggleLanguage}
-                className="relative px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-6"
+                className="relative p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-6 text-xl leading-none"
                 data-testid="language-toggle"
-                aria-label={language === "en" ? "Switch to Spanish" : "Cambiar a Inglés"}
+                aria-label={t.nav.switchLang}
               >
-                <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
-                  {language === "en" ? "EN" : "ES"}
-                </span>
-                <span className="absolute -top-1.5 -right-1.5 text-xs leading-none" aria-hidden="true">
-                  {language === "en" ? "🇺🇸" : "🇪🇸"}
-                </span>
+                {language === "en" ? "🇺🇸" : "🇪🇸"}
               </button>
             )}
           </div>
@@ -140,16 +135,11 @@ export default function Navigation() {
           <div className="flex items-center gap-2">
             <button
               onClick={toggleLanguage}
-              className="relative px-2.5 py-1 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
+              className="relative p-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg text-lg leading-none"
               data-testid="language-toggle-mobile"
-              aria-label={language === "en" ? "Switch to Spanish" : "Cambiar a Inglés"}
+              aria-label={t.nav.switchLang}
             >
-              <span className="text-xs font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
-                {language === "en" ? "EN" : "ES"}
-              </span>
-              <span className="absolute -top-1.5 -right-1.5 text-[10px] leading-none" aria-hidden="true">
-                {language === "en" ? "🇺🇸" : "🇪🇸"}
-              </span>
+              {language === "en" ? "🇺🇸" : "🇪🇸"}
             </button>
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -178,7 +168,7 @@ export default function Navigation() {
                   setIsMobileMenuOpen(false);
                 }}
               >
-                Get Quoted
+                {t.nav.getQuoted}
               </Link>
               <Link 
                 href="/about" 
@@ -193,7 +183,7 @@ export default function Navigation() {
                   setIsMobileMenuOpen(false);
                 }}
               >
-                About Us
+                {t.nav.aboutUs}
               </Link>
             </div>
           </div>

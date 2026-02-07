@@ -3,53 +3,55 @@ import { motion } from "framer-motion";
 import useEmblaCarousel from 'embla-carousel-react';
 import { useCallback, useEffect, useState } from "react";
 import Autoplay from 'embla-carousel-autoplay';
-
-const testimonials = [
-  {
-    name: "Maria Garcia",
-    location: "Miami, FL",
-    rating: 5,
-    text: "Switching to Insure-it Group was the best decision for our family. They found us better coverage at a lower price, and the personal service is unmatched. Highly recommend!",
-    insurance: "Auto & Home Insurance"
-  },
-  {
-    name: "James Thompson",
-    location: "Orlando, FL",
-    rating: 5,
-    text: "After my accident, Insure-it Group made the claims process so easy. They handled everything and kept me informed every step of the way. True professionals who actually care.",
-    insurance: "Auto Insurance"
-  },
-  {
-    name: "Jennifer Lee",
-    location: "Tampa, FL",
-    rating: 5,
-    text: "As a small business owner, finding the right commercial insurance was challenging until I met the team at Insure-it. They took time to understand my needs and got me excellent coverage.",
-    insurance: "Commercial Insurance"
-  },
-  {
-    name: "Robert Martinez",
-    location: "Jacksonville, FL",
-    rating: 5,
-    text: "I've been with Insure-it Group for 8 years now. They've always been there when I needed them, and their rates are incredibly competitive. A truly family-oriented company.",
-    insurance: "Life & Health Insurance"
-  },
-  {
-    name: "Sarah Williams",
-    location: "Fort Lauderdale, FL",
-    rating: 5,
-    text: "When Hurricane season hit, Insure-it Group was proactive in reviewing my home coverage. Their attention to detail gave me peace of mind during a stressful time. Grateful for their service!",
-    insurance: "Home Insurance"
-  },
-  {
-    name: "David Chen",
-    location: "Tallahassee, FL",
-    rating: 5,
-    text: "The team helped me understand all my life insurance options without any pressure. They made sure I got the right policy for my family's future. Can't thank them enough!",
-    insurance: "Life Insurance"
-  }
-];
+import { useTranslation } from "./theme-provider";
 
 export default function TestimonialsCarousel() {
+  const { t } = useTranslation();
+  
+  const testimonials = [
+    {
+      name: "Maria Garcia",
+      location: "Miami, FL",
+      rating: 5,
+      text: t.testimonials.t1,
+      insurance: t.testimonials.t1type,
+    },
+    {
+      name: "James Thompson",
+      location: "Orlando, FL",
+      rating: 5,
+      text: t.testimonials.t2,
+      insurance: t.testimonials.t2type,
+    },
+    {
+      name: "Jennifer Lee",
+      location: "Tampa, FL",
+      rating: 5,
+      text: t.testimonials.t3,
+      insurance: t.testimonials.t3type,
+    },
+    {
+      name: "Robert Martinez",
+      location: "Jacksonville, FL",
+      rating: 5,
+      text: t.testimonials.t4,
+      insurance: t.testimonials.t4type,
+    },
+    {
+      name: "Sarah Williams",
+      location: "Fort Lauderdale, FL",
+      rating: 5,
+      text: t.testimonials.t5,
+      insurance: t.testimonials.t5type,
+    },
+    {
+      name: "David Chen",
+      location: "Tallahassee, FL",
+      rating: 5,
+      text: t.testimonials.t6,
+      insurance: t.testimonials.t6type,
+    }
+  ];
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: 'center' },
     [Autoplay({ delay: 5000, stopOnInteraction: false })]
@@ -128,7 +130,7 @@ export default function TestimonialsCarousel() {
         onClick={scrollPrev}
         className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
         data-testid="carousel-prev"
-        aria-label="Previous testimonial"
+        aria-label={t.testimonials.prevLabel}
       >
         <ChevronLeft className="w-5 h-5 text-foreground" />
       </button>
@@ -136,7 +138,7 @@ export default function TestimonialsCarousel() {
         onClick={scrollNext}
         className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
         data-testid="carousel-next"
-        aria-label="Next testimonial"
+        aria-label={t.testimonials.nextLabel}
       >
         <ChevronRight className="w-5 h-5 text-foreground" />
       </button>
@@ -152,7 +154,7 @@ export default function TestimonialsCarousel() {
                 ? 'w-8 bg-primary' 
                 : 'w-2 bg-primary/50'
             }`}
-            aria-label={`Go to testimonial ${index + 1}`}
+            aria-label={`${t.testimonials.goToLabel} ${index + 1}`}
           />
         ))}
       </div>

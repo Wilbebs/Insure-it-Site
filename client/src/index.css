@@ -544,12 +544,24 @@
   border-color: #e2e8f0 !important;
 }
 
+.light-glass-modal [data-radix-select-trigger] span {
+  color: #1e293b !important;
+}
+
 .light-glass-modal [data-radix-select-content] {
   background-color: white !important;
   color: #1e293b !important;
 }
 
+.light-glass-modal [data-radix-select-viewport] {
+  background-color: white !important;
+}
+
 .light-glass-modal [role="option"] {
+  color: #1e293b !important;
+}
+
+.light-glass-modal [role="option"] span {
   color: #1e293b !important;
 }
 

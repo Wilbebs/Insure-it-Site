@@ -538,49 +538,33 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       />
 
       <div className="grid grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="primaryUse"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Primary Use</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select usage" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent position="popper" className="z-[9999]">
-                  <SelectItem value="commuting">Commuting</SelectItem>
-                  <SelectItem value="pleasure">Pleasure</SelectItem>
-                  <SelectItem value="business">Business</SelectItem>
-                  <SelectItem value="rideshare">Rideshare</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="ownershipStatus"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Ownership Status</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent position="popper" className="z-[9999]">
-                  <SelectItem value="owned">Owned</SelectItem>
-                  <SelectItem value="financed">Financed</SelectItem>
-                  <SelectItem value="leased">Leased</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormItem>
-          )}
-        />
+        <div className="space-y-2">
+          <label className="text-sm font-medium leading-none">Primary Use</label>
+          <Select onValueChange={(val) => form.setValue("primaryUse", val)} value={allValues.primaryUse || ""}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select usage" />
+            </SelectTrigger>
+            <SelectContent position="popper" className="z-[9999]">
+              <SelectItem value="commuting">Commuting</SelectItem>
+              <SelectItem value="pleasure">Pleasure</SelectItem>
+              <SelectItem value="business">Business</SelectItem>
+              <SelectItem value="rideshare">Rideshare</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <label className="text-sm font-medium leading-none">Ownership Status</label>
+          <Select onValueChange={(val) => form.setValue("ownershipStatus", val)} value={allValues.ownershipStatus || ""}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+            <SelectContent position="popper" className="z-[9999]">
+              <SelectItem value="owned">Owned</SelectItem>
+              <SelectItem value="financed">Financed</SelectItem>
+              <SelectItem value="leased">Leased</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
     </div>
   );
@@ -605,28 +589,20 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="maritalStatus"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Marital Status</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent position="popper" className="z-[9999]">
-                  <SelectItem value="single">Single</SelectItem>
-                  <SelectItem value="married">Married</SelectItem>
-                  <SelectItem value="divorced">Divorced</SelectItem>
-                  <SelectItem value="widowed">Widowed</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormItem>
-          )}
-        />
+        <div className="space-y-2">
+          <label className="text-sm font-medium leading-none">Marital Status</label>
+          <Select onValueChange={(val) => form.setValue("maritalStatus", val)} value={allValues.maritalStatus || ""}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+            <SelectContent position="popper" className="z-[9999]">
+              <SelectItem value="single">Single</SelectItem>
+              <SelectItem value="married">Married</SelectItem>
+              <SelectItem value="divorced">Divorced</SelectItem>
+              <SelectItem value="widowed">Widowed</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -656,26 +632,18 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         />
       </div>
 
-      <FormField
-        control={form.control}
-        name="hasViolations"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Any accidents or tickets in the last 3 years?</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="no">No</SelectItem>
-                <SelectItem value="yes">Yes</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Any accidents or tickets in the last 3 years?</label>
+        <Select onValueChange={(val) => form.setValue("hasViolations", val)} value={allValues.hasViolations || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="no">No</SelectItem>
+            <SelectItem value="yes">Yes</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 
@@ -686,26 +654,18 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         <p className="text-slate-500 text-sm">Help us understand your existing insurance</p>
       </div>
       
-      <FormField
-        control={form.control}
-        name="currentlyInsured"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Are you currently insured?</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="yes">Yes</SelectItem>
-                <SelectItem value="no">No</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Are you currently insured?</label>
+        <Select onValueChange={(val) => form.setValue("currentlyInsured", val)} value={allValues.currentlyInsured || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="yes">Yes</SelectItem>
+            <SelectItem value="no">No</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
       {currentlyInsured === "yes" && (
         <div className="space-y-4 p-4 bg-muted/50 rounded-lg">
@@ -721,29 +681,21 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="currentLimits"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Current Bodily Injury Limits</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select limits" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent position="popper" className="z-[9999]">
-                    <SelectItem value="25/50">25/50</SelectItem>
-                    <SelectItem value="50/100">50/100</SelectItem>
-                    <SelectItem value="100/300">100/300</SelectItem>
-                    <SelectItem value="250/500">250/500</SelectItem>
-                    <SelectItem value="unsure">Not Sure</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
+          <div className="space-y-2">
+            <label className="text-sm font-medium leading-none">Current Bodily Injury Limits</label>
+            <Select onValueChange={(val) => form.setValue("currentLimits", val)} value={allValues.currentLimits || ""}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select limits" />
+              </SelectTrigger>
+              <SelectContent position="popper" className="z-[9999]">
+                <SelectItem value="25/50">25/50</SelectItem>
+                <SelectItem value="50/100">50/100</SelectItem>
+                <SelectItem value="100/300">100/300</SelectItem>
+                <SelectItem value="250/500">250/500</SelectItem>
+                <SelectItem value="unsure">Not Sure</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       )}
     </div>
@@ -810,28 +762,20 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="propertyType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Property Type</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent position="popper" className="z-[9999]">
-                  <SelectItem value="single-family">Single Family</SelectItem>
-                  <SelectItem value="condo">Condo</SelectItem>
-                  <SelectItem value="townhome">Townhome</SelectItem>
-                  <SelectItem value="multi-family">Multi-family</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormItem>
-          )}
-        />
+        <div className="space-y-2">
+          <label className="text-sm font-medium leading-none">Property Type</label>
+          <Select onValueChange={(val) => form.setValue("propertyType", val)} value={allValues.propertyType || ""}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select type" />
+            </SelectTrigger>
+            <SelectContent position="popper" className="z-[9999]">
+              <SelectItem value="single-family">Single Family</SelectItem>
+              <SelectItem value="condo">Condo</SelectItem>
+              <SelectItem value="townhome">Townhome</SelectItem>
+              <SelectItem value="multi-family">Multi-family</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         <FormField
           control={form.control}
           name="yearBuilt"
@@ -881,27 +825,19 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         )}
       />
 
-      <FormField
-        control={form.control}
-        name="systemsUpdated"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Have you updated Electrical, Plumbing, or Heating in the last 20 years?</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="yes">Yes</SelectItem>
-                <SelectItem value="no">No</SelectItem>
-                <SelectItem value="unsure">Not Sure</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Have you updated Electrical, Plumbing, or Heating in the last 20 years?</label>
+        <Select onValueChange={(val) => form.setValue("systemsUpdated", val)} value={allValues.systemsUpdated || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="yes">Yes</SelectItem>
+            <SelectItem value="no">No</SelectItem>
+            <SelectItem value="unsure">Not Sure</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 
@@ -912,48 +848,32 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         <p className="text-slate-500 text-sm">A few more details about the property</p>
       </div>
       
-      <FormField
-        control={form.control}
-        name="isPrimaryResidence"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Is this your primary residence?</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="yes">Yes</SelectItem>
-                <SelectItem value="no">No (Secondary/Investment)</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Is this your primary residence?</label>
+        <Select onValueChange={(val) => form.setValue("isPrimaryResidence", val)} value={allValues.isPrimaryResidence || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="yes">Yes</SelectItem>
+            <SelectItem value="no">No (Secondary/Investment)</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-      <FormField
-        control={form.control}
-        name="hasPool"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Do you have a swimming pool?</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="no">No</SelectItem>
-                <SelectItem value="yes-fenced">Yes, with fence</SelectItem>
-                <SelectItem value="yes-unfenced">Yes, no fence</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Do you have a swimming pool?</label>
+        <Select onValueChange={(val) => form.setValue("hasPool", val)} value={allValues.hasPool || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="no">No</SelectItem>
+            <SelectItem value="yes-fenced">Yes, with fence</SelectItem>
+            <SelectItem value="yes-unfenced">Yes, no fence</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 
@@ -978,26 +898,18 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="gender"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Gender</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent position="popper" className="z-[9999]">
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormItem>
-          )}
-        />
+        <div className="space-y-2">
+          <label className="text-sm font-medium leading-none">Gender</label>
+          <Select onValueChange={(val) => form.setValue("gender", val)} value={allValues.gender || ""}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent position="popper" className="z-[9999]">
+              <SelectItem value="male">Male</SelectItem>
+              <SelectItem value="female">Female</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -1036,47 +948,31 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         <p className="text-slate-500 text-sm">This helps determine your coverage options</p>
       </div>
       
-      <FormField
-        control={form.control}
-        name="usesTobacco"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Have you used tobacco/nicotine in the last 12 months?</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="no">No</SelectItem>
-                <SelectItem value="yes">Yes</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Have you used tobacco/nicotine in the last 12 months?</label>
+        <Select onValueChange={(val) => form.setValue("usesTobacco", val)} value={allValues.usesTobacco || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="no">No</SelectItem>
+            <SelectItem value="yes">Yes</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-      <FormField
-        control={form.control}
-        name="hasMedicalConditions"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Do you have any major medical conditions (Heart, Cancer, Diabetes)?</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="no">No</SelectItem>
-                <SelectItem value="yes">Yes</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Do you have any major medical conditions (Heart, Cancer, Diabetes)?</label>
+        <Select onValueChange={(val) => form.setValue("hasMedicalConditions", val)} value={allValues.hasMedicalConditions || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="no">No</SelectItem>
+            <SelectItem value="yes">Yes</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 
@@ -1087,73 +983,49 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         <p className="text-slate-500 text-sm">Tell us about the coverage you're looking for</p>
       </div>
       
-      <FormField
-        control={form.control}
-        name="lifeType"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Type of Life Insurance</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select type" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="term">Term Life</SelectItem>
-                <SelectItem value="permanent">Permanent (Whole Life)</SelectItem>
-                <SelectItem value="unsure">Not Sure - Help Me Decide</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Type of Life Insurance</label>
+        <Select onValueChange={(val) => form.setValue("lifeType", val)} value={allValues.lifeType || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select type" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="term">Term Life</SelectItem>
+            <SelectItem value="permanent">Permanent (Whole Life)</SelectItem>
+            <SelectItem value="unsure">Not Sure - Help Me Decide</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-      <FormField
-        control={form.control}
-        name="coverageAmount"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Coverage Amount</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select amount" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="100k">$100,000</SelectItem>
-                <SelectItem value="250k">$250,000</SelectItem>
-                <SelectItem value="500k">$500,000</SelectItem>
-                <SelectItem value="1m">$1,000,000</SelectItem>
-                <SelectItem value="2m">$2,000,000+</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Coverage Amount</label>
+        <Select onValueChange={(val) => form.setValue("coverageAmount", val)} value={allValues.coverageAmount || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select amount" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="100k">$100,000</SelectItem>
+            <SelectItem value="250k">$250,000</SelectItem>
+            <SelectItem value="500k">$500,000</SelectItem>
+            <SelectItem value="1m">$1,000,000</SelectItem>
+            <SelectItem value="2m">$2,000,000+</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-      <FormField
-        control={form.control}
-        name="termLength"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Term Length (if applicable)</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select term" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="10">10 Years</SelectItem>
-                <SelectItem value="20">20 Years</SelectItem>
-                <SelectItem value="30">30 Years</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Term Length (if applicable)</label>
+        <Select onValueChange={(val) => form.setValue("termLength", val)} value={allValues.termLength || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select term" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="10">10 Years</SelectItem>
+            <SelectItem value="20">20 Years</SelectItem>
+            <SelectItem value="30">30 Years</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 
@@ -1191,29 +1063,21 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         )}
       />
 
-      <FormField
-        control={form.control}
-        name="yearsInBusiness"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Years in Business</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="startup">Less than 1 year</SelectItem>
-                <SelectItem value="1-3">1-3 years</SelectItem>
-                <SelectItem value="3-5">3-5 years</SelectItem>
-                <SelectItem value="5-10">5-10 years</SelectItem>
-                <SelectItem value="10+">10+ years</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Years in Business</label>
+        <Select onValueChange={(val) => form.setValue("yearsInBusiness", val)} value={allValues.yearsInBusiness || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="startup">Less than 1 year</SelectItem>
+            <SelectItem value="1-3">1-3 years</SelectItem>
+            <SelectItem value="3-5">3-5 years</SelectItem>
+            <SelectItem value="5-10">5-10 years</SelectItem>
+            <SelectItem value="10+">10+ years</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 
@@ -1224,29 +1088,21 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         <p className="text-slate-500 text-sm">Help us understand the size of your operation</p>
       </div>
       
-      <FormField
-        control={form.control}
-        name="annualRevenue"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Estimated Annual Revenue</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select range" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent position="popper" className="z-[9999]">
-                <SelectItem value="under-100k">Under $100,000</SelectItem>
-                <SelectItem value="100k-500k">$100,000 - $500,000</SelectItem>
-                <SelectItem value="500k-1m">$500,000 - $1,000,000</SelectItem>
-                <SelectItem value="1m-5m">$1,000,000 - $5,000,000</SelectItem>
-                <SelectItem value="5m+">$5,000,000+</SelectItem>
-              </SelectContent>
-            </Select>
-          </FormItem>
-        )}
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium leading-none">Estimated Annual Revenue</label>
+        <Select onValueChange={(val) => form.setValue("annualRevenue", val)} value={allValues.annualRevenue || ""}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select range" />
+          </SelectTrigger>
+          <SelectContent position="popper" className="z-[9999]">
+            <SelectItem value="under-100k">Under $100,000</SelectItem>
+            <SelectItem value="100k-500k">$100,000 - $500,000</SelectItem>
+            <SelectItem value="500k-1m">$500,000 - $1,000,000</SelectItem>
+            <SelectItem value="1m-5m">$1,000,000 - $5,000,000</SelectItem>
+            <SelectItem value="5m+">$5,000,000+</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
       <div className="grid grid-cols-2 gap-4">
         <FormField

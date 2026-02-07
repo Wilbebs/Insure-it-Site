@@ -3,13 +3,15 @@ import { MessageCircle, X, ChevronDown, Send, Upload, FileText, Trash2, CheckCir
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
-import { useTheme } from "./theme-provider";
+import { useTranslation } from "./theme-provider";
 import type { ConversationContext, ConversationAction, ConversationState, PolicyType, ContactMethod } from "@/lib/conversation-types";
 import { initialConversationContext } from "@/lib/conversation-types";
 import { coreQuestions, policyQuestionFlows } from "@/lib/policy-questions";
 import { validatePolicyDocument, formatFileSize } from "@/lib/file-upload";
 import { apiRequest } from "@/lib/queryClient";
 import elizabethPhoto from "@assets/image_1764878433544.png";
+import usaFlagIcon from "@assets/united_states_of_america_round_icon_64_(1)_1770501803978.png";
+import spainFlagIcon from "@assets/spain_round_icon_64_1770501803977.png";
 
 interface Message {
   type: 'bot' | 'user' | 'system';
@@ -26,30 +28,6 @@ interface UploadedFile {
 }
 
 const LIZ_AVATAR = elizabethPhoto;
-
-const PRESET_QA = [
-  {
-    question: "What types of insurance do you offer?",
-    answer: "We offer Auto Insurance, Home Insurance, Life Insurance, Health Insurance, and Commercial Insurance. Which one interests you?",
-    link: ""
-  },
-  {
-    question: "How can I get a quote?",
-    answer: "You can get a free quote by filling out our contact form. Click here to get started:",
-    link: "/#connect"
-  },
-  {
-    question: "Tell me about your insurance",
-    answer: "I'd be happy to help! What type of insurance are you interested in? We have Auto, Home, and Life insurance options available.",
-    link: ""
-  }
-];
-
-const INSURANCE_TYPES = [
-  { type: 'auto' as PolicyType, label: 'Auto Insurance' },
-  { type: 'home' as PolicyType, label: 'Home Insurance' },
-  { type: 'life' as PolicyType, label: 'Life Insurance' },
-];
 
 // Conversation state reducer
 function conversationReducer(state: ConversationContext, action: ConversationAction): ConversationContext {
@@ -188,8 +166,22 @@ export default function ChatBot() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasNotification, setHasNotification] = useState(true);
   const [showWelcomeBubble, setShowWelcomeBubble] = useState(false);
+  const { t, language, toggleLanguage } = useTranslation();
+
+  const PRESET_QA = [
+    { question: t.chatbot.q1, answer: t.chatbot.a1, link: "" },
+    { question: t.chatbot.q2, answer: t.chatbot.a2, link: "/#connect" },
+    { question: t.chatbot.q3, answer: t.chatbot.a3, link: "" },
+  ];
+
+  const INSURANCE_TYPES = [
+    { type: 'auto' as PolicyType, label: t.chatbot.autoInsurance },
+    { type: 'home' as PolicyType, label: t.chatbot.homeInsurance },
+    { type: 'life' as PolicyType, label: t.chatbot.lifeInsurance },
+  ];
+
   const [messages, setMessages] = useState<Message[]>([
-    { type: 'bot', text: 'Hi! I\'m Liz, your insurance assistant. What type of insurance are you interested in today?' }
+    { type: 'bot', text: t.chatbot.welcomeMessage }
   ]);
   const [showPolicySelection, setShowPolicySelection] = useState(true);
   const [inputValue, setInputValue] = useState("");
@@ -197,7 +189,6 @@ export default function ChatBot() {
   const [isTyping, setIsTyping] = useState(false);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const { theme } = useTheme();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   // Conversation state management
@@ -311,12 +302,13 @@ export default function ChatBot() {
   };
 
   const handlePolicySelection = (policyType: PolicyType) => {
-    setMessages(prev => [...prev, { type: 'user', text: `${policyType.charAt(0).toUpperCase() + policyType.slice(1)} Insurance` }]);
+    const policyLabel = policyType === 'auto' ? t.chatbot.autoInsurance : policyType === 'home' ? t.chatbot.homeInsurance : t.chatbot.lifeInsurance;
+    setMessages(prev => [...prev, { type: 'user', text: policyLabel }]);
     dispatch({ type: 'SELECT_POLICY', policyType });
     setInApplicationFlow(true);
     
     const policyName = policyType.charAt(0).toUpperCase() + policyType.slice(1);
-    addBotMessage(`Perfect! Let's get started with your ${policyName} Insurance application. ${coreQuestions[0].text}`);
+    addBotMessage(t.chatbot.startMsg.replace('{policy}', policyName).replace('{question}', coreQuestions[0].text));
   };
 
   const handleAnswerSubmit = (value: any, fieldKey: string) => {
@@ -334,9 +326,9 @@ export default function ChatBot() {
         // Personalize message after name is collected
         if (fieldKey === 'name') {
           const firstName = String(value).split(' ')[0];
-          addBotMessage(`Pleasure to meet you, ${firstName}! ${coreQuestions[nextIndex].text}`);
+          addBotMessage(t.chatbot.niceToMeet.replace('{name}', firstName).replace('{question}', coreQuestions[nextIndex].text));
         } else if (fieldKey === 'email') {
-          addBotMessage(`Great, thank you! ${coreQuestions[nextIndex].text}`);
+          addBotMessage(t.chatbot.thankEmail.replace('{question}', coreQuestions[nextIndex].text));
         } else {
           addBotMessage(coreQuestions[nextIndex].text);
         }
@@ -346,7 +338,7 @@ export default function ChatBot() {
         dispatch({ type: 'NEXT_QUESTION' });
         const policyFlow = policyQuestionFlows[convState.policyType!];
         const firstName = convState.coreInfo.name ? String(convState.coreInfo.name).split(' ')[0] : '';
-        addBotMessage(`Perfect, ${firstName}! Now let's get some details about your ${convState.policyType} insurance. ${policyFlow.questions[0].text}`);
+        addBotMessage(t.chatbot.policySpecificMsg.replace('{name}', firstName).replace('{policy}', convState.policyType!).replace('{question}', policyFlow.questions[0].text));
       }
     } else if (convState.state === 'collectingPolicySpecific') {
       const policyFlow = policyQuestionFlows[convState.policyType!];
@@ -368,7 +360,7 @@ export default function ChatBot() {
         // Increment to show 100% progress before moving to document upload
         dispatch({ type: 'NEXT_QUESTION' });
         dispatch({ type: 'TRANSITION_STATE', state: 'collectingDocuments' });
-        addBotMessage("Great! Now, do you have any documents you'd like to upload? (Driver's license, current policy, etc.) You can upload PDF, DOC, DOCX, JPG, or PNG files.");
+        addBotMessage(t.chatbot.documentUploadMsg);
       }
     }
   };
@@ -439,7 +431,7 @@ export default function ChatBot() {
   const handleContinueToReview = () => {
     dispatch({ type: 'TRANSITION_STATE', state: 'reviewing' });
     setMessages(prev => [...prev, { type: 'user', text: 'Continue to review' }]);
-    addBotMessage("Perfect! Let me summarize your application. Please review the information below and confirm if everything looks correct.");
+    addBotMessage(t.chatbot.reviewMsg);
   };
 
   const handleSubmitApplication = async () => {
@@ -471,7 +463,7 @@ export default function ChatBot() {
 
       dispatch({ type: 'TRANSITION_STATE', state: 'submitted' });
       setMessages(prev => [...prev, { type: 'user', text: 'Submit application' }]);
-      addBotMessage(`Congratulations! Your application has been submitted successfully. Your application ID is ${result.applicationId}. We'll contact you within 24 hours!`);
+      addBotMessage(t.chatbot.submittedMsg.replace('{id}', result.applicationId));
       
       toast({ title: "Application Submitted", description: "We'll be in touch soon!" });
       
@@ -531,7 +523,7 @@ export default function ChatBot() {
       setIsTyping(false);
       setMessages(prev => [...prev, { 
         type: 'bot', 
-        text: `Perfect! Let's get your ${insuranceType.label} application started. ${coreQuestions[0].text}`
+        text: t.chatbot.startMsgShort.replace('{policy}', insuranceType.label).replace('{question}', coreQuestions[0].text)
       }]);
       playMessageSound();
       dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
@@ -565,7 +557,7 @@ export default function ChatBot() {
           setIsTyping(false);
           setMessages(prev => [...prev, { 
             type: 'bot', 
-            text: `Perfect! Let's get your ${policyName} Insurance application started. ${coreQuestions[0].text}`
+            text: t.chatbot.startMsgShort.replace('{policy}', policyName).replace('{question}', coreQuestions[0].text)
           }]);
           playMessageSound();
           dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
@@ -582,7 +574,7 @@ export default function ChatBot() {
       if (isAffirmative && convState.policyType) {
         setInApplicationFlow(true);
         const policyName = convState.policyType.charAt(0).toUpperCase() + convState.policyType.slice(1);
-        addBotMessage(`Perfect! Let's get your ${policyName} Insurance application started. ${coreQuestions[0].text}`);
+        addBotMessage(t.chatbot.startMsgShort.replace('{policy}', policyName).replace('{question}', coreQuestions[0].text));
         dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
         return;
       }
@@ -609,7 +601,7 @@ export default function ChatBot() {
       } else {
         setMessages(prev => [...prev, { 
           type: 'bot', 
-          text: "Thanks for your question! For personalized assistance, please contact us at (555) 123-4567 or fill out our contact form.",
+          text: t.chatbot.fallbackMsg,
           link: "/#connect"
         }]);
       }
@@ -652,7 +644,7 @@ export default function ChatBot() {
                   >
                     <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl px-5 py-3 relative">
                       <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                        I can help you get started! 👋
+                        {t.chatbot.welcomeBubble}
                       </div>
                       {/* Speech bubble tail pointing to 320-degree mark on avatar circle */}
                       <div className="absolute bottom-0 right-3 w-4 h-4 bg-white dark:bg-slate-800 transform rotate-45 translate-y-2 shadow-md"></div>
@@ -697,24 +689,42 @@ export default function ChatBot() {
                       className="w-10 h-10 rounded-full border-2 border-white object-cover object-top"
                     />
                     <div>
-                      <h3 className="font-bold">Liz</h3>
-                      <p className="text-xs opacity-90">Insurance Assistant</p>
+                      <h3 className="font-bold">{t.chatbot.title}</h3>
+                      <p className="text-xs opacity-90">{t.chatbot.subtitle}</p>
                     </div>
                   </div>
-                  <button
-                    onClick={handleMinimize}
-                    className="hover:bg-white/20 p-2 rounded-full transition-colors"
-                    data-testid="chatbot-minimize-button"
-                  >
-                    <ChevronDown className="w-5 h-5" />
-                  </button>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={toggleLanguage}
+                      className="relative px-2.5 py-1 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 group"
+                      data-testid="chatbot-language-toggle"
+                      aria-label={t.nav.switchLang}
+                    >
+                      <span className="text-xs font-bold text-white">
+                        {language === "en" ? "EN" : "ES"}
+                      </span>
+                      <img
+                        src={language === "en" ? usaFlagIcon : spainFlagIcon}
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute -top-1 -right-1 w-4 h-4 object-contain rounded-full drop-shadow-sm"
+                      />
+                    </button>
+                    <button
+                      onClick={handleMinimize}
+                      className="hover:bg-white/20 p-2 rounded-full transition-colors"
+                      data-testid="chatbot-minimize-button"
+                    >
+                      <ChevronDown className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
                 
                 {/* Progress Bar */}
                 {convState.policyType && (convState.state === 'collectingCore' || convState.state === 'collectingPolicySpecific') && (
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
-                      <span>Application Progress</span>
+                      <span>{t.chatbot.applicationProgress}</span>
                       <span>{Math.round((convState.currentQuestionIndex / (coreQuestions.length + (convState.policyType ? policyQuestionFlows[convState.policyType].questions.length : 0))) * 100)}%</span>
                     </div>
                     <div className="w-full bg-white/30 rounded-full h-2">
@@ -750,7 +760,7 @@ export default function ChatBot() {
                           className="mt-2 text-xs bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700 transition-colors"
                           data-testid="chatbot-message-link"
                         >
-                          View →
+                          {t.chatbot.viewLink}
                         </button>
                       )}
                     </div>
@@ -760,7 +770,7 @@ export default function ChatBot() {
                 {/* Insurance Type Selection Buttons */}
                 {showPolicySelection && convState.state === 'idle' && !isTyping && (
                   <div className="bg-white dark:bg-slate-700 p-4 rounded-md shadow-md space-y-2">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">Select an insurance type:</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">{t.chatbot.selectType}</p>
                     <div className="grid grid-cols-1 gap-2">
                       {INSURANCE_TYPES.map((insuranceType, idx) => (
                         <motion.button
@@ -856,7 +866,7 @@ export default function ChatBot() {
                         className="w-full p-2 border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200"
                         data-testid="question-select"
                       >
-                        <option value="">Select...</option>
+                        <option value="">{t.chatbot.selectPlaceholder}</option>
                         {currentQuestion.options?.map(opt => (
                           <option key={opt} value={opt}>{opt}</option>
                         ))}
@@ -879,7 +889,7 @@ export default function ChatBot() {
                           className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
                           data-testid="question-multiselect-submit"
                         >
-                          Continue
+                          {t.chatbot.continueBtn}
                         </button>
                       </div>
                     )}
@@ -891,14 +901,14 @@ export default function ChatBot() {
                           className="flex-1 bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
                           data-testid="question-boolean-yes"
                         >
-                          Yes
+                          {t.chatbot.yesBtn}
                         </button>
                         <button
                           onClick={() => handleAnswerSubmit(false, currentQuestion.fieldKey)}
                           className="flex-1 bg-gray-300 dark:bg-slate-600 text-gray-700 dark:text-gray-200 p-2 rounded-lg hover:bg-gray-400 dark:hover:bg-slate-500"
                           data-testid="question-boolean-no"
                         >
-                          No
+                          {t.chatbot.noBtn}
                         </button>
                       </div>
                     )}
@@ -907,7 +917,7 @@ export default function ChatBot() {
                       <div className="flex gap-2">
                         <input
                           type={currentQuestion.type}
-                          placeholder="Your answer..."
+                          placeholder={t.chatbot.yourAnswer}
                           className="flex-1 p-2 border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
                           onKeyPress={(e) => {
                             if (e.key === 'Enter') {
@@ -941,8 +951,8 @@ export default function ChatBot() {
                     <label className="cursor-pointer block relative">
                       <div className="border-2 border-dashed border-blue-300 dark:border-blue-500 rounded-lg p-6 text-center hover:border-blue-500 dark:hover:border-blue-400 transition-colors pointer-events-none">
                         <Upload className="w-8 h-8 mx-auto mb-2 text-blue-500" />
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Click to upload documents</p>
-                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">PDF, DOC, DOCX, JPG, PNG (Max 10MB)</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">{t.chatbot.uploadDocuments}</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{t.chatbot.uploadFormats}</p>
                       </div>
                       <input
                         type="file"
@@ -964,7 +974,7 @@ export default function ChatBot() {
                               <p className="text-xs text-gray-500 dark:text-gray-400">{formatFileSize(file.file.size)}</p>
                             </div>
                             {file.uploading && (
-                              <div className="text-xs text-blue-500">Uploading...</div>
+                              <div className="text-xs text-blue-500">{t.chatbot.uploading}</div>
                             )}
                             {file.url && (
                               <CheckCircle2 className="w-4 h-4 text-green-500" />
@@ -986,7 +996,7 @@ export default function ChatBot() {
                       className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 font-semibold relative z-10"
                       data-testid="continue-to-review"
                     >
-                      Continue to Review
+                      {t.chatbot.continueReview}
                     </button>
                   </div>
                 )}
@@ -994,22 +1004,22 @@ export default function ChatBot() {
                 {/* Review & Submit UI */}
                 {convState.state === 'reviewing' && !isTyping && (
                   <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-3">
-                    <h3 className="font-bold text-gray-800 dark:text-gray-200">Application Summary</h3>
+                    <h3 className="font-bold text-gray-800 dark:text-gray-200">{t.chatbot.summaryTitle}</h3>
                     <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                       <div>
-                        <span className="font-semibold">Policy Type:</span> {convState.policyType}
+                        <span className="font-semibold">{t.chatbot.policyTypeLabel}</span> {convState.policyType}
                       </div>
                       <div>
-                        <span className="font-semibold">Name:</span> {convState.coreInfo.name}
+                        <span className="font-semibold">{t.chatbot.nameLabel}</span> {convState.coreInfo.name}
                       </div>
                       <div>
-                        <span className="font-semibold">Email:</span> {convState.coreInfo.email}
+                        <span className="font-semibold">{t.chatbot.emailLabel}</span> {convState.coreInfo.email}
                       </div>
                       <div>
-                        <span className="font-semibold">Phone:</span> {convState.coreInfo.phone}
+                        <span className="font-semibold">{t.chatbot.phoneLabel}</span> {convState.coreInfo.phone}
                       </div>
                       <div>
-                        <span className="font-semibold">Documents:</span> {convState.documents.length} uploaded
+                        <span className="font-semibold">{t.chatbot.documentsLabel}</span> {convState.documents.length} {t.chatbot.uploaded}
                       </div>
                     </div>
                     
@@ -1019,7 +1029,7 @@ export default function ChatBot() {
                       className="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 font-semibold disabled:bg-gray-400"
                       data-testid="submit-application"
                     >
-                      {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                      {isSubmitting ? t.chatbot.submitting : t.chatbot.submitApplication}
                     </button>
                   </div>
                 )}
@@ -1027,7 +1037,7 @@ export default function ChatBot() {
                 {/* Preset Questions */}
                 {showQuestions && !isTyping && !inApplicationFlow && (
                   <div className="space-y-2 pt-2">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold">Quick Actions:</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold">{t.chatbot.quickActions}</p>
                     {PRESET_QA.map((qa, idx) => (
                       <button
                         key={idx}
@@ -1051,7 +1061,7 @@ export default function ChatBot() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder={inApplicationFlow && currentQuestion ? "Use the form above..." : "Type a message..."}
+                  placeholder={inApplicationFlow && currentQuestion ? t.chatbot.useFormAbove : t.chatbot.typeMessage}
                   disabled={inApplicationFlow && currentQuestion !== null}
                   className="flex-1 px-4 py-2 border dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 dark:disabled:bg-slate-700 disabled:cursor-not-allowed bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
                   data-testid="chatbot-input"

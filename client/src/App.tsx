@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/components/theme-provider";
 import Landing from "@/pages/landing";
 import About from "@/pages/about";
 import Plans from "@/pages/plans";
+import Wireframe from "@/pages/wireframe";
 import NotFound from "@/pages/not-found";
 import ChatBot from "@/components/chatbot";
 
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/" component={Landing} />
       <Route path="/about" component={About} />
       <Route path="/plans" component={Plans} />
+      <Route path="/wireframe" component={Wireframe} />
       <Route component={NotFound} />
     </Switch>
   );

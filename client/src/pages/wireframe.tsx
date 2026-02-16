@@ -47,6 +47,15 @@ const policySections: PolicySection[] = [
     color: "#3b82f6",
     groups: [
       {
+        title: "Garaging Address",
+        fields: [
+          { name: "Street Address", type: "Text", required: false, example: "123 Main St" },
+          { name: "City", type: "Text", required: false, example: "Jacksonville" },
+          { name: "State", type: "Text", required: false, example: "FL" },
+          { name: "ZIP Code", type: "Text", required: false, example: "32256" },
+        ],
+      },
+      {
         title: "Vehicle Information",
         fields: [
           { name: "Vehicle Year", type: "Text", required: false, example: "2024" },

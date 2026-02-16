@@ -57,6 +57,10 @@ export const insertPolicyApplicationSchema = createInsertSchema(policyApplicatio
 
 // Zod schemas for policy-specific details (aligned with quote modal fields)
 export const autoDetailsSchema = z.object({
+  garagingAddress: z.string().optional(),
+  garagingCity: z.string().optional(),
+  garagingState: z.string().optional(),
+  garagingZip: z.string().optional(),
   vehicleYear: z.string().optional(),
   vehicleMake: z.string().optional(),
   vehicleModel: z.string().optional(),

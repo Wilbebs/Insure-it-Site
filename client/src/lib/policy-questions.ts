@@ -69,6 +69,39 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
   policyType: 'auto',
   questions: [
     {
+      id: 'garagingAddress',
+      text: "What's the garaging address for the vehicle?",
+      type: 'text',
+      fieldKey: 'garagingAddress',
+      validation: { required: false },
+      helperText: 'Where the vehicle is primarily kept',
+      placeholder: '123 Main St'
+    },
+    {
+      id: 'garagingCity',
+      text: "City?",
+      type: 'text',
+      fieldKey: 'garagingCity',
+      validation: { required: false },
+      placeholder: 'Jacksonville'
+    },
+    {
+      id: 'garagingState',
+      text: "State?",
+      type: 'text',
+      fieldKey: 'garagingState',
+      validation: { required: false },
+      placeholder: 'FL'
+    },
+    {
+      id: 'garagingZip',
+      text: "ZIP code?",
+      type: 'text',
+      fieldKey: 'garagingZip',
+      validation: { required: false },
+      placeholder: '32256'
+    },
+    {
       id: 'vehicleYear',
       text: "What year is your vehicle?",
       type: 'text',
@@ -192,9 +225,14 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
   ],
   groups: [
     {
+      id: 'garaging-address',
+      title: 'Garaging Address',
+      questions: []
+    },
+    {
       id: 'vehicle-info',
       title: 'Vehicle Information',
-      questions: [] // filled below
+      questions: []
     },
     {
       id: 'vehicle-usage',
@@ -215,10 +253,11 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
 };
 
 // Wire up auto groups by reference
-autoQuestionFlow.groups[0].questions = autoQuestionFlow.questions.slice(0, 4);   // year, make, model, vin
-autoQuestionFlow.groups[1].questions = autoQuestionFlow.questions.slice(4, 6);   // primaryUse, ownershipStatus
-autoQuestionFlow.groups[2].questions = autoQuestionFlow.questions.slice(6, 10);  // dob, marital, licenseState, licenseNumber
-autoQuestionFlow.groups[3].questions = autoQuestionFlow.questions.slice(10, 14); // violations, insured, carrier, limits
+autoQuestionFlow.groups[0].questions = autoQuestionFlow.questions.slice(0, 4);   // garagingAddress, city, state, zip
+autoQuestionFlow.groups[1].questions = autoQuestionFlow.questions.slice(4, 8);   // year, make, model, vin
+autoQuestionFlow.groups[2].questions = autoQuestionFlow.questions.slice(8, 10);  // primaryUse, ownershipStatus
+autoQuestionFlow.groups[3].questions = autoQuestionFlow.questions.slice(10, 14); // dob, marital, licenseState, licenseNumber
+autoQuestionFlow.groups[4].questions = autoQuestionFlow.questions.slice(14, 18); // violations, insured, carrier, limits
 
 // Home insurance questions (matches quote modal fields)
 export const homeQuestionFlow: PolicyQuestionFlow = {

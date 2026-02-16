@@ -36,6 +36,7 @@ const coreFields: GroupData = {
     { name: "Last Name", type: "Text", required: true, example: "Smith" },
     { name: "Email", type: "Text", required: true, example: "john@email.com" },
     { name: "Phone", type: "Text", required: true, example: "305-555-1234" },
+    { name: "Mailing Address", type: "Text", required: true, example: "123 Main St" },
     { name: "ZIP Code", type: "Text", required: true, example: "33101" },
   ],
 };
@@ -47,17 +48,9 @@ const policySections: PolicySection[] = [
     color: "#3b82f6",
     groups: [
       {
-        title: "Garaging Address",
-        fields: [
-          { name: "Street Address", type: "Text", required: false, example: "123 Main St" },
-          { name: "City", type: "Text", required: false, example: "Jacksonville" },
-          { name: "State", type: "Text", required: false, example: "FL" },
-          { name: "ZIP Code", type: "Text", required: false, example: "32256" },
-        ],
-      },
-      {
         title: "Vehicle Information",
         fields: [
+          { name: "Garaging ZIP Code", type: "Text", required: false, example: "32256 (if different from mailing)" },
           { name: "Vehicle Year", type: "Text", required: false, example: "2024" },
           { name: "Vehicle Make", type: "Text", required: false, example: "Toyota" },
           { name: "Vehicle Model", type: "Text", required: false, example: "Camry" },

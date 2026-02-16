@@ -39,13 +39,11 @@ function createQuoteFormSchema(t: ReturnType<typeof import("@/lib/translations")
     lastName: z.string().min(1, t.quote.validationLastName),
     email: z.string().email(t.quote.validationEmail),
     phone: z.string().min(10, t.quote.validationPhone),
+    mailingAddress: z.string().min(1, "Please enter your mailing address"),
     zipCode: z.string().min(5, t.quote.validationZip),
 
     policyType: z.string().min(1, t.quote.validationPolicyType),
   
-  garagingAddress: z.string().optional(),
-  garagingCity: z.string().optional(),
-  garagingState: z.string().optional(),
   garagingZip: z.string().optional(),
   vehicleYear: z.string().optional(),
   vehicleMake: z.string().optional(),
@@ -128,9 +126,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       phone: "",
       zipCode: "",
       policyType: "",
-      garagingAddress: "",
-      garagingCity: "",
-      garagingState: "",
+      mailingAddress: "",
       garagingZip: "",
       vehicleYear: "",
       vehicleMake: "",
@@ -192,7 +188,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const getTotalSteps = () => {
     if (!policyType) return 2;
     switch (policyType) {
-      case "auto": return 6;
+      case "auto": return 5;
       case "home": return 5;
       case "life": return 5;
       case "commercial": return 5;
@@ -234,7 +230,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     
     switch (currentStep) {
       case 1:
-        fieldsToValidate = ["firstName", "lastName", "email", "phone", "zipCode"];
+        fieldsToValidate = ["firstName", "lastName", "email", "phone", "mailingAddress", "zipCode"];
         break;
       case 2:
         fieldsToValidate = ["policyType"];
@@ -414,6 +410,20 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           )}
         />
       </div>
+
+      <FormField
+        control={form.control}
+        name="mailingAddress"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{t.quote.mailingAddress}</FormLabel>
+            <FormControl>
+              <Input placeholder="123 Main St" data-testid="input-mailing-address" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   );
 
@@ -461,73 +471,25 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     </div>
   );
 
-  const AutoStep3GaragingAddress = () => (
-    <div className="space-y-4">
-      <div className="text-center mb-6">
-        <h3 className="text-xl font-semibold text-slate-800">{t.quote.garagingAddressTitle}</h3>
-        <p className="text-slate-500 text-sm">{t.quote.garagingAddressSubtitle}</p>
-      </div>
-      
-      <FormField
-        control={form.control}
-        name="garagingAddress"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>{t.quote.garagingAddress}</FormLabel>
-            <FormControl>
-              <Input placeholder="123 Main Street" {...field} />
-            </FormControl>
-          </FormItem>
-        )}
-      />
-
-      <div className="grid grid-cols-3 gap-4">
-        <FormField
-          control={form.control}
-          name="garagingCity"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t.quote.garagingCity}</FormLabel>
-              <FormControl>
-                <Input placeholder="Jacksonville" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="garagingState"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t.quote.garagingState}</FormLabel>
-              <FormControl>
-                <Input placeholder="FL" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="garagingZip"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t.quote.garagingZip}</FormLabel>
-              <FormControl>
-                <Input placeholder="32256" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-      </div>
-    </div>
-  );
-
-  const AutoStep4VehicleDetails = () => (
+  const AutoStep3VehicleDetails = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
         <h3 className="text-xl font-semibold text-slate-800">{t.quote.vehicleDetailsTitle}</h3>
         <p className="text-slate-500 text-sm">{t.quote.vehicleDetailsSubtitle}</p>
       </div>
+
+      <FormField
+        control={form.control}
+        name="garagingZip"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{t.quote.garagingZipLabel}</FormLabel>
+            <FormControl>
+              <Input placeholder="32256" {...field} />
+            </FormControl>
+          </FormItem>
+        )}
+      />
       
       <div className="grid grid-cols-3 gap-4">
         <FormField
@@ -615,7 +577,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     </div>
   );
 
-  const AutoStep5DriverDetails = () => (
+  const AutoStep4DriverDetails = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
         <h3 className="text-xl font-semibold text-slate-800">{t.quote.driverInfoTitle}</h3>
@@ -689,7 +651,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     </div>
   );
 
-  const AutoStep6CurrentCoverage = () => (
+  const AutoStep5CurrentCoverage = () => (
     <div className="space-y-4">
       <div className="text-center mb-6">
         <h3 className="text-xl font-semibold text-slate-800">{t.quote.currentCoverageTitle}</h3>
@@ -1245,10 +1207,9 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     if (currentStep === 2) return Step2PolicyType();
     
     if (policyType === "auto") {
-      if (currentStep === 3) return AutoStep3GaragingAddress();
-      if (currentStep === 4) return AutoStep4VehicleDetails();
-      if (currentStep === 5) return AutoStep5DriverDetails();
-      if (currentStep === 6) return AutoStep6CurrentCoverage();
+      if (currentStep === 3) return AutoStep3VehicleDetails();
+      if (currentStep === 4) return AutoStep4DriverDetails();
+      if (currentStep === 5) return AutoStep5CurrentCoverage();
     }
     
     if (policyType === "home") {

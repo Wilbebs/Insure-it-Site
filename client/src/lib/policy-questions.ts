@@ -39,6 +39,15 @@ export const coreQuestions: ConversationQuestion[] = [
     placeholder: '305-555-1234'
   },
   {
+    id: 'mailingAddress',
+    text: "What's your mailing address?",
+    type: 'text',
+    fieldKey: 'mailingAddress',
+    validation: { required: true },
+    helperText: 'Your street address',
+    placeholder: '123 Main St'
+  },
+  {
     id: 'zipCode',
     text: "What's your ZIP code?",
     type: 'text',
@@ -59,7 +68,8 @@ export const coreQuestionGroups: QuestionGroup[] = [
       coreQuestions[1], // lastName
       coreQuestions[2], // email
       coreQuestions[3], // phone
-      coreQuestions[4], // zipCode
+      coreQuestions[4], // mailingAddress
+      coreQuestions[5], // zipCode
     ]
   }
 ];
@@ -69,36 +79,12 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
   policyType: 'auto',
   questions: [
     {
-      id: 'garagingAddress',
-      text: "What's the garaging address for the vehicle?",
-      type: 'text',
-      fieldKey: 'garagingAddress',
-      validation: { required: false },
-      helperText: 'Where the vehicle is primarily kept',
-      placeholder: '123 Main St'
-    },
-    {
-      id: 'garagingCity',
-      text: "City?",
-      type: 'text',
-      fieldKey: 'garagingCity',
-      validation: { required: false },
-      placeholder: 'Jacksonville'
-    },
-    {
-      id: 'garagingState',
-      text: "State?",
-      type: 'text',
-      fieldKey: 'garagingState',
-      validation: { required: false },
-      placeholder: 'FL'
-    },
-    {
       id: 'garagingZip',
-      text: "ZIP code?",
+      text: "What's the ZIP code where the vehicle is primarily kept?",
       type: 'text',
       fieldKey: 'garagingZip',
       validation: { required: false },
+      helperText: 'If different from your mailing address',
       placeholder: '32256'
     },
     {
@@ -225,11 +211,6 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
   ],
   groups: [
     {
-      id: 'garaging-address',
-      title: 'Garaging Address',
-      questions: []
-    },
-    {
       id: 'vehicle-info',
       title: 'Vehicle Information',
       questions: []
@@ -253,11 +234,10 @@ export const autoQuestionFlow: PolicyQuestionFlow = {
 };
 
 // Wire up auto groups by reference
-autoQuestionFlow.groups[0].questions = autoQuestionFlow.questions.slice(0, 4);   // garagingAddress, city, state, zip
-autoQuestionFlow.groups[1].questions = autoQuestionFlow.questions.slice(4, 8);   // year, make, model, vin
-autoQuestionFlow.groups[2].questions = autoQuestionFlow.questions.slice(8, 10);  // primaryUse, ownershipStatus
-autoQuestionFlow.groups[3].questions = autoQuestionFlow.questions.slice(10, 14); // dob, marital, licenseState, licenseNumber
-autoQuestionFlow.groups[4].questions = autoQuestionFlow.questions.slice(14, 18); // violations, insured, carrier, limits
+autoQuestionFlow.groups[0].questions = autoQuestionFlow.questions.slice(0, 5);   // garagingZip, year, make, model, vin
+autoQuestionFlow.groups[1].questions = autoQuestionFlow.questions.slice(5, 7);   // primaryUse, ownershipStatus
+autoQuestionFlow.groups[2].questions = autoQuestionFlow.questions.slice(7, 11);  // dob, marital, licenseState, licenseNumber
+autoQuestionFlow.groups[3].questions = autoQuestionFlow.questions.slice(11, 15); // violations, insured, carrier, limits
 
 // Home insurance questions (matches quote modal fields)
 export const homeQuestionFlow: PolicyQuestionFlow = {

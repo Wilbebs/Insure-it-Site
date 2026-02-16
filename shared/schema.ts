@@ -55,9 +55,33 @@ export const insertPolicyApplicationSchema = createInsertSchema(policyApplicatio
   status: true,
 });
 
+// Sub-schemas for individual vehicles and drivers
+export const vehicleSchema = z.object({
+  vehicleYear: z.string().optional(),
+  vehicleMake: z.string().optional(),
+  vehicleModel: z.string().optional(),
+  vehicleVin: z.string().optional(),
+  primaryUse: z.string().optional(),
+  ownershipStatus: z.string().optional(),
+});
+
+export const driverSchema = z.object({
+  driverDob: z.string().optional(),
+  maritalStatus: z.string().optional(),
+  licenseState: z.string().optional(),
+  licenseNumber: z.string().optional(),
+  hasViolations: z.string().optional(),
+});
+
 // Zod schemas for policy-specific details (aligned with quote modal fields)
 export const autoDetailsSchema = z.object({
   garagingZip: z.string().optional(),
+  vehicles: z.array(vehicleSchema).optional(),
+  drivers: z.array(driverSchema).optional(),
+  currentlyInsured: z.string().optional(),
+  currentCarrier: z.string().optional(),
+  currentLimits: z.string().optional(),
+  // Deprecated flat fields kept for backward compatibility
   vehicleYear: z.string().optional(),
   vehicleMake: z.string().optional(),
   vehicleModel: z.string().optional(),
@@ -69,9 +93,6 @@ export const autoDetailsSchema = z.object({
   licenseState: z.string().optional(),
   licenseNumber: z.string().optional(),
   hasViolations: z.string().optional(),
-  currentlyInsured: z.string().optional(),
-  currentCarrier: z.string().optional(),
-  currentLimits: z.string().optional(),
 });
 
 export const homeDetailsSchema = z.object({
@@ -119,6 +140,8 @@ export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSche
 export type ContactSubmission = typeof contactSubmissions.$inferSelect;
 export type InsertPolicyApplication = z.infer<typeof insertPolicyApplicationSchema>;
 export type PolicyApplication = typeof policyApplications.$inferSelect;
+export type VehicleInfo = z.infer<typeof vehicleSchema>;
+export type DriverInfo = z.infer<typeof driverSchema>;
 export type AutoDetails = z.infer<typeof autoDetailsSchema>;
 export type HomeDetails = z.infer<typeof homeDetailsSchema>;
 export type LifeDetails = z.infer<typeof lifeDetailsSchema>;

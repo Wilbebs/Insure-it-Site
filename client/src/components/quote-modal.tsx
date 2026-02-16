@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
-import { X, ChevronLeft, ChevronRight, Car, Home, Heart, Building2, Check } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Car, Home, Heart, Building2, Check, Plus, Trash2, User } from "lucide-react";
+import type { VehicleInfo, DriverInfo } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useTranslation } from "./theme-provider";
@@ -45,17 +46,6 @@ function createQuoteFormSchema(t: ReturnType<typeof import("@/lib/translations")
     policyType: z.string().min(1, t.quote.validationPolicyType),
   
   garagingZip: z.string().optional(),
-  vehicleYear: z.string().optional(),
-  vehicleMake: z.string().optional(),
-  vehicleModel: z.string().optional(),
-  vehicleVin: z.string().optional(),
-  primaryUse: z.string().optional(),
-  ownershipStatus: z.string().optional(),
-  driverDob: z.string().optional(),
-  maritalStatus: z.string().optional(),
-  licenseState: z.string().optional(),
-  licenseNumber: z.string().optional(),
-  hasViolations: z.string().optional(),
   currentlyInsured: z.string().optional(),
   currentCarrier: z.string().optional(),
   currentLimits: z.string().optional(),

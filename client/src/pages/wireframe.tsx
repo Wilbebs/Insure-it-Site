@@ -6,8 +6,11 @@ const checkIcon = (
 const xIcon = (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="5" x2="13" y2="13"/><line x1="13" y1="5" x2="5" y2="13"/></svg>
 );
+const optionalIcon = (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="9" r="6"/><line x1="9" y1="6" x2="9" y2="10"/><circle cx="9" cy="12.5" r="0.5" fill="#f59e0b"/></svg>
+);
 
-type Decision = "keep" | "remove" | "";
+type Decision = "keep" | "remove" | "optional" | "";
 
 interface FieldRow {
   name: string;
@@ -194,8 +197,9 @@ function FieldTable({ group, decisions, onDecision, globalIndex }: { group: Grou
             <th style={{ padding: "8px 12px", textAlign: "left", width: 90 }}>Input Type</th>
             <th style={{ padding: "8px 12px", textAlign: "left", width: 80 }}>Required</th>
             <th style={{ padding: "8px 12px", textAlign: "left" }}>Options / Example</th>
-            <th style={{ padding: "8px 12px", textAlign: "center", width: 60 }}>Keep</th>
-            <th style={{ padding: "8px 12px", textAlign: "center", width: 70 }}>Remove</th>
+            <th style={{ padding: "8px 12px", textAlign: "center", width: 55 }}>Keep</th>
+            <th style={{ padding: "8px 12px", textAlign: "center", width: 65 }}>Optional</th>
+            <th style={{ padding: "8px 12px", textAlign: "center", width: 65 }}>Remove</th>
             <th style={{ padding: "8px 12px", textAlign: "left" }}>Notes</th>
           </tr>
         </thead>
@@ -205,7 +209,7 @@ function FieldTable({ group, decisions, onDecision, globalIndex }: { group: Grou
             const idx = globalIndex.current;
             const key = `${group.title}-${field.name}`;
             const dec = decisions[key] || "";
-            const rowBg = dec === "remove" ? "#fef2f2" : dec === "keep" ? "#f0fdf4" : "#fff";
+            const rowBg = dec === "remove" ? "#fef2f2" : dec === "keep" ? "#f0fdf4" : dec === "optional" ? "#fffbeb" : "#fff";
             return (
               <tr key={field.name} style={{ background: rowBg, borderBottom: "1px solid #e2e8f0", transition: "background 0.2s" }}>
                 <td style={{ padding: "10px 12px", color: "#94a3b8", fontWeight: 500 }}>{idx}</td>
@@ -233,6 +237,17 @@ function FieldTable({ group, decisions, onDecision, globalIndex }: { group: Grou
                   >
                     {checkIcon}
                   </button>
+                </td>
+                <td style={{ padding: "10px 12px", textAlign: "center" }}>
+                  {!field.required && (
+                    <button
+                      onClick={() => onDecision(key, dec === "optional" ? "" : "optional")}
+                      style={{ background: "none", border: "none", cursor: "pointer", opacity: dec === "optional" ? 1 : 0.25, transition: "opacity 0.2s" }}
+                      title="Mark as optional"
+                    >
+                      {optionalIcon}
+                    </button>
+                  )}
                 </td>
                 <td style={{ padding: "10px 12px", textAlign: "center" }}>
                   {!field.required && (
@@ -265,9 +280,10 @@ export default function WireframePage() {
   };
 
   const totalKeep = Object.values(decisions).filter((d) => d === "keep").length;
+  const totalOptional = Object.values(decisions).filter((d) => d === "optional").length;
   const totalRemove = Object.values(decisions).filter((d) => d === "remove").length;
 
-  const allFieldsCount = 5 + policySections.reduce((sum, s) => sum + s.groups.reduce((gs, g) => gs + g.fields.length, 0), 0);
+  const allFieldsCount = 6 + policySections.reduce((sum, s) => sum + s.groups.reduce((gs, g) => gs + g.fields.length, 0), 0);
 
   return (
     <div style={{ minHeight: "100vh", background: "#f8fafc", fontFamily: "'Inter', -apple-system, sans-serif" }}>
@@ -280,7 +296,7 @@ export default function WireframePage() {
             Quote Form Field Wireframe
           </h1>
           <p style={{ color: "#64748b", fontSize: 15, maxWidth: 600, margin: "0 auto", lineHeight: 1.6 }}>
-            Review all fields collected in the "Get a Quote Today" forms. Use the checkmarks and X buttons to mark which fields to <strong style={{ color: "#22c55e" }}>keep</strong> or <strong style={{ color: "#ef4444" }}>remove</strong>. Print this page or screenshot it to share with the team.
+            Review all fields collected in the "Get a Quote Today" forms. Mark each field as <strong style={{ color: "#22c55e" }}>Keep</strong>, <strong style={{ color: "#f59e0b" }}>Optional</strong>, or <strong style={{ color: "#ef4444" }}>Remove</strong>. Print this page or screenshot it to share with the team.
           </p>
         </div>
 
@@ -293,12 +309,16 @@ export default function WireframePage() {
             <div style={{ fontSize: 24, fontWeight: 700, color: "#22c55e" }}>{totalKeep}</div>
             <div style={{ fontSize: 12, color: "#22c55e", fontWeight: 500 }}>Marked Keep</div>
           </div>
+          <div style={{ background: "#fffbeb", border: "1px solid #fde68a", borderRadius: 10, padding: "14px 24px", textAlign: "center", minWidth: 120 }}>
+            <div style={{ fontSize: 24, fontWeight: 700, color: "#f59e0b" }}>{totalOptional}</div>
+            <div style={{ fontSize: 12, color: "#f59e0b", fontWeight: 500 }}>Marked Optional</div>
+          </div>
           <div style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 10, padding: "14px 24px", textAlign: "center", minWidth: 120 }}>
             <div style={{ fontSize: 24, fontWeight: 700, color: "#ef4444" }}>{totalRemove}</div>
             <div style={{ fontSize: 12, color: "#ef4444", fontWeight: 500 }}>Marked Remove</div>
           </div>
           <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 10, padding: "14px 24px", textAlign: "center", minWidth: 120 }}>
-            <div style={{ fontSize: 24, fontWeight: 700, color: "#94a3b8" }}>{allFieldsCount - totalKeep - totalRemove}</div>
+            <div style={{ fontSize: 24, fontWeight: 700, color: "#94a3b8" }}>{allFieldsCount - totalKeep - totalOptional - totalRemove}</div>
             <div style={{ fontSize: 12, color: "#94a3b8", fontWeight: 500 }}>Undecided</div>
           </div>
         </div>
@@ -309,7 +329,7 @@ export default function WireframePage() {
             <h2 style={{ fontSize: 20, fontWeight: 700, color: "#0f172a", margin: 0 }}>Step 1: Contact Information</h2>
             <span style={{ background: "#fee2e2", color: "#dc2626", fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 4 }}>ALL REQUIRED</span>
           </div>
-          <p style={{ color: "#64748b", fontSize: 13, marginBottom: 16 }}>These 5 fields appear for every policy type. They are all required and cannot be removed.</p>
+          <p style={{ color: "#64748b", fontSize: 13, marginBottom: 16 }}>These 6 fields appear for every policy type. They are all required and cannot be removed.</p>
           <FieldTable group={coreFields} decisions={decisions} onDecision={onDecision} globalIndex={{ current: 0 }} />
         </div>
 
@@ -344,7 +364,8 @@ export default function WireframePage() {
         <div style={{ background: "#fffbeb", border: "1px solid #fde68a", borderRadius: 12, padding: "20px 24px", marginTop: 32 }}>
           <h3 style={{ fontSize: 15, fontWeight: 600, color: "#92400e", margin: "0 0 8px" }}>Instructions for Reviewers</h3>
           <ul style={{ margin: 0, paddingLeft: 20, color: "#92400e", fontSize: 13, lineHeight: 1.8 }}>
-            <li>Click the <strong style={{ color: "#22c55e" }}>green check</strong> to mark a field as <strong>Keep</strong></li>
+            <li>Click the <strong style={{ color: "#22c55e" }}>green check</strong> to mark a field as <strong>Keep</strong> (required)</li>
+            <li>Click the <strong style={{ color: "#f59e0b" }}>yellow circle</strong> to mark a field as <strong>Optional</strong> (nice to have)</li>
             <li>Click the <strong style={{ color: "#ef4444" }}>red X</strong> to mark a field as <strong>Remove</strong></li>
             <li>Use the <strong>Notes</strong> column (dashed line) to write suggestions when printing</li>
             <li>Required fields (Contact Info) cannot be removed</li>

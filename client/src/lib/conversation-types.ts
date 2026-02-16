@@ -1,4 +1,4 @@
-import type { AutoDetails, HomeDetails, LifeDetails, CommercialDetails } from "@shared/schema";
+import type { AutoDetails, HomeDetails, LifeDetails, CommercialDetails, VehicleInfo, DriverInfo } from "@shared/schema";
 
 // Conversation states for the state machine
 export type ConversationState = 
@@ -79,6 +79,12 @@ export type ConversationAction =
   | { type: 'UPDATE_HOME_DETAILS'; field: keyof HomeDetails; value: any }
   | { type: 'UPDATE_LIFE_DETAILS'; field: keyof LifeDetails; value: any }
   | { type: 'UPDATE_COMMERCIAL_DETAILS'; field: keyof CommercialDetails; value: any }
+  | { type: 'ADD_VEHICLE'; vehicle: VehicleInfo }
+  | { type: 'UPDATE_VEHICLE'; index: number; vehicle: VehicleInfo }
+  | { type: 'REMOVE_VEHICLE'; index: number }
+  | { type: 'ADD_DRIVER'; driver: DriverInfo }
+  | { type: 'UPDATE_DRIVER'; index: number; driver: DriverInfo }
+  | { type: 'REMOVE_DRIVER'; index: number }
   | { type: 'ADD_DOCUMENT'; url: string }
   | { type: 'REMOVE_DOCUMENT'; url: string }
   | { type: 'UPDATE_NOTES'; notes: string }

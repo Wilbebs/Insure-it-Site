@@ -1,6 +1,6 @@
 import type { PolicyQuestionFlow, ConversationQuestion, QuestionGroup } from './conversation-types';
 
-// Core questions asked for all policy types (matches quote modal: firstName, lastName, email, phone, zipCode)
+// Core questions asked for all policy types — essential contact info only
 export const coreQuestions: ConversationQuestion[] = [
   {
     id: 'firstName',
@@ -38,6 +38,7 @@ export const coreQuestions: ConversationQuestion[] = [
     helperText: 'Include area code (e.g., 305-555-1234)',
     placeholder: '305-555-1234'
   },
+  /* COMMENTED OUT — Address/ZIP not needed for essential contact form
   {
     id: 'mailingAddress',
     text: "What's your mailing address?",
@@ -56,6 +57,7 @@ export const coreQuestions: ConversationQuestion[] = [
     helperText: 'Your 5-digit ZIP code',
     placeholder: '33101'
   }
+  */
 ];
 
 // Core questions grouped for faster form filling
@@ -68,8 +70,6 @@ export const coreQuestionGroups: QuestionGroup[] = [
       coreQuestions[1], // lastName
       coreQuestions[2], // email
       coreQuestions[3], // phone
-      coreQuestions[4], // mailingAddress
-      coreQuestions[5], // zipCode
     ]
   }
 ];

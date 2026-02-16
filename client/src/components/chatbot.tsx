@@ -332,20 +332,15 @@ export default function ChatBot() {
         setGroupFormValues({});
         addBotMessage(groups[nextGroupIndex].title);
       } else {
-        if (!convState.policyType) return;
-        const policyFlow = policyQuestionFlows[convState.policyType];
-        if (!policyFlow || !policyFlow.groups.length) return;
-        
-        dispatch({ type: 'TRANSITION_STATE', state: 'collectingPolicySpecific' });
-        setCurrentGroupIndex(0);
+        dispatch({ type: 'TRANSITION_STATE', state: 'reviewing' });
         setGroupFormValues({});
         const firstName = savedFirstName || convState.coreInfo.firstName || '';
-        addBotMessage(t.chatbot.policySpecificMsg
-          .replace('{name}', firstName)
-          .replace('{policy}', convState.policyType)
-          .replace('{question}', policyFlow.groups[0].title));
+        addBotMessage(t.chatbot.reviewMsg.replace('{name}', firstName));
       }
-    } else if (convState.state === 'collectingPolicySpecific' && convState.policyType) {
+    }
+
+    /* COMMENTED OUT — Policy-specific question collection (for later)
+    else if (convState.state === 'collectingPolicySpecific' && convState.policyType) {
       const updateAction = convState.policyType === 'auto' ? 'UPDATE_AUTO_DETAILS' :
                           convState.policyType === 'home' ? 'UPDATE_HOME_DETAILS' :
                           convState.policyType === 'commercial' ? 'UPDATE_COMMERCIAL_DETAILS' :
@@ -372,6 +367,7 @@ export default function ChatBot() {
         addBotMessage(t.chatbot.documentUploadMsg);
       }
     }
+    */
   };
 
   const handleGroupFieldChange = (fieldKey: string, value: string) => {
@@ -444,34 +440,19 @@ export default function ChatBot() {
   const handleSubmitApplication = async () => {
     setIsSubmitting(true);
     try {
-      const submissionData: any = {
-        applicantName: `${convState.coreInfo.firstName || ''} ${convState.coreInfo.lastName || ''}`.trim(),
-        email: convState.coreInfo.email,
-        phone: convState.coreInfo.phone,
-        policyType: convState.policyType,
-        coreDetails: JSON.stringify(convState.coreInfo),
-        documents: convState.documents,
-        notes: convState.notes
-      };
+      const formData = new FormData();
+      formData.append("fullName", `${convState.coreInfo.firstName || ''} ${convState.coreInfo.lastName || ''}`.trim());
+      formData.append("emailAddress", convState.coreInfo.email || '');
+      formData.append("phoneNumber", convState.coreInfo.phone || '');
+      formData.append("policyType", convState.policyType || '');
 
-      if (convState.policyType === 'auto') {
-        submissionData.autoDetails = JSON.stringify(convState.autoDetails);
-      } else if (convState.policyType === 'home') {
-        submissionData.homeDetails = JSON.stringify(convState.homeDetails);
-      } else if (convState.policyType === 'life') {
-        submissionData.lifeDetails = JSON.stringify(convState.lifeDetails);
-      } else if (convState.policyType === 'commercial') {
-        submissionData.commercialDetails = JSON.stringify(convState.commercialDetails);
-      }
-
-      const response = await apiRequest('POST', '/api/policy-applications', submissionData);
-      const result = await response.json();
+      await apiRequest('POST', '/api/contact', formData);
 
       dispatch({ type: 'TRANSITION_STATE', state: 'submitted' });
-      setMessages(prev => [...prev, { type: 'user', text: 'Submit application' }]);
-      addBotMessage(t.chatbot.submittedMsg.replace('{id}', result.applicationId));
+      setMessages(prev => [...prev, { type: 'user', text: 'Submit' }]);
+      addBotMessage(t.chatbot.submittedMsg);
       
-      toast({ title: "Application Submitted", description: "We'll be in touch soon!" });
+      toast({ title: t.chatbot.submitApplication, description: t.chatbot.submittedMsg });
       
       localStorage.removeItem('policyConversation');
       setTimeout(() => {
@@ -719,7 +700,7 @@ export default function ChatBot() {
                 </div>
                 
                 {/* Progress Bar */}
-                {convState.policyType && (convState.state === 'collectingCore' || convState.state === 'collectingPolicySpecific') && (
+                {convState.policyType && convState.state === 'collectingCore' && (
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
                       <span>{t.chatbot.applicationProgress}</span>
@@ -849,7 +830,7 @@ export default function ChatBot() {
                 )}
 
                 {/* Grouped Question Form - All fields in a group shown together */}
-                {currentGroup && !isTyping && (convState.state === 'collectingCore' || convState.state === 'collectingPolicySpecific') && (
+                {currentGroup && !isTyping && convState.state === 'collectingCore' && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -974,9 +955,6 @@ export default function ChatBot() {
                       </div>
                       <div>
                         <span className="font-semibold">{t.chatbot.phoneLabel}</span> {convState.coreInfo.phone}
-                      </div>
-                      <div>
-                        <span className="font-semibold">{t.chatbot.documentsLabel}</span> {convState.documents.length} {t.chatbot.uploaded}
                       </div>
                     </div>
                     

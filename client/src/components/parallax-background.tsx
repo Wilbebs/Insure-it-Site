@@ -1,64 +1,59 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
-import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
 
-interface ParallaxShield {
+interface ParallaxShape {
   x: string;
   y: string;
   size: number;
+  gradient: string;
   speed: number;
-  opacity: number;
-  rotate: number;
+  blur: number;
   side: "left" | "right";
 }
 
-const defaultShields: ParallaxShield[] = [
-  { x: "2%", y: "5%", size: 70, speed: 0.15, opacity: 0.07, rotate: -12, side: "left" },
-  { x: "88%", y: "8%", size: 50, speed: -0.1, opacity: 0.06, rotate: 15, side: "right" },
-  { x: "5%", y: "28%", size: 55, speed: 0.22, opacity: 0.05, rotate: 8, side: "left" },
-  { x: "90%", y: "38%", size: 65, speed: -0.18, opacity: 0.07, rotate: -20, side: "right" },
-  { x: "3%", y: "55%", size: 45, speed: 0.12, opacity: 0.06, rotate: 25, side: "left" },
-  { x: "85%", y: "60%", size: 60, speed: -0.25, opacity: 0.05, rotate: -8, side: "right" },
-  { x: "6%", y: "78%", size: 55, speed: 0.08, opacity: 0.06, rotate: 18, side: "left" },
-  { x: "92%", y: "82%", size: 40, speed: -0.15, opacity: 0.07, rotate: -15, side: "right" },
+const defaultShapes: ParallaxShape[] = [
+  { x: "-6%", y: "3%", size: 300, gradient: "radial-gradient(circle, rgba(56,189,248,0.18) 0%, rgba(59,130,246,0.06) 60%, transparent 80%)", speed: 0.15, blur: 60, side: "left" },
+  { x: "82%", y: "10%", size: 240, gradient: "radial-gradient(circle, rgba(99,102,241,0.14) 0%, rgba(139,92,246,0.05) 60%, transparent 80%)", speed: -0.12, blur: 55, side: "right" },
+  { x: "-4%", y: "35%", size: 260, gradient: "radial-gradient(circle, rgba(59,130,246,0.16) 0%, rgba(6,182,212,0.06) 60%, transparent 80%)", speed: 0.22, blur: 70, side: "left" },
+  { x: "85%", y: "50%", size: 280, gradient: "radial-gradient(circle, rgba(56,189,248,0.15) 0%, rgba(59,130,246,0.05) 60%, transparent 80%)", speed: -0.18, blur: 65, side: "right" },
+  { x: "-8%", y: "65%", size: 220, gradient: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, rgba(56,189,248,0.05) 60%, transparent 80%)", speed: 0.1, blur: 50, side: "left" },
+  { x: "88%", y: "78%", size: 200, gradient: "radial-gradient(circle, rgba(59,130,246,0.14) 0%, rgba(99,102,241,0.04) 60%, transparent 80%)", speed: -0.25, blur: 55, side: "right" },
 ];
 
-function ParallaxShieldElement({ shield, disabled }: { shield: ParallaxShield; disabled: boolean }) {
+function ParallaxBlob({ shape, disabled }: { shape: ParallaxShape; disabled: boolean }) {
   const { scrollYProgress } = useScroll();
 
   const yOffset = useTransform(
     scrollYProgress,
     [0, 1],
-    disabled ? [0, 0] : [0, shield.speed * 600]
+    disabled ? [0, 0] : [0, shape.speed * 500]
   );
 
   const xDrift = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
-    disabled ? [0, 0, 0] : [0, shield.side === "left" ? -15 : 15, 0]
+    disabled ? [0, 0, 0] : [0, shape.side === "left" ? -20 : 20, 0]
   );
 
-  const rotation = useTransform(
+  const scale = useTransform(
     scrollYProgress,
-    [0, 1],
-    disabled ? [shield.rotate, shield.rotate] : [shield.rotate, shield.rotate + (shield.side === "left" ? 20 : -20)]
+    [0, 0.5, 1],
+    disabled ? [1, 1, 1] : [1, 1.1, 0.92]
   );
 
   return (
-    <motion.img
-      src={shieldIcon}
-      alt=""
-      className="absolute pointer-events-none select-none"
-      draggable={false}
+    <motion.div
+      className="absolute rounded-full pointer-events-none"
       style={{
-        left: shield.x,
-        top: shield.y,
-        width: shield.size,
-        height: shield.size,
-        opacity: shield.opacity,
+        left: shape.x,
+        top: shape.y,
+        width: shape.size,
+        height: shape.size,
+        background: shape.gradient,
+        filter: `blur(${shape.blur}px)`,
         y: yOffset,
         x: xDrift,
-        rotate: rotation,
+        scale,
       }}
     />
   );
@@ -76,12 +71,13 @@ export default function ParallaxBackground() {
   }, []);
 
   const disabled = !!prefersReducedMotion || isMobile;
-  const shields = isMobile ? defaultShields.slice(0, 4) : defaultShields;
+
+  const shapes = isMobile ? defaultShapes.slice(0, 3) : defaultShapes;
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
-      {shields.map((shield, i) => (
-        <ParallaxShieldElement key={i} shield={shield} disabled={disabled} />
+      {shapes.map((shape, i) => (
+        <ParallaxBlob key={i} shape={shape} disabled={disabled} />
       ))}
     </div>
   );

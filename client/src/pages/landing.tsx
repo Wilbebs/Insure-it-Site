@@ -436,7 +436,7 @@ export default function Landing() {
           </div>
         </div>
 
-        <div className="relative z-20">
+        <div className="relative z-20" style={{ marginBottom: -60 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"
@@ -479,7 +479,7 @@ export default function Landing() {
           </div>
         </motion.div>
 
-        <div className="relative z-20">
+        <div className="relative z-20" style={{ marginBottom: -60 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"
@@ -507,7 +507,7 @@ export default function Landing() {
           <TestimonialsCarousel />
         </div>
 
-        <div className="relative z-20">
+        <div className="relative z-20" style={{ marginBottom: -60 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"

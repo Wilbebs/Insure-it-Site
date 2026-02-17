@@ -48,7 +48,6 @@ function WaveSVG({ fromColor, toColor, height, animated }: { fromColor: string; 
 function WaveLayeredSVG({ fromColor, toColor, height, animated, noBgFill }: { fromColor: string; toColor: string; height: number; animated: boolean; noBgFill?: boolean }) {
   return (
     <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full block" style={{ height, display: "block" }}>
-      {!noBgFill && <rect x="0" y="0" width="1440" height="80" fill={fromColor} />}
       {animated ? (
         <>
           <motion.path

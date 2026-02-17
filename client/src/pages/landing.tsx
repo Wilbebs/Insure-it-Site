@@ -451,7 +451,7 @@ export default function Landing() {
 
       {/* Insurance Types Section */}
       <section
-        className="pt-20 pb-0 bg-background dark:bg-slate-900 relative"
+        className="pt-20 pb-20 bg-background dark:bg-slate-900 relative"
         style={{ marginTop: -1 }}
       >
         <motion.div

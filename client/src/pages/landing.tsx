@@ -32,11 +32,16 @@ const floatingShields = [
   { top: "60%", left: "8%", size: 48, delay: 0.3, duration: 4.1 },
 ];
 
-function FloatingShield({ style, size, delay, duration }: { 
-  style: React.CSSProperties, 
-  size: number, 
-  delay: number, 
-  duration: number 
+function FloatingShield({
+  style,
+  size,
+  delay,
+  duration,
+}: {
+  style: React.CSSProperties;
+  size: number;
+  delay: number;
+  duration: number;
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
@@ -50,15 +55,19 @@ function FloatingShield({ style, size, delay, duration }: {
     setMousePosition({ x, y });
   };
 
-  const dynamicGradientStyle = isHovered ? {
-    background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.4) 0%, transparent 60%)`,
-  } : {};
-  
+  const dynamicGradientStyle = isHovered
+    ? {
+        background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.4) 0%, transparent 60%)`,
+      }
+    : {};
+
   return (
     <div
       ref={shieldRef}
       className={`absolute z-50 transition-all duration-300 cursor-pointer ${
-        isHovered ? 'opacity-100 scale-125' : 'opacity-[0.12] dark:opacity-[0.15]'
+        isHovered
+          ? "opacity-100 scale-125"
+          : "opacity-[0.12] dark:opacity-[0.15]"
       }`}
       style={{
         ...style,
@@ -70,22 +79,34 @@ function FloatingShield({ style, size, delay, duration }: {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <img 
-        src={shieldIcon} 
-        alt="" 
+      <img
+        src={shieldIcon}
+        alt=""
         className="w-full h-full object-contain select-none pointer-events-none"
         draggable={false}
       />
       {/* Dynamic mouse-following shimmer - on top of image */}
-      <div 
-        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+      <div
+        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${isHovered ? "opacity-100" : "opacity-0"}`}
         style={dynamicGradientStyle}
       />
     </div>
   );
 }
 
-function InsuranceCard({ type, index }: { type: { icon: React.ReactNode, title: string, description: string, image: string, color: string }, index: number }) {
+function InsuranceCard({
+  type,
+  index,
+}: {
+  type: {
+    icon: React.ReactNode;
+    title: string;
+    description: string;
+    image: string;
+    color: string;
+  };
+  index: number;
+}) {
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -113,11 +134,14 @@ function InsuranceCard({ type, index }: { type: { icon: React.ReactNode, title: 
   };
 
   const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
-  const iconAnimation = iconAnimations[type.color as keyof typeof iconAnimations] || "";
+  const iconAnimation =
+    iconAnimations[type.color as keyof typeof iconAnimations] || "";
 
-  const dynamicGradientStyle = isHovered ? {
-    background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.15) 0%, transparent 50%)`,
-  } : {};
+  const dynamicGradientStyle = isHovered
+    ? {
+        background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.15) 0%, transparent 50%)`,
+      }
+    : {};
 
   return (
     <div
@@ -127,36 +151,40 @@ function InsuranceCard({ type, index }: { type: { icon: React.ReactNode, title: 
       onMouseLeave={() => setIsHovered(false)}
       className="group relative rounded-xl overflow-hidden h-72 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/30"
       style={{
-        boxShadow: isHovered ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${type.color === 'sky' ? 'rgba(56, 189, 248, 0.3)' : type.color === 'blue' ? 'rgba(59, 130, 246, 0.3)' : type.color === 'indigo' ? 'rgba(99, 102, 241, 0.3)' : 'rgba(139, 92, 246, 0.3)'}` : undefined,
+        boxShadow: isHovered
+          ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${type.color === "sky" ? "rgba(56, 189, 248, 0.3)" : type.color === "blue" ? "rgba(59, 130, 246, 0.3)" : type.color === "indigo" ? "rgba(99, 102, 241, 0.3)" : "rgba(139, 92, 246, 0.3)"}`
+          : undefined,
       }}
-      data-testid={`card-insurance-${type.title.toLowerCase().replace(/\s+/g, '-')}`}
+      data-testid={`card-insurance-${type.title.toLowerCase().replace(/\s+/g, "-")}`}
     >
       {/* Glassmorphism border on hover */}
       <div className="absolute inset-0 rounded-xl border-2 border-transparent transition-all duration-300 group-hover:border-white/30 z-20 pointer-events-none" />
-      
+
       {/* Background Image */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
         style={{ backgroundImage: `url(${type.image})` }}
       />
-      
+
       {/* Base Gradient Overlay */}
-      <div className={`absolute inset-0 bg-gradient-to-t transition-all duration-500 ${gradientClass}`} />
-      
+      <div
+        className={`absolute inset-0 bg-gradient-to-t transition-all duration-500 ${gradientClass}`}
+      />
+
       {/* Dynamic mouse-following gradient */}
-      <div 
+      <div
         className="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100 z-10"
         style={dynamicGradientStyle}
       />
-      
+
       {/* Content */}
       <div className="absolute inset-x-0 bottom-0 p-6 transition-transform duration-300 group-hover:-translate-y-4 z-10">
-        <div className={`text-white mb-2 transition-all duration-300 group-hover:scale-110 ${iconAnimation}`}>
+        <div
+          className={`text-white mb-2 transition-all duration-300 group-hover:scale-110 ${iconAnimation}`}
+        >
           {type.icon}
         </div>
-        <h3 className="text-xl font-bold text-white mb-2">
-          {type.title}
-        </h3>
+        <h3 className="text-xl font-bold text-white mb-2">{type.title}</h3>
         <p className="text-slate-200 text-sm leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-24 group-hover:opacity-100">
           {type.description}
         </p>
@@ -173,8 +201,8 @@ export default function Landing() {
 
   useEffect(() => {
     const openQuote = () => setQuoteModalOpen(true);
-    window.addEventListener('open-quote-modal', openQuote);
-    return () => window.removeEventListener('open-quote-modal', openQuote);
+    window.addEventListener("open-quote-modal", openQuote);
+    return () => window.removeEventListener("open-quote-modal", openQuote);
   }, []);
 
   const insuranceTypes = [
@@ -182,28 +210,32 @@ export default function Landing() {
       icon: <Car className="w-10 h-10" />,
       title: t.insurance.homeAutoTitle,
       description: t.insurance.homeAutoDesc,
-      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+      image:
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
       color: "sky",
     },
     {
       icon: <House className="w-10 h-10" />,
       title: t.insurance.floodTitle,
       description: t.insurance.floodDesc,
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      image:
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
       color: "blue",
     },
     {
       icon: <Heart className="w-10 h-10" />,
       title: t.insurance.lifeTitle,
       description: t.insurance.lifeDesc,
-      image: "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80",
+      image:
+        "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80",
       color: "indigo",
     },
     {
       icon: <Building2 className="w-10 h-10" />,
       title: t.insurance.businessTitle,
       description: t.insurance.businessDesc,
-      image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
+      image:
+        "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
       color: "violet",
     },
   ];
@@ -211,13 +243,13 @@ export default function Landing() {
   useEffect(() => {
     window.scrollTo(0, 0);
     setHeroVisible(true);
-    
+
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -236,13 +268,14 @@ export default function Landing() {
           }}
         />
 
-
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-6 md:px-16">
           <div className="max-w-4xl text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
-              animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              animate={
+                heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+              }
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {/* Glass Window Container - Everything inside */}
@@ -261,7 +294,9 @@ export default function Landing() {
 
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
-                  animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  animate={
+                    heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                  }
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="relative flex flex-col sm:flex-row gap-4 justify-center"
                 >
@@ -303,21 +338,33 @@ export default function Landing() {
       </section>
 
       {/* Who We Are Section */}
-      <section className="py-20 bg-muted dark:bg-slate-800 relative overflow-hidden" style={{ marginTop: -1 }}>
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 10% 20%, rgba(56,189,248,0.06) 0%, transparent 50%), radial-gradient(ellipse at 90% 80%, rgba(99,102,241,0.05) 0%, transparent 50%)" }} />
-        
+      <section
+        className="py-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
+        style={{ marginTop: -1 }}
+      >
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at 10% 20%, rgba(56,189,248,0.06) 0%, transparent 50%), radial-gradient(ellipse at 90% 80%, rgba(99,102,241,0.05) 0%, transparent 50%)",
+          }}
+        />
+
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
             {/* Left-aligned header with accent */}
             <div className="mb-10">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">{t.whoWeAre.subtitle}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
+                {t.whoWeAre.subtitle}
+              </p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
-                {t.whoWeAre.titleLine1}<br className="hidden md:block" />
+                {t.whoWeAre.titleLine1}
+                <br className="hidden md:block" />
                 <span className="text-primary">{t.whoWeAre.titleLine2}</span>
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full"></div>
             </div>
-            
+
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-6">
@@ -328,7 +375,7 @@ export default function Landing() {
                 </p>
 
                 <button
-                  onClick={() => window.location.href = '/about'}
+                  onClick={() => (window.location.href = "/about")}
                   className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] select-none"
                   data-testid="button-read-more"
                 >
@@ -336,7 +383,7 @@ export default function Landing() {
                   <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
-              
+
               {/* Feature highlights */}
               <div className="space-y-4">
                 <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
@@ -345,8 +392,12 @@ export default function Landing() {
                       <Shield className="w-5 h-5 text-sky-500" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground mb-1 select-none">{t.whoWeAre.licensedTitle}</h4>
-                      <p className="text-sm text-muted-foreground">{t.whoWeAre.licensedDesc}</p>
+                      <h4 className="font-semibold text-foreground mb-1 select-none">
+                        {t.whoWeAre.licensedTitle}
+                      </h4>
+                      <p className="text-sm text-muted-foreground">
+                        {t.whoWeAre.licensedDesc}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -356,8 +407,12 @@ export default function Landing() {
                       <Heart className="w-5 h-5 text-blue-500" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground mb-1 select-none">{t.whoWeAre.familyTitle}</h4>
-                      <p className="text-sm text-muted-foreground">{t.whoWeAre.familyDesc}</p>
+                      <h4 className="font-semibold text-foreground mb-1 select-none">
+                        {t.whoWeAre.familyTitle}
+                      </h4>
+                      <p className="text-sm text-muted-foreground">
+                        {t.whoWeAre.familyDesc}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -367,8 +422,12 @@ export default function Landing() {
                       <Phone className="w-5 h-5 text-indigo-500" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-foreground mb-1 select-none">{t.whoWeAre.availableTitle}</h4>
-                      <p className="text-sm text-muted-foreground">{t.whoWeAre.availableDesc}</p>
+                      <h4 className="font-semibold text-foreground mb-1 select-none">
+                        {t.whoWeAre.availableTitle}
+                      </h4>
+                      <p className="text-sm text-muted-foreground">
+                        {t.whoWeAre.availableDesc}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -389,9 +448,11 @@ export default function Landing() {
       </section>
 
       {/* Insurance Types Section */}
-      <section className="pt-20 pb-0 bg-background dark:bg-slate-900 relative" style={{ marginTop: -1 }}>
-        
-        <motion.div 
+      <section
+        className="pt-20 pb-0 bg-background dark:bg-slate-900 relative"
+        style={{ marginTop: -1 }}
+      >
+        <motion.div
           className="container mx-auto px-6 relative z-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -430,10 +491,15 @@ export default function Landing() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative" style={{ marginTop: -1 }}>
+      <section
+        className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative"
+        style={{ marginTop: -1 }}
+      >
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
-            <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">{t.testimonials.subtitle}</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
+              {t.testimonials.subtitle}
+            </p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground select-none">
               {t.testimonials.title}
             </h2>
@@ -453,7 +519,10 @@ export default function Landing() {
       </section>
 
       {/* Contact Info Section - Centered */}
-      <section className="pt-20 pb-20 bg-background dark:bg-slate-900 relative overflow-hidden" style={{ marginTop: -1 }}>
+      <section
+        className="pt-20 pb-20 bg-background dark:bg-slate-900 relative overflow-hidden"
+        style={{ marginTop: -1 }}
+      >
         {/* Floating shield background elements */}
         {floatingShields.map((shield, index) => (
           <FloatingShield
@@ -464,13 +533,14 @@ export default function Landing() {
             duration={shield.duration}
           />
         ))}
-        
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             {/* Section header */}
             <div className="mb-10">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">{t.contact.subtitle}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
+                {t.contact.subtitle}
+              </p>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 select-none">
                 {t.contact.title}
               </h2>
@@ -490,38 +560,64 @@ export default function Landing() {
             </button>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="flex flex-col items-center gap-3" data-testid="contact-phone">
+              <div
+                className="flex flex-col items-center gap-3"
+                data-testid="contact-phone"
+              >
                 <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
                   <Phone className="w-6 h-6 text-primary" />
                 </div>
-                <a href="tel:+13059185339" className="text-foreground hover:text-primary transition-colors font-medium" data-testid="link-phone">
+                <a
+                  href="tel:+13059185339"
+                  className="text-foreground hover:text-primary transition-colors font-medium"
+                  data-testid="link-phone"
+                >
                   (305) 918-5339
                 </a>
               </div>
-              
-              <div className="flex flex-col items-center gap-3" data-testid="contact-email">
+
+              <div
+                className="flex flex-col items-center gap-3"
+                data-testid="contact-email"
+              >
                 <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
                   <Mail className="w-6 h-6 text-primary" />
                 </div>
-                <a href="mailto:info@insure-itgroup.com" className="text-foreground hover:text-primary transition-colors font-medium text-sm" data-testid="link-email">
+                <a
+                  href="mailto:info@insure-itgroup.com"
+                  className="text-foreground hover:text-primary transition-colors font-medium text-sm"
+                  data-testid="link-email"
+                >
                   info@insure-itgroup.com
                 </a>
               </div>
 
-              <div className="flex flex-col items-center gap-3" data-testid="contact-location">
+              <div
+                className="flex flex-col items-center gap-3"
+                data-testid="contact-location"
+              >
                 <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
                   <MapPin className="w-6 h-6 text-primary" />
                 </div>
-                <span className="text-foreground font-medium" data-testid="text-location">
+                <span
+                  className="text-foreground font-medium"
+                  data-testid="text-location"
+                >
                   {t.contact.location}
                 </span>
               </div>
 
-              <div className="flex flex-col items-center gap-3" data-testid="contact-license">
+              <div
+                className="flex flex-col items-center gap-3"
+                data-testid="contact-license"
+              >
                 <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
                   <Shield className="w-6 h-6 text-primary" />
                 </div>
-                <span className="text-foreground font-medium" data-testid="text-license">
+                <span
+                  className="text-foreground font-medium"
+                  data-testid="text-license"
+                >
                   {t.contact.licensed}
                 </span>
               </div>

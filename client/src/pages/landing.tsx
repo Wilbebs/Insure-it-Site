@@ -329,10 +329,9 @@ export default function Landing() {
           <SectionDivider
             variant="wave-layered"
             position="bottom"
-            fromColor="transparent"
+            fromColor="hsl(210, 40%, 94%)"
             toColor="hsl(210, 40%, 94%)"
             height={70}
-            noBgFill
           />
         </div>
       </section>

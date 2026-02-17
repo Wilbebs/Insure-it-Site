@@ -484,7 +484,7 @@ export default function Landing() {
 
         <div
           className="relative z-20"
-          style={{ marginTop: -10, marginBottom: -60 }}
+          style={{ marginTop: 10, marginBottom: -80 }}
         >
           <SectionDivider
             variant="wave-layered"
@@ -515,7 +515,7 @@ export default function Landing() {
 
         <div
           className="relative z-20"
-          style={{ marginTop: -10, marginBottom: -60 }}
+          style={{ marginTop: 10, marginBottom: -80 }}
         >
           <SectionDivider
             variant="wave-layered"

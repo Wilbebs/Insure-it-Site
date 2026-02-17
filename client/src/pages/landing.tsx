@@ -416,8 +416,7 @@ export default function Landing() {
       </section>
 
       {/* Insurance Types Section */}
-      <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 80% 30%, rgba(59,130,246,0.05) 0%, transparent 50%), radial-gradient(ellipse at 20% 70%, rgba(6,182,212,0.04) 0%, transparent 50%)" }} />
+      <section className="pt-20 pb-0 bg-background dark:bg-slate-900 relative">
         
         <motion.div 
           className="container mx-auto px-6 relative z-10"
@@ -445,21 +444,20 @@ export default function Landing() {
             ))}
           </div>
         </motion.div>
+
+        <div className="relative z-20 mt-12">
+          <SectionDivider
+            variant="wave-layered"
+            position="bottom"
+            fromColor="hsl(210, 40%, 96%)"
+            toColor="hsl(210, 40%, 93%)"
+            height={80}
+          />
+        </div>
       </section>
 
-      {/* Divider: Insurance Types → Testimonials */}
-      <div className="relative bg-background dark:bg-slate-900">
-        <SectionDivider
-          variant="wave-layered"
-          position="bottom"
-          fromColor="rgba(99,102,241,0.1)"
-          toColor="hsl(210, 40%, 94%)"
-          height={80}
-        />
-      </div>
-
       {/* Testimonials Section */}
-      <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative">
+      <section className="pt-16 pb-[74px] bg-muted dark:bg-slate-800 relative" style={{ marginTop: -1 }}>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
             <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">{t.testimonials.subtitle}</p>

@@ -339,15 +339,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Divider: Hero → Who We Are */}
-      <SectionDivider
-        variant="wave-layered"
-        position="top"
-        fromColor="rgba(56,189,248,0.12)"
-        toColor="hsl(210, 40%, 94%)"
-        height={90}
-      />
-
       {/* Who We Are Section - Asymmetric Layout */}
       <section className="py-20 bg-muted dark:bg-slate-800 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 10% 20%, rgba(56,189,248,0.06) 0%, transparent 50%), radial-gradient(ellipse at 90% 80%, rgba(99,102,241,0.05) 0%, transparent 50%)" }} />
@@ -424,15 +415,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Divider: Who We Are → Insurance Types */}
-      <SectionDivider
-        variant="curve"
-        position="bottom"
-        fromColor="rgba(59,130,246,0.1)"
-        toColor="hsl(210, 40%, 98%)"
-        height={70}
-      />
-
       {/* Insurance Types Section */}
       <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 80% 30%, rgba(59,130,246,0.05) 0%, transparent 50%), radial-gradient(ellipse at 20% 70%, rgba(6,182,212,0.04) 0%, transparent 50%)" }} />
@@ -466,13 +448,15 @@ export default function Landing() {
       </section>
 
       {/* Divider: Insurance Types → Testimonials */}
-      <SectionDivider
-        variant="wave-layered"
-        position="bottom"
-        fromColor="rgba(99,102,241,0.1)"
-        toColor="hsl(210, 40%, 94%)"
-        height={80}
-      />
+      <div className="relative bg-background dark:bg-slate-900">
+        <SectionDivider
+          variant="wave-layered"
+          position="bottom"
+          fromColor="rgba(99,102,241,0.1)"
+          toColor="hsl(210, 40%, 94%)"
+          height={80}
+        />
+      </div>
 
       {/* Testimonials Section */}
       <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative">
@@ -486,15 +470,6 @@ export default function Landing() {
           <TestimonialsCarousel />
         </div>
       </section>
-
-      {/* Divider: Testimonials → Contact */}
-      <SectionDivider
-        variant="diagonal"
-        position="bottom"
-        fromColor="rgba(59,130,246,0.08)"
-        toColor="hsl(210, 40%, 98%)"
-        height={60}
-      />
 
       {/* Contact Info Section - Centered */}
       <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">

@@ -337,10 +337,20 @@ export default function Landing() {
             </motion.div>
           </div>
         </div>
+
+        <div className="relative z-20 mt-12">
+          <SectionDivider
+            variant="wave-layered"
+            position="bottom"
+            fromColor="hsl(210, 40%, 96%)"
+            toColor="hsl(210, 40%, 93%)"
+            height={80}
+          />
+        </div>
       </section>
 
       {/* Who We Are Section - Asymmetric Layout */}
-      <section className="py-20 bg-muted dark:bg-slate-800 relative overflow-hidden">
+      <section className="pt-16 pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden" style={{ marginTop: -1 }}>
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 10% 20%, rgba(56,189,248,0.06) 0%, transparent 50%), radial-gradient(ellipse at 90% 80%, rgba(99,102,241,0.05) 0%, transparent 50%)" }} />
         
         <div className="container mx-auto px-6">
@@ -413,10 +423,20 @@ export default function Landing() {
             </div>
           </div>
         </div>
+
+        <div className="relative z-20 mt-12">
+          <SectionDivider
+            variant="wave-layered"
+            position="bottom"
+            fromColor="hsl(0, 0%, 100%)"
+            toColor="hsl(0, 0%, 98%)"
+            height={80}
+          />
+        </div>
       </section>
 
       {/* Insurance Types Section */}
-      <section className="pt-20 pb-0 bg-background dark:bg-slate-900 relative">
+      <section className="pt-16 pb-0 bg-background dark:bg-slate-900 relative" style={{ marginTop: -1 }}>
         
         <motion.div 
           className="container mx-auto px-6 relative z-10"
@@ -467,10 +487,20 @@ export default function Landing() {
           </div>
           <TestimonialsCarousel />
         </div>
+
+        <div className="relative z-20 mt-12">
+          <SectionDivider
+            variant="wave-layered"
+            position="bottom"
+            fromColor="hsl(0, 0%, 100%)"
+            toColor="hsl(0, 0%, 98%)"
+            height={80}
+          />
+        </div>
       </section>
 
       {/* Contact Info Section - Centered */}
-      <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
+      <section className="pt-16 pb-20 bg-background dark:bg-slate-900 relative overflow-hidden" style={{ marginTop: -1 }}>
         {/* Floating shield background elements */}
         {floatingShields.map((shield, index) => (
           <FloatingShield
@@ -482,8 +512,6 @@ export default function Landing() {
           />
         ))}
         
-        {/* Decorative wave */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent z-10"></div>
         
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">

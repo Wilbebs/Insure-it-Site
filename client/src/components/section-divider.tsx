@@ -12,6 +12,7 @@ interface SectionDividerProps {
   height?: number;
   animated?: boolean;
   className?: string;
+  noBgFill?: boolean;
 }
 
 function WaveSVG({ fromColor, toColor, height, animated }: { fromColor: string; toColor: string; height: number; animated: boolean }) {
@@ -44,11 +45,11 @@ function WaveSVG({ fromColor, toColor, height, animated }: { fromColor: string; 
   );
 }
 
-function WaveLayeredSVG({ fromColor, toColor, height, animated }: { fromColor: string; toColor: string; height: number; animated: boolean }) {
+function WaveLayeredSVG({ fromColor, toColor, height, animated, noBgFill }: { fromColor: string; toColor: string; height: number; animated: boolean; noBgFill?: boolean }) {
   return (
     <div className="relative" style={{ height }}>
       <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
-        <rect x="0" y="50" width="1440" height="30" fill={toColor} />
+        {!noBgFill && <rect x="0" y="0" width="1440" height="80" fill={fromColor} />}
         {animated ? (
           <>
             <motion.path
@@ -66,7 +67,7 @@ function WaveLayeredSVG({ fromColor, toColor, height, animated }: { fromColor: s
             />
             <motion.path
               fill={toColor}
-              opacity={0.5}
+              opacity={0.6}
               initial={{ d: "M0,40 C480,12 960,60 1440,28 L1440,80 L0,80 Z" }}
               animate={{
                 d: [
@@ -93,7 +94,7 @@ function WaveLayeredSVG({ fromColor, toColor, height, animated }: { fromColor: s
         ) : (
           <>
             <path d="M0,30 C360,65 720,5 1080,30 C1260,50 1380,10 1440,30 L1440,80 L0,80 Z" fill={toColor} opacity={0.3} />
-            <path d="M0,40 C480,12 960,60 1440,28 L1440,80 L0,80 Z" fill={toColor} opacity={0.5} />
+            <path d="M0,40 C480,12 960,60 1440,28 L1440,80 L0,80 Z" fill={toColor} opacity={0.6} />
             <path d="M0,55 C320,40 640,62 960,48 C1200,35 1360,58 1440,50 L1440,80 L0,80 Z" fill={toColor} />
           </>
         )}
@@ -156,6 +157,7 @@ export default function SectionDivider({
   height = 80,
   animated = true,
   className = "",
+  noBgFill = false,
 }: SectionDividerProps) {
   const flipClass = position === "top" ? "rotate-180" : "";
 
@@ -166,7 +168,7 @@ export default function SectionDivider({
       aria-hidden="true"
     >
       {variant === "wave" && <WaveSVG fromColor={fromColor} toColor={toColor} height={height} animated={animated} />}
-      {variant === "wave-layered" && <WaveLayeredSVG fromColor={fromColor} toColor={toColor} height={height} animated={animated} />}
+      {variant === "wave-layered" && <WaveLayeredSVG fromColor={fromColor} toColor={toColor} height={height} animated={animated} noBgFill={noBgFill} />}
       {variant === "diagonal" && <DiagonalSVG fromColor={fromColor} toColor={toColor} height={height} />}
       {variant === "curve" && <CurveSVG fromColor={fromColor} toColor={toColor} height={height} animated={animated} />}
     </div>

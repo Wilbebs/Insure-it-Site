@@ -47,18 +47,18 @@ function WaveSVG({ fromColor, toColor, height, animated }: { fromColor: string; 
 function WaveLayeredSVG({ fromColor, toColor, height, animated }: { fromColor: string; toColor: string; height: number; animated: boolean }) {
   return (
     <div className="relative" style={{ height }}>
-      <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
         {animated ? (
           <>
             <motion.path
               fill={fromColor}
-              opacity={0.3}
-              initial={{ d: "M0,80 C360,120 720,40 1080,80 C1260,100 1380,60 1440,80 L1440,120 L0,120 Z" }}
+              opacity={0.4}
+              initial={{ d: "M0,30 C360,70 720,0 1080,30 C1260,50 1380,10 1440,30 L1440,80 L0,80 Z" }}
               animate={{
                 d: [
-                  "M0,80 C360,120 720,40 1080,80 C1260,100 1380,60 1440,80 L1440,120 L0,120 Z",
-                  "M0,60 C360,20 720,100 1080,60 C1260,40 1380,80 1440,60 L1440,120 L0,120 Z",
-                  "M0,80 C360,120 720,40 1080,80 C1260,100 1380,60 1440,80 L1440,120 L0,120 Z",
+                  "M0,30 C360,70 720,0 1080,30 C1260,50 1380,10 1440,30 L1440,80 L0,80 Z",
+                  "M0,15 C360,0 720,60 1080,15 C1260,0 1380,40 1440,15 L1440,80 L0,80 Z",
+                  "M0,30 C360,70 720,0 1080,30 C1260,50 1380,10 1440,30 L1440,80 L0,80 Z",
                 ],
               }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
@@ -66,12 +66,12 @@ function WaveLayeredSVG({ fromColor, toColor, height, animated }: { fromColor: s
             <motion.path
               fill={toColor}
               opacity={0.5}
-              initial={{ d: "M0,90 C480,50 960,110 1440,70 L1440,120 L0,120 Z" }}
+              initial={{ d: "M0,45 C480,10 960,65 1440,25 L1440,80 L0,80 Z" }}
               animate={{
                 d: [
-                  "M0,90 C480,50 960,110 1440,70 L1440,120 L0,120 Z",
-                  "M0,70 C480,110 960,50 1440,90 L1440,120 L0,120 Z",
-                  "M0,90 C480,50 960,110 1440,70 L1440,120 L0,120 Z",
+                  "M0,45 C480,10 960,65 1440,25 L1440,80 L0,80 Z",
+                  "M0,25 C480,65 960,10 1440,45 L1440,80 L0,80 Z",
+                  "M0,45 C480,10 960,65 1440,25 L1440,80 L0,80 Z",
                 ],
               }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
@@ -79,12 +79,12 @@ function WaveLayeredSVG({ fromColor, toColor, height, animated }: { fromColor: s
             <motion.path
               fill={toColor}
               opacity={0.8}
-              initial={{ d: "M0,100 C320,80 640,110 960,90 C1200,75 1360,105 1440,95 L1440,120 L0,120 Z" }}
+              initial={{ d: "M0,55 C320,35 640,65 960,45 C1200,30 1360,60 1440,50 L1440,80 L0,80 Z" }}
               animate={{
                 d: [
-                  "M0,100 C320,80 640,110 960,90 C1200,75 1360,105 1440,95 L1440,120 L0,120 Z",
-                  "M0,95 C320,110 640,80 960,100 C1200,110 1360,85 1440,100 L1440,120 L0,120 Z",
-                  "M0,100 C320,80 640,110 960,90 C1200,75 1360,105 1440,95 L1440,120 L0,120 Z",
+                  "M0,55 C320,35 640,65 960,45 C1200,30 1360,60 1440,50 L1440,80 L0,80 Z",
+                  "M0,50 C320,65 640,35 960,55 C1200,65 1360,40 1440,55 L1440,80 L0,80 Z",
+                  "M0,55 C320,35 640,65 960,45 C1200,30 1360,60 1440,50 L1440,80 L0,80 Z",
                 ],
               }}
               transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 1 }}
@@ -92,9 +92,9 @@ function WaveLayeredSVG({ fromColor, toColor, height, animated }: { fromColor: s
           </>
         ) : (
           <>
-            <path d="M0,80 C360,120 720,40 1080,80 C1260,100 1380,60 1440,80 L1440,120 L0,120 Z" fill={fromColor} opacity={0.3} />
-            <path d="M0,90 C480,50 960,110 1440,70 L1440,120 L0,120 Z" fill={toColor} opacity={0.5} />
-            <path d="M0,100 C320,80 640,110 960,90 C1200,75 1360,105 1440,95 L1440,120 L0,120 Z" fill={toColor} opacity={0.8} />
+            <path d="M0,30 C360,70 720,0 1080,30 C1260,50 1380,10 1440,30 L1440,80 L0,80 Z" fill={fromColor} opacity={0.4} />
+            <path d="M0,45 C480,10 960,65 1440,25 L1440,80 L0,80 Z" fill={toColor} opacity={0.5} />
+            <path d="M0,55 C320,35 640,65 960,45 C1200,30 1360,60 1440,50 L1440,80 L0,80 Z" fill={toColor} opacity={0.8} />
           </>
         )}
       </svg>

@@ -302,7 +302,7 @@ export default function Landing() {
       </section>
 
       {/* Who We Are Section - Asymmetric Layout */}
-      <section className="pt-12 pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden" style={{ marginTop: -40 }}>
+      <section className="pt-20 pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden" style={{ marginTop: -80 }}>
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 10% 20%, rgba(56,189,248,0.06) 0%, transparent 50%), radial-gradient(ellipse at 90% 80%, rgba(99,102,241,0.05) 0%, transparent 50%)" }} />
         
         <div className="container mx-auto px-6">
@@ -388,7 +388,7 @@ export default function Landing() {
       </section>
 
       {/* Insurance Types Section */}
-      <section className="pt-12 pb-0 bg-background dark:bg-slate-900 relative" style={{ marginTop: -40 }}>
+      <section className="pt-20 pb-0 bg-background dark:bg-slate-900 relative" style={{ marginTop: -80 }}>
         
         <motion.div 
           className="container mx-auto px-6 relative z-10"
@@ -429,7 +429,7 @@ export default function Landing() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="pt-12 pb-[74px] bg-muted dark:bg-slate-800 relative" style={{ marginTop: -40 }}>
+      <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative" style={{ marginTop: -80 }}>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
             <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">{t.testimonials.subtitle}</p>
@@ -452,7 +452,7 @@ export default function Landing() {
       </section>
 
       {/* Contact Info Section - Centered */}
-      <section className="pt-12 pb-20 bg-background dark:bg-slate-900 relative overflow-hidden" style={{ marginTop: -40 }}>
+      <section className="pt-20 pb-20 bg-background dark:bg-slate-900 relative overflow-hidden" style={{ marginTop: -80 }}>
         {/* Floating shield background elements */}
         {floatingShields.map((shield, index) => (
           <FloatingShield

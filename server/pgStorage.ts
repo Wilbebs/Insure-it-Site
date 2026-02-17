@@ -1,4 +1,4 @@
-// import { pool } from './db'; // PostgreSQL disabled for now
+import { pool } from './db';
 import { randomUUID } from 'crypto';
 import type { User, InsertUser, ContactSubmission, InsertContactSubmission } from "@shared/schema";
 import { InsurancePageImages, StrategicSuggestion } from "@shared/types";
@@ -45,7 +45,6 @@ export interface IStorage {
   deleteStrategicSuggestion(id: string): Promise<void>;
 }
 
-/* PostgreSQL storage disabled for now
 export class PostgresStorage implements IStorage {
   // User management
   async getUser(id: string): Promise<User | undefined> {
@@ -247,7 +246,6 @@ export class PostgresStorage implements IStorage {
     this.strategicSuggestions.delete(id);
   }
 }
-*/ // End PostgreSQL storage disabled block
 
 class MemoryStorage implements IStorage {
   private users: Map<string, User> = new Map();

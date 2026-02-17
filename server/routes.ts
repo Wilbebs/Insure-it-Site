@@ -1,11 +1,12 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import multer from "multer";
-import { storage } from "./pgStorage";
+import { storage } from "./pgStorage"; // CHANGED: Use PostgreSQL storage
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
-import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { s3Client, S3_BUCKET } from './s3Client';
+import { PutObjectCommand } from '@aws-sdk/client-s3'; // NEW: AWS S3 SDK
+import { s3Client, S3_BUCKET } from './s3Client'; // NEW: S3 client
+import { pool } from './db';
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -140,33 +141,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  /* Feature requests endpoints disabled - requires PostgreSQL
   app.get("/api/feature-requests", async (req, res) => {
-    try {
-      const result = await pool.query(
-        'SELECT * FROM feature_requests ORDER BY created_at DESC'
-      );
-      res.json({ success: true, data: result.rows });
-    } catch (error) {
-      console.error('Error fetching feature requests:', error);
-      res.status(500).json({ success: false, message: 'Failed to fetch requests' });
-    }
-  });
+  try {
+    const result = await pool.query(
+      'SELECT * FROM feature_requests ORDER BY created_at DESC'
+    );
+    res.json({ success: true, data: result.rows });
+  } catch (error) {
+    console.error('Error fetching feature requests:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch requests' });
+  }
+});
 
+  // POST new feature request for plans page
   app.post("/api/feature-requests", async (req, res) => {
     try {
       const { title, description, priority } = req.body;
+      
       const result = await pool.query(
         'INSERT INTO feature_requests (title, description, priority) VALUES ($1, $2, $3) RETURNING *',
         [title, description, priority || 'medium']
       );
+      
       res.json({ success: true, data: result.rows[0] });
     } catch (error) {
       console.error('Error creating feature request:', error);
       res.status(500).json({ success: false, message: 'Failed to create request' });
     }
   });
-  */
 
   // Get carousel images configuration
   app.get("/api/carousel-images", async (req, res) => {

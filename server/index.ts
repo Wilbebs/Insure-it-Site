@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import 'dotenv/config';
 dotenv.config();
-// console.log('🔍 DATABASE_URL loaded:', process.env.DATABASE_URL ? 'YES' : 'NO');
+console.log('🔍 DATABASE_URL loaded:', process.env.DATABASE_URL ? 'YES' : 'NO');
 console.log('🔍 AWS_REGION loaded:', process.env.AWS_REGION ? 'YES' : 'NO');
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";

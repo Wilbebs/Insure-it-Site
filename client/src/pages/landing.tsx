@@ -257,7 +257,7 @@ export default function Landing() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="min-h-[85vh] flex items-center relative pt-20">
+      <section className="min-h-[85vh] flex items-center relative pt-20 pb-24">
         {/* Jacksonville Skyline Background - Parallax with blur */}
         <div
           className="absolute -inset-x-0 -top-20 -bottom-40 bg-cover bg-center will-change-transform blur-[2.5px] dark:brightness-75"
@@ -331,7 +331,7 @@ export default function Landing() {
             position="bottom"
             fromColor="transparent"
             toColor="hsl(210, 40%, 94%)"
-            height={60}
+            height={70}
             noBgFill
           />
         </div>

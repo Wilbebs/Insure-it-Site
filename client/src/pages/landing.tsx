@@ -291,66 +291,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Stats Bar - Glassmorphism */}
-      <section className="py-8 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 select-none">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-              className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
-            >
-              <div className="text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">14+</div>
-              <div className="text-sm text-slate-400">{t.stats.years}</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
-            >
-              <div className="text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">2000+</div>
-              <div className="text-sm text-slate-400">{t.stats.families}</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
-            >
-              <div className="text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">24hr</div>
-              <div className="text-sm text-slate-400">{t.stats.response}</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
-            >
-              <div className="text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">A+</div>
-              <div className="text-sm text-slate-400">{t.stats.rating}</div>
-            </motion.div>
-          </div>
-        </div>
-
-        <div className="relative z-20 mt-12">
-          <SectionDivider
-            variant="wave-layered"
-            position="bottom"
-            fromColor="hsl(210, 40%, 96%)"
-            toColor="hsl(210, 40%, 93%)"
-            height={80}
-          />
-        </div>
-      </section>
-
       {/* Who We Are Section - Asymmetric Layout */}
-      <section className="pt-16 pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden" style={{ marginTop: -1 }}>
+      <section className="py-20 bg-muted dark:bg-slate-800 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 10% 20%, rgba(56,189,248,0.06) 0%, transparent 50%), radial-gradient(ellipse at 90% 80%, rgba(99,102,241,0.05) 0%, transparent 50%)" }} />
         
         <div className="container mx-auto px-6">

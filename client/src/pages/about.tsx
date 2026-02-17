@@ -245,7 +245,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="pt-14 pb-12 sm:pb-20 bg-muted dark:bg-slate-900" style={{ marginTop: -1 }}>
+      <section className="pb-12 sm:pb-20 bg-muted dark:bg-slate-900" style={{ marginTop: -1, paddingTop: '46px' }}>
         <div className="container mx-auto px-4 sm:px-6">
 
           {/* Meet the Team Section */}

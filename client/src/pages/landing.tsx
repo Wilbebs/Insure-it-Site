@@ -20,7 +20,7 @@ import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef } from "react";
 import jacksonvilleSkyline from "@assets/stock_images/jacksonville_florida_13db0295.jpg";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
-import ParallaxBackground from "@/components/parallax-background";
+import SectionDivider from "@/components/section-divider";
 
 const floatingShields = [
   { top: "8%", left: "5%", size: 60, delay: 0, duration: 4 },
@@ -221,8 +221,7 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background relative">
-      <ParallaxBackground />
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       {/* Hero Section */}
@@ -340,11 +339,18 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Divider: Hero → Who We Are */}
+      <SectionDivider
+        variant="wave-layered"
+        position="top"
+        fromColor="rgba(56,189,248,0.12)"
+        toColor="hsl(210, 40%, 94%)"
+        height={90}
+      />
+
       {/* Who We Are Section - Asymmetric Layout */}
-      <section className="py-20 bg-muted/80 dark:bg-slate-800/80 relative overflow-hidden backdrop-blur-sm">
-        {/* Decorative accent */}
-        <div className="absolute top-0 left-0 w-1 h-32 bg-gradient-to-b from-primary to-transparent"></div>
-        <div className="absolute bottom-0 right-0 w-1 h-32 bg-gradient-to-t from-primary to-transparent"></div>
+      <section className="py-20 bg-muted dark:bg-slate-800 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 10% 20%, rgba(56,189,248,0.06) 0%, transparent 50%), radial-gradient(ellipse at 90% 80%, rgba(99,102,241,0.05) 0%, transparent 50%)" }} />
         
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
@@ -377,17 +383,11 @@ export default function Landing() {
                 </button>
               </div>
               
-              {/* Feature highlights - Glassmorphism cards */}
+              {/* Feature highlights */}
               <div className="space-y-4">
-                <motion.div
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  viewport={{ once: true }}
-                  className="group p-5 rounded-xl backdrop-blur-md bg-white/60 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 shadow-[0_8px_32px_rgba(56,189,248,0.08)] hover:shadow-[0_8px_32px_rgba(56,189,248,0.2)] hover:bg-white/70 dark:hover:bg-slate-800/50 hover:border-sky-300/40 transition-all duration-300 hover:-translate-y-0.5"
-                >
+                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-sky-500/15 backdrop-blur-sm flex items-center justify-center flex-shrink-0 group-hover:bg-sky-500/25 transition-colors">
+                    <div className="w-10 h-10 rounded-lg bg-sky-500/10 flex items-center justify-center flex-shrink-0">
                       <Shield className="w-5 h-5 text-sky-500" />
                     </div>
                     <div>
@@ -395,16 +395,10 @@ export default function Landing() {
                       <p className="text-sm text-muted-foreground">{t.whoWeAre.licensedDesc}</p>
                     </div>
                   </div>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.25 }}
-                  viewport={{ once: true }}
-                  className="group p-5 rounded-xl backdrop-blur-md bg-white/60 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 shadow-[0_8px_32px_rgba(59,130,246,0.08)] hover:shadow-[0_8px_32px_rgba(59,130,246,0.2)] hover:bg-white/70 dark:hover:bg-slate-800/50 hover:border-blue-300/40 transition-all duration-300 hover:-translate-y-0.5"
-                >
+                </div>
+                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-blue-500/15 backdrop-blur-sm flex items-center justify-center flex-shrink-0 group-hover:bg-blue-500/25 transition-colors">
+                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
                       <Heart className="w-5 h-5 text-blue-500" />
                     </div>
                     <div>
@@ -412,16 +406,10 @@ export default function Landing() {
                       <p className="text-sm text-muted-foreground">{t.whoWeAre.familyDesc}</p>
                     </div>
                   </div>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                  viewport={{ once: true }}
-                  className="group p-5 rounded-xl backdrop-blur-md bg-white/60 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 shadow-[0_8px_32px_rgba(99,102,241,0.08)] hover:shadow-[0_8px_32px_rgba(99,102,241,0.2)] hover:bg-white/70 dark:hover:bg-slate-800/50 hover:border-indigo-300/40 transition-all duration-300 hover:-translate-y-0.5"
-                >
+                </div>
+                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-indigo-500/15 backdrop-blur-sm flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-500/25 transition-colors">
+                    <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
                       <Phone className="w-5 h-5 text-indigo-500" />
                     </div>
                     <div>
@@ -429,21 +417,25 @@ export default function Landing() {
                       <p className="text-sm text-muted-foreground">{t.whoWeAre.availableDesc}</p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Divider: Who We Are → Insurance Types */}
+      <SectionDivider
+        variant="curve"
+        position="bottom"
+        fromColor="rgba(59,130,246,0.1)"
+        toColor="hsl(210, 40%, 98%)"
+        height={70}
+      />
+
       {/* Insurance Types Section */}
-      <section className="py-20 bg-background/80 dark:bg-slate-900/80 relative overflow-hidden backdrop-blur-sm">
-        {/* Subtle noise texture overlay */}
-        <div className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03] pointer-events-none bg-noise"></div>
-        
-        {/* Decorative diagonal accent */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-sky-500/5 to-transparent pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-blue-500/5 to-transparent pointer-events-none"></div>
+      <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 80% 30%, rgba(59,130,246,0.05) 0%, transparent 50%), radial-gradient(ellipse at 20% 70%, rgba(6,182,212,0.04) 0%, transparent 50%)" }} />
         
         <motion.div 
           className="container mx-auto px-6 relative z-10"
@@ -473,8 +465,17 @@ export default function Landing() {
         </motion.div>
       </section>
 
+      {/* Divider: Insurance Types → Testimonials */}
+      <SectionDivider
+        variant="wave-layered"
+        position="bottom"
+        fromColor="rgba(99,102,241,0.1)"
+        toColor="hsl(210, 40%, 94%)"
+        height={80}
+      />
+
       {/* Testimonials Section */}
-      <section className="pt-20 pb-[74px] bg-muted/80 dark:bg-slate-800/80 relative backdrop-blur-sm">
+      <section className="pt-20 pb-[74px] bg-muted dark:bg-slate-800 relative">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
             <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">{t.testimonials.subtitle}</p>
@@ -486,8 +487,17 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Divider: Testimonials → Contact */}
+      <SectionDivider
+        variant="diagonal"
+        position="bottom"
+        fromColor="rgba(59,130,246,0.08)"
+        toColor="hsl(210, 40%, 98%)"
+        height={60}
+      />
+
       {/* Contact Info Section - Centered */}
-      <section className="py-20 bg-background/80 dark:bg-slate-900/80 relative overflow-hidden backdrop-blur-sm">
+      <section className="py-20 bg-background dark:bg-slate-900 relative overflow-hidden">
         {/* Floating shield background elements */}
         {floatingShields.map((shield, index) => (
           <FloatingShield

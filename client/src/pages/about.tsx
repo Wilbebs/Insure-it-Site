@@ -1,6 +1,7 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import QuoteModal from "@/components/quote-modal";
+import SectionDivider from "@/components/section-divider";
 import { Shield, Users, Award, Clock } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
@@ -232,9 +233,19 @@ export default function About() {
             </div>
           </div>
         </div>
+        {/* Wave divider at bottom of hero */}
+        <div className="absolute bottom-0 left-0 right-0 z-20">
+          <SectionDivider
+            variant="wave-layered"
+            position="bottom"
+            fromColor="hsl(210, 40%, 94%)"
+            toColor="hsl(210, 40%, 94%)"
+            height={70}
+          />
+        </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-muted dark:bg-slate-900">
+      <section className="pt-14 pb-12 sm:pb-20 bg-muted dark:bg-slate-900" style={{ marginTop: -1 }}>
         <div className="container mx-auto px-4 sm:px-6">
 
           {/* Meet the Team Section */}

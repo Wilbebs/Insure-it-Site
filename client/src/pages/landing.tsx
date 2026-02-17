@@ -294,8 +294,8 @@ export default function Landing() {
           <SectionDivider
             variant="wave-layered"
             position="bottom"
-            fromColor="hsl(210, 40%, 96%)"
-            toColor="hsl(210, 40%, 93%)"
+            fromColor="hsl(210, 40%, 94%)"
+            toColor="hsl(210, 40%, 94%)"
             height={80}
           />
         </div>
@@ -380,8 +380,8 @@ export default function Landing() {
           <SectionDivider
             variant="wave-layered"
             position="bottom"
-            fromColor="hsl(0, 0%, 100%)"
-            toColor="hsl(0, 0%, 98%)"
+            fromColor="hsl(210, 40%, 98%)"
+            toColor="hsl(210, 40%, 98%)"
             height={80}
           />
         </div>
@@ -421,8 +421,8 @@ export default function Landing() {
           <SectionDivider
             variant="wave-layered"
             position="bottom"
-            fromColor="hsl(210, 40%, 96%)"
-            toColor="hsl(210, 40%, 93%)"
+            fromColor="hsl(210, 40%, 94%)"
+            toColor="hsl(210, 40%, 94%)"
             height={80}
           />
         </div>
@@ -444,8 +444,8 @@ export default function Landing() {
           <SectionDivider
             variant="wave-layered"
             position="bottom"
-            fromColor="hsl(0, 0%, 100%)"
-            toColor="hsl(0, 0%, 98%)"
+            fromColor="hsl(210, 40%, 98%)"
+            toColor="hsl(210, 40%, 98%)"
             height={80}
           />
         </div>

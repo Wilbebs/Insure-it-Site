@@ -69,6 +69,10 @@
     @apply border-border;
   }
 
+  html, body {
+    overflow-x: hidden;
+  }
+
   body {
     @apply font-sans antialiased text-foreground bg-background;
     min-height: 100vh;

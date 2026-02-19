@@ -325,13 +325,14 @@ export default function Landing() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 z-20" style={{ backgroundColor: 'hsl(210, 40%, 94%)' }}>
+        <div className="absolute bottom-0 left-0 right-0 z-20">
           <SectionDivider
             variant="wave-layered"
             position="bottom"
             fromColor="hsl(210, 40%, 94%)"
             toColor="hsl(210, 40%, 94%)"
-            height={50}
+            height={70}
+            noBgFill={false}
           />
         </div>
       </section>

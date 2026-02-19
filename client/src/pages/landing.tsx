@@ -339,8 +339,8 @@ export default function Landing() {
 
       {/* Who We Are Section */}
       <section
-        className="pt-14 pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
-        style={{ marginTop: -1 }}
+        className="pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
+        style={{ marginTop: -1, paddingTop: '46px' }}
       >
         <div
           className="absolute inset-0 pointer-events-none"
@@ -452,8 +452,8 @@ export default function Landing() {
 
       {/* Insurance Types Section */}
       <section
-        className="pt-14 pb-20 bg-background dark:bg-slate-900 relative"
-        style={{ marginTop: -1 }}
+        className="pb-20 bg-background dark:bg-slate-900 relative"
+        style={{ marginTop: -1, paddingTop: '46px' }}
       >
         <motion.div
           className="container mx-auto px-6 relative z-10"
@@ -498,8 +498,8 @@ export default function Landing() {
 
       {/* Testimonials Section */}
       <section
-        className="pt-14 pb-[74px] bg-muted dark:bg-slate-800 relative"
-        style={{ marginTop: -1 }}
+        className="pb-[74px] bg-muted dark:bg-slate-800 relative"
+        style={{ marginTop: -1, paddingTop: '46px' }}
       >
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
@@ -529,8 +529,8 @@ export default function Landing() {
 
       {/* Contact Info Section - Centered */}
       <section
-        className="pt-14 pb-20 bg-background dark:bg-slate-900 relative overflow-hidden"
-        style={{ marginTop: -1 }}
+        className="pb-20 bg-background dark:bg-slate-900 relative overflow-hidden"
+        style={{ marginTop: -1, paddingTop: '46px' }}
       >
         {/* Floating shield background elements */}
         {floatingShields.map((shield, index) => (

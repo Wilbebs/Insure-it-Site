@@ -342,8 +342,8 @@ export default function Landing() {
 
       {/* Who We Are Section */}
       <section
-        className="pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
-        style={{ marginTop: -1, paddingTop: "0px" }}
+        className="py-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
+        style={{ marginTop: -1 }}
       >
         <div
           className="absolute inset-0 pointer-events-none"
@@ -354,7 +354,7 @@ export default function Landing() {
         />
 
         <div className="container mx-auto px-6">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-10">
             <div className="grid md:grid-cols-2 gap-8 items-end">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">

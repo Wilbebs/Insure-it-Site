@@ -446,18 +446,6 @@ export default function Landing() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             viewport={{ once: true, margin: "-80px" }}
           >
-            <div className="max-w-3xl mx-auto text-center mb-14">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
-                {t.insurance.subtitle}
-              </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-5 select-none leading-tight">
-                {t.insurance.title}
-              </h2>
-              <p className="text-muted-foreground leading-relaxed text-lg">
-                {t.insurance.description}
-              </p>
-            </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
               {insuranceTypes.map((type, index) => (
                 <InsuranceCard key={type.title} type={type} index={index} />

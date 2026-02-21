@@ -382,7 +382,6 @@ export default function Landing() {
                   {t.whoWeAre.meetTeam}
                   <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <div style={{ height: 15 }}></div>
               </div>
 
               {/* Insurance Types 2x2 Grid - aligned with button */}

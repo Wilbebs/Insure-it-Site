@@ -343,7 +343,7 @@ export default function Landing() {
       {/* Who We Are Section */}
       <section
         className="py-20 bg-white dark:bg-slate-800 relative overflow-hidden"
-        style={{ marginTop: -30 }}
+        style={{ marginTop: -65 }}
       >
         <div
           className="absolute inset-0 pointer-events-none"
@@ -382,6 +382,7 @@ export default function Landing() {
                   {t.whoWeAre.meetTeam}
                   <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
+                <div style={{ height: 15 }}></div>
               </div>
 
               {/* Insurance Types 2x2 Grid - aligned with button */}

@@ -333,7 +333,7 @@ export default function Landing() {
             toColor="hsl(210, 40%, 94%)"
             wave1Color="hsla(205, 70%, 82%, 0.3)" /* Layer 1: top wave, furthest back */
             wave2Color="hsla(205, 70%, 82%, 0.6)" /* Layer 2: middle wave */
-            wave3Color="hsl(210, 40%, 94%)"        /* Layer 3: bottom wave, solid — must match section below (bg-muted) */
+            wave3Color="hsl(210, 40%, 94%)" /* Layer 3: bottom wave, solid — must match section below (bg-muted) */
             height={70}
             noBgFill={false}
           />
@@ -343,7 +343,7 @@ export default function Landing() {
       {/* Who We Are Section */}
       <section
         className="pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
-        style={{ marginTop: -1, paddingTop: "46px" }}
+        style={{ marginTop: -1, paddingTop: "0px" }}
       >
         <div
           className="absolute inset-0 pointer-events-none"
@@ -457,7 +457,7 @@ export default function Landing() {
       {/* Insurance Types Section */}
       <section
         className="pb-20 bg-background dark:bg-slate-900 relative"
-        style={{ marginTop: -1, paddingTop: "46px" }}
+        style={{ marginTop: -1, paddingTop: "0px" }}
       >
         <motion.div
           className="container mx-auto px-6 relative z-10"
@@ -506,7 +506,7 @@ export default function Landing() {
       {/* Testimonials Section */}
       <section
         className="pb-[74px] bg-muted dark:bg-slate-800 relative"
-        style={{ marginTop: -1, paddingTop: "46px" }}
+        style={{ marginTop: -1, paddingTop: "20px" }}
       >
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
@@ -540,7 +540,7 @@ export default function Landing() {
       {/* Contact Info Section - Centered */}
       <section
         className="pb-20 bg-background dark:bg-slate-900 relative overflow-hidden"
-        style={{ marginTop: -1, paddingTop: "46px" }}
+        style={{ marginTop: -1, paddingTop: "20px" }}
       >
         {/* Floating shield background elements */}
         {floatingShields.map((shield, index) => (

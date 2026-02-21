@@ -19,7 +19,15 @@ const floatingShields = [
   { top: "85%", left: "8%", size: 35, delay: 0.8, duration: 4.2 },
 ];
 
-function SocialButton({ href, icon, label, colorClass, hoverColorClass, textHoverClass, testId }: {
+function SocialButton({
+  href,
+  icon,
+  label,
+  colorClass,
+  hoverColorClass,
+  textHoverClass,
+  testId,
+}: {
   href: string;
   icon: React.ReactNode;
   label: string;
@@ -40,19 +48,21 @@ function SocialButton({ href, icon, label, colorClass, hoverColorClass, textHove
     setMousePosition({ x, y });
   };
 
-  const dynamicGradientStyle = isHovered ? {
-    background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.5) 0%, transparent 60%)`,
-  } : {};
+  const dynamicGradientStyle = isHovered
+    ? {
+        background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.5) 0%, transparent 60%)`,
+      }
+    : {};
 
   return (
-    <a 
+    <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       className="group"
       data-testid={testId}
     >
-      <div 
+      <div
         ref={buttonRef}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
@@ -61,21 +71,30 @@ function SocialButton({ href, icon, label, colorClass, hoverColorClass, textHove
       >
         {icon}
         {/* Mouse-following shimmer */}
-        <div 
-          className={`absolute inset-0 rounded-2xl transition-opacity duration-300 pointer-events-none ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+        <div
+          className={`absolute inset-0 rounded-2xl transition-opacity duration-300 pointer-events-none ${isHovered ? "opacity-100" : "opacity-0"}`}
           style={dynamicGradientStyle}
         />
       </div>
-      <p className={`mt-3 font-semibold text-muted-foreground ${textHoverClass} transition-colors`}>{label}</p>
+      <p
+        className={`mt-3 font-semibold text-muted-foreground ${textHoverClass} transition-colors`}
+      >
+        {label}
+      </p>
     </a>
   );
 }
 
-function FloatingShield({ style, size, delay, duration }: { 
-  style: React.CSSProperties, 
-  size: number, 
-  delay: number, 
-  duration: number 
+function FloatingShield({
+  style,
+  size,
+  delay,
+  duration,
+}: {
+  style: React.CSSProperties;
+  size: number;
+  delay: number;
+  duration: number;
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
@@ -89,15 +108,19 @@ function FloatingShield({ style, size, delay, duration }: {
     setMousePosition({ x, y });
   };
 
-  const dynamicGradientStyle = isHovered ? {
-    background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.4) 0%, transparent 60%)`,
-  } : {};
-  
+  const dynamicGradientStyle = isHovered
+    ? {
+        background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.4) 0%, transparent 60%)`,
+      }
+    : {};
+
   return (
     <div
       ref={shieldRef}
       className={`absolute z-50 transition-all duration-300 cursor-pointer ${
-        isHovered ? 'opacity-100 scale-125' : 'opacity-[0.12] dark:opacity-[0.15]'
+        isHovered
+          ? "opacity-100 scale-125"
+          : "opacity-[0.12] dark:opacity-[0.15]"
       }`}
       style={{
         ...style,
@@ -109,15 +132,15 @@ function FloatingShield({ style, size, delay, duration }: {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <img 
-        src={shieldIcon} 
-        alt="" 
+      <img
+        src={shieldIcon}
+        alt=""
         className="w-full h-full object-contain select-none pointer-events-none"
         draggable={false}
       />
       {/* Dynamic mouse-following shimmer - on top of image */}
-      <div 
-        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+      <div
+        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${isHovered ? "opacity-100" : "opacity-0"}`}
         style={dynamicGradientStyle}
       />
     </div>
@@ -134,8 +157,8 @@ export default function About() {
 
   useEffect(() => {
     const openQuote = () => setQuoteModalOpen(true);
-    window.addEventListener('open-quote-modal', openQuote);
-    return () => window.removeEventListener('open-quote-modal', openQuote);
+    window.addEventListener("open-quote-modal", openQuote);
+    return () => window.removeEventListener("open-quote-modal", openQuote);
   }, []);
 
   const fullTitle = t.about.ourStory;
@@ -181,23 +204,24 @@ export default function About() {
     }, 100);
     intervals.push(titleInterval);
 
-    return () => intervals.forEach(id => clearInterval(id));
+    return () => intervals.forEach((id) => clearInterval(id));
   }, [fullTitle, fullLastParagraph, fullSignature]);
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       {/* Hero Section with Family Portrait Background */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image with Parallax */}
-        <div 
+        <div
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1920&q=80)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed'
+            backgroundImage:
+              "url(https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1920&q=80)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 via-blue-800/50 to-slate-900/60"></div>
@@ -210,23 +234,23 @@ export default function About() {
               {t.about.ourStory}
             </h2>
             <div className="space-y-6 text-base sm:text-lg text-white leading-relaxed">
-              <p>
-                {t.about.storyP1}
-              </p>
-              <p>
-                {t.about.storyP2}
-              </p>
-              <p>
-                {t.about.storyP3}
-              </p>
+              <p>{t.about.storyP1}</p>
+              <p>{t.about.storyP2}</p>
+              <p>{t.about.storyP3}</p>
               <p className="font-semibold text-white min-h-[8rem]">
                 {lastParagraphText}
-                {lastParagraphText.length > 0 && lastParagraphText.length < fullLastParagraph.length && <span className="animate-pulse">|</span>}
+                {lastParagraphText.length > 0 &&
+                  lastParagraphText.length < fullLastParagraph.length && (
+                    <span className="animate-pulse">|</span>
+                  )}
               </p>
               <p className="text-center italic text-white pt-4 text-lg sm:text-xl font-semibold min-h-[2rem]">
                 {signatureText.length > 0 && '"'}
                 {signatureText}
-                {signatureText.length > 0 && signatureText.length < fullSignature.length && <span className="animate-pulse">|</span>}
+                {signatureText.length > 0 &&
+                  signatureText.length < fullSignature.length && (
+                    <span className="animate-pulse">|</span>
+                  )}
                 {signatureText.length === fullSignature.length && '"'}
                 {showCursor && <span className="typing-cursor">|</span>}
               </p>
@@ -248,22 +272,30 @@ export default function About() {
         </div>
       </section>
 
-      <section className="pb-12 sm:pb-20 bg-muted dark:bg-slate-900" style={{ marginTop: -1, paddingTop: '46px' }}>
+      <section
+        className="pb-12 sm:pb-20 bg-muted dark:bg-slate-900"
+        style={{ marginTop: -1, paddingTop: "0px" }}
+      >
         <div className="container mx-auto px-4 sm:px-6">
-
           {/* Meet the Team Section */}
           <div className="mb-12 sm:mb-20">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center gradient-text">{t.about.meetTeam}</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center gradient-text">
+              {t.about.meetTeam}
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto">
               {/* Wilbert Hernandez - President */}
-              <div className="insurance-card rounded-2xl overflow-hidden hover-lift" data-testid="team-member-wilbert-hernandez">
+              <div
+                className="insurance-card rounded-2xl overflow-hidden hover-lift"
+                data-testid="team-member-wilbert-hernandez"
+              >
                 <div className="aspect-square overflow-hidden relative group">
-                  <img 
-                    src={wilbertPhoto} 
+                  <img
+                    src={wilbertPhoto}
                     alt="Wilbert Hernandez - President"
-                    className="w-full h-full object-cover scale-[1.1]" style={{ objectPosition: 'center calc(50% + 8px)' }}
+                    className="w-full h-full object-cover scale-[1.1]"
+                    style={{ objectPosition: "center calc(50% + 8px)" }}
                   />
-                  <a 
+                  <a
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -275,19 +307,24 @@ export default function About() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">Wilbert Hernandez</h3>
-                  <p className="text-primary font-medium">{t.about.president}</p>
+                  <p className="text-primary font-medium">
+                    {t.about.president}
+                  </p>
                 </div>
               </div>
 
               {/* Elizabeth Hernandez - Operations Manager */}
-              <div className="insurance-card rounded-2xl overflow-hidden hover-lift" data-testid="team-member-elizabeth-hernandez">
+              <div
+                className="insurance-card rounded-2xl overflow-hidden hover-lift"
+                data-testid="team-member-elizabeth-hernandez"
+              >
                 <div className="aspect-square overflow-hidden relative group">
-                  <img 
-                    src={elizabethPhoto} 
+                  <img
+                    src={elizabethPhoto}
                     alt="Elizabeth Hernandez - Operations Manager"
                     className="w-full h-full object-cover object-top"
                   />
-                  <a 
+                  <a
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -298,20 +335,27 @@ export default function About() {
                   </a>
                 </div>
                 <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold mb-2">Elizabeth Hernandez</h3>
-                  <p className="text-primary font-medium">{t.about.operationsManager}</p>
+                  <h3 className="text-xl font-bold mb-2">
+                    Elizabeth Hernandez
+                  </h3>
+                  <p className="text-primary font-medium">
+                    {t.about.operationsManager}
+                  </p>
                 </div>
               </div>
 
               {/* David Hernandez - Account Executive */}
-              <div className="insurance-card rounded-2xl overflow-hidden hover-lift" data-testid="team-member-david-hernandez">
+              <div
+                className="insurance-card rounded-2xl overflow-hidden hover-lift"
+                data-testid="team-member-david-hernandez"
+              >
                 <div className="aspect-square overflow-hidden relative group">
-                  <img 
-                    src={davidPhoto} 
+                  <img
+                    src={davidPhoto}
                     alt="David Hernandez - Account Executive"
                     className="w-full h-full object-cover scale-[1.15] object-top"
                   />
-                  <a 
+                  <a
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -323,7 +367,9 @@ export default function About() {
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold mb-2">David Hernandez</h3>
-                  <p className="text-primary font-medium">{t.about.accountExecutive}</p>
+                  <p className="text-primary font-medium">
+                    {t.about.accountExecutive}
+                  </p>
                 </div>
               </div>
             </div>
@@ -335,40 +381,52 @@ export default function About() {
             {floatingShields.map((shield, index) => (
               <FloatingShield
                 key={index}
-                style={{ top: shield.top, left: shield.left, right: shield.right }}
+                style={{
+                  top: shield.top,
+                  left: shield.left,
+                  right: shield.right,
+                }}
                 size={shield.size}
                 delay={shield.delay}
                 duration={shield.duration}
               />
             ))}
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 gradient-text relative z-10">{t.about.connectTitle}</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 gradient-text relative z-10">
+              {t.about.connectTitle}
+            </h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto relative z-10">
               {t.about.connectDesc}
             </p>
             <div className="flex justify-center gap-6 sm:gap-8 relative z-10">
               <SocialButton
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
-                icon={<FaLinkedin className="w-12 h-12 sm:w-16 sm:h-16 text-primary group-hover:text-white transition-colors duration-300 relative z-10" />}
+                icon={
+                  <FaLinkedin className="w-12 h-12 sm:w-16 sm:h-16 text-primary group-hover:text-white transition-colors duration-300 relative z-10" />
+                }
                 label="LinkedIn"
                 colorClass="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50"
                 hoverColorClass="group-hover:from-blue-500 group-hover:to-blue-600"
                 textHoverClass="group-hover:text-primary"
                 testId="social-linkedin"
               />
-              
+
               <SocialButton
                 href="https://www.instagram.com/insureitgroup/"
-                icon={<FaInstagram className="w-12 h-12 sm:w-16 sm:h-16 text-pink-600 dark:text-pink-400 group-hover:text-white transition-colors duration-300 relative z-10" />}
+                icon={
+                  <FaInstagram className="w-12 h-12 sm:w-16 sm:h-16 text-pink-600 dark:text-pink-400 group-hover:text-white transition-colors duration-300 relative z-10" />
+                }
                 label="Instagram"
                 colorClass="bg-gradient-to-br from-pink-50 to-purple-100 dark:from-pink-900/50 dark:to-purple-900/50"
                 hoverColorClass="group-hover:from-pink-500 group-hover:to-purple-600"
                 textHoverClass="group-hover:text-pink-600"
                 testId="social-instagram"
               />
-              
+
               <SocialButton
                 href="https://www.facebook.com/insureitgroup"
-                icon={<FaFacebook className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300 relative z-10" />}
+                icon={
+                  <FaFacebook className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300 relative z-10" />
+                }
                 label="Facebook"
                 colorClass="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50"
                 hoverColorClass="group-hover:from-blue-600 group-hover:to-blue-700"

@@ -437,6 +437,33 @@ export default function Landing() {
               </div>
             </div>
           </div>
+
+          {/* Insurance Types Grid */}
+          <motion.div
+            className="mt-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            viewport={{ once: true, margin: "-80px" }}
+          >
+            <div className="max-w-3xl mx-auto text-center mb-14">
+              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
+                {t.insurance.subtitle}
+              </p>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-5 select-none leading-tight">
+                {t.insurance.title}
+              </h2>
+              <p className="text-muted-foreground leading-relaxed text-lg">
+                {t.insurance.description}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+              {insuranceTypes.map((type, index) => (
+                <InsuranceCard key={type.title} type={type} index={index} />
+              ))}
+            </div>
+          </motion.div>
         </div>
 
         <div
@@ -446,55 +473,6 @@ export default function Landing() {
           <SectionDivider
             variant="wave-layered"
             position="bottom"
-            toColor="hsl(210, 40%, 98%)"
-            wave1Color="hsla(205, 70%, 82%, 0.3)"
-            wave2Color="hsla(205, 70%, 82%, 0.6)"
-            wave3Color="hsl(210, 40%, 98%)"
-            height={60}
-          />
-        </div>
-      </section>
-
-      {/* Insurance Types Section */}
-      <section
-        className="pb-20 bg-background dark:bg-slate-900 relative"
-        style={{ marginTop: -1, paddingTop: "0px" }}
-      >
-        <motion.div
-          className="container mx-auto px-6 relative z-10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          viewport={{ once: true, margin: "-80px" }}
-        >
-          {/* Section header */}
-          <div className="max-w-3xl mx-auto text-center mb-14">
-            <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
-              {t.insurance.subtitle}
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-5 select-none leading-tight">
-              {t.insurance.title}
-            </h2>
-            <p className="text-muted-foreground leading-relaxed text-lg">
-              {t.insurance.description}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {insuranceTypes.map((type, index) => (
-              <InsuranceCard key={type.title} type={type} index={index} />
-            ))}
-          </div>
-        </motion.div>
-
-        <div
-          className="relative z-20"
-          style={{ marginTop: 35, marginBottom: -90 }}
-        >
-          <SectionDivider
-            variant="wave-layered"
-            position="bottom"
-            fromColor="hsl(210, 40%, 98%)"
             toColor="hsl(210, 40%, 94%)"
             wave1Color="hsla(205, 70%, 82%, 0.3)"
             wave2Color="hsla(205, 70%, 82%, 0.6)"

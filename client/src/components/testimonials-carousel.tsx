@@ -82,10 +82,10 @@ export default function TestimonialsCarousel() {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="relative max-w-7xl mx-auto">
+    <div className="relative max-w-7xl mx-auto px-2">
       {/* Carousel Container */}
-      <div className="overflow-hidden pb-4" ref={emblaRef}>
-        <div className="flex pb-6">
+      <div className="overflow-hidden pb-4 px-4" ref={emblaRef}>
+        <div className="flex pb-6 -mx-4">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}

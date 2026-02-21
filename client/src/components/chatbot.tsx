@@ -655,11 +655,12 @@ export default function ChatBot() {
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="animated-border-panel bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-[350px] sm:w-[420px] flex flex-col h-[600px]"
+              className="animated-border-panel rounded-3xl shadow-2xl w-[350px] sm:w-[420px] h-[600px] overflow-hidden"
               data-testid="chatbot-expanded"
             >
+              <div className="flex flex-col h-full bg-white dark:bg-slate-900">
               {/* Header */}
-              <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 flex flex-col rounded-t-3xl">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 flex flex-col">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
                     <img 
@@ -1009,6 +1010,7 @@ export default function ChatBot() {
                 >
                   <Send className="w-5 h-5" />
                 </button>
+              </div>
               </div>
             </motion.div>
           )}

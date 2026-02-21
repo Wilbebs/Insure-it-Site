@@ -521,7 +521,7 @@ export default function Landing() {
             variant="wave-layered"
             position="bottom"
             fromColor="hsl(210, 40%, 94%)"
-            toColor="hsl(205, 65%, 85%)"
+            toColor="hsl(210, 40%, 98%)"
             height={60}
           />
         </div>

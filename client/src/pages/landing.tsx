@@ -387,71 +387,14 @@ export default function Landing() {
                 </button>
               </div>
 
-              {/* Feature highlights */}
-              <div className="space-y-4">
-                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-sky-500/10 flex items-center justify-center flex-shrink-0">
-                      <Shield className="w-5 h-5 text-sky-500" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-1 select-none">
-                        {t.whoWeAre.licensedTitle}
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        {t.whoWeAre.licensedDesc}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
-                      <Heart className="w-5 h-5 text-blue-500" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-1 select-none">
-                        {t.whoWeAre.familyTitle}
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        {t.whoWeAre.familyDesc}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5 rounded-xl bg-background dark:bg-slate-900 border border-border shadow-sm hover:shadow-md transition-shadow">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
-                      <Phone className="w-5 h-5 text-indigo-500" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-1 select-none">
-                        {t.whoWeAre.availableTitle}
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        {t.whoWeAre.availableDesc}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+              {/* Insurance Types 2x2 Grid */}
+              <div className="grid grid-cols-2 gap-4">
+                {insuranceTypes.map((type, index) => (
+                  <InsuranceCard key={type.title} type={type} index={index} />
+                ))}
               </div>
             </div>
           </div>
-
-          {/* Insurance Types Grid */}
-          <motion.div
-            className="mt-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            viewport={{ once: true, margin: "-80px" }}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-              {insuranceTypes.map((type, index) => (
-                <InsuranceCard key={type.title} type={type} index={index} />
-              ))}
-            </div>
-          </motion.div>
         </div>
 
         <div

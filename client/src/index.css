@@ -652,3 +652,13 @@
 .animated-border-circle:hover {
   animation: border-rotate-fast 1.2s linear forwards;
 }
+
+.animated-border-panel {
+  border: 2px solid transparent;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-image:
+    linear-gradient(white, white),
+    conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8);
+  animation: border-rotate-slow 4s linear infinite;
+}

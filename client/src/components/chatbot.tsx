@@ -962,10 +962,11 @@ export default function ChatBot() {
                     <button
                       onClick={handleSubmitApplication}
                       disabled={isSubmitting}
-                      className="w-full bg-green-600 text-white p-3 rounded-lg hover:bg-green-700 font-semibold disabled:bg-gray-400"
+                      className="animated-border-btn w-full text-white p-3 rounded-lg font-semibold disabled:bg-gray-400 overflow-hidden relative group transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
                       data-testid="submit-application"
                     >
-                      {isSubmitting ? t.chatbot.submitting : t.chatbot.submitApplication}
+                      <span className="relative z-10">{isSubmitting ? t.chatbot.submitting : t.chatbot.submitApplication}</span>
+                      <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
                     </button>
                   </div>
                 )}
@@ -1005,7 +1006,7 @@ export default function ChatBot() {
                 <button
                   onClick={handleSendMessage}
                   disabled={inApplicationFlow && currentGroup !== null}
-                  className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                   data-testid="chatbot-send-button"
                 >
                   <Send className="w-5 h-5" />

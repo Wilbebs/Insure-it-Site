@@ -503,46 +503,11 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Contact Info + Testimonials Section - Merged */}
       <section
-        className="pb-[74px] bg-muted dark:bg-slate-800 relative"
+        className="pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
         style={{ marginTop: -1, paddingTop: "20px" }}
       >
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-3xl mx-auto text-center mb-14">
-            <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
-              {t.testimonials.subtitle}
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground select-none">
-              {t.testimonials.title}
-            </h2>
-          </div>
-          <TestimonialsCarousel />
-        </div>
-
-        <div
-          className="relative z-20"
-          style={{ marginTop: 10, marginBottom: -80 }}
-        >
-          <SectionDivider
-            variant="wave-layered"
-            position="bottom"
-            fromColor="hsl(210, 40%, 94%)"
-            toColor="hsl(210, 40%, 98%)"
-            wave1Color="hsla(205, 65%, 85%, 0.3)"
-            wave2Color="hsla(205, 65%, 85%, 0.6)"
-            wave3Color="hsl(210, 40%, 98%)"
-            height={60}
-          />
-        </div>
-      </section>
-
-      {/* Contact Info Section - Centered */}
-      <section
-        className="pb-20 bg-background dark:bg-slate-900 relative overflow-hidden"
-        style={{ marginTop: -1, paddingTop: "20px" }}
-      >
-        {/* Floating shield background elements */}
         {floatingShields.map((shield, index) => (
           <FloatingShield
             key={index}
@@ -641,6 +606,11 @@ export default function Landing() {
                 </span>
               </div>
             </div>
+          </div>
+
+          {/* Testimonials */}
+          <div className="mt-16">
+            <TestimonialsCarousel />
           </div>
         </div>
       </section>

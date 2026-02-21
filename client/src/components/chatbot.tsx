@@ -637,7 +637,7 @@ export default function ChatBot() {
                 className="relative group"
                 data-testid="chatbot-minimized-button"
               >
-                <div className="w-16 h-16 rounded-full overflow-hidden shadow-2xl ring-4 ring-blue-500/50 hover:ring-blue-500 transition-all hover:scale-110">
+                <div className="animated-border-circle w-16 h-16 rounded-full overflow-hidden shadow-2xl transition-all hover:scale-110 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]">
                   <img 
                     src={LIZ_AVATAR}
                     alt="Chat with Liz"

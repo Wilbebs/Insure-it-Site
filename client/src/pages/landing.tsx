@@ -368,7 +368,7 @@ export default function Landing() {
               <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full"></div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="grid md:grid-cols-2 gap-8 items-start">
               <div>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-6">
                   {t.whoWeAre.paragraph1}

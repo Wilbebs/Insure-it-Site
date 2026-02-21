@@ -606,7 +606,7 @@
 /* Animated gradient border for CTA button */
 @keyframes border-flow {
   0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  100% { background-position: 300% 50%; }
 }
 
 .animated-border-btn {
@@ -617,7 +617,7 @@
 .animated-border-btn::before {
   content: "";
   position: absolute;
-  inset: -2px;
+  inset: -1px;
   border-radius: inherit;
   background: linear-gradient(
     90deg,
@@ -625,15 +625,11 @@
     #3b82f6,
     #6366f1,
     #8b5cf6,
-    #0ea5e9,
-    #3b82f6,
-    #6366f1,
-    #8b5cf6
+    #0ea5e9
   );
-  background-size: 200% 100%;
+  background-size: 300% 100%;
   animation: border-flow 6s linear infinite;
   z-index: -2;
-  transition: animation-duration 0.3s ease;
 }
 
 .animated-border-btn:hover::before {
@@ -643,7 +639,7 @@
 .animated-border-btn::after {
   content: "";
   position: absolute;
-  inset: 2px;
+  inset: 1px;
   border-radius: inherit;
   background: hsl(217, 91%, 60%);
   z-index: -1;

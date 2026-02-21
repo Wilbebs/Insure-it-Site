@@ -331,9 +331,9 @@ export default function Landing() {
             position="bottom"
             fromColor="hsl(210, 40%, 94%)"
             toColor="hsl(210, 40%, 94%)"
-            wave1Color="hsla(205, 70%, 82%, 0.3)"
-            wave2Color="hsla(205, 70%, 82%, 0.6)"
-            wave3Color="hsl(210, 40%, 94%)"
+            wave1Color="hsla(205, 70%, 82%, 0.3)" /* Layer 1: top wave, furthest back */
+            wave2Color="hsla(205, 70%, 82%, 0.6)" /* Layer 2: middle wave */
+            wave3Color="hsl(210, 40%, 94%)"        /* Layer 3: bottom wave, solid — must match section below (bg-muted) */
             height={70}
             noBgFill={false}
           />

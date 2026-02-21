@@ -368,18 +368,20 @@ export default function Landing() {
               <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full"></div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 items-start">
-              <div>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  {t.whoWeAre.paragraph1}
-                </p>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                  {t.whoWeAre.paragraph2}
-                </p>
+            <div className="grid md:grid-cols-2 gap-8 items-stretch">
+              <div className="flex flex-col justify-between">
+                <div>
+                  <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                    {t.whoWeAre.paragraph1}
+                  </p>
+                  <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                    {t.whoWeAre.paragraph2}
+                  </p>
+                </div>
 
                 <button
                   onClick={() => (window.location.href = "/about")}
-                  className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] select-none"
+                  className="self-start group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] select-none"
                   data-testid="button-read-more"
                 >
                   {t.whoWeAre.meetTeam}
@@ -388,7 +390,7 @@ export default function Landing() {
               </div>
 
               {/* Insurance Types 2x2 Grid */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4 h-full">
                 {insuranceTypes.map((type, index) => (
                   <InsuranceCard key={type.title} type={type} index={index} />
                 ))}

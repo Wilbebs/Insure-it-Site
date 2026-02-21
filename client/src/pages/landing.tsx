@@ -446,9 +446,10 @@ export default function Landing() {
           <SectionDivider
             variant="wave-layered"
             position="bottom"
-            toColor="hsl(210, 40%, 98%)" // Layer 3 - solid white base
-            wave1Color="hsl(205, 70%, 82%)" // Layer 1 - lightest blue
-            wave2Color="hsl(205, 55%, 75%)" // Layer 2 - slightly deeper blue
+            toColor="hsl(210, 40%, 98%)"
+            wave1Color="hsla(205, 70%, 82%, 0.3)"
+            wave2Color="hsla(205, 70%, 82%, 0.6)"
+            wave3Color="hsl(210, 40%, 98%)"
             height={60}
           />
         </div>
@@ -495,8 +496,8 @@ export default function Landing() {
             position="bottom"
             fromColor="hsl(210, 40%, 98%)"
             toColor="hsl(210, 40%, 94%)"
-            wave1Color="hsla(205, 60%, 88%, 0.3)"
-            wave2Color="hsla(205, 60%, 88%, 0.6)"
+            wave1Color="hsla(205, 70%, 82%, 0.3)"
+            wave2Color="hsla(205, 70%, 82%, 0.6)"
             wave3Color="hsl(210, 40%, 94%)"
             height={60}
           />

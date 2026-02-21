@@ -355,21 +355,18 @@ export default function Landing() {
 
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
-            {/* Left-aligned header with accent */}
-            <div className="mb-10">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
-                {t.whoWeAre.subtitle}
-              </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
-                {t.whoWeAre.titleLine1}
-                <br className="hidden md:block" />
-                <span className="text-primary">{t.whoWeAre.titleLine2}</span>
-              </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full"></div>
-            </div>
-
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
+                  {t.whoWeAre.subtitle}
+                </p>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
+                  {t.whoWeAre.titleLine1}
+                  <br className="hidden md:block" />
+                  <span className="text-primary">{t.whoWeAre.titleLine2}</span>
+                </h2>
+                <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-6"></div>
+
                 <p className="text-lg text-muted-foreground leading-relaxed mb-6">
                   {t.whoWeAre.paragraph1}
                 </p>

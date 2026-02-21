@@ -239,7 +239,8 @@ export default function About() {
             variant="wave-layered"
             position="bottom"
             fromColor="hsl(210, 40%, 94%)"
-            toColor="hsl(205, 70%, 82%)"
+            toColor="hsl(210, 40%, 94%)"
+            waveColor="hsl(205, 70%, 82%)"
             height={70}
           />
         </div>

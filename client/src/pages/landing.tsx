@@ -534,13 +534,14 @@ export default function Landing() {
             {/* Get Quoted Today Button */}
             <button
               onClick={() => setQuoteModalOpen(true)}
-              className="animated-border-btn group relative text-primary-foreground px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] mb-12 select-none"
+              className="animated-border-btn group relative overflow-hidden text-primary-foreground px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] mb-12 select-none"
               data-testid="button-get-quote-contact"
             >
               <span className="relative z-10">
                 {t.contact.getQuoted}
                 <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
+              <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
             </button>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

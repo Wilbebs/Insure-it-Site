@@ -600,7 +600,13 @@ export default function ChatBot() {
   };
 
   const currentGroup = getCurrentGroup();
-  const progressPercent = getTotalGroupCount() > 0 ? Math.round((getCompletedGroupCount() / getTotalGroupCount()) * 100) : 0;
+  const progressPercent = (() => {
+    if (!convState.policyType) return 0;
+    const totalGroups = getTotalGroupCount();
+    if (totalGroups === 0) return 50;
+    const completedGroups = getCompletedGroupCount();
+    return Math.round(50 + (completedGroups / totalGroups) * 50);
+  })();
 
   return (
     <AnimatePresence>

@@ -302,7 +302,7 @@ export default function Landing() {
                 >
                   <button
                     onClick={() => setQuoteModalOpen(true)}
-                    className="group relative overflow-hidden bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                    className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
                     data-testid="button-get-quote"
                   >
                     <span className="relative z-10">

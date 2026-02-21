@@ -149,7 +149,7 @@ function InsuranceCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative rounded-xl overflow-hidden h-72 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/30"
+      className="group relative rounded-xl overflow-hidden h-44 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/30"
       style={{
         boxShadow: isHovered
           ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${type.color === "sky" ? "rgba(56, 189, 248, 0.3)" : type.color === "blue" ? "rgba(59, 130, 246, 0.3)" : type.color === "indigo" ? "rgba(99, 102, 241, 0.3)" : "rgba(139, 92, 246, 0.3)"}`
@@ -178,13 +178,13 @@ function InsuranceCard({
       />
 
       {/* Content */}
-      <div className="absolute inset-x-0 bottom-0 p-6 transition-transform duration-300 group-hover:-translate-y-4 z-10">
+      <div className="absolute inset-x-0 bottom-0 p-4 transition-transform duration-300 group-hover:-translate-y-2 z-10">
         <div
-          className={`text-white mb-2 transition-all duration-300 group-hover:scale-110 ${iconAnimation}`}
+          className={`text-white mb-1 transition-all duration-300 group-hover:scale-110 ${iconAnimation}`}
         >
           {type.icon}
         </div>
-        <h3 className="text-xl font-bold text-white mb-2">{type.title}</h3>
+        <h3 className="text-lg font-bold text-white mb-1">{type.title}</h3>
         <p className="text-slate-200 text-sm leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-24 group-hover:opacity-100">
           {type.description}
         </p>
@@ -368,16 +368,14 @@ export default function Landing() {
               <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full"></div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 items-stretch">
-              <div className="flex flex-col justify-between">
-                <div>
-                  <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                    {t.whoWeAre.paragraph1}
-                  </p>
-                  <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                    {t.whoWeAre.paragraph2}
-                  </p>
-                </div>
+            <div className="grid md:grid-cols-2 gap-8 items-start">
+              <div>
+                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                  {t.whoWeAre.paragraph1}
+                </p>
+                <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                  {t.whoWeAre.paragraph2}
+                </p>
 
                 <button
                   onClick={() => (window.location.href = "/about")}
@@ -390,7 +388,7 @@ export default function Landing() {
               </div>
 
               {/* Insurance Types 2x2 Grid */}
-              <div className="grid grid-cols-2 gap-4 h-full">
+              <div className="grid grid-cols-2 gap-4">
                 {insuranceTypes.map((type, index) => (
                   <InsuranceCard key={type.title} type={type} index={index} />
                 ))}

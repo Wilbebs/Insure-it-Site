@@ -9,7 +9,9 @@ interface SectionDividerProps {
   position?: DividerPosition;
   fromColor?: string;
   toColor?: string;
-  waveColor?: string;
+  wave1Color?: string;
+  wave2Color?: string;
+  wave3Color?: string;
   height?: number;
   animated?: boolean;
   className?: string;
@@ -46,15 +48,17 @@ function WaveSVG({ fromColor, toColor, height, animated }: { fromColor: string; 
   );
 }
 
-function WaveLayeredSVG({ fromColor, toColor, waveColor, height, animated, noBgFill }: { fromColor: string; toColor: string; waveColor?: string; height: number; animated: boolean; noBgFill?: boolean }) {
-  const blueWave = waveColor || toColor;
+function WaveLayeredSVG({ fromColor, toColor, wave1Color, wave2Color, wave3Color, height, animated, noBgFill }: { fromColor: string; toColor: string; wave1Color?: string; wave2Color?: string; wave3Color?: string; height: number; animated: boolean; noBgFill?: boolean }) {
+  const layer1 = wave1Color || toColor;
+  const layer2 = wave2Color || toColor;
+  const layer3 = wave3Color || toColor;
   return (
     <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full block" style={{ height, display: "block" }}>
       {animated ? (
         <>
           <motion.path
-            fill={blueWave}
-            opacity={0.3}
+            fill={layer1}
+            opacity={wave1Color ? 1 : 0.3}
             initial={{ d: "M0,20 C360,55 720,0 1080,20 C1260,40 1380,5 1440,20 L1440,80 L0,80 Z" }}
             animate={{
               d: [
@@ -66,8 +70,8 @@ function WaveLayeredSVG({ fromColor, toColor, waveColor, height, animated, noBgF
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.path
-            fill={blueWave}
-            opacity={0.6}
+            fill={layer2}
+            opacity={wave2Color ? 1 : 0.6}
             initial={{ d: "M0,30 C480,8 960,50 1440,20 L1440,80 L0,80 Z" }}
             animate={{
               d: [
@@ -79,7 +83,7 @@ function WaveLayeredSVG({ fromColor, toColor, waveColor, height, animated, noBgF
             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
           />
           <motion.path
-            fill={toColor}
+            fill={layer3}
             initial={{ d: "M0,45 C320,30 640,52 960,38 C1200,25 1360,48 1440,40 L1440,80 L0,80 Z" }}
             animate={{
               d: [
@@ -93,9 +97,9 @@ function WaveLayeredSVG({ fromColor, toColor, waveColor, height, animated, noBgF
         </>
       ) : (
         <>
-          <path d="M0,20 C360,55 720,0 1080,20 C1260,40 1380,5 1440,20 L1440,80 L0,80 Z" fill={blueWave} opacity={0.3} />
-          <path d="M0,30 C480,8 960,50 1440,20 L1440,80 L0,80 Z" fill={blueWave} opacity={0.6} />
-          <path d="M0,45 C320,30 640,52 960,38 C1200,25 1360,48 1440,40 L1440,80 L0,80 Z" fill={toColor} />
+          <path d="M0,20 C360,55 720,0 1080,20 C1260,40 1380,5 1440,20 L1440,80 L0,80 Z" fill={layer1} opacity={wave1Color ? 1 : 0.3} />
+          <path d="M0,30 C480,8 960,50 1440,20 L1440,80 L0,80 Z" fill={layer2} opacity={wave2Color ? 1 : 0.6} />
+          <path d="M0,45 C320,30 640,52 960,38 C1200,25 1360,48 1440,40 L1440,80 L0,80 Z" fill={layer3} />
         </>
       )}
     </svg>
@@ -153,7 +157,9 @@ export default function SectionDivider({
   position = "bottom",
   fromColor = "rgba(56,189,248,0.15)",
   toColor = "hsl(210, 40%, 94%)",
-  waveColor,
+  wave1Color,
+  wave2Color,
+  wave3Color,
   height = 80,
   animated = true,
   className = "",
@@ -168,7 +174,7 @@ export default function SectionDivider({
       aria-hidden="true"
     >
       {variant === "wave" && <WaveSVG fromColor={fromColor} toColor={toColor} height={height} animated={animated} />}
-      {variant === "wave-layered" && <WaveLayeredSVG fromColor={fromColor} toColor={toColor} waveColor={waveColor} height={height} animated={animated} noBgFill={noBgFill} />}
+      {variant === "wave-layered" && <WaveLayeredSVG fromColor={fromColor} toColor={toColor} wave1Color={wave1Color} wave2Color={wave2Color} wave3Color={wave3Color} height={height} animated={animated} noBgFill={noBgFill} />}
       {variant === "diagonal" && <DiagonalSVG fromColor={fromColor} toColor={toColor} height={height} />}
       {variant === "curve" && <CurveSVG fromColor={fromColor} toColor={toColor} height={height} animated={animated} />}
     </div>

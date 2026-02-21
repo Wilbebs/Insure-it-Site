@@ -331,7 +331,9 @@ export default function Landing() {
             position="bottom"
             fromColor="hsl(210, 40%, 94%)"
             toColor="hsl(210, 40%, 94%)"
-            waveColor="hsl(205, 70%, 82%)"
+            wave1Color="hsla(205, 70%, 82%, 0.3)"
+            wave2Color="hsla(205, 70%, 82%, 0.6)"
+            wave3Color="hsl(210, 40%, 94%)"
             height={70}
             noBgFill={false}
           />
@@ -341,7 +343,7 @@ export default function Landing() {
       {/* Who We Are Section */}
       <section
         className="pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
-        style={{ marginTop: -1, paddingTop: '46px' }}
+        style={{ marginTop: -1, paddingTop: "46px" }}
       >
         <div
           className="absolute inset-0 pointer-events-none"
@@ -444,9 +446,9 @@ export default function Landing() {
           <SectionDivider
             variant="wave-layered"
             position="bottom"
-            fromColor="hsl(210, 40%, 94%)"
-            toColor="hsl(210, 40%, 98%)"
-            waveColor="hsl(205, 65%, 85%)"
+            toColor="hsl(210, 40%, 98%)" // Layer 3 - solid white base
+            wave1Color="hsl(205, 70%, 82%)" // Layer 1 - lightest blue
+            wave2Color="hsl(205, 55%, 75%)" // Layer 2 - slightly deeper blue
             height={60}
           />
         </div>
@@ -455,7 +457,7 @@ export default function Landing() {
       {/* Insurance Types Section */}
       <section
         className="pb-20 bg-background dark:bg-slate-900 relative"
-        style={{ marginTop: -1, paddingTop: '46px' }}
+        style={{ marginTop: -1, paddingTop: "46px" }}
       >
         <motion.div
           className="container mx-auto px-6 relative z-10"
@@ -493,7 +495,9 @@ export default function Landing() {
             position="bottom"
             fromColor="hsl(210, 40%, 98%)"
             toColor="hsl(210, 40%, 94%)"
-            waveColor="hsl(205, 60%, 88%)"
+            wave1Color="hsla(205, 60%, 88%, 0.3)"
+            wave2Color="hsla(205, 60%, 88%, 0.6)"
+            wave3Color="hsl(210, 40%, 94%)"
             height={60}
           />
         </div>
@@ -502,7 +506,7 @@ export default function Landing() {
       {/* Testimonials Section */}
       <section
         className="pb-[74px] bg-muted dark:bg-slate-800 relative"
-        style={{ marginTop: -1, paddingTop: '46px' }}
+        style={{ marginTop: -1, paddingTop: "46px" }}
       >
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-14">
@@ -525,7 +529,9 @@ export default function Landing() {
             position="bottom"
             fromColor="hsl(210, 40%, 94%)"
             toColor="hsl(210, 40%, 98%)"
-            waveColor="hsl(205, 65%, 85%)"
+            wave1Color="hsla(205, 65%, 85%, 0.3)"
+            wave2Color="hsla(205, 65%, 85%, 0.6)"
+            wave3Color="hsl(210, 40%, 98%)"
             height={60}
           />
         </div>
@@ -534,7 +540,7 @@ export default function Landing() {
       {/* Contact Info Section - Centered */}
       <section
         className="pb-20 bg-background dark:bg-slate-900 relative overflow-hidden"
-        style={{ marginTop: -1, paddingTop: '46px' }}
+        style={{ marginTop: -1, paddingTop: "46px" }}
       >
         {/* Floating shield background elements */}
         {floatingShields.map((shield, index) => (

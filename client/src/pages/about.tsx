@@ -240,7 +240,9 @@ export default function About() {
             position="bottom"
             fromColor="hsl(210, 40%, 94%)"
             toColor="hsl(210, 40%, 94%)"
-            waveColor="hsl(205, 70%, 82%)"
+            wave1Color="hsla(205, 70%, 82%, 0.3)"
+            wave2Color="hsla(205, 70%, 82%, 0.6)"
+            wave3Color="hsl(210, 40%, 94%)"
             height={70}
           />
         </div>

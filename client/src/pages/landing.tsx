@@ -355,7 +355,7 @@ export default function Landing() {
 
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 items-start">
+            <div className="grid md:grid-cols-2 gap-8 items-end">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
                   {t.whoWeAre.subtitle}
@@ -384,7 +384,7 @@ export default function Landing() {
                 </button>
               </div>
 
-              {/* Insurance Types 2x2 Grid */}
+              {/* Insurance Types 2x2 Grid - aligned with button */}
               <div className="grid grid-cols-2 gap-4">
                 {insuranceTypes.map((type, index) => (
                   <InsuranceCard key={type.title} type={type} index={index} />

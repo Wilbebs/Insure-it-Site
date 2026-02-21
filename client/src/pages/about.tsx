@@ -277,12 +277,25 @@ export default function About() {
         style={{ marginTop: -1, paddingTop: "0px" }}
       >
         <div className="container mx-auto px-4 sm:px-6">
-          {/* Meet the Team Section */}
-          <div className="mb-12 sm:mb-20">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center gradient-text">
+          {/* Connect With Us Section - Team + Social */}
+          <div className="mb-12 sm:mb-20 relative overflow-hidden">
+            {floatingShields.map((shield, index) => (
+              <FloatingShield
+                key={index}
+                style={{
+                  top: shield.top,
+                  left: shield.left,
+                  right: shield.right,
+                }}
+                size={shield.size}
+                delay={shield.delay}
+                duration={shield.duration}
+              />
+            ))}
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center gradient-text relative z-10">
               {t.about.meetTeam}
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto relative z-10">
               {/* Wilbert Hernandez - President */}
               <div
                 className="insurance-card rounded-2xl overflow-hidden hover-lift"
@@ -373,28 +386,8 @@ export default function About() {
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Connect With Us Section */}
-          <div className="text-center mb-12 sm:mb-20 relative overflow-hidden py-8">
-            {/* Floating shield background elements */}
-            {floatingShields.map((shield, index) => (
-              <FloatingShield
-                key={index}
-                style={{
-                  top: shield.top,
-                  left: shield.left,
-                  right: shield.right,
-                }}
-                size={shield.size}
-                delay={shield.delay}
-                duration={shield.duration}
-              />
-            ))}
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 gradient-text relative z-10">
-              {t.about.connectTitle}
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto relative z-10">
+            <p className="text-lg text-muted-foreground mt-10 mb-8 max-w-2xl mx-auto text-center relative z-10">
               {t.about.connectDesc}
             </p>
             <div className="flex justify-center gap-6 sm:gap-8 relative z-10">

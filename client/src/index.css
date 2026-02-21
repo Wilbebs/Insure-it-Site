@@ -610,47 +610,31 @@
   inherits: false;
 }
 
-@keyframes border-rotate {
+@keyframes border-rotate-slow {
   0% { --border-angle: 0deg; }
   100% { --border-angle: 360deg; }
 }
 
+@keyframes border-rotate-fast {
+  0% { --border-angle: 0deg; }
+  100% { --border-angle: 720deg; }
+}
+
 .animated-border-btn {
   position: relative;
-  z-index: 0;
+  border: 2px solid transparent;
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-image:
+    linear-gradient(hsl(217, 91%, 60%), hsl(217, 91%, 60%)),
+    conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8);
+  animation: border-rotate-slow 8s linear infinite;
+  transition: box-shadow 0.3s ease;
 }
 
-.animated-border-btn::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  background: conic-gradient(
-    from var(--border-angle),
-    #38bdf8 0%,
-    #2563eb 25%,
-    #818cf8 50%,
-    #a78bfa 75%,
-    #38bdf8 100%
-  );
-  animation: border-rotate 8s linear infinite;
-  z-index: -2;
-}
-
-.animated-border-btn:hover::before {
-  animation-duration: 0.8s;
-}
-
-.animated-border-btn::after {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  border-radius: inherit;
-  background: hsl(217, 91%, 60%);
-  z-index: -1;
-  transition: background 0.3s ease;
-}
-
-.animated-border-btn:hover::after {
-  background: hsl(217, 91%, 55%);
+.animated-border-btn:hover {
+  animation: border-rotate-fast 1.2s linear forwards;
+  background-image:
+    linear-gradient(hsl(217, 91%, 55%), hsl(217, 91%, 55%)),
+    conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8);
 }

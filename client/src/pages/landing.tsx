@@ -330,7 +330,7 @@ export default function Landing() {
             variant="wave-layered"
             position="bottom"
             fromColor="hsl(210, 40%, 94%)"
-            toColor="hsl(210, 40%, 94%)"
+            toColor="hsl(205, 70%, 82%)"
             height={70}
             noBgFill={false}
           />
@@ -444,7 +444,7 @@ export default function Landing() {
             variant="wave-layered"
             position="bottom"
             fromColor="hsl(210, 40%, 94%)"
-            toColor="hsl(210, 40%, 98%)"
+            toColor="hsl(205, 65%, 85%)"
             height={60}
           />
         </div>
@@ -490,7 +490,7 @@ export default function Landing() {
             variant="wave-layered"
             position="bottom"
             fromColor="hsl(210, 40%, 98%)"
-            toColor="hsl(210, 40%, 94%)"
+            toColor="hsl(205, 60%, 88%)"
             height={60}
           />
         </div>
@@ -521,7 +521,7 @@ export default function Landing() {
             variant="wave-layered"
             position="bottom"
             fromColor="hsl(210, 40%, 94%)"
-            toColor="hsl(210, 40%, 98%)"
+            toColor="hsl(205, 65%, 85%)"
             height={60}
           />
         </div>

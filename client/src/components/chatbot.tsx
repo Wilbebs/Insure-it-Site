@@ -461,6 +461,7 @@ export default function ChatBot() {
         setUploadedFiles([]);
         setCurrentGroupIndex(0);
         setGroupFormValues({});
+        setShowPolicySelection(true);
       }, 3000);
     } catch (error) {
       toast({ title: "Submission Failed", description: "Please try again or contact us directly.", variant: "destructive" });
@@ -707,7 +708,7 @@ export default function ChatBot() {
                 </div>
                 
                 {/* Progress Bar */}
-                {convState.policyType && convState.state === 'collectingCore' && (
+                {convState.policyType && convState.state !== 'submitted' && convState.state !== 'idle' && (
                   <div className="mt-2">
                     <div className="flex justify-between text-xs mb-1">
                       <span>{t.chatbot.applicationProgress}</span>

@@ -423,7 +423,7 @@ export default function Landing() {
         >
           <div className="max-w-3xl mx-auto text-center">
             {/* Section header */}
-            <div className="mb-40">
+            <div className="mb-6">
               <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
                 {t.contact.subtitle}
               </p>

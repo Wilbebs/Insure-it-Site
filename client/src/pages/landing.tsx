@@ -343,7 +343,7 @@ export default function Landing() {
       {/* Who We Are Section */}
       <section
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden"
-        style={{ marginTop: -70 }}
+        style={{ marginTop: -40 }}
       >
         <div
           className="absolute inset-0 pointer-events-none"
@@ -396,7 +396,7 @@ export default function Landing() {
 
         <div
           className="relative z-20"
-          style={{ marginTop: 10, marginBottom: -80 }}
+          style={{ marginTop: 10, marginBottom: -55 }}
         >
           <SectionDivider
             variant="wave-layered"

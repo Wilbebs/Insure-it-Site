@@ -391,11 +391,11 @@ export default function Landing() {
       {/* Contact Info + Testimonials Section - Merged */}
       <section
         className="pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
-        style={{ marginTop: 0, paddingTop: "0px" }}
+        style={{ marginTop: -60, paddingTop: "0px" }}
       >
         <div
           className="relative z-20"
-          style={{ marginTop: -35, marginBottom: 0 }}
+          style={{ marginTop: 0, marginBottom: 0 }}
         >
           <SectionDivider
             variant="wave-layered"

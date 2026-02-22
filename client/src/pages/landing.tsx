@@ -345,13 +345,6 @@ export default function Landing() {
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden"
         style={{ marginTop: -40 }}
       >
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at 10% 20%, rgba(56,189,248,0.06) 0%, transparent 50%), radial-gradient(ellipse at 90% 80%, rgba(99,102,241,0.05) 0%, transparent 50%)",
-          }}
-        />
 
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">

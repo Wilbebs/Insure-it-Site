@@ -342,9 +342,10 @@ export default function Landing() {
 
       {/* Who We Are Section */}
       <section
-        className="pt-10 pb-14 bg-white dark:bg-slate-800 relative overflow-hidden"
+        className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden"
         style={{ marginTop: -40 }}
       >
+
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 items-end">
@@ -386,7 +387,10 @@ export default function Landing() {
           </div>
         </div>
 
-        <div className="relative z-20" style={{ marginTop: 30 }}>
+        <div
+          className="relative z-20"
+          style={{ marginTop: 10, marginBottom: -55 }}
+        >
           <SectionDivider
             variant="wave-layered"
             position="bottom"
@@ -414,13 +418,10 @@ export default function Landing() {
           />
         ))}
 
-        <div
-          className="container mx-auto px-6 relative z-10"
-          style={{ marginTop: 0 }}
-        >
+        <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             {/* Section header */}
-            <div className="mb-6">
+            <div className="mb-10">
               <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
                 {t.contact.subtitle}
               </p>

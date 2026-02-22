@@ -386,17 +386,7 @@ export default function Landing() {
           </div>
         </div>
 
-      </section>
-
-      {/* Contact Info + Testimonials Section - Merged */}
-      <section
-        className="pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
-        style={{ marginTop: -60, paddingTop: "0px" }}
-      >
-        <div
-          className="relative z-20"
-          style={{ marginTop: 0, marginBottom: 0 }}
-        >
+        <div className="relative z-20" style={{ marginTop: 30 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"
@@ -407,6 +397,13 @@ export default function Landing() {
             height={60}
           />
         </div>
+      </section>
+
+      {/* Contact Info + Testimonials Section - Merged */}
+      <section
+        className="pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
+        style={{ marginTop: 0, paddingTop: "20px" }}
+      >
         {floatingShields.map((shield, index) => (
           <FloatingShield
             key={index}

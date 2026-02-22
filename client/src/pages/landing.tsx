@@ -508,9 +508,25 @@ export default function Landing() {
             </div>
           </div>
 
-          {/* Testimonials */}
+          {/* Testimonials - matching "More Than Insurance" layout */}
           <div className="mt-16">
-            <TestimonialsCarousel />
+            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-10">
+              <div className="grid md:grid-cols-[280px_1fr] gap-8 items-start">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
+                    {t.testimonials.subtitle}
+                  </p>
+                  <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4 select-none">
+                    {t.testimonials.title}
+                  </h2>
+                  <div className="w-16 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-4"></div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {t.testimonials.description}
+                  </p>
+                </div>
+                <TestimonialsCarousel />
+              </div>
+            </div>
           </div>
         </div>
       </section>

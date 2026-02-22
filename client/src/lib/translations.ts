@@ -46,6 +46,7 @@ const translations = {
     testimonials: {
       subtitle: "Client Experiences",
       title: "What Our Clients Say",
+      description: "Real stories from real Florida families who trust us with what matters most.",
       t1: "Switching to Insure-it Group was the best decision for our family. They found us better coverage at a lower price, and the personal service is unmatched. Highly recommend!",
       t1type: "Auto & Home Insurance",
       t2: "After my accident, Insure-it Group made the claims process so easy. They handled everything and kept me informed every step of the way. True professionals who actually care.",
@@ -373,6 +374,7 @@ const translations = {
     testimonials: {
       subtitle: "Experiencias de Clientes",
       title: "Lo Que Dicen Nuestros Clientes",
+      description: "Historias reales de familias de Florida que confían en nosotros con lo que más importa.",
       t1: "Cambiarnos a Insure-it Group fue la mejor decisión para nuestra familia. Nos encontraron mejor cobertura a un precio más bajo, y el servicio personalizado es inigualable. ¡Altamente recomendado!",
       t1type: "Seguro de Auto y Hogar",
       t2: "Después de mi accidente, Insure-it Group hizo que el proceso de reclamos fuera muy fácil. Se encargaron de todo y me mantuvieron informado en cada paso. Verdaderos profesionales que realmente se preocupan.",

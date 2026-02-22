@@ -342,7 +342,7 @@ export default function Landing() {
 
       {/* Who We Are Section */}
       <section
-        className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden"
+        className="pt-10 pb-14 bg-white dark:bg-slate-800 relative overflow-hidden"
         style={{ marginTop: -40 }}
       >
 

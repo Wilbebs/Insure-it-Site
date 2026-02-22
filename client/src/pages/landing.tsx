@@ -345,7 +345,6 @@ export default function Landing() {
         className="pt-10 pb-14 bg-white dark:bg-slate-800 relative overflow-hidden"
         style={{ marginTop: -40 }}
       >
-
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 items-end">
@@ -406,7 +405,7 @@ export default function Landing() {
       {/* Contact Info + Testimonials Section - Merged */}
       <section
         className="pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
-        style={{ marginTop: -1, paddingTop: "30px" }}
+        style={{ marginTop: 40, paddingTop: "30px" }}
       >
         {floatingShields.map((shield, index) => (
           <FloatingShield
@@ -418,10 +417,13 @@ export default function Landing() {
           />
         ))}
 
-        <div className="container mx-auto px-6 relative z-10" style={{ marginTop: 20 }}>
+        <div
+          className="container mx-auto px-6 relative z-10"
+          style={{ marginTop: 0 }}
+        >
           <div className="max-w-3xl mx-auto text-center">
             {/* Section header */}
-            <div className="mb-10">
+            <div className="mb-40">
               <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
                 {t.contact.subtitle}
               </p>

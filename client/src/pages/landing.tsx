@@ -418,7 +418,7 @@ export default function Landing() {
           />
         ))}
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto px-6 relative z-10" style={{ marginTop: 20 }}>
           <div className="max-w-3xl mx-auto text-center">
             {/* Section header */}
             <div className="mb-10">

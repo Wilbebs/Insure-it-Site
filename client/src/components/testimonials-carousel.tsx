@@ -1,163 +1,162 @@
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
+import useEmblaCarousel from 'embla-carousel-react';
 import { useCallback, useEffect, useState } from "react";
+import Autoplay from 'embla-carousel-autoplay';
 import { useTranslation } from "./theme-provider";
 
 export default function TestimonialsCarousel() {
   const { t } = useTranslation();
-
+  
   const testimonials = [
-    { name: "Maria Garcia", location: "Miami, FL", rating: 5, text: t.testimonials.t1, insurance: t.testimonials.t1type },
-    { name: "James Thompson", location: "Orlando, FL", rating: 5, text: t.testimonials.t2, insurance: t.testimonials.t2type },
-    { name: "Jennifer Lee", location: "Tampa, FL", rating: 5, text: t.testimonials.t3, insurance: t.testimonials.t3type },
-    { name: "Robert Martinez", location: "Jacksonville, FL", rating: 5, text: t.testimonials.t4, insurance: t.testimonials.t4type },
-    { name: "Sarah Williams", location: "Fort Lauderdale, FL", rating: 5, text: t.testimonials.t5, insurance: t.testimonials.t5type },
-    { name: "David Chen", location: "Tallahassee, FL", rating: 5, text: t.testimonials.t6, insurance: t.testimonials.t6type },
-    { name: "Angela Rivera", location: "Naples, FL", rating: 5, text: t.testimonials.t7, insurance: t.testimonials.t7type },
-    { name: "Michael Brooks", location: "Gainesville, FL", rating: 5, text: t.testimonials.t8, insurance: t.testimonials.t8type },
-    { name: "Patricia Nguyen", location: "Sarasota, FL", rating: 5, text: t.testimonials.t9, insurance: t.testimonials.t9type },
-    { name: "Carlos Mendez", location: "Kissimmee, FL", rating: 5, text: t.testimonials.t10, insurance: t.testimonials.t10type },
-    { name: "Lisa Patterson", location: "Boca Raton, FL", rating: 5, text: t.testimonials.t11, insurance: t.testimonials.t11type },
-    { name: "Thomas Wright", location: "St. Augustine, FL", rating: 5, text: t.testimonials.t12, insurance: t.testimonials.t12type },
+    {
+      name: "Maria Garcia",
+      location: "Miami, FL",
+      rating: 5,
+      text: t.testimonials.t1,
+      insurance: t.testimonials.t1type,
+    },
+    {
+      name: "James Thompson",
+      location: "Orlando, FL",
+      rating: 5,
+      text: t.testimonials.t2,
+      insurance: t.testimonials.t2type,
+    },
+    {
+      name: "Jennifer Lee",
+      location: "Tampa, FL",
+      rating: 5,
+      text: t.testimonials.t3,
+      insurance: t.testimonials.t3type,
+    },
+    {
+      name: "Robert Martinez",
+      location: "Jacksonville, FL",
+      rating: 5,
+      text: t.testimonials.t4,
+      insurance: t.testimonials.t4type,
+    },
+    {
+      name: "Sarah Williams",
+      location: "Fort Lauderdale, FL",
+      rating: 5,
+      text: t.testimonials.t5,
+      insurance: t.testimonials.t5type,
+    },
+    {
+      name: "David Chen",
+      location: "Tallahassee, FL",
+      rating: 5,
+      text: t.testimonials.t6,
+      insurance: t.testimonials.t6type,
+    }
   ];
-
-  const totalPages = 3;
-  const [currentPage, setCurrentPage] = useState(0);
-  const [direction, setDirection] = useState(1);
-
-  const getCurrentCards = useCallback(() => {
-    const start = currentPage * 4;
-    return testimonials.slice(start, start + 4);
-  }, [currentPage, testimonials]);
-
-  const goToPage = useCallback((page: number) => {
-    setDirection(page > currentPage ? 1 : -1);
-    setCurrentPage(page);
-  }, [currentPage]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: 'center' },
+    [Autoplay({ delay: 5000, stopOnInteraction: false })]
+  );
+  
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const scrollPrev = useCallback(() => {
-    setDirection(-1);
-    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
-  }, []);
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
 
   const scrollNext = useCallback(() => {
-    setDirection(1);
-    setCurrentPage((prev) => (prev + 1) % totalPages);
-  }, []);
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setDirection(1);
-      setCurrentPage((prev) => (prev + 1) % totalPages);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const slideVariants = {
-    enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0 }),
-  };
-
-  const getInitials = (name: string) => {
-    return name.split(" ").map(n => n[0]).join("");
-  };
-
-  const avatarColors = [
-    "from-sky-400 to-blue-500",
-    "from-blue-500 to-indigo-500",
-    "from-indigo-400 to-violet-500",
-    "from-violet-400 to-purple-500",
-  ];
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
+  }, [emblaApi, onSelect]);
 
   return (
-    <div className="relative">
-      <div className="overflow-hidden">
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
-            key={currentPage}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
-            {getCurrentCards().map((testimonial, index) => (
+    <div className="relative max-w-7xl mx-auto px-2">
+      {/* Carousel Container */}
+      <div className="overflow-hidden pb-4 px-4" ref={emblaRef}>
+        <div className="flex pb-6 -mx-4">
+          {testimonials.map((testimonial, index) => (
+            <div
+              key={index}
+              className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 px-4"
+            >
               <motion.div
-                key={`${currentPage}-${index}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
-                className="group relative bg-gradient-to-br from-slate-50 to-white rounded-xl p-5 border border-slate-100 hover:border-primary/20 hover:shadow-lg transition-all duration-300"
-                data-testid={`testimonial-card-${currentPage * 4 + index}`}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-card dark:bg-slate-800 rounded-3xl p-6 shadow-xl h-full"
+                data-testid={`testimonial-carousel-${index}`}
               >
-                <Quote className="absolute top-4 right-4 w-8 h-8 text-primary/8 group-hover:text-primary/15 transition-colors" />
-
-                <div className="flex items-center gap-3 mb-3">
-                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarColors[index % 4]} flex items-center justify-center text-white text-xs font-bold shadow-md`}>
-                    {getInitials(testimonial.name)}
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground text-sm">{testimonial.name}</h4>
-                    <p className="text-xs text-primary/70">{testimonial.location}</p>
-                  </div>
+                <div className="mb-4">
+                  <h3 className="font-bold text-foreground">{testimonial.name}</h3>
+                  <p className="text-xs text-muted-foreground">{testimonial.location}</p>
                 </div>
-
-                <div className="flex gap-0.5 mb-2">
+                
+                <div className="flex gap-1 mb-3">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
-
-                <p className="text-muted-foreground text-sm leading-relaxed mb-3 line-clamp-3">
+                
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                   "{testimonial.text}"
                 </p>
-
-                <div className="pt-2 border-t border-slate-100">
-                  <span className="text-xs font-semibold text-primary">{testimonial.insurance}</span>
+                
+                <div className="pt-3 border-t border-border">
+                  <p className="text-xs text-primary font-semibold">
+                    {testimonial.insurance}
+                  </p>
                 </div>
               </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      <div className="flex items-center justify-between mt-5">
-        <div className="flex gap-2">
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToPage(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                index === currentPage
-                  ? "w-8 bg-primary"
-                  : "w-2 bg-primary/30 hover:bg-primary/50"
-              }`}
-              aria-label={`${t.testimonials.goToLabel} ${index + 1}`}
-            />
+            </div>
           ))}
         </div>
+      </div>
 
-        <div className="flex gap-2">
+      {/* Navigation Buttons */}
+      <button
+        onClick={scrollPrev}
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
+        data-testid="carousel-prev"
+        aria-label={t.testimonials.prevLabel}
+      >
+        <ChevronLeft className="w-5 h-5 text-foreground" />
+      </button>
+      <button
+        onClick={scrollNext}
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
+        data-testid="carousel-next"
+        aria-label={t.testimonials.nextLabel}
+      >
+        <ChevronRight className="w-5 h-5 text-foreground" />
+      </button>
+
+      {/* Dot Indicators */}
+      <div className="flex justify-center gap-2 mt-6">
+        {testimonials.map((_, index) => (
           <button
-            onClick={scrollPrev}
-            className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all duration-200"
-            data-testid="carousel-prev"
-            aria-label={t.testimonials.prevLabel}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            onClick={scrollNext}
-            className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all duration-200"
-            data-testid="carousel-next"
-            aria-label={t.testimonials.nextLabel}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
+            key={index}
+            onClick={() => emblaApi?.scrollTo(index)}
+            className={`h-2 rounded-full transition-all ${
+              index === selectedIndex 
+                ? 'w-8 bg-primary' 
+                : 'w-2 bg-primary/50'
+            }`}
+            aria-label={`${t.testimonials.goToLabel} ${index + 1}`}
+          />
+        ))}
       </div>
     </div>
   );

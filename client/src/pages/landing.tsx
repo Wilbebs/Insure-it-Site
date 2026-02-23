@@ -20,6 +20,7 @@ import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef } from "react";
 import jacksonvilleSkyline from "@assets/stock_images/jacksonville_florida_13db0295.jpg";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
+import floodImg from "@assets/flood_insurance.jpg";
 import SectionDivider from "@/components/section-divider";
 
 const floatingShields = [
@@ -215,8 +216,7 @@ export default function Landing() {
       icon: <House className="w-10 h-10" />,
       title: t.insurance.floodTitle,
       description: t.insurance.floodDesc,
-      image:
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      image: floodImg,
       color: "blue",
     },
     {

@@ -41,10 +41,10 @@ export default function PartnersCarousel() {
   }, []);
 
   return (
-    <section className="py-12 bg-background dark:bg-slate-900 border-t border-border select-none">
+    <section className="py-5 bg-background dark:bg-slate-900 border-t border-border select-none">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-8">
-          <p className="text-sm uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Trusted By The Best</p>
+        <div className="text-center mb-4">
+          <p className="text-sm uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">Trusted By The Best</p>
           <h3 className="text-xl font-semibold text-primary">
             Our Carrier Partners
           </h3>

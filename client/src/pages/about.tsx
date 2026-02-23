@@ -59,7 +59,7 @@ function SocialButton({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group"
+      className="group text-center"
       data-testid={testId}
     >
       <div
@@ -67,10 +67,9 @@ function SocialButton({
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`relative overflow-hidden ${colorClass} p-6 rounded-2xl hover-lift transition-all duration-300 ${hoverColorClass}`}
+        className={`relative overflow-hidden ${colorClass} p-6 rounded-2xl hover-lift transition-all duration-300 ${hoverColorClass} flex items-center justify-center`}
       >
         {icon}
-        {/* Mouse-following shimmer */}
         <div
           className={`absolute inset-0 rounded-2xl transition-opacity duration-300 pointer-events-none ${isHovered ? "opacity-100" : "opacity-0"}`}
           style={dynamicGradientStyle}
@@ -273,7 +272,7 @@ export default function About() {
       </section>
 
       <section
-        className="pb-4 sm:pb-8 bg-muted dark:bg-slate-900"
+        className="pb-1 sm:pb-2 bg-muted dark:bg-slate-900"
         style={{ marginTop: -1, paddingTop: "0px" }}
       >
         <div className="container mx-auto px-4 sm:px-6">
@@ -387,7 +386,7 @@ export default function About() {
               </div>
             </div>
 
-            <p className="text-lg text-muted-foreground mt-10 mb-8 max-w-2xl mx-auto text-center relative z-10">
+            <p className="text-lg text-muted-foreground mt-6 mb-6 max-w-2xl mx-auto text-center relative z-10">
               {t.about.connectDesc}
             </p>
             <div className="flex justify-center gap-6 sm:gap-8 relative z-10">

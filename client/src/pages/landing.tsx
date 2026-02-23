@@ -402,7 +402,7 @@ export default function Landing() {
 
       {/* Contact Info + Testimonials Section - Merged */}
       <section
-        className="pb-20 bg-muted dark:bg-slate-800 relative overflow-hidden"
+        className="pb-14 bg-muted dark:bg-slate-800 relative overflow-hidden"
         style={{ marginTop: -1, paddingTop: "20px" }}
       >
         {floatingShields.map((shield, index) => (

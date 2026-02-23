@@ -22,7 +22,7 @@ export default function PartnersCarousel() {
 
     let animationId: number;
     let scrollPos = 0;
-    const speed = 0.5;
+    const speed = 0.165;
 
     const scroll = () => {
       scrollPos += speed;

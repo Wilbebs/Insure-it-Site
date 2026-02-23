@@ -273,12 +273,12 @@ export default function About() {
       </section>
 
       <section
-        className="pb-12 sm:pb-20 bg-muted dark:bg-slate-900"
+        className="pb-4 sm:pb-8 bg-muted dark:bg-slate-900"
         style={{ marginTop: -1, paddingTop: "0px" }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           {/* Connect With Us Section - Team + Social */}
-          <div className="mb-12 sm:mb-20 relative overflow-hidden">
+          <div className="mb-6 sm:mb-10 relative overflow-hidden">
             {floatingShields.map((shield, index) => (
               <FloatingShield
                 key={index}

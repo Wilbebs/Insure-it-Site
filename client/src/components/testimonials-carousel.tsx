@@ -84,38 +84,38 @@ export default function TestimonialsCarousel() {
   return (
     <div className="relative max-w-7xl mx-auto px-2">
       {/* Carousel Container */}
-      <div className="overflow-hidden py-4 px-4" ref={emblaRef}>
-        <div className="flex -mx-4">
+      <div className="overflow-hidden py-3 px-3" ref={emblaRef}>
+        <div className="flex -mx-2">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0 px-4"
+              className="flex-[0_0_50%] md:flex-[0_0_25%] lg:flex-[0_0_20%] min-w-0 px-2"
             >
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-card dark:bg-slate-800 rounded-3xl p-6 shadow-lg h-full"
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="bg-card dark:bg-slate-800 rounded-xl p-3 shadow-md h-full"
                 data-testid={`testimonial-carousel-${index}`}
               >
-                <div className="mb-4">
-                  <h3 className="font-bold text-foreground">{testimonial.name}</h3>
-                  <p className="text-xs text-muted-foreground">{testimonial.location}</p>
+                <div className="mb-2">
+                  <h3 className="font-bold text-foreground text-xs">{testimonial.name}</h3>
+                  <p className="text-[10px] text-muted-foreground">{testimonial.location}</p>
                 </div>
                 
-                <div className="flex gap-1 mb-3">
+                <div className="flex gap-0.5 mb-2">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
                 
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                <p className="text-muted-foreground text-[11px] leading-relaxed mb-2 line-clamp-4">
                   "{testimonial.text}"
                 </p>
                 
-                <div className="pt-3 border-t border-border">
-                  <p className="text-xs text-primary font-semibold">
+                <div className="pt-2 border-t border-border">
+                  <p className="text-[10px] text-primary font-semibold">
                     {testimonial.insurance}
                   </p>
                 </div>
@@ -132,7 +132,7 @@ export default function TestimonialsCarousel() {
         data-testid="carousel-prev"
         aria-label={t.testimonials.prevLabel}
       >
-        <ChevronLeft className="w-5 h-5 text-foreground" />
+        <ChevronLeft className="w-4 h-4 text-foreground" />
       </button>
       <button
         onClick={scrollNext}
@@ -140,11 +140,11 @@ export default function TestimonialsCarousel() {
         data-testid="carousel-next"
         aria-label={t.testimonials.nextLabel}
       >
-        <ChevronRight className="w-5 h-5 text-foreground" />
+        <ChevronRight className="w-4 h-4 text-foreground" />
       </button>
 
       {/* Dot Indicators */}
-      <div className="flex justify-center gap-2 mt-6">
+      <div className="flex justify-center gap-1.5 mt-4">
         {testimonials.map((_, index) => (
           <button
             key={index}

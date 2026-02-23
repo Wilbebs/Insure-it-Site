@@ -250,7 +250,7 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background select-none">
       <Navigation />
 
       {/* Hero Section */}
@@ -450,7 +450,7 @@ export default function Landing() {
                 </div>
                 <a
                   href="tel:+13059185339"
-                  className="text-foreground hover:text-primary transition-colors font-medium"
+                  className="text-foreground hover:text-primary transition-colors font-medium select-text"
                   data-testid="link-phone"
                 >
                   (305) 918-5339
@@ -466,7 +466,7 @@ export default function Landing() {
                 </div>
                 <a
                   href="mailto:info@insure-itgroup.com"
-                  className="text-foreground hover:text-primary transition-colors font-medium text-sm"
+                  className="text-foreground hover:text-primary transition-colors font-medium text-sm select-text"
                   data-testid="link-email"
                 >
                   info@insure-itgroup.com
@@ -481,7 +481,7 @@ export default function Landing() {
                   <MapPin className="w-6 h-6 text-primary" />
                 </div>
                 <span
-                  className="text-foreground font-medium"
+                  className="text-foreground font-medium select-text"
                   data-testid="text-location"
                 >
                   {t.contact.location}

@@ -506,7 +506,7 @@ export default function Landing() {
           </div>
 
           {/* Testimonials */}
-          <div className="mt-16">
+          <div className="mt-5">
             <TestimonialsCarousel />
           </div>
         </div>

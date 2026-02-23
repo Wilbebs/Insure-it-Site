@@ -10,6 +10,7 @@ import wilbertPhoto from "@assets/image_1764878413663.png";
 import elizabethPhoto from "@assets/image_1764878433544.png";
 import davidPhoto from "@assets/image_1765442735571.png";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
+import familyRiverImg from "@assets/stock_images/family_river_stjohns.jpg";
 
 const floatingShields = [
   { top: "5%", left: "5%", size: 55, delay: 0, duration: 4 },
@@ -217,7 +218,7 @@ export default function About() {
           className="absolute inset-0 z-0"
           style={{
             backgroundImage:
-              "url(https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1920&q=80)",
+              `url(${familyRiverImg})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundAttachment: "fixed",

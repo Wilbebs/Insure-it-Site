@@ -23,13 +23,10 @@ import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
 import SectionDivider from "@/components/section-divider";
 
 const floatingShields = [
-  { top: "8%", left: "5%", size: 60, delay: 0, duration: 4 },
-  { top: "15%", right: "8%", size: 45, delay: 0.5, duration: 3.5 },
-  { top: "45%", left: "3%", size: 55, delay: 1, duration: 4.5 },
-  { top: "70%", right: "4%", size: 50, delay: 1.5, duration: 3.8 },
-  { top: "85%", left: "10%", size: 40, delay: 0.8, duration: 4.2 },
-  { top: "25%", right: "3%", size: 35, delay: 2, duration: 3.6 },
-  { top: "60%", left: "8%", size: 48, delay: 0.3, duration: 4.1 },
+  { top: "5%", left: "3%", size: 50, delay: 0, duration: 4 },
+  { top: "12%", left: "8%", size: 35, delay: 0.5, duration: 3.5 },
+  { top: "5%", right: "4%", size: 45, delay: 1, duration: 4.5 },
+  { top: "14%", right: "9%", size: 30, delay: 1.5, duration: 3.8 },
 ];
 
 function FloatingShield({

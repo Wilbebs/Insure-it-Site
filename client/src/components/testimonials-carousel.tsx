@@ -53,7 +53,7 @@ export default function TestimonialsCarousel() {
     }
   ];
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true, align: 'center' },
+    { loop: true, align: 'start', containScroll: false },
     [Autoplay({ delay: 5000, stopOnInteraction: false })]
   );
   
@@ -84,8 +84,8 @@ export default function TestimonialsCarousel() {
   return (
     <div className="relative max-w-7xl mx-auto px-2">
       {/* Carousel Container */}
-      <div className="overflow-hidden pb-4 px-4" ref={emblaRef}>
-        <div className="flex pb-6 -mx-4">
+      <div className="overflow-hidden py-4 px-4" ref={emblaRef}>
+        <div className="flex -mx-4">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
@@ -96,7 +96,7 @@ export default function TestimonialsCarousel() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-card dark:bg-slate-800 rounded-3xl p-6 shadow-xl h-full"
+                className="bg-card dark:bg-slate-800 rounded-3xl p-6 shadow-lg h-full"
                 data-testid={`testimonial-carousel-${index}`}
               >
                 <div className="mb-4">

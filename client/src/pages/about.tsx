@@ -10,7 +10,7 @@ import wilbertPhoto from "@assets/image_1764878413663.png";
 import elizabethPhoto from "@assets/image_1764878433544.png";
 import davidPhoto from "@assets/image_1765442735571.png";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
-import familyRiverImg from "@assets/family_river_stjohns.jpg";
+import familyRiverImg from "@assets/stjohns_river_view.jpg";
 
 const floatingShields = [
   { top: "5%", left: "5%", size: 55, delay: 0, duration: 4 },

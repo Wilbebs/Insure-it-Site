@@ -180,12 +180,12 @@ function InsuranceCard({
       {/* Content */}
       <div className="absolute inset-x-0 bottom-0 p-4 transition-transform duration-300 group-hover:-translate-y-2 z-10">
         <div
-          className={`text-white mb-1 transition-all duration-300 group-hover:scale-110 ${iconAnimation}`}
+          className={`text-white mb-1 transition-all duration-300 max-h-10 overflow-hidden group-hover:max-h-0 group-hover:opacity-0 group-hover:mb-0 ${iconAnimation}`}
         >
           {type.icon}
         </div>
         <h3 className="text-lg font-bold text-white mb-1">{type.title}</h3>
-        <p className="text-slate-200 text-sm leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-24 group-hover:opacity-100">
+        <p className="text-slate-200 text-xs leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-32 group-hover:opacity-100">
           {type.description}
         </p>
       </div>

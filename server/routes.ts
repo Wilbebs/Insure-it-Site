@@ -5,6 +5,7 @@ import { storage } from "./pgStorage"; // CHANGED: Use PostgreSQL storage
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { PutObjectCommand } from '@aws-sdk/client-s3'; // NEW: AWS S3 SDK
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'; // Presigned URL generator
 import { s3Client, S3_BUCKET } from './s3Client'; // NEW: S3 client
 import { pool } from './db';
 
@@ -31,7 +32,7 @@ const upload = multer({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  
+
   // Contact form submission endpoint
   app.post("/api/contact", upload.array('documents', 5), async (req, res) => {
     try {
@@ -40,10 +41,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('Content-Type:', req.get('Content-Type'));
       console.log('Request body:', req.body);
       console.log('============================\n');
-      
+
       const files = req.files as Express.Multer.File[];
       const documentUrls: string[] = [];
-      
+
       // CHANGED: Upload files to AWS S3
       if (files && files.length > 0) {
         for (const file of files) {
@@ -52,7 +53,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             const fileExtension = file.originalname.split('.').pop();
             const uniqueFileName = `${uuidv4()}.${fileExtension}`;
             const s3Key = `contact-documents/${uniqueFileName}`;
-            
+
             // Upload to S3
             await s3Client.send(new PutObjectCommand({
               Bucket: S3_BUCKET,
@@ -60,7 +61,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
               Body: file.buffer,
               ContentType: file.mimetype,
             }));
-            
+
             documentUrls.push(s3Key);
             console.log(`✅ Uploaded file to S3: ${s3Key}`);
           } catch (uploadError) {
@@ -79,7 +80,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         coverageLevel: z.string().optional(),
         additionalInformation: z.string().optional()
       });
-      
+
       // Validate form data
       const validatedData = contactSchema.parse({
         fullName: req.body.fullName,
@@ -89,11 +90,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         coverageLevel: req.body.coverageLevel,
         additionalInformation: req.body.additionalInformation
       });
-      
+
       console.log('✅ Contact form submission received and validated:');
       console.log('Contact Data:', validatedData);
       console.log('Files uploaded:', documentUrls.length, 'documents');
-      
+
       // Create submission in storage (now PostgreSQL)
       const submission = await storage.createContactSubmission({
         name: validatedData.fullName,
@@ -104,24 +105,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: validatedData.additionalInformation || null,
         documents: documentUrls.length > 0 ? documentUrls.join(',') : null,
       });
-      
-      res.json({ 
-        success: true, 
+
+      res.json({
+        success: true,
         message: "Contact form submitted successfully!",
         submissionId: submission.id
       });
     } catch (error) {
       console.error('Contact form submission error:', error);
       if (error instanceof z.ZodError) {
-        res.status(400).json({ 
-          success: false, 
-          message: "Validation error", 
-          errors: error.errors 
+        res.status(400).json({
+          success: false,
+          message: "Validation error",
+          errors: error.errors
         });
       } else {
-        res.status(500).json({ 
-          success: false, 
-          message: "Failed to submit contact form" 
+        res.status(500).json({
+          success: false,
+          message: "Failed to submit contact form"
         });
       }
     }
@@ -134,35 +135,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(submissions);
     } catch (error) {
       console.error('Error fetching contact submissions:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: "Failed to retrieve contact submissions" 
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve contact submissions"
       });
     }
   });
 
   app.get("/api/feature-requests", async (req, res) => {
-  try {
-    const result = await pool.query(
-      'SELECT * FROM feature_requests ORDER BY created_at DESC'
-    );
-    res.json({ success: true, data: result.rows });
-  } catch (error) {
-    console.error('Error fetching feature requests:', error);
-    res.status(500).json({ success: false, message: 'Failed to fetch requests' });
-  }
-});
+    try {
+      const result = await pool.query(
+        'SELECT * FROM feature_requests ORDER BY created_at DESC'
+      );
+      res.json({ success: true, data: result.rows });
+    } catch (error) {
+      console.error('Error fetching feature requests:', error);
+      res.status(500).json({ success: false, message: 'Failed to fetch requests' });
+    }
+  });
 
   // POST new feature request for plans page
   app.post("/api/feature-requests", async (req, res) => {
     try {
       const { title, description, priority } = req.body;
-      
+
       const result = await pool.query(
         'INSERT INTO feature_requests (title, description, priority) VALUES ($1, $2, $3) RETURNING *',
         [title, description, priority || 'medium']
       );
-      
+
       res.json({ success: true, data: result.rows[0] });
     } catch (error) {
       console.error('Error creating feature request:', error);
@@ -177,9 +178,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(images);
     } catch (error) {
       console.error('Error fetching carousel images:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: "Failed to retrieve carousel images" 
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve carousel images"
       });
     }
   });
@@ -189,7 +190,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const insuranceType = req.params.type;
       const validTypes = ['auto', 'home', 'life', 'health', 'commercial'];
-      
+
       if (!validTypes.includes(insuranceType)) {
         return res.status(400).json({ error: 'Invalid insurance type' });
       }
@@ -200,7 +201,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       await storage.updateCarouselImage(insuranceType, imageUrl);
-      
+
       res.json({
         success: true,
         url: imageUrl,
@@ -208,9 +209,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error('Carousel image update error:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: "Failed to update carousel image" 
+      res.status(500).json({
+        success: false,
+        message: "Failed to update carousel image"
       });
     }
   });
@@ -222,9 +223,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(suggestions);
     } catch (error) {
       console.error('Error getting suggestions:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Failed to retrieve suggestions' 
+      res.status(500).json({
+        success: false,
+        message: 'Failed to retrieve suggestions'
       });
     }
   });
@@ -243,23 +244,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         description: validatedData.description
       });
 
-      res.json({ 
-        success: true, 
+      res.json({
+        success: true,
         id: suggestion.id,
-        message: 'Suggestion added successfully' 
+        message: 'Suggestion added successfully'
       });
     } catch (error) {
       console.error('Error adding suggestion:', error);
       if (error instanceof z.ZodError) {
-        res.status(400).json({ 
-          success: false, 
+        res.status(400).json({
+          success: false,
           message: 'Validation error',
-          errors: error.errors 
+          errors: error.errors
         });
       } else {
-        res.status(500).json({ 
-          success: false, 
-          message: 'Failed to add suggestion' 
+        res.status(500).json({
+          success: false,
+          message: 'Failed to add suggestion'
         });
       }
     }
@@ -270,21 +271,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { id } = req.params;
       await storage.deleteStrategicSuggestion(id);
 
-      res.json({ 
-        success: true, 
-        message: 'Suggestion deleted successfully' 
+      res.json({
+        success: true,
+        message: 'Suggestion deleted successfully'
       });
     } catch (error) {
       console.error('Error deleting suggestion:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Failed to delete suggestion' 
+      res.status(500).json({
+        success: false,
+        message: 'Failed to delete suggestion'
       });
     }
   });
 
   // Policy Application endpoints
-  
+
   // Submit policy application from chatbot
   app.post("/api/policy-applications", async (req, res) => {
     try {
@@ -367,19 +368,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { GetObjectCommand } = await import('@aws-sdk/client-s3');
       const s3Key = req.params.s3Key;
-      
+
       const command = new GetObjectCommand({
         Bucket: S3_BUCKET,
         Key: s3Key,
       });
-      
+
       const response = await s3Client.send(command);
-      
+
       res.set({
         'Content-Type': response.ContentType || 'application/octet-stream',
         'Content-Length': response.ContentLength,
       });
-      
+
       // @ts-ignore - Stream the file
       response.Body.pipe(res);
     } catch (error) {
@@ -391,7 +392,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Placeholder images endpoint for insurance pages
   app.get("/api/images/:imageName", (req, res) => {
     const { imageName } = req.params;
-    
+
     // Map image names to stock images from Unsplash
     const imageMap: Record<string, string> = {
       'auto-consultation': 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80',
@@ -400,9 +401,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       'health-consultation': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80',
       'commercial-building': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80'
     };
-    
+
     const imageUrl = imageMap[imageName];
-    
+
     if (imageUrl) {
       // Redirect to the stock image
       res.redirect(imageUrl);
@@ -418,6 +419,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
       `;
       res.setHeader('Content-Type', 'image/svg+xml');
       res.send(svg);
+    }
+  });
+
+  // Presigned S3 upload URL — used by Liz Bot file uploader for direct browser-to-S3 uploads
+  // Both the chatbot and the quote form can use this if they need file uploads
+  app.post("/api/objects/upload", async (req, res) => {
+    try {
+      const { fileName, contentType } = req.body;
+
+      if (!fileName) {
+        return res.status(400).json({ success: false, message: "fileName is required" });
+      }
+
+      const allowedTypes = [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'image/jpeg',
+        'image/jpg',
+        'image/png'
+      ];
+
+      const safeContentType = contentType && allowedTypes.includes(contentType)
+        ? contentType
+        : 'application/octet-stream';
+
+      const ext = fileName.split('.').pop() || 'bin';
+      const s3Key = `contact-documents/${uuidv4()}.${ext}`;
+
+      const command = new PutObjectCommand({
+        Bucket: S3_BUCKET,
+        Key: s3Key,
+        ContentType: safeContentType,
+      });
+
+      // URL is valid for 5 minutes
+      const uploadURL = await getSignedUrl(s3Client, command, { expiresIn: 300 });
+
+      console.log(`✅ Generated presigned upload URL for: ${s3Key}`);
+
+      res.json({ success: true, uploadURL, s3Key });
+    } catch (error) {
+      console.error("Error generating presigned URL:", error);
+      res.status(500).json({ success: false, message: "Failed to generate upload URL" });
     }
   });
 

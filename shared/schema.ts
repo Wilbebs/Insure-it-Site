@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -9,15 +9,33 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
 });
 
+// Normalized contact record — one row per unique email address
+export const contacts = pgTable("contacts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull().unique(),
+  fullName: text("full_name"),
+  phone: text("phone"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// S3 document references linked to a contact_submission
+export const documents = pgTable("documents", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  submissionId: varchar("submission_id").notNull(),
+  fileName: text("file_name"),
+  s3Bucket: text("s3_bucket"),
+  s3Key: text("s3_key"),
+  fileType: text("file_type"),
+  uploadedAt: timestamp("uploaded_at").defaultNow(),
+});
+
+// contact_submissions — one row per form/bot submission, linked to contacts by contact_id
 export const contactSubmissions = pgTable("contact_submissions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  name: text("name").notNull(),
-  phone: text("phone").notNull(),
-  email: text("email").notNull(),
-  insuranceType: text("insurance_type").notNull(),
+  contactId: varchar("contact_id").notNull(),   // FK → contacts.id
+  policyType: text("policy_type").notNull(),
   coverageLevel: text("coverage_level"),
   message: text("message"),
-  documents: text("documents"),
   submittedAt: timestamp("submitted_at").defaultNow(),
 });
 

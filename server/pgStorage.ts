@@ -1,9 +1,33 @@
 import { pool } from './db';
 import { randomUUID } from 'crypto';
-import type { User, InsertUser, ContactSubmission, InsertContactSubmission } from "@shared/schema";
+import type { User, InsertUser } from "@shared/schema";
 import { InsurancePageImages, StrategicSuggestion } from "@shared/types";
 
-// Define PolicyApplication interface here (was in storage.ts)
+// ── Contact submission types (independent of Drizzle schema) ────────────────
+// These reflect the normalized DB layout: contacts + contact_submissions + documents
+export interface ContactSubmissionInput {
+  name: string;
+  email: string;
+  phone: string;
+  insuranceType: string;
+  coverageLevel?: string | null;
+  message?: string | null;
+  documents?: string | null; // comma-separated S3 keys
+}
+
+export interface ContactSubmissionResult {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  insuranceType: string;
+  coverageLevel: string | null;
+  message: string | null;
+  documents: string | null;
+  submittedAt: Date;
+}
+
+// ── Policy application types ─────────────────────────────────────────────────
 export interface PolicyApplication {
   id: string;
   applicantName: string;
@@ -12,33 +36,34 @@ export interface PolicyApplication {
   policyType: string;
   preferredContactMethod: string;
   coreDetails: string;
-  autoDetails?: string;
-  homeDetails?: string;
-  lifeDetails?: string;
+  autoDetails?: string | null;
+  homeDetails?: string | null;
+  lifeDetails?: string | null;
+  commercialDetails?: string | null;
   documents: string[];
-  notes?: string;
+  notes?: string | null;
   submittedAt: Date;
 }
 
-// Define IStorage interface here (was in storage.ts)
+// ── IStorage interface ───────────────────────────────────────────────────────
 export interface IStorage {
   // User management
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  
-  // Contact submissions
-  createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission>;
-  getContactSubmissions(): Promise<ContactSubmission[]>;
-  
-  // Policy applications
+
+  // Contact submissions (both quote modal and Liz Bot funnel here)
+  createContactSubmission(submission: ContactSubmissionInput): Promise<ContactSubmissionResult>;
+  getContactSubmissions(): Promise<ContactSubmissionResult[]>;
+
+  // Policy applications (detailed chatbot flow, for future use)
   createPolicyApplication(application: Omit<PolicyApplication, 'id' | 'submittedAt'>): Promise<PolicyApplication>;
   getPolicyApplications(): Promise<PolicyApplication[]>;
-  
+
   // Carousel images
   getCarouselImages(): Promise<InsurancePageImages>;
   updateCarouselImage(insuranceType: string, imageUrl: string): Promise<void>;
-  
+
   // Strategic suggestions
   createStrategicSuggestion(suggestion: Omit<StrategicSuggestion, 'id' | 'createdAt'>): Promise<StrategicSuggestion>;
   getStrategicSuggestions(): Promise<StrategicSuggestion[]>;
@@ -67,7 +92,7 @@ export class PostgresStorage implements IStorage {
   }
 
   // Contact submissions
-  async createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission> {
+  async createContactSubmission(submission: ContactSubmissionInput): Promise<ContactSubmissionResult> {
     const client = await pool.connect();
     try {
       await client.query('BEGIN');
@@ -113,7 +138,7 @@ export class PostgresStorage implements IStorage {
             [
               newSubmission.id,
               docPath.split('/').pop(),
-              process.env.AWS_S3_BUCKET,
+              process.env.S3_BUCKET_NAME || process.env.AWS_S3_BUCKET_NAME || 'insure-it',
               docPath,
               'application/octet-stream'
             ]
@@ -142,7 +167,7 @@ export class PostgresStorage implements IStorage {
     }
   }
 
-  async getContactSubmissions(): Promise<ContactSubmission[]> {
+  async getContactSubmissions(): Promise<ContactSubmissionResult[]> {
     const result = await pool.query(`
       SELECT 
         cs.id,
@@ -179,12 +204,12 @@ export class PostgresStorage implements IStorage {
         application.policyType,
         application.preferredContactMethod,
         application.coreDetails,
-        application.autoDetails,
-        application.homeDetails,
-        application.lifeDetails,
-        
+        application.autoDetails || null,
+        application.homeDetails || null,
+        application.lifeDetails || null,
+        application.commercialDetails || null,
         JSON.stringify(application.documents),
-        application.notes
+        application.notes || null
       ]
     );
     return {
@@ -249,7 +274,7 @@ export class PostgresStorage implements IStorage {
 
 class MemoryStorage implements IStorage {
   private users: Map<string, User> = new Map();
-  private contactSubmissions: Map<string, ContactSubmission> = new Map();
+  private contactSubmissions: Map<string, ContactSubmissionResult> = new Map();
   private policyApplications: Map<string, PolicyApplication> = new Map();
   private strategicSuggestions: Map<string, StrategicSuggestion> = new Map();
   private carouselImages: InsurancePageImages = {
@@ -273,9 +298,9 @@ class MemoryStorage implements IStorage {
     this.users.set(id, newUser);
     return newUser;
   }
-  async createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission> {
+  async createContactSubmission(submission: ContactSubmissionInput): Promise<ContactSubmissionResult> {
     const id = randomUUID();
-    const newSubmission: ContactSubmission = {
+    const newSubmission: ContactSubmissionResult = {
       id,
       name: submission.name,
       phone: submission.phone,
@@ -290,7 +315,7 @@ class MemoryStorage implements IStorage {
     console.log(`[MemStorage] Contact submission saved: ${id}`);
     return newSubmission;
   }
-  async getContactSubmissions(): Promise<ContactSubmission[]> {
+  async getContactSubmissions(): Promise<ContactSubmissionResult[]> {
     return Array.from(this.contactSubmissions.values());
   }
   async createPolicyApplication(application: Omit<PolicyApplication, 'id' | 'submittedAt'>): Promise<PolicyApplication> {
@@ -323,4 +348,4 @@ class MemoryStorage implements IStorage {
     this.strategicSuggestions.delete(id);
   }
 }
-export const storage: IStorage = new MemoryStorage();
+export const storage: IStorage = new PostgresStorage();

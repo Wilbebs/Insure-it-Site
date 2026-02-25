@@ -36,8 +36,9 @@ export default function PlansPage() {
     queryKey: ["/api/feature-requests"],
     queryFn: async () => {
       const response = await apiRequest("GET", "/api/feature-requests");
-      if (response.success && response.data) {
-        return response.data as FeatureRequest[];
+      const json = await response.json();
+      if (json.success && json.data) {
+        return json.data as FeatureRequest[];
       }
       return [];
     },
@@ -104,7 +105,7 @@ export default function PlansPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-12">
@@ -136,7 +137,7 @@ export default function PlansPage() {
                 <MessageSquarePlus className="w-6 h-6 text-primary" />
                 <h2 className="text-2xl font-bold">Submit a Feature Request</h2>
               </div>
-              
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">Feature Title</label>

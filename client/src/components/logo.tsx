@@ -51,18 +51,21 @@ export default function Logo({
           )}
         </div>
 
-        {/* Desktop: video as normal block element — no absolute, no scale, no overflow guessing */}
+        {/* Desktop: video cropped to remove transparent padding in video file */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <video
-            autoPlay
-            muted
-            playsInline
-            className="w-full max-w-[700px] lg:max-w-[860px] h-auto pointer-events-none mx-auto block"
-          >
-            <source src={shieldVideo} type="video/webm" />
-          </video>
+          <div className="w-full overflow-hidden">
+            <video
+              autoPlay
+              muted
+              playsInline
+              className="w-full max-w-[880px] lg:max-w-[1000px] h-auto pointer-events-none mx-auto block"
+              style={{ marginTop: '-28px', marginBottom: '-38px' }}
+            >
+              <source src={shieldVideo} type="video/webm" />
+            </video>
+          </div>
           {showTagline && (
-            <p className="mt-1 text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
+            <p className="mt-2 text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
               {taglineText}
             </p>
           )}

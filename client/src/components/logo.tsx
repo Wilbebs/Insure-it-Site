@@ -41,7 +41,7 @@ export default function Logo({
           <img
             src={logoImage}
             alt="Insure-it Group Corp"
-            className="h-24 sm:h-28 w-auto object-contain"
+            className="h-28 sm:h-32 w-auto object-contain"
             draggable={false}
           />
           {showTagline && (
@@ -57,7 +57,7 @@ export default function Logo({
             autoPlay
             muted
             playsInline
-            className="w-[480px] lg:w-[580px] h-auto pointer-events-none mx-auto block"
+            className="w-full max-w-[700px] lg:max-w-[860px] h-auto pointer-events-none mx-auto block"
           >
             <source src={shieldVideo} type="video/webm" />
           </video>

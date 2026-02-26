@@ -36,7 +36,7 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: static PNG */}
+        {/* Mobile: static PNG only — tagline is rendered in landing.tsx below the logo */}
         <div className="md:hidden flex flex-col items-center">
           <img
             src={logoImage}
@@ -44,11 +44,6 @@ export default function Logo({
             className="h-28 sm:h-32 w-auto object-contain"
             draggable={false}
           />
-          {showTagline && (
-            <p className="mt-3 text-base sm:text-lg font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none text-center">
-              {taglineText}
-            </p>
-          )}
         </div>
 
         {/* Desktop: absolute + scale crops all 4 sides of transparent video padding */}

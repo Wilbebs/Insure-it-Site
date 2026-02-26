@@ -60,7 +60,7 @@ export default function Logo({
               playsInline
               className="absolute left-1/2 w-[990px] lg:w-[1170px] h-auto pointer-events-none z-10"
               style={{
-                top: "-72px",
+                top: "-67px",
                 transform: "translateX(-50%) scale(1.35)",
                 transformOrigin: "center center",
               }}

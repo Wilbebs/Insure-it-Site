@@ -267,7 +267,7 @@ export default function Landing() {
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">
-          <div className="w-full max-w-4xl text-center">
+          <div className="w-full max-w-[856px] text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={
@@ -276,7 +276,7 @@ export default function Landing() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {/* Glass Window Container - Everything inside */}
-              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl pt-4 pb-6 px-4 sm:px-8 md:pb-10 md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[395px] sm:h-[405px] md:h-auto overflow-hidden">
+              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl pt-4 pb-6 px-4 sm:px-8 md:pb-[65px] md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[395px] sm:h-[405px] md:h-auto overflow-hidden">
                 {/* Subtle gradient glow effect */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 

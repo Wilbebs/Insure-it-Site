@@ -180,7 +180,7 @@ function InsuranceCard({
         <div
           className={`text-white mb-1 transition-all duration-300 max-h-10 overflow-hidden group-hover:max-h-0 group-hover:opacity-0 group-hover:mb-0 ${iconAnimation}`}
         >
-          {type.icon}
+          {type.icon}39
         </div>
         <h3 className="text-lg font-bold text-white mb-1">{type.title}</h3>
         <p className="text-slate-200 text-xs leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-32 group-hover:opacity-100">
@@ -276,7 +276,7 @@ export default function Landing() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {/* Glass Window Container - Everything inside */}
-              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl pt-4 pb-6 px-4 sm:px-8 md:pb-10 md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[390px] sm:h-[400px] md:h-[490px] overflow-hidden">
+              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl pt-4 pb-6 px-4 sm:px-8 md:pb-10 md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[390px] sm:h-[400px] md:h-[535px] overflow-hidden">
                 {/* Subtle gradient glow effect */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
@@ -342,7 +342,6 @@ export default function Landing() {
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden"
         style={{ marginTop: -40 }}
       >
-
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 items-end">
@@ -409,7 +408,11 @@ export default function Landing() {
           {floatingShields.map((shield, index) => (
             <FloatingShield
               key={index}
-              style={{ top: shield.top, left: shield.left, right: shield.right }}
+              style={{
+                top: shield.top,
+                left: shield.left,
+                right: shield.right,
+              }}
               size={shield.size}
               delay={shield.delay}
               duration={shield.duration}

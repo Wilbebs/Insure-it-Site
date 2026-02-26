@@ -4,17 +4,21 @@ import shieldVideo from "@assets/Ins_orginal_color_1765213135711.webm";
 
 interface LogoProps {
   className?: string;
-  variant?: 'default' | 'white';
+  variant?: "default" | "white";
   showTagline?: boolean;
-  size?: 'small' | 'large';
+  size?: "small" | "large";
 }
 
-export default function Logo({ className = "", showTagline = false, size = 'small' }: LogoProps) {
+export default function Logo({
+  className = "",
+  showTagline = false,
+  size = "small",
+}: LogoProps) {
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
 
   useEffect(() => {
-    if (showTagline && size === 'large') {
+    if (showTagline && size === "large") {
       let index = 0;
       const interval = setInterval(() => {
         if (index <= fullTagline.length) {
@@ -24,15 +28,14 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
           clearInterval(interval);
         }
       }, 50);
-      
+
       return () => clearInterval(interval);
     }
   }, [showTagline, size]);
-  
-  if (size === 'large') {
+
+  if (size === "large") {
     return (
       <div className={`flex flex-col items-center ${className}`}>
-
         {/* Mobile logo: static PNG, scales naturally */}
         <div className="md:hidden flex flex-col items-center">
           <img
@@ -50,16 +53,16 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
 
         {/* Desktop logo: animated video */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <div className="relative h-[260px] w-full overflow-hidden bg-transparent">
-            <video 
-              autoPlay 
-              muted 
+          <div className="relative h-[360px] w-full overflow-hidden bg-transparent">
+            <video
+              autoPlay
+              muted
               playsInline
               className="absolute left-1/2 w-[800px] lg:w-[1000px] h-auto pointer-events-none z-10"
-              style={{ 
-                top: '-5px',
-                transform: 'translateX(-50%) scale(1.5)',
-                transformOrigin: 'center top'
+              style={{
+                top: "-5px",
+                transform: "translateX(-50%) scale(1.5)",
+                transformOrigin: "center top",
               }}
             >
               <source src={shieldVideo} type="video/webm" />
@@ -71,16 +74,15 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
             </p>
           )}
         </div>
-
       </div>
     );
   }
-  
+
   return (
     <div className={`flex items-center group cursor-pointer ${className}`}>
-      <img 
-        src={logoImage} 
-        alt="Insure-it Group Corp" 
+      <img
+        src={logoImage}
+        alt="Insure-it Group Corp"
         className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
       />
     </div>

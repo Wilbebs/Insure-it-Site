@@ -32,26 +32,46 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
   if (size === 'large') {
     return (
       <div className={`flex flex-col items-center ${className}`}>
-        <div className="relative h-[130px] sm:h-[180px] md:h-[200px] w-full overflow-hidden bg-transparent">
-          <video 
-            autoPlay 
-            muted 
-            playsInline
-            className="absolute left-1/2 w-[420px] sm:w-[600px] md:w-[800px] lg:w-[1000px] h-auto pointer-events-none z-10"
-            style={{ 
-              top: '-5px',
-              transform: 'translateX(-50%) scale(1.5)',
-              transformOrigin: 'center center'
-            }}
-          >
-            <source src={shieldVideo} type="video/webm" />
-          </video>
+
+        {/* Mobile logo: static PNG, scales naturally */}
+        <div className="md:hidden flex flex-col items-center">
+          <img
+            src={logoImage}
+            alt="Insure-it Group Corp"
+            className="h-24 sm:h-28 w-auto object-contain"
+            draggable={false}
+          />
+          {showTagline && (
+            <p className="mt-3 text-base sm:text-lg font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none text-center">
+              {taglineText}
+            </p>
+          )}
         </div>
-        {showTagline && (
-          <p className="mt-4 text-lg sm:text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
-            {taglineText}
-          </p>
-        )}
+
+        {/* Desktop logo: animated video */}
+        <div className="hidden md:flex md:flex-col md:items-center w-full">
+          <div className="relative h-[200px] w-full overflow-visible bg-transparent">
+            <video 
+              autoPlay 
+              muted 
+              playsInline
+              className="absolute left-1/2 w-[800px] lg:w-[1000px] h-auto pointer-events-none z-10"
+              style={{ 
+                top: '-5px',
+                transform: 'translateX(-50%) scale(1.5)',
+                transformOrigin: 'center center'
+              }}
+            >
+              <source src={shieldVideo} type="video/webm" />
+            </video>
+          </div>
+          {showTagline && (
+            <p className="mt-4 text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
+              {taglineText}
+            </p>
+          )}
+        </div>
+
       </div>
     );
   }

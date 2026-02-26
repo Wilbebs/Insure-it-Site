@@ -53,7 +53,7 @@ export default function Logo({
 
         {/* Desktop: absolute + scale crops all 4 sides of transparent video padding */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <div className="relative h-[175px] w-full overflow-hidden">
+          <div className="relative h-[175px] w-full overflow-hidden mx-auto">
             <video
               autoPlay
               muted
@@ -69,7 +69,7 @@ export default function Logo({
             </video>
           </div>
           {showTagline && (
-            <p className="mt-2 text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
+            <p className="mt-[18px] text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
               {taglineText}
             </p>
           )}

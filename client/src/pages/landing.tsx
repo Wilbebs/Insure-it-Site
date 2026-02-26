@@ -281,7 +281,7 @@ export default function Landing() {
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
                 {/* Logo */}
-                <div className="relative mt-[5px] md:mt-[7px] mb-auto md:mb-[3px] z-10 md:-mx-12">
+                <div className="relative mt-[5px] md:mt-[22px] mb-auto md:mb-[3px] z-10 md:-mx-12">
                   <Logo size="large" showTagline={true} variant="white" />
                 </div>
 
@@ -290,7 +290,7 @@ export default function Landing() {
                   Life&apos;s Uncertain. Your Coverage Isn&apos;t.
                 </p>
 
-                <p className="relative text-sm sm:text-base md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-[9px] md:mb-[25px] select-none">
+                <p className="relative text-sm sm:text-base md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-[5px] md:mb-[21px] select-none">
                   {t.hero.tagline}
                 </p>
 

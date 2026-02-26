@@ -50,7 +50,7 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
 
         {/* Desktop logo: animated video */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <div className="relative h-[200px] w-full overflow-visible bg-transparent">
+          <div className="relative h-[260px] w-full overflow-hidden bg-transparent">
             <video 
               autoPlay 
               muted 
@@ -59,14 +59,14 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
               style={{ 
                 top: '-5px',
                 transform: 'translateX(-50%) scale(1.5)',
-                transformOrigin: 'center center'
+                transformOrigin: 'center top'
               }}
             >
               <source src={shieldVideo} type="video/webm" />
             </video>
           </div>
           {showTagline && (
-            <p className="mt-4 text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
+            <p className="mt-3 text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
               {taglineText}
             </p>
           )}

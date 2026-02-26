@@ -276,12 +276,12 @@ export default function Landing() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {/* Glass Window Container - Everything inside */}
-              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl pt-4 pb-6 px-4 sm:px-8 md:pb-[12px] md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[395px] sm:h-[405px] md:h-auto overflow-hidden">
+              <div className="relative flex flex-col md:block bg-white/20 backdrop-blur-xl rounded-3xl pt-4 pb-[10px] px-4 sm:px-8 md:pb-[12px] md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[395px] sm:h-[405px] md:h-auto overflow-hidden">
                 {/* Subtle gradient glow effect */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
                 {/* Logo */}
-                <div className="relative mt-[5px] md:mt-[7px] mb-2 md:mb-4 z-10">
+                <div className="relative mt-[5px] md:mt-[7px] mb-auto md:mb-4 z-10">
                   <Logo size="large" showTagline={true} variant="white" />
                 </div>
 

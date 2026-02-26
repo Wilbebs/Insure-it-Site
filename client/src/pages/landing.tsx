@@ -267,7 +267,7 @@ export default function Landing() {
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">
-          <div className="w-full max-w-[806px] text-center">
+          <div className="w-full max-w-[575px] text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={

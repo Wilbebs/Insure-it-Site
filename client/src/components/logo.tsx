@@ -51,15 +51,19 @@ export default function Logo({
           )}
         </div>
 
-        {/* Desktop: video cropped to remove transparent padding in video file */}
+        {/* Desktop: absolute + scale crops all 4 sides of transparent video padding */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <div className="w-full overflow-hidden">
+          <div className="relative h-[140px] w-full overflow-hidden">
             <video
               autoPlay
               muted
               playsInline
-              className="w-full max-w-[880px] lg:max-w-[1000px] h-auto pointer-events-none mx-auto block"
-              style={{ marginTop: '-28px', marginBottom: '-38px' }}
+              className="absolute left-1/2 w-[1100px] lg:w-[1300px] h-auto pointer-events-none z-10"
+              style={{
+                top: "-80px",
+                transform: "translateX(-50%) scale(1.5)",
+                transformOrigin: "center center",
+              }}
             >
               <source src={shieldVideo} type="video/webm" />
             </video>

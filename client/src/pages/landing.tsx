@@ -281,11 +281,11 @@ export default function Landing() {
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
                 {/* Logo */}
-                <div className="relative mt-[5px] md:mt-0 mb-2 md:mb-4 z-10">
+                <div className="relative mt-[5px] md:mt-[7px] mb-2 md:mb-4 z-10">
                   <Logo size="large" showTagline={true} variant="white" />
                 </div>
 
-                <p className="relative text-sm sm:text-base md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-4 md:mb-8 select-none">
+                <p className="relative text-sm sm:text-base md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-[9px] md:mb-[25px] select-none">
                   {t.hero.tagline}
                 </p>
 

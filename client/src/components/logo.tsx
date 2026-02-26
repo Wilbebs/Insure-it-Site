@@ -69,7 +69,7 @@ export default function Logo({
             </video>
           </div>
           {showTagline && (
-            <p className="mt-[18px] text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
+            <p className="mt-[25px] text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
               {taglineText}
             </p>
           )}

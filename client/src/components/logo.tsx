@@ -28,7 +28,6 @@ export default function Logo({
           clearInterval(interval);
         }
       }, 50);
-
       return () => clearInterval(interval);
     }
   }, [showTagline, size]);
@@ -36,7 +35,8 @@ export default function Logo({
   if (size === "large") {
     return (
       <div className={`flex flex-col items-center ${className}`}>
-        {/* Mobile logo: static PNG, scales naturally */}
+
+        {/* Mobile: static PNG */}
         <div className="md:hidden flex flex-col items-center">
           <img
             src={logoImage}
@@ -51,29 +51,23 @@ export default function Logo({
           )}
         </div>
 
-        {/* Desktop logo: animated video */}
+        {/* Desktop: video as normal block element — no absolute, no scale, no overflow guessing */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <div className="relative h-[300px] w-full overflow-hidden bg-transparent">
-            <video
-              autoPlay
-              muted
-              playsInline
-              className="absolute left-1/2 w-[800px] lg:w-[1000px] h-auto pointer-events-none z-10"
-              style={{
-                top: "-5px",
-                transform: "translateX(-50%) scale(1.5)",
-                transformOrigin: "center top",
-              }}
-            >
-              <source src={shieldVideo} type="video/webm" />
-            </video>
-          </div>
+          <video
+            autoPlay
+            muted
+            playsInline
+            className="w-[480px] lg:w-[580px] h-auto pointer-events-none mx-auto block"
+          >
+            <source src={shieldVideo} type="video/webm" />
+          </video>
           {showTagline && (
-            <p className="mt-3 text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
+            <p className="mt-1 text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
               {taglineText}
             </p>
           )}
         </div>
+
       </div>
     );
   }

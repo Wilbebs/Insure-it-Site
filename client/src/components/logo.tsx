@@ -56,7 +56,7 @@ export default function Logo({
               className="absolute left-1/2 w-[990px] h-auto pointer-events-none z-10"
               style={{
                 top: "-67px",
-                transform: "translateX(-50%) scale(1.35)",
+                transform: "translateX(-50%) scale(1.55)",
                 transformOrigin: "center center",
               }}
             >
@@ -64,7 +64,7 @@ export default function Logo({
             </video>
           </div>
           {showTagline && (
-            <p className="mt-[25px] text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
+            <p className="mt-[52px] text-xl md:text-2xl font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none">
               {taglineText}
             </p>
           )}

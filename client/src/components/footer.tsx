@@ -11,8 +11,8 @@ interface FooterProps {
 export default function Footer({ onGetQuote }: FooterProps) {
   const { t } = useTranslation();
   return (
-    <footer className="bg-slate-900 dark:bg-slate-950 text-white py-12" data-testid="footer">
-      <div className="container mx-auto px-6">
+    <footer className="bg-slate-900 dark:bg-slate-950 text-white py-10 sm:py-12" data-testid="footer">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="grid md:grid-cols-3 gap-8">
           <div>
             <div className="mb-4">

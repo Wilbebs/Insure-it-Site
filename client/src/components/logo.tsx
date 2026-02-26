@@ -32,12 +32,12 @@ export default function Logo({ className = "", showTagline = false, size = 'smal
   if (size === 'large') {
     return (
       <div className={`flex flex-col items-center ${className}`}>
-        <div className="relative h-[180px] md:h-[200px] w-full overflow-visible bg-transparent">
+        <div className="relative h-[140px] sm:h-[180px] md:h-[200px] w-full overflow-visible bg-transparent">
           <video 
             autoPlay 
             muted 
             playsInline
-            className="absolute left-1/2 w-[600px] md:w-[800px] lg:w-[1000px] h-auto pointer-events-none z-10"
+            className="absolute left-1/2 w-[320px] sm:w-[500px] md:w-[700px] lg:w-[1000px] h-auto pointer-events-none z-10"
             style={{ 
               top: '-5px',
               transform: 'translateX(-50%) scale(1.5)',

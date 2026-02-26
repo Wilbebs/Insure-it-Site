@@ -616,7 +616,7 @@ export default function ChatBot() {
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 100 }}
-          className="fixed bottom-6 right-6 z-[60]"
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60]"
           data-testid="chatbot-widget"
         >
           {!isExpanded ? (
@@ -662,7 +662,7 @@ export default function ChatBot() {
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="animated-border-panel rounded-3xl shadow-2xl w-[350px] sm:w-[420px] h-[600px] overflow-hidden"
+              className="animated-border-panel rounded-3xl shadow-2xl w-[calc(100vw-2rem)] sm:w-[350px] md:w-[420px] max-h-[70vh] sm:max-h-none sm:h-[600px] overflow-hidden"
               data-testid="chatbot-expanded"
             >
               <div className="flex flex-col h-full bg-white dark:bg-slate-900">

@@ -254,7 +254,7 @@ export default function Landing() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="min-h-[85vh] flex items-center relative pt-24 pb-20">
+      <section className="min-h-[85vh] flex items-center relative pt-20 sm:pt-24 pb-16 sm:pb-20">
         {/* Jacksonville Skyline Background - Parallax with blur */}
         <div
           className="absolute -inset-x-0 -top-20 -bottom-40 bg-cover bg-center will-change-transform blur-[2.5px] dark:brightness-75"
@@ -266,8 +266,8 @@ export default function Landing() {
         />
 
         {/* Content */}
-        <div className="relative z-10 w-full flex items-center justify-center px-6 md:px-16">
-          <div className="max-w-4xl text-center">
+        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">
+          <div className="w-full max-w-4xl text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={
@@ -276,7 +276,7 @@ export default function Landing() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               {/* Glass Window Container - Everything inside */}
-              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl pt-2 md:pt-4 pb-8 px-8 md:pb-12 md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[400px] md:h-[430px] overflow-hidden">
+              <div className="relative bg-white/20 backdrop-blur-xl rounded-3xl pt-2 md:pt-4 pb-6 px-4 sm:px-8 md:pb-12 md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-auto min-h-[360px] sm:min-h-[400px] md:h-[430px] overflow-hidden">
                 {/* Subtle gradient glow effect */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
@@ -285,7 +285,7 @@ export default function Landing() {
                   <Logo size="large" showTagline={true} variant="white" />
                 </div>
 
-                <p className="relative text-lg md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-8 select-none">
+                <p className="relative text-base sm:text-lg md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-6 md:mb-8 select-none">
                   {t.hero.tagline}
                 </p>
 
@@ -295,11 +295,11 @@ export default function Landing() {
                     heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
                   }
                   transition={{ duration: 0.8, delay: 0.5 }}
-                  className="relative flex flex-col sm:flex-row gap-4 justify-center"
+                  className="relative flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
                 >
                   <button
                     onClick={() => setQuoteModalOpen(true)}
-                    className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                    className="animated-border-btn group relative overflow-hidden text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
                     data-testid="button-get-quote"
                   >
                     <span className="relative z-10">
@@ -310,7 +310,7 @@ export default function Landing() {
                   </button>
                   <a
                     href="tel:+13059185339"
-                    className="bg-transparent border-2 border-primary text-primary px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 select-none"
+                    className="bg-transparent border-2 border-primary text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 select-none"
                     data-testid="button-call-us"
                   >
                     <Phone className="w-5 h-5" />
@@ -343,30 +343,30 @@ export default function Landing() {
         style={{ marginTop: -40 }}
       >
 
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 items-end">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
                   {t.whoWeAre.subtitle}
                 </p>
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
                   {t.whoWeAre.titleLine1}
                   <br className="hidden md:block" />
                   <span className="text-primary">{t.whoWeAre.titleLine2}</span>
                 </h2>
                 <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-6"></div>
 
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6">
                   {t.whoWeAre.paragraph1}
                 </p>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8">
                   {t.whoWeAre.paragraph2}
                 </p>
 
                 <button
                   onClick={() => (window.location.href = "/about")}
-                  className="self-start group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] select-none"
+                  className="self-start group bg-primary hover:bg-primary/90 text-primary-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] select-none"
                   data-testid="button-read-more"
                 >
                   {t.whoWeAre.meetTeam}
@@ -375,7 +375,7 @@ export default function Landing() {
               </div>
 
               {/* Insurance Types 2x2 Grid - aligned with button */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 {insuranceTypes.map((type, index) => (
                   <InsuranceCard key={type.title} type={type} index={index} />
                 ))}
@@ -405,24 +405,26 @@ export default function Landing() {
         className="pb-14 bg-muted dark:bg-slate-800 relative overflow-hidden"
         style={{ marginTop: -1, paddingTop: "20px" }}
       >
-        {floatingShields.map((shield, index) => (
-          <FloatingShield
-            key={index}
-            style={{ top: shield.top, left: shield.left, right: shield.right }}
-            size={shield.size}
-            delay={shield.delay}
-            duration={shield.duration}
-          />
-        ))}
+        <div className="hidden lg:contents">
+          {floatingShields.map((shield, index) => (
+            <FloatingShield
+              key={index}
+              style={{ top: shield.top, left: shield.left, right: shield.right }}
+              size={shield.size}
+              delay={shield.delay}
+              duration={shield.duration}
+            />
+          ))}
+        </div>
 
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             {/* Section header */}
-            <div className="mb-10">
+            <div className="mb-8 sm:mb-10">
               <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
                 {t.contact.subtitle}
               </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 select-none">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-6 select-none">
                 {t.contact.title}
               </h2>
             </div>
@@ -430,7 +432,7 @@ export default function Landing() {
             {/* Get Quoted Today Button */}
             <button
               onClick={() => setQuoteModalOpen(true)}
-              className="animated-border-btn group relative overflow-hidden text-primary-foreground px-10 py-4 rounded-lg font-semibold text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] mb-12 select-none"
+              className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] mb-10 sm:mb-12 select-none"
               data-testid="button-get-quote-contact"
             >
               <span className="relative z-10">

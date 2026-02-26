@@ -145,11 +145,11 @@ export default function Navigation() {
           <div className="flex items-center gap-2">
             <button
               onClick={toggleLanguage}
-              className="relative px-2.5 py-1 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
+              className="relative px-3 py-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg min-w-[44px] min-h-[44px] flex items-center justify-center"
               data-testid="language-toggle-mobile"
               aria-label={t.nav.switchLang}
             >
-              <span className="text-xs font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
+              <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
                 {language === "en" ? "EN" : "ES"}
               </span>
               <img
@@ -171,11 +171,11 @@ export default function Navigation() {
 
         {/* Mobile Menu Dropdown */}
         {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 right-0 mt-2 glass-nav rounded-2xl p-4 border border-white/20">
-            <div className="flex flex-col space-y-3">
+          <div className="absolute top-full left-0 right-0 mt-2 glass-nav rounded-2xl p-3 border border-white/20">
+            <div className="flex flex-col space-y-2">
               <Link 
                 href="/" 
-                className={`transition-colors font-medium text-center py-2 rounded-lg ${
+                className={`transition-colors font-medium text-center py-3 rounded-lg min-h-[44px] flex items-center justify-center ${
                   location === "/" 
                     ? "text-blue-600 bg-blue-50" 
                     : "text-slate-800 hover:text-black hover:bg-slate-50"
@@ -190,7 +190,7 @@ export default function Navigation() {
               </Link>
               <Link 
                 href="/about" 
-                className={`transition-colors font-medium text-center py-2 rounded-lg ${
+                className={`transition-colors font-medium text-center py-3 rounded-lg min-h-[44px] flex items-center justify-center ${
                   location === "/about" 
                     ? "text-blue-600 bg-blue-50" 
                     : "text-slate-800 hover:text-black hover:bg-slate-50"

@@ -71,7 +71,7 @@ export default function TestimonialsCarousel() {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="flex-[0_0_50%] md:flex-[0_0_25%] lg:flex-[0_0_20%] min-w-0 px-2"
+              className="flex-[0_0_100%] sm:flex-[0_0_50%] md:flex-[0_0_33.333%] lg:flex-[0_0_20%] min-w-0 px-2"
             >
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -110,31 +110,31 @@ export default function TestimonialsCarousel() {
       {/* Navigation Buttons */}
       <button
         onClick={scrollPrev}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 sm:-translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2.5 sm:p-2 shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
         data-testid="carousel-prev"
         aria-label={t.testimonials.prevLabel}
       >
-        <ChevronLeft className="w-4 h-4 text-foreground" />
+        <ChevronLeft className="w-5 h-5 sm:w-4 sm:h-4 text-foreground" />
       </button>
       <button
         onClick={scrollNext}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2 shadow-xl hover:scale-110 transition-transform z-10"
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 sm:translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2.5 sm:p-2 shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
         data-testid="carousel-next"
         aria-label={t.testimonials.nextLabel}
       >
-        <ChevronRight className="w-4 h-4 text-foreground" />
+        <ChevronRight className="w-5 h-5 sm:w-4 sm:h-4 text-foreground" />
       </button>
 
       {/* Dot Indicators */}
-      <div className="flex justify-center gap-1.5 mt-4">
+      <div className="flex justify-center gap-2 mt-5 flex-wrap">
         {testimonials.map((_, index) => (
           <button
             key={index}
             onClick={() => emblaApi?.scrollTo(index)}
-            className={`h-2 rounded-full transition-all ${
+            className={`h-2.5 rounded-full transition-all min-w-[10px] ${
               index === selectedIndex 
                 ? 'w-8 bg-primary' 
-                : 'w-2 bg-primary/50'
+                : 'w-2.5 bg-primary/50'
             }`}
             aria-label={`${t.testimonials.goToLabel} ${index + 1}`}
           />

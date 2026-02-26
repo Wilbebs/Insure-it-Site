@@ -229,8 +229,8 @@ export default function About() {
 
         {/* Floating Story Window */}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 py-20">
-          <div className="max-w-4xl mx-auto bg-white/20 dark:bg-slate-900/30 backdrop-blur-xl rounded-[3rem] p-8 sm:p-12 shadow-2xl border border-white/30">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-8 text-white text-center">
+          <div className="max-w-4xl mx-auto bg-white/20 dark:bg-slate-900/30 backdrop-blur-xl rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 md:p-12 shadow-2xl border border-white/30">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8 text-white text-center">
               {t.about.ourStory}
             </h2>
             <div className="space-y-6 text-base sm:text-lg text-white leading-relaxed">
@@ -279,19 +279,21 @@ export default function About() {
         <div className="container mx-auto px-4 sm:px-6">
           {/* Connect With Us Section - Team + Social */}
           <div className="mb-6 sm:mb-10 relative overflow-hidden">
-            {floatingShields.map((shield, index) => (
-              <FloatingShield
-                key={index}
-                style={{
-                  top: shield.top,
-                  left: shield.left,
-                  right: shield.right,
-                }}
-                size={shield.size}
-                delay={shield.delay}
-                duration={shield.duration}
-              />
-            ))}
+            <div className="hidden lg:contents">
+              {floatingShields.map((shield, index) => (
+                <FloatingShield
+                  key={index}
+                  style={{
+                    top: shield.top,
+                    left: shield.left,
+                    right: shield.right,
+                  }}
+                  size={shield.size}
+                  delay={shield.delay}
+                  duration={shield.duration}
+                />
+              ))}
+            </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center gradient-text relative z-10">
               {t.about.meetTeam}
             </h2>

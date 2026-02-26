@@ -53,7 +53,7 @@ export default function Logo({
 
         {/* Desktop logo: animated video */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <div className="relative h-[360px] w-full overflow-hidden bg-transparent">
+          <div className="relative h-[300px] w-full overflow-hidden bg-transparent">
             <video
               autoPlay
               muted

@@ -354,7 +354,7 @@ export default function Landing() {
                   </button>
                   <a
                     href="tel:+13059185339"
-                    className="bg-transparent border-2 border-primary text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 select-none"
+                    className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-2 select-none"
                     data-testid="button-call-us"
                   >
                     <Phone className="w-5 h-5" />

@@ -326,13 +326,10 @@ export default function Landing() {
                 </div>
 
                 {/* Mobile tagline — sits right above paragraph */}
-                <p className="md:hidden text-base font-semibold italic bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent select-none text-center mb-1">
+                <p className="md:hidden text-base font-semibold italic bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent select-none text-center mb-1 [filter:drop-shadow(0_1px_4px_rgba(0,0,0,0.55))]">
                   Life&apos;s Uncertain. Your Coverage Isn&apos;t.
                 </p>
 
-                <p className="relative text-sm sm:text-base md:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed mb-2 md:mb-3 select-none">
-                  {t.hero.tagline}
-                </p>
                 <div className="flex flex-wrap gap-1.5 justify-center mb-[5px] md:mb-[18px]">
                   {[
                     { icon: <House className="w-3 h-3" />, label: t.hero.coverages[0] },

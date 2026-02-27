@@ -494,7 +494,7 @@ export default function Landing() {
 
                 <button
                   onClick={() => (window.location.href = "/about")}
-                  className="hidden lg:block self-start group bg-primary hover:bg-primary/90 text-primary-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] select-none"
+                  className="hidden md:block self-start group bg-primary hover:bg-primary/90 text-primary-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] select-none"
                   data-testid="button-read-more"
                 >
                   {t.whoWeAre.meetTeam}

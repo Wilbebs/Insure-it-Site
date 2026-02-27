@@ -198,6 +198,7 @@ export default function Landing() {
   const { t } = useTranslation();
   const [heroVisible, setHeroVisible] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [showShieldTooltip, setShowShieldTooltip] = useState(false);
   const isRestoring = useRef(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -282,6 +283,20 @@ export default function Landing() {
       clearTimeout(t1);
     };
   }, []);
+
+  // Show tooltip shortly after shield appears, then auto-hide
+  useEffect(() => {
+    if (isMinimized) {
+      const showTimer = setTimeout(() => setShowShieldTooltip(true), 700);
+      const hideTimer = setTimeout(() => setShowShieldTooltip(false), 5000);
+      return () => {
+        clearTimeout(showTimer);
+        clearTimeout(hideTimer);
+      };
+    } else {
+      setShowShieldTooltip(false);
+    }
+  }, [isMinimized]);
 
   const handleMinimize = async () => {
     isRestoring.current = false;
@@ -680,6 +695,26 @@ export default function Landing() {
             className="fixed top-[110px] right-4 sm:right-[72px] z-[200] w-16 h-16 sm:w-20 sm:h-20 drop-shadow-2xl cursor-grab active:cursor-grabbing"
             aria-label="Restore window"
           >
+            {/* Speech bubble tooltip */}
+            <AnimatePresence>
+              {showShieldTooltip && (
+                <motion.div
+                  key="shield-tooltip"
+                  initial={{ opacity: 0, x: 8, scale: 0.85 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: 8, scale: 0.85 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="absolute right-full mr-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                >
+                  <div className="relative bg-white text-slate-700 text-[11px] font-semibold px-3 py-2 rounded-xl shadow-xl whitespace-nowrap border border-slate-100">
+                    Tap to reopen the Insure IT window!
+                    {/* Arrow tail pointing right toward shield */}
+                    <span className="absolute left-full top-1/2 -translate-y-1/2 border-[6px] border-transparent border-l-white" />
+                    <span className="absolute left-full top-1/2 -translate-y-1/2 ml-[-1px] border-[7px] border-transparent border-l-slate-100" style={{ zIndex: -1 }} />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
             <img src={shieldIcon} alt="Restore" className="w-full h-full object-contain hover:scale-110 transition-transform duration-200 pointer-events-none" />
           </motion.button>
         )}

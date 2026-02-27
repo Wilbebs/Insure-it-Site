@@ -698,7 +698,7 @@ export default function Landing() {
         <div className="absolute inset-0 bg-white/25 dark:bg-slate-900/55" />
 
         {/* Testimonials — top padding accounts for wave overlap */}
-        <div className="relative z-10 pb-2" style={{ paddingTop: 72 }}>
+        <div className="relative z-10 pb-2" style={{ paddingTop: 92 }}>
           <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-5xl mx-auto">
               <TestimonialsCarousel />

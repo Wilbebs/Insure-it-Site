@@ -636,7 +636,7 @@ export default function Landing() {
                 ? `https://www.google.com/maps/embed/v1/streetview?key=${apiKey}&location=30.1540,-81.6549&heading=90&pitch=0&fov=75`
                 : null;
               return (
-                <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[180px] sm:h-[220px] md:h-[260px] w-full">
+                <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[220px] sm:h-[260px] md:h-[300px] w-full">
                   {src ? (
                     <iframe
                       src={src}

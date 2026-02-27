@@ -257,7 +257,7 @@ export default function Landing() {
       <section className="min-h-[85vh] flex items-center relative pt-20 sm:pt-24 pb-16 sm:pb-20">
         {/* Hero Video Background - Parallax with blur */}
         <div
-          className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform blur-[2.5px] dark:brightness-75 overflow-hidden"
+          className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform dark:brightness-75 overflow-hidden"
           style={{ transform: `translateY(${scrollY * 0.4}px) scale(1.02)` }}
         >
           <video

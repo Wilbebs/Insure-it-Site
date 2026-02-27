@@ -25,7 +25,7 @@ import { useEffect, useState, useRef, type RefObject } from "react";
 import heroVideo from "@assets/stock_images/herovid1.mp4";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
 import floodImg from "@assets/flood_insurance.jpg";
-import agentConsultationImg from "@assets/stock_images/business_team_profes_efccd4d0.jpg";
+import highFiveImg from "@assets/man-woman-business-workers-high-five-with-hands-raised-up-offi_1772211518867.jpg";
 import SectionDivider from "@/components/section-divider";
 
 const floatingShields = [
@@ -556,7 +556,7 @@ export default function Landing() {
       {/* Contact + Map Section */}
       <section
         className="pt-5 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden"
-        style={{ marginTop: -1 }}
+        style={{ marginTop: -1, zIndex: 10, position: "relative" }}
       >
         <div className="hidden lg:contents">
           {floatingShields.map((shield, index) => (
@@ -683,14 +683,15 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Testimonials + Partners — shared background, flush against wave */}
+      {/* Testimonials + Partners — shared parallax background, flush against wave */}
       <div
-        className="relative overflow-hidden"
+        className="relative"
         style={{
           marginTop: -65,
-          backgroundImage: `url(${agentConsultationImg})`,
+          backgroundImage: `url(${highFiveImg})`,
           backgroundSize: "cover",
-          backgroundPosition: "center 30%",
+          backgroundPosition: "center 20%",
+          backgroundAttachment: "fixed",
         }}
       >
         {/* Warm white overlay — keeps content readable */}
@@ -705,9 +706,11 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* Partners Carousel — 10px gap from testimonials, transparent */}
+        {/* Partners Carousel — frosted glass panel, ~10px below testimonials */}
         <div className="relative z-10" style={{ marginTop: 10 }}>
-          <PartnersCarousel className="bg-transparent border-white/25 dark:border-slate-700" />
+          <div className="backdrop-blur-md bg-white/65 dark:bg-slate-900/75 border-t border-white/40 dark:border-slate-700/60">
+            <PartnersCarousel className="bg-transparent border-none" />
+          </div>
         </div>
       </div>
 

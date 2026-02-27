@@ -629,12 +629,20 @@ export default function ChatBot() {
                     exit={{ opacity: 0, scale: 0.9 }}
                     className="absolute -top-[53px] right-[30px] whitespace-nowrap"
                   >
-                    <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl px-5 py-3 relative">
-                      <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                        {t.chatbot.welcomeBubble}
+                    <div
+                      className="rounded-2xl p-[2px] shadow-xl relative"
+                      style={{
+                        background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
+                        animation: 'border-rotate-slow 4s linear infinite',
+                      }}
+                    >
+                      <div className="bg-white dark:bg-slate-800 rounded-[14px] px-5 py-3 relative">
+                        <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                          {t.chatbot.welcomeBubble}
+                        </div>
                       </div>
-                      <div className="absolute bottom-0 right-3 w-4 h-4 bg-white dark:bg-slate-800 transform rotate-45 translate-y-2 shadow-md"></div>
                     </div>
+                    <span className="absolute bottom-0 right-3 translate-y-[7px] border-[6px] border-transparent border-t-blue-400" />
                   </motion.div>
                 )}
               </AnimatePresence>

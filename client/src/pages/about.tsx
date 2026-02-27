@@ -224,7 +224,6 @@ export default function About() {
             backgroundAttachment: "fixed",
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 via-blue-800/50 to-slate-900/60"></div>
         </div>
 
         {/* Floating Story Window */}

@@ -89,7 +89,7 @@ export default function TestimonialsCarousel() {
         {/* Prev button */}
         <button
           onClick={handlePrev}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-5 bg-card dark:bg-slate-700 rounded-full shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-5 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm rounded-full shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center border border-white/50 dark:border-slate-600/50"
           data-testid="carousel-prev"
           aria-label={t.testimonials.prevLabel}
         >
@@ -112,7 +112,7 @@ export default function TestimonialsCarousel() {
               {pageTestimonials.map((testimonial, index) => (
                 <div
                   key={index}
-                  className="bg-card dark:bg-slate-800 rounded-xl p-4 shadow-md"
+                  className="bg-white/82 dark:bg-slate-800/82 backdrop-blur-sm rounded-xl p-4 shadow-md border border-white/60 dark:border-slate-700/60"
                   data-testid={`testimonial-carousel-${currentPage * cardsPerPage + index}`}
                 >
                   <div className="mb-2">
@@ -144,7 +144,7 @@ export default function TestimonialsCarousel() {
         {/* Next button */}
         <button
           onClick={handleNext}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-5 bg-card dark:bg-slate-700 rounded-full shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-5 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm rounded-full shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center border border-white/50 dark:border-slate-600/50"
           data-testid="carousel-next"
           aria-label={t.testimonials.nextLabel}
         >

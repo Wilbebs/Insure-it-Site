@@ -669,15 +669,15 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* Wave divider — muted → white */}
+        {/* Wave divider — all-blue waves, no white bottom */}
         <div className="relative z-20" style={{ marginBottom: -2 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"
-            toColor="#ffffff"
-            wave1Color="hsla(205, 70%, 75%, 0.35)"
-            wave2Color="hsla(205, 70%, 75%, 0.65)"
-            wave3Color="#ffffff"
+            toColor="transparent"
+            wave1Color="hsla(205, 70%, 72%, 0.40)"
+            wave2Color="hsla(205, 70%, 72%, 0.70)"
+            wave3Color="hsla(205, 68%, 70%, 0.90)"
             height={65}
           />
         </div>
@@ -694,8 +694,8 @@ export default function Landing() {
           backgroundAttachment: "fixed",
         }}
       >
-        {/* Warm white overlay — keeps content readable */}
-        <div className="absolute inset-0 bg-white/88 dark:bg-slate-900/92" />
+        {/* Very light overlay — image shows through, cards carry readability */}
+        <div className="absolute inset-0 bg-white/25 dark:bg-slate-900/55" />
 
         {/* Testimonials — top padding accounts for wave overlap */}
         <div className="relative z-10 pb-2" style={{ paddingTop: 72 }}>

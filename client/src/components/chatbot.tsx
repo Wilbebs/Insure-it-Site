@@ -642,7 +642,7 @@ export default function ChatBot() {
                         </div>
                       </div>
                     </div>
-                    <span className="absolute bottom-0 right-3 translate-y-[8.5px] border-[6px] border-transparent border-t-blue-400" />
+                    <span className="absolute top-full right-3 border-[6px] border-transparent border-t-blue-400" />
                   </motion.div>
                 )}
               </AnimatePresence>

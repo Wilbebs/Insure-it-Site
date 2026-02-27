@@ -1004,7 +1004,7 @@ export default function Landing() {
                     }}
                   >
                     <div className="relative bg-white text-slate-700 text-[11px] font-semibold px-3 py-2 rounded-[10px] whitespace-nowrap">
-                      Tap to reopen the Insure IT window!
+                      Tap to reopen the Insure-it window!
                     </div>
                   </div>
                   {/* Arrow tail pointing down-right toward shield */}

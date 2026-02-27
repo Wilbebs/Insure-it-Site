@@ -25,7 +25,7 @@ import { useEffect, useState, useRef, type RefObject } from "react";
 import heroVideo from "@assets/stock_images/herovid1.mp4";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
 import floodImg from "@assets/flood_insurance.jpg";
-import agentConsultationImg from "@assets/stock_images/business_team_profes_efccd4d0.jpg";
+import jacksonvilleImg from "@assets/stock_images/jacksonville_florida_e35a59ca.jpg";
 import SectionDivider from "@/components/section-divider";
 
 const floatingShields = [
@@ -683,27 +683,33 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section
-        className="pb-14 relative overflow-hidden"
+      {/* Testimonials + Partners — shared Jacksonville background */}
+      <div
+        className="relative overflow-hidden"
         style={{
           marginTop: -2,
-          backgroundImage: `url(${agentConsultationImg})`,
+          backgroundImage: `url(${jacksonvilleImg})`,
           backgroundSize: "cover",
-          backgroundPosition: "center 30%",
+          backgroundPosition: "center 40%",
         }}
       >
-        {/* Warm white overlay so cards stay readable */}
-        <div className="absolute inset-0 bg-white/88 dark:bg-slate-900/92" />
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="max-w-5xl mx-auto pt-10">
-            <TestimonialsCarousel />
+        {/* Soft white overlay — keeps content readable, image visible */}
+        <div className="absolute inset-0 bg-white/85 dark:bg-slate-900/92" />
+
+        {/* Testimonials */}
+        <div className="relative z-10 pb-14">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="max-w-5xl mx-auto pt-10">
+              <TestimonialsCarousel />
+            </div>
           </div>
         </div>
-      </section>
 
-      {/* Partners Carousel */}
-      <PartnersCarousel />
+        {/* Partners Carousel — transparent so background shows through */}
+        <div className="relative z-10">
+          <PartnersCarousel className="bg-transparent border-white/25 dark:border-slate-700" />
+        </div>
+      </div>
 
       <Footer onGetQuote={() => setQuoteModalOpen(true)} />
 

@@ -13,7 +13,7 @@ const partners = [
   { name: "American Family", logo: "American Family" },
 ];
 
-export default function PartnersCarousel() {
+export default function PartnersCarousel({ className = "" }: { className?: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function PartnersCarousel() {
   }, []);
 
   return (
-    <section className="py-4 sm:py-5 bg-background dark:bg-slate-900 border-t border-border select-none">
+    <section className={`py-4 sm:py-5 border-t select-none ${className || "bg-background dark:bg-slate-900 border-border"}`}>
       <div className="container mx-auto px-4 sm:px-6">
         <div className="text-center mb-3 sm:mb-4">
           <p className="text-xs sm:text-sm uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">Trusted By The Best</p>

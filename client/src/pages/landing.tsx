@@ -18,6 +18,9 @@ import {
   Waves,
   ChevronDown,
   Check,
+  X,
+  CheckCircle2,
+  Sparkles,
 } from "lucide-react";
 import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
@@ -97,9 +100,242 @@ function FloatingShield({
   );
 }
 
+const insuranceDetails: Record<string, {
+  tagline: string;
+  covers: string[];
+  benefits: string[];
+  whyUs: string;
+}> = {
+  sky: {
+    tagline: "Protect Your Home & Everything on the Road",
+    covers: [
+      "Dwelling & structural damage",
+      "Personal property & belongings",
+      "Liability if someone is injured on your property",
+      "Collision & comprehensive auto coverage",
+      "Uninsured/underinsured motorist protection",
+      "Renters, condo & specialty vehicle policies",
+    ],
+    benefits: [
+      "Bundle home + auto for up to 25% savings",
+      "Replacement cost coverage (not just market value)",
+      "24/7 claims support",
+      "Roadside assistance & rental reimbursement",
+      "Deductible waived when home & auto claimed together",
+    ],
+    whyUs: "As an independent agency, we shop multiple top-rated carriers on your behalf — so you get the best coverage at the best price, not just what one company offers.",
+  },
+  blue: {
+    tagline: "Flood Insurance Is Separate — And Essential in Florida",
+    covers: [
+      "Building structure, foundation & walls",
+      "Electrical, plumbing & HVAC systems",
+      "Appliances (water heaters, refrigerators, etc.)",
+      "Personal belongings & furniture",
+      "Detached garages",
+      "Temporary housing & loss of use",
+    ],
+    benefits: [
+      "Both NFIP and private flood options available",
+      "Up to $500K in building coverage",
+      "Contents coverage even in non-flood zones",
+      "Often cheaper than homeowners adds-on",
+      "Many lenders require flood coverage in FL",
+    ],
+    whyUs: "Standard homeowners policies do NOT cover flooding. Many Floridians are in flood zones without knowing it — we'll check your property's risk rating and find the right protection.",
+  },
+  indigo: {
+    tagline: "Give Your Family Financial Security That Lasts",
+    covers: [
+      "Term life (10, 20 & 30-year options)",
+      "Whole life with cash value accumulation",
+      "Universal life with flexible premiums",
+      "Final expense & burial coverage",
+      "Mortgage protection policies",
+      "Child & dependent life riders",
+    ],
+    benefits: [
+      "Tax-free death benefit for beneficiaries",
+      "Premiums locked in at today's rates",
+      "Cash value growth (whole/universal life)",
+      "Affordable term coverage starting under $30/mo",
+      "Living benefits available on select policies",
+    ],
+    whyUs: "We compare rates from dozens of carriers to find the policy that fits your life stage and budget — no pressure, just honest guidance for your family's future.",
+  },
+  violet: {
+    tagline: "Custom Coverage Built Around Your Business",
+    covers: [
+      "General liability & premises coverage",
+      "Commercial property & equipment",
+      "Workers' compensation",
+      "Commercial auto & fleet",
+      "Professional & errors & omissions liability",
+      "Business interruption & loss of income",
+    ],
+    benefits: [
+      "Business Owners Policy (BOP) bundles save money",
+      "Risk management consultation included",
+      "Fast quotes — often same day",
+      "Covers contractors, retail, offices & more",
+      "Umbrella policies for extra protection",
+    ],
+    whyUs: "From sole proprietors to growing companies, we build coverage packages tailored to your industry — because one-size-fits-all never works in business.",
+  },
+};
+
+function InsuranceDetailModal({
+  type,
+  onClose,
+  onGetQuote,
+}: {
+  type: { icon: React.ReactNode; title: string; description: string; image: string; color: string } | null;
+  onClose: () => void;
+  onGetQuote: () => void;
+}) {
+  const details = type ? insuranceDetails[type.color] : null;
+
+  const accentColor = type?.color === "sky"
+    ? "from-sky-600 to-sky-400"
+    : type?.color === "blue"
+    ? "from-blue-700 to-blue-500"
+    : type?.color === "indigo"
+    ? "from-indigo-700 to-indigo-500"
+    : "from-violet-700 to-violet-500";
+
+  const pillColor = type?.color === "sky"
+    ? "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300"
+    : type?.color === "blue"
+    ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
+    : type?.color === "indigo"
+    ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300"
+    : "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300";
+
+  return (
+    <AnimatePresence>
+      {type && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            key="insurance-modal-backdrop"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+          />
+
+          {/* Modal */}
+          <motion.div
+            key="insurance-modal"
+            className="fixed inset-0 z-[201] flex items-center justify-center p-4"
+            initial={{ opacity: 0, scale: 0.92, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: 20 }}
+            transition={{ duration: 0.28, ease: "easeOut" }}
+          >
+            <div
+              className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header image */}
+              <div className="relative h-36 flex-shrink-0 overflow-hidden">
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${type.image})` }}
+                />
+                <div className={`absolute inset-0 bg-gradient-to-br ${accentColor} opacity-80`} />
+                <button
+                  onClick={onClose}
+                  className="absolute top-3 right-3 bg-black/30 hover:bg-black/50 text-white rounded-full p-1.5 transition-colors z-10"
+                  aria-label="Close"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+                <div className="absolute bottom-4 left-5 flex items-center gap-3">
+                  <div className="text-white opacity-90">{type.icon}</div>
+                  <div>
+                    <p className="text-white/70 text-[11px] uppercase tracking-widest font-medium">Insurance Coverage</p>
+                    <h2 className="text-white text-xl font-bold leading-tight">{type.title}</h2>
+                  </div>
+                </div>
+              </div>
+
+              {/* Scrollable body */}
+              <div className="overflow-y-auto flex-1 p-5 space-y-5">
+                {/* Tagline */}
+                {details && (
+                  <p className="text-sm text-slate-600 dark:text-slate-400 italic leading-relaxed">
+                    "{details.tagline}"
+                  </p>
+                )}
+
+                {/* What's covered */}
+                {details && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-foreground mb-2.5 flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4 text-green-500" />
+                      What's Covered
+                    </h3>
+                    <ul className="grid grid-cols-1 gap-1.5">
+                      {details.covers.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-400">
+                          <Check className="w-3.5 h-3.5 text-green-500 mt-0.5 shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Key benefits */}
+                {details && (
+                  <div>
+                    <h3 className="text-sm font-semibold text-foreground mb-2.5 flex items-center gap-1.5">
+                      <Sparkles className="w-4 h-4 text-amber-500" />
+                      Key Benefits
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {details.benefits.map((b, i) => (
+                        <span key={i} className={`text-[11px] font-medium px-2.5 py-1 rounded-full ${pillColor}`}>
+                          {b}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Why us */}
+                {details && (
+                  <div className="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+                    <h3 className="text-xs font-semibold text-foreground mb-1.5 uppercase tracking-wide">Why Insure-it Group?</h3>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{details.whyUs}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Footer CTA */}
+              <div className="p-4 border-t border-border bg-slate-50 dark:bg-slate-800/50 flex-shrink-0">
+                <button
+                  onClick={() => { onClose(); onGetQuote(); }}
+                  className={`w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r ${accentColor} hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-md`}
+                >
+                  Get a Free {type.title} Quote
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
 function InsuranceCard({
   type,
   index,
+  onClick,
 }: {
   type: {
     icon: React.ReactNode;
@@ -109,6 +345,7 @@ function InsuranceCard({
     color: string;
   };
   index: number;
+  onClick: () => void;
 }) {
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
   const [isHovered, setIsHovered] = useState(false);
@@ -149,6 +386,7 @@ function InsuranceCard({
   return (
     <div
       ref={cardRef}
+      onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -203,6 +441,7 @@ export default function Landing() {
   const [showShieldTooltip, setShowShieldTooltip] = useState(false);
   const isRestoring = useRef(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [selectedInsurance, setSelectedInsurance] = useState<typeof insuranceTypes[0] | null>(null);
   const [scrollY, setScrollY] = useState(0);
   const [copiedContact, setCopiedContact] = useState<string | null>(null);
 
@@ -530,7 +769,7 @@ export default function Landing() {
               {/* Insurance Types 2x2 Grid - aligned with button */}
               <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 {insuranceTypes.map((type, index) => (
-                  <InsuranceCard key={type.title} type={type} index={index} />
+                  <InsuranceCard key={type.title} type={type} index={index} onClick={() => setSelectedInsurance(type)} />
                 ))}
               </div>
             </div>
@@ -777,6 +1016,13 @@ export default function Landing() {
           </motion.button>
         )}
       </AnimatePresence>
+
+      {/* Insurance Detail Modal */}
+      <InsuranceDetailModal
+        type={selectedInsurance}
+        onClose={() => setSelectedInsurance(null)}
+        onGetQuote={() => { setSelectedInsurance(null); setQuoteModalOpen(true); }}
+      />
 
       {/* Quote Modal */}
       <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />

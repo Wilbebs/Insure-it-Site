@@ -568,7 +568,7 @@ export default function Landing() {
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 items-center">
 
-              {/* Left: Title + CTA */}
+              {/* Left: Title + contact pills + CTA */}
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
                   {t.contact.subtitle}
@@ -576,7 +576,42 @@ export default function Landing() {
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
                   {t.contact.title}
                 </h2>
-                <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-8" />
+                <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-6" />
+
+                {/* Contact info pills */}
+                <div className="flex flex-wrap gap-2 mb-8">
+                  <a
+                    href="tel:+13059185339"
+                    data-testid="link-phone"
+                    className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm hover:border-primary hover:text-primary transition-colors select-text whitespace-nowrap"
+                  >
+                    <Phone className="w-3 h-3" />
+                    (305) 918-5339
+                  </a>
+                  <a
+                    href="mailto:info@insure-itgroup.com"
+                    data-testid="link-email"
+                    className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm hover:border-primary hover:text-primary transition-colors select-text whitespace-nowrap"
+                  >
+                    <Mail className="w-3 h-3" />
+                    info@insure-itgroup.com
+                  </a>
+                  <span
+                    data-testid="text-location"
+                    className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap select-text"
+                  >
+                    <MapPin className="w-3 h-3" />
+                    {t.contact.location}
+                  </span>
+                  <span
+                    data-testid="text-license"
+                    className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap"
+                  >
+                    <Shield className="w-3 h-3" />
+                    {t.contact.licensed}
+                  </span>
+                </div>
+
                 <button
                   onClick={() => setQuoteModalOpen(true)}
                   className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
@@ -590,44 +625,8 @@ export default function Landing() {
                 </button>
               </div>
 
-              {/* Right: 2×2 contact info grid */}
-              <div className="grid grid-cols-2 gap-6">
-                <div className="flex flex-col items-center gap-2" data-testid="contact-phone">
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Phone className="w-6 h-6 text-primary" />
-                  </div>
-                  <a href="tel:+13059185339" className="text-foreground hover:text-primary transition-colors font-medium text-sm text-center select-text" data-testid="link-phone">
-                    (305) 918-5339
-                  </a>
-                </div>
-
-                <div className="flex flex-col items-center gap-2" data-testid="contact-email">
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-primary" />
-                  </div>
-                  <a href="mailto:info@insure-itgroup.com" className="text-foreground hover:text-primary transition-colors font-medium text-sm text-center select-text break-all" data-testid="link-email">
-                    info@insure-itgroup.com
-                  </a>
-                </div>
-
-                <div className="flex flex-col items-center gap-2" data-testid="contact-location">
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-primary" />
-                  </div>
-                  <span className="text-foreground font-medium text-sm text-center select-text" data-testid="text-location">
-                    {t.contact.location}
-                  </span>
-                </div>
-
-                <div className="flex flex-col items-center gap-2" data-testid="contact-license">
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Shield className="w-6 h-6 text-primary" />
-                  </div>
-                  <span className="text-foreground font-medium text-sm text-center" data-testid="text-license">
-                    {t.contact.licensed}
-                  </span>
-                </div>
-              </div>
+              {/* Right: reserved for future functionality */}
+              <div />
 
             </div>
           </div>

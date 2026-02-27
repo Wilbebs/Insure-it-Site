@@ -25,6 +25,7 @@ import { useEffect, useState, useRef, type RefObject } from "react";
 import heroVideo from "@assets/stock_images/herovid1.mp4";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
 import floodImg from "@assets/flood_insurance.jpg";
+import agentConsultationImg from "@assets/stock_images/business_team_profes_efccd4d0.jpg";
 import SectionDivider from "@/components/section-divider";
 
 const floatingShields = [
@@ -588,17 +589,20 @@ export default function Landing() {
                 <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
               </div>
 
-              <button
-                onClick={() => setQuoteModalOpen(true)}
-                className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
-                data-testid="button-get-quote-contact"
-              >
-                <span className="relative z-10">
-                  {t.contact.getQuoted}
-                  <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
-              </button>
+              <div className="relative">
+                <div className="absolute -inset-[5px] bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-400 rounded-xl opacity-40 blur-md animate-pulse pointer-events-none" />
+                <button
+                  onClick={() => setQuoteModalOpen(true)}
+                  className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                  data-testid="button-get-quote-contact"
+                >
+                  <span className="relative z-10">
+                    {t.contact.getQuoted}
+                    <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
+                </button>
+              </div>
 
               {/* Contact pills */}
               <div className="flex flex-wrap gap-2 justify-center">
@@ -680,8 +684,18 @@ export default function Landing() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="pb-14 bg-white dark:bg-slate-900 relative" style={{ marginTop: -2 }}>
-        <div className="container mx-auto px-4 sm:px-6">
+      <section
+        className="pb-14 relative overflow-hidden"
+        style={{
+          marginTop: -2,
+          backgroundImage: `url(${agentConsultationImg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center 30%",
+        }}
+      >
+        {/* Warm white overlay so cards stay readable */}
+        <div className="absolute inset-0 bg-white/88 dark:bg-slate-900/92" />
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-5xl mx-auto pt-10">
             <TestimonialsCarousel />
           </div>

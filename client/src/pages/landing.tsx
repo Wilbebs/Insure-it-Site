@@ -3,7 +3,7 @@ import Footer from "@/components/footer";
 import TestimonialsCarousel from "@/components/testimonials-carousel";
 import PartnersCarousel from "@/components/partners-carousel";
 import QuoteModal from "@/components/quote-modal";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, animate as animateValue } from "framer-motion";
 import {
   Car,
   House,
@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, type RefObject } from "react";
 import heroVideo from "@assets/stock_images/herovid1.mp4";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
 import floodImg from "@assets/flood_insurance.jpg";
@@ -201,6 +201,26 @@ export default function Landing() {
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
+  // Drag & animation refs
+  const heroRef = useRef<HTMLElement>(null);
+  const cardInnerRef = useRef<HTMLDivElement>(null);
+  const restoreFrom = useRef({ x: 0, y: 0 });
+
+  // Card motion values (fully imperative — avoids animate prop / drag conflict)
+  const cardX = useMotionValue(0);
+  const cardY = useMotionValue(30);
+  const cardOpacity = useMotionValue(0);
+  const cardScale = useMotionValue(1);
+
+  // Shield drag motion values
+  const shieldX = useMotionValue(0);
+  const shieldY = useMotionValue(0);
+
+  // Shield fixed-position constants
+  const SHIELD_RIGHT = 72;
+  const SHIELD_TOP = 110;
+  const SHIELD_SIZE = 80;
+
   useEffect(() => {
     const openQuote = () => setQuoteModalOpen(true);
     window.addEventListener("open-quote-modal", openQuote);
@@ -245,20 +265,79 @@ export default function Landing() {
     window.scrollTo(0, 0);
     setHeroVisible(true);
 
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+    // First-load card entrance
+    cardY.set(30);
+    cardOpacity.set(0);
+    const t1 = setTimeout(() => {
+      animateValue(cardY, 0, { duration: 0.8, ease: "easeOut" });
+      animateValue(cardOpacity, 1, { duration: 0.8, ease: "easeOut" });
+    }, 200);
 
+    const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(t1);
+    };
   }, []);
+
+  const handleMinimize = async () => {
+    isRestoring.current = false;
+    if (cardInnerRef.current) {
+      const cardRect = cardInnerRef.current.getBoundingClientRect();
+      const cardCenterX = cardRect.left + cardRect.width / 2;
+      const cardCenterY = cardRect.top + cardRect.height / 2;
+      const shieldLeft = window.innerWidth - SHIELD_RIGHT - SHIELD_SIZE + shieldX.get();
+      const shieldCenterX = shieldLeft + SHIELD_SIZE / 2;
+      const shieldCenterY = SHIELD_TOP + shieldY.get() + SHIELD_SIZE / 2;
+      const dx = shieldCenterX - cardCenterX;
+      const dy = shieldCenterY - cardCenterY;
+      await Promise.all([
+        animateValue(cardX, cardX.get() + dx, { duration: 0.45, ease: [0.4, 0, 1, 1] }),
+        animateValue(cardY, cardY.get() + dy, { duration: 0.45, ease: [0.4, 0, 1, 1] }),
+        animateValue(cardOpacity, 0, { duration: 0.3, ease: [0.4, 0, 1, 1] }),
+        animateValue(cardScale, 0.05, { duration: 0.45, ease: [0.4, 0, 1, 1] }),
+      ]);
+    }
+    setIsMinimized(true);
+    cardX.set(0); cardY.set(0); cardOpacity.set(0); cardScale.set(1);
+  };
+
+  const handleRestore = () => {
+    if (heroRef.current) {
+      const heroRect = heroRef.current.getBoundingClientRect();
+      const cardNaturalCenterX = heroRect.left + heroRect.width / 2;
+      const cardNaturalCenterY = heroRect.top + heroRect.height / 2;
+      const shieldLeft = window.innerWidth - SHIELD_RIGHT - SHIELD_SIZE + shieldX.get();
+      const shieldCenterX = shieldLeft + SHIELD_SIZE / 2;
+      const shieldCenterY = SHIELD_TOP + shieldY.get() + SHIELD_SIZE / 2;
+      restoreFrom.current = {
+        x: shieldCenterX - cardNaturalCenterX,
+        y: shieldCenterY - cardNaturalCenterY,
+      };
+    }
+    // Pre-set card to shield position before mounting
+    cardX.set(restoreFrom.current.x);
+    cardY.set(restoreFrom.current.y);
+    cardOpacity.set(0);
+    cardScale.set(0.05);
+    isRestoring.current = true;
+    setIsMinimized(false);
+    // Animate to center after React renders the card
+    requestAnimationFrame(() => {
+      animateValue(cardX, 0, { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] });
+      animateValue(cardY, 0, { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] });
+      animateValue(cardOpacity, 1, { duration: 0.4, ease: "easeOut" });
+      animateValue(cardScale, 1, { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] });
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background select-none">
       <Navigation />
 
       {/* Hero Section */}
-      <section className="min-h-[85vh] flex items-center relative pt-20 sm:pt-24 pb-16 sm:pb-20">
+      <section ref={heroRef as RefObject<HTMLElement>} className="min-h-[85vh] flex items-center relative pt-20 sm:pt-24 pb-16 sm:pb-20">
         {/* Hero Video Background - Parallax with blur */}
         <div
           className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform dark:brightness-75 overflow-hidden"
@@ -279,38 +358,21 @@ export default function Landing() {
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">
           <div className="w-full max-w-[575px] text-center">
-            <AnimatePresence>
-              {!isMinimized && (
+            {!isMinimized && (
               <motion.div
                 key="hero-card"
-                initial={
-                  isRestoring.current
-                    ? { opacity: 0, scale: 0.05, x: "41vw", y: "-23vh" }
-                    : { opacity: 0, y: 30, scale: 1, x: 0 }
-                }
-                animate={
-                  heroVisible
-                    ? { opacity: 1, y: 0, scale: 1, x: 0 }
-                    : { opacity: 0, y: 30, scale: 1, x: 0 }
-                }
-                exit={{
-                  opacity: 0,
-                  scale: 0.05,
-                  x: "41vw",
-                  y: "-23vh",
-                  transition: { duration: 0.45, ease: [0.4, 0, 1, 1] },
-                }}
-                transition={
-                  isRestoring.current
-                    ? { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] }
-                    : { duration: 0.8, delay: 0.2 }
-                }
+                drag
+                dragConstraints={heroRef as RefObject<Element>}
+                dragElastic={0.05}
+                dragMomentum={false}
+                style={{ x: cardX, y: cardY, opacity: cardOpacity, scale: cardScale, cursor: "grab" }}
+                whileDrag={{ cursor: "grabbing" }}
               >
               {/* Glass Window Container - Everything inside */}
-              <div className="relative flex flex-col md:block bg-white/20 backdrop-blur-xl rounded-3xl pt-4 pb-[10px] px-4 sm:px-8 md:pb-[12px] md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[380px] sm:h-[390px] md:h-auto overflow-hidden">
+              <div ref={cardInnerRef} className="relative flex flex-col md:block bg-white/20 backdrop-blur-xl rounded-3xl pt-4 pb-[10px] px-4 sm:px-8 md:pb-[12px] md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[380px] sm:h-[390px] md:h-auto overflow-hidden">
                 {/* Minimize button */}
                 <button
-                  onClick={() => { isRestoring.current = false; setIsMinimized(true); }}
+                  onClick={handleMinimize}
                   className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-blue-400/30 backdrop-blur-sm border border-blue-300/50 flex items-center justify-center hover:bg-blue-500/50 hover:border-blue-300 transition-all duration-200 group"
                   aria-label="Minimize"
                 >
@@ -376,24 +438,33 @@ export default function Landing() {
               </div>
             </motion.div>
             )}
-            </AnimatePresence>
           </div>
         </div>
 
-        {/* Shield restore button — fixed top-right, visible when minimized */}
+        {/* Shield restore button — fixed, draggable within hero bounds */}
         <AnimatePresence>
           {isMinimized && (
             <motion.button
               key="shield-restore"
+              drag
+              dragMomentum={false}
+              dragElastic={0.05}
+              dragConstraints={{
+                left: -(window.innerWidth - SHIELD_RIGHT - SHIELD_SIZE),
+                right: SHIELD_RIGHT,
+                top: -30,
+                bottom: window.innerHeight * 0.85 - SHIELD_TOP - SHIELD_SIZE,
+              }}
+              style={{ x: shieldX, y: shieldY }}
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0, transition: { duration: 0.2, ease: [0.4, 0, 1, 1] } }}
               transition={{ duration: 0.4, delay: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
-              onClick={() => { isRestoring.current = true; setIsMinimized(false); }}
-              className="fixed top-[110px] right-[72px] z-[100] w-20 h-20 cursor-pointer drop-shadow-2xl"
+              onClick={handleRestore}
+              className="fixed top-[110px] right-[72px] z-[100] w-20 h-20 drop-shadow-2xl cursor-grab active:cursor-grabbing"
               aria-label="Restore window"
             >
-              <img src={shieldIcon} alt="Restore" className="w-full h-full object-contain hover:scale-110 transition-transform duration-200" />
+              <img src={shieldIcon} alt="Restore" className="w-full h-full object-contain hover:scale-110 transition-transform duration-200 pointer-events-none" />
             </motion.button>
           )}
         </AnimatePresence>

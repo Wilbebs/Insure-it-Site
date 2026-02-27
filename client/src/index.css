@@ -671,17 +671,16 @@
 .tagline-shimmer {
   background: linear-gradient(
     90deg,
-    #22d3ee 0%,
-    #3b82f6 20%,
-    #e0f7ff 40%,
-    #93c5fd 55%,
-    #a855f7 75%,
-    #22d3ee 100%
+    #1d4ed8 0%,
+    #93c5fd 40%,
+    #bfdbfe 55%,
+    #3b82f6 75%,
+    #1d4ed8 100%
   );
   background-size: 200% auto;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: tagline-shimmer 5s linear infinite;
+  animation: tagline-shimmer 12s linear infinite;
   filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.55));
 }

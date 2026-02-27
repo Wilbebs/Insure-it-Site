@@ -325,11 +325,11 @@ export default function Landing() {
                 </div>
 
                 {/* Mobile tagline — sits right above paragraph */}
-                <p className="md:hidden text-base font-medium italic bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent select-none text-center mb-1">
+                <p className="md:hidden text-base font-semibold italic bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent select-none text-center mb-1">
                   Life&apos;s Uncertain. Your Coverage Isn&apos;t.
                 </p>
 
-                <p className="relative text-sm sm:text-base md:text-xl text-slate-700 max-w-2xl mx-auto leading-relaxed mb-[5px] md:mb-[21px] select-none">
+                <p className="relative text-sm sm:text-base md:text-xl text-slate-900 font-semibold max-w-2xl mx-auto leading-relaxed mb-[5px] md:mb-[21px] select-none">
                   {t.hero.tagline}
                 </p>
 

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
-import { X, Car, Home, Heart, Building2, Check } from "lucide-react";
+import { X, Car, Home, Heart, Building2, Check, Waves } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useTranslation } from "./theme-provider";
@@ -31,7 +31,7 @@ function createQuoteFormSchema(t: ReturnType<typeof import("@/lib/translations")
     lastName: z.string().min(1, t.quote.validationLastName),
     email: z.string().email(t.quote.validationEmail),
     phone: z.string().min(10, t.quote.validationPhone),
-    policyType: z.string().min(1, t.quote.validationPolicyType),
+    policyTypes: z.array(z.string()).min(1, t.quote.validationPolicyType),
     message: z.string().optional(),
 
     /* ============================================================
@@ -116,6 +116,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     { value: "home", label: t.quote.home, icon: Home, description: t.quote.homeDesc },
     { value: "life", label: t.quote.life, icon: Heart, description: t.quote.lifeDesc },
     { value: "commercial", label: t.quote.commercial, icon: Building2, description: t.quote.commercialDesc },
+    { value: "flood", label: t.quote.flood, icon: Waves, description: t.quote.floodDesc },
   ];
 
   const quoteFormSchema = useMemo(() => createQuoteFormSchema(t), [t]);
@@ -127,12 +128,10 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       lastName: "",
       email: "",
       phone: "",
-      policyType: "",
+      policyTypes: [],
       message: "",
     },
   });
-
-  const policyType = form.watch("policyType");
 
   const submitMutation = useMutation({
     mutationFn: async (data: QuoteFormData) => {
@@ -140,7 +139,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       formData.append("fullName", `${data.firstName} ${data.lastName}`.trim());
       formData.append("emailAddress", data.email);
       formData.append("phoneNumber", data.phone);
-      formData.append("policyType", data.policyType);
+      formData.append("policyType", data.policyTypes.join(", "));
       if (data.message) {
         formData.append("additionalInformation", data.message);
       }
@@ -277,38 +276,56 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
 
               <FormField
                 control={form.control}
-                name="policyType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t.quote.step2Title}</FormLabel>
-                    <FormControl>
-                      <div className="grid grid-cols-2 gap-3">
-                        {policyOptions.map((option) => {
-                          const Icon = option.icon;
-                          const isSelected = field.value === option.value;
-                          return (
-                            <button
-                              key={option.value}
-                              type="button"
-                              onClick={() => field.onChange(option.value)}
-                              data-testid={`policy-option-${option.value}`}
-                              className={`p-4 rounded-2xl border transition-all duration-300 text-left ${
-                                isSelected
-                                  ? "border-blue-500 bg-blue-50 shadow-lg shadow-blue-500/20"
-                                  : "border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50/50"
-                              }`}
-                            >
-                              <Icon className={`w-6 h-6 mb-2 ${isSelected ? "text-blue-600" : "text-slate-400"}`} />
-                              <div className={`font-semibold text-sm ${isSelected ? "text-blue-700" : "text-slate-700"}`}>{option.label}</div>
-                              <div className="text-xs text-slate-500">{option.description}</div>
-                            </button>
-                          );
-                        })}
+                name="policyTypes"
+                render={({ field }) => {
+                  const selected: string[] = field.value ?? [];
+                  const toggle = (val: string) => {
+                    const next = selected.includes(val)
+                      ? selected.filter((v) => v !== val)
+                      : [...selected, val];
+                    field.onChange(next);
+                  };
+                  return (
+                    <FormItem>
+                      <div className="flex items-baseline justify-between">
+                        <FormLabel>{t.quote.step2Title}</FormLabel>
+                        <span className="text-xs text-slate-400">{t.quote.step2Subtitle}</span>
                       </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                      <FormControl>
+                        <div className="grid grid-cols-2 gap-3">
+                          {policyOptions.map((option, i) => {
+                            const Icon = option.icon;
+                            const isSelected = selected.includes(option.value);
+                            const isFlood = i === policyOptions.length - 1;
+                            return (
+                              <button
+                                key={option.value}
+                                type="button"
+                                onClick={() => toggle(option.value)}
+                                data-testid={`policy-option-${option.value}`}
+                                className={`relative p-4 rounded-2xl border transition-all duration-300 text-left ${isFlood ? "col-span-2" : ""} ${
+                                  isSelected
+                                    ? "border-blue-500 bg-blue-50 shadow-lg shadow-blue-500/20"
+                                    : "border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50/50"
+                                }`}
+                              >
+                                {isSelected && (
+                                  <span className="absolute top-2 right-2 w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
+                                    <Check className="w-3 h-3 text-white" />
+                                  </span>
+                                )}
+                                <Icon className={`w-6 h-6 mb-2 ${isSelected ? "text-blue-600" : "text-slate-400"}`} />
+                                <div className={`font-semibold text-sm ${isSelected ? "text-blue-700" : "text-slate-700"}`}>{option.label}</div>
+                                <div className="text-xs text-slate-500">{option.description}</div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
 
               <FormField

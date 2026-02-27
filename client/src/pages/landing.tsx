@@ -955,9 +955,9 @@ export default function Landing() {
 
       <Footer onGetQuote={() => setQuoteModalOpen(true)} />
 
-      {/* Shield restore button — lives at root level so no stacking context can trap it */}
+      {/* Shield restore button — only visible while user is within the hero section */}
       <AnimatePresence>
-        {isMinimized && (
+        {isMinimized && scrollY < window.innerHeight * 0.82 && (
           <motion.button
             key="shield-restore"
             drag

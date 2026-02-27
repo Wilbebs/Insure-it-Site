@@ -295,13 +295,13 @@ export default function About() {
               ))}
             </div>
             <div className="text-center mb-8 sm:mb-12 relative z-10">
-              <p className="text-xs sm:text-sm uppercase tracking-widest text-primary font-semibold mb-2">
+              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3 select-none">
                 {t.about.ourPeople}
               </p>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 select-none">
                 {t.about.meetTeam}
               </h2>
-              <div className="mx-auto mt-3 h-[3px] w-12 rounded-full bg-primary" />
+              <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto relative z-10">
               {/* Wilbert Hernandez - President */}

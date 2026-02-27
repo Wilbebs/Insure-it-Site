@@ -11,73 +11,73 @@ interface FooterProps {
 export default function Footer({ onGetQuote }: FooterProps) {
   const { t } = useTranslation();
   return (
-    <footer className="bg-slate-900 dark:bg-slate-950 text-white py-10 sm:py-12" data-testid="footer">
+    <footer className="bg-slate-900 dark:bg-slate-950 text-white py-4 sm:py-5" data-testid="footer">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
           <div>
-            <div className="mb-4">
+            <div className="mb-2">
               <Logo variant="white" />
             </div>
-            <p className="opacity-90 leading-relaxed mb-4">
+            <p className="opacity-90 leading-snug text-xs mb-2">
               {t.footer.description}
             </p>
-            <div className="flex items-center space-x-3">
-              <a 
-                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all" 
-                target="_blank" 
+            <div className="flex items-center space-x-2">
+              <a
+                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/90 hover:bg-white p-2 rounded transition-all hover:scale-110"
+                className="bg-white/90 hover:bg-white p-1.5 rounded transition-all hover:scale-110"
                 data-testid="footer-linkedin"
               >
-                <FaLinkedin className="w-6 h-6 text-blue-600" />
+                <FaLinkedin className="w-4 h-4 text-blue-600" />
               </a>
-              <a 
-                href="https://www.instagram.com/insureitgroup/" 
-                target="_blank" 
+              <a
+                href="https://www.instagram.com/insureitgroup/"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/90 hover:bg-white p-2 rounded transition-all hover:scale-110"
+                className="bg-white/90 hover:bg-white p-1.5 rounded transition-all hover:scale-110"
                 data-testid="footer-instagram"
               >
-                <FaInstagram className="w-6 h-6 text-pink-600" />
+                <FaInstagram className="w-4 h-4 text-pink-600" />
               </a>
-              <a 
-                href="https://www.facebook.com/insureitgroup" 
-                target="_blank" 
+              <a
+                href="https://www.facebook.com/insureitgroup"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white/90 hover:bg-white p-2 rounded transition-all hover:scale-110"
+                className="bg-white/90 hover:bg-white p-1.5 rounded transition-all hover:scale-110"
                 data-testid="footer-facebook"
               >
-                <FaFacebook className="w-6 h-6 text-blue-600" />
+                <FaFacebook className="w-4 h-4 text-blue-600" />
               </a>
             </div>
           </div>
-          
+
           <div>
-            <h3 className="font-semibold text-lg mb-4">{t.footer.quickLinks}</h3>
-            <ul className="space-y-2 opacity-90">
+            <h3 className="font-semibold text-sm mb-2">{t.footer.quickLinks}</h3>
+            <ul className="space-y-1 opacity-90 text-sm">
               <li>
-                <Link 
-                  href="/" 
-                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="hover:opacity-100 transition-opacity" 
+                <Link
+                  href="/"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="hover:opacity-100 transition-opacity"
                   data-testid="footer-link-home"
                 >
                   {t.footer.home}
                 </Link>
               </li>
               <li>
-                <Link 
-                  href="/about" 
-                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="hover:opacity-100 transition-opacity" 
+                <Link
+                  href="/about"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="hover:opacity-100 transition-opacity"
                   data-testid="footer-link-about"
                 >
                   {t.footer.aboutUs}
                 </Link>
               </li>
               <li>
-                <button 
-                  onClick={onGetQuote} 
+                <button
+                  onClick={onGetQuote}
                   className="hover:opacity-100 transition-opacity text-left"
                   data-testid="footer-link-quote"
                 >
@@ -86,27 +86,27 @@ export default function Footer({ onGetQuote }: FooterProps) {
               </li>
             </ul>
           </div>
-          
+
           <div>
-            <h3 className="font-semibold text-lg mb-4">{t.footer.contactInfo}</h3>
-            <div className="space-y-2 opacity-90">
+            <h3 className="font-semibold text-sm mb-2">{t.footer.contactInfo}</h3>
+            <div className="space-y-1 opacity-90 text-sm">
               <div className="flex items-center" data-testid="contact-phone">
-                <Phone className="w-4 h-4 mr-2" />
+                <Phone className="w-3.5 h-3.5 mr-2 shrink-0" />
                 <span>(555) 123-4567</span>
               </div>
               <div className="flex items-center" data-testid="contact-email">
-                <Mail className="w-4 h-4 mr-2" />
+                <Mail className="w-3.5 h-3.5 mr-2 shrink-0" />
                 <span>info@insureitgroup.com</span>
               </div>
               <div className="flex items-center" data-testid="contact-address">
-                <MapPin className="w-4 h-4 mr-2" />
+                <MapPin className="w-3.5 h-3.5 mr-2 shrink-0" />
                 <span>123 Insurance Ave, Suite 100</span>
               </div>
             </div>
           </div>
         </div>
-        
-        <div className="border-t border-slate-700 mt-8 pt-8 text-center opacity-75">
+
+        <div className="border-t border-slate-700 mt-3 pt-3 text-center opacity-75 text-xs">
           <p>{t.footer.copyright}</p>
         </div>
       </div>

@@ -395,7 +395,7 @@ export default function About() {
               </div>
             </div>
 
-            <p className="text-lg text-muted-foreground mt-6 mb-6 max-w-2xl mx-auto text-center relative z-10">
+            <p className="text-base text-muted-foreground mt-6 mb-6 mx-auto text-center relative z-10 sm:whitespace-nowrap">
               {t.about.connectDesc}
             </p>
             <div className="flex justify-center gap-6 sm:gap-8 relative z-10">

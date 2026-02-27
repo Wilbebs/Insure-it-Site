@@ -11,6 +11,7 @@ import {
   Building2,
   Phone,
   Mail,
+  MapPin,
   Shield,
   ArrowRight,
   Minus,
@@ -623,8 +624,41 @@ export default function Landing() {
                 </button>
               </div>
 
-              {/* Right: reserved for future functionality */}
-              <div />
+              {/* Right: Google Maps Street View */}
+              {(() => {
+                const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+                const src = apiKey
+                  ? `https://www.google.com/maps/embed/v1/streetview?key=${apiKey}&location=30.1540,-81.6549&heading=90&pitch=0&fov=75`
+                  : null;
+                return (
+                  <div className="flex flex-col gap-2">
+                    <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[260px] sm:h-[300px]">
+                      {src ? (
+                        <iframe
+                          src={src}
+                          width="100%"
+                          height="100%"
+                          style={{ border: 0, display: "block" }}
+                          allowFullScreen
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                          title="Insure IT Group Office - Street View"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-slate-100 dark:bg-slate-700 flex flex-col items-center justify-center gap-2 text-slate-400 dark:text-slate-500">
+                          <MapPin className="w-8 h-8" />
+                          <p className="text-sm font-medium">Street View Loading…</p>
+                          <p className="text-xs">11570 San Jose Blvd, Suite 11</p>
+                          <p className="text-xs">Jacksonville, FL 32223</p>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground text-center select-none">
+                      11570 San Jose Blvd, Suite 11 · Jacksonville, FL 32223
+                    </p>
+                  </div>
+                );
+              })()}
 
             </div>
           </div>

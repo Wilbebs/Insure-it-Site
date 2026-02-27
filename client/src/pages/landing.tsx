@@ -217,10 +217,10 @@ export default function Landing() {
   const shieldY = useMotionValue(0);
   const shieldDragged = useRef(false);
 
-  // Shield fixed-position constants
-  const SHIELD_RIGHT = 72;
+  // Shield fixed-position constants (responsive: sm = 640px)
+  const SHIELD_RIGHT = typeof window !== "undefined" && window.innerWidth >= 640 ? 72 : 16;
   const SHIELD_TOP = 110;
-  const SHIELD_SIZE = 80;
+  const SHIELD_SIZE = typeof window !== "undefined" && window.innerWidth >= 640 ? 80 : 64;
 
   useEffect(() => {
     const openQuote = () => setQuoteModalOpen(true);
@@ -442,36 +442,6 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* Shield restore button — fixed, draggable within hero bounds */}
-        <AnimatePresence>
-          {isMinimized && (
-            <motion.button
-              key="shield-restore"
-              drag
-              dragMomentum={false}
-              dragElastic={0.05}
-              dragConstraints={{
-                left: -(window.innerWidth - SHIELD_RIGHT - SHIELD_SIZE),
-                right: SHIELD_RIGHT,
-                top: -30,
-                bottom: window.innerHeight * 0.85 - SHIELD_TOP - SHIELD_SIZE,
-              }}
-              style={{ x: shieldX, y: shieldY }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0, transition: { duration: 0.2, ease: [0.4, 0, 1, 1] } }}
-              transition={{ duration: 0.4, delay: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
-              onDragStart={() => { shieldDragged.current = true; }}
-              onDragEnd={() => { setTimeout(() => { shieldDragged.current = false; }, 0); }}
-              onClick={() => { if (!shieldDragged.current) handleRestore(); }}
-              className="fixed top-[110px] right-[72px] z-[100] w-20 h-20 drop-shadow-2xl cursor-grab active:cursor-grabbing"
-              aria-label="Restore window"
-            >
-              <img src={shieldIcon} alt="Restore" className="w-full h-full object-contain hover:scale-110 transition-transform duration-200 pointer-events-none" />
-            </motion.button>
-          )}
-        </AnimatePresence>
-
         <div className="absolute bottom-0 left-0 right-0 z-20">
           <SectionDivider
             variant="wave-layered"
@@ -671,6 +641,40 @@ export default function Landing() {
       <PartnersCarousel />
 
       <Footer onGetQuote={() => setQuoteModalOpen(true)} />
+
+      {/* Shield restore button — lives at root level so no stacking context can trap it */}
+      <AnimatePresence>
+        {isMinimized && (
+          <motion.button
+            key="shield-restore"
+            drag
+            dragMomentum={false}
+            dragElastic={0.05}
+            dragConstraints={{
+              left: -(window.innerWidth - SHIELD_RIGHT - SHIELD_SIZE),
+              right: SHIELD_RIGHT,
+              top: -30,
+              bottom: window.innerHeight * 0.85 - SHIELD_TOP - SHIELD_SIZE,
+            }}
+            style={{ x: shieldX, y: shieldY }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0, transition: { duration: 0.2, ease: [0.4, 0, 1, 1] } }}
+            transition={{ duration: 0.4, delay: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
+            onDrag={(_e, info) => {
+              if (Math.abs(info.offset.x) > 6 || Math.abs(info.offset.y) > 6) {
+                shieldDragged.current = true;
+              }
+            }}
+            onDragEnd={() => { setTimeout(() => { shieldDragged.current = false; }, 0); }}
+            onClick={() => { if (!shieldDragged.current) handleRestore(); }}
+            className="fixed top-[110px] right-4 sm:right-[72px] z-[200] w-16 h-16 sm:w-20 sm:h-20 drop-shadow-2xl cursor-grab active:cursor-grabbing"
+            aria-label="Restore window"
+          >
+            <img src={shieldIcon} alt="Restore" className="w-full h-full object-contain hover:scale-110 transition-transform duration-200 pointer-events-none" />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Quote Modal */}
       <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />

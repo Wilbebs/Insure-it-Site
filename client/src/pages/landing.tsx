@@ -18,7 +18,7 @@ import {
 import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef } from "react";
-import jacksonvilleSkyline from "@assets/stock_images/jacksonville_florida_13db0295.jpg";
+import heroVideo from "@assets/stock_images/herovid1.mp4";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
 import floodImg from "@assets/flood_insurance.jpg";
 import SectionDivider from "@/components/section-divider";
@@ -255,15 +255,22 @@ export default function Landing() {
 
       {/* Hero Section */}
       <section className="min-h-[85vh] flex items-center relative pt-20 sm:pt-24 pb-16 sm:pb-20">
-        {/* Jacksonville Skyline Background - Parallax with blur */}
+        {/* Hero Video Background - Parallax with blur */}
         <div
-          className="absolute -inset-x-0 -top-20 -bottom-40 bg-cover bg-center will-change-transform blur-[2.5px] dark:brightness-75"
-          style={{
-            backgroundImage: `url(${jacksonvilleSkyline})`,
-            backgroundPosition: "center 40%",
-            transform: `translateY(${scrollY * 0.4}px) scale(1.02)`,
-          }}
-        />
+          className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform blur-[2.5px] dark:brightness-75 overflow-hidden"
+          style={{ transform: `translateY(${scrollY * 0.4}px) scale(1.02)` }}
+        >
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+            style={{ objectPosition: "center 40%" }}
+          >
+            <source src={heroVideo} type="video/mp4" />
+          </video>
+        </div>
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">

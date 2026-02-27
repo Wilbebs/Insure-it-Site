@@ -326,7 +326,7 @@ export default function Landing() {
                 </div>
 
                 {/* Mobile tagline — sits right above paragraph */}
-                <p className="md:hidden text-base font-semibold italic bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent select-none text-center mb-1 [filter:drop-shadow(0_1px_4px_rgba(0,0,0,0.55))]">
+                <p className="md:hidden text-base font-semibold italic tagline-shimmer select-none text-center mb-1">
                   Life&apos;s Uncertain. Your Coverage Isn&apos;t.
                 </p>
 

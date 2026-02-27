@@ -294,7 +294,7 @@ export default function About() {
                 />
               ))}
             </div>
-            <div className="text-center mb-8 sm:mb-12 relative z-10">
+            <div className="text-center mb-6 sm:mb-10 relative z-10">
               <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3 select-none">
                 {t.about.ourPeople}
               </p>
@@ -395,7 +395,7 @@ export default function About() {
               </div>
             </div>
 
-            <p className="text-base text-muted-foreground mt-6 mb-6 mx-auto text-center relative z-10 sm:whitespace-nowrap">
+            <p className="text-base text-muted-foreground mt-4 mb-4 mx-auto text-center relative z-10 sm:whitespace-nowrap">
               {t.about.connectDesc}
             </p>
             <div className="flex justify-center gap-6 sm:gap-8 relative z-10">

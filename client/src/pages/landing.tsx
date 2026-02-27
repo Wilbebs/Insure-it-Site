@@ -715,16 +715,17 @@ export default function Landing() {
                 </motion.div>
               )}
             </AnimatePresence>
-            {/* Rotating gradient ring — same conic gradient as the Get Quoted button */}
+            {/* Rotating gradient ring following the shield outline */}
             <span
               className="absolute pointer-events-none"
               style={{
                 inset: '-5px',
-                borderRadius: '50%',
                 background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
                 animation: 'border-rotate-slow 4s linear infinite',
-                WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 4px), white 100%)',
-                mask: 'radial-gradient(farthest-side, transparent calc(100% - 4px), white 100%)',
+                WebkitMask: `url(${shieldIcon}) center/100% 100% no-repeat, url(${shieldIcon}) center/83% 83% no-repeat`,
+                WebkitMaskComposite: 'source-out',
+                mask: `url(${shieldIcon}) center/100% 100% no-repeat, url(${shieldIcon}) center/83% 83% no-repeat`,
+                maskComposite: 'subtract',
               }}
             />
             <img src={shieldIcon} alt="Restore" className="w-full h-full object-contain hover:scale-110 transition-transform duration-200 pointer-events-none" />

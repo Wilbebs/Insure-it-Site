@@ -6,7 +6,8 @@ const translations = {
       switchLang: "Switch to Spanish",
     },
     hero: {
-      tagline: "Your Trusted Partner for Home, Auto, Life & Business Insurance",
+      tagline: "Your Trusted Insurance Partner",
+      coverages: ["Home", "Auto", "Life", "Business", "Flood"],
       getQuoted: "Get Quoted Today",
       callUs: "Call Us Now",
     },
@@ -357,7 +358,8 @@ const translations = {
       switchLang: "Cambiar a Inglés",
     },
     hero: {
-      tagline: "Su Socio de Confianza para Seguros de Hogar, Auto, Vida y Negocio",
+      tagline: "Su Socio de Confianza en Seguros",
+      coverages: ["Hogar", "Auto", "Vida", "Negocio", "Inundación"],
       getQuoted: "Cotice Hoy",
       callUs: "Llámenos Ahora",
     },

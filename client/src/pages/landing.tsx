@@ -15,6 +15,7 @@ import {
   Shield,
   ArrowRight,
   Minus,
+  Waves,
 } from "lucide-react";
 import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
@@ -329,9 +330,23 @@ export default function Landing() {
                   Life&apos;s Uncertain. Your Coverage Isn&apos;t.
                 </p>
 
-                <p className="relative text-sm sm:text-base md:text-xl text-slate-900 font-semibold max-w-2xl mx-auto leading-relaxed mb-[5px] md:mb-[21px] select-none">
+                <p className="relative text-sm sm:text-base md:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed mb-2 md:mb-3 select-none">
                   {t.hero.tagline}
                 </p>
+                <div className="flex flex-wrap gap-1.5 justify-center mb-[5px] md:mb-[18px]">
+                  {[
+                    { icon: <House className="w-3 h-3" />, label: t.hero.coverages[0] },
+                    { icon: <Car className="w-3 h-3" />, label: t.hero.coverages[1] },
+                    { icon: <Heart className="w-3 h-3" />, label: t.hero.coverages[2] },
+                    { icon: <Building2 className="w-3 h-3" />, label: t.hero.coverages[3] },
+                    { icon: <Waves className="w-3 h-3" />, label: t.hero.coverages[4] },
+                  ].map(({ icon, label }) => (
+                    <span key={label} className="flex items-center gap-1 bg-white/25 backdrop-blur-sm border border-white/50 text-slate-700 text-xs font-medium px-2.5 py-1 rounded-full shadow-sm">
+                      {icon}
+                      {label}
+                    </span>
+                  ))}
+                </div>
 
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}

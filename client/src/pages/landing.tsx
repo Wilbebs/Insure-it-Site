@@ -11,12 +11,12 @@ import {
   Building2,
   Phone,
   Mail,
-  MapPin,
   Shield,
   ArrowRight,
   Minus,
   Waves,
   ChevronDown,
+  Check,
 } from "lucide-react";
 import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
@@ -202,6 +202,14 @@ export default function Landing() {
   const isRestoring = useRef(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [copiedContact, setCopiedContact] = useState<string | null>(null);
+
+  const copyToClipboard = (text: string, key: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedContact(key);
+      setTimeout(() => setCopiedContact(null), 2000);
+    });
+  };
 
   // Drag & animation refs
   const heroRef = useRef<HTMLElement>(null);
@@ -578,38 +586,26 @@ export default function Landing() {
                 </h2>
                 <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-6" />
 
-                {/* Contact info pills */}
+                {/* Contact info pills — click to copy */}
                 <div className="flex flex-wrap gap-2 mb-8">
-                  <a
-                    href="tel:+13059185339"
+                  <button
+                    onClick={() => copyToClipboard("3059185339", "phone")}
                     data-testid="link-phone"
-                    className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm hover:border-primary hover:text-primary transition-colors select-text whitespace-nowrap"
+                    className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                    style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
                   >
-                    <Phone className="w-3 h-3" />
-                    (305) 918-5339
-                  </a>
-                  <a
-                    href="mailto:info@insure-itgroup.com"
+                    {copiedContact === "phone" ? <Check className="w-3 h-3" /> : <Phone className="w-3 h-3" />}
+                    {copiedContact === "phone" ? "Copied!" : "(305) 918-5339"}
+                  </button>
+                  <button
+                    onClick={() => copyToClipboard("info@insure-itgroup.com", "email")}
                     data-testid="link-email"
-                    className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm hover:border-primary hover:text-primary transition-colors select-text whitespace-nowrap"
+                    className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                    style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
                   >
-                    <Mail className="w-3 h-3" />
-                    info@insure-itgroup.com
-                  </a>
-                  <span
-                    data-testid="text-location"
-                    className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap select-text"
-                  >
-                    <MapPin className="w-3 h-3" />
-                    {t.contact.location}
-                  </span>
-                  <span
-                    data-testid="text-license"
-                    className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap"
-                  >
-                    <Shield className="w-3 h-3" />
-                    {t.contact.licensed}
-                  </span>
+                    {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
+                    {copiedContact === "email" ? "Copied!" : "info@insure-itgroup.com"}
+                  </button>
                 </div>
 
                 <button

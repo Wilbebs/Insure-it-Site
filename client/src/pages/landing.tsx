@@ -196,6 +196,7 @@ export default function Landing() {
   const { t } = useTranslation();
   const [heroVisible, setHeroVisible] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const isRestoring = useRef(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
@@ -281,28 +282,38 @@ export default function Landing() {
               {!isMinimized && (
               <motion.div
                 key="hero-card"
-                initial={{ opacity: 0, y: 30 }}
+                initial={
+                  isRestoring.current
+                    ? { opacity: 0, scale: 0.05, x: "41vw", y: "-23vh" }
+                    : { opacity: 0, y: 30, scale: 1, x: 0 }
+                }
                 animate={
-                  heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }
+                  heroVisible
+                    ? { opacity: 1, y: 0, scale: 1, x: 0 }
+                    : { opacity: 0, y: 30, scale: 1, x: 0 }
                 }
                 exit={{
                   opacity: 0,
                   scale: 0.05,
                   x: "41vw",
                   y: "-23vh",
-                  transition: { duration: 0.55, ease: [0.4, 0, 0.8, 1] },
+                  transition: { duration: 0.45, ease: [0.4, 0, 1, 1] },
                 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
+                transition={
+                  isRestoring.current
+                    ? { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] }
+                    : { duration: 0.8, delay: 0.2 }
+                }
               >
               {/* Glass Window Container - Everything inside */}
               <div className="relative flex flex-col md:block bg-white/20 backdrop-blur-xl rounded-3xl pt-4 pb-[10px] px-4 sm:px-8 md:pb-[12px] md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[380px] sm:h-[390px] md:h-auto overflow-hidden">
                 {/* Minimize button */}
                 <button
-                  onClick={() => setIsMinimized(true)}
-                  className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-white/30 backdrop-blur-sm border border-white/40 flex items-center justify-center hover:bg-red-400/60 hover:border-red-300 transition-all duration-200 group"
+                  onClick={() => { isRestoring.current = false; setIsMinimized(true); }}
+                  className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-blue-400/30 backdrop-blur-sm border border-blue-300/50 flex items-center justify-center hover:bg-blue-500/50 hover:border-blue-300 transition-all duration-200 group"
                   aria-label="Minimize"
                 >
-                  <Minus className="w-4 h-4 text-slate-700 group-hover:text-white transition-colors" />
+                  <Minus className="w-4 h-4 text-blue-700 group-hover:text-white transition-colors" />
                 </button>
 
                 {/* Subtle gradient glow effect */}
@@ -364,9 +375,9 @@ export default function Landing() {
               key="shield-restore"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
-              transition={{ duration: 0.4, delay: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
-              onClick={() => setIsMinimized(false)}
+              exit={{ scale: 0, opacity: 0, transition: { duration: 0.2, ease: [0.4, 0, 1, 1] } }}
+              transition={{ duration: 0.4, delay: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
+              onClick={() => { isRestoring.current = true; setIsMinimized(false); }}
               className="fixed top-[110px] right-[72px] z-[100] w-20 h-20 cursor-pointer drop-shadow-2xl"
               aria-label="Restore window"
             >

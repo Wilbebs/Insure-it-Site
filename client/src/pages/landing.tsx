@@ -678,7 +678,7 @@ export default function Landing() {
             wave1Color="hsla(205, 70%, 72%, 0.40)"
             wave2Color="hsla(205, 70%, 72%, 0.70)"
             wave3Color="hsla(205, 68%, 70%, 0.90)"
-            height={65}
+            height={22}
           />
         </div>
       </section>

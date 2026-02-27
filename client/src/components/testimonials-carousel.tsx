@@ -112,7 +112,7 @@ export default function TestimonialsCarousel() {
               {pageTestimonials.map((testimonial, index) => (
                 <div
                   key={index}
-                  className="bg-white/82 dark:bg-slate-800/82 backdrop-blur-sm rounded-xl p-4 shadow-md border border-white/60 dark:border-slate-700/60"
+                  className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/80 dark:border-slate-700/80"
                   data-testid={`testimonial-carousel-${currentPage * cardsPerPage + index}`}
                 >
                   <div className="mb-2">

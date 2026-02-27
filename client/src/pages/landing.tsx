@@ -704,7 +704,7 @@ export default function Landing() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.9 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="absolute bottom-full mb-2 right-5 pointer-events-none"
+                  className="absolute bottom-full mb-2 right-10 pointer-events-none"
                 >
                   <div className="relative bg-white text-slate-700 text-[11px] font-semibold px-3 py-2 rounded-xl shadow-xl whitespace-nowrap border border-slate-100">
                     Tap to reopen the Insure IT window!
@@ -715,6 +715,18 @@ export default function Landing() {
                 </motion.div>
               )}
             </AnimatePresence>
+            {/* Rotating gradient ring — same conic gradient as the Get Quoted button */}
+            <span
+              className="absolute pointer-events-none"
+              style={{
+                inset: '-5px',
+                borderRadius: '50%',
+                background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
+                animation: 'border-rotate-slow 4s linear infinite',
+                WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 4px), white 100%)',
+                mask: 'radial-gradient(farthest-side, transparent calc(100% - 4px), white 100%)',
+              }}
+            />
             <img src={shieldIcon} alt="Restore" className="w-full h-full object-contain hover:scale-110 transition-transform duration-200 pointer-events-none" />
           </motion.button>
         )}

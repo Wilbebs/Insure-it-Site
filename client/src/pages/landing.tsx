@@ -816,15 +816,56 @@ export default function Landing() {
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-5xl mx-auto">
 
-            {/* Section heading — left-aligned, matches site pattern */}
-            <div className="mb-6">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-2 select-none">
-                {t.contact.subtitle}
-              </p>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 select-none">
-                {t.contact.title}
-              </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full" />
+            {/* Centered CTA block */}
+            <div className="flex flex-col items-center text-center gap-5 mb-8">
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3 select-none">
+                  {t.contact.subtitle}
+                </p>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 select-none">
+                  {t.contact.title}
+                </h2>
+                <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
+              </div>
+
+              <div className="relative">
+                <div className="absolute -inset-[5px] bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-400 rounded-xl opacity-40 blur-md animate-pulse pointer-events-none" />
+                <button
+                  onClick={() => setQuoteModalOpen(true)}
+                  className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                  data-testid="button-get-quote-contact"
+                >
+                  <span className="relative z-10">
+                    {t.contact.getQuoted}
+                    <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
+                </button>
+              </div>
+
+              {/* Contact pills */}
+              <div className="flex flex-wrap gap-2 justify-center">
+                <a
+                  href="tel:+13059185339"
+                  onClick={() => copyToClipboard("3059185339", "phone")}
+                  data-testid="link-phone"
+                  className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                  style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
+                >
+                  {copiedContact === "phone" ? <Check className="w-3 h-3" /> : <Phone className="w-3 h-3" />}
+                  {copiedContact === "phone" ? "Copied!" : "(305) 918-5339"}
+                </a>
+                <a
+                  href="mailto:info@insure-itgroup.com"
+                  onClick={() => copyToClipboard("info@insure-itgroup.com", "email")}
+                  data-testid="link-email"
+                  className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                  style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
+                >
+                  {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
+                  {copiedContact === "email" ? "Copied!" : "info@insure-itgroup.com"}
+                </a>
+              </div>
             </div>
 
             {/* Full-width Map */}
@@ -834,7 +875,7 @@ export default function Landing() {
                 ? `https://www.google.com/maps/embed/v1/streetview?key=${apiKey}&location=30.1540,-81.6549&heading=90&pitch=0&fov=75`
                 : null;
               return (
-                <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[180px] sm:h-[240px] md:h-[280px] w-full mb-5">
+                <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[220px] sm:h-[260px] md:h-[300px] w-full">
                   {src ? (
                     <iframe
                       src={src}
@@ -858,59 +899,10 @@ export default function Landing() {
               );
             })()}
 
-            {/* 3-column info strip */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 items-center pb-2">
-              {/* Col 1 — Address */}
-              <div className="flex items-start gap-2 sm:justify-start justify-center">
-                <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                <div className="text-xs text-muted-foreground leading-relaxed">
-                  <p className="font-semibold text-foreground text-sm">Our Office</p>
-                  <p>11570 San Jose Blvd, Suite 11</p>
-                  <p>Jacksonville, FL 32223</p>
-                </div>
-              </div>
-
-              {/* Col 2 — Contact pills */}
-              <div className="flex flex-col gap-2 items-center">
-                <a
-                  href="tel:+13059185339"
-                  onClick={() => copyToClipboard("3059185339", "phone")}
-                  data-testid="link-phone"
-                  className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer w-fit"
-                  style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
-                >
-                  {copiedContact === "phone" ? <Check className="w-3 h-3" /> : <Phone className="w-3 h-3" />}
-                  {copiedContact === "phone" ? "Copied!" : "(305) 918-5339"}
-                </a>
-                <a
-                  href="mailto:info@insure-itgroup.com"
-                  onClick={() => copyToClipboard("info@insure-itgroup.com", "email")}
-                  data-testid="link-email"
-                  className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer w-fit"
-                  style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
-                >
-                  {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
-                  {copiedContact === "email" ? "Copied!" : "info@insure-itgroup.com"}
-                </a>
-              </div>
-
-              {/* Col 3 — CTA button */}
-              <div className="flex sm:justify-end justify-center">
-                <div className="relative">
-                  <div className="absolute -inset-[5px] bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-400 rounded-xl opacity-40 blur-md animate-pulse pointer-events-none" />
-                  <button
-                    onClick={() => setQuoteModalOpen(true)}
-                    className="animated-border-btn group relative overflow-hidden text-primary-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold text-sm sm:text-base shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none w-full sm:w-auto"
-                    data-testid="button-get-quote-contact"
-                  >
-                    <span className="relative z-10">
-                      {t.contact.getQuoted}
-                      <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                    <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
-                  </button>
-                </div>
-              </div>
+            {/* Address below map */}
+            <div className="flex items-center justify-center gap-1.5 mt-3 mb-6 text-xs text-muted-foreground select-none">
+              <MapPin className="w-3 h-3 shrink-0" />
+              <span>11570 San Jose Blvd, Suite 11 · Jacksonville, FL 32223</span>
             </div>
 
           </div>

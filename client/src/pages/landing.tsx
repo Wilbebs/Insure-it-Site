@@ -722,9 +722,9 @@ export default function Landing() {
                 inset: '-5px',
                 background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
                 animation: 'border-rotate-slow 4s linear infinite',
-                WebkitMask: `url(${shieldIcon}) center/100% 100% no-repeat, url(${shieldIcon}) center/83% 83% no-repeat`,
+                WebkitMask: `url(${shieldIcon}) center/100% 100% no-repeat, url(${shieldIcon}) center/94% 94% no-repeat`,
                 WebkitMaskComposite: 'source-out',
-                mask: `url(${shieldIcon}) center/100% 100% no-repeat, url(${shieldIcon}) center/83% 83% no-repeat`,
+                mask: `url(${shieldIcon}) center/100% 100% no-repeat, url(${shieldIcon}) center/94% 94% no-repeat`,
                 maskComposite: 'subtract',
               }}
             />

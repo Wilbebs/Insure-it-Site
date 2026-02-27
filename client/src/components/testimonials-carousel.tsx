@@ -1,14 +1,12 @@
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
-import useEmblaCarousel from 'embla-carousel-react';
-import { useCallback, useEffect, useState } from "react";
-import Autoplay from 'embla-carousel-autoplay';
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslation } from "./theme-provider";
 
 export default function TestimonialsCarousel() {
   const { t } = useTranslation();
-  
-  const testimonials = [
+
+  const allTestimonials = [
     { name: "Maria Garcia", location: "Miami, FL", rating: 5, text: t.testimonials.t1, insurance: t.testimonials.t1type },
     { name: "James Thompson", location: "Orlando, FL", rating: 5, text: t.testimonials.t2, insurance: t.testimonials.t2type },
     { name: "Jennifer Lee", location: "Tampa, FL", rating: 5, text: t.testimonials.t3, insurance: t.testimonials.t3type },
@@ -21,122 +19,162 @@ export default function TestimonialsCarousel() {
     { name: "Patricia Nguyen", location: "Gainesville, FL", rating: 5, text: t.testimonials.t10, insurance: t.testimonials.t10type },
     { name: "Anthony Russo", location: "Palm Beach, FL", rating: 5, text: t.testimonials.t11, insurance: t.testimonials.t11type },
     { name: "Linda Morales", location: "Coral Springs, FL", rating: 5, text: t.testimonials.t12, insurance: t.testimonials.t12type },
-    { name: "Ryan Cooper", location: "Sarasota, FL", rating: 5, text: t.testimonials.t13, insurance: t.testimonials.t13type },
-    { name: "Diana Perez", location: "Pembroke Pines, FL", rating: 5, text: t.testimonials.t14, insurance: t.testimonials.t14type },
-    { name: "Marco Hernandez", location: "Kissimmee, FL", rating: 5, text: t.testimonials.t15, insurance: t.testimonials.t15type },
-    { name: "Karen O'Brien", location: "Cape Coral, FL", rating: 5, text: t.testimonials.t16, insurance: t.testimonials.t16type },
-    { name: "Tyler Jackson", location: "Daytona Beach, FL", rating: 5, text: t.testimonials.t17, insurance: t.testimonials.t17type },
-    { name: "Sofia Alvarez", location: "Doral, FL", rating: 5, text: t.testimonials.t18, insurance: t.testimonials.t18type },
-    { name: "George & Martha Klein", location: "The Villages, FL", rating: 5, text: t.testimonials.t19, insurance: t.testimonials.t19type },
-    { name: "Ashley Patel", location: "Aventura, FL", rating: 5, text: t.testimonials.t20, insurance: t.testimonials.t20type },
-    { name: "Ricardo Diaz", location: "Homestead, FL", rating: 5, text: t.testimonials.t21, insurance: t.testimonials.t21type },
-    { name: "Stephanie Mitchell", location: "Winter Park, FL", rating: 5, text: t.testimonials.t22, insurance: t.testimonials.t22type },
-    { name: "Frank & Teresa Vasquez", location: "St. Augustine, FL", rating: 5, text: t.testimonials.t23, insurance: t.testimonials.t23type },
-    { name: "Christine Marks", location: "Clearwater, FL", rating: 5, text: t.testimonials.t24, insurance: t.testimonials.t24type },
   ];
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true, align: 'start', containScroll: false },
-    [Autoplay({ delay: 5000, stopOnInteraction: false })]
-  );
-  
-  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
+  const CARDS_PER_PAGE_DESKTOP = 4;
+  const CARDS_PER_PAGE_MOBILE = 2;
+  const TOTAL_PAGES_DESKTOP = Math.ceil(allTestimonials.length / CARDS_PER_PAGE_DESKTOP);
+  const TOTAL_PAGES_MOBILE = Math.ceil(allTestimonials.length / CARDS_PER_PAGE_MOBILE);
 
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [direction, setDirection] = useState(1);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on('select', onSelect);
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const totalPages = isMobile ? TOTAL_PAGES_MOBILE : TOTAL_PAGES_DESKTOP;
+  const cardsPerPage = isMobile ? CARDS_PER_PAGE_MOBILE : CARDS_PER_PAGE_DESKTOP;
+
+  const goTo = useCallback((page: number, dir: number) => {
+    setDirection(dir);
+    setCurrentPage(page);
+  }, []);
+
+  const next = useCallback(() => {
+    goTo((currentPage + 1) % totalPages, 1);
+  }, [currentPage, totalPages, goTo]);
+
+  const prev = useCallback(() => {
+    goTo((currentPage - 1 + totalPages) % totalPages, -1);
+  }, [currentPage, totalPages, goTo]);
+
+  useEffect(() => {
+    intervalRef.current = setInterval(next, 5000);
     return () => {
-      emblaApi.off('select', onSelect);
+      if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [emblaApi, onSelect]);
+  }, [next]);
+
+  const resetTimer = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(next, 5000);
+  }, [next]);
+
+  const handlePrev = () => { prev(); resetTimer(); };
+  const handleNext = () => { next(); resetTimer(); };
+  const handleDot = (i: number) => { goTo(i, i > currentPage ? 1 : -1); resetTimer(); };
+
+  const pageTestimonials = allTestimonials.slice(
+    currentPage * cardsPerPage,
+    currentPage * cardsPerPage + cardsPerPage
+  );
+
+  const variants = {
+    enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 60 : -60 }),
+    center: { opacity: 1, x: 0 },
+    exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -60 : 60 }),
+  };
 
   return (
-    <div className="relative max-w-7xl mx-auto px-2">
-      {/* Carousel Container */}
-      <div className="overflow-hidden py-3 px-3" ref={emblaRef}>
-        <div className="flex -mx-2">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="flex-[0_0_100%] sm:flex-[0_0_50%] md:flex-[0_0_33.333%] lg:flex-[0_0_20%] min-w-0 px-2"
-            >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="bg-card dark:bg-slate-800 rounded-xl p-3 shadow-md h-full"
-                data-testid={`testimonial-carousel-${index}`}
-              >
-                <div className="mb-2">
-                  <h3 className="font-bold text-foreground text-xs">{testimonial.name}</h3>
-                  <p className="text-[10px] text-muted-foreground">{testimonial.location}</p>
-                </div>
-                
-                <div className="flex gap-0.5 mb-2">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                
-                <p className="text-muted-foreground text-[11px] leading-relaxed mb-2 line-clamp-4">
-                  "{testimonial.text}"
-                </p>
-                
-                <div className="pt-2 border-t border-border">
-                  <p className="text-[10px] text-primary font-semibold">
-                    {testimonial.insurance}
-                  </p>
-                </div>
-              </motion.div>
-            </div>
-          ))}
-        </div>
+    <div className="max-w-5xl mx-auto">
+
+      {/* Section header */}
+      <div className="mb-6">
+        <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3 select-none">
+          {t.testimonials.subtitle}
+        </p>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 select-none">
+          {t.testimonials.title}
+        </h2>
+        <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full" />
       </div>
 
-      {/* Navigation Buttons */}
-      <button
-        onClick={scrollPrev}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 sm:-translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2.5 sm:p-2 shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
-        data-testid="carousel-prev"
-        aria-label={t.testimonials.prevLabel}
-      >
-        <ChevronLeft className="w-5 h-5 sm:w-4 sm:h-4 text-foreground" />
-      </button>
-      <button
-        onClick={scrollNext}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 sm:translate-x-4 bg-card dark:bg-slate-700 rounded-full p-2.5 sm:p-2 shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
-        data-testid="carousel-next"
-        aria-label={t.testimonials.nextLabel}
-      >
-        <ChevronRight className="w-5 h-5 sm:w-4 sm:h-4 text-foreground" />
-      </button>
+      {/* Card grid with prev/next flanking */}
+      <div className="relative">
+        {/* Prev button */}
+        <button
+          onClick={handlePrev}
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-5 bg-card dark:bg-slate-700 rounded-full shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
+          data-testid="carousel-prev"
+          aria-label={t.testimonials.prevLabel}
+        >
+          <ChevronLeft className="w-5 h-5 text-foreground" />
+        </button>
 
-      {/* Dot Indicators */}
-      <div className="flex justify-center gap-2 mt-5 flex-wrap">
-        {testimonials.map((_, index) => (
+        {/* Animated page of cards */}
+        <div className="overflow-hidden px-6 sm:px-8">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={`page-${currentPage}-${isMobile}`}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+            >
+              {pageTestimonials.map((testimonial, index) => (
+                <div
+                  key={index}
+                  className="bg-card dark:bg-slate-800 rounded-xl p-4 shadow-md"
+                  data-testid={`testimonial-carousel-${currentPage * cardsPerPage + index}`}
+                >
+                  <div className="mb-2">
+                    <h3 className="font-bold text-foreground text-sm">{testimonial.name}</h3>
+                    <p className="text-xs text-muted-foreground">{testimonial.location}</p>
+                  </div>
+
+                  <div className="flex gap-0.5 mb-2">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+
+                  <p className="text-muted-foreground text-xs leading-relaxed mb-3 line-clamp-4">
+                    "{testimonial.text}"
+                  </p>
+
+                  <div className="pt-2 border-t border-border">
+                    <p className="text-[11px] text-primary font-semibold">
+                      {testimonial.insurance}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Next button */}
+        <button
+          onClick={handleNext}
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-5 bg-card dark:bg-slate-700 rounded-full shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
+          data-testid="carousel-next"
+          aria-label={t.testimonials.nextLabel}
+        >
+          <ChevronRight className="w-5 h-5 text-foreground" />
+        </button>
+      </div>
+
+      {/* Dot indicators */}
+      <div className="flex justify-center gap-2 mt-6">
+        {Array.from({ length: totalPages }).map((_, i) => (
           <button
-            key={index}
-            onClick={() => emblaApi?.scrollTo(index)}
+            key={i}
+            onClick={() => handleDot(i)}
             className={`h-2.5 rounded-full transition-all min-w-[10px] ${
-              index === selectedIndex 
-                ? 'w-8 bg-primary' 
-                : 'w-2.5 bg-primary/50'
+              i === currentPage
+                ? "w-8 bg-primary"
+                : "w-2.5 bg-primary/40"
             }`}
-            aria-label={`${t.testimonials.goToLabel} ${index + 1}`}
+            aria-label={`${t.testimonials.goToLabel} ${i + 1}`}
           />
         ))}
       </div>

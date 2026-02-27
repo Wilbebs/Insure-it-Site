@@ -2,7 +2,7 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import QuoteModal from "@/components/quote-modal";
 import SectionDivider from "@/components/section-divider";
-import { Shield, Users, Award, Clock } from "lucide-react";
+import { Shield, Users, Award, Clock, ArrowRight } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "@/components/theme-provider";
@@ -18,6 +18,44 @@ const floatingShields = [
   { top: "50%", left: "3%", size: 50, delay: 1, duration: 4.5 },
   { top: "75%", right: "5%", size: 45, delay: 1.5, duration: 3.8 },
   { top: "85%", left: "8%", size: 35, delay: 0.8, duration: 4.2 },
+];
+
+const stats = [
+  { value: "2011", label: "Founded" },
+  { value: "14+", label: "Years Serving Florida" },
+  { value: "1000s", label: "Clients Protected" },
+  { value: "FL", label: "Statewide Coverage" },
+];
+
+const commitments = [
+  {
+    icon: Shield,
+    title: "Your Protection First",
+    desc: "We put coverage quality above commission. Independent means we work for you, not the carrier.",
+    color: "text-sky-500",
+    bg: "bg-sky-50 dark:bg-sky-900/20",
+  },
+  {
+    icon: Award,
+    title: "Top-Rated Carriers",
+    desc: "We partner exclusively with A-rated insurance companies so your policy is backed by financial strength.",
+    color: "text-blue-500",
+    bg: "bg-blue-50 dark:bg-blue-900/20",
+  },
+  {
+    icon: Clock,
+    title: "Fast, Same-Day Quotes",
+    desc: "We respect your time. Most quotes are ready the same day — often within the hour.",
+    color: "text-indigo-500",
+    bg: "bg-indigo-50 dark:bg-indigo-900/20",
+  },
+  {
+    icon: Users,
+    title: "Family-Owned Values",
+    desc: "Since 2011 the Hernandez family has treated every client like a neighbor. That never changes.",
+    color: "text-violet-500",
+    bg: "bg-violet-50 dark:bg-violet-900/20",
+  },
 ];
 
 function SocialButton({
@@ -118,9 +156,7 @@ function FloatingShield({
     <div
       ref={shieldRef}
       className={`absolute z-50 transition-all duration-300 cursor-pointer ${
-        isHovered
-          ? "opacity-100 scale-125"
-          : "opacity-[0.12] dark:opacity-[0.15]"
+        isHovered ? "opacity-100 scale-125" : "opacity-[0.12] dark:opacity-[0.15]"
       }`}
       style={{
         ...style,
@@ -138,7 +174,6 @@ function FloatingShield({
         className="w-full h-full object-contain select-none pointer-events-none"
         draggable={false}
       />
-      {/* Dynamic mouse-following shimmer - on top of image */}
       <div
         className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${isHovered ? "opacity-100" : "opacity-0"}`}
         style={dynamicGradientStyle}
@@ -149,7 +184,6 @@ function FloatingShield({
 
 export default function About() {
   const { t } = useTranslation();
-  const [titleText, setTitleText] = useState("");
   const [lastParagraphText, setLastParagraphText] = useState("");
   const [signatureText, setSignatureText] = useState("");
   const [showCursor, setShowCursor] = useState(false);
@@ -161,78 +195,70 @@ export default function About() {
     return () => window.removeEventListener("open-quote-modal", openQuote);
   }, []);
 
-  const fullTitle = t.about.ourStory;
   const fullLastParagraph = t.about.storyP4;
   const fullSignature = t.about.signature;
 
   useEffect(() => {
-    setTitleText("");
     setLastParagraphText("");
     setSignatureText("");
     setShowCursor(false);
 
     const intervals: ReturnType<typeof setInterval>[] = [];
-    let titleIndex = 0;
-    const titleInterval = setInterval(() => {
-      if (titleIndex <= fullTitle.length) {
-        setTitleText(fullTitle.slice(0, titleIndex));
-        titleIndex++;
+
+    let paragraphIndex = 0;
+    const paragraphInterval = setInterval(() => {
+      if (paragraphIndex <= fullLastParagraph.length) {
+        setLastParagraphText(fullLastParagraph.slice(0, paragraphIndex));
+        paragraphIndex++;
       } else {
-        clearInterval(titleInterval);
-        let paragraphIndex = 0;
-        const paragraphInterval = setInterval(() => {
-          if (paragraphIndex <= fullLastParagraph.length) {
-            setLastParagraphText(fullLastParagraph.slice(0, paragraphIndex));
-            paragraphIndex++;
+        clearInterval(paragraphInterval);
+        let signatureIndex = 0;
+        const signatureInterval = setInterval(() => {
+          if (signatureIndex <= fullSignature.length) {
+            setSignatureText(fullSignature.slice(0, signatureIndex));
+            signatureIndex++;
           } else {
-            clearInterval(paragraphInterval);
-            let signatureIndex = 0;
-            const signatureInterval = setInterval(() => {
-              if (signatureIndex <= fullSignature.length) {
-                setSignatureText(fullSignature.slice(0, signatureIndex));
-                signatureIndex++;
-              } else {
-                clearInterval(signatureInterval);
-                setShowCursor(true);
-              }
-            }, 30);
-            intervals.push(signatureInterval);
+            clearInterval(signatureInterval);
+            setShowCursor(true);
           }
-        }, 20);
-        intervals.push(paragraphInterval);
+        }, 30);
+        intervals.push(signatureInterval);
       }
-    }, 100);
-    intervals.push(titleInterval);
+    }, 20);
+    intervals.push(paragraphInterval);
 
     return () => intervals.forEach((id) => clearInterval(id));
-  }, [fullTitle, fullLastParagraph, fullSignature]);
+  }, [fullLastParagraph, fullSignature]);
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section with Family Portrait Background */}
+      {/* Hero — Story Window */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image with Parallax */}
         <div
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage:
-              `url(${familyRiverImg})`,
+            backgroundImage: `url(${familyRiverImg})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundAttachment: "fixed",
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 via-blue-800/50 to-slate-900/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 via-blue-800/50 to-slate-900/60" />
         </div>
 
-        {/* Floating Story Window */}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 py-20">
           <div className="max-w-4xl mx-auto bg-white/20 dark:bg-slate-900/30 backdrop-blur-xl rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 md:p-12 shadow-2xl border border-white/30">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8 text-white text-center">
+            {/* Section heading — matches landing page pattern */}
+            <p className="text-xs uppercase tracking-[0.2em] text-sky-300 font-semibold mb-3 text-center select-none">
+              WHO WE ARE
+            </p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 text-white text-center">
               {t.about.ourStory}
             </h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-sky-400 to-blue-400 rounded-full mx-auto mb-8" />
+
             <div className="space-y-6 text-base sm:text-lg text-white leading-relaxed">
               <p>{t.about.storyP1}</p>
               <p>{t.about.storyP2}</p>
@@ -257,7 +283,7 @@ export default function About() {
             </div>
           </div>
         </div>
-        {/* Wave divider at bottom of hero */}
+
         <div className="absolute bottom-0 left-0 right-0 z-20">
           <SectionDivider
             variant="wave-layered"
@@ -272,156 +298,200 @@ export default function About() {
         </div>
       </section>
 
-      <section
-        className="pb-1 sm:pb-2 bg-muted dark:bg-slate-900"
-        style={{ marginTop: -1, paddingTop: "0px" }}
-      >
+      {/* Stats bar */}
+      <section className="bg-primary py-6" style={{ marginTop: -1 }}>
         <div className="container mx-auto px-4 sm:px-6">
-          {/* Connect With Us Section - Team + Social */}
-          <div className="mb-6 sm:mb-10 relative overflow-hidden">
-            <div className="hidden lg:contents">
-              {floatingShields.map((shield, index) => (
-                <FloatingShield
-                  key={index}
-                  style={{
-                    top: shield.top,
-                    left: shield.left,
-                    right: shield.right,
-                  }}
-                  size={shield.size}
-                  delay={shield.delay}
-                  duration={shield.duration}
-                />
-              ))}
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12 text-center gradient-text relative z-10">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto text-center">
+            {stats.map((s) => (
+              <div key={s.label}>
+                <p className="text-2xl sm:text-3xl font-extrabold text-white">{s.value}</p>
+                <p className="text-xs sm:text-sm text-white/70 font-medium uppercase tracking-wider mt-0.5">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Commitments */}
+      <section className="py-12 bg-muted dark:bg-slate-900 relative overflow-hidden">
+        <div className="hidden lg:contents">
+          {floatingShields.slice(0, 3).map((shield, index) => (
+            <FloatingShield
+              key={index}
+              style={{ top: shield.top, left: shield.left, right: shield.right }}
+              size={shield.size}
+              delay={shield.delay}
+              duration={shield.duration}
+            />
+          ))}
+        </div>
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="text-center mb-8">
+            <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-2 select-none">
+              HOW WE WORK
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
+              Our Commitments to You
+            </h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            {commitments.map((c) => (
+              <div
+                key={c.title}
+                className={`${c.bg} rounded-2xl p-5 border border-white/60 dark:border-slate-700/60 shadow-sm`}
+              >
+                <c.icon className={`w-7 h-7 ${c.color} mb-3`} />
+                <h3 className="font-bold text-foreground text-sm mb-1.5">{c.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{c.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Meet the Team + Social */}
+      <section className="pb-10 pt-12 bg-muted dark:bg-slate-900 relative overflow-hidden border-t border-border">
+        <div className="hidden lg:contents">
+          {floatingShields.slice(2).map((shield, index) => (
+            <FloatingShield
+              key={index}
+              style={{ top: shield.top, left: shield.left, right: shield.right }}
+              size={shield.size}
+              delay={shield.delay}
+              duration={shield.duration}
+            />
+          ))}
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          {/* Section heading — matches landing page pattern */}
+          <div className="text-center mb-8">
+            <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-2 select-none">
+              OUR PEOPLE
+            </p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-2">
               {t.about.meetTeam}
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto relative z-10">
-              {/* Wilbert Hernandez - President */}
-              <div
-                className="insurance-card rounded-2xl overflow-hidden hover-lift"
-                data-testid="team-member-wilbert-hernandez"
-              >
-                <div className="aspect-square overflow-hidden relative group">
-                  <img
-                    src={wilbertPhoto}
-                    alt="Wilbert Hernandez - President"
-                    className="w-full h-full object-cover scale-[1.1]"
-                    style={{ objectPosition: "center calc(50% + 8px)" }}
-                  />
-                  <a
-                    href="https://www.linkedin.com/in/hernandez-wilbert/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute top-3 right-3 bg-white group-hover:bg-white rounded-full p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
-                    data-testid="linkedin-wilbert-hernandez"
-                  >
-                    <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
-                  </a>
-                </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold mb-2">Wilbert Hernandez</h3>
-                  <p className="text-primary font-medium">
-                    {t.about.president}
-                  </p>
-                </div>
-              </div>
+            <div className="w-20 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
+          </div>
 
-              {/* Elizabeth Hernandez - Operations Manager */}
-              <div
-                className="insurance-card rounded-2xl overflow-hidden hover-lift"
-                data-testid="team-member-elizabeth-hernandez"
-              >
-                <div className="aspect-square overflow-hidden relative group">
-                  <img
-                    src={elizabethPhoto}
-                    alt="Elizabeth Hernandez - Operations Manager"
-                    className="w-full h-full object-cover object-top"
-                  />
-                  <a
-                    href="https://www.linkedin.com/in/hernandez-wilbert/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute top-3 right-3 bg-white group-hover:bg-white rounded-full p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
-                    data-testid="linkedin-elizabeth-hernandez"
-                  >
-                    <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
-                  </a>
-                </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold mb-2">
-                    Elizabeth Hernandez
-                  </h3>
-                  <p className="text-primary font-medium">
-                    {t.about.operationsManager}
-                  </p>
-                </div>
+          {/* Team cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto">
+            {/* Wilbert Hernandez */}
+            <div
+              className="insurance-card rounded-2xl overflow-hidden hover-lift"
+              data-testid="team-member-wilbert-hernandez"
+            >
+              <div className="aspect-square overflow-hidden relative group">
+                <img
+                  src={wilbertPhoto}
+                  alt="Wilbert Hernandez - President"
+                  className="w-full h-full object-cover scale-[1.1]"
+                  style={{ objectPosition: "center calc(50% + 8px)" }}
+                />
+                <a
+                  href="https://www.linkedin.com/in/hernandez-wilbert/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg hover:bg-primary hover:scale-110 transition-all duration-300 z-10 group/li"
+                  data-testid="linkedin-wilbert-hernandez"
+                >
+                  <FaLinkedin className="w-5 h-5 text-primary group-hover/li:text-white transition-colors duration-300" />
+                </a>
               </div>
-
-              {/* David Hernandez - Account Executive */}
-              <div
-                className="insurance-card rounded-2xl overflow-hidden hover-lift"
-                data-testid="team-member-david-hernandez"
-              >
-                <div className="aspect-square overflow-hidden relative group">
-                  <img
-                    src={davidPhoto}
-                    alt="David Hernandez - Account Executive"
-                    className="w-full h-full object-cover scale-[1.15] object-top"
-                  />
-                  <a
-                    href="https://www.linkedin.com/in/hernandez-wilbert/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute top-3 right-3 bg-white group-hover:bg-white rounded-full p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
-                    data-testid="linkedin-david-hernandez"
-                  >
-                    <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
-                  </a>
-                </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold mb-2">David Hernandez</h3>
-                  <p className="text-primary font-medium">
-                    {t.about.accountExecutive}
-                  </p>
-                </div>
+              <div className="p-5 text-center">
+                <h3 className="text-lg font-bold mb-0.5">Wilbert Hernandez</h3>
+                <p className="text-primary font-semibold text-sm mb-1">{t.about.president}</p>
+                <p className="text-xs text-muted-foreground">Co-founder & visionary behind Insure-it Group's growth across Florida.</p>
               </div>
             </div>
 
-            <p className="text-lg text-muted-foreground mt-6 mb-6 max-w-2xl mx-auto text-center relative z-10">
+            {/* Elizabeth Hernandez */}
+            <div
+              className="insurance-card rounded-2xl overflow-hidden hover-lift"
+              data-testid="team-member-elizabeth-hernandez"
+            >
+              <div className="aspect-square overflow-hidden relative group">
+                <img
+                  src={elizabethPhoto}
+                  alt="Elizabeth Hernandez - Operations Manager"
+                  className="w-full h-full object-cover object-top"
+                />
+                <a
+                  href="https://www.linkedin.com/in/hernandez-wilbert/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg hover:bg-primary hover:scale-110 transition-all duration-300 z-10 group/li"
+                  data-testid="linkedin-elizabeth-hernandez"
+                >
+                  <FaLinkedin className="w-5 h-5 text-primary group-hover/li:text-white transition-colors duration-300" />
+                </a>
+              </div>
+              <div className="p-5 text-center">
+                <h3 className="text-lg font-bold mb-0.5">Elizabeth Hernandez</h3>
+                <p className="text-primary font-semibold text-sm mb-1">{t.about.operationsManager}</p>
+                <p className="text-xs text-muted-foreground">Keeps the agency running smoothly so clients always get fast, reliable service.</p>
+              </div>
+            </div>
+
+            {/* David Hernandez */}
+            <div
+              className="insurance-card rounded-2xl overflow-hidden hover-lift"
+              data-testid="team-member-david-hernandez"
+            >
+              <div className="aspect-square overflow-hidden relative group">
+                <img
+                  src={davidPhoto}
+                  alt="David Hernandez - Account Executive"
+                  className="w-full h-full object-cover scale-[1.15] object-top"
+                />
+                <a
+                  href="https://www.linkedin.com/in/hernandez-wilbert/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-lg hover:bg-primary hover:scale-110 transition-all duration-300 z-10 group/li"
+                  data-testid="linkedin-david-hernandez"
+                >
+                  <FaLinkedin className="w-5 h-5 text-primary group-hover/li:text-white transition-colors duration-300" />
+                </a>
+              </div>
+              <div className="p-5 text-center">
+                <h3 className="text-lg font-bold mb-0.5">David Hernandez</h3>
+                <p className="text-primary font-semibold text-sm mb-1">{t.about.accountExecutive}</p>
+                <p className="text-xs text-muted-foreground">Your go-to for personalized policy advice and finding the best fit for your needs.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Social section */}
+          <div className="mt-10 text-center">
+            <p className="text-sm text-muted-foreground mb-6 max-w-xl mx-auto">
               {t.about.connectDesc}
             </p>
-            <div className="flex justify-center gap-6 sm:gap-8 relative z-10">
+            <div className="flex justify-center gap-6 sm:gap-8">
               <SocialButton
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
-                icon={
-                  <FaLinkedin className="w-12 h-12 sm:w-16 sm:h-16 text-primary group-hover:text-white transition-colors duration-300 relative z-10" />
-                }
+                icon={<FaLinkedin className="w-12 h-12 sm:w-16 sm:h-16 text-primary group-hover:text-white transition-colors duration-300 relative z-10" />}
                 label="LinkedIn"
                 colorClass="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50"
                 hoverColorClass="group-hover:from-blue-500 group-hover:to-blue-600"
                 textHoverClass="group-hover:text-primary"
                 testId="social-linkedin"
               />
-
               <SocialButton
                 href="https://www.instagram.com/insureitgroup/"
-                icon={
-                  <FaInstagram className="w-12 h-12 sm:w-16 sm:h-16 text-pink-600 dark:text-pink-400 group-hover:text-white transition-colors duration-300 relative z-10" />
-                }
+                icon={<FaInstagram className="w-12 h-12 sm:w-16 sm:h-16 text-pink-600 dark:text-pink-400 group-hover:text-white transition-colors duration-300 relative z-10" />}
                 label="Instagram"
                 colorClass="bg-gradient-to-br from-pink-50 to-purple-100 dark:from-pink-900/50 dark:to-purple-900/50"
                 hoverColorClass="group-hover:from-pink-500 group-hover:to-purple-600"
                 textHoverClass="group-hover:text-pink-600"
                 testId="social-instagram"
               />
-
               <SocialButton
                 href="https://www.facebook.com/insureitgroup"
-                icon={
-                  <FaFacebook className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300 relative z-10" />
-                }
+                icon={<FaFacebook className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300 relative z-10" />}
                 label="Facebook"
                 colorClass="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50"
                 hoverColorClass="group-hover:from-blue-600 group-hover:to-blue-700"
@@ -433,8 +503,22 @@ export default function About() {
         </div>
       </section>
 
-      <Footer onGetQuote={() => setQuoteModalOpen(true)} />
+      {/* CTA strip */}
+      <section className="py-10 bg-gradient-to-r from-blue-700 to-sky-600">
+        <div className="container mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Ready to Protect What Matters?</h2>
+          <p className="text-white/80 text-sm mb-5">Get a free, no-pressure quote from our team — usually ready the same day.</p>
+          <button
+            onClick={() => setQuoteModalOpen(true)}
+            className="inline-flex items-center gap-2 bg-white text-primary font-semibold px-6 py-2.5 rounded-xl hover:bg-white/90 transition-all hover:scale-105 shadow-lg text-sm"
+          >
+            Get a Free Quote
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </section>
 
+      <Footer onGetQuote={() => setQuoteModalOpen(true)} />
       <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />
     </div>
   );

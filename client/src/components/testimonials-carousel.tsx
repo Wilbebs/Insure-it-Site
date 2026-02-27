@@ -55,7 +55,7 @@ export default function TestimonialsCarousel() {
   }, [currentPage, totalPages, goTo]);
 
   useEffect(() => {
-    intervalRef.current = setInterval(next, 20000);
+    intervalRef.current = setInterval(next, 5000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
@@ -63,7 +63,7 @@ export default function TestimonialsCarousel() {
 
   const resetTimer = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(next, 20000);
+    intervalRef.current = setInterval(next, 5000);
   }, [next]);
 
   const handlePrev = () => { prev(); resetTimer(); };
@@ -83,6 +83,17 @@ export default function TestimonialsCarousel() {
 
   return (
     <div className="max-w-5xl mx-auto">
+
+      {/* Section heading — left-aligned, matches site pattern */}
+      <div className="mb-6">
+        <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-2 select-none">
+          {t.testimonials.subtitle}
+        </p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-3 select-none">
+          {t.testimonials.title}
+        </h2>
+        <div className="w-20 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full" />
+      </div>
 
       {/* Card grid with prev/next flanking */}
       <div className="relative">

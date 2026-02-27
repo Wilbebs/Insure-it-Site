@@ -704,7 +704,7 @@ export default function Landing() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.9 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="absolute bottom-full mb-2 right-0 pointer-events-none"
+                  className="absolute bottom-full mb-2 right-5 pointer-events-none"
                 >
                   <div className="relative bg-white text-slate-700 text-[11px] font-semibold px-3 py-2 rounded-xl shadow-xl whitespace-nowrap border border-slate-100">
                     Tap to reopen the Insure IT window!

@@ -706,35 +706,23 @@ export default function Landing() {
                   transition={{ duration: 0.25, ease: "easeOut" }}
                   className="absolute bottom-full mb-2 right-10 pointer-events-none"
                 >
-                  <div className="relative bg-white text-slate-700 text-[11px] font-semibold px-3 py-2 rounded-xl shadow-xl whitespace-nowrap border border-slate-100">
-                    Tap to reopen the Insure IT window!
-                    {/* Arrow tail pointing down-right toward shield */}
-                    <span className="absolute right-4 top-full border-[6px] border-transparent border-t-white" />
-                    <span className="absolute right-4 top-full border-[7px] border-transparent border-t-slate-100" style={{ marginTop: 1, zIndex: -1 }} />
+                  {/* Gradient ring wrapper */}
+                  <div
+                    className="rounded-xl p-[2px] shadow-xl"
+                    style={{
+                      background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
+                      animation: 'border-rotate-slow 4s linear infinite',
+                    }}
+                  >
+                    <div className="relative bg-white text-slate-700 text-[11px] font-semibold px-3 py-2 rounded-[10px] whitespace-nowrap">
+                      Tap to reopen the Insure IT window!
+                    </div>
                   </div>
+                  {/* Arrow tail pointing down-right toward shield */}
+                  <span className="absolute right-4 top-full border-[6px] border-transparent border-t-blue-400" />
                 </motion.div>
               )}
             </AnimatePresence>
-            {/* Rotating gradient ring following the shield outline */}
-            <span
-              className="absolute pointer-events-none"
-              style={(() => {
-                const svgRing = encodeURIComponent(
-                  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">` +
-                  `<path d="M50,2 L94,13 L94,52 Q94,79 50,98 Q6,79 6,52 L6,13 Z"` +
-                  ` fill="none" stroke="white" stroke-width="3.5" stroke-linejoin="round"/>` +
-                  `</svg>`
-                );
-                const mask = `url("data:image/svg+xml,${svgRing}") center/100% 100% no-repeat`;
-                return {
-                  inset: '-4px',
-                  background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
-                  animation: 'border-rotate-slow 4s linear infinite',
-                  WebkitMask: mask,
-                  mask,
-                };
-              })()}
-            />
             <img src={shieldIcon} alt="Restore" className="w-full h-full object-contain hover:scale-110 transition-transform duration-200 pointer-events-none" />
           </motion.button>
         )}

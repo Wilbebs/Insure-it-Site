@@ -228,22 +228,22 @@ export default function About() {
 
         {/* Floating Story Window */}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 py-20">
-          <div className="max-w-4xl mx-auto bg-white/20 dark:bg-slate-900/30 backdrop-blur-xl rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 md:p-12 shadow-2xl border border-white/30">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8 text-white text-center">
+          <div className="max-w-4xl mx-auto bg-white/40 dark:bg-slate-900/50 backdrop-blur-2xl rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 md:p-12 shadow-2xl border border-white/40">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8 text-slate-800 text-center">
               {t.about.ourStory}
             </h2>
-            <div className="space-y-6 text-base sm:text-lg text-white leading-relaxed">
+            <div className="space-y-6 text-base sm:text-lg text-slate-700 leading-relaxed">
               <p>{t.about.storyP1}</p>
               <p>{t.about.storyP2}</p>
               <p>{t.about.storyP3}</p>
-              <p className="font-semibold text-white min-h-[8rem]">
+              <p className="font-semibold text-slate-800 min-h-[8rem]">
                 {lastParagraphText}
                 {lastParagraphText.length > 0 &&
                   lastParagraphText.length < fullLastParagraph.length && (
                     <span className="animate-pulse">|</span>
                   )}
               </p>
-              <p className="text-center italic text-white pt-4 text-lg sm:text-xl font-semibold min-h-[2rem]">
+              <p className="text-center italic text-slate-600 pt-4 text-lg sm:text-xl font-semibold min-h-[2rem]">
                 {signatureText.length > 0 && '"'}
                 {signatureText}
                 {signatureText.length > 0 &&

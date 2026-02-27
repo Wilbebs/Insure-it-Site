@@ -700,17 +700,17 @@ export default function Landing() {
               {showShieldTooltip && (
                 <motion.div
                   key="shield-tooltip"
-                  initial={{ opacity: 0, x: 8, scale: 0.85 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  exit={{ opacity: 0, x: 8, scale: 0.85 }}
+                  initial={{ opacity: 0, y: 6, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 6, scale: 0.9 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="absolute right-full mr-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                  className="absolute bottom-full mb-2 right-0 pointer-events-none"
                 >
                   <div className="relative bg-white text-slate-700 text-[11px] font-semibold px-3 py-2 rounded-xl shadow-xl whitespace-nowrap border border-slate-100">
                     Tap to reopen the Insure IT window!
-                    {/* Arrow tail pointing right toward shield */}
-                    <span className="absolute left-full top-1/2 -translate-y-1/2 border-[6px] border-transparent border-l-white" />
-                    <span className="absolute left-full top-1/2 -translate-y-1/2 ml-[-1px] border-[7px] border-transparent border-l-slate-100" style={{ zIndex: -1 }} />
+                    {/* Arrow tail pointing down-right toward shield */}
+                    <span className="absolute right-4 top-full border-[6px] border-transparent border-t-white" />
+                    <span className="absolute right-4 top-full border-[7px] border-transparent border-t-slate-100" style={{ marginTop: 1, zIndex: -1 }} />
                   </div>
                 </motion.div>
               )}

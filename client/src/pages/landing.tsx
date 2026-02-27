@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Minus,
   Waves,
+  ChevronDown,
 } from "lucide-react";
 import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
@@ -338,7 +339,7 @@ export default function Landing() {
       <Navigation />
 
       {/* Hero Section */}
-      <section ref={heroRef as RefObject<HTMLElement>} className="min-h-[85vh] flex items-center relative pt-20 sm:pt-24 pb-16 sm:pb-20">
+      <section ref={heroRef as RefObject<HTMLElement>} className="min-h-screen flex items-center relative pt-20 sm:pt-24 pb-24">
         {/* Hero Video Background - Parallax with blur */}
         <div
           className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform dark:brightness-75 overflow-hidden"
@@ -393,7 +394,7 @@ export default function Landing() {
                   Life&apos;s Uncertain. Your Coverage Isn&apos;t.
                 </p>
 
-                <div className="flex flex-wrap gap-1.5 justify-center mb-[5px] md:mb-[18px]">
+                <div className="flex flex-nowrap gap-1 sm:gap-1.5 justify-center mb-[5px] md:mb-[18px]">
                   {[
                     { icon: <House className="w-3 h-3" />, label: t.hero.coverages[0] },
                     { icon: <Car className="w-3 h-3" />, label: t.hero.coverages[1] },
@@ -401,7 +402,7 @@ export default function Landing() {
                     { icon: <Building2 className="w-3 h-3" />, label: t.hero.coverages[3] },
                     { icon: <Waves className="w-3 h-3" />, label: t.hero.coverages[4] },
                   ].map(({ icon, label }) => (
-                    <span key={label} className="flex items-center gap-1 bg-white/25 backdrop-blur-sm border border-white/50 text-slate-700 text-xs font-medium px-2.5 py-1 rounded-full shadow-sm">
+                    <span key={label} className="flex items-center gap-1 bg-white/25 backdrop-blur-sm border border-white/50 text-slate-700 text-[10px] sm:text-xs font-medium px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full shadow-sm whitespace-nowrap">
                       {icon}
                       {label}
                     </span>
@@ -442,6 +443,14 @@ export default function Landing() {
           </div>
         </div>
 
+        {/* Scroll indicator arrow — fades out as user scrolls */}
+        <div
+          className="absolute z-30 left-1/2 -translate-x-1/2 pointer-events-none transition-opacity duration-500"
+          style={{ bottom: 78, opacity: Math.max(0, 1 - scrollY / 80) }}
+        >
+          <ChevronDown className="w-9 h-9 text-white/90 animate-bounce drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]" />
+        </div>
+
         <div className="absolute bottom-0 left-0 right-0 z-20">
           <SectionDivider
             variant="wave-layered"
@@ -471,7 +480,7 @@ export default function Landing() {
                 </p>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
                   {t.whoWeAre.titleLine1}
-                  <br className="hidden md:block" />
+                  <br />
                   <span className="text-primary">{t.whoWeAre.titleLine2}</span>
                 </h2>
                 <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-6"></div>

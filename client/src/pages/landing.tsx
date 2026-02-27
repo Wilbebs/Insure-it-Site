@@ -588,7 +588,8 @@ export default function Landing() {
 
                 {/* Contact info pills — click to copy */}
                 <div className="flex flex-wrap gap-2 mb-8">
-                  <button
+                  <a
+                    href="tel:+13059185339"
                     onClick={() => copyToClipboard("3059185339", "phone")}
                     data-testid="link-phone"
                     className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
@@ -596,8 +597,9 @@ export default function Landing() {
                   >
                     {copiedContact === "phone" ? <Check className="w-3 h-3" /> : <Phone className="w-3 h-3" />}
                     {copiedContact === "phone" ? "Copied!" : "(305) 918-5339"}
-                  </button>
-                  <button
+                  </a>
+                  <a
+                    href="mailto:info@insure-itgroup.com"
                     onClick={() => copyToClipboard("info@insure-itgroup.com", "email")}
                     data-testid="link-email"
                     className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
@@ -605,7 +607,7 @@ export default function Landing() {
                   >
                     {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
                     {copiedContact === "email" ? "Copied!" : "info@insure-itgroup.com"}
-                  </button>
+                  </a>
                 </div>
 
                 <button

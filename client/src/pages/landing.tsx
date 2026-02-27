@@ -215,6 +215,7 @@ export default function Landing() {
   // Shield drag motion values
   const shieldX = useMotionValue(0);
   const shieldY = useMotionValue(0);
+  const shieldDragged = useRef(false);
 
   // Shield fixed-position constants
   const SHIELD_RIGHT = 72;
@@ -460,7 +461,9 @@ export default function Landing() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0, transition: { duration: 0.2, ease: [0.4, 0, 1, 1] } }}
               transition={{ duration: 0.4, delay: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
-              onClick={handleRestore}
+              onDragStart={() => { shieldDragged.current = true; }}
+              onDragEnd={() => { setTimeout(() => { shieldDragged.current = false; }, 0); }}
+              onClick={() => { if (!shieldDragged.current) handleRestore(); }}
               className="fixed top-[110px] right-[72px] z-[100] w-20 h-20 drop-shadow-2xl cursor-grab active:cursor-grabbing"
               aria-label="Restore window"
             >

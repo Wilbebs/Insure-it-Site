@@ -565,92 +565,70 @@ export default function Landing() {
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            {/* Section header */}
-            <div className="mb-8 sm:mb-10">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
-                {t.contact.subtitle}
-              </p>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-6 select-none">
-                {t.contact.title}
-              </h2>
-            </div>
+          <div className="max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
 
-            {/* Get Quoted Today Button */}
-            <button
-              onClick={() => setQuoteModalOpen(true)}
-              className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] mb-10 sm:mb-12 select-none"
-              data-testid="button-get-quote-contact"
-            >
-              <span className="relative z-10">
-                {t.contact.getQuoted}
-                <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </span>
-              <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
-            </button>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div
-                className="flex flex-col items-center gap-3"
-                data-testid="contact-phone"
-              >
-                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                  <Phone className="w-6 h-6 text-primary" />
-                </div>
-                <a
-                  href="tel:+13059185339"
-                  className="text-foreground hover:text-primary transition-colors font-medium select-text"
-                  data-testid="link-phone"
+              {/* Left: Title + CTA */}
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
+                  {t.contact.subtitle}
+                </p>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
+                  {t.contact.title}
+                </h2>
+                <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-8" />
+                <button
+                  onClick={() => setQuoteModalOpen(true)}
+                  className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                  data-testid="button-get-quote-contact"
                 >
-                  (305) 918-5339
-                </a>
+                  <span className="relative z-10">
+                    {t.contact.getQuoted}
+                    <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
+                </button>
               </div>
 
-              <div
-                className="flex flex-col items-center gap-3"
-                data-testid="contact-email"
-              >
-                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                  <Mail className="w-6 h-6 text-primary" />
+              {/* Right: 2×2 contact info grid */}
+              <div className="grid grid-cols-2 gap-6">
+                <div className="flex flex-col items-center gap-2" data-testid="contact-phone">
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Phone className="w-6 h-6 text-primary" />
+                  </div>
+                  <a href="tel:+13059185339" className="text-foreground hover:text-primary transition-colors font-medium text-sm text-center select-text" data-testid="link-phone">
+                    (305) 918-5339
+                  </a>
                 </div>
-                <a
-                  href="mailto:info@insure-itgroup.com"
-                  className="text-foreground hover:text-primary transition-colors font-medium text-sm select-text"
-                  data-testid="link-email"
-                >
-                  info@insure-itgroup.com
-                </a>
+
+                <div className="flex flex-col items-center gap-2" data-testid="contact-email">
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Mail className="w-6 h-6 text-primary" />
+                  </div>
+                  <a href="mailto:info@insure-itgroup.com" className="text-foreground hover:text-primary transition-colors font-medium text-sm text-center select-text break-all" data-testid="link-email">
+                    info@insure-itgroup.com
+                  </a>
+                </div>
+
+                <div className="flex flex-col items-center gap-2" data-testid="contact-location">
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                    <MapPin className="w-6 h-6 text-primary" />
+                  </div>
+                  <span className="text-foreground font-medium text-sm text-center select-text" data-testid="text-location">
+                    {t.contact.location}
+                  </span>
+                </div>
+
+                <div className="flex flex-col items-center gap-2" data-testid="contact-license">
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-primary" />
+                  </div>
+                  <span className="text-foreground font-medium text-sm text-center" data-testid="text-license">
+                    {t.contact.licensed}
+                  </span>
+                </div>
               </div>
 
-              <div
-                className="flex flex-col items-center gap-3"
-                data-testid="contact-location"
-              >
-                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-primary" />
-                </div>
-                <span
-                  className="text-foreground font-medium select-text"
-                  data-testid="text-location"
-                >
-                  {t.contact.location}
-                </span>
-              </div>
-
-              <div
-                className="flex flex-col items-center gap-3"
-                data-testid="contact-license"
-              >
-                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-primary" />
-                </div>
-                <span
-                  className="text-foreground font-medium"
-                  data-testid="text-license"
-                >
-                  {t.contact.licensed}
-                </span>
-              </div>
             </div>
           </div>
 

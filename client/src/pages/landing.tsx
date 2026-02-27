@@ -718,15 +718,22 @@ export default function Landing() {
             {/* Rotating gradient ring following the shield outline */}
             <span
               className="absolute pointer-events-none"
-              style={{
-                inset: '-5px',
-                background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
-                animation: 'border-rotate-slow 4s linear infinite',
-                WebkitMask: `url(${shieldIcon}) center/100% 100% no-repeat, url(${shieldIcon}) center/94% 94% no-repeat`,
-                WebkitMaskComposite: 'source-out',
-                mask: `url(${shieldIcon}) center/100% 100% no-repeat, url(${shieldIcon}) center/94% 94% no-repeat`,
-                maskComposite: 'subtract',
-              }}
+              style={(() => {
+                const svgRing = encodeURIComponent(
+                  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">` +
+                  `<path d="M50,2 L94,13 L94,52 Q94,79 50,98 Q6,79 6,52 L6,13 Z"` +
+                  ` fill="none" stroke="white" stroke-width="3.5" stroke-linejoin="round"/>` +
+                  `</svg>`
+                );
+                const mask = `url("data:image/svg+xml,${svgRing}") center/100% 100% no-repeat`;
+                return {
+                  inset: '-4px',
+                  background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
+                  animation: 'border-rotate-slow 4s linear infinite',
+                  WebkitMask: mask,
+                  mask,
+                };
+              })()}
             />
             <img src={shieldIcon} alt="Restore" className="w-full h-full object-contain hover:scale-110 transition-transform duration-200 pointer-events-none" />
           </motion.button>

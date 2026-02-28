@@ -437,7 +437,9 @@ function InsuranceCard({
 export default function Landing() {
   const { t } = useTranslation();
   const [heroVisible, setHeroVisible] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(
+    () => sessionStorage.getItem("heroWindowMinimized") === "true"
+  );
   const [showShieldTooltip, setShowShieldTooltip] = useState(false);
   const isRestoring = useRef(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
@@ -565,6 +567,7 @@ export default function Landing() {
         animateValue(cardScale, 0.05, { duration: 0.45, ease: [0.4, 0, 1, 1] }),
       ]);
     }
+    sessionStorage.setItem("heroWindowMinimized", "true");
     setIsMinimized(true);
     cardX.set(0); cardY.set(0); cardOpacity.set(0); cardScale.set(1);
   };
@@ -588,6 +591,7 @@ export default function Landing() {
     cardOpacity.set(0);
     cardScale.set(0.05);
     isRestoring.current = true;
+    sessionStorage.setItem("heroWindowMinimized", "false");
     setIsMinimized(false);
     // Animate to center after React renders the card
     requestAnimationFrame(() => {
@@ -603,7 +607,7 @@ export default function Landing() {
       <Navigation />
 
       {/* Hero Section */}
-      <section ref={heroRef as RefObject<HTMLElement>} className="flex items-center relative pt-20 sm:pt-24 pb-24" style={{ minHeight: 'calc(100vh + 48px)' }}>
+      <section ref={heroRef as RefObject<HTMLElement>} className="flex items-center relative pt-20 sm:pt-24 pb-24" style={{ minHeight: 'calc(100vh + 45px)' }}>
         {/* Hero Video Background - Parallax with blur */}
         <div
           className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform dark:brightness-75 overflow-hidden"

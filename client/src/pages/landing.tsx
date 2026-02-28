@@ -762,15 +762,15 @@ export default function Landing() {
           <ChevronDown className="w-9 h-9 text-white/90 animate-bounce drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]" />
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 z-20">
+        <div className="absolute bottom-0 left-0 right-0 z-20 bg-white dot-pattern">
           <SectionDivider
             variant="wave-layered"
             position="bottom"
-            fromColor="#ffffff"
-            toColor="#ffffff"
+            fromColor="transparent"
+            toColor="transparent"
             wave1Color="hsla(205, 70%, 82%, 0.3)"
             wave2Color="hsla(205, 70%, 82%, 0.6)"
-            wave3Color="#ffffff"
+            wave3Color="transparent"
             height={70}
             noBgFill={false}
           />

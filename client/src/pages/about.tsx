@@ -212,7 +212,7 @@ export default function About() {
       <Navigation />
 
       {/* Hero Section with Family Portrait Background */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative flex items-center justify-center overflow-hidden" style={{ minHeight: 'calc(100vh + 43px)' }}>
         {/* Background Image with Parallax */}
         <div
           className="absolute inset-0 z-0"
@@ -227,23 +227,23 @@ export default function About() {
         </div>
 
         {/* Floating Story Window */}
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 py-20">
-          <div className="max-w-4xl mx-auto bg-white/40 dark:bg-slate-900/50 backdrop-blur-2xl rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 md:p-12 shadow-2xl border border-white/40">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8 text-slate-800 text-center">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-20 pb-4">
+          <div className="max-w-3xl mx-auto bg-white/40 dark:bg-slate-900/50 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl border border-white/40">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 text-slate-800 text-center">
               {t.about.ourStory}
             </h2>
-            <div className="space-y-6 text-base sm:text-lg text-slate-700 leading-relaxed">
+            <div className="space-y-3 text-sm sm:text-base text-slate-700 leading-relaxed">
               <p>{t.about.storyP1}</p>
               <p>{t.about.storyP2}</p>
               <p>{t.about.storyP3}</p>
-              <p className="font-semibold text-slate-800 min-h-[8rem]">
+              <p className="font-semibold text-slate-800 min-h-[4.5rem]">
                 {lastParagraphText}
                 {lastParagraphText.length > 0 &&
                   lastParagraphText.length < fullLastParagraph.length && (
                     <span className="animate-pulse">|</span>
                   )}
               </p>
-              <p className="text-center italic text-slate-600 pt-4 text-lg sm:text-xl font-semibold min-h-[2rem]">
+              <p className="text-center italic text-slate-600 pt-1 text-sm sm:text-base font-semibold min-h-[1.5rem]">
                 {signatureText.length > 0 && '"'}
                 {signatureText}
                 {signatureText.length > 0 &&
@@ -266,7 +266,7 @@ export default function About() {
             wave1Color="hsla(205, 70%, 82%, 0.3)"
             wave2Color="hsla(205, 70%, 82%, 0.6)"
             wave3Color="hsl(210, 40%, 94%)"
-            height={70}
+            height={81}
           />
         </div>
       </section>

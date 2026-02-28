@@ -740,12 +740,15 @@ export default function Landing() {
                       <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
                     </button>
                     <a
-                      href="tel:+13059185339"
-                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-2 select-none"
+                      href="tel:+17862374070"
+                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
                       data-testid="button-call-us"
                     >
-                      <Phone className="w-5 h-5" />
-                      {t.hero.callUs}
+                      <Phone className="w-5 h-5 shrink-0" />
+                      <span className="flex flex-col items-start leading-tight">
+                        <span className="text-xs font-medium opacity-75">{t.hero.callUs}</span>
+                        <span className="text-base font-bold">786-237-4070</span>
+                      </span>
                     </a>
                   </motion.div>
                 </div>
@@ -881,8 +884,8 @@ export default function Landing() {
               {/* Contact pills */}
               <div className="flex flex-wrap gap-2 justify-center">
                 <a
-                  href="tel:+13059185339"
-                  onClick={() => copyToClipboard("3059185339", "phone")}
+                  href="tel:+17862374070"
+                  onClick={() => copyToClipboard("7862374070", "phone")}
                   data-testid="link-phone"
                   className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
                   style={{
@@ -895,7 +898,7 @@ export default function Landing() {
                   ) : (
                     <Phone className="w-3 h-3" />
                   )}
-                  {copiedContact === "phone" ? "Copied!" : "(305) 918-5339"}
+                  {copiedContact === "phone" ? "Copied!" : "786-237-4070"}
                 </a>
                 <a
                   href="mailto:info@insure-itgroup.com"

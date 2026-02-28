@@ -92,7 +92,7 @@ export default function Footer({ onGetQuote }: FooterProps) {
             <div className="space-y-1 opacity-90 text-sm">
               <div className="flex items-center" data-testid="contact-phone">
                 <Phone className="w-3.5 h-3.5 mr-2 shrink-0" />
-                <span>(555) 123-4567</span>
+                <span>786-237-4070</span>
               </div>
               <div className="flex items-center" data-testid="contact-email">
                 <Mail className="w-3.5 h-3.5 mr-2 shrink-0" />

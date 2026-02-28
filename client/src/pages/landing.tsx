@@ -744,10 +744,10 @@ export default function Landing() {
                       className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
                       data-testid="button-call-us"
                     >
-                      <Phone className="w-5 h-5 shrink-0" />
-                      <span className="flex flex-col items-start leading-tight">
-                        <span className="text-xs font-medium opacity-75">{t.hero.callUs}</span>
-                        <span className="text-base font-bold">786-237-4070</span>
+                      <Phone className="w-4 h-4 shrink-0" />
+                      <span className="flex flex-col items-start leading-none">
+                        <span className="text-[10px] font-medium opacity-75 whitespace-nowrap">{t.hero.callUs}</span>
+                        <span className="text-sm font-bold whitespace-nowrap">786-237-4070</span>
                       </span>
                     </a>
                   </motion.div>

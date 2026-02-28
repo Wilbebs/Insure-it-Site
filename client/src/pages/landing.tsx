@@ -36,74 +36,6 @@ import floodImg from "@assets/flood_insurance.jpg";
 import highFiveImg from "@assets/man-woman-business-workers-high-five-with-hands-raised-up-offi_1772211518867.jpg";
 import SectionDivider from "@/components/section-divider";
 
-const floatingShields = [
-  { top: "5%", left: "3%", size: 50, delay: 0, duration: 4 },
-  { top: "12%", left: "8%", size: 35, delay: 0.5, duration: 3.5 },
-  { top: "5%", right: "4%", size: 45, delay: 1, duration: 4.5 },
-  { top: "14%", right: "9%", size: 30, delay: 1.5, duration: 3.8 },
-];
-
-function FloatingShield({
-  style,
-  size,
-  delay,
-  duration,
-}: {
-  style: React.CSSProperties;
-  size: number;
-  delay: number;
-  duration: number;
-}) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
-  const shieldRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!shieldRef.current) return;
-    const rect = shieldRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    setMousePosition({ x, y });
-  };
-
-  const dynamicGradientStyle = isHovered
-    ? {
-        background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.4) 0%, transparent 60%)`,
-      }
-    : {};
-
-  return (
-    <div
-      ref={shieldRef}
-      className={`absolute z-50 transition-all duration-300 cursor-pointer ${
-        isHovered
-          ? "opacity-100 scale-125"
-          : "opacity-[0.12] dark:opacity-[0.15]"
-      }`}
-      style={{
-        ...style,
-        width: size,
-        height: size,
-        animation: `float-bob ${duration}s ease-in-out ${delay}s infinite`,
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <img
-        src={shieldIcon}
-        alt=""
-        className="w-full h-full object-contain select-none pointer-events-none"
-        draggable={false}
-      />
-      {/* Dynamic mouse-following shimmer - on top of image */}
-      <div
-        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${isHovered ? "opacity-100" : "opacity-0"}`}
-        style={dynamicGradientStyle}
-      />
-    </div>
-  );
-}
 
 const insuranceDetails: Record<
   string,
@@ -917,22 +849,6 @@ export default function Landing() {
         className="pt-5 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
         style={{ marginTop: -1, zIndex: 10, position: "relative" }}
       >
-        <div className="hidden lg:contents">
-          {floatingShields.map((shield, index) => (
-            <FloatingShield
-              key={index}
-              style={{
-                top: shield.top,
-                left: shield.left,
-                right: shield.right,
-              }}
-              size={shield.size}
-              delay={shield.delay}
-              duration={shield.duration}
-            />
-          ))}
-        </div>
-
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-5xl mx-auto">
             {/* Centered CTA block */}

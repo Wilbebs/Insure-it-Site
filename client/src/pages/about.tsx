@@ -9,16 +9,8 @@ import { useTranslation } from "@/components/theme-provider";
 import wilbertPhoto from "@assets/image_1764878413663.png";
 import elizabethPhoto from "@assets/image_1764878433544.png";
 import davidPhoto from "@assets/image_1765442735571.png";
-import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
 import familyRiverImg from "@assets/jax_beach_pier.jpg";
 
-const floatingShields = [
-  { top: "5%", left: "5%", size: 55, delay: 0, duration: 4 },
-  { top: "10%", right: "8%", size: 40, delay: 0.5, duration: 3.5 },
-  { top: "50%", left: "3%", size: 50, delay: 1, duration: 4.5 },
-  { top: "75%", right: "5%", size: 45, delay: 1.5, duration: 3.8 },
-  { top: "85%", left: "8%", size: 35, delay: 0.8, duration: 4.2 },
-];
 
 function SocialButton({
   href,
@@ -85,67 +77,6 @@ function SocialButton({
   );
 }
 
-function FloatingShield({
-  style,
-  size,
-  delay,
-  duration,
-}: {
-  style: React.CSSProperties;
-  size: number;
-  delay: number;
-  duration: number;
-}) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
-  const shieldRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!shieldRef.current) return;
-    const rect = shieldRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    setMousePosition({ x, y });
-  };
-
-  const dynamicGradientStyle = isHovered
-    ? {
-        background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.4) 0%, transparent 60%)`,
-      }
-    : {};
-
-  return (
-    <div
-      ref={shieldRef}
-      className={`absolute z-50 transition-all duration-300 cursor-pointer ${
-        isHovered
-          ? "opacity-100 scale-125"
-          : "opacity-[0.12] dark:opacity-[0.15]"
-      }`}
-      style={{
-        ...style,
-        width: size,
-        height: size,
-        animation: `float-bob ${duration}s ease-in-out ${delay}s infinite`,
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <img
-        src={shieldIcon}
-        alt=""
-        className="w-full h-full object-contain select-none pointer-events-none"
-        draggable={false}
-      />
-      {/* Dynamic mouse-following shimmer - on top of image */}
-      <div
-        className={`absolute inset-0 transition-opacity duration-300 pointer-events-none mix-blend-overlay ${isHovered ? "opacity-100" : "opacity-0"}`}
-        style={dynamicGradientStyle}
-      />
-    </div>
-  );
-}
 
 export default function About() {
   const { t } = useTranslation();
@@ -278,21 +209,6 @@ export default function About() {
         <div className="container mx-auto px-4 sm:px-6">
           {/* Connect With Us Section - Team + Social */}
           <div className="mb-6 sm:mb-10 relative overflow-hidden">
-            <div className="hidden lg:contents">
-              {floatingShields.map((shield, index) => (
-                <FloatingShield
-                  key={index}
-                  style={{
-                    top: shield.top,
-                    left: shield.left,
-                    right: shield.right,
-                  }}
-                  size={shield.size}
-                  delay={shield.delay}
-                  duration={shield.duration}
-                />
-              ))}
-            </div>
             <div className="text-center mb-6 sm:mb-10 relative z-10">
               <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3 select-none">
                 {t.about.ourPeople}

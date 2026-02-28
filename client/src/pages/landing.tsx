@@ -481,6 +481,7 @@ export default function Landing() {
   );
   const [showShieldTooltip, setShowShieldTooltip] = useState(false);
   const isRestoring = useRef(false);
+  const hasScrolledDown = useRef(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [selectedInsurance, setSelectedInsurance] = useState<
     (typeof insuranceTypes)[0] | null
@@ -570,7 +571,11 @@ export default function Landing() {
       animateValue(cardOpacity, 1, { duration: 0.8, ease: "easeOut" });
     }, 200);
 
-    const handleScroll = () => setScrollY(window.scrollY);
+    const handleScroll = () => {
+      const y = window.scrollY;
+      if (y > 200) hasScrolledDown.current = true;
+      setScrollY(y);
+    };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -594,7 +599,8 @@ export default function Landing() {
 
   // Auto-restore window when user scrolls back to the hero section
   useEffect(() => {
-    if (isMinimized && scrollY < 80) {
+    if (isMinimized && scrollY < 80 && hasScrolledDown.current) {
+      hasScrolledDown.current = false;
       cardX.set(0);
       cardY.set(0);
       cardOpacity.set(0);

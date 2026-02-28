@@ -84,84 +84,92 @@ export default function TestimonialsCarousel() {
   return (
     <div className="max-w-5xl mx-auto">
 
-      {/* Card grid with prev/next flanking */}
-      <div className="relative">
-        {/* Prev button */}
-        <button
-          onClick={handlePrev}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-5 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm rounded-full shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center border border-white/50 dark:border-slate-600/50"
-          data-testid="carousel-prev"
-          aria-label={t.testimonials.prevLabel}
-        >
-          <ChevronLeft className="w-5 h-5 text-foreground" />
-        </button>
-
-        {/* Animated page of cards */}
-        <div className="overflow-hidden px-6 sm:px-8">
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={`page-${currentPage}-${isMobile}`}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-            >
-              {pageTestimonials.map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/80 dark:border-slate-700/80"
-                  data-testid={`testimonial-carousel-${currentPage * cardsPerPage + index}`}
-                >
-                  <div className="mb-2">
-                    <h3 className="font-bold text-foreground text-sm">{testimonial.name}</h3>
-                    <p className="text-xs text-muted-foreground">{testimonial.location}</p>
-                  </div>
-
-                  <div className="flex gap-0.5 mb-2">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-
-                  <p className="text-muted-foreground text-xs leading-relaxed mb-3 line-clamp-4">
-                    "{testimonial.text}"
-                  </p>
-
-                  <div className="pt-2 border-t border-border">
-                    <p className="text-[11px] text-primary font-semibold">
-                      {testimonial.insurance}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
+      {/* Header row: title left, nav arrows right */}
+      <div className="flex items-end justify-between mb-5 px-1">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-1 select-none">
+            {t.testimonials.subtitle}
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white drop-shadow select-none">
+            {t.testimonials.title}
+          </h2>
         </div>
 
-        {/* Next button */}
-        <button
-          onClick={handleNext}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-5 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm rounded-full shadow-xl hover:scale-110 transition-transform z-10 min-w-[44px] min-h-[44px] flex items-center justify-center border border-white/50 dark:border-slate-600/50"
-          data-testid="carousel-next"
-          aria-label={t.testimonials.nextLabel}
-        >
-          <ChevronRight className="w-5 h-5 text-foreground" />
-        </button>
+        <div className="flex items-center gap-2 shrink-0 pb-1">
+          <button
+            onClick={handlePrev}
+            className="bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:scale-110 transition-transform min-w-[38px] min-h-[38px] flex items-center justify-center border border-white/50"
+            data-testid="carousel-prev"
+            aria-label={t.testimonials.prevLabel}
+          >
+            <ChevronLeft className="w-5 h-5 text-slate-700" />
+          </button>
+          <button
+            onClick={handleNext}
+            className="bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:scale-110 transition-transform min-w-[38px] min-h-[38px] flex items-center justify-center border border-white/50"
+            data-testid="carousel-next"
+            aria-label={t.testimonials.nextLabel}
+          >
+            <ChevronRight className="w-5 h-5 text-slate-700" />
+          </button>
+        </div>
+      </div>
+
+      {/* Animated page of cards */}
+      <div className="overflow-hidden">
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={`page-${currentPage}-${isMobile}`}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+          >
+            {pageTestimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-white/95 backdrop-blur-md rounded-xl p-4 shadow-lg border border-white/80"
+                data-testid={`testimonial-carousel-${currentPage * cardsPerPage + index}`}
+              >
+                <div className="mb-2">
+                  <h3 className="font-bold text-slate-800 text-sm">{testimonial.name}</h3>
+                  <p className="text-xs text-slate-500">{testimonial.location}</p>
+                </div>
+
+                <div className="flex gap-0.5 mb-2">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+
+                <p className="text-slate-600 text-xs leading-relaxed mb-3 line-clamp-4">
+                  "{testimonial.text}"
+                </p>
+
+                <div className="pt-2 border-t border-slate-200">
+                  <p className="text-[11px] text-primary font-semibold">
+                    {testimonial.insurance}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Dot indicators */}
-      <div className="flex justify-center gap-2 mt-6">
+      <div className="flex justify-center gap-2 mt-5">
         {Array.from({ length: totalPages }).map((_, i) => (
           <button
             key={i}
             onClick={() => handleDot(i)}
-            className={`h-2.5 rounded-full transition-all min-w-[10px] ${
+            className={`h-2 rounded-full transition-all min-w-[8px] ${
               i === currentPage
-                ? "w-8 bg-primary"
-                : "w-2.5 bg-primary/40"
+                ? "w-7 bg-white"
+                : "w-2 bg-white/40"
             }`}
             aria-label={`${t.testimonials.goToLabel} ${i + 1}`}
           />

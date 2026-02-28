@@ -741,12 +741,15 @@ export default function Landing() {
                     </button>
                     <a
                       href="tel:+17862374070"
+                      onClick={() => copyToClipboard("7862374070", "phone")}
                       className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
                       data-testid="button-call-us"
                     >
                       <Phone className="w-4 h-4 shrink-0" />
                       <span className="flex flex-col items-start leading-none">
-                        <span className="text-sm font-bold whitespace-nowrap">786-237-4070</span>
+                        <span className="text-sm font-bold whitespace-nowrap">
+                          {copiedContact === "phone" ? "Copied!" : "786-237-4070"}
+                        </span>
                         <span className="text-[10px] font-medium opacity-75 whitespace-nowrap">{t.hero.callUs}</span>
                       </span>
                     </a>
@@ -996,9 +999,7 @@ export default function Landing() {
         {/* Testimonials — top padding accounts for wave overlap */}
         <div className="relative z-10 pb-2" style={{ paddingTop: 92 }}>
           <div className="container mx-auto px-4 sm:px-6">
-            <div className="max-w-5xl mx-auto">
-              <TestimonialsCarousel />
-            </div>
+            <TestimonialsCarousel />
           </div>
         </div>
 

@@ -847,7 +847,7 @@ export default function Landing() {
 
       {/* Who We Are Section */}
       <section
-        className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden"
+        className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern"
         style={{ marginTop: -40 }}
       >
         <div className="container mx-auto px-4 sm:px-6">
@@ -914,7 +914,7 @@ export default function Landing() {
 
       {/* Contact + Map Section */}
       <section
-        className="pt-5 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden"
+        className="pt-5 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
         style={{ marginTop: -1, zIndex: 10, position: "relative" }}
       >
         <div className="hidden lg:contents">

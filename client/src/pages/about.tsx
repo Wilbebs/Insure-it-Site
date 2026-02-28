@@ -272,7 +272,7 @@ export default function About() {
       </section>
 
       <section
-        className="pb-1 sm:pb-2 bg-muted dark:bg-slate-900"
+        className="pb-1 sm:pb-2 bg-muted dark:bg-slate-900 dot-pattern"
         style={{ marginTop: -1, paddingTop: "0px" }}
       >
         <div className="container mx-auto px-4 sm:px-6">

@@ -603,7 +603,7 @@ export default function Landing() {
       <Navigation />
 
       {/* Hero Section */}
-      <section ref={heroRef as RefObject<HTMLElement>} className="flex items-center relative pt-20 sm:pt-24 pb-24" style={{ minHeight: 'calc(100vh + 55px)' }}>
+      <section ref={heroRef as RefObject<HTMLElement>} className="flex items-center relative pt-20 sm:pt-24 pb-24" style={{ minHeight: 'calc(100vh + 48px)' }}>
         {/* Hero Video Background - Parallax with blur */}
         <div
           className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform dark:brightness-75 overflow-hidden"

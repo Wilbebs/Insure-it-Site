@@ -746,8 +746,8 @@ export default function Landing() {
                     >
                       <Phone className="w-4 h-4 shrink-0" />
                       <span className="flex flex-col items-start leading-none">
-                        <span className="text-[10px] font-medium opacity-75 whitespace-nowrap">{t.hero.callUs}</span>
                         <span className="text-sm font-bold whitespace-nowrap">786-237-4070</span>
+                        <span className="text-[10px] font-medium opacity-75 whitespace-nowrap">{t.hero.callUs}</span>
                       </span>
                     </a>
                   </motion.div>

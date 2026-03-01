@@ -789,12 +789,12 @@ export default function Landing() {
               </div>
 
               {/* Contact pills */}
-              <div className="flex flex-wrap gap-2 justify-center">
+              <div className="flex flex-nowrap gap-1.5 sm:gap-2 justify-center">
                 <a
                   href="tel:+19049090897"
                   onClick={() => copyToClipboard("9049090897", "phone")}
                   data-testid="link-phone"
-                  className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                  className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
                   style={{
                     color:
                       copiedContact === "phone" ? "var(--primary)" : undefined,
@@ -813,7 +813,7 @@ export default function Landing() {
                     copyToClipboard("Insureit@insureitgroup.net", "email")
                   }
                   data-testid="link-email"
-                  className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                  className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
                   style={{
                     color:
                       copiedContact === "email" ? "var(--primary)" : undefined,

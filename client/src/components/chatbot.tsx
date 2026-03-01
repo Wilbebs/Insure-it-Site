@@ -670,12 +670,12 @@ export default function ChatBot() {
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="animated-border-panel rounded-3xl shadow-2xl w-[calc(100vw-2rem)] sm:w-[350px] md:w-[420px] max-h-[70vh] sm:max-h-none sm:h-[600px] overflow-hidden"
+              className="animated-border-panel rounded-3xl shadow-2xl w-[calc(100vw-2rem)] sm:w-[350px] md:w-[420px] h-[70dvh] sm:h-[600px] overflow-hidden"
               data-testid="chatbot-expanded"
             >
               <div className="flex flex-col h-full bg-white dark:bg-slate-900">
               {/* Header */}
-              <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 flex flex-col">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-3 sm:p-4 flex flex-col">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
                     <img 

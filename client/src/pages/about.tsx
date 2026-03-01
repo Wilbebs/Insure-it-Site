@@ -60,7 +60,7 @@ function SocialButton({
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`relative overflow-hidden ${colorClass} p-6 rounded-2xl hover-lift transition-all duration-300 ${hoverColorClass} flex items-center justify-center`}
+        className={`relative overflow-hidden ${colorClass} p-3 sm:p-6 rounded-2xl hover-lift transition-all duration-300 ${hoverColorClass} flex items-center justify-center`}
       >
         {icon}
         <div
@@ -313,11 +313,11 @@ export default function About() {
             <p className="text-base text-muted-foreground mt-4 mb-4 mx-auto text-center relative z-10 sm:whitespace-nowrap">
               {t.about.connectDesc}
             </p>
-            <div className="flex justify-center gap-6 sm:gap-8 relative z-10">
+            <div className="flex justify-center gap-3 sm:gap-6 lg:gap-8 relative z-10">
               <SocialButton
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
                 icon={
-                  <FaLinkedin className="w-12 h-12 sm:w-16 sm:h-16 text-primary group-hover:text-white transition-colors duration-300 relative z-10" />
+                  <FaLinkedin className="w-8 h-8 sm:w-12 sm:h-12 text-primary group-hover:text-white transition-colors duration-300 relative z-10" />
                 }
                 label="LinkedIn"
                 colorClass="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50"
@@ -329,7 +329,7 @@ export default function About() {
               <SocialButton
                 href="https://www.instagram.com/insureitgroup/"
                 icon={
-                  <FaInstagram className="w-12 h-12 sm:w-16 sm:h-16 text-pink-600 dark:text-pink-400 group-hover:text-white transition-colors duration-300 relative z-10" />
+                  <FaInstagram className="w-8 h-8 sm:w-12 sm:h-12 text-pink-600 dark:text-pink-400 group-hover:text-white transition-colors duration-300 relative z-10" />
                 }
                 label="Instagram"
                 colorClass="bg-gradient-to-br from-pink-50 to-purple-100 dark:from-pink-900/50 dark:to-purple-900/50"
@@ -341,7 +341,7 @@ export default function About() {
               <SocialButton
                 href="https://www.facebook.com/insureitgroup"
                 icon={
-                  <FaFacebook className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300 relative z-10" />
+                  <FaFacebook className="w-8 h-8 sm:w-12 sm:h-12 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300 relative z-10" />
                 }
                 label="Facebook"
                 colorClass="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50"

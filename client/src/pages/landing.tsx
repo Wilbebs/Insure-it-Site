@@ -30,7 +30,7 @@ import {
 import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef, type RefObject } from "react";
-import heroVideo from "@assets/stock_images/herovid1.mp4";
+const heroVideo = "https://insure-it.s3.us-east-1.amazonaws.com/video-assets/herovid1.mp4";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
 import floodImg from "@assets/flood_insurance.jpg";
 import highFiveImg from "@assets/man-woman-business-workers-high-five-with-hands-raised-up-offi_1772211518867.jpg";

@@ -740,15 +740,15 @@ export default function Landing() {
                       <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
                     </button>
                     <a
-                      href="tel:+17862374070"
-                      onClick={() => copyToClipboard("7862374070", "phone")}
+                      href="tel:+19049090897"
+                      onClick={() => copyToClipboard("9049090897", "phone")}
                       className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
                       data-testid="button-call-us"
                     >
                       <Phone className="w-4 h-4 shrink-0" />
                       <span className="flex flex-col items-start leading-none">
                         <span className="text-sm font-bold whitespace-nowrap">
-                          {copiedContact === "phone" ? "Copied!" : "786-237-4070"}
+                          {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
                         </span>
                         <span className="text-[10px] font-medium opacity-75 whitespace-nowrap">{t.hero.callUs}</span>
                       </span>
@@ -887,8 +887,8 @@ export default function Landing() {
               {/* Contact pills */}
               <div className="flex flex-wrap gap-2 justify-center">
                 <a
-                  href="tel:+17862374070"
-                  onClick={() => copyToClipboard("7862374070", "phone")}
+                  href="tel:+19049090897"
+                  onClick={() => copyToClipboard("9049090897", "phone")}
                   data-testid="link-phone"
                   className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
                   style={{
@@ -901,12 +901,12 @@ export default function Landing() {
                   ) : (
                     <Phone className="w-3 h-3" />
                   )}
-                  {copiedContact === "phone" ? "Copied!" : "786-237-4070"}
+                  {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
                 </a>
                 <a
-                  href="mailto:info@insure-itgroup.com"
+                  href="mailto:Insureit@insureitgroup.net"
                   onClick={() =>
-                    copyToClipboard("info@insure-itgroup.com", "email")
+                    copyToClipboard("Insureit@insureitgroup.net", "email")
                   }
                   data-testid="link-email"
                   className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
@@ -922,7 +922,7 @@ export default function Landing() {
                   )}
                   {copiedContact === "email"
                     ? "Copied!"
-                    : "info@insure-itgroup.com"}
+                    : "Insureit@insureitgroup.net"}
                 </a>
               </div>
             </div>
@@ -934,26 +934,36 @@ export default function Landing() {
                 ? `https://www.google.com/maps/embed/v1/streetview?key=${apiKey}&location=30.1540,-81.6549&heading=90&pitch=0&fov=75`
                 : null;
               return (
-                <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[220px] sm:h-[260px] md:h-[300px] w-full">
-                  {src ? (
-                    <iframe
-                      src={src}
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0, display: "block" }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title="Insure IT Group Office - Street View"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-slate-100 dark:bg-slate-700 flex flex-col items-center justify-center gap-2 text-slate-400 dark:text-slate-500">
-                      <MapPin className="w-8 h-8" />
-                      <p className="text-sm font-medium">Street View</p>
-                      <p className="text-xs">11570 San Jose Blvd, Suite 11</p>
-                      <p className="text-xs">Jacksonville, FL 32223</p>
+                <div className="relative">
+                  <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[220px] sm:h-[260px] md:h-[300px] w-full">
+                    {src ? (
+                      <iframe
+                        src={src}
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0, display: "block" }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title="Insure IT Group Office - Street View"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-slate-100 dark:bg-slate-700 flex flex-col items-center justify-center gap-2 text-slate-400 dark:text-slate-500">
+                        <MapPin className="w-8 h-8" />
+                        <p className="text-sm font-medium">Street View</p>
+                        <p className="text-xs">11570 San Jose Blvd, Suite 11</p>
+                        <p className="text-xs">Jacksonville, FL 32223</p>
+                      </div>
+                    )}
+                  </div>
+                  {/* Address badge sticker */}
+                  <div className="absolute top-3 left-3 z-10 flex items-start gap-2 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-slate-200/80 select-none">
+                    <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                    <div className="leading-tight">
+                      <p className="text-xs font-bold text-slate-800">11570 San Jose Blvd, Suite 11</p>
+                      <p className="text-[11px] text-slate-500">Jacksonville, FL 32223</p>
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             })()}

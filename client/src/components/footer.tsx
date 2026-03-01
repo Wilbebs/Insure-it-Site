@@ -92,15 +92,15 @@ export default function Footer({ onGetQuote }: FooterProps) {
             <div className="space-y-1 opacity-90 text-sm">
               <div className="flex items-center" data-testid="contact-phone">
                 <Phone className="w-3.5 h-3.5 mr-2 shrink-0" />
-                <span>786-237-4070</span>
+                <span>904-909-0897</span>
               </div>
               <div className="flex items-center" data-testid="contact-email">
                 <Mail className="w-3.5 h-3.5 mr-2 shrink-0" />
-                <span>info@insureitgroup.com</span>
+                <span>Insureit@insureitgroup.net</span>
               </div>
               <div className="flex items-center" data-testid="contact-address">
                 <MapPin className="w-3.5 h-3.5 mr-2 shrink-0" />
-                <span>123 Insurance Ave, Suite 100</span>
+                <span>11570 San Jose Blvd, Suite 11 · Jacksonville, FL 32223</span>
               </div>
             </div>
           </div>

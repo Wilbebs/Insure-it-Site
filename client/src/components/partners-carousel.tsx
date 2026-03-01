@@ -49,24 +49,25 @@ export default function PartnersCarousel({ className = "" }: { className?: strin
             Our Carrier Partners
           </h3>
         </div>
+      </div>
 
-        <div 
-          ref={scrollRef}
-          className="flex overflow-hidden gap-4 sm:gap-6 items-center"
-          style={{ scrollBehavior: 'auto' }}
-        >
-          {[...partners, ...partners].map((partner, index) => (
-            <div
-              key={`${partner.name}-${index}`}
-              className="flex-shrink-0"
-              data-testid={`partner-logo-${partner.name.toLowerCase().replace(/\s+/g, '-')}`}
-            >
-              <span className="inline-block px-3 sm:px-5 py-2 sm:py-2.5 rounded-full bg-slate-100 dark:bg-slate-800 text-sm sm:text-base md:text-lg font-semibold text-slate-500 dark:text-slate-400 whitespace-nowrap tracking-tight border border-slate-200 dark:border-slate-700 hover:border-primary dark:hover:border-primary hover:text-primary dark:hover:text-primary transition-all duration-300">
-                {partner.logo}
-              </span>
-            </div>
-          ))}
-        </div>
+      {/* Full-bleed ticker — no container constraint */}
+      <div
+        ref={scrollRef}
+        className="flex overflow-hidden gap-4 sm:gap-6 items-center w-full"
+        style={{ scrollBehavior: 'auto' }}
+      >
+        {[...partners, ...partners].map((partner, index) => (
+          <div
+            key={`${partner.name}-${index}`}
+            className="flex-shrink-0"
+            data-testid={`partner-logo-${partner.name.toLowerCase().replace(/\s+/g, '-')}`}
+          >
+            <span className="inline-block px-3 sm:px-5 py-2 sm:py-2.5 rounded-full bg-slate-100 dark:bg-slate-800 text-sm sm:text-base md:text-lg font-semibold text-slate-500 dark:text-slate-400 whitespace-nowrap tracking-tight border border-slate-200 dark:border-slate-700 hover:border-primary dark:hover:border-primary hover:text-primary dark:hover:text-primary transition-all duration-300">
+              {partner.logo}
+            </span>
+          </div>
+        ))}
       </div>
     </section>
   );

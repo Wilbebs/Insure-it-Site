@@ -602,33 +602,19 @@ export default function Landing() {
 
                   <div className="flex flex-nowrap gap-1 sm:gap-1.5 justify-center mb-[5px] md:mb-[18px]">
                     {[
-                      {
-                        icon: <House className="w-3 h-3" />,
-                        label: t.hero.coverages[0],
-                      },
-                      {
-                        icon: <Car className="w-3 h-3" />,
-                        label: t.hero.coverages[1],
-                      },
-                      {
-                        icon: <Heart className="w-3 h-3" />,
-                        label: t.hero.coverages[2],
-                      },
-                      {
-                        icon: <Building2 className="w-3 h-3" />,
-                        label: t.hero.coverages[3],
-                      },
-                      {
-                        icon: <Waves className="w-3 h-3" />,
-                        label: t.hero.coverages[4],
-                      },
-                    ].map(({ icon, label }) => (
+                      { icon: <House className="w-3 h-3" />,    label: t.hero.coverages[0], short: t.hero.coveragesShort[0] },
+                      { icon: <Car className="w-3 h-3" />,      label: t.hero.coverages[1], short: t.hero.coveragesShort[1] },
+                      { icon: <Heart className="w-3 h-3" />,    label: t.hero.coverages[2], short: t.hero.coveragesShort[2] },
+                      { icon: <Building2 className="w-3 h-3" />,label: t.hero.coverages[3], short: t.hero.coveragesShort[3] },
+                      { icon: <Waves className="w-3 h-3" />,    label: t.hero.coverages[4], short: t.hero.coveragesShort[4] },
+                    ].map(({ icon, label, short }) => (
                       <span
                         key={label}
                         className="flex items-center gap-1 bg-white/25 backdrop-blur-sm border border-white/50 text-slate-700 text-[10px] sm:text-xs font-medium px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full shadow-sm whitespace-nowrap"
                       >
                         {icon}
-                        {label}
+                        <span className="sm:hidden">{short}</span>
+                        <span className="hidden sm:inline">{label}</span>
                       </span>
                     ))}
                   </div>

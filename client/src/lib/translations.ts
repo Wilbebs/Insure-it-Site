@@ -8,6 +8,7 @@ const translations = {
     hero: {
       tagline: "Your Trusted Insurance Partner",
       coverages: ["Home", "Auto", "Life", "Business", "Flood"],
+      coveragesShort: ["Home", "Auto", "Life", "Biz", "Flood"],
       getQuoted: "Get Quoted Today",
       callUs: "Call Us Now",
     },
@@ -436,7 +437,7 @@ const translations = {
       documentUploadMsg: "Great! Now, do you have any documents you'd like to upload? (Driver's license, current policy, etc.) You can upload PDF, DOC, DOCX, JPG, or PNG files.",
       reviewMsg: "Perfect! Let me summarize your application. Please review the information below and confirm if everything looks correct.",
       submittedMsg: "Thank you! One of our agents will contact you shortly to discuss your coverage options.",
-      fallbackMsg: "Thanks for your question! For personalized assistance, please contact us at (555) 123-4567 or fill out our contact form.",
+      fallbackMsg: "Thanks for your question! For personalized assistance, please contact us at 904-909-0897 or fill out our contact form.",
       addAnotherVehiclePrompt: "Would you like to add another vehicle to this policy?",
       addAnotherDriverPrompt: "Would you like to add another driver to this policy?",
     },
@@ -450,6 +451,7 @@ const translations = {
     hero: {
       tagline: "Su Socio de Confianza en Seguros",
       coverages: ["Hogar", "Auto", "Vida", "Negocio", "Inundación"],
+      coveragesShort: ["Hogar", "Auto", "Vida", "Neg.", "Inund."],
       getQuoted: "Cotice Hoy",
       callUs: "Llámenos Ahora",
     },
@@ -878,7 +880,7 @@ const translations = {
       documentUploadMsg: "¡Genial! ¿Tiene documentos que le gustaría subir? (Licencia de conducir, póliza actual, etc.) Puede subir archivos PDF, DOC, DOCX, JPG o PNG.",
       reviewMsg: "¡Perfecto! Permítame resumir su solicitud. Revise la información a continuación y confirme si todo se ve correcto.",
       submittedMsg: "¡Gracias! Uno de nuestros agentes se comunicará con usted en breve para hablar sobre sus opciones de cobertura.",
-      fallbackMsg: "¡Gracias por su pregunta! Para asistencia personalizada, contáctenos al (555) 123-4567 o complete nuestro formulario de contacto.",
+      fallbackMsg: "¡Gracias por su pregunta! Para asistencia personalizada, contáctenos al 904-909-0897 o complete nuestro formulario de contacto.",
       addAnotherVehiclePrompt: "¿Le gustaría agregar otro vehículo a esta póliza?",
       addAnotherDriverPrompt: "¿Le gustaría agregar otro conductor a esta póliza?",
     },

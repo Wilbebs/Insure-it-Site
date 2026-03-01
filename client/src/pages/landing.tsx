@@ -834,32 +834,19 @@ export default function Landing() {
 
             {/* Full-width Map */}
             {(() => {
-              const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-              const src = apiKey
-                ? `https://www.google.com/maps/embed/v1/streetview?key=${apiKey}&location=30.1540,-81.6549&heading=90&pitch=0&fov=75`
-                : null;
               return (
                 <div className="relative mb-2.5">
                   <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[220px] sm:h-[260px] md:h-[300px] w-full">
-                    {src ? (
-                      <iframe
-                        src={src}
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0, display: "block" }}
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        title="Insure IT Group Office - Street View"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-slate-100 dark:bg-slate-700 flex flex-col items-center justify-center gap-2 text-slate-400 dark:text-slate-500">
-                        <MapPin className="w-8 h-8" />
-                        <p className="text-sm font-medium">Street View</p>
-                        <p className="text-xs">11570 San Jose Blvd, Suite 11</p>
-                        <p className="text-xs">Jacksonville, FL 32223</p>
-                      </div>
-                    )}
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!4v1772406368619!6m8!1m7!1sduMvKfdLYRewb8CVXg-ybA!2m2!1d30.1626398364991!2d-81.63340592784719!3f291.9280852887789!4f-5.246708348247708!5f0.4000000000000002"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0, display: "block" }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Insure IT Group Office - Street View"
+                    />
                   </div>
                   {/* Address badge sticker — centered on mobile, left-pinned on sm+ */}
                   <button

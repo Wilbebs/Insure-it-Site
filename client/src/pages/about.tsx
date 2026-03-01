@@ -218,13 +218,13 @@ export default function About() {
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto relative z-10">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 sm:gap-8 max-w-4xl mx-auto relative z-10">
               {/* Wilbert Hernandez - President */}
               <div
                 className="insurance-card rounded-2xl overflow-hidden hover-lift"
                 data-testid="team-member-wilbert-hernandez"
               >
-                <div className="aspect-square overflow-hidden relative group">
+                <div className="aspect-[3/4] overflow-hidden relative group">
                   <img
                     src={wilbertPhoto}
                     alt="Wilbert Hernandez - President"
@@ -241,9 +241,9 @@ export default function About() {
                     <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold mb-2">Wilbert Hernandez</h3>
-                  <p className="text-primary font-medium">
+                <div className="p-3 sm:p-6 text-center">
+                  <h3 className="text-sm sm:text-xl font-bold mb-1 sm:mb-2">Wilbert Hernandez</h3>
+                  <p className="text-primary font-medium text-xs sm:text-base">
                     {t.about.president}
                   </p>
                 </div>
@@ -254,7 +254,7 @@ export default function About() {
                 className="insurance-card rounded-2xl overflow-hidden hover-lift"
                 data-testid="team-member-elizabeth-hernandez"
               >
-                <div className="aspect-square overflow-hidden relative group">
+                <div className="aspect-[3/4] overflow-hidden relative group">
                   <img
                     src={elizabethPhoto}
                     alt="Elizabeth Hernandez - Operations Manager"
@@ -270,11 +270,11 @@ export default function About() {
                     <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold mb-2">
+                <div className="p-3 sm:p-6 text-center">
+                  <h3 className="text-sm sm:text-xl font-bold mb-1 sm:mb-2">
                     Elizabeth Hernandez
                   </h3>
-                  <p className="text-primary font-medium">
+                  <p className="text-primary font-medium text-xs sm:text-base">
                     {t.about.operationsManager}
                   </p>
                 </div>
@@ -282,10 +282,10 @@ export default function About() {
 
               {/* David Hernandez - Account Executive */}
               <div
-                className="insurance-card rounded-2xl overflow-hidden hover-lift"
+                className="insurance-card rounded-2xl overflow-hidden hover-lift col-span-2 max-w-[50%] mx-auto w-full lg:col-span-1 lg:max-w-none"
                 data-testid="team-member-david-hernandez"
               >
-                <div className="aspect-square overflow-hidden relative group">
+                <div className="aspect-[3/4] overflow-hidden relative group">
                   <img
                     src={davidPhoto}
                     alt="David Hernandez - Account Executive"
@@ -301,9 +301,9 @@ export default function About() {
                     <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold mb-2">David Hernandez</h3>
-                  <p className="text-primary font-medium">
+                <div className="p-3 sm:p-6 text-center">
+                  <h3 className="text-sm sm:text-xl font-bold mb-1 sm:mb-2">David Hernandez</h3>
+                  <p className="text-primary font-medium text-xs sm:text-base">
                     {t.about.accountExecutive}
                   </p>
                 </div>

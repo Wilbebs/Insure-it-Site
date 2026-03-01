@@ -13,8 +13,8 @@ export default function Footer({ onGetQuote }: FooterProps) {
   return (
     <footer className="bg-slate-900 dark:bg-slate-950 text-white py-4 sm:py-5" data-testid="footer">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
-          <div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+          <div className="col-span-2 md:col-span-1">
             <div className="mb-2">
               <Logo variant="white" />
             </div>

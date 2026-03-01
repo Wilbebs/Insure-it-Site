@@ -126,14 +126,24 @@ function renderMessageText(text: string): React.ReactNode {
   return parts.map((part, i) => {
     if (/^\d{3}-\d{3}-\d{4}$/.test(part)) {
       return (
-        <a key={i} href={`tel:+1${part.replace(/-/g, "")}`} className="font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity">
+        <a
+          key={i}
+          href={`tel:+1${part.replace(/-/g, "")}`}
+          onClick={() => navigator.clipboard.writeText(part.replace(/-/g, ""))}
+          className="font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity"
+        >
           {part}
         </a>
       );
     }
     if (/^[\w.+-]+@[\w.-]+\.[a-z]{2,}$/i.test(part)) {
       return (
-        <a key={i} href={`mailto:${part}`} className="font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity break-all">
+        <a
+          key={i}
+          href={`mailto:${part}`}
+          onClick={() => navigator.clipboard.writeText(part)}
+          className="font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity break-all"
+        >
           {part}
         </a>
       );

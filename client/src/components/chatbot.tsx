@@ -120,32 +120,58 @@ function detectInsuranceIntent(message: string): PolicyType | null {
   return null;
 }
 
+function CopyLink({ href, copyText, children, className }: {
+  href: string;
+  copyText: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const [copied, setCopied] = useState(false);
+  const handleClick = () => {
+    navigator.clipboard.writeText(copyText);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <a href={href} onClick={handleClick} className={`relative inline-flex items-center gap-0.5 transition-all duration-200 ${copied ? "text-green-500 no-underline" : ""} ${className ?? ""}`}>
+      {copied ? (
+        <>
+          <svg className="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none">
+            <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span>Copied!</span>
+        </>
+      ) : children}
+    </a>
+  );
+}
+
 function renderMessageText(text: string): React.ReactNode {
   const pattern = /(\d{3}-\d{3}-\d{4}|[\w.+-]+@[\w.-]+\.[a-z]{2,})/gi;
   const parts = text.split(pattern);
   return parts.map((part, i) => {
     if (/^\d{3}-\d{3}-\d{4}$/.test(part)) {
       return (
-        <a
+        <CopyLink
           key={i}
           href={`tel:+1${part.replace(/-/g, "")}`}
-          onClick={() => navigator.clipboard.writeText(part.replace(/-/g, ""))}
-          className="font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity"
+          copyText={part.replace(/-/g, "")}
+          className="font-semibold underline underline-offset-2 hover:opacity-80"
         >
           {part}
-        </a>
+        </CopyLink>
       );
     }
     if (/^[\w.+-]+@[\w.-]+\.[a-z]{2,}$/i.test(part)) {
       return (
-        <a
+        <CopyLink
           key={i}
           href={`mailto:${part}`}
-          onClick={() => navigator.clipboard.writeText(part)}
-          className="font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity break-all"
+          copyText={part}
+          className="font-semibold underline underline-offset-2 hover:opacity-80 break-all"
         >
           {part}
-        </a>
+        </CopyLink>
       );
     }
     return part;

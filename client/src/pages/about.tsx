@@ -4,7 +4,7 @@ import QuoteModal from "@/components/quote-modal";
 import SectionDivider from "@/components/section-divider";
 import { Shield, Users, Award, Clock } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "@/components/theme-provider";
 import wilbertPhoto from "@assets/image_1764878413663.png";
 import elizabethPhoto from "@assets/image_1764878433544.png";
@@ -28,24 +28,6 @@ function SocialButton({
   textHoverClass: string;
   testId: string;
 }) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
-  const buttonRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!buttonRef.current) return;
-    const rect = buttonRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    setMousePosition({ x, y });
-  };
-
-  const dynamicGradientStyle = isHovered
-    ? {
-        background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.5) 0%, transparent 60%)`,
-      }
-    : {};
-
   return (
     <a
       href={href}
@@ -55,17 +37,9 @@ function SocialButton({
       data-testid={testId}
     >
       <div
-        ref={buttonRef}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className={`relative overflow-hidden ${colorClass} p-3 sm:p-6 rounded-2xl hover-lift transition-all duration-300 ${hoverColorClass} flex items-center justify-center`}
+        className={`${colorClass} p-3 sm:p-6 rounded-2xl hover-lift transition-all duration-300 ${hoverColorClass} flex items-center justify-center`}
       >
         {icon}
-        <div
-          className={`absolute inset-0 rounded-2xl transition-opacity duration-300 pointer-events-none ${isHovered ? "opacity-100" : "opacity-0"}`}
-          style={dynamicGradientStyle}
-        />
       </div>
       <p
         className={`mt-3 font-semibold text-muted-foreground ${textHoverClass} transition-colors`}

@@ -28,6 +28,8 @@ export default function TestimonialsCarousel() {
   const [currentPage, setCurrentPage] = useState(0);
   const [direction, setDirection] = useState(1);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   const goTo = useCallback((page: number, dir: number) => {
     setDirection(dir);
@@ -102,7 +104,18 @@ export default function TestimonialsCarousel() {
       </div>
 
       {/* 2×2 grid — always 2 columns, 2 rows */}
-      <div className="overflow-hidden">
+      <div
+        className="overflow-hidden"
+        onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; touchEndX.current = null; }}
+        onTouchMove={(e) => { touchEndX.current = e.touches[0].clientX; }}
+        onTouchEnd={() => {
+          if (touchStartX.current === null || touchEndX.current === null) return;
+          const delta = touchStartX.current - touchEndX.current;
+          if (Math.abs(delta) > 40) { delta > 0 ? handleNext() : handlePrev(); }
+          touchStartX.current = null;
+          touchEndX.current = null;
+        }}
+      >
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={`page-${currentPage}`}

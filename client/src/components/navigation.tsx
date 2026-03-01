@@ -1,5 +1,4 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Logo from "./logo";
@@ -9,7 +8,6 @@ import spainFlagIcon from "@assets/spain_round_icon_64_1770501803977.png";
 
 export default function Navigation() {
   const [location] = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoHighlight, setLogoHighlight] = useState(false);
   const { t, language, toggleLanguage } = useTranslation();
@@ -134,78 +132,66 @@ export default function Navigation() {
       </nav>
 
       {/* Mobile Navigation */}
-      <nav className="fixed top-4 left-4 right-4 z-50 glass-nav rounded-full px-4 py-3 lg:hidden" data-testid="mobile-navigation">
-        <div className="flex items-center justify-between">
-          <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative" data-testid="link-home-mobile">
+      <nav
+        className={`fixed left-0 right-0 z-50 glass-nav py-3 lg:hidden transition-all duration-500 ease-in-out ${
+          isScrolled
+            ? 'top-4 rounded-full mx-4 px-4'
+            : 'top-0 rounded-none px-4'
+        }`}
+        data-testid="mobile-navigation"
+      >
+        <div className="flex items-center justify-between gap-2">
+          {/* Logo */}
+          <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative flex-shrink-0" data-testid="link-home-mobile">
             <Logo />
             <div className={`absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full transition-all duration-500 ${
               logoHighlight ? 'w-full opacity-100' : 'w-0 opacity-0'
             }`}></div>
           </Link>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={toggleLanguage}
-              className="relative px-3 py-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg min-w-[44px] min-h-[44px] flex items-center justify-center"
-              data-testid="language-toggle-mobile"
-              aria-label={t.nav.switchLang}
-            >
-              <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
-                {language === "en" ? "EN" : "ES"}
-              </span>
-              <img
-                src={language === "en" ? usaFlagIcon : spainFlagIcon}
-                alt=""
-                aria-hidden="true"
-                className="absolute -top-0.5 -right-0.5 w-4 h-4 object-contain rounded-full drop-shadow-sm"
-              />
-            </button>
-            <button 
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-slate-800 hover:text-black transition-colors"
-              data-testid="mobile-menu-toggle"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
 
-        {/* Mobile Menu Dropdown */}
-        {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 right-0 mt-2 glass-nav rounded-2xl p-3 border border-white/20">
-            <div className="flex flex-col space-y-2">
-              <Link 
-                href="/" 
-                className={`transition-colors font-medium text-center py-3 rounded-lg min-h-[44px] flex items-center justify-center ${
-                  location === "/" 
-                    ? "text-blue-600 bg-blue-50" 
-                    : "text-slate-800 hover:text-black hover:bg-slate-50"
-                }`}
-                data-testid="nav-home-mobile"
-                onClick={() => {
-                  handleNavClick();
-                  setIsMobileMenuOpen(false);
-                }}
-              >
-                {t.nav.getQuoted}
-              </Link>
-              <Link 
-                href="/about" 
-                className={`transition-colors font-medium text-center py-3 rounded-lg min-h-[44px] flex items-center justify-center ${
-                  location === "/about" 
-                    ? "text-blue-600 bg-blue-50" 
-                    : "text-slate-800 hover:text-black hover:bg-slate-50"
-                }`}
-                data-testid="nav-about-mobile"
-                onClick={() => {
-                  handleNavClick();
-                  setIsMobileMenuOpen(false);
-                }}
-              >
-                {t.nav.aboutUs}
-              </Link>
-            </div>
+          {/* Inline nav links */}
+          <div className="flex items-center gap-3 flex-1 justify-center">
+            <Link
+              href="/"
+              onClick={handleNavClick}
+              className={`transition-colors font-medium text-xs whitespace-nowrap ${
+                location === "/" ? "text-blue-600" : "text-slate-800 hover:text-black"
+              }`}
+              data-testid="nav-home-mobile"
+            >
+              {t.nav.getQuoted}
+            </Link>
+            <span className="text-slate-300 text-xs">|</span>
+            <Link
+              href="/about"
+              onClick={handleNavClick}
+              className={`transition-colors font-medium text-xs whitespace-nowrap ${
+                location === "/about" ? "text-blue-600" : "text-slate-800 hover:text-black"
+              }`}
+              data-testid="nav-about-mobile"
+            >
+              {t.nav.aboutUs}
+            </Link>
           </div>
-        )}
+
+          {/* Language toggle */}
+          <button
+            onClick={toggleLanguage}
+            className="relative px-2.5 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg flex items-center justify-center flex-shrink-0"
+            data-testid="language-toggle-mobile"
+            aria-label={t.nav.switchLang}
+          >
+            <span className="text-xs font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
+              {language === "en" ? "EN" : "ES"}
+            </span>
+            <img
+              src={language === "en" ? usaFlagIcon : spainFlagIcon}
+              alt=""
+              aria-hidden="true"
+              className="absolute -top-0.5 -right-0.5 w-4 h-4 object-contain rounded-full drop-shadow-sm"
+            />
+          </button>
+        </div>
       </nav>
     </>
   );

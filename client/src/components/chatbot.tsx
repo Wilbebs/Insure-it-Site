@@ -120,6 +120,28 @@ function detectInsuranceIntent(message: string): PolicyType | null {
   return null;
 }
 
+function renderMessageText(text: string): React.ReactNode {
+  const pattern = /(\d{3}-\d{3}-\d{4}|[\w.+-]+@[\w.-]+\.[a-z]{2,})/gi;
+  const parts = text.split(pattern);
+  return parts.map((part, i) => {
+    if (/^\d{3}-\d{3}-\d{4}$/.test(part)) {
+      return (
+        <a key={i} href={`tel:+1${part.replace(/-/g, "")}`} className="font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity">
+          {part}
+        </a>
+      );
+    }
+    if (/^[\w.+-]+@[\w.-]+\.[a-z]{2,}$/i.test(part)) {
+      return (
+        <a key={i} href={`mailto:${part}`} className="font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity break-all">
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
 export default function ChatBot() {
   const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -746,7 +768,7 @@ export default function ChatBot() {
                           : 'bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-200 shadow-md'
                       }`}
                     >
-                      <p className="text-sm">{msg.text}</p>
+                      <p className="text-sm">{renderMessageText(msg.text)}</p>
                       {msg.link && msg.type === 'bot' && (
                         <button
                           onClick={() => handleLinkClick(msg.link!)}

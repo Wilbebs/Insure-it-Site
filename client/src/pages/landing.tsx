@@ -304,17 +304,21 @@ function InsuranceCard({
         style={dynamicGradientStyle}
       />
 
-      {/* Content */}
-      <div className="absolute inset-x-0 bottom-0 p-4 transition-transform duration-300 group-hover:-translate-y-2 z-10">
-        <div
-          className={`text-white mb-1 transition-all duration-300 max-h-10 overflow-hidden group-hover:max-h-0 group-hover:opacity-0 group-hover:mb-0 ${iconAnimation}`}
-        >
-          {type.icon}39
+      {/* Top gradient scrim for title legibility (default state only) */}
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 to-transparent z-10 transition-opacity duration-300 group-hover:opacity-0 pointer-events-none" />
+
+      {/* Default state: icon + title at TOP */}
+      <div className="absolute inset-x-0 top-0 p-3 sm:p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
+        <div className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}>
+          {type.icon}
         </div>
-        <h3 className="text-lg font-bold text-white mb-1 leading-tight">{type.title}</h3>
-        <p className="text-slate-200 text-xs leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-16 group-hover:opacity-100 line-clamp-3">
-          {type.description}
-        </p>
+        <h3 className="text-base font-bold text-white leading-tight drop-shadow">{type.title}</h3>
+      </div>
+
+      {/* Hover state: full overlay with complete description */}
+      <div className="absolute inset-0 bg-black/72 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-4 flex flex-col overflow-y-auto custom-scrollbar">
+        <h3 className="text-white font-bold text-sm mb-2 leading-tight shrink-0">{type.title}</h3>
+        <p className="text-slate-200 text-xs leading-relaxed">{type.description}</p>
       </div>
     </div>
   );
@@ -867,13 +871,6 @@ export default function Landing() {
               );
             })()}
 
-            {/* Address below map */}
-            <div className="flex items-center justify-center gap-1.5 mt-3 mb-6 text-xs text-muted-foreground select-none">
-              <MapPin className="w-3 h-3 shrink-0" />
-              <span>
-                11570 San Jose Blvd, Suite 11 · Jacksonville, FL 32223
-              </span>
-            </div>
           </div>
         </div>
 

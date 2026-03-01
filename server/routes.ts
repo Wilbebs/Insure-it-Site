@@ -389,6 +389,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Video streaming endpoint — supports HTTP range requests for seek/buffering
+  app.get("/api/videos/:videoName", async (req, res) => {
+    try {
+      const { GetObjectCommand, HeadObjectCommand } = await import('@aws-sdk/client-s3');
+      const s3Key = `video-assets/${req.params.videoName}`;
+      const rangeHeader = req.headers.range;
+
+      // Get file size first
+      const headCmd = new HeadObjectCommand({ Bucket: S3_BUCKET, Key: s3Key });
+      const headRes = await s3Client.send(headCmd);
+      const fileSize = headRes.ContentLength ?? 0;
+
+      if (rangeHeader) {
+        const [startStr, endStr] = rangeHeader.replace(/bytes=/, "").split("-");
+        const start = parseInt(startStr, 10);
+        const end = endStr ? parseInt(endStr, 10) : fileSize - 1;
+        const chunkSize = end - start + 1;
+
+        const cmd = new GetObjectCommand({
+          Bucket: S3_BUCKET,
+          Key: s3Key,
+          Range: `bytes=${start}-${end}`,
+        });
+        const s3Res = await s3Client.send(cmd);
+
+        res.writeHead(206, {
+          "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+          "Accept-Ranges": "bytes",
+          "Content-Length": chunkSize,
+          "Content-Type": "video/mp4",
+        });
+        // @ts-ignore
+        s3Res.Body.pipe(res);
+      } else {
+        const cmd = new GetObjectCommand({ Bucket: S3_BUCKET, Key: s3Key });
+        const s3Res = await s3Client.send(cmd);
+
+        res.writeHead(200, {
+          "Content-Length": fileSize,
+          "Content-Type": "video/mp4",
+          "Accept-Ranges": "bytes",
+        });
+        // @ts-ignore
+        s3Res.Body.pipe(res);
+      }
+    } catch (error) {
+      console.error("Error streaming video from S3:", error);
+      res.status(404).json({ error: "Video not found" });
+    }
+  });
+
   // Placeholder images endpoint for insurance pages
   app.get("/api/images/:imageName", (req, res) => {
     const { imageName } = req.params;

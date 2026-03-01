@@ -838,7 +838,7 @@ export default function Landing() {
                 <div className="relative mb-2.5">
                   <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[245px] sm:h-[285px] md:h-[325px] w-full">
                     <iframe
-                      src="https://www.google.com/maps/embed?pb=!4v1772406368619!6m8!1m7!1sduMvKfdLYRewb8CVXg-ybA!2m2!1d30.1626398364991!2d-81.63340592784719!3f291.9280852887789!4f-5.246708348247708!5f0.4000000000000002"
+                      src="https://www.google.com/maps/embed?pb=!4v1772407292888!6m8!1m7!1sduMvKfdLYRewb8CVXg-ybA!2m2!1d30.1626398364991!2d-81.63340592784719!3f269.9723512641387!4f-10.95494890902755!5f0.4000000000000002"
                       width="100%"
                       height="100%"
                       style={{ border: 0, display: "block" }}

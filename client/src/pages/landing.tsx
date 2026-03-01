@@ -337,6 +337,7 @@ export default function Landing() {
   >(null);
   const [scrollY, setScrollY] = useState(0);
   const [copiedContact, setCopiedContact] = useState<string | null>(null);
+  const [addressCopied, setAddressCopied] = useState(false);
 
   const copyToClipboard = (text: string, key: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -837,7 +838,7 @@ export default function Landing() {
                 ? `https://www.google.com/maps/embed/v1/streetview?key=${apiKey}&location=30.1540,-81.6549&heading=90&pitch=0&fov=75`
                 : null;
               return (
-                <div className="relative">
+                <div className="relative mb-2.5">
                   <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[220px] sm:h-[260px] md:h-[300px] w-full">
                     {src ? (
                       <iframe
@@ -859,14 +860,35 @@ export default function Landing() {
                       </div>
                     )}
                   </div>
-                  {/* Address badge sticker */}
-                  <div className="absolute top-3 left-3 z-10 flex items-start gap-2 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-slate-200/80 select-none">
-                    <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    <div className="leading-tight">
-                      <p className="text-xs font-bold text-slate-800">11570 San Jose Blvd, Suite 11</p>
-                      <p className="text-[11px] text-slate-500">Jacksonville, FL 32223</p>
-                    </div>
-                  </div>
+                  {/* Address badge sticker — centered on mobile, left-pinned on sm+ */}
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText("11570 San Jose Blvd, Suite 11, Jacksonville, FL 32223");
+                      setAddressCopied(true);
+                      setTimeout(() => setAddressCopied(false), 2000);
+                    }}
+                    className="absolute top-3 left-1/2 -translate-x-1/2 sm:left-3 sm:translate-x-0 z-10 flex items-start gap-2 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-slate-200/80 transition-colors hover:bg-white active:bg-slate-50 cursor-pointer"
+                  >
+                    {addressCopied ? (
+                      <>
+                        <svg className="w-4 h-4 text-green-500 mt-0.5 shrink-0" viewBox="0 0 12 12" fill="none">
+                          <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        <div className="leading-tight">
+                          <p className="text-xs font-bold text-green-600 whitespace-nowrap">Copied!</p>
+                          <p className="text-[11px] text-green-500 whitespace-nowrap">Address copied to clipboard</p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                        <div className="leading-tight text-left">
+                          <p className="text-xs font-bold text-slate-800 whitespace-nowrap">11570 San Jose Blvd, Suite 11</p>
+                          <p className="text-[11px] text-slate-500 whitespace-nowrap">Jacksonville, FL 32223</p>
+                        </div>
+                      </>
+                    )}
+                  </button>
                 </div>
               );
             })()}

@@ -311,8 +311,8 @@ function InsuranceCard({
         >
           {type.icon}39
         </div>
-        <h3 className="text-lg font-bold text-white mb-1">{type.title}</h3>
-        <p className="text-slate-200 text-xs leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-32 group-hover:opacity-100">
+        <h3 className="text-lg font-bold text-white mb-1 leading-tight">{type.title}</h3>
+        <p className="text-slate-200 text-xs leading-relaxed max-h-0 overflow-hidden opacity-0 transition-all duration-300 group-hover:max-h-16 group-hover:opacity-100 line-clamp-3">
           {type.description}
         </p>
       </div>

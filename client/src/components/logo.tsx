@@ -4,6 +4,7 @@ import shieldVideo from "@assets/Ins_orginal_color_1765213135711.webm";
 
 interface LogoProps {
   className?: string;
+  imgClassName?: string;
   variant?: "default" | "white";
   showTagline?: boolean;
   size?: "small" | "large";
@@ -11,6 +12,7 @@ interface LogoProps {
 
 export default function Logo({
   className = "",
+  imgClassName,
   showTagline = false,
   size = "small",
 }: LogoProps) {
@@ -79,7 +81,7 @@ export default function Logo({
       <img
         src={logoImage}
         alt="Insure-it Group Corp"
-        className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+        className={`${imgClassName ?? "h-10"} w-auto transition-transform duration-300 group-hover:scale-105`}
       />
     </div>
   );

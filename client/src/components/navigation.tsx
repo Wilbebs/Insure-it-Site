@@ -133,39 +133,39 @@ export default function Navigation() {
 
       {/* Mobile Navigation */}
       <nav
-        className={`fixed left-0 right-0 z-50 glass-nav py-3 lg:hidden transition-all duration-500 ease-in-out ${
+        className={`fixed left-0 right-0 z-50 glass-nav lg:hidden transition-all duration-500 ease-in-out ${
           isScrolled
-            ? 'top-4 rounded-full mx-4 px-4'
-            : 'top-0 rounded-none px-4'
+            ? 'top-3 rounded-full mx-3 px-3 py-2'
+            : 'top-0 rounded-none px-4 py-3'
         }`}
         data-testid="mobile-navigation"
       >
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-1.5">
           {/* Logo */}
           <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative flex-shrink-0" data-testid="link-home-mobile">
-            <Logo />
+            <Logo imgClassName={isScrolled ? "h-6" : "h-9"} />
             <div className={`absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full transition-all duration-500 ${
               logoHighlight ? 'w-full opacity-100' : 'w-0 opacity-0'
             }`}></div>
           </Link>
 
           {/* Inline nav links */}
-          <div className="flex items-center gap-3 flex-1 justify-center">
+          <div className={`flex items-center flex-1 justify-center ${isScrolled ? 'gap-2' : 'gap-3'}`}>
             <Link
               href="/"
               onClick={handleNavClick}
-              className={`transition-colors font-medium text-xs whitespace-nowrap ${
+              className={`transition-colors font-medium whitespace-nowrap ${isScrolled ? 'text-[10px]' : 'text-xs'} ${
                 location === "/" ? "text-blue-600" : "text-slate-800 hover:text-black"
               }`}
               data-testid="nav-home-mobile"
             >
               {t.nav.getQuoted}
             </Link>
-            <span className="text-slate-300 text-xs">|</span>
+            <span className={`text-slate-300 ${isScrolled ? 'text-[10px]' : 'text-xs'}`}>|</span>
             <Link
               href="/about"
               onClick={handleNavClick}
-              className={`transition-colors font-medium text-xs whitespace-nowrap ${
+              className={`transition-colors font-medium whitespace-nowrap ${isScrolled ? 'text-[10px]' : 'text-xs'} ${
                 location === "/about" ? "text-blue-600" : "text-slate-800 hover:text-black"
               }`}
               data-testid="nav-about-mobile"
@@ -177,18 +177,18 @@ export default function Navigation() {
           {/* Language toggle */}
           <button
             onClick={toggleLanguage}
-            className="relative px-2.5 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg flex items-center justify-center flex-shrink-0"
+            className={`relative rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg flex items-center justify-center flex-shrink-0 ${isScrolled ? 'px-2 py-1' : 'px-2.5 py-1.5'}`}
             data-testid="language-toggle-mobile"
             aria-label={t.nav.switchLang}
           >
-            <span className="text-xs font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
+            <span className={`font-bold text-slate-700 group-hover:text-white transition-colors duration-300 ${isScrolled ? 'text-[10px]' : 'text-xs'}`}>
               {language === "en" ? "EN" : "ES"}
             </span>
             <img
               src={language === "en" ? usaFlagIcon : spainFlagIcon}
               alt=""
               aria-hidden="true"
-              className="absolute -top-0.5 -right-0.5 w-4 h-4 object-contain rounded-full drop-shadow-sm"
+              className={`absolute -top-0.5 -right-0.5 object-contain rounded-full drop-shadow-sm ${isScrolled ? 'w-3 h-3' : 'w-4 h-4'}`}
             />
           </button>
         </div>

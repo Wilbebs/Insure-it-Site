@@ -37,96 +37,6 @@ import highFiveImg from "@assets/man-woman-business-workers-high-five-with-hands
 import SectionDivider from "@/components/section-divider";
 
 
-const insuranceDetails: Record<
-  string,
-  {
-    tagline: string;
-    covers: string[];
-    benefits: string[];
-    whyUs: string;
-  }
-> = {
-  sky: {
-    tagline: "Protect Your Home & Everything on the Road",
-    covers: [
-      "Dwelling & structural damage",
-      "Personal property & belongings",
-      "Liability if someone is injured on your property",
-      "Collision & comprehensive auto coverage",
-      "Uninsured/underinsured motorist protection",
-      "Renters, condo & specialty vehicle policies",
-    ],
-    benefits: [
-      "Bundle home + auto for up to 25% savings",
-      "Replacement cost coverage (not just market value)",
-      "24/7 claims support",
-      "Roadside assistance & rental reimbursement",
-      "Deductible waived when home & auto claimed together",
-    ],
-    whyUs:
-      "As an independent agency, we shop multiple top-rated carriers on your behalf — so you get the best coverage at the best price, not just what one company offers.",
-  },
-  blue: {
-    tagline: "Flood Insurance Is Separate — And Essential in Florida",
-    covers: [
-      "Building structure, foundation & walls",
-      "Electrical, plumbing & HVAC systems",
-      "Appliances (water heaters, refrigerators, etc.)",
-      "Personal belongings & furniture",
-      "Detached garages",
-      "Temporary housing & loss of use",
-    ],
-    benefits: [
-      "Both NFIP and private flood options available",
-      "Up to $500K in building coverage",
-      "Contents coverage even in non-flood zones",
-      "Often cheaper than homeowners adds-on",
-      "Many lenders require flood coverage in FL",
-    ],
-    whyUs:
-      "Standard homeowners policies do NOT cover flooding. Many Floridians are in flood zones without knowing it — we'll check your property's risk rating and find the right protection.",
-  },
-  indigo: {
-    tagline: "Give Your Family Financial Security That Lasts",
-    covers: [
-      "Term life (10, 20 & 30-year options)",
-      "Whole life with cash value accumulation",
-      "Universal life with flexible premiums",
-      "Final expense & burial coverage",
-      "Mortgage protection policies",
-      "Child & dependent life riders",
-    ],
-    benefits: [
-      "Tax-free death benefit for beneficiaries",
-      "Premiums locked in at today's rates",
-      "Cash value growth (whole/universal life)",
-      "Affordable term coverage starting under $30/mo",
-      "Living benefits available on select policies",
-    ],
-    whyUs:
-      "We compare rates from dozens of carriers to find the policy that fits your life stage and budget — no pressure, just honest guidance for your family's future.",
-  },
-  violet: {
-    tagline: "Custom Coverage Built Around Your Business",
-    covers: [
-      "General liability & premises coverage",
-      "Commercial property & equipment",
-      "Workers' compensation",
-      "Commercial auto & fleet",
-      "Professional & errors & omissions liability",
-      "Business interruption & loss of income",
-    ],
-    benefits: [
-      "Business Owners Policy (BOP) bundles save money",
-      "Risk management consultation included",
-      "Fast quotes — often same day",
-      "Covers contractors, retail, offices & more",
-      "Umbrella policies for extra protection",
-    ],
-    whyUs:
-      "From sole proprietors to growing companies, we build coverage packages tailored to your industry — because one-size-fits-all never works in business.",
-  },
-};
 
 function InsuranceDetailModal({
   type,
@@ -143,7 +53,12 @@ function InsuranceDetailModal({
   onClose: () => void;
   onGetQuote: () => void;
 }) {
-  const details = type ? insuranceDetails[type.color] : null;
+  const { t } = useTranslation();
+  const details = type
+    ? t.insuranceModal.details[
+        type.color as keyof typeof t.insuranceModal.details
+      ]
+    : null;
 
   const accentColor =
     type?.color === "sky"
@@ -210,7 +125,7 @@ function InsuranceDetailModal({
                   <div className="text-white opacity-90">{type.icon}</div>
                   <div>
                     <p className="text-white/70 text-[11px] uppercase tracking-widest font-medium">
-                      Insurance Coverage
+                      {t.insuranceModal.coverageLabel}
                     </p>
                     <h2 className="text-white text-xl font-bold leading-tight">
                       {type.title}
@@ -233,7 +148,7 @@ function InsuranceDetailModal({
                   <div>
                     <h3 className="text-sm font-semibold text-foreground mb-2.5 flex items-center gap-1.5">
                       <CheckCircle2 className="w-4 h-4 text-green-500" />
-                      What's Covered
+                      {t.insuranceModal.whatsCovered}
                     </h3>
                     <ul className="grid grid-cols-1 gap-1.5">
                       {details.covers.map((item, i) => (
@@ -254,7 +169,7 @@ function InsuranceDetailModal({
                   <div>
                     <h3 className="text-sm font-semibold text-foreground mb-2.5 flex items-center gap-1.5">
                       <Sparkles className="w-4 h-4 text-amber-500" />
-                      Key Benefits
+                      {t.insuranceModal.keyBenefits}
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {details.benefits.map((b, i) => (
@@ -273,7 +188,7 @@ function InsuranceDetailModal({
                 {details && (
                   <div className="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
                     <h3 className="text-xs font-semibold text-foreground mb-1.5 uppercase tracking-wide">
-                      Why Insure-it Group?
+                      {t.insuranceModal.whyUsLabel}
                     </h3>
                     <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                       {details.whyUs}
@@ -291,7 +206,7 @@ function InsuranceDetailModal({
                   }}
                   className={`w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r ${accentColor} hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-md`}
                 >
-                  Get a Free {type.title} Quote
+                  {t.insuranceModal.getQuotePrefix} {type.title}{t.insuranceModal.getQuoteSuffix}
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -408,9 +323,7 @@ function InsuranceCard({
 export default function Landing() {
   const { t } = useTranslation();
   const [heroVisible, setHeroVisible] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(
-    () => sessionStorage.getItem("heroWindowMinimized") === "true",
-  );
+  const [isMinimized, setIsMinimized] = useState(false);
   const [showShieldTooltip, setShowShieldTooltip] = useState(false);
   const isRestoring = useRef(false);
   const hasScrolledDown = useRef(false);

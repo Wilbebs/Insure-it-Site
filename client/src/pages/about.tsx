@@ -158,23 +158,23 @@ export default function About() {
         </div>
 
         {/* Floating Story Window */}
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-20 pb-4">
-          <div className="max-w-3xl mx-auto bg-white/40 dark:bg-slate-900/50 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl border border-white/40">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 text-slate-800 text-center">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-16 sm:pt-20 pb-16 sm:pb-6">
+          <div className="max-w-3xl mx-auto bg-white/40 dark:bg-slate-900/50 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-3 sm:p-6 md:p-8 shadow-2xl border border-white/40">
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 text-slate-800 text-center">
               {t.about.ourStory}
             </h2>
-            <div className="space-y-3 text-sm sm:text-base text-slate-700 leading-relaxed">
+            <div className="space-y-2 sm:space-y-3 text-xs sm:text-base text-slate-700 leading-relaxed">
               <p>{t.about.storyP1}</p>
               <p>{t.about.storyP2}</p>
               <p>{t.about.storyP3}</p>
-              <p className="font-semibold text-slate-800 min-h-[4.5rem]">
+              <p className="font-semibold text-slate-800 min-h-[3rem] sm:min-h-[4.5rem]">
                 {lastParagraphText}
                 {lastParagraphText.length > 0 &&
                   lastParagraphText.length < fullLastParagraph.length && (
                     <span className="animate-pulse">|</span>
                   )}
               </p>
-              <p className="text-center italic text-slate-600 pt-1 text-sm sm:text-base font-semibold min-h-[1.5rem]">
+              <p className="text-center italic text-slate-600 pt-1 text-xs sm:text-base font-semibold min-h-[1.25rem] sm:min-h-[1.5rem]">
                 {signatureText.length > 0 && '"'}
                 {signatureText}
                 {signatureText.length > 0 &&

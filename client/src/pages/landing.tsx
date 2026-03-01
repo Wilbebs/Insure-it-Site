@@ -490,6 +490,7 @@ export default function Landing() {
         animateValue(cardScale, 0.05, { duration: 0.45, ease: [0.4, 0, 1, 1] }),
       ]);
     }
+    hasScrolledDown.current = false;
     sessionStorage.setItem("heroWindowMinimized", "true");
     setIsMinimized(true);
     cardX.set(0);

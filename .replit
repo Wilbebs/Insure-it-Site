@@ -40,3 +40,11 @@ waitForPort = 5000
 
 [agent]
 integrations = ["javascript_mem_db:1.0.0", "firebase_barebones_javascript:1.0.0"]
+
+[userenv]
+
+[userenv.shared]
+RDS_HOST = "database-1.c69qosw28o1m.us-east-1.rds.amazonaws.com"
+RDS_PORT = "5432"
+RDS_USER = "postgres"
+RDS_DBNAME = "postgres"

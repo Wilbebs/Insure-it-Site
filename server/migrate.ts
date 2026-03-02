@@ -1,15 +1,17 @@
 import { pool } from './db';
 
 /**
- * Idempotent schema migration — creates all required tables in RDS if they
- * don't already exist.  Safe to run on every server startup.
+ * Robust database migration script.
+ * Ensures all required tables and columns exist in RDS.
+ * Safe to run on every startup.
  */
 export async function runMigrations(): Promise<void> {
-    const client = await pool.connect();
-    try {
-        console.log('🔄 Running database migrations...');
+  const client = await pool.connect();
+  try {
+    console.log('🔄 Running database migrations...');
 
-        await client.query(`
+    // 1. users table
+    await client.query(`
       CREATE TABLE IF NOT EXISTS users (
         id         VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
         username   TEXT NOT NULL UNIQUE,
@@ -17,7 +19,8 @@ export async function runMigrations(): Promise<void> {
       );
     `);
 
-        await client.query(`
+    // 2. contacts table (The primary lead record identified by email)
+    await client.query(`
       CREATE TABLE IF NOT EXISTS contacts (
         id         VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
         email      TEXT NOT NULL UNIQUE,
@@ -27,10 +30,10 @@ export async function runMigrations(): Promise<void> {
       );
     `);
 
-        await client.query(`
+    // 3. contact_submissions table (Individual form/bot entries)
+    await client.query(`
       CREATE TABLE IF NOT EXISTS contact_submissions (
         id             VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-        contact_id     VARCHAR NOT NULL REFERENCES contacts(id),
         policy_type    TEXT NOT NULL,
         coverage_level TEXT,
         message        TEXT,
@@ -38,10 +41,22 @@ export async function runMigrations(): Promise<void> {
       );
     `);
 
-        await client.query(`
+    // FIX: Ensure contact_id exists in contact_submissions (Normalization step)
+    await client.query(`
+      DO $$ 
+      BEGIN 
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                       WHERE table_name='contact_submissions' AND column_name='contact_id') THEN
+          ALTER TABLE contact_submissions ADD COLUMN contact_id VARCHAR NOT NULL REFERENCES contacts(id);
+        END IF;
+      END $$;
+    `);
+
+    // 4. documents table (S3 references)
+    await client.query(`
       CREATE TABLE IF NOT EXISTS documents (
         id            VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
-        submission_id VARCHAR NOT NULL,
+        submission_id VARCHAR NOT NULL REFERENCES contact_submissions(id),
         file_name     TEXT,
         s3_bucket     TEXT,
         s3_key        TEXT,
@@ -50,7 +65,8 @@ export async function runMigrations(): Promise<void> {
       );
     `);
 
-        await client.query(`
+    // 5. policy_applications table (Deep conversational flows)
+    await client.query(`
       CREATE TABLE IF NOT EXISTS policy_applications (
         id                       VARCHAR PRIMARY KEY DEFAULT gen_random_uuid(),
         applicant_name           TEXT NOT NULL,
@@ -71,7 +87,8 @@ export async function runMigrations(): Promise<void> {
       );
     `);
 
-        await client.query(`
+    // 6. feature_requests table (For the Plans page)
+    await client.query(`
       CREATE TABLE IF NOT EXISTS feature_requests (
         id          SERIAL PRIMARY KEY,
         title       TEXT NOT NULL,
@@ -82,11 +99,11 @@ export async function runMigrations(): Promise<void> {
       );
     `);
 
-        console.log('✅ Database migrations complete.');
-    } catch (error) {
-        console.error('❌ Migration failed:', error);
-        throw error;
-    } finally {
-        client.release();
-    }
+    console.log('✅ Database migrations complete.');
+  } catch (error) {
+    console.error('❌ Migration failed:', error);
+    throw error;
+  } finally {
+    client.release();
+  }
 }

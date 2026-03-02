@@ -31,10 +31,10 @@ const LIZ_AVATAR = elizabethPhoto;
 
 function conversationReducer(state: ConversationContext, action: ConversationAction): ConversationContext {
   switch (action.type) {
-    case 'SELECT_POLICY':
+    case 'SET_POLICY_TYPES':
       return {
         ...state,
-        policyType: action.policyType
+        policyTypes: action.policyTypes
       };
     case 'UPDATE_CORE_INFO':
       return {
@@ -137,7 +137,7 @@ function CopyLink({ href, copyText, children, className }: {
       {copied ? (
         <>
           <svg className="w-3 h-3 shrink-0" viewBox="0 0 12 12" fill="none">
-            <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           <span>Copied!</span>
         </>
@@ -208,7 +208,7 @@ export default function ChatBot() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
+
   const [convState, dispatch] = useReducer(conversationReducer, initialConversationContext);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -234,16 +234,16 @@ export default function ChatBot() {
     const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
-    
+
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
-    
+
     oscillator.frequency.value = 800;
     oscillator.type = 'sine';
-    
+
     gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
     gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-    
+
     oscillator.start(audioContext.currentTime);
     oscillator.stop(audioContext.currentTime + 0.1);
   };
@@ -252,16 +252,16 @@ export default function ChatBot() {
     const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
-    
+
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
-    
+
     oscillator.frequency.value = 600;
     oscillator.type = 'sine';
-    
+
     gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
     gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
-    
+
     oscillator.start(audioContext.currentTime);
     oscillator.stop(audioContext.currentTime + 0.15);
   };
@@ -318,8 +318,10 @@ export default function ChatBot() {
   const getCurrentGroups = (): QuestionGroup[] => {
     if (convState.state === 'collectingCore') {
       return coreQuestionGroups;
-    } else if (convState.state === 'collectingPolicySpecific' && convState.policyType) {
-      return policyQuestionFlows[convState.policyType].groups;
+    } else if (convState.state === 'collectingPolicySpecific' && convState.policyTypes.length > 0) {
+      // For now, we only show specific questions for the first selected type if any
+      // In the future, we can loop through all selected types
+      return policyQuestionFlows[convState.policyTypes[0]].groups;
     }
     return [];
   };
@@ -333,7 +335,7 @@ export default function ChatBot() {
   };
 
   const getTotalGroupCount = (): number => {
-    return coreQuestionGroups.length + (convState.policyType ? policyQuestionFlows[convState.policyType].groups.length : 0);
+    return coreQuestionGroups.length + (convState.policyTypes.length > 0 ? policyQuestionFlows[convState.policyTypes[0]].groups.length : 0);
   };
 
   const getCompletedGroupCount = (): number => {
@@ -368,13 +370,13 @@ export default function ChatBot() {
         const q = currentGroup.questions.find(q => q.fieldKey === k);
         return q ? `${q.text.replace("What's your ", "").replace("?", "")}: ${v}` : `${k}: ${v}`;
       });
-    
+
     const summaryText = filledValues.length > 0 ? filledValues.join(', ') : 'Skipped';
     setMessages(prev => [...prev, { type: 'user', text: summaryText }]);
 
     if (convState.state === 'collectingCore') {
       const savedFirstName = groupFormValues['firstName'] || '';
-      
+
       for (const q of currentGroup.questions) {
         const value = groupFormValues[q.fieldKey] || '';
         if (value) {
@@ -384,7 +386,7 @@ export default function ChatBot() {
 
       const groups = coreQuestionGroups;
       const nextGroupIndex = currentGroupIndex + 1;
-      
+
       if (nextGroupIndex < groups.length) {
         setCurrentGroupIndex(nextGroupIndex);
         setGroupFormValues({});
@@ -466,12 +468,12 @@ export default function ChatBot() {
 
         const objectURL = uploadURL.split('?')[0];
 
-        setUploadedFiles(prev => prev.map(f => 
+        setUploadedFiles(prev => prev.map(f =>
           f.file === file ? { ...f, uploading: false, progress: 100, url: objectURL } : f
         ));
 
         dispatch({ type: 'ADD_DOCUMENT', url: objectURL });
-        
+
         toast({ title: "Document Uploaded", description: `${file.name} uploaded successfully!` });
       } catch (error) {
         setUploadedFiles(prev => prev.map(f =>
@@ -502,16 +504,16 @@ export default function ChatBot() {
       formData.append("fullName", `${convState.coreInfo.firstName || ''} ${convState.coreInfo.lastName || ''}`.trim());
       formData.append("emailAddress", convState.coreInfo.email || '');
       formData.append("phoneNumber", convState.coreInfo.phone || '');
-      formData.append("policyType", convState.policyType || '');
+      formData.append("policyType", convState.policyTypes.join(', '));
 
       await apiRequest('POST', '/api/contact', formData);
 
       dispatch({ type: 'TRANSITION_STATE', state: 'submitted' });
       setMessages(prev => [...prev, { type: 'user', text: 'Submit' }]);
       addBotMessage(t.chatbot.submittedMsg);
-      
+
       toast({ title: t.chatbot.submitApplication, description: t.chatbot.submittedMsg });
-      
+
       localStorage.removeItem('policyConversation');
       setTimeout(() => {
         setInApplicationFlow(false);
@@ -555,20 +557,35 @@ export default function ChatBot() {
   };
 
   const handlePolicyTypeSelection = (insuranceType: { type: PolicyType; label: string }) => {
+    const isSelected = convState.policyTypes.includes(insuranceType.type);
+    const nextTypes = isSelected
+      ? convState.policyTypes.filter(t => t !== insuranceType.type)
+      : [...convState.policyTypes, insuranceType.type];
+
+    dispatch({ type: 'SET_POLICY_TYPES', policyTypes: nextTypes });
+  };
+
+  const handleStartApplication = () => {
+    if (convState.policyTypes.length === 0) return;
+
     setShowPolicySelection(false);
-    setMessages(prev => [...prev, { type: 'user', text: insuranceType.label }]);
-    
-    dispatch({ type: 'SELECT_POLICY', policyType: insuranceType.type });
+    const selectedLabels = INSURANCE_TYPES
+      .filter(it => convState.policyTypes.includes(it.type))
+      .map(it => it.label)
+      .join(', ');
+
+    setMessages(prev => [...prev, { type: 'user', text: selectedLabels }]);
+
     setInApplicationFlow(true);
     setCurrentGroupIndex(0);
     setGroupFormValues({});
-    
+
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
-      setMessages(prev => [...prev, { 
-        type: 'bot', 
-        text: t.chatbot.startMsgShort.replace('{policy}', insuranceType.label).replace('{question}', coreQuestionGroups[0].title)
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        text: t.chatbot.startMsgShort.replace('{policy}', selectedLabels).replace('{question}', coreQuestionGroups[0].title)
       }]);
       playMessageSound();
       dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
@@ -583,27 +600,14 @@ export default function ChatBot() {
     setShowQuestions(false);
 
     const detectedPolicy = detectInsuranceIntent(userMessage);
-    
+
     if (detectedPolicy && convState.state === 'idle') {
       const insuranceType = INSURANCE_TYPES.find(it => it.type === detectedPolicy);
       if (insuranceType) {
-        setShowPolicySelection(false);
-        
-        dispatch({ type: 'SELECT_POLICY', policyType: detectedPolicy });
-        setInApplicationFlow(true);
-        setCurrentGroupIndex(0);
-        setGroupFormValues({});
-        
-        setIsTyping(true);
-        setTimeout(() => {
-          setIsTyping(false);
-          setMessages(prev => [...prev, { 
-            type: 'bot', 
-            text: t.chatbot.startMsgShort.replace('{policy}', insuranceType.label).replace('{question}', coreQuestionGroups[0].title)
-          }]);
-          playMessageSound();
-          dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
-        }, 800);
+        const isSelected = convState.policyTypes.includes(detectedPolicy);
+        if (!isSelected) {
+          dispatch({ type: 'SET_POLICY_TYPES', policyTypes: [...convState.policyTypes, detectedPolicy] });
+        }
       }
       return;
     }
@@ -611,13 +615,9 @@ export default function ChatBot() {
     if (convState.state === 'conversational') {
       const affirmative = ['yes', 'yeah', 'sure', 'ok', 'okay', 'apply', 'start', 'begin', 'let\'s do it', 'go ahead'];
       const isAffirmative = affirmative.some(word => userMessage.toLowerCase().includes(word));
-      
-      if (isAffirmative && convState.policyType) {
-        setInApplicationFlow(true);
-        setCurrentGroupIndex(0);
-        setGroupFormValues({});
-        addBotMessage(t.chatbot.startMsgShort.replace('{policy}', convState.policyType).replace('{question}', coreQuestionGroups[0].title));
-        dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
+
+      if (isAffirmative && convState.policyTypes.length > 0) {
+        handleStartApplication();
         return;
       }
     }
@@ -625,8 +625,8 @@ export default function ChatBot() {
     const matchedQA = PRESET_QA.find(qa => {
       const questionWords = qa.question.toLowerCase().split(' ');
       const userWords = userMessage.toLowerCase().split(' ');
-      return questionWords.some(word => userWords.includes(word)) || 
-             userWords.some(word => questionWords.includes(word));
+      return questionWords.some(word => userWords.includes(word)) ||
+        userWords.some(word => questionWords.includes(word));
     });
 
     setIsTyping(true);
@@ -634,13 +634,13 @@ export default function ChatBot() {
       setIsTyping(false);
       if (matchedQA) {
         setMessages(prev => [...prev, { type: 'bot', text: matchedQA.answer, link: matchedQA.link }]);
-        if (matchedQA.question.toLowerCase().includes('types of insurance') || 
-            matchedQA.question.toLowerCase().includes('tell me about')) {
+        if (matchedQA.question.toLowerCase().includes('types of insurance') ||
+          matchedQA.question.toLowerCase().includes('tell me about')) {
           setShowPolicySelection(true);
         }
       } else {
-        setMessages(prev => [...prev, { 
-          type: 'bot', 
+        setMessages(prev => [...prev, {
+          type: 'bot',
           text: t.chatbot.fallbackMsg,
           link: "/#connect"
         }]);
@@ -711,7 +711,7 @@ export default function ChatBot() {
                 data-testid="chatbot-minimized-button"
               >
                 <div className="animated-border-circle w-16 h-16 rounded-full overflow-hidden shadow-2xl transition-all hover:scale-110 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]">
-                  <img 
+                  <img
                     src={LIZ_AVATAR}
                     alt="Chat with Liz"
                     className="w-full h-full object-cover object-top"
@@ -732,359 +732,345 @@ export default function ChatBot() {
               data-testid="chatbot-expanded"
             >
               <div className="flex flex-col h-full bg-white dark:bg-slate-900">
-              {/* Header */}
-              <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-3 sm:p-4 flex flex-col">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-3">
-                    <img 
-                      src={LIZ_AVATAR}
-                      alt="Liz - Insurance Assistant"
-                      className="w-10 h-10 rounded-full border-2 border-white object-cover object-top"
-                    />
-                    <div>
-                      <h3 className="font-bold" style={{ transform: 'translateY(8px)' }}>{t.chatbot.title}</h3>
-                      <div className="flex items-center gap-1.5">
-                        <p className="text-xs opacity-90">{t.chatbot.subtitle}</p>
-                        <button
-                          onClick={toggleLanguage}
-                          className="relative px-2 py-0.5 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300" style={{ transform: 'translateY(-7.5px)' }}
-                          data-testid="chatbot-language-toggle"
-                          aria-label={t.nav.switchLang}
-                        >
-                          <span className="text-[10px] font-bold text-white flex items-center justify-center">
-                            {language === "en" ? "EN" : "ES"}
-                          </span>
-                          <img
-                            src={language === "en" ? usaFlagIcon : spainFlagIcon}
-                            alt=""
-                            aria-hidden="true"
-                            className="absolute -top-1 -right-1 w-3.5 h-3.5 object-contain rounded-full drop-shadow-sm"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleMinimize}
-                    className="hover:bg-white/20 p-2 rounded-full transition-colors"
-                    data-testid="chatbot-minimize-button"
-                  >
-                    <ChevronDown className="w-5 h-5" />
-                  </button>
-                </div>
-                
-                {/* Progress Bar */}
-                {convState.policyType && convState.state !== 'submitted' && convState.state !== 'idle' && (
-                  <div className="mt-2">
-                    <div className="flex justify-between text-xs mb-1">
-                      <span>{t.chatbot.applicationProgress}</span>
-                      <span>{progressPercent}%</span>
-                    </div>
-                    <div className="w-full bg-white/30 rounded-full h-2">
-                      <div 
-                        className="bg-white h-2 rounded-full transition-all duration-500"
-                        style={{ width: `${progressPercent}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 dark:bg-slate-800">
-                {messages.map((msg, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[80%] p-3 rounded-2xl ${
-                        msg.type === 'user'
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-200 shadow-md'
-                      }`}
-                    >
-                      <p className="text-sm">{renderMessageText(msg.text)}</p>
-                      {msg.link && msg.type === 'bot' && (
-                        <button
-                          onClick={() => handleLinkClick(msg.link!)}
-                          className="mt-2 text-xs bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700 transition-colors"
-                          data-testid="chatbot-message-link"
-                        >
-                          {t.chatbot.viewLink}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-
-                {/* Insurance Type Selection Buttons */}
-                {showPolicySelection && convState.state === 'idle' && !isTyping && (
-                  <div className="bg-white dark:bg-slate-700 p-4 rounded-md shadow-md space-y-2">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">{t.chatbot.selectType}</p>
-                    <div className="grid grid-cols-1 gap-2">
-                      {INSURANCE_TYPES.map((insuranceType, idx) => (
-                        <motion.button
-                          key={insuranceType.type}
-                          onClick={() => handlePolicyTypeSelection(insuranceType)}
-                          className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white p-3 rounded-lg transition-all shadow-md hover:shadow-lg font-semibold text-sm"
-                          whileHover={{ 
-                            scale: 1.02
-                          }}
-                          whileTap={{
-                            scale: insuranceType.type === 'auto' ? [1, 1.2, 0.85, 1.1, 1] : 
-                                   insuranceType.type === 'home' ? [1, 0.8, 1.25, 0.9, 1] : 
-                                   insuranceType.type === 'life' ? [1, 1.15, 1.15, 0.95, 1] :
-                                   insuranceType.type === 'commercial' ? [1, 1.3, 0.85, 1.15, 1] :
-                                   [1, 0.85, 1.2, 0.9, 1.1, 1],
-                            rotate: insuranceType.type === 'auto' ? [0, 8, -8, 5, -5, 0] : 
-                                   insuranceType.type === 'home' ? [0, -5, 5, -3, 3, 0] : 
-                                   insuranceType.type === 'life' ? [0, 0, 0, 0] :
-                                   insuranceType.type === 'commercial' ? [0, -10, 10, -6, 6, 0] :
-                                   [0, 4, -4, 2, -2, 0],
-                            y: insuranceType.type === 'auto' ? [0, -8, 4, -2, 0] :
-                               insuranceType.type === 'home' ? [0, 6, -4, 2, 0] :
-                               insuranceType.type === 'life' ? [0, -10, -10, 0] :
-                               insuranceType.type === 'commercial' ? [0, -12, 6, -3, 0] :
-                               [0, 5, -8, 3, 0],
-                            transition: { 
-                              duration: insuranceType.type === 'auto' ? 0.5 : 
-                                       insuranceType.type === 'home' ? 0.6 : 
-                                       insuranceType.type === 'life' ? 0.4 :
-                                       insuranceType.type === 'commercial' ? 0.55 :
-                                       0.65,
-                              type: "spring",
-                              stiffness: insuranceType.type === 'auto' ? 400 : 
-                                        insuranceType.type === 'home' ? 250 : 
-                                        insuranceType.type === 'life' ? 500 :
-                                        insuranceType.type === 'commercial' ? 450 :
-                                        300
-                            }
-                          }}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: idx * 0.08 }}
-                          data-testid={`select-${insuranceType.type}-insurance`}
-                        >
-                          {insuranceType.label}
-                        </motion.button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Typing Indicator */}
-                {isTyping && (
-                  <div className="flex items-start gap-2">
-                    <img 
-                      src={LIZ_AVATAR}
-                      alt="Liz typing"
-                      className="w-8 h-8 rounded-full object-cover object-top"
-                    />
-                    <div className="bg-white dark:bg-slate-700 p-3 rounded-2xl shadow-md">
-                      <div className="flex gap-1">
-                        <motion.div
-                          className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full"
-                          animate={{ y: [0, -8, 0] }}
-                          transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0 }}
-                        />
-                        <motion.div
-                          className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full"
-                          animate={{ y: [0, -8, 0] }}
-                          transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0, delay: 0.2 }}
-                        />
-                        <motion.div
-                          className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full"
-                          animate={{ y: [0, -8, 0] }}
-                          transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0, delay: 0.4 }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Grouped Question Form - All fields in a group shown together */}
-                {currentGroup && !isTyping && convState.state === 'collectingCore' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-3"
-                    data-testid="question-group-form"
-                  >
-                    <p className="text-sm font-bold text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-slate-600 pb-2">
-                      {currentGroup.title}
-                    </p>
-                    
-                    {currentGroup.questions.map((q) => (
-                      <div key={q.id} className="space-y-1">
-                        <label className="text-xs font-semibold text-gray-600 dark:text-gray-300">
-                          {q.text}
-                          {q.validation?.required && <span className="text-red-400 ml-0.5">*</span>}
-                        </label>
-                        
-                        {q.type === 'select' ? (
-                          <select
-                            value={groupFormValues[q.fieldKey] || ''}
-                            onChange={(e) => handleGroupFieldChange(q.fieldKey, e.target.value)}
-                            className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200"
-                            data-testid={`group-field-${q.fieldKey}`}
+                {/* Header */}
+                <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-3 sm:p-4 flex flex-col">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={LIZ_AVATAR}
+                        alt="Liz - Insurance Assistant"
+                        className="w-10 h-10 rounded-full border-2 border-white object-cover object-top"
+                      />
+                      <div>
+                        <h3 className="font-bold" style={{ transform: 'translateY(8px)' }}>{t.chatbot.title}</h3>
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-xs opacity-90">{t.chatbot.subtitle}</p>
+                          <button
+                            onClick={toggleLanguage}
+                            className="relative px-2 py-0.5 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300" style={{ transform: 'translateY(-7.5px)' }}
+                            data-testid="chatbot-language-toggle"
+                            aria-label={t.nav.switchLang}
                           >
-                            <option value="">{t.chatbot.selectPlaceholder}</option>
-                            {q.options?.map(opt => (
-                              <option key={opt} value={opt}>{opt}</option>
-                            ))}
-                          </select>
-                        ) : (
-                          <input
-                            type={q.type === 'number' ? 'number' : 'text'}
-                            value={groupFormValues[q.fieldKey] || ''}
-                            onChange={(e) => handleGroupFieldChange(q.fieldKey, e.target.value)}
-                            placeholder={q.placeholder || q.helperText || ''}
-                            className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-                            data-testid={`group-field-${q.fieldKey}`}
-                          />
+                            <span className="text-[10px] font-bold text-white flex items-center justify-center">
+                              {language === "en" ? "EN" : "ES"}
+                            </span>
+                            <img
+                              src={language === "en" ? usaFlagIcon : spainFlagIcon}
+                              alt=""
+                              aria-hidden="true"
+                              className="absolute -top-1 -right-1 w-3.5 h-3.5 object-contain rounded-full drop-shadow-sm"
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleMinimize}
+                      className="hover:bg-white/20 p-2 rounded-full transition-colors"
+                      data-testid="chatbot-minimize-button"
+                    >
+                      <ChevronDown className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  {/* Progress Bar */}
+                  {convState.policyTypes.length > 0 && convState.state !== 'submitted' && convState.state !== 'idle' && (
+                    <div className="mt-2">
+                      <div className="flex justify-between text-xs mb-1">
+                        <span>{t.chatbot.applicationProgress}</span>
+                        <span>{progressPercent}%</span>
+                      </div>
+                      <div className="w-full bg-white/30 rounded-full h-2">
+                        <div
+                          className="bg-white h-2 rounded-full transition-all duration-500"
+                          style={{ width: `${progressPercent}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Messages */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 dark:bg-slate-800">
+                  {messages.map((msg, idx) => (
+                    <div
+                      key={idx}
+                      className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                    >
+                      <div
+                        className={`max-w-[80%] p-3 rounded-2xl ${msg.type === 'user'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-200 shadow-md'
+                          }`}
+                      >
+                        <p className="text-sm">{renderMessageText(msg.text)}</p>
+                        {msg.link && msg.type === 'bot' && (
+                          <button
+                            onClick={() => handleLinkClick(msg.link!)}
+                            className="mt-2 text-xs bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700 transition-colors"
+                            data-testid="chatbot-message-link"
+                          >
+                            {t.chatbot.viewLink}
+                          </button>
                         )}
                       </div>
-                    ))}
-                    
-                    <button
-                      onClick={handleGroupSubmit}
-                      className="w-full bg-blue-600 text-white p-2.5 rounded-lg hover:bg-blue-700 font-semibold text-sm transition-colors mt-2"
-                      data-testid="group-submit-button"
-                    >
-                      {t.chatbot.continueBtn}
-                    </button>
-                  </motion.div>
-                )}
+                    </div>
+                  ))}
 
-                {/* Document Upload UI */}
-                {convState.state === 'collectingDocuments' && !isTyping && (
-                  <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-4">
-                    <label className="cursor-pointer block relative">
-                      <div className="border-2 border-dashed border-blue-300 dark:border-blue-500 rounded-lg p-6 text-center hover:border-blue-500 dark:hover:border-blue-400 transition-colors pointer-events-none">
-                        <Upload className="w-8 h-8 mx-auto mb-2 text-blue-500" />
-                        <p className="text-sm text-gray-600 dark:text-gray-300">{t.chatbot.uploadDocuments}</p>
-                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{t.chatbot.uploadFormats}</p>
-                      </div>
-                      <input
-                        type="file"
-                        multiple
-                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                        onChange={handleFileSelect}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        data-testid="file-upload-input"
-                      />
-                    </label>
-                    
-                    {uploadedFiles.length > 0 && (
-                      <div className="space-y-2">
-                        {uploadedFiles.map((file, idx) => (
-                          <div key={idx} className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-slate-600 rounded">
-                            <FileText className="w-4 h-4 text-blue-500" />
-                            <div className="flex-1 min-w-0">
-                              <p className="text-xs truncate text-gray-700 dark:text-gray-200">{file.file.name}</p>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">{formatFileSize(file.file.size)}</p>
+                  {/* Insurance Type Selection Buttons */}
+                  {showPolicySelection && convState.state === 'idle' && !isTyping && (
+                    <div className="bg-white dark:bg-slate-700 p-4 rounded-md shadow-md space-y-2">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">{t.chatbot.selectType}</p>
+                      <div className="grid grid-cols-1 gap-2">
+                        {INSURANCE_TYPES.map((insuranceType, idx) => (
+                          <motion.button
+                            key={insuranceType.type}
+                            onClick={() => handlePolicyTypeSelection(insuranceType)}
+                            className={`w-full p-3 rounded-lg transition-all shadow-md hover:shadow-lg font-semibold text-sm border-2 ${convState.policyTypes.includes(insuranceType.type)
+                                ? 'bg-blue-600 text-white border-blue-400'
+                                : 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 border-transparent'
+                              }`}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.08 }}
+                            data-testid={`select-${insuranceType.type}-insurance`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span>{insuranceType.label}</span>
+                              {convState.policyTypes.includes(insuranceType.type) && (
+                                <CheckCircle2 className="w-4 h-4" />
+                              )}
                             </div>
-                            {file.uploading && (
-                              <div className="text-xs text-blue-500">{t.chatbot.uploading}</div>
-                            )}
-                            {file.url && (
-                              <CheckCircle2 className="w-4 h-4 text-green-500" />
-                            )}
-                            <button
-                              onClick={() => handleRemoveFile(file)}
-                              className="text-red-500 hover:text-red-700 z-10 relative"
-                              data-testid={`file-remove-${idx}`}
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
+                          </motion.button>
                         ))}
                       </div>
-                    )}
-                    
-                    <button
-                      onClick={handleContinueToReview}
-                      className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 font-semibold relative z-10"
-                      data-testid="continue-to-review"
-                    >
-                      {t.chatbot.continueReview}
-                    </button>
-                  </div>
-                )}
+                      {convState.policyTypes.length > 0 && (
+                        <motion.button
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          onClick={handleStartApplication}
+                          className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg font-bold text-sm shadow-lg mt-4 transition-colors"
+                        >
+                          {t.chatbot.continueBtn || "Get Started"} ({convState.policyTypes.length})
+                        </motion.button>
+                      )}
+                    </div>
+                  )}
 
-                {/* Review & Submit UI */}
-                {convState.state === 'reviewing' && !isTyping && (
-                  <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-3">
-                    <h3 className="font-bold text-gray-800 dark:text-gray-200">{t.chatbot.summaryTitle}</h3>
-                    <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                      <div>
-                        <span className="font-semibold">{t.chatbot.policyTypeLabel}</span> {convState.policyType}
-                      </div>
-                      <div>
-                        <span className="font-semibold">{t.chatbot.nameLabel}</span> {convState.coreInfo.firstName} {convState.coreInfo.lastName}
-                      </div>
-                      <div>
-                        <span className="font-semibold">{t.chatbot.emailLabel}</span> {convState.coreInfo.email}
-                      </div>
-                      <div>
-                        <span className="font-semibold">{t.chatbot.phoneLabel}</span> {convState.coreInfo.phone}
+                  {/* Typing Indicator */}
+                  {isTyping && (
+                    <div className="flex items-start gap-2">
+                      <img
+                        src={LIZ_AVATAR}
+                        alt="Liz typing"
+                        className="w-8 h-8 rounded-full object-cover object-top"
+                      />
+                      <div className="bg-white dark:bg-slate-700 p-3 rounded-2xl shadow-md">
+                        <div className="flex gap-1">
+                          <motion.div
+                            className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full"
+                            animate={{ y: [0, -8, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0 }}
+                          />
+                          <motion.div
+                            className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full"
+                            animate={{ y: [0, -8, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0, delay: 0.2 }}
+                          />
+                          <motion.div
+                            className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full"
+                            animate={{ y: [0, -8, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 0, delay: 0.4 }}
+                          />
+                        </div>
                       </div>
                     </div>
-                    
-                    <button
-                      onClick={handleSubmitApplication}
-                      disabled={isSubmitting}
-                      className="animated-border-btn w-full text-white p-3 rounded-lg font-semibold disabled:bg-gray-400 overflow-hidden relative group transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
-                      data-testid="submit-application"
+                  )}
+
+                  {/* Grouped Question Form - All fields in a group shown together */}
+                  {currentGroup && !isTyping && convState.state === 'collectingCore' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-3"
+                      data-testid="question-group-form"
                     >
-                      <span className="relative z-10">{isSubmitting ? t.chatbot.submitting : t.chatbot.submitApplication}</span>
-                      <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
-                    </button>
-                  </div>
-                )}
+                      <p className="text-sm font-bold text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-slate-600 pb-2">
+                        {currentGroup.title}
+                      </p>
 
-                {/* Preset Questions */}
-                {showQuestions && !isTyping && !inApplicationFlow && (
-                  <div className="space-y-2 pt-2">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold">{t.chatbot.quickActions}</p>
-                    {PRESET_QA.map((qa, idx) => (
+                      {currentGroup.questions.map((q) => (
+                        <div key={q.id} className="space-y-1">
+                          <label className="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                            {q.text}
+                            {q.validation?.required && <span className="text-red-400 ml-0.5">*</span>}
+                          </label>
+
+                          {q.type === 'select' ? (
+                            <select
+                              value={groupFormValues[q.fieldKey] || ''}
+                              onChange={(e) => handleGroupFieldChange(q.fieldKey, e.target.value)}
+                              className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200"
+                              data-testid={`group-field-${q.fieldKey}`}
+                            >
+                              <option value="">{t.chatbot.selectPlaceholder}</option>
+                              {q.options?.map(opt => (
+                                <option key={opt} value={opt}>{opt}</option>
+                              ))}
+                            </select>
+                          ) : (
+                            <input
+                              type={q.type === 'number' ? 'number' : 'text'}
+                              value={groupFormValues[q.fieldKey] || ''}
+                              onChange={(e) => handleGroupFieldChange(q.fieldKey, e.target.value)}
+                              placeholder={q.placeholder || q.helperText || ''}
+                              className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                              data-testid={`group-field-${q.fieldKey}`}
+                            />
+                          )}
+                        </div>
+                      ))}
+
                       <button
-                        key={idx}
-                        onClick={() => handleQuestionClick(qa)}
-                        className="w-full text-left p-3 bg-white dark:bg-slate-700 hover:bg-blue-50 dark:hover:bg-slate-600 rounded-lg border border-blue-200 dark:border-slate-600 text-sm text-blue-600 dark:text-blue-400 transition-colors"
-                        data-testid={`chatbot-question-${idx}`}
+                        onClick={handleGroupSubmit}
+                        className="w-full bg-blue-600 text-white p-2.5 rounded-lg hover:bg-blue-700 font-semibold text-sm transition-colors mt-2"
+                        data-testid="group-submit-button"
                       >
-                        {qa.question}
+                        {t.chatbot.continueBtn}
                       </button>
-                    ))}
-                  </div>
-                )}
-                
-                <div ref={messagesEndRef} />
-              </div>
+                    </motion.div>
+                  )}
 
-              {/* Input - ALWAYS shown at bottom */}
-              <div className="p-4 bg-white dark:bg-slate-900 border-t dark:border-slate-700 flex gap-2">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder={inApplicationFlow && currentGroup ? t.chatbot.useFormAbove : t.chatbot.typeMessage}
-                  disabled={inApplicationFlow && currentGroup !== null}
-                  className="flex-1 px-4 py-2 border dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 dark:disabled:bg-slate-700 disabled:cursor-not-allowed bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-                  data-testid="chatbot-input"
-                />
-                <button
-                  onClick={handleSendMessage}
-                  disabled={inApplicationFlow && currentGroup !== null}
-                  className="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-                  data-testid="chatbot-send-button"
-                >
-                  <Send className="w-5 h-5" />
-                </button>
-              </div>
+                  {/* Document Upload UI */}
+                  {convState.state === 'collectingDocuments' && !isTyping && (
+                    <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-4">
+                      <label className="cursor-pointer block relative">
+                        <div className="border-2 border-dashed border-blue-300 dark:border-blue-500 rounded-lg p-6 text-center hover:border-blue-500 dark:hover:border-blue-400 transition-colors pointer-events-none">
+                          <Upload className="w-8 h-8 mx-auto mb-2 text-blue-500" />
+                          <p className="text-sm text-gray-600 dark:text-gray-300">{t.chatbot.uploadDocuments}</p>
+                          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{t.chatbot.uploadFormats}</p>
+                        </div>
+                        <input
+                          type="file"
+                          multiple
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                          onChange={handleFileSelect}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                          data-testid="file-upload-input"
+                        />
+                      </label>
+
+                      {uploadedFiles.length > 0 && (
+                        <div className="space-y-2">
+                          {uploadedFiles.map((file, idx) => (
+                            <div key={idx} className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-slate-600 rounded">
+                              <FileText className="w-4 h-4 text-blue-500" />
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs truncate text-gray-700 dark:text-gray-200">{file.file.name}</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">{formatFileSize(file.file.size)}</p>
+                              </div>
+                              {file.uploading && (
+                                <div className="text-xs text-blue-500">{t.chatbot.uploading}</div>
+                              )}
+                              {file.url && (
+                                <CheckCircle2 className="w-4 h-4 text-green-500" />
+                              )}
+                              <button
+                                onClick={() => handleRemoveFile(file)}
+                                className="text-red-500 hover:text-red-700 z-10 relative"
+                                data-testid={`file-remove-${idx}`}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <button
+                        onClick={handleContinueToReview}
+                        className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 font-semibold relative z-10"
+                        data-testid="continue-to-review"
+                      >
+                        {t.chatbot.continueReview}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Review & Submit UI */}
+                  {convState.state === 'reviewing' && !isTyping && (
+                    <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-3">
+                      <h3 className="font-bold text-gray-800 dark:text-gray-200">{t.chatbot.summaryTitle}</h3>
+                      <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                        <div>
+                          <span className="font-semibold">{t.chatbot.policyTypeLabel}</span> {convState.policyTypes.join(', ')}
+                        </div>
+                        <div>
+                          <span className="font-semibold">{t.chatbot.nameLabel}</span> {convState.coreInfo.firstName} {convState.coreInfo.lastName}
+                        </div>
+                        <div>
+                          <span className="font-semibold">{t.chatbot.emailLabel}</span> {convState.coreInfo.email}
+                        </div>
+                        <div>
+                          <span className="font-semibold">{t.chatbot.phoneLabel}</span> {convState.coreInfo.phone}
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={handleSubmitApplication}
+                        disabled={isSubmitting}
+                        className="animated-border-btn w-full text-white p-3 rounded-lg font-semibold disabled:bg-gray-400 overflow-hidden relative group transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
+                        data-testid="submit-application"
+                      >
+                        <span className="relative z-10">{isSubmitting ? t.chatbot.submitting : t.chatbot.submitApplication}</span>
+                        <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Preset Questions */}
+                  {showQuestions && !isTyping && !inApplicationFlow && (
+                    <div className="space-y-2 pt-2">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold">{t.chatbot.quickActions}</p>
+                      {PRESET_QA.map((qa, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleQuestionClick(qa)}
+                          className="w-full text-left p-3 bg-white dark:bg-slate-700 hover:bg-blue-50 dark:hover:bg-slate-600 rounded-lg border border-blue-200 dark:border-slate-600 text-sm text-blue-600 dark:text-blue-400 transition-colors"
+                          data-testid={`chatbot-question-${idx}`}
+                        >
+                          {qa.question}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  <div ref={messagesEndRef} />
+                </div>
+
+                {/* Input - ALWAYS shown at bottom */}
+                <div className="p-4 bg-white dark:bg-slate-900 border-t dark:border-slate-700 flex gap-2">
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder={inApplicationFlow && currentGroup ? t.chatbot.useFormAbove : t.chatbot.typeMessage}
+                    disabled={inApplicationFlow && currentGroup !== null}
+                    className="flex-1 px-4 py-2 border dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 dark:disabled:bg-slate-700 disabled:cursor-not-allowed bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                    data-testid="chatbot-input"
+                  />
+                  <button
+                    onClick={handleSendMessage}
+                    disabled={inApplicationFlow && currentGroup !== null}
+                    className="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    data-testid="chatbot-send-button"
+                  >
+                    <Send className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}

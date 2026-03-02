@@ -1,7 +1,7 @@
 import type { AutoDetails, HomeDetails, LifeDetails, CommercialDetails, VehicleInfo, DriverInfo } from "@shared/schema";
 
 // Conversation states for the state machine
-export type ConversationState = 
+export type ConversationState =
   | 'idle'
   | 'conversational'
   | 'policySelection'
@@ -29,7 +29,7 @@ export interface CoreApplicantInfo {
 // Conversation context that persists throughout the flow
 export interface ConversationContext {
   state: ConversationState;
-  policyType: PolicyType | null;
+  policyTypes: PolicyType[];
   coreInfo: Partial<CoreApplicantInfo>;
   autoDetails: Partial<AutoDetails>;
   homeDetails: Partial<HomeDetails>;
@@ -39,6 +39,8 @@ export interface ConversationContext {
   notes: string;
   currentQuestionIndex: number;
 }
+
+// ... existing code ...
 
 // Question definition for dynamic form rendering
 export interface ConversationQuestion {
@@ -73,7 +75,7 @@ export interface PolicyQuestionFlow {
 
 // Action types for state machine reducer
 export type ConversationAction =
-  | { type: 'SELECT_POLICY'; policyType: PolicyType }
+  | { type: 'SET_POLICY_TYPES'; policyTypes: PolicyType[] }
   | { type: 'UPDATE_CORE_INFO'; field: keyof CoreApplicantInfo; value: string }
   | { type: 'UPDATE_AUTO_DETAILS'; field: keyof AutoDetails; value: any }
   | { type: 'UPDATE_HOME_DETAILS'; field: keyof HomeDetails; value: any }
@@ -97,7 +99,7 @@ export type ConversationAction =
 // Initial conversation context
 export const initialConversationContext: ConversationContext = {
   state: 'idle',
-  policyType: null,
+  policyTypes: [],
   coreInfo: {},
   autoDetails: {},
   homeDetails: {},

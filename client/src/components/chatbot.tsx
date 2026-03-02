@@ -817,45 +817,53 @@ export default function ChatBot() {
                     </div>
                   ))}
 
-                  {/* Insurance Type Selection Buttons */}
+                  {/* Insurance Type Multi-Select */}
                   {showPolicySelection && convState.state === 'idle' && !isTyping && (
-                    <div className="bg-white dark:bg-slate-700 p-4 rounded-md shadow-md space-y-2">
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">{t.chatbot.selectType}</p>
-                      <div className="grid grid-cols-1 gap-2">
-                        {INSURANCE_TYPES.map((insuranceType, idx) => (
-                          <motion.button
-                            key={insuranceType.type}
-                            onClick={() => handlePolicyTypeSelection(insuranceType)}
-                            className={`w-full p-3 rounded-lg transition-all shadow-md hover:shadow-lg font-semibold text-sm border-2 ${convState.policyTypes.includes(insuranceType.type)
-                                ? 'bg-blue-600 text-white border-blue-400'
-                                : 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 border-transparent'
+                    <div className="bg-white dark:bg-slate-700 p-4 rounded-2xl shadow-md">
+                      <p className="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-3 leading-snug">{t.chatbot.selectType}</p>
+                      <div className="grid grid-cols-2 gap-2">
+                        {INSURANCE_TYPES.map((insuranceType, idx) => {
+                          const selected = (convState.policyTypes ?? []).includes(insuranceType.type);
+                          return (
+                            <motion.button
+                              key={insuranceType.type}
+                              onClick={() => handlePolicyTypeSelection(insuranceType)}
+                              className={`relative p-3 rounded-xl transition-all font-semibold text-sm border-2 text-left ${
+                                selected
+                                  ? 'bg-blue-600 text-white border-blue-500 shadow-md'
+                                  : 'bg-gray-50 dark:bg-slate-600 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-slate-500 hover:border-blue-300 hover:bg-blue-50 dark:hover:bg-slate-500'
                               }`}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: idx * 0.08 }}
-                            data-testid={`select-${insuranceType.type}-insurance`}
-                          >
-                            <div className="flex items-center justify-between">
-                              <span>{insuranceType.label}</span>
-                              {convState.policyTypes.includes(insuranceType.type) && (
-                                <CheckCircle2 className="w-4 h-4" />
+                              whileTap={{ scale: 0.95 }}
+                              initial={{ opacity: 0, y: 8 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: idx * 0.06 }}
+                              data-testid={`select-${insuranceType.type}-insurance`}
+                            >
+                              {selected && (
+                                <CheckCircle2 className="w-3.5 h-3.5 absolute top-2 right-2 opacity-90" />
                               )}
-                            </div>
-                          </motion.button>
-                        ))}
+                              <span className="block leading-tight pr-4">{insuranceType.label}</span>
+                            </motion.button>
+                          );
+                        })}
                       </div>
-                      {convState.policyTypes.length > 0 && (
-                        <motion.button
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          onClick={handleStartApplication}
-                          className="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg font-bold text-sm shadow-lg mt-4 transition-colors"
-                        >
-                          {t.chatbot.continueBtn || "Get Started"} ({convState.policyTypes.length})
-                        </motion.button>
-                      )}
+                      <AnimatePresence>
+                        {(convState.policyTypes ?? []).length > 0 && (
+                          <motion.button
+                            key="continue-btn"
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 6 }}
+                            onClick={handleStartApplication}
+                            className="w-full mt-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white py-2.5 rounded-xl font-bold text-sm shadow-md transition-colors flex items-center justify-center gap-2"
+                          >
+                            {t.chatbot.continueBtn}
+                            <span className="bg-white/20 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+                              {(convState.policyTypes ?? []).length}
+                            </span>
+                          </motion.button>
+                        )}
+                      </AnimatePresence>
                     </div>
                   )}
 

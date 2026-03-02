@@ -43,7 +43,11 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  await runMigrations();
+  try {
+    await runMigrations();
+  } catch (err) {
+    console.warn('⚠️  DB unavailable at startup — skipping migrations, continuing anyway.');
+  }
 
   const server = await registerRoutes(app);
 

@@ -6,6 +6,7 @@ console.log('🔍 AWS_REGION loaded:', process.env.AWS_REGION ? 'YES' : 'NO');
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { runMigrations } from "./migrate";
 
 const app = express();
 app.use(express.json());
@@ -42,6 +43,8 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  await runMigrations();
+
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

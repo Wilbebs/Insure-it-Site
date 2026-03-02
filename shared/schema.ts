@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, boolean, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -57,6 +57,15 @@ export const policyApplications = pgTable("policy_applications", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const featureRequests = pgTable("feature_requests", {
+  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  title: text("title").notNull(),
+  description: text("description"),
+  priority: text("priority").notNull().default("medium"),
+  status: text("status").notNull().default("open"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -68,6 +77,12 @@ export const insertContactSubmissionSchema = createInsertSchema(contactSubmissio
 });
 
 export const insertPolicyApplicationSchema = createInsertSchema(policyApplications).omit({
+  id: true,
+  createdAt: true,
+  status: true,
+});
+
+export const insertFeatureRequestSchema = createInsertSchema(featureRequests).omit({
   id: true,
   createdAt: true,
   status: true,
@@ -158,6 +173,8 @@ export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSche
 export type ContactSubmission = typeof contactSubmissions.$inferSelect;
 export type InsertPolicyApplication = z.infer<typeof insertPolicyApplicationSchema>;
 export type PolicyApplication = typeof policyApplications.$inferSelect;
+export type InsertFeatureRequest = z.infer<typeof insertFeatureRequestSchema>;
+export type FeatureRequest = typeof featureRequests.$inferSelect;
 export type VehicleInfo = z.infer<typeof vehicleSchema>;
 export type DriverInfo = z.infer<typeof driverSchema>;
 export type AutoDetails = z.infer<typeof autoDetailsSchema>;

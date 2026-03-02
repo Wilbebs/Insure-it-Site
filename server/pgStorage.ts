@@ -97,7 +97,7 @@ export class PostgresStorage implements IStorage {
     try {
       await client.query('BEGIN');
 
-      // Check if contact exists
+      // Check if contact exists by email
       let contactResult = await client.query(
         'SELECT id FROM contacts WHERE email = $1',
         [submission.email]
@@ -115,7 +115,12 @@ export class PostgresStorage implements IStorage {
         );
         contactId = newContactResult.rows[0].id;
       } else {
+        // Update name/phone for the existing email
         contactId = contactResult.rows[0].id;
+        await client.query(
+          `UPDATE contacts SET full_name = $1, phone = $2 WHERE id = $3`,
+          [submission.name, submission.phone, contactId]
+        );
       }
 
       // Create submission

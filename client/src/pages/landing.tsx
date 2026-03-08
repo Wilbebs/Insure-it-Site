@@ -34,6 +34,7 @@ const heroVideo = "/api/videos/herovid1.mp4";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
 import floodImg from "@assets/flood_insurance.jpg";
 import highFiveImg from "@assets/man-woman-business-workers-high-five-with-hands-raised-up-offi_1772211518867.jpg";
+import heroPoster from "@/assets/hero-poster.jpg";
 import SectionDivider from "@/components/section-divider";
 
 
@@ -56,8 +57,8 @@ function InsuranceDetailModal({
   const { t } = useTranslation();
   const details = type
     ? t.insuranceModal.details[
-        type.color as keyof typeof t.insuranceModal.details
-      ]
+    type.color as keyof typeof t.insuranceModal.details
+    ]
     : null;
 
   const accentColor =
@@ -265,8 +266,8 @@ function InsuranceCard({
 
   const dynamicGradientStyle = isHovered
     ? {
-        background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.15) 0%, transparent 50%)`,
-      }
+      background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.15) 0%, transparent 50%)`,
+    }
     : {};
 
   return (
@@ -545,7 +546,7 @@ export default function Landing() {
       >
         {/* Hero Video Background - Parallax with blur */}
         <div
-          className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform dark:brightness-75 overflow-hidden"
+          className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform dark:brightness-75 overflow-hidden bg-slate-900"
           style={{ transform: `translateY(${scrollY * 0.4}px) scale(1.02)` }}
         >
           <video
@@ -553,8 +554,12 @@ export default function Landing() {
             muted
             loop
             playsInline
+            poster={heroPoster}
             className="w-full h-full object-cover"
-            style={{ objectPosition: "center 40%" }}
+            style={{
+              objectPosition: "center 40%",
+              aspectRatio: "16 / 9"
+            }}
           >
             <source src={heroVideo} type="video/mp4" />
           </video>
@@ -608,11 +613,11 @@ export default function Landing() {
 
                   <div className="flex flex-nowrap gap-1 sm:gap-1.5 justify-center mb-[5px] md:mb-[18px]">
                     {[
-                      { icon: <House className="w-3 h-3" />,    label: t.hero.coverages[0], short: t.hero.coveragesShort[0] },
-                      { icon: <Car className="w-3 h-3" />,      label: t.hero.coverages[1], short: t.hero.coveragesShort[1] },
-                      { icon: <Heart className="w-3 h-3" />,    label: t.hero.coverages[2], short: t.hero.coveragesShort[2] },
-                      { icon: <Building2 className="w-3 h-3" />,label: t.hero.coverages[3], short: t.hero.coveragesShort[3] },
-                      { icon: <Waves className="w-3 h-3" />,    label: t.hero.coverages[4], short: t.hero.coveragesShort[4] },
+                      { icon: <House className="w-3 h-3" />, label: t.hero.coverages[0], short: t.hero.coveragesShort[0] },
+                      { icon: <Car className="w-3 h-3" />, label: t.hero.coverages[1], short: t.hero.coveragesShort[1] },
+                      { icon: <Heart className="w-3 h-3" />, label: t.hero.coverages[2], short: t.hero.coveragesShort[2] },
+                      { icon: <Building2 className="w-3 h-3" />, label: t.hero.coverages[3], short: t.hero.coveragesShort[3] },
+                      { icon: <Waves className="w-3 h-3" />, label: t.hero.coverages[4], short: t.hero.coveragesShort[4] },
                     ].map(({ icon, label, short }) => (
                       <span
                         key={label}
@@ -860,7 +865,7 @@ export default function Landing() {
                     {addressCopied ? (
                       <>
                         <svg className="w-4 h-4 text-green-500 mt-0.5 shrink-0" viewBox="0 0 12 12" fill="none">
-                          <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         <div className="leading-tight">
                           <p className="text-xs font-bold text-green-600 whitespace-nowrap">Copied!</p>

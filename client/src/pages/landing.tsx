@@ -34,7 +34,7 @@ const heroVideo = "/api/videos/herovid1.mp4";
 import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
 import floodImg from "@assets/flood_insurance.jpg";
 import highFiveImg from "@assets/man-woman-business-workers-high-five-with-hands-raised-up-offi_1772211518867.jpg";
-import heroPoster from "@/assets/hero-poster.jpg";
+import heroPoster from "@/assets/heroimage1.jpg";
 import SectionDivider from "@/components/section-divider";
 
 

@@ -860,7 +860,7 @@ export default function Landing() {
                       setAddressCopied(true);
                       setTimeout(() => setAddressCopied(false), 2000);
                     }}
-                    className="absolute top-3 left-1/2 -translate-x-1/2 sm:left-3 sm:translate-x-0 z-10 flex items-start gap-2 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-slate-200/80 transition-colors hover:bg-white active:bg-slate-50 cursor-pointer"
+                    className="absolute bottom-3 left-1/2 -translate-x-1/2 sm:left-3 sm:translate-x-0 z-10 flex items-start gap-2 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-slate-200/80 transition-colors hover:bg-white active:bg-slate-50 cursor-pointer"
                   >
                     {addressCopied ? (
                       <>

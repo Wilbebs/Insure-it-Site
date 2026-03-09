@@ -177,8 +177,18 @@ export default function About() {
 
       <section
         className="pb-1 sm:pb-2 bg-muted dark:bg-slate-900 dot-pattern"
-        style={{ marginTop: -1, paddingTop: "0px" }}
+        style={{ marginTop: -2, paddingTop: "0px" }}
       >
+        <SectionDivider
+          variant="wave-layered"
+          position="top"
+          fromColor="hsl(210, 40%, 94%)"
+          toColor="hsl(210, 40%, 94%)"
+          wave1Color="hsla(205, 70%, 82%, 0.3)"
+          wave2Color="hsla(205, 70%, 82%, 0.6)"
+          wave3Color="hsl(210, 40%, 94%)"
+          height={60}
+        />
         <div className="container mx-auto px-4 sm:px-6">
           {/* Connect With Us Section - Team + Social */}
           <div className="mb-6 sm:mb-10 relative overflow-hidden">

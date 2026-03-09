@@ -339,6 +339,19 @@ export default function Landing() {
   const [scrollY, setScrollY] = useState(0);
   const [copiedContact, setCopiedContact] = useState<string | null>(null);
   const [addressCopied, setAddressCopied] = useState(false);
+  const highFiveRef = useRef<HTMLDivElement>(null);
+  const [highFiveVisible, setHighFiveVisible] = useState(false);
+
+  useEffect(() => {
+    const el = highFiveRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setHighFiveVisible(true); observer.disconnect(); } },
+      { rootMargin: "300px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const copyToClipboard = (text: string, key: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -905,10 +918,11 @@ export default function Landing() {
 
       {/* Testimonials + Partners — shared parallax background, flush against wave */}
       <div
+        ref={highFiveRef}
         className="relative"
         style={{
           marginTop: -65,
-          backgroundImage: `url(${highFiveImg})`,
+          backgroundImage: highFiveVisible ? `url(${highFiveImg})` : "none",
           backgroundSize: "cover",
           backgroundPosition: "center 20%",
           backgroundAttachment: "fixed",

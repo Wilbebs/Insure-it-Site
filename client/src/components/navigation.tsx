@@ -3,8 +3,8 @@ import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Logo from "./logo";
 import { useTranslation } from "./theme-provider";
-import usaFlagIcon from "@assets/united_states_of_america_round_icon_64_(1)_1770501803978.png";
-import spainFlagIcon from "@assets/spain_round_icon_64_1770501803977.png";
+import usaFlagIcon from "@assets/usa_flag.png";
+import spainFlagIcon from "@assets/spain_flag.png";
 
 export default function Navigation() {
   const [location] = useLocation();

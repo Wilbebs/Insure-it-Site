@@ -31,9 +31,9 @@ import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef, type RefObject } from "react";
 const heroVideo = "/api/videos/herovid1.mp4";
-import shieldIcon from "@assets/512x512_icon-01_1764880603281.png";
+import shieldIcon from "@assets/shield_icon.png";
 import floodImg from "@assets/flood_insurance.jpg";
-import highFiveImg from "@assets/man-woman-business-workers-high-five-with-hands-raised-up-offi_1772211518867.jpg";
+import highFiveImg from "@assets/team_highfive.jpg";
 import heroPoster from "@/assets/heroimage1.jpg";
 import SectionDivider from "@/components/section-divider";
 

@@ -9,9 +9,9 @@ import { initialConversationContext } from "@/lib/conversation-types";
 import { coreQuestions, coreQuestionGroups, policyQuestionFlows } from "@/lib/policy-questions";
 import { validatePolicyDocument, formatFileSize } from "@/lib/file-upload";
 import { apiRequest } from "@/lib/queryClient";
-import elizabethPhoto from "@assets/image_1764878433544.png";
-import usaFlagIcon from "@assets/united_states_of_america_round_icon_64_(1)_1770501803978.png";
-import spainFlagIcon from "@assets/spain_round_icon_64_1770501803977.png";
+import elizabethPhoto from "@assets/elizabeth_photo.png";
+import usaFlagIcon from "@assets/usa_flag.png";
+import spainFlagIcon from "@assets/spain_flag.png";
 
 interface Message {
   type: 'bot' | 'user' | 'system';

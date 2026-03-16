@@ -115,8 +115,8 @@ export default function Navigation() {
               <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
             </a>
 
-            {/* Language Toggle - Far right, only visible when navbar is full-sized */}
-            {!isScrolled && (
+            {/* Language Toggle - visible when full-sized or when social icons are hovered */}
+            {(!isScrolled || socialHovered) && (
               <button
                 onClick={toggleLanguage}
                 className="relative px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-6"

@@ -10,6 +10,7 @@ export default function Navigation() {
   const [location] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoHighlight, setLogoHighlight] = useState(false);
+  const [socialHovered, setSocialHovered] = useState(false);
   const { t, language, toggleLanguage } = useTranslation();
 
   useEffect(() => {
@@ -74,14 +75,20 @@ export default function Navigation() {
           </div>
 
           {/* Right side: Social Media Links + Theme Toggle */}
-          <div className={`flex items-center flex-shrink-0 transition-all duration-500 ${isScrolled ? '-space-x-6' : 'gap-2'}`}>
+          <div
+            className={`flex items-center flex-shrink-0 transition-all duration-300 ease-in-out ${
+              isScrolled && !socialHovered ? '-space-x-6' : 'gap-2'
+            }`}
+            onMouseEnter={() => isScrolled && setSocialHovered(true)}
+            onMouseLeave={() => setSocialHovered(false)}
+          >
             <a 
               href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
+              className="p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-linkedin"
-              style={{ zIndex: isScrolled ? 3 : 'auto' }}
+              style={{ zIndex: 3 }}
             >
               <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
             </a>
@@ -90,9 +97,9 @@ export default function Navigation() {
               href="https://www.instagram.com/insureitgroup/"
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 rounded-full bg-white/90 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
+              className="p-2 rounded-full bg-white/90 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-instagram"
-              style={{ zIndex: isScrolled ? 2 : 'auto' }}
+              style={{ zIndex: 2 }}
             >
               <FaInstagram className="w-5 h-5 text-pink-600 group-hover:text-white transition-colors duration-300" />
             </a>
@@ -101,9 +108,9 @@ export default function Navigation() {
               href="https://www.facebook.com/insureitgroup"
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-2 rounded-full bg-white/90 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'hover:z-30 hover:scale-110' : ''}`}
+              className="p-2 rounded-full bg-white/90 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-facebook"
-              style={{ zIndex: isScrolled ? 1 : 'auto' }}
+              style={{ zIndex: 1 }}
             >
               <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
             </a>

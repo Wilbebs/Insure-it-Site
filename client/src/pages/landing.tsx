@@ -38,8 +38,6 @@ import highFiveImg from "@assets/team_highfive.jpg";
 import heroPoster from "@/assets/heroimage1.jpg";
 import SectionDivider from "@/components/section-divider";
 
-
-
 function InsuranceDetailModal({
   type,
   onClose,
@@ -58,8 +56,8 @@ function InsuranceDetailModal({
   const { t } = useTranslation();
   const details = type
     ? t.insuranceModal.details[
-    type.color as keyof typeof t.insuranceModal.details
-    ]
+        type.color as keyof typeof t.insuranceModal.details
+      ]
     : null;
 
   const accentColor =
@@ -208,7 +206,8 @@ function InsuranceDetailModal({
                   }}
                   className={`w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r ${accentColor} hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-md`}
                 >
-                  {t.insuranceModal.getQuotePrefix} {type.title}{t.insuranceModal.getQuoteSuffix}
+                  {t.insuranceModal.getQuotePrefix} {type.title}
+                  {t.insuranceModal.getQuoteSuffix}
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -267,8 +266,8 @@ function InsuranceCard({
 
   const dynamicGradientStyle = isHovered
     ? {
-      background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.15) 0%, transparent 50%)`,
-    }
+        background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(255,255,255,0.15) 0%, transparent 50%)`,
+      }
     : {};
 
   return (
@@ -311,16 +310,24 @@ function InsuranceCard({
 
       {/* Default state: icon + title at TOP */}
       <div className="absolute inset-x-0 top-0 p-3 sm:p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
-        <div className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}>
+        <div
+          className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}
+        >
           {type.icon}
         </div>
-        <h3 className="text-base font-bold text-white leading-tight drop-shadow">{type.title}</h3>
+        <h3 className="text-base font-bold text-white leading-tight drop-shadow">
+          {type.title}
+        </h3>
       </div>
 
       {/* Hover state: full overlay with complete description */}
       <div className="absolute inset-0 bg-black/72 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-4 flex flex-col overflow-y-auto custom-scrollbar">
-        <h3 className="text-white font-bold text-sm mb-2 leading-tight shrink-0">{type.title}</h3>
-        <p className="text-slate-200 text-xs leading-relaxed">{type.description}</p>
+        <h3 className="text-white font-bold text-sm mb-2 leading-tight shrink-0">
+          {type.title}
+        </h3>
+        <p className="text-slate-200 text-xs leading-relaxed">
+          {type.description}
+        </p>
       </div>
     </div>
   );
@@ -347,8 +354,13 @@ export default function Landing() {
     const el = highFiveRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setHighFiveVisible(true); observer.disconnect(); } },
-      { rootMargin: "300px" }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHighFiveVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -376,6 +388,16 @@ export default function Landing() {
   const shieldX = useMotionValue(0);
   const shieldY = useMotionValue(0);
   const shieldDragged = useRef(false);
+
+  // Only allow window drag on desktop (≥1024px) — mobile drag confuses users
+  const [isDesktop, setIsDesktop] = useState(
+    typeof window !== "undefined" && window.innerWidth >= 1024
+  );
+  useEffect(() => {
+    const onResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   // Shield fixed-position constants (responsive: sm = 640px)
   const SHIELD_RIGHT =
@@ -572,7 +594,7 @@ export default function Landing() {
             className="w-full h-full object-cover"
             style={{
               objectPosition: "center 40%",
-              aspectRatio: "16 / 9"
+              aspectRatio: "16 / 9",
             }}
           >
             <source src={heroVideo} type="video/mp4" />
@@ -585,7 +607,7 @@ export default function Landing() {
             {!isMinimized && (
               <motion.div
                 key="hero-card"
-                drag
+                drag={isDesktop}
                 dragConstraints={heroRef as RefObject<Element>}
                 dragElastic={0.05}
                 dragMomentum={false}
@@ -594,7 +616,7 @@ export default function Landing() {
                   y: cardY,
                   opacity: cardOpacity,
                   scale: cardScale,
-                  cursor: "grab",
+                  cursor: isDesktop ? "grab" : "default",
                 }}
                 whileDrag={{ cursor: "grabbing" }}
               >
@@ -627,11 +649,31 @@ export default function Landing() {
 
                   <div className="flex flex-nowrap gap-1 sm:gap-1.5 justify-center mb-[5px] md:mb-[18px]">
                     {[
-                      { icon: <House className="w-3 h-3" />, label: t.hero.coverages[0], short: t.hero.coveragesShort[0] },
-                      { icon: <Car className="w-3 h-3" />, label: t.hero.coverages[1], short: t.hero.coveragesShort[1] },
-                      { icon: <Heart className="w-3 h-3" />, label: t.hero.coverages[2], short: t.hero.coveragesShort[2] },
-                      { icon: <Building2 className="w-3 h-3" />, label: t.hero.coverages[3], short: t.hero.coveragesShort[3] },
-                      { icon: <Waves className="w-3 h-3" />, label: t.hero.coverages[4], short: t.hero.coveragesShort[4] },
+                      {
+                        icon: <House className="w-3 h-3" />,
+                        label: t.hero.coverages[0],
+                        short: t.hero.coveragesShort[0],
+                      },
+                      {
+                        icon: <Car className="w-3 h-3" />,
+                        label: t.hero.coverages[1],
+                        short: t.hero.coveragesShort[1],
+                      },
+                      {
+                        icon: <Heart className="w-3 h-3" />,
+                        label: t.hero.coverages[2],
+                        short: t.hero.coveragesShort[2],
+                      },
+                      {
+                        icon: <Building2 className="w-3 h-3" />,
+                        label: t.hero.coverages[3],
+                        short: t.hero.coveragesShort[3],
+                      },
+                      {
+                        icon: <Waves className="w-3 h-3" />,
+                        label: t.hero.coverages[4],
+                        short: t.hero.coveragesShort[4],
+                      },
                     ].map(({ icon, label, short }) => (
                       <span
                         key={label}
@@ -672,9 +714,13 @@ export default function Landing() {
                       <Phone className="w-4 h-4 shrink-0" />
                       <span className="flex flex-col items-start leading-none">
                         <span className="text-sm font-bold whitespace-nowrap">
-                          {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
+                          {copiedContact === "phone"
+                            ? "Copied!"
+                            : "904-909-0897"}
                         </span>
-                        <span className="text-[10px] font-medium opacity-75 whitespace-nowrap">{t.hero.callUs}</span>
+                        <span className="text-[10px] font-medium opacity-75 whitespace-nowrap">
+                          {t.hero.callUs}
+                        </span>
                       </span>
                     </a>
                   </motion.div>
@@ -691,12 +737,14 @@ export default function Landing() {
         >
           <ChevronDown className="w-9 h-9 text-white/90 animate-bounce drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]" />
         </div>
-
       </section>
 
       {/* Interstitial wave — lower z (5) than dot-section (30) so the dot-section
           paints over the wave's flat bottom, leaving only the curves visible */}
-      <div className="relative pointer-events-none" style={{ marginTop: -62, zIndex: 5, height: 62 }}>
+      <div
+        className="relative pointer-events-none"
+        style={{ marginTop: -62, zIndex: 5, height: 62 }}
+      >
         <SectionDivider
           variant="wave-layered"
           position="bottom"
@@ -708,10 +756,15 @@ export default function Landing() {
         />
       </div>
 
-      {/* Who We Are Section */}
+      {/* More than Insurace. Peace of Mind. */}
       <section
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: -18, position: "relative", zIndex: 30, paddingTop: 18 }}
+        style={{
+          marginTop: -18,
+          position: "relative",
+          zIndex: 30,
+          paddingTop: 18,
+        }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">
@@ -761,7 +814,7 @@ export default function Landing() {
 
         <div
           className="relative z-20"
-          style={{ marginTop: 10, marginBottom: -18 }}
+          style={{ marginTop: 10, marginBottom: -40 }}
         >
           <SectionDivider
             variant="wave-layered"
@@ -775,10 +828,10 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Contact + Map Section */}
+      {/* Ready to Get Started + Map Section */}
       <section
         className="pt-5 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: -1, zIndex: 10, position: "relative" }}
+        style={{ marginTop: 0, zIndex: 10, position: "relative" }}
       >
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-5xl mx-auto">
@@ -871,7 +924,9 @@ export default function Landing() {
                   {/* Address badge sticker — centered on mobile, left-pinned on sm+ */}
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText("11570 San Jose Blvd, Suite 11, Jacksonville, FL 32223");
+                      navigator.clipboard.writeText(
+                        "11570 San Jose Blvd, Suite 11, Jacksonville, FL 32223",
+                      );
                       setAddressCopied(true);
                       setTimeout(() => setAddressCopied(false), 2000);
                     }}
@@ -879,20 +934,38 @@ export default function Landing() {
                   >
                     {addressCopied ? (
                       <>
-                        <svg className="w-4 h-4 text-green-500 mt-0.5 shrink-0" viewBox="0 0 12 12" fill="none">
-                          <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <svg
+                          className="w-4 h-4 text-green-500 mt-0.5 shrink-0"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                        >
+                          <path
+                            d="M2 6l3 3 5-5"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
                         </svg>
                         <div className="leading-tight">
-                          <p className="text-xs font-bold text-green-600 whitespace-nowrap">Copied!</p>
-                          <p className="text-[11px] text-green-500 whitespace-nowrap">Address copied to clipboard</p>
+                          <p className="text-xs font-bold text-green-600 whitespace-nowrap">
+                            Copied!
+                          </p>
+                          <p className="text-[11px] text-green-500 whitespace-nowrap">
+                            Address copied to clipboard
+                          </p>
                         </div>
                       </>
                     ) : (
                       <>
                         <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                         <div className="leading-tight text-left">
-                          <p className="text-xs font-bold text-slate-800 whitespace-nowrap">11570 San Jose Blvd, Suite 11</p>
-                          <p className="text-[11px] text-slate-500 whitespace-nowrap">Jacksonville, FL 32223</p>
+                          <p className="text-xs font-bold text-slate-800 whitespace-nowrap">
+                            11570 San Jose Blvd, Suite 11
+                          </p>
+                          <p className="text-[11px] text-slate-500 whitespace-nowrap">
+                            Jacksonville, FL 32223
+                          </p>
                         </div>
                       </>
                     )}
@@ -900,7 +973,6 @@ export default function Landing() {
                 </div>
               );
             })()}
-
           </div>
         </div>
 
@@ -940,7 +1012,6 @@ export default function Landing() {
         <div className="relative z-10 backdrop-blur-md bg-white/80 border-t border-white/40">
           <PartnersCarousel className="bg-transparent border-none" />
         </div>
-
       </div>
 
       <Footer onGetQuote={() => setQuoteModalOpen(true)} />

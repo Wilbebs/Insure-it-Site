@@ -161,9 +161,15 @@ export default function About() {
           </div>
         </div>
         {/* Fill strip: bridges the gap between wave bottom and hero section end */}
-        <div className="absolute left-0 right-0 dot-pattern bg-muted dark:bg-slate-900" style={{ bottom: 0, height: 45, zIndex: 19 }} />
+        <div
+          className="absolute left-0 right-0 bg-muted dark:bg-slate-900"
+          style={{ bottom: 0, height: 50, zIndex: 19 }}
+        />
         {/* Wave divider — container clips flat SVG fill, keeping only the curves */}
-        <div className="absolute left-0 right-0 z-20 overflow-hidden" style={{ height: 36, bottom: 43 }}>
+        <div
+          className="absolute left-0 right-0 z-20 overflow-hidden"
+          style={{ height: 30, bottom: 43 }}
+        >
           <SectionDivider
             variant="wave-layered"
             position="bottom"
@@ -172,14 +178,19 @@ export default function About() {
             wave1Color="hsla(205, 70%, 82%, 0.3)"
             wave2Color="hsla(205, 70%, 82%, 0.6)"
             wave3Color="hsl(210, 40%, 94%)"
-            height={54}
+            height={55}
           />
         </div>
       </section>
 
       <section
         className="pb-1 sm:pb-2 bg-muted dark:bg-slate-900 dot-pattern"
-        style={{ marginTop: -5, paddingTop: "5px", position: "relative", zIndex: 30 }}
+        style={{
+          marginTop: -45,
+          paddingTop: "5px",
+          position: "relative",
+          zIndex: 30,
+        }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           {/* Connect With Us Section - Team + Social */}

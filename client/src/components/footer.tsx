@@ -90,18 +90,24 @@ export default function Footer({ onGetQuote }: FooterProps) {
           <div>
             <h3 className="font-semibold text-[10px] sm:text-sm mb-1 sm:mb-2">{t.footer.contactInfo}</h3>
             <div className="space-y-0.5 sm:space-y-1 opacity-90 text-[10px] sm:text-sm">
-              <div className="flex items-center" data-testid="contact-phone">
+              <a href="tel:9049090897" className="flex items-center hover:opacity-100 transition-opacity" data-testid="contact-phone">
                 <Phone className="w-2.5 h-2.5 mr-1 sm:w-3.5 sm:h-3.5 sm:mr-2 shrink-0" />
                 <span>904-909-0897</span>
-              </div>
-              <div className="flex items-center" data-testid="contact-email">
+              </a>
+              <a href="mailto:Insureit@insureitgroup.net" className="flex items-center hover:opacity-100 transition-opacity" data-testid="contact-email">
                 <Mail className="w-2.5 h-2.5 mr-1 sm:w-3.5 sm:h-3.5 sm:mr-2 shrink-0" />
                 <span className="break-all">Insureit@insureitgroup.net</span>
-              </div>
-              <div className="flex items-start" data-testid="contact-address">
+              </a>
+              <a
+                href="https://maps.google.com/?q=11570+San+Jose+Blvd+Suite+11+Jacksonville+FL+32223"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start hover:opacity-100 transition-opacity"
+                data-testid="contact-address"
+              >
                 <MapPin className="w-2.5 h-2.5 mr-1 sm:w-3.5 sm:h-3.5 sm:mr-2 shrink-0 mt-0.5" />
                 <span>11570 San Jose Blvd, Suite 11 · Jacksonville, FL 32223</span>
-              </div>
+              </a>
             </div>
           </div>
         </div>

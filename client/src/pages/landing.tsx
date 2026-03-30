@@ -678,7 +678,10 @@ export default function Landing() {
           <ChevronDown className="w-9 h-9 text-white/90 animate-bounce drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]" />
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 z-20">
+        {/* Fill strip: solid white bridge between wave bottom and hero end */}
+        <div className="absolute left-0 right-0 bg-white dark:bg-slate-800" style={{ bottom: 0, height: 42, zIndex: 19 }} />
+        {/* Wave container — overflow-hidden clips the flat SVG fill, keeping only the curves */}
+        <div className="absolute left-0 right-0 z-20 overflow-hidden" style={{ height: 50, bottom: 38 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"
@@ -696,7 +699,7 @@ export default function Landing() {
       {/* Who We Are Section */}
       <section
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: -40 }}
+        style={{ marginTop: -40, position: "relative", zIndex: 30 }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">

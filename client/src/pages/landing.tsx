@@ -938,8 +938,8 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* Partners — sits inside the high-five container, blurred glass panel over the image */}
-        <div className="relative z-10 backdrop-blur-md bg-slate-900/55 border-t border-white/10">
+        {/* Partners — sits inside the high-five container, light frosted glass over the image */}
+        <div className="relative z-10 backdrop-blur-md bg-white/80 border-t border-white/40">
           <PartnersCarousel className="bg-transparent border-none" />
         </div>
 

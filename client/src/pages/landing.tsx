@@ -711,7 +711,7 @@ export default function Landing() {
       {/* Who We Are Section */}
       <section
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: -10, position: "relative", zIndex: 30 }}
+        style={{ marginTop: -15, position: "relative", zIndex: 30 }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">

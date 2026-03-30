@@ -2,9 +2,9 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import QuoteModal from "@/components/quote-modal";
 import SectionDivider from "@/components/section-divider";
+import { Shield, Users, Award, Clock } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { useTranslation } from "@/components/theme-provider";
 import wilbertPhoto from "@assets/wilbert_photo.png";
 import elizabethPhoto from "@assets/elizabeth_photo.png";
@@ -192,14 +192,7 @@ export default function About() {
           zIndex: 30,
         }}
       >
-        {/* Subtle radial color glow for depth */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full bg-sky-400/[0.07] blur-[80px]" />
-          <div className="absolute bottom-0 right-0 w-[400px] h-[300px] rounded-full bg-blue-500/[0.05] blur-[60px]" />
-        </div>
-
         <div className="container mx-auto px-4 sm:px-6">
-
           {/* Connect With Us Section - Team + Social */}
           <div className="mb-6 sm:mb-10 relative overflow-hidden">
             <div className="text-center mb-6 sm:mb-10 relative z-10">
@@ -213,13 +206,9 @@ export default function About() {
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 sm:gap-8 max-w-4xl mx-auto relative z-10">
               {/* Wilbert Hernandez - President */}
-              <motion.div
+              <div
                 className="insurance-card rounded-2xl overflow-hidden hover-lift"
                 data-testid="team-member-wilbert-hernandez"
-                initial={{ opacity: 0, y: 36 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.55, delay: 0, ease: "easeOut" }}
               >
                 <div className="aspect-[3/4] overflow-hidden relative group">
                   <img
@@ -246,16 +235,12 @@ export default function About() {
                     {t.about.president}
                   </p>
                 </div>
-              </motion.div>
+              </div>
 
               {/* Elizabeth Hernandez - Operations Manager */}
-              <motion.div
+              <div
                 className="insurance-card rounded-2xl overflow-hidden hover-lift"
                 data-testid="team-member-elizabeth-hernandez"
-                initial={{ opacity: 0, y: 36 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.55, delay: 0.12, ease: "easeOut" }}
               >
                 <div className="aspect-[3/4] overflow-hidden relative group">
                   <img
@@ -281,16 +266,12 @@ export default function About() {
                     {t.about.operationsManager}
                   </p>
                 </div>
-              </motion.div>
+              </div>
 
               {/* David Hernandez - Account Executive */}
-              <motion.div
+              <div
                 className="insurance-card rounded-2xl overflow-hidden hover-lift col-span-2 max-w-[50%] mx-auto w-full lg:col-span-1 lg:max-w-none"
                 data-testid="team-member-david-hernandez"
-                initial={{ opacity: 0, y: 36 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.55, delay: 0.24, ease: "easeOut" }}
               >
                 <div className="aspect-[3/4] overflow-hidden relative group">
                   <img
@@ -316,25 +297,13 @@ export default function About() {
                     {t.about.accountExecutive}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             </div>
 
-            <motion.p
-              className="text-base text-muted-foreground mt-4 mb-4 mx-auto text-center relative z-10 sm:whitespace-nowrap"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
+            <p className="text-base text-muted-foreground mt-4 mb-4 mx-auto text-center relative z-10 sm:whitespace-nowrap">
               {t.about.connectDesc}
-            </motion.p>
-            <motion.div
-              className="flex justify-center gap-3 sm:gap-6 lg:gap-8 relative z-10"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.38, ease: "easeOut" }}
-            >
+            </p>
+            <div className="flex justify-center gap-3 sm:gap-6 lg:gap-8 relative z-10">
               <SocialButton
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
                 icon={
@@ -370,7 +339,7 @@ export default function About() {
                 textHoverClass="group-hover:text-blue-600"
                 testId="social-facebook"
               />
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

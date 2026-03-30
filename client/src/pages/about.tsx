@@ -160,8 +160,10 @@ export default function About() {
             </div>
           </div>
         </div>
-        {/* Wave divider at bottom of hero — container clips the flat SVG fill, keeping only the curves */}
-        <div className="absolute bottom-0 left-0 right-0 z-20 overflow-hidden" style={{ height: 36 }}>
+        {/* Fill strip: bridges the gap between wave bottom and hero section end */}
+        <div className="absolute left-0 right-0 dot-pattern bg-muted dark:bg-slate-900" style={{ bottom: 0, height: 45, zIndex: 19 }} />
+        {/* Wave divider — container clips flat SVG fill, keeping only the curves */}
+        <div className="absolute left-0 right-0 z-20 overflow-hidden" style={{ height: 36, bottom: 43 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"

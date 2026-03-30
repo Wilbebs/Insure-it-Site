@@ -694,9 +694,9 @@ export default function Landing() {
 
       </section>
 
-      {/* Interstitial wave — sits above hero (z-35) so it paints ON TOP of the video,
-          giving the dot-section a wavy top edge instead of a flat line */}
-      <div className="relative pointer-events-none" style={{ marginTop: -62, zIndex: 35, height: 62 }}>
+      {/* Interstitial wave — lower z (5) than dot-section (30) so the dot-section
+          paints over the wave's flat bottom, leaving only the curves visible */}
+      <div className="relative pointer-events-none" style={{ marginTop: -62, zIndex: 5, height: 62 }}>
         <SectionDivider
           variant="wave-layered"
           position="bottom"
@@ -711,7 +711,7 @@ export default function Landing() {
       {/* Who We Are Section */}
       <section
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: -2, position: "relative", zIndex: 30 }}
+        style={{ marginTop: -10, position: "relative", zIndex: 30 }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">

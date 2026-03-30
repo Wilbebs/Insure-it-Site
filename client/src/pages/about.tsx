@@ -2,7 +2,7 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import QuoteModal from "@/components/quote-modal";
 import SectionDivider from "@/components/section-divider";
-import { Shield, Users, Award, Clock } from "lucide-react";
+import { Shield, Users, Award, Clock, Heart, BadgeDollarSign, MapPin, Phone } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useTranslation } from "@/components/theme-provider";
@@ -193,6 +193,46 @@ export default function About() {
         }}
       >
         <div className="container mx-auto px-4 sm:px-6">
+
+          {/* Core Values — Why Insure IT */}
+          {(() => {
+            const values = [
+              { icon: <Heart className="w-6 h-6 text-primary" />, title: t.about.val1Title, desc: t.about.val1Desc },
+              { icon: <BadgeDollarSign className="w-6 h-6 text-primary" />, title: t.about.val2Title, desc: t.about.val2Desc },
+              { icon: <MapPin className="w-6 h-6 text-primary" />, title: t.about.val3Title, desc: t.about.val3Desc },
+              { icon: <Phone className="w-6 h-6 text-primary" />, title: t.about.val4Title, desc: t.about.val4Desc },
+            ];
+            return (
+              <div className="pt-6 sm:pt-10 pb-8 sm:pb-12">
+                <div className="text-center mb-7 sm:mb-10">
+                  <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-2 select-none">
+                    {t.about.valuesSubtitle}
+                  </p>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground select-none">
+                    {t.about.valuesTitle}
+                  </h2>
+                  <div className="w-20 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto mt-3" />
+                </div>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 max-w-5xl mx-auto">
+                  {values.map(({ icon, title, desc }) => (
+                    <div
+                      key={title}
+                      className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-md border border-white/60 dark:border-slate-700/60 flex flex-col items-center text-center gap-3 hover-lift transition-all duration-300"
+                    >
+                      <div className="w-11 h-11 sm:w-13 sm:h-13 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                        {icon}
+                      </div>
+                      <h3 className="font-bold text-foreground text-sm sm:text-base leading-tight select-none">{title}</h3>
+                      <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed select-none">{desc}</p>
+                    </div>
+                  ))}
+                </div>
+                {/* Subtle separator before team section */}
+                <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-300/60 dark:via-slate-600/60 to-transparent mt-10 sm:mt-14" />
+              </div>
+            );
+          })()}
+
           {/* Connect With Us Section - Team + Social */}
           <div className="mb-6 sm:mb-10 relative overflow-hidden">
             <div className="text-center mb-6 sm:mb-10 relative z-10">

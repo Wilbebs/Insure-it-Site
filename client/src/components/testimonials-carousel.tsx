@@ -75,10 +75,10 @@ export default function TestimonialsCarousel() {
       {/* Header row: title top-left, nav arrows top-right */}
       <div className="flex items-end justify-between mb-4 sm:mb-5 px-1">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-1 select-none">
+          <p className="text-xs uppercase tracking-[0.2em] text-white/70 font-semibold mb-1 select-none">
             {t.testimonials.subtitle}
           </p>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground select-none">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white select-none">
             {t.testimonials.title}
           </h2>
         </div>
@@ -172,7 +172,7 @@ export default function TestimonialsCarousel() {
             key={i}
             onClick={() => handleDot(i)}
             className={`h-2 rounded-full transition-all duration-300 min-w-[8px] ${
-              i === currentPage ? "w-6 sm:w-7 bg-primary" : "w-2 bg-primary/25 hover:bg-primary/50"
+              i === currentPage ? "w-6 sm:w-7 bg-white" : "w-2 bg-white/40 hover:bg-white/60"
             }`}
             aria-label={`${t.testimonials.goToLabel} ${i + 1}`}
           />

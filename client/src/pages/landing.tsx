@@ -33,6 +33,7 @@ import { useEffect, useState, useRef, type RefObject } from "react";
 const heroVideo = "/api/videos/herovid1.mp4";
 import shieldIcon from "@assets/shield_icon.png";
 import floodImg from "@assets/flood_insurance.jpg";
+import highFiveImg from "@assets/team_highfive.jpg";
 
 import heroPoster from "@/assets/heroimage1.jpg";
 import SectionDivider from "@/components/section-divider";
@@ -339,6 +340,19 @@ export default function Landing() {
   const [scrollY, setScrollY] = useState(0);
   const [copiedContact, setCopiedContact] = useState<string | null>(null);
   const [addressCopied, setAddressCopied] = useState(false);
+  const highFiveRef = useRef<HTMLDivElement>(null);
+  const [highFiveVisible, setHighFiveVisible] = useState(false);
+
+  useEffect(() => {
+    const el = highFiveRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setHighFiveVisible(true); observer.disconnect(); } },
+      { rootMargin: "300px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const copyToClipboard = (text: string, key: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -699,7 +713,7 @@ export default function Landing() {
       {/* Who We Are Section */}
       <section
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: -40, position: "relative", zIndex: 30 }}
+        style={{ marginTop: -57, position: "relative", zIndex: 30 }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">
@@ -906,12 +920,24 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Testimonials Section — matches "More Than Insurance" section style */}
-      <section className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern">
-        <div className="container mx-auto px-4 sm:px-6">
-          <TestimonialsCarousel />
-        </div>
-        <div className="relative z-20" style={{ marginTop: 32, marginBottom: -40 }}>
+      {/* Testimonials Section — team high-five parallax background */}
+      <div
+        ref={highFiveRef}
+        className="relative overflow-hidden"
+        style={{
+          backgroundImage: highFiveVisible ? `url(${highFiveImg})` : undefined,
+          backgroundSize: "cover",
+          backgroundPosition: "center 20%",
+          backgroundAttachment: "fixed",
+        }}
+      >
+        <div className="absolute inset-0 bg-slate-900/60 dark:bg-slate-900/70" />
+        <section className="py-10 relative z-10">
+          <div className="container mx-auto px-4 sm:px-6">
+            <TestimonialsCarousel />
+          </div>
+        </section>
+        <div className="relative z-20" style={{ marginBottom: -40 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"
@@ -922,7 +948,7 @@ export default function Landing() {
             height={50}
           />
         </div>
-      </section>
+      </div>
 
       {/* Partners Carousel */}
       <div className="bg-muted dark:bg-slate-900 border-t border-slate-200/60 dark:border-slate-700/60">

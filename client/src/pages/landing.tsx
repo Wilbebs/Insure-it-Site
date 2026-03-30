@@ -778,7 +778,7 @@ export default function Landing() {
       {/* Contact + Map Section */}
       <section
         className="pt-5 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: -1, zIndex: 10, position: "relative" }}
+        style={{ marginTop: 19, zIndex: 10, position: "relative" }}
       >
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-5xl mx-auto">

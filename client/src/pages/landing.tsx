@@ -943,21 +943,23 @@ export default function Landing() {
           <PartnersCarousel className="bg-transparent border-none" />
         </div>
 
-        {/* Wave into footer — curves visible, 3px dark fill bleeds into footer bg */}
-        <div className="relative z-20" style={{ marginBottom: -3 }}>
+      </div>
+
+      {/* Footer with wavy top edge biting up into the parallax image */}
+      <div className="relative">
+        <div className="absolute left-0 right-0 z-10" style={{ top: -44 }}>
           <SectionDivider
             variant="wave-layered"
-            position="bottom"
+            position="top"
             wave1Color="rgba(15,23,42,0.3)"
             wave2Color="rgba(15,23,42,0.6)"
             wave3Color="#0f172a"
-            height={38}
+            height={45}
             noBgFill={false}
           />
         </div>
+        <Footer onGetQuote={() => setQuoteModalOpen(true)} />
       </div>
-
-      <Footer onGetQuote={() => setQuoteModalOpen(true)} />
 
       {/* Shield restore button — only visible while user is within the hero section */}
       <AnimatePresence>

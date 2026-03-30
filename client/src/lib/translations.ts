@@ -204,8 +204,6 @@ const translations = {
       copyright: "© 2025 Insure-it Group. All rights reserved.",
     },
     about: {
-      timelineSubtitle: "Our Journey",
-      timelineTitle: "14 Years of Protecting Florida",
       ourStory: "Our Story",
       storyP1: "Our journey began in 2011 with a simple dream and a small office in the heart of Miami. What started as a family vision to help our local community find quality insurance coverage has grown into something we're incredibly proud of—a trusted partner to thousands of families across the entire state of Florida.",
       storyP2: "We remember those early days vividly—sitting down with families at their kitchen tables, listening to their concerns, understanding their needs, and working tirelessly to find them the right protection. That personal touch, that genuine care for each client as if they were part of our own family, became the foundation of everything we do.",
@@ -649,8 +647,6 @@ const translations = {
       copyright: "© 2025 Insure-it Group. Todos los derechos reservados.",
     },
     about: {
-      timelineSubtitle: "Nuestra Trayectoria",
-      timelineTitle: "14 Años Protegiendo a Florida",
       ourStory: "Nuestra Historia",
       storyP1: "Nuestro viaje comenzó en 2011 con un sueño simple y una pequeña oficina en el corazón de Miami. Lo que comenzó como una visión familiar para ayudar a nuestra comunidad local a encontrar cobertura de seguros de calidad se ha convertido en algo de lo que estamos increíblemente orgullosos—un socio de confianza para miles de familias en todo el estado de Florida.",
       storyP2: "Recordamos esos primeros días vívidamente—sentándonos con familias en sus mesas de cocina, escuchando sus preocupaciones, entendiendo sus necesidades y trabajando incansablemente para encontrarles la protección adecuada. Ese toque personal, ese cuidado genuino por cada cliente como si fueran parte de nuestra propia familia, se convirtió en la base de todo lo que hacemos.",

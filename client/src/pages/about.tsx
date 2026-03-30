@@ -114,7 +114,7 @@ export default function About() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section with Family Portrait Background */}
+      {/* Hero Section*/}
       <section
         className="relative flex items-center justify-center overflow-hidden"
         style={{ minHeight: "calc(100vh + 43px)" }}
@@ -170,14 +170,14 @@ export default function About() {
             wave1Color="hsla(205, 70%, 82%, 0.3)"
             wave2Color="hsla(205, 70%, 82%, 0.6)"
             wave3Color="hsl(210, 40%, 94%)"
-            height={81}
+            height={38}
           />
         </div>
       </section>
 
       <section
         className="pb-1 sm:pb-2 bg-muted dark:bg-slate-900 dot-pattern"
-        style={{ marginTop: -78, paddingTop: "82px" }}
+        style={{ marginTop: -35, paddingTop: "0px" }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           {/* Connect With Us Section - Team + Social */}

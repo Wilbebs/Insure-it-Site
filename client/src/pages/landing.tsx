@@ -977,7 +977,7 @@ export default function Landing() {
         </div>
 
         {/* Wave divider — all-blue waves, no white bottom */}
-        <div className="relative z-20" style={{ marginBottom: -2 }}>
+        <div className="relative z-20" style={{ marginTop: 2, marginBottom: -2 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"

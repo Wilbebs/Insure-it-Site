@@ -761,16 +761,16 @@ export default function Landing() {
 
         <div
           className="relative z-20"
-          style={{ marginTop: 10, marginBottom: -55 }}
+          style={{ marginTop: 10, marginBottom: -18 }}
         >
           <SectionDivider
             variant="wave-layered"
             position="bottom"
-            toColor="hsl(210, 40%, 94%)"
-            wave1Color="hsla(205, 70%, 82%, 0.3)"
-            wave2Color="hsla(205, 70%, 82%, 0.6)"
-            wave3Color="hsl(210, 40%, 94%)"
-            height={60}
+            toColor="transparent"
+            wave1Color="hsla(205, 70%, 72%, 0.40)"
+            wave2Color="hsla(205, 70%, 72%, 0.70)"
+            wave3Color="hsla(205, 68%, 70%, 0.90)"
+            height={22}
           />
         </div>
       </section>

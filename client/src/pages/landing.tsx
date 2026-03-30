@@ -858,7 +858,7 @@ export default function Landing() {
             {(() => {
               return (
                 <div className="relative mb-2.5">
-                  <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[245px] sm:h-[285px] md:h-[325px] w-full">
+                  <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[368px] sm:h-[428px] md:h-[488px] w-full">
                     <iframe
                       src="https://www.google.com/maps/embed?pb=!4v1772407358800!6m8!1m7!1sduMvKfdLYRewb8CVXg-ybA!2m2!1d30.1626398364991!2d-81.63340592784719!3f271.0787535168472!4f2.850590466226677!5f0.4000000000000002"
                       width="100%"
@@ -931,12 +931,18 @@ export default function Landing() {
           backgroundAttachment: "fixed",
         }}
       >
-        <div className="absolute inset-0 bg-slate-900/60 dark:bg-slate-900/70" />
+        <div className="absolute inset-0 bg-slate-900/40 dark:bg-slate-900/50" />
         <section className="py-10 relative z-10">
           <div className="container mx-auto px-4 sm:px-6">
             <TestimonialsCarousel />
           </div>
         </section>
+
+        {/* Partners — sits inside the high-five container, blurred glass panel over the image */}
+        <div className="relative z-10 backdrop-blur-md bg-slate-900/55 border-t border-white/10">
+          <PartnersCarousel className="bg-transparent border-none" />
+        </div>
+
         <div className="relative z-20" style={{ marginBottom: -40 }}>
           <SectionDivider
             variant="wave-layered"
@@ -948,11 +954,6 @@ export default function Landing() {
             height={50}
           />
         </div>
-      </div>
-
-      {/* Partners Carousel */}
-      <div className="bg-muted dark:bg-slate-900 border-t border-slate-200/60 dark:border-slate-700/60">
-        <PartnersCarousel className="bg-transparent border-none" />
       </div>
 
       <Footer onGetQuote={() => setQuoteModalOpen(true)} />

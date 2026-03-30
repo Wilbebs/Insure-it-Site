@@ -33,7 +33,7 @@ import { useEffect, useState, useRef, type RefObject } from "react";
 const heroVideo = "/api/videos/herovid1.mp4";
 import shieldIcon from "@assets/shield_icon.png";
 import floodImg from "@assets/flood_insurance.jpg";
-import highFiveImg from "@assets/team_highfive.jpg";
+
 import heroPoster from "@/assets/heroimage1.jpg";
 import SectionDivider from "@/components/section-divider";
 
@@ -339,19 +339,6 @@ export default function Landing() {
   const [scrollY, setScrollY] = useState(0);
   const [copiedContact, setCopiedContact] = useState<string | null>(null);
   const [addressCopied, setAddressCopied] = useState(false);
-  const highFiveRef = useRef<HTMLDivElement>(null);
-  const [highFiveVisible, setHighFiveVisible] = useState(false);
-
-  useEffect(() => {
-    const el = highFiveRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setHighFiveVisible(true); observer.disconnect(); } },
-      { rootMargin: "300px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   const copyToClipboard = (text: string, key: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -916,34 +903,27 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Testimonials + Partners — shared parallax background, flush against wave */}
-      <div
-        ref={highFiveRef}
-        className="relative"
-        style={{
-          marginTop: -65,
-          backgroundImage: highFiveVisible ? `url(${highFiveImg})` : "none",
-          backgroundSize: "cover",
-          backgroundPosition: "center 20%",
-          backgroundAttachment: "fixed",
-        }}
-      >
-        {/* Very light overlay — image shows through, cards carry readability */}
-        <div className="absolute inset-0 bg-white/25 dark:bg-slate-900/55" />
-
-        {/* Testimonials — top padding accounts for wave overlap */}
-        <div className="relative z-10 pb-2" style={{ paddingTop: 92 }}>
-          <div className="container mx-auto px-4 sm:px-6">
-            <TestimonialsCarousel />
-          </div>
+      {/* Testimonials Section — matches "More Than Insurance" section style */}
+      <section className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern">
+        <div className="container mx-auto px-4 sm:px-6">
+          <TestimonialsCarousel />
         </div>
-
-        {/* Partners Carousel — frosted glass panel, ~10px below testimonials */}
-        <div className="relative z-10" style={{ marginTop: 10 }}>
-          <div className="backdrop-blur-md bg-white/65 dark:bg-slate-900/75 border-t border-white/40 dark:border-slate-700/60">
-            <PartnersCarousel className="bg-transparent border-none" />
-          </div>
+        <div className="relative z-20" style={{ marginTop: 32, marginBottom: -40 }}>
+          <SectionDivider
+            variant="wave-layered"
+            position="bottom"
+            toColor="hsl(210, 40%, 94%)"
+            wave1Color="hsla(205, 70%, 82%, 0.3)"
+            wave2Color="hsla(205, 70%, 82%, 0.6)"
+            wave3Color="hsl(210, 40%, 94%)"
+            height={50}
+          />
         </div>
+      </section>
+
+      {/* Partners Carousel */}
+      <div className="bg-muted dark:bg-slate-900 border-t border-slate-200/60 dark:border-slate-700/60">
+        <PartnersCarousel className="bg-transparent border-none" />
       </div>
 
       <Footer onGetQuote={() => setQuoteModalOpen(true)} />

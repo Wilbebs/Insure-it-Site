@@ -2,7 +2,7 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import QuoteModal from "@/components/quote-modal";
 import SectionDivider from "@/components/section-divider";
-import { Shield, Users, Award, Clock, Heart, BadgeDollarSign, MapPin, Phone } from "lucide-react";
+import { Shield, Users, Award, Clock } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useTranslation } from "@/components/theme-provider";
@@ -194,40 +194,89 @@ export default function About() {
       >
         <div className="container mx-auto px-4 sm:px-6">
 
-          {/* Core Values — Why Insure IT */}
+          {/* Timeline — Our Journey */}
           {(() => {
-            const values = [
-              { icon: <Heart className="w-6 h-6 text-primary" />, title: t.about.val1Title, desc: t.about.val1Desc },
-              { icon: <BadgeDollarSign className="w-6 h-6 text-primary" />, title: t.about.val2Title, desc: t.about.val2Desc },
-              { icon: <MapPin className="w-6 h-6 text-primary" />, title: t.about.val3Title, desc: t.about.val3Desc },
-              { icon: <Phone className="w-6 h-6 text-primary" />, title: t.about.val4Title, desc: t.about.val4Desc },
+            const milestones = [
+              {
+                year: "2011",
+                icon: <Shield className="w-5 h-5 text-white" />,
+                en: { title: "Founded in Miami", desc: "Insure IT Group Corp was born from a family dream — a small office in Miami dedicated to helping neighbors find honest, affordable coverage." },
+                es: { title: "Fundados en Miami", desc: "Insure IT Group Corp nació de un sueño familiar — una pequeña oficina en Miami dedicada a ayudar a los vecinos a encontrar cobertura honesta y asequible." },
+              },
+              {
+                year: "2014",
+                icon: <Users className="w-5 h-5 text-white" />,
+                en: { title: "Expanding Across South Florida", desc: "Word spread fast. We grew beyond Miami into Broward and Palm Beach, bringing the same personal touch to new communities." },
+                es: { title: "Expansión por el Sur de Florida", desc: "La noticia corrió rápido. Nos expandimos más allá de Miami hacia Broward y Palm Beach, llevando el mismo trato personal a nuevas comunidades." },
+              },
+              {
+                year: "2017",
+                icon: <Award className="w-5 h-5 text-white" />,
+                en: { title: "Central Florida & The Space Coast", desc: "We planted roots in Tampa, Orlando, and the Space Coast — earning trust with thousands of new families through competitive rates and real relationships." },
+                es: { title: "Florida Central y la Costa Espacial", desc: "Echamos raíces en Tampa, Orlando y la Costa Espacial, ganándonos la confianza de miles de nuevas familias con tarifas competitivas y relaciones genuinas." },
+              },
+              {
+                year: "2021",
+                icon: <Clock className="w-5 h-5 text-white" />,
+                en: { title: "Calling Jacksonville Home", desc: "We relocated our headquarters to Jacksonville, setting up in San Jose Blvd to better serve North Florida and build deeper community ties." },
+                es: { title: "Jacksonville, Nuestro Hogar", desc: "Trasladamos nuestra sede a Jacksonville, estableciéndonos en San Jose Blvd para servir mejor al Norte de Florida y fortalecer los lazos comunitarios." },
+              },
+              {
+                year: "2025",
+                icon: <Shield className="w-5 h-5 text-white" />,
+                en: { title: "Statewide & Still Growing", desc: "Today we proudly protect thousands of families across every corner of Florida — still family-owned, still answering every call ourselves." },
+                es: { title: "En Todo el Estado y Seguimos Creciendo", desc: "Hoy protegemos con orgullo a miles de familias en cada rincón de Florida — seguimos siendo de familia y contestando cada llamada personalmente." },
+              },
             ];
+            const lang = t.about.timelineSubtitle === "Our Journey" ? "en" : "es";
             return (
               <div className="pt-6 sm:pt-10 pb-8 sm:pb-12">
-                <div className="text-center mb-7 sm:mb-10">
+                <div className="text-center mb-8 sm:mb-12">
                   <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-2 select-none">
-                    {t.about.valuesSubtitle}
+                    {t.about.timelineSubtitle}
                   </p>
                   <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground select-none">
-                    {t.about.valuesTitle}
+                    {t.about.timelineTitle}
                   </h2>
                   <div className="w-20 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto mt-3" />
                 </div>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 max-w-5xl mx-auto">
-                  {values.map(({ icon, title, desc }) => (
-                    <div
-                      key={title}
-                      className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-md border border-white/60 dark:border-slate-700/60 flex flex-col items-center text-center gap-3 hover-lift transition-all duration-300"
-                    >
-                      <div className="w-11 h-11 sm:w-13 sm:h-13 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                        {icon}
-                      </div>
-                      <h3 className="font-bold text-foreground text-sm sm:text-base leading-tight select-none">{title}</h3>
-                      <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed select-none">{desc}</p>
-                    </div>
-                  ))}
+
+                {/* Timeline */}
+                <div className="relative max-w-3xl mx-auto">
+                  {/* Vertical line */}
+                  <div className="absolute left-6 sm:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-sky-400/60 via-blue-400/40 to-transparent sm:-translate-x-px" />
+
+                  <div className="space-y-6 sm:space-y-0">
+                    {milestones.map((m, i) => {
+                      const isLeft = i % 2 === 0;
+                      const copy = m[lang];
+                      return (
+                        <div
+                          key={m.year}
+                          className={`relative flex items-start gap-4 sm:gap-0 sm:mb-10 ${isLeft ? "sm:flex-row" : "sm:flex-row-reverse"}`}
+                        >
+                          {/* Card */}
+                          <div className={`flex-1 ml-14 sm:ml-0 ${isLeft ? "sm:pr-10 sm:text-right" : "sm:pl-10 sm:text-left"}`}>
+                            <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 sm:p-5 shadow-md border border-white/60 dark:border-slate-700/60 hover-lift transition-all duration-300">
+                              <span className="inline-block text-xs font-bold text-primary/70 tracking-widest uppercase mb-1 select-none">{m.year}</span>
+                              <h3 className="font-bold text-foreground text-sm sm:text-base leading-tight mb-1.5 select-none">{copy.title}</h3>
+                              <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed select-none">{copy.desc}</p>
+                            </div>
+                          </div>
+
+                          {/* Icon node — mobile: left edge, desktop: center */}
+                          <div className="absolute left-3 sm:left-1/2 sm:-translate-x-1/2 top-4 w-7 h-7 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center shadow-lg ring-2 ring-white dark:ring-slate-900 shrink-0 z-10">
+                            {m.icon}
+                          </div>
+
+                          {/* Spacer for opposite side on desktop */}
+                          <div className="hidden sm:block flex-1" />
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-                {/* Subtle separator before team section */}
+
                 <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-300/60 dark:via-slate-600/60 to-transparent mt-10 sm:mt-14" />
               </div>
             );

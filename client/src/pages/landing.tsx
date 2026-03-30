@@ -692,28 +692,26 @@ export default function Landing() {
           <ChevronDown className="w-9 h-9 text-white/90 animate-bounce drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]" />
         </div>
 
-        {/* Fill strip: solid white bridge between wave bottom and hero end */}
-        <div className="absolute left-0 right-0 bg-white dark:bg-slate-800" style={{ bottom: 0, height: 42, zIndex: 19 }} />
-        {/* Wave container — overflow-hidden clips the flat SVG fill, keeping only the curves */}
-        <div className="absolute left-0 right-0 z-20 overflow-hidden" style={{ height: 50, bottom: 38 }}>
-          <SectionDivider
-            variant="wave-layered"
-            position="bottom"
-            fromColor="#ffffff"
-            toColor="#ffffff"
-            wave1Color="hsla(205, 70%, 82%, 0.3)"
-            wave2Color="hsla(205, 70%, 82%, 0.6)"
-            wave3Color="#ffffff"
-            height={70}
-            noBgFill={false}
-          />
-        </div>
       </section>
+
+      {/* Interstitial wave — sits above hero (z-35) so it paints ON TOP of the video,
+          giving the dot-section a wavy top edge instead of a flat line */}
+      <div className="relative pointer-events-none" style={{ marginTop: -62, zIndex: 35, height: 62 }}>
+        <SectionDivider
+          variant="wave-layered"
+          position="bottom"
+          wave1Color="hsla(205, 70%, 82%, 0.3)"
+          wave2Color="hsla(205, 70%, 82%, 0.6)"
+          wave3Color="#ffffff"
+          height={62}
+          noBgFill={false}
+        />
+      </div>
 
       {/* Who We Are Section */}
       <section
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: -57, position: "relative", zIndex: 30 }}
+        style={{ marginTop: -2, position: "relative", zIndex: 30 }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">
@@ -943,18 +941,6 @@ export default function Landing() {
           <PartnersCarousel className="bg-transparent border-none" />
         </div>
 
-        {/* Wave into footer — curves visible, 3px dark fill bleeds into footer bg */}
-        <div className="relative z-20" style={{ marginBottom: -3 }}>
-          <SectionDivider
-            variant="wave-layered"
-            position="bottom"
-            wave1Color="rgba(15,23,42,0.3)"
-            wave2Color="rgba(15,23,42,0.6)"
-            wave3Color="#0f172a"
-            height={38}
-            noBgFill={false}
-          />
-        </div>
       </div>
 
       <Footer onGetQuote={() => setQuoteModalOpen(true)} />

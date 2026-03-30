@@ -170,14 +170,14 @@ export default function About() {
             wave1Color="hsla(205, 70%, 82%, 0.3)"
             wave2Color="hsla(205, 70%, 82%, 0.6)"
             wave3Color="hsl(210, 40%, 94%)"
-            height={38}
+            height={54}
           />
         </div>
       </section>
 
       <section
         className="pb-1 sm:pb-2 bg-muted dark:bg-slate-900 dot-pattern"
-        style={{ marginTop: -35, paddingTop: "0px" }}
+        style={{ marginTop: -2, paddingTop: "2px" }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           {/* Connect With Us Section - Team + Social */}

@@ -943,17 +943,6 @@ export default function Landing() {
           <PartnersCarousel className="bg-transparent border-none" />
         </div>
 
-        <div className="relative z-20" style={{ marginBottom: -40 }}>
-          <SectionDivider
-            variant="wave-layered"
-            position="bottom"
-            toColor="hsl(210, 40%, 94%)"
-            wave1Color="hsla(205, 70%, 82%, 0.3)"
-            wave2Color="hsla(205, 70%, 82%, 0.6)"
-            wave3Color="hsl(210, 40%, 94%)"
-            height={50}
-          />
-        </div>
       </div>
 
       <Footer onGetQuote={() => setQuoteModalOpen(true)} />

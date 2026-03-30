@@ -943,6 +943,18 @@ export default function Landing() {
           <PartnersCarousel className="bg-transparent border-none" />
         </div>
 
+        {/* Wave into footer — curves visible, 3px dark fill bleeds into footer bg */}
+        <div className="relative z-20" style={{ marginBottom: -3 }}>
+          <SectionDivider
+            variant="wave-layered"
+            position="bottom"
+            wave1Color="rgba(15,23,42,0.3)"
+            wave2Color="rgba(15,23,42,0.6)"
+            wave3Color="#0f172a"
+            height={38}
+            noBgFill={false}
+          />
+        </div>
       </div>
 
       <Footer onGetQuote={() => setQuoteModalOpen(true)} />

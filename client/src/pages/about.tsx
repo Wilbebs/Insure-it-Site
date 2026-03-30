@@ -177,7 +177,7 @@ export default function About() {
 
       <section
         className="pb-1 sm:pb-2 bg-muted dark:bg-slate-900 dot-pattern"
-        style={{ marginTop: -2, paddingTop: "2px" }}
+        style={{ marginTop: -2, paddingTop: "2px", position: "relative", zIndex: 30 }}
       >
         <div className="container mx-auto px-4 sm:px-6">
           {/* Connect With Us Section - Team + Social */}

@@ -186,7 +186,7 @@ export default function About() {
       <section
         className="pb-1 sm:pb-2 bg-muted dark:bg-slate-900 dot-pattern"
         style={{
-          marginTop: -45,
+          marginTop: -40,
           paddingTop: "5px",
           position: "relative",
           zIndex: 30,

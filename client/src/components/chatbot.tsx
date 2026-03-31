@@ -692,19 +692,23 @@ export default function ChatBot() {
           >
           {!isExpanded ? (
             <div className="flex items-center gap-2">
-              {/* Social toggle — pill button, LEFT of Liz */}
+              {/* Three colored dots — column of circles hinting at social links */}
               <motion.button
                 onClick={() => setSocialOpen((p) => !p)}
                 aria-label="Toggle social links"
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.93 }}
-                className="flex items-center gap-1 px-3 py-2 rounded-full bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-xl text-slate-700 font-semibold text-xs shrink-0 select-none"
+                whileHover={{ scale: 1.12 }}
+                whileTap={{ scale: 0.90 }}
+                className="relative flex flex-col items-center justify-center gap-[5px] w-8 h-[52px] rounded-full bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-xl shrink-0"
               >
-                <span>{socialOpen ? "Close" : "Follow"}</span>
-                <ChevronRight
-                  className="w-4 h-4 text-slate-600 shrink-0"
-                  style={{ transform: socialOpen ? "rotate(180deg)" : "none", transition: "transform 0.3s" }}
-                />
+                {socialOpen ? (
+                  <X className="w-4 h-4 text-slate-500" />
+                ) : (
+                  <>
+                    <span className="w-[10px] h-[10px] rounded-full" style={{ backgroundColor: "#0A66C2" }} />
+                    <span className="w-[10px] h-[10px] rounded-full" style={{ backgroundColor: "#E1306C" }} />
+                    <span className="w-[10px] h-[10px] rounded-full" style={{ backgroundColor: "#1877F2" }} />
+                  </>
+                )}
               </motion.button>
 
               {/* Liz avatar */}

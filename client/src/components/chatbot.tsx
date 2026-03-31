@@ -1,5 +1,6 @@
 import { useState, useEffect, useReducer, useRef } from "react";
-import { MessageCircle, X, ChevronDown, Send, Upload, FileText, Trash2, CheckCircle2 } from "lucide-react";
+import { MessageCircle, X, ChevronDown, Send, Upload, FileText, Trash2, CheckCircle2, ChevronUp } from "lucide-react";
+import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -183,6 +184,7 @@ export default function ChatBot() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasNotification, setHasNotification] = useState(true);
   const [showWelcomeBubble, setShowWelcomeBubble] = useState(false);
+  const [socialOpen, setSocialOpen] = useState(false);
   const { t, language, toggleLanguage } = useTranslation();
 
   const PRESET_QA = [
@@ -678,7 +680,8 @@ export default function ChatBot() {
           data-testid="chatbot-widget"
         >
           {!isExpanded ? (
-            <div className="relative">
+            <div className="relative flex flex-col items-end gap-3">
+              {/* Welcome bubble — absolute so it doesn't affect flex layout */}
               <AnimatePresence>
                 {showWelcomeBubble && (
                   <motion.div
@@ -705,6 +708,61 @@ export default function ChatBot() {
                 )}
               </AnimatePresence>
 
+              {/* Social lift pill — mobile only */}
+              <div className="lg:hidden flex flex-col items-center gap-2.5">
+                {/* Staggered social icons revealed upward */}
+                <AnimatePresence>
+                  {socialOpen && (
+                    <motion.div
+                      initial="hidden"
+                      animate="visible"
+                      exit="hidden"
+                      className="flex flex-col items-center gap-2.5"
+                    >
+                      {[
+                        { href: "https://www.facebook.com/insureitgroup", Icon: FaFacebook, color: "text-blue-600", bg: "bg-blue-50", label: "Facebook" },
+                        { href: "https://www.instagram.com/insureitgroup/", Icon: FaInstagram, color: "text-pink-600", bg: "bg-pink-50", label: "Instagram" },
+                        { href: "https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all", Icon: FaLinkedin, color: "text-blue-700", bg: "bg-blue-50", label: "LinkedIn" },
+                      ].map(({ href, Icon, color, bg, label }, i) => (
+                        <motion.a
+                          key={label}
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={label}
+                          variants={{
+                            hidden: { opacity: 0, y: 16, scale: 0.7 },
+                            visible: { opacity: 1, y: 0, scale: 1, transition: { delay: i * 0.07, type: "spring", stiffness: 380, damping: 22 } },
+                          }}
+                          className={`w-10 h-10 rounded-full ${bg} backdrop-blur-md border border-white/60 shadow-lg flex items-center justify-center active:scale-90 transition-transform`}
+                        >
+                          <Icon className={`w-5 h-5 ${color}`} />
+                        </motion.a>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Pill trigger button */}
+                <button
+                  onClick={() => setSocialOpen(p => !p)}
+                  aria-label="Social media links"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-md bg-white/30 border border-white/50 shadow-lg active:scale-95 transition-all duration-200"
+                >
+                  <FaLinkedin className="w-3.5 h-3.5 text-blue-700 opacity-70" />
+                  <FaInstagram className="w-3.5 h-3.5 text-pink-600 opacity-70" />
+                  <FaFacebook className="w-3.5 h-3.5 text-blue-600 opacity-70" />
+                  <motion.span
+                    animate={{ rotate: socialOpen ? 180 : 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="ml-0.5"
+                  >
+                    <ChevronUp className="w-3.5 h-3.5 text-slate-600" />
+                  </motion.span>
+                </button>
+              </div>
+
+              {/* Liz avatar button */}
               <button
                 onClick={handleExpand}
                 className="relative group"

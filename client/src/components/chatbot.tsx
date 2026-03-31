@@ -691,23 +691,9 @@ export default function ChatBot() {
             data-testid="chatbot-widget"
           >
           {!isExpanded ? (
-            <div className="flex items-center">
-              {/* Arrow — bounces RIGHT (toward icons) when closed, flips when open */}
-              <motion.button
-                onClick={() => setSocialOpen((p) => !p)}
-                aria-label="Toggle social links"
-                animate={!socialOpen ? { x: [0, 5, 0] } : { x: 0 }}
-                transition={!socialOpen ? { repeat: Infinity, duration: 1.1, ease: "easeInOut" } : {}}
-                className="flex items-center justify-center shrink-0 active:scale-90 mr-1"
-              >
-                <ChevronRight
-                  className="w-5 h-5 drop-shadow-[0_1px_4px_rgba(0,0,0,0.55)] text-white"
-                  style={{ transform: socialOpen ? "rotate(180deg)" : "none", transition: "transform 0.3s" }}
-                />
-              </motion.button>
-
-              {/* Liz avatar — leftmost, z:10 covers icons behind it */}
-              <div className="relative shrink-0" style={{ zIndex: 10 }}>
+            <div className="flex items-center gap-2">
+              {/* Liz avatar */}
+              <div className="relative shrink-0">
                 <AnimatePresence>
                   {showWelcomeBubble && (
                     <motion.div
@@ -754,44 +740,64 @@ export default function ChatBot() {
                 </button>
               </div>
 
-              {/* LinkedIn — z:4, immediately right of Liz; logo visible in collapsed */}
-              <motion.a
-                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
-                target="_blank" rel="noopener noreferrer"
-                aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
-                animate={{ marginLeft: socialOpen ? 8 : -56 }}
-                transition={{ type: "spring", stiffness: 280, damping: 26, delay: socialOpen ? 0.06 : 0 }}
-                className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90 shrink-0"
-                style={{ zIndex: 4, position: "relative", pointerEvents: socialOpen ? "auto" : "none" }}
+              {/* Social toggle — pill button with chevron, sits right of Liz */}
+              <motion.button
+                onClick={() => setSocialOpen((p) => !p)}
+                aria-label="Toggle social links"
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.93 }}
+                className="flex items-center gap-1 px-3 py-2 rounded-full bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-xl text-slate-700 font-semibold text-xs shrink-0 select-none"
               >
-                <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
-              </motion.a>
+                <span>{socialOpen ? "Close" : "Follow"}</span>
+                <ChevronRight
+                  className="w-4 h-4 text-slate-600 shrink-0"
+                  style={{ transform: socialOpen ? "rotate(180deg)" : "none", transition: "transform 0.3s" }}
+                />
+              </motion.button>
 
-              {/* Instagram — z:3, logo visible in collapsed */}
-              <motion.a
-                href="https://www.instagram.com/insureitgroup/"
-                target="_blank" rel="noopener noreferrer"
-                aria-label="Instagram" data-testid="chatbot-social-instagram"
-                animate={{ marginLeft: socialOpen ? 8 : -56 }}
-                transition={{ type: "spring", stiffness: 280, damping: 26, delay: socialOpen ? 0.03 : 0 }}
-                className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90 shrink-0"
-                style={{ zIndex: 3, position: "relative", pointerEvents: socialOpen ? "auto" : "none" }}
-              >
-                <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
-              </motion.a>
-
-              {/* Facebook — z:2, rightmost; logo visible in collapsed */}
-              <motion.a
-                href="https://www.facebook.com/insureitgroup"
-                target="_blank" rel="noopener noreferrer"
-                aria-label="Facebook" data-testid="chatbot-social-facebook"
-                animate={{ marginLeft: socialOpen ? 8 : -56 }}
-                transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0 }}
-                className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90 shrink-0"
-                style={{ zIndex: 2, position: "relative", pointerEvents: socialOpen ? "auto" : "none" }}
-              >
-                <FaFacebook className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
-              </motion.a>
+              {/* Icons — only rendered when open */}
+              <AnimatePresence>
+                {socialOpen && (
+                  <>
+                    <motion.a
+                      href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
+                      target="_blank" rel="noopener noreferrer"
+                      aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 320, damping: 24, delay: 0.06 }}
+                      className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90 shrink-0"
+                    >
+                      <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
+                    </motion.a>
+                    <motion.a
+                      href="https://www.instagram.com/insureitgroup/"
+                      target="_blank" rel="noopener noreferrer"
+                      aria-label="Instagram" data-testid="chatbot-social-instagram"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 320, damping: 24, delay: 0.12 }}
+                      className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90 shrink-0"
+                    >
+                      <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
+                    </motion.a>
+                    <motion.a
+                      href="https://www.facebook.com/insureitgroup"
+                      target="_blank" rel="noopener noreferrer"
+                      aria-label="Facebook" data-testid="chatbot-social-facebook"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 320, damping: 24, delay: 0.18 }}
+                      className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90 shrink-0"
+                    >
+                      <FaFacebook className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                    </motion.a>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
           ) : (
             <motion.div

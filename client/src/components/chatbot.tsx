@@ -684,43 +684,53 @@ export default function ChatBot() {
               className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60]"
               style={{ width: 64, height: 64, pointerEvents: socialOpen ? "auto" : "none" }}
             >
-              {/* LinkedIn – leftmost when expanded */}
-              <motion.a
-                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
-                target="_blank" rel="noopener noreferrer"
-                aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
-                animate={{ x: socialOpen ? -136 : 0, opacity: socialOpen ? 1 : 0.26, scale: socialOpen ? 1 : 0.88 }}
-                transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.06 }}
-                className="absolute inset-0 group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90"
-                style={{ zIndex: 1, pointerEvents: socialOpen ? "auto" : "none" }}
-              >
-                <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
-              </motion.a>
+              {/*
+                Stacking order (front → back): Liz (z-65 layer) > LI (z:4) > IG (z:3) > FB (z:2)
+                Collapsed peek: each icon 75% covered by the one in front.
+                  Icon width = 56px. 25% visible = 14px peek each.
+                  LI at x:-14  → 14px left of container = 14px left of Liz → 75% behind Liz ✓
+                  IG at x:-28  → 14px left of LI's left edge → 75% behind LI ✓
+                  FB at x:-42  → 14px left of IG's left edge → 75% behind IG ✓
+                Expanded: fan out with 8px gaps. FB stays at x:0 (Liz's old spot).
+              */}
 
-              {/* Instagram – middle */}
-              <motion.a
-                href="https://www.instagram.com/insureitgroup/"
-                target="_blank" rel="noopener noreferrer"
-                aria-label="Instagram" data-testid="chatbot-social-instagram"
-                animate={{ x: socialOpen ? -72 : 0, opacity: socialOpen ? 1 : 0.26, scale: socialOpen ? 1 : 0.88 }}
-                transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.03 }}
-                className="absolute inset-0 group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90"
-                style={{ zIndex: 2, pointerEvents: socialOpen ? "auto" : "none" }}
-              >
-                <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
-              </motion.a>
-
-              {/* Facebook – rightmost (stays near Liz's old position) */}
+              {/* Facebook – backmost (z:2), peek farthest left in collapsed */}
               <motion.a
                 href="https://www.facebook.com/insureitgroup"
                 target="_blank" rel="noopener noreferrer"
                 aria-label="Facebook" data-testid="chatbot-social-facebook"
-                animate={{ x: socialOpen ? 0 : 0, opacity: socialOpen ? 1 : 0.26, scale: socialOpen ? 1 : 0.88 }}
+                animate={{ x: socialOpen ? 0 : -42, opacity: socialOpen ? 1 : 0.28 }}
                 transition={{ type: "spring", stiffness: 280, damping: 26 }}
                 className="absolute inset-0 group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90"
-                style={{ zIndex: 3, pointerEvents: socialOpen ? "auto" : "none" }}
+                style={{ zIndex: 2, pointerEvents: socialOpen ? "auto" : "none" }}
               >
                 <FaFacebook className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
+              </motion.a>
+
+              {/* Instagram – middle (z:3), 75% covered by LI in collapsed */}
+              <motion.a
+                href="https://www.instagram.com/insureitgroup/"
+                target="_blank" rel="noopener noreferrer"
+                aria-label="Instagram" data-testid="chatbot-social-instagram"
+                animate={{ x: socialOpen ? -64 : -28, opacity: socialOpen ? 1 : 0.28 }}
+                transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.03 }}
+                className="absolute inset-0 group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90"
+                style={{ zIndex: 3, pointerEvents: socialOpen ? "auto" : "none" }}
+              >
+                <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
+              </motion.a>
+
+              {/* LinkedIn – frontmost icon (z:4), 75% covered by Liz in collapsed */}
+              <motion.a
+                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
+                target="_blank" rel="noopener noreferrer"
+                aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
+                animate={{ x: socialOpen ? -128 : -14, opacity: socialOpen ? 1 : 0.28 }}
+                transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.06 }}
+                className="absolute inset-0 group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90"
+                style={{ zIndex: 4, pointerEvents: socialOpen ? "auto" : "none" }}
+              >
+                <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
               </motion.a>
             </div>
           )}
@@ -740,7 +750,7 @@ export default function ChatBot() {
             /* [← arrow]  [Liz circle]  — whole row slides left when open */
             <motion.div
               className="flex items-center gap-3"
-              animate={{ x: socialOpen ? -208 : 0 }}
+              animate={{ x: socialOpen ? -200 : 0 }}
               transition={{ type: "spring", stiffness: 280, damping: 28 }}
             >
               {/* Arrow — bounces left when closed, points right when open */}

@@ -10,6 +10,7 @@ import Plans from "@/pages/plans";
 import Wireframe from "@/pages/wireframe";
 import NotFound from "@/pages/not-found";
 import ChatBot from "@/components/chatbot";
+import SocialSidebar from "@/components/social-sidebar";
 
 function Router() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Toaster />
           <Router />
           <ChatBot />
+          <SocialSidebar />
         </TooltipProvider>
       </LanguageProvider>
     </QueryClientProvider>

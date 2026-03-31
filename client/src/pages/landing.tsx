@@ -625,10 +625,19 @@ export default function Landing() {
                 }}
                 whileDrag={{ cursor: "grabbing" }}
               >
-                {/* Glass Window Container - Everything inside */}
+                {/* Shield border wrapper */}
+                <div
+                  className="p-[1.5px]"
+                  style={{
+                    clipPath: "polygon(2% 0%, 98% 0%, 100% 2%, 100% 76%, 72% 90%, 50% 100%, 28% 90%, 0% 76%, 0% 2%)",
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.12) 100%)",
+                  }}
+                >
+                {/* Glass Window Container - Shield shaped */}
                 <div
                   ref={cardInnerRef}
-                  className="relative flex flex-col md:block bg-white/20 backdrop-blur-xl rounded-3xl pt-4 pb-[10px] px-4 sm:px-8 md:pb-[12px] md:px-12 border border-white/30 shadow-2xl shadow-black/20 h-[380px] sm:h-[390px] md:h-auto overflow-hidden"
+                  className="relative flex flex-col md:block bg-white/20 backdrop-blur-xl pt-4 pb-24 px-4 sm:px-8 md:pb-44 md:px-12 h-[460px] sm:h-[460px] md:h-auto overflow-hidden"
+                  style={{ clipPath: "polygon(2% 0%, 98% 0%, 100% 2%, 100% 76%, 72% 90%, 50% 100%, 28% 90%, 0% 76%, 0% 2%)" }}
                 >
                   {/* Minimize button */}
                   <button
@@ -713,6 +722,7 @@ export default function Landing() {
                       </span>
                     </a>
                   </motion.div>
+                </div>
                 </div>
               </motion.div>
             )}

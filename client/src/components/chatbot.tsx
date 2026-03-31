@@ -759,7 +759,7 @@ export default function ChatBot() {
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
                 target="_blank" rel="noopener noreferrer"
                 aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
-                animate={{ marginLeft: socialOpen ? 8 : -50 }}
+                animate={{ marginLeft: socialOpen ? 8 : -56 }}
                 transition={{ type: "spring", stiffness: 280, damping: 26, delay: socialOpen ? 0.06 : 0 }}
                 className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90 shrink-0"
                 style={{ zIndex: 4, position: "relative", pointerEvents: socialOpen ? "auto" : "none" }}
@@ -772,7 +772,7 @@ export default function ChatBot() {
                 href="https://www.instagram.com/insureitgroup/"
                 target="_blank" rel="noopener noreferrer"
                 aria-label="Instagram" data-testid="chatbot-social-instagram"
-                animate={{ marginLeft: socialOpen ? 8 : -50 }}
+                animate={{ marginLeft: socialOpen ? 8 : -56 }}
                 transition={{ type: "spring", stiffness: 280, damping: 26, delay: socialOpen ? 0.03 : 0 }}
                 className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90 shrink-0"
                 style={{ zIndex: 3, position: "relative", pointerEvents: socialOpen ? "auto" : "none" }}
@@ -785,7 +785,7 @@ export default function ChatBot() {
                 href="https://www.facebook.com/insureitgroup"
                 target="_blank" rel="noopener noreferrer"
                 aria-label="Facebook" data-testid="chatbot-social-facebook"
-                animate={{ marginLeft: socialOpen ? 8 : -50 }}
+                animate={{ marginLeft: socialOpen ? 8 : -56 }}
                 transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0 }}
                 className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90 shrink-0"
                 style={{ zIndex: 2, position: "relative", pointerEvents: socialOpen ? "auto" : "none" }}

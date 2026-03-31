@@ -181,25 +181,6 @@ export default function Navigation() {
             </Link>
           </div>
 
-          {/* Social icons — Option A: inline before language toggle, collapse on scroll */}
-          <div className={`flex items-center gap-1 flex-shrink-0 transition-all duration-300 ${isScrolled ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}`}>
-            <a href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all" target="_blank" rel="noopener noreferrer"
-              className="bg-white/80 hover:bg-white p-1 rounded-md transition-all hover:scale-110 shadow-sm"
-              aria-label="LinkedIn">
-              <FaLinkedin className="w-3 h-3 text-blue-600" />
-            </a>
-            <a href="https://www.instagram.com/insureitgroup/" target="_blank" rel="noopener noreferrer"
-              className="bg-white/80 hover:bg-white p-1 rounded-md transition-all hover:scale-110 shadow-sm"
-              aria-label="Instagram">
-              <FaInstagram className="w-3 h-3 text-pink-600" />
-            </a>
-            <a href="https://www.facebook.com/insureitgroup" target="_blank" rel="noopener noreferrer"
-              className="bg-white/80 hover:bg-white p-1 rounded-md transition-all hover:scale-110 shadow-sm"
-              aria-label="Facebook">
-              <FaFacebook className="w-3 h-3 text-blue-600" />
-            </a>
-          </div>
-
           {/* Language toggle */}
           <button
             onClick={toggleLanguage}
@@ -217,25 +198,6 @@ export default function Navigation() {
               className={`absolute -top-0.5 -right-0.5 object-contain rounded-full drop-shadow-sm ${isScrolled ? 'w-3 h-3' : 'w-4 h-4'}`}
             />
           </button>
-        </div>
-
-        {/* Option B: second row — centred icons, only when NOT scrolled */}
-        <div className={`flex items-center justify-center gap-3 transition-all duration-300 overflow-hidden ${isScrolled ? 'max-h-0 opacity-0 mt-0' : 'max-h-8 opacity-100 mt-1.5'}`}>
-          <a href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all" target="_blank" rel="noopener noreferrer"
-            className="bg-white/80 hover:bg-white p-1 rounded-md transition-all hover:scale-110 shadow-sm"
-            aria-label="LinkedIn">
-            <FaLinkedin className="w-3.5 h-3.5 text-blue-600" />
-          </a>
-          <a href="https://www.instagram.com/insureitgroup/" target="_blank" rel="noopener noreferrer"
-            className="bg-white/80 hover:bg-white p-1 rounded-md transition-all hover:scale-110 shadow-sm"
-            aria-label="Instagram">
-            <FaInstagram className="w-3.5 h-3.5 text-pink-600" />
-          </a>
-          <a href="https://www.facebook.com/insureitgroup" target="_blank" rel="noopener noreferrer"
-            className="bg-white/80 hover:bg-white p-1 rounded-md transition-all hover:scale-110 shadow-sm"
-            aria-label="Facebook">
-            <FaFacebook className="w-3.5 h-3.5 text-blue-600" />
-          </a>
         </div>
       </nav>
     </>

@@ -849,8 +849,8 @@ export default function Landing() {
                 <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
               </div>
 
-              {/* Square map — ~1.2× title width */}
-              <div className="relative w-[300px] h-[300px] sm:w-[370px] sm:h-[370px] shrink-0">
+              {/* Map — full width, original height */}
+              <div className="relative h-[368px] sm:h-[428px] md:h-[488px] w-full">
                 <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden w-full h-full">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!4v1772407358800!6m8!1m7!1sduMvKfdLYRewb8CVXg-ybA!2m2!1d30.1626398364991!2d-81.63340592784719!3f271.0787535168472!4f2.850590466226677!5f0.4000000000000002"

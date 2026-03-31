@@ -626,14 +626,17 @@ export default function Landing() {
                 }}
                 whileDrag={{ cursor: "grabbing" }}
               >
-                {/* Shield card — glass PNG background, content floats on top */}
+                {/* Shield card — PNG used as mask, CSS handles the glass effect */}
                 <div
                   ref={cardInnerRef}
-                  className="relative flex flex-col"
+                  className="relative flex flex-col backdrop-blur-xl bg-white/[0.14]"
                   style={{
-                    backgroundImage: `url(${shieldGlassImg})`,
-                    backgroundSize: "100% 100%",
-                    backgroundRepeat: "no-repeat",
+                    WebkitMaskImage: `url(${shieldGlassImg})`,
+                    maskImage: `url(${shieldGlassImg})`,
+                    WebkitMaskSize: "100% 100%",
+                    maskSize: "100% 100%",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
                     paddingTop: "18%",
                     paddingBottom: "24%",
                     paddingLeft: "13%",

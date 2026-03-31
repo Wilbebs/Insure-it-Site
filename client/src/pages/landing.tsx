@@ -32,6 +32,7 @@ import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef, type RefObject } from "react";
 const heroVideo = "/api/videos/herovid1.mp4";
 import shieldIcon from "@assets/shield_icon.png";
+import shieldGlassImg from "@/assets/shield-glass.png";
 import floodImg from "@assets/flood_insurance.jpg";
 import highFiveImg from "@assets/team_highfive.jpg";
 
@@ -609,14 +610,6 @@ export default function Landing() {
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">
           <div className="w-full max-w-[575px] text-center">
-            {/* SVG clip-path definition — curved shield shape */}
-            <svg width="0" height="0" style={{ position: "absolute", overflow: "hidden" }}>
-              <defs>
-                <clipPath id="shield-hero-clip" clipPathUnits="objectBoundingBox">
-                  <path d="M 0.15,0 C 0.05,0 0,0.05 0,0.15 L 0,0.62 C 0,0.80 0.38,0.96 0.5,1 C 0.62,0.96 1,0.80 1,0.62 L 1,0.15 C 1,0.05 0.95,0 0.85,0 Z" />
-                </clipPath>
-              </defs>
-            </svg>
             {!isMinimized && (
               <motion.div
                 key="hero-card"
@@ -633,31 +626,24 @@ export default function Landing() {
                 }}
                 whileDrag={{ cursor: "grabbing" }}
               >
-                {/* Shield border wrapper */}
-                <div
-                  className="p-[1.5px]"
-                  style={{
-                    clipPath: "url(#shield-hero-clip)",
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.12) 100%)",
-                  }}
-                >
-                {/* Glass Window Container - Shield shaped */}
+                {/* Shield glass card — PNG background, no clip-path needed */}
                 <div
                   ref={cardInnerRef}
-                  className="relative flex flex-col md:block bg-white/20 backdrop-blur-xl pt-4 pb-24 px-4 sm:px-8 md:pb-44 md:px-12 h-[460px] sm:h-[460px] md:h-auto overflow-hidden"
-                  style={{ clipPath: "url(#shield-hero-clip)" }}
+                  className="relative flex flex-col md:block pt-6 pb-16 px-8 sm:px-12 md:pb-36 md:px-16 h-[460px] sm:h-[460px] md:h-auto"
+                  style={{
+                    backgroundImage: `url(${shieldGlassImg})`,
+                    backgroundSize: "100% 100%",
+                    backgroundRepeat: "no-repeat",
+                  }}
                 >
                   {/* Minimize button */}
                   <button
                     onClick={handleMinimize}
-                    className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-blue-400/30 backdrop-blur-sm border border-blue-300/50 flex items-center justify-center hover:bg-blue-500/50 hover:border-blue-300 transition-all duration-200 group"
+                    className="absolute top-4 right-5 z-30 w-8 h-8 rounded-full bg-blue-400/30 backdrop-blur-sm border border-blue-300/50 flex items-center justify-center hover:bg-blue-500/50 hover:border-blue-300 transition-all duration-200 group"
                     aria-label="Minimize"
                   >
                     <Minus className="w-4 h-4 text-blue-700 group-hover:text-white transition-colors" />
                   </button>
-
-                  {/* Subtle gradient glow effect */}
-                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
                   {/* Logo */}
                   <div className="relative mt-[19px] md:mt-[37px] mb-2 md:mb-0 z-10 md:-mx-12">
@@ -730,7 +716,6 @@ export default function Landing() {
                       </span>
                     </a>
                   </motion.div>
-                </div>
                 </div>
               </motion.div>
             )}

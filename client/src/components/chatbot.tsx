@@ -692,22 +692,7 @@ export default function ChatBot() {
           >
           {!isExpanded ? (
             <div className="flex items-center gap-2">
-              {/* @ badge — social media context button */}
-              <motion.button
-                onClick={() => setSocialOpen((p) => !p)}
-                aria-label="Toggle social links"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.92 }}
-                className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 via-pink-500 to-blue-600 shadow-lg shrink-0"
-              >
-                {socialOpen ? (
-                  <X className="w-4 h-4 text-white" />
-                ) : (
-                  <span className="text-white font-bold text-base leading-none select-none">@</span>
-                )}
-              </motion.button>
-
-              {/* Liz avatar */}
+              {/* Liz avatar — leftmost */}
               <div className="relative shrink-0">
                 <AnimatePresence>
                   {showWelcomeBubble && (
@@ -755,7 +740,26 @@ export default function ChatBot() {
                 </button>
               </div>
 
-              {/* Icons — only rendered when open */}
+              {/* Three colored dots — right of Liz, light frosted glass */}
+              <motion.button
+                onClick={() => setSocialOpen((p) => !p)}
+                aria-label="Toggle social links"
+                whileHover={{ scale: 1.12 }}
+                whileTap={{ scale: 0.90 }}
+                className="relative flex flex-col items-center justify-center gap-[5px] w-8 h-[52px] rounded-full bg-white/20 backdrop-blur-sm border border-white/30 shadow-md shrink-0"
+              >
+                {socialOpen ? (
+                  <X className="w-4 h-4 text-white drop-shadow-sm" />
+                ) : (
+                  <>
+                    <span className="w-[10px] h-[10px] rounded-full shadow-sm" style={{ backgroundColor: "#0A66C2" }} />
+                    <span className="w-[10px] h-[10px] rounded-full shadow-sm" style={{ backgroundColor: "#E1306C" }} />
+                    <span className="w-[10px] h-[10px] rounded-full shadow-sm" style={{ backgroundColor: "#1877F2" }} />
+                  </>
+                )}
+              </motion.button>
+
+              {/* Icons — expand to the right of the dots, only rendered when open */}
               <AnimatePresence>
                 {socialOpen && (
                   <>

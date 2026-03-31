@@ -692,6 +692,21 @@ export default function ChatBot() {
           >
           {!isExpanded ? (
             <div className="flex items-center gap-2">
+              {/* Social toggle — pill button, LEFT of Liz */}
+              <motion.button
+                onClick={() => setSocialOpen((p) => !p)}
+                aria-label="Toggle social links"
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.93 }}
+                className="flex items-center gap-1 px-3 py-2 rounded-full bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-xl text-slate-700 font-semibold text-xs shrink-0 select-none"
+              >
+                <span>{socialOpen ? "Close" : "Follow"}</span>
+                <ChevronRight
+                  className="w-4 h-4 text-slate-600 shrink-0"
+                  style={{ transform: socialOpen ? "rotate(180deg)" : "none", transition: "transform 0.3s" }}
+                />
+              </motion.button>
+
               {/* Liz avatar */}
               <div className="relative shrink-0">
                 <AnimatePresence>
@@ -739,21 +754,6 @@ export default function ChatBot() {
                   )}
                 </button>
               </div>
-
-              {/* Social toggle — pill button with chevron, sits right of Liz */}
-              <motion.button
-                onClick={() => setSocialOpen((p) => !p)}
-                aria-label="Toggle social links"
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.93 }}
-                className="flex items-center gap-1 px-3 py-2 rounded-full bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-xl text-slate-700 font-semibold text-xs shrink-0 select-none"
-              >
-                <span>{socialOpen ? "Close" : "Follow"}</span>
-                <ChevronRight
-                  className="w-4 h-4 text-slate-600 shrink-0"
-                  style={{ transform: socialOpen ? "rotate(180deg)" : "none", transition: "transform 0.3s" }}
-                />
-              </motion.button>
 
               {/* Icons — only rendered when open */}
               <AnimatePresence>

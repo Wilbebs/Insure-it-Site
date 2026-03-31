@@ -610,6 +610,15 @@ export default function Landing() {
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">
           <div className="w-full max-w-[575px] text-center">
+            {/* SVG clip-path — flat-top shield matching Insure IT logo */}
+            <svg width="0" height="0" style={{ position: "absolute", overflow: "hidden" }}>
+              <defs>
+                <clipPath id="shield-hero-clip" clipPathUnits="objectBoundingBox">
+                  <path d="M 0.15,0 C 0.05,0 0,0.05 0,0.15 L 0,0.62 C 0,0.80 0.38,0.96 0.5,1 C 0.62,0.96 1,0.80 1,0.62 L 1,0.15 C 1,0.05 0.95,0 0.85,0 Z" />
+                </clipPath>
+              </defs>
+            </svg>
+
             {!isMinimized && (
               <motion.div
                 key="hero-card"
@@ -626,23 +635,27 @@ export default function Landing() {
                 }}
                 whileDrag={{ cursor: "grabbing" }}
               >
-                {/* Shield glass card — PNG background, no clip-path needed */}
+                {/* Gradient border wrapper */}
+                <div
+                  className="p-[2px]"
+                  style={{
+                    clipPath: "url(#shield-hero-clip)",
+                    background: "linear-gradient(160deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.15) 60%, rgba(255,255,255,0.35) 100%)",
+                  }}
+                >
+                {/* Frosted glass interior */}
                 <div
                   ref={cardInnerRef}
-                  className="relative flex flex-col md:block pt-10 pb-28 px-10 sm:px-14 md:pb-44 md:px-16"
-                  style={{
-                    backgroundImage: `url(${shieldGlassImg})`,
-                    backgroundSize: "100% 100%",
-                    backgroundRepeat: "no-repeat",
-                  }}
+                  className="relative flex flex-col pt-10 pb-28 px-10 sm:px-14 md:pb-44 md:px-16 bg-white/[0.18] backdrop-blur-2xl"
+                  style={{ clipPath: "url(#shield-hero-clip)" }}
                 >
                   {/* Minimize button */}
                   <button
                     onClick={handleMinimize}
-                    className="absolute top-5 right-6 z-30 w-8 h-8 rounded-full bg-blue-400/30 backdrop-blur-sm border border-blue-300/50 flex items-center justify-center hover:bg-blue-500/50 hover:border-blue-300 transition-all duration-200 group"
+                    className="absolute top-5 right-6 z-30 w-8 h-8 rounded-full bg-white/25 backdrop-blur-sm border border-white/50 flex items-center justify-center hover:bg-white/40 transition-all duration-200 group"
                     aria-label="Minimize"
                   >
-                    <Minus className="w-4 h-4 text-blue-700 group-hover:text-white transition-colors" />
+                    <Minus className="w-4 h-4 text-white group-hover:text-blue-100 transition-colors" />
                   </button>
 
                   {/* Logo */}
@@ -716,6 +729,7 @@ export default function Landing() {
                       </span>
                     </a>
                   </motion.div>
+                </div>
                 </div>
               </motion.div>
             )}

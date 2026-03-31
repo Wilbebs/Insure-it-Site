@@ -613,7 +613,7 @@ export default function Landing() {
             <svg width="0" height="0" style={{ position: "absolute", overflow: "hidden" }}>
               <defs>
                 <clipPath id="shield-hero-clip" clipPathUnits="objectBoundingBox">
-                  <path d="M 0.5,0 C 0.85,0 1,0.15 1,0.42 C 1,0.72 0.62,0.94 0.5,1 C 0.38,0.94 0,0.72 0,0.42 C 0,0.15 0.15,0 0.5,0 Z" />
+                  <path d="M 0.15,0 C 0.05,0 0,0.05 0,0.15 L 0,0.62 C 0,0.80 0.38,0.96 0.5,1 C 0.62,0.96 1,0.80 1,0.62 L 1,0.15 C 1,0.05 0.95,0 0.85,0 Z" />
                 </clipPath>
               </defs>
             </svg>
@@ -647,11 +647,10 @@ export default function Landing() {
                   className="relative flex flex-col md:block bg-white/20 backdrop-blur-xl pt-4 pb-24 px-4 sm:px-8 md:pb-44 md:px-12 h-[460px] sm:h-[460px] md:h-auto overflow-hidden"
                   style={{ clipPath: "url(#shield-hero-clip)" }}
                 >
-                  {/* Minimize button — moved inside arch */}
+                  {/* Minimize button */}
                   <button
                     onClick={handleMinimize}
-                    className="absolute z-30 w-8 h-8 rounded-full bg-blue-400/30 backdrop-blur-sm border border-blue-300/50 flex items-center justify-center hover:bg-blue-500/50 hover:border-blue-300 transition-all duration-200 group"
-                    style={{ top: "22%", right: "6%" }}
+                    className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-blue-400/30 backdrop-blur-sm border border-blue-300/50 flex items-center justify-center hover:bg-blue-500/50 hover:border-blue-300 transition-all duration-200 group"
                     aria-label="Minimize"
                   >
                     <Minus className="w-4 h-4 text-blue-700 group-hover:text-white transition-colors" />

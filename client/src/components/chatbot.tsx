@@ -754,12 +754,12 @@ export default function ChatBot() {
                 </button>
               </div>
 
-              {/* LinkedIn — z:4, immediately right of Liz; 75% behind Liz when collapsed */}
+              {/* LinkedIn — z:4, immediately right of Liz; logo visible in collapsed */}
               <motion.a
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
                 target="_blank" rel="noopener noreferrer"
                 aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
-                animate={{ marginLeft: socialOpen ? 8 : -42 }}
+                animate={{ marginLeft: socialOpen ? 8 : -20 }}
                 transition={{ type: "spring", stiffness: 280, damping: 26, delay: socialOpen ? 0.06 : 0 }}
                 className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90 shrink-0"
                 style={{ zIndex: 4, position: "relative", pointerEvents: socialOpen ? "auto" : "none" }}
@@ -767,12 +767,12 @@ export default function ChatBot() {
                 <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
               </motion.a>
 
-              {/* Instagram — z:3, 75% behind LinkedIn when collapsed */}
+              {/* Instagram — z:3, logo visible in collapsed */}
               <motion.a
                 href="https://www.instagram.com/insureitgroup/"
                 target="_blank" rel="noopener noreferrer"
                 aria-label="Instagram" data-testid="chatbot-social-instagram"
-                animate={{ marginLeft: socialOpen ? 8 : -42 }}
+                animate={{ marginLeft: socialOpen ? 8 : -20 }}
                 transition={{ type: "spring", stiffness: 280, damping: 26, delay: socialOpen ? 0.03 : 0 }}
                 className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90 shrink-0"
                 style={{ zIndex: 3, position: "relative", pointerEvents: socialOpen ? "auto" : "none" }}
@@ -780,12 +780,12 @@ export default function ChatBot() {
                 <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
               </motion.a>
 
-              {/* Facebook — z:2, rightmost; 75% behind Instagram when collapsed */}
+              {/* Facebook — z:2, rightmost; logo visible in collapsed */}
               <motion.a
                 href="https://www.facebook.com/insureitgroup"
                 target="_blank" rel="noopener noreferrer"
                 aria-label="Facebook" data-testid="chatbot-social-facebook"
-                animate={{ marginLeft: socialOpen ? 8 : -42 }}
+                animate={{ marginLeft: socialOpen ? 8 : -20 }}
                 transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0 }}
                 className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90 shrink-0"
                 style={{ zIndex: 2, position: "relative", pointerEvents: socialOpen ? "auto" : "none" }}

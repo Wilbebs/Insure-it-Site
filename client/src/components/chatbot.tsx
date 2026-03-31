@@ -673,16 +673,33 @@ export default function ChatBot() {
     <AnimatePresence>
       {isVisible && (
         <>
-          {/*
-            Single fixed container — right-4 bottom-4, z-[65].
-            Minimised layout (left → right): [arrow] [Liz] [LI] [IG] [FB]
-            Liz is the LEFTMOST icon; social icons are to Liz's RIGHT.
-            Collapsed: LI/IG/FB each have marginLeft:-42 so 42px (75%) is
-            tucked behind the element to their left and only 14px peeks out.
-            Expanded: marginLeft:8 for each, full icons visible with gaps.
-            z-index within this container: Liz=10, LI=4, IG=3, FB=2 so each
-            icon is covered by the element to its left when collapsed.
-          */}
+          {/* Welcome bubble — fixed above Liz, shows regardless of expand state */}
+          <AnimatePresence>
+            {showWelcomeBubble && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 8 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 8 }}
+                className="fixed bottom-[88px] right-4 sm:bottom-[100px] sm:right-6 z-[70] whitespace-nowrap"
+              >
+                <div
+                  className="rounded-2xl p-[2px] shadow-xl relative"
+                  style={{
+                    background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
+                    animation: 'border-rotate-slow 4s linear infinite',
+                  }}
+                >
+                  <div className="bg-white dark:bg-slate-800 rounded-[14px] px-5 py-3">
+                    <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                      {t.chatbot.welcomeBubble}
+                    </div>
+                  </div>
+                </div>
+                <span className="absolute top-full right-6 border-[6px] border-transparent border-t-blue-400" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
@@ -694,32 +711,6 @@ export default function ChatBot() {
             <motion.div layout transition={{ type: "spring", stiffness: 400, damping: 35 }} className="flex items-center gap-2">
               {/* Liz avatar — leftmost */}
               <div className="relative shrink-0">
-                <AnimatePresence>
-                  {showWelcomeBubble && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      className="absolute -top-[53px] right-0 whitespace-nowrap"
-                    >
-                      <div
-                        className="rounded-2xl p-[2px] shadow-xl relative"
-                        style={{
-                          background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
-                          animation: 'border-rotate-slow 4s linear infinite',
-                        }}
-                      >
-                        <div className="bg-white dark:bg-slate-800 rounded-[14px] px-5 py-3 relative">
-                          <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                            {t.chatbot.welcomeBubble}
-                          </div>
-                        </div>
-                      </div>
-                      <span className="absolute top-full right-6 border-[6px] border-transparent border-t-blue-400" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
                 <button
                   onClick={handleExpand}
                   className="relative group"
@@ -759,47 +750,41 @@ export default function ChatBot() {
                 )}
               </motion.button>
 
-              {/* Icons — expand to the right of the dots, only rendered when open */}
+              {/* Icons — all three grouped so they open AND close as one motion */}
               <AnimatePresence>
                 {socialOpen && (
-                  <>
-                    <motion.a
+                  <motion.div
+                    className="flex items-center gap-2"
+                    initial={{ opacity: 0, scale: 0.7, x: 16 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.7, x: 16 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  >
+                    <a
                       href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
                       target="_blank" rel="noopener noreferrer"
                       aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 380, damping: 28 }}
                       className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90 shrink-0"
                     >
                       <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
-                    </motion.a>
-                    <motion.a
+                    </a>
+                    <a
                       href="https://www.instagram.com/insureitgroup/"
                       target="_blank" rel="noopener noreferrer"
                       aria-label="Instagram" data-testid="chatbot-social-instagram"
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 380, damping: 28 }}
                       className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90 shrink-0"
                     >
                       <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
-                    </motion.a>
-                    <motion.a
+                    </a>
+                    <a
                       href="https://www.facebook.com/insureitgroup"
                       target="_blank" rel="noopener noreferrer"
                       aria-label="Facebook" data-testid="chatbot-social-facebook"
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 380, damping: 28 }}
                       className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90 shrink-0"
                     >
                       <FaFacebook className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                    </motion.a>
-                  </>
+                    </a>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </motion.div>

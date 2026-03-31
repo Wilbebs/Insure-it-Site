@@ -185,7 +185,6 @@ export default function ChatBot() {
   const [hasNotification, setHasNotification] = useState(true);
   const [showWelcomeBubble, setShowWelcomeBubble] = useState(false);
   const [typedBubble, setTypedBubble] = useState("");
-  const [bubbleCursor, setBubbleCursor] = useState(false);
   const [socialOpen, setSocialOpen] = useState(false);
   const { t, language, toggleLanguage } = useTranslation();
 
@@ -297,12 +296,10 @@ export default function ChatBot() {
   useEffect(() => {
     if (!showWelcomeBubble) {
       setTypedBubble("");
-      setBubbleCursor(false);
       return;
     }
     const fullText = t.chatbot.welcomeBubble;
     setTypedBubble("");
-    setBubbleCursor(false);
     let i = 0;
     const interval = setInterval(() => {
       if (i <= fullText.length) {
@@ -310,7 +307,6 @@ export default function ChatBot() {
         i++;
       } else {
         clearInterval(interval);
-        setBubbleCursor(true);
       }
     }, 38);
     return () => clearInterval(interval);
@@ -728,9 +724,6 @@ export default function ChatBot() {
                         <div className="bg-white dark:bg-slate-800 rounded-[14px] px-5 py-3 min-h-[46px] flex items-center">
                           <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
                             {typedBubble}
-                            {bubbleCursor && (
-                              <span className="typing-cursor inline-block w-[2px] h-[1em] bg-blue-500 ml-0.5 align-middle animate-pulse" />
-                            )}
                           </div>
                         </div>
                       </div>

@@ -204,7 +204,7 @@ export default function About() {
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
             </div>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 sm:gap-8 max-w-4xl mx-auto relative z-10">
+            <div className="grid grid-cols-3 gap-2 sm:gap-6 max-w-4xl mx-auto relative z-10">
               {/* Wilbert Hernandez - President */}
               <div
                 className="insurance-card rounded-2xl overflow-hidden hover-lift"
@@ -270,7 +270,7 @@ export default function About() {
 
               {/* David Hernandez - Account Executive */}
               <div
-                className="insurance-card rounded-2xl overflow-hidden hover-lift col-span-2 max-w-[50%] mx-auto w-full lg:col-span-1 lg:max-w-none"
+                className="insurance-card rounded-2xl overflow-hidden hover-lift"
                 data-testid="team-member-david-hernandez"
               >
                 <div className="aspect-[3/4] overflow-hidden relative group">

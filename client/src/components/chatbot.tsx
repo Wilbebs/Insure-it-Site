@@ -184,6 +184,8 @@ export default function ChatBot() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasNotification, setHasNotification] = useState(true);
   const [showWelcomeBubble, setShowWelcomeBubble] = useState(false);
+  const [typedBubble, setTypedBubble] = useState("");
+  const [bubbleCursor, setBubbleCursor] = useState(false);
   const [socialOpen, setSocialOpen] = useState(false);
   const { t, language, toggleLanguage } = useTranslation();
 
@@ -291,6 +293,28 @@ export default function ChatBot() {
       setShowWelcomeBubble(false);
     }
   }, [isVisible, isExpanded]);
+
+  useEffect(() => {
+    if (!showWelcomeBubble) {
+      setTypedBubble("");
+      setBubbleCursor(false);
+      return;
+    }
+    const fullText = t.chatbot.welcomeBubble;
+    setTypedBubble("");
+    setBubbleCursor(false);
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i <= fullText.length) {
+        setTypedBubble(fullText.slice(0, i));
+        i++;
+      } else {
+        clearInterval(interval);
+        setBubbleCursor(true);
+      }
+    }, 38);
+    return () => clearInterval(interval);
+  }, [showWelcomeBubble, t.chatbot.welcomeBubble]);
 
   const handleExpand = () => {
     setIsExpanded(true);
@@ -684,14 +708,15 @@ export default function ChatBot() {
             <motion.div layout transition={{ type: "spring", stiffness: 400, damping: 35 }} className="flex items-center gap-2">
               {/* Liz avatar — leftmost */}
               <div className="relative shrink-0">
-                {/* Welcome bubble — lives here so it physically follows Liz */}
+                {/* Welcome bubble — anchored inside Liz's div, right-aligned so it extends leftward */}
                 <AnimatePresence>
                   {showWelcomeBubble && (
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.9, y: 6 }}
+                      initial={{ opacity: 0, scale: 0.9, y: 4 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.9, y: 6 }}
-                      className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 whitespace-nowrap z-10"
+                      exit={{ opacity: 0, scale: 0.9, y: 4 }}
+                      className="absolute right-0 whitespace-nowrap z-20"
+                      style={{ bottom: 'calc(100% + 10px)' }}
                     >
                       <div
                         className="rounded-2xl p-[2px] shadow-xl"
@@ -700,14 +725,17 @@ export default function ChatBot() {
                           animation: 'border-rotate-slow 4s linear infinite',
                         }}
                       >
-                        <div className="bg-white dark:bg-slate-800 rounded-[14px] px-5 py-3">
+                        <div className="bg-white dark:bg-slate-800 rounded-[14px] px-5 py-3 min-h-[46px] flex items-center">
                           <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                            {t.chatbot.welcomeBubble}
+                            {typedBubble}
+                            {bubbleCursor && (
+                              <span className="typing-cursor inline-block w-[2px] h-[1em] bg-blue-500 ml-0.5 align-middle animate-pulse" />
+                            )}
                           </div>
                         </div>
                       </div>
-                      {/* caret points down, centered under bubble */}
-                      <span className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-blue-400" />
+                      {/* caret points down toward Liz, right-aligned under bubble */}
+                      <span className="absolute top-full right-6 border-[6px] border-transparent border-t-blue-400" />
                     </motion.div>
                   )}
                 </AnimatePresence>

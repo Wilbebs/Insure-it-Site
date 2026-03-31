@@ -643,16 +643,16 @@ export default function Landing() {
                   <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 pointer-events-none" />
 
                   {/* Logo */}
-                  <div className="relative mt-[19px] md:mt-[37px] mb-auto md:mb-[7px] z-10 md:-mx-12">
+                  <div className="relative mt-[19px] md:mt-[37px] mb-2 md:mb-0 z-10 md:-mx-12">
                     <Logo size="large" showTagline={true} variant="white" />
                   </div>
 
-                  {/* Mobile tagline — sits right above paragraph */}
-                  <p className="md:hidden text-base font-semibold italic tagline-shimmer select-none text-center mb-1">
+                  {/* Mobile tagline — directly under logo */}
+                  <p className="md:hidden text-base font-semibold italic tagline-shimmer select-none text-center mb-6">
                     Life&apos;s Uncertain. Your Coverage Isn&apos;t.
                   </p>
 
-                  <div className="flex items-end justify-center gap-5 sm:gap-7 mb-[5px] md:mb-[18px]">
+                  <div className="flex items-end justify-center gap-5 sm:gap-7 mt-6 md:mt-8 mb-[5px] md:mb-[18px]">
                     {[
                       { icon: <House className="w-5 h-5 sm:w-6 sm:h-6" />, label: t.hero.coverages[0], short: t.hero.coveragesShort[0], color: "text-sky-300" },
                       { icon: <Car className="w-5 h-5 sm:w-6 sm:h-6" />,   label: t.hero.coverages[1], short: t.hero.coveragesShort[1], color: "text-blue-300" },

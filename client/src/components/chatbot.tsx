@@ -704,14 +704,14 @@ export default function ChatBot() {
             <motion.div layout transition={{ type: "spring", stiffness: 400, damping: 35 }} className="flex items-center gap-2">
               {/* Liz avatar — leftmost */}
               <div className="relative shrink-0">
-                {/* Welcome bubble — anchored inside Liz's div, right-aligned so it extends leftward */}
+                {/* Welcome bubble — flips side depending on whether social icons are open */}
                 <AnimatePresence>
                   {showWelcomeBubble && (
                     <motion.div
                       initial={{ opacity: 0, scale: 0.9, y: 4 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.9, y: 4 }}
-                      className="absolute right-0 whitespace-nowrap z-20"
+                      className={`absolute whitespace-nowrap z-20 ${socialOpen ? 'left-0' : 'right-0'}`}
                       style={{ bottom: 'calc(100% + 10px)' }}
                     >
                       <div
@@ -727,8 +727,8 @@ export default function ChatBot() {
                           </div>
                         </div>
                       </div>
-                      {/* caret points down toward Liz, right-aligned under bubble */}
-                      <span className="absolute top-full right-6 border-[6px] border-transparent border-t-blue-400" />
+                      {/* caret aligns with Liz: left when open (bubble extends right), right when closed */}
+                      <span className={`absolute top-full border-[6px] border-transparent border-t-blue-400 ${socialOpen ? 'left-6' : 'right-6'}`} />
                     </motion.div>
                   )}
                 </AnimatePresence>

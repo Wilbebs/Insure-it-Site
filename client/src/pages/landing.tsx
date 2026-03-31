@@ -613,7 +613,7 @@ export default function Landing() {
             <svg width="0" height="0" style={{ position: "absolute", overflow: "hidden" }}>
               <defs>
                 <clipPath id="shield-hero-clip" clipPathUnits="objectBoundingBox">
-                  <path d="M 0.1,0 Q 0,0 0,0.1 L 0,0.66 Q 0,0.85 0.5,1 Q 1,0.85 1,0.66 L 1,0.1 Q 1,0 0.9,0 Z" />
+                  <path d="M 0.15,0 C 0.05,0 0,0.05 0,0.15 L 0,0.62 C 0,0.82 0.3,0.97 0.5,1 C 0.7,0.97 1,0.82 1,0.62 L 1,0.15 C 1,0.05 0.95,0 0.85,0 Z" />
                 </clipPath>
               </defs>
             </svg>

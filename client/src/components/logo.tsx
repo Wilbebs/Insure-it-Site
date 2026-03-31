@@ -66,7 +66,7 @@ export default function Logo({
             </video>
           </div>
           {showTagline && (
-            <p className="mt-[52px] text-xl md:text-2xl font-semibold italic tagline-shimmer select-none">
+            <p className="mt-2 text-xl md:text-2xl font-semibold italic tagline-shimmer select-none">
               {taglineText}
             </p>
           )}

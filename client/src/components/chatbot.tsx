@@ -1,5 +1,6 @@
 import { useState, useEffect, useReducer, useRef } from "react";
-import { MessageCircle, X, ChevronDown, Send, Upload, FileText, Trash2, CheckCircle2 } from "lucide-react";
+import { MessageCircle, X, ChevronDown, ChevronLeft, Send, Upload, FileText, Trash2, CheckCircle2 } from "lucide-react";
+import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -183,6 +184,7 @@ export default function ChatBot() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasNotification, setHasNotification] = useState(true);
   const [showWelcomeBubble, setShowWelcomeBubble] = useState(false);
+  const [socialOpen, setSocialOpen] = useState(false);
   const { t, language, toggleLanguage } = useTranslation();
 
   const PRESET_QA = [
@@ -678,53 +680,108 @@ export default function ChatBot() {
           data-testid="chatbot-widget"
         >
           {!isExpanded ? (
-            <div className="relative flex flex-col items-end gap-3">
-              {/* Welcome bubble — absolute so it doesn't affect flex layout */}
-              <AnimatePresence>
-                {showWelcomeBubble && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    className="absolute -top-[53px] right-[30px] whitespace-nowrap"
-                  >
-                    <div
-                      className="rounded-2xl p-[2px] shadow-xl relative"
-                      style={{
-                        background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
-                        animation: 'border-rotate-slow 4s linear infinite',
-                      }}
+            /* Row grows leftward: flex-row-reverse means first DOM child = rightmost visually */
+            <div className="flex items-center flex-row-reverse gap-2">
+
+              {/* ── 1. Liz avatar (rightmost) ── */}
+              <div className="relative">
+                {/* Welcome bubble */}
+                <AnimatePresence>
+                  {showWelcomeBubble && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className="absolute -top-[53px] right-[30px] whitespace-nowrap"
                     >
-                      <div className="bg-white dark:bg-slate-800 rounded-[14px] px-5 py-3 relative">
-                        <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                          {t.chatbot.welcomeBubble}
+                      <div
+                        className="rounded-2xl p-[2px] shadow-xl relative"
+                        style={{
+                          background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
+                          animation: 'border-rotate-slow 4s linear infinite',
+                        }}
+                      >
+                        <div className="bg-white dark:bg-slate-800 rounded-[14px] px-5 py-3 relative">
+                          <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                            {t.chatbot.welcomeBubble}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <span className="absolute top-full right-3 border-[6px] border-transparent border-t-blue-400" />
+                      <span className="absolute top-full right-3 border-[6px] border-transparent border-t-blue-400" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <button
+                  onClick={handleExpand}
+                  className="relative group"
+                  data-testid="chatbot-minimized-button"
+                >
+                  <div className="animated-border-circle w-16 h-16 rounded-full overflow-hidden shadow-2xl transition-all hover:scale-110 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]">
+                    <img
+                      src={LIZ_AVATAR}
+                      alt="Chat with Liz"
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
+                  {hasNotification && !showWelcomeBubble && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                      1
+                    </span>
+                  )}
+                </button>
+              </div>
+
+              {/* ── 2. Social tray (middle, grows leftward) ── */}
+              <AnimatePresence>
+                {socialOpen && (
+                  <motion.div
+                    key="social-tray"
+                    initial={{ maxWidth: 0, opacity: 0 }}
+                    animate={{ maxWidth: "240px", opacity: 1 }}
+                    exit={{ maxWidth: 0, opacity: 0 }}
+                    transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
+                    className="flex items-center flex-row-reverse gap-2 overflow-hidden"
+                  >
+                    <a
+                      href="https://www.facebook.com/insureitgroup"
+                      target="_blank" rel="noopener noreferrer"
+                      aria-label="Facebook" data-testid="chatbot-social-facebook"
+                      className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-md border-2 border-white/60 shadow-xl transition-all duration-300 hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90 shrink-0"
+                    >
+                      <FaFacebook className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                    </a>
+                    <a
+                      href="https://www.instagram.com/insureitgroup/"
+                      target="_blank" rel="noopener noreferrer"
+                      aria-label="Instagram" data-testid="chatbot-social-instagram"
+                      className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-md border-2 border-white/60 shadow-xl transition-all duration-300 hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90 shrink-0"
+                    >
+                      <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
+                      target="_blank" rel="noopener noreferrer"
+                      aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
+                      className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/80 backdrop-blur-md border-2 border-white/60 shadow-xl transition-all duration-300 hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90 shrink-0"
+                    >
+                      <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
+                    </a>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Liz avatar button */}
-              <button
-                onClick={handleExpand}
-                className="relative group"
-                data-testid="chatbot-minimized-button"
+              {/* ── 3. Arrow toggle (leftmost) ── */}
+              <motion.button
+                onClick={() => setSocialOpen((p) => !p)}
+                animate={{ rotate: socialOpen ? 180 : 0 }}
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                aria-label="Toggle social links"
+                className="w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md bg-white/30 border border-white/55 shadow-md active:scale-90 transition-transform shrink-0"
               >
-                <div className="animated-border-circle w-16 h-16 rounded-full overflow-hidden shadow-2xl transition-all hover:scale-110 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]">
-                  <img
-                    src={LIZ_AVATAR}
-                    alt="Chat with Liz"
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-                {hasNotification && !showWelcomeBubble && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-                    1
-                  </span>
-                )}
-              </button>
+                <ChevronLeft className="w-4 h-4 text-slate-600" />
+              </motion.button>
+
             </div>
           ) : (
             <motion.div

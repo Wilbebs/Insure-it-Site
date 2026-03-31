@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const SOCIALS = [
   {
@@ -25,12 +27,22 @@ const SOCIALS = [
 ];
 
 export default function SocialSidebar() {
+  const [pressed, setPressed] = useState(false);
+
   return (
     <div
-      className="fixed right-0 top-1/2 -translate-y-1/2 z-50 lg:hidden"
-      aria-label="Social media links"
+      className="fixed right-0 bottom-4 sm:bottom-6 z-50 lg:hidden"
+      style={{ marginBottom: "72px" }}
     >
-      <div className="flex flex-col items-center gap-3 py-3.5 pl-3 pr-2 rounded-l-2xl backdrop-blur-md bg-white/30 border border-r-0 border-white/60 shadow-xl">
+      <motion.div
+        animate={pressed ? { scale: 1.18 } : { scale: 1 }}
+        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+        onTapStart={() => setPressed(true)}
+        onTap={() => setPressed(false)}
+        onTapCancel={() => setPressed(false)}
+        className="flex flex-col items-center gap-1.5 py-2 pl-2 pr-[5px] rounded-l-xl backdrop-blur-md bg-white/25 border border-r-0 border-white/50 shadow-md cursor-pointer"
+        aria-label="Social media links"
+      >
         {SOCIALS.map(({ href, Icon, color, label, testId }) => (
           <a
             key={label}
@@ -39,12 +51,13 @@ export default function SocialSidebar() {
             rel="noopener noreferrer"
             aria-label={label}
             data-testid={testId}
-            className="w-7 h-7 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-sm border border-white/70 shadow-sm active:scale-90 transition-transform hover:bg-white/80"
+            onClick={(e) => e.stopPropagation()}
+            className="w-6 h-6 flex items-center justify-center rounded-full bg-white/70 border border-white/80 shadow-sm active:scale-90 transition-transform"
           >
-            <Icon className={`w-3.5 h-3.5 ${color}`} />
+            <Icon className={`w-3 h-3 ${color}`} />
           </a>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }

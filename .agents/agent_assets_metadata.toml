@@ -4,10 +4,10 @@ uploads = []
 id = "lWNqC1uqRKaLXvC58jJWw"
 uri = "file://client/src/assets/shield-glass.png"
 type = "image"
-title = "bold-wide-glass-shield"
+title = "premium-blue-glass-shield"
 
 [[outputs]]
 id = "ICpmWszxOSiaHnLLCMBIa"
 uri = "file://client/src/assets/shield-glass.png"
 type = "image"
-title = "New Glass Shield"
+title = "Generated Glass Shield"

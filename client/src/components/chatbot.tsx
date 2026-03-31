@@ -673,33 +673,6 @@ export default function ChatBot() {
     <AnimatePresence>
       {isVisible && (
         <>
-          {/* Welcome bubble — fixed above Liz, shows regardless of expand state */}
-          <AnimatePresence>
-            {showWelcomeBubble && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 8 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 8 }}
-                className="fixed bottom-[88px] right-4 sm:bottom-[100px] sm:right-6 z-[70] whitespace-nowrap"
-              >
-                <div
-                  className="rounded-2xl p-[2px] shadow-xl relative"
-                  style={{
-                    background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
-                    animation: 'border-rotate-slow 4s linear infinite',
-                  }}
-                >
-                  <div className="bg-white dark:bg-slate-800 rounded-[14px] px-5 py-3">
-                    <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                      {t.chatbot.welcomeBubble}
-                    </div>
-                  </div>
-                </div>
-                <span className="absolute top-full right-6 border-[6px] border-transparent border-t-blue-400" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
@@ -711,6 +684,34 @@ export default function ChatBot() {
             <motion.div layout transition={{ type: "spring", stiffness: 400, damping: 35 }} className="flex items-center gap-2">
               {/* Liz avatar — leftmost */}
               <div className="relative shrink-0">
+                {/* Welcome bubble — lives here so it physically follows Liz */}
+                <AnimatePresence>
+                  {showWelcomeBubble && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9, y: 6 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.9, y: 6 }}
+                      className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 whitespace-nowrap z-10"
+                    >
+                      <div
+                        className="rounded-2xl p-[2px] shadow-xl"
+                        style={{
+                          background: 'conic-gradient(from var(--border-angle), #38bdf8, #2563eb, #818cf8, #a78bfa, #38bdf8)',
+                          animation: 'border-rotate-slow 4s linear infinite',
+                        }}
+                      >
+                        <div className="bg-white dark:bg-slate-800 rounded-[14px] px-5 py-3">
+                          <div className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                            {t.chatbot.welcomeBubble}
+                          </div>
+                        </div>
+                      </div>
+                      {/* caret points down, centered under bubble */}
+                      <span className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-blue-400" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 <button
                   onClick={handleExpand}
                   className="relative group"
@@ -750,43 +751,40 @@ export default function ChatBot() {
                 )}
               </motion.button>
 
-              {/* Icons — all three grouped so they open AND close as one motion */}
-              <AnimatePresence>
-                {socialOpen && (
-                  <motion.div
-                    className="flex items-center gap-2"
-                    initial={{ opacity: 0, scale: 0.7, x: 16 }}
-                    animate={{ opacity: 1, scale: 1, x: 0 }}
-                    exit={{ opacity: 0, scale: 0.7, x: 16 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              {/* Icons — no AnimatePresence so layout collapse is instant on close */}
+              {socialOpen && (
+                <motion.div
+                  className="flex items-center gap-2"
+                  initial={{ opacity: 0, scale: 0.75 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.14, ease: "easeOut" }}
+                >
+                  <a
+                    href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
+                    target="_blank" rel="noopener noreferrer"
+                    aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
+                    className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90 shrink-0"
                   >
-                    <a
-                      href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
-                      target="_blank" rel="noopener noreferrer"
-                      aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
-                      className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90 shrink-0"
-                    >
-                      <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
-                    </a>
-                    <a
-                      href="https://www.instagram.com/insureitgroup/"
-                      target="_blank" rel="noopener noreferrer"
-                      aria-label="Instagram" data-testid="chatbot-social-instagram"
-                      className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90 shrink-0"
-                    >
-                      <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
-                    </a>
-                    <a
-                      href="https://www.facebook.com/insureitgroup"
-                      target="_blank" rel="noopener noreferrer"
-                      aria-label="Facebook" data-testid="chatbot-social-facebook"
-                      className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90 shrink-0"
-                    >
-                      <FaFacebook className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                    </a>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
+                  </a>
+                  <a
+                    href="https://www.instagram.com/insureitgroup/"
+                    target="_blank" rel="noopener noreferrer"
+                    aria-label="Instagram" data-testid="chatbot-social-instagram"
+                    className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90 shrink-0"
+                  >
+                    <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
+                  </a>
+                  <a
+                    href="https://www.facebook.com/insureitgroup"
+                    target="_blank" rel="noopener noreferrer"
+                    aria-label="Facebook" data-testid="chatbot-social-facebook"
+                    className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90 shrink-0"
+                  >
+                    <FaFacebook className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                  </a>
+                </motion.div>
+              )}
             </motion.div>
           ) : (
             <motion.div

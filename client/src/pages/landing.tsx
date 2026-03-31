@@ -835,8 +835,10 @@ export default function Landing() {
       >
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-5xl mx-auto">
-            {/* Centered CTA block */}
+            {/* Centered CTA block — Title → Map → Pills → Button */}
             <div className="flex flex-col items-center text-center gap-5 mb-8">
+
+              {/* Title */}
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3 select-none">
                   {t.contact.subtitle}
@@ -847,6 +849,78 @@ export default function Landing() {
                 <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
               </div>
 
+              {/* Square map — ~1.2× title width */}
+              <div className="relative w-[300px] h-[300px] sm:w-[370px] sm:h-[370px] shrink-0">
+                <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden w-full h-full">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!4v1772407358800!6m8!1m7!1sduMvKfdLYRewb8CVXg-ybA!2m2!1d30.1626398364991!2d-81.63340592784719!3f271.0787535168472!4f2.850590466226677!5f0.4000000000000002"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, display: "block" }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Insure IT Group Office - Street View"
+                  />
+                </div>
+                {/* Address badge */}
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      "11570 San Jose Blvd, Suite 11, Jacksonville, FL 32223",
+                    );
+                    setAddressCopied(true);
+                    setTimeout(() => setAddressCopied(false), 2000);
+                  }}
+                  className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-start gap-2 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-slate-200/80 transition-colors hover:bg-white active:bg-slate-50 cursor-pointer"
+                >
+                  {addressCopied ? (
+                    <>
+                      <svg className="w-4 h-4 text-green-500 mt-0.5 shrink-0" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <div className="leading-tight">
+                        <p className="text-xs font-bold text-green-600 whitespace-nowrap">Copied!</p>
+                        <p className="text-[11px] text-green-500 whitespace-nowrap">Address copied to clipboard</p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                      <div className="leading-tight text-left">
+                        <p className="text-xs font-bold text-slate-800 whitespace-nowrap">11570 San Jose Blvd, Suite 11</p>
+                        <p className="text-[11px] text-slate-500 whitespace-nowrap">Jacksonville, FL 32223</p>
+                      </div>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Contact pills */}
+              <div className="flex flex-nowrap gap-1.5 sm:gap-2 justify-center">
+                <a
+                  href="tel:+19049090897"
+                  onClick={() => copyToClipboard("9049090897", "phone")}
+                  data-testid="link-phone"
+                  className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                  style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
+                >
+                  {copiedContact === "phone" ? <Check className="w-3 h-3" /> : <Phone className="w-3 h-3" />}
+                  {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
+                </a>
+                <a
+                  href="mailto:Insureit@insureitgroup.net"
+                  onClick={() => copyToClipboard("Insureit@insureitgroup.net", "email")}
+                  data-testid="link-email"
+                  className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                  style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
+                >
+                  {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
+                  {copiedContact === "email" ? "Copied!" : "Insureit@insureitgroup.net"}
+                </a>
+              </div>
+
+              {/* Get Quoted button */}
               <div className="relative">
                 <div className="absolute -inset-[5px] bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-400 rounded-xl opacity-40 blur-md animate-pulse pointer-events-none" />
                 <button
@@ -862,117 +936,7 @@ export default function Landing() {
                 </button>
               </div>
 
-              {/* Contact pills */}
-              <div className="flex flex-nowrap gap-1.5 sm:gap-2 justify-center">
-                <a
-                  href="tel:+19049090897"
-                  onClick={() => copyToClipboard("9049090897", "phone")}
-                  data-testid="link-phone"
-                  className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
-                  style={{
-                    color:
-                      copiedContact === "phone" ? "var(--primary)" : undefined,
-                  }}
-                >
-                  {copiedContact === "phone" ? (
-                    <Check className="w-3 h-3" />
-                  ) : (
-                    <Phone className="w-3 h-3" />
-                  )}
-                  {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
-                </a>
-                <a
-                  href="mailto:Insureit@insureitgroup.net"
-                  onClick={() =>
-                    copyToClipboard("Insureit@insureitgroup.net", "email")
-                  }
-                  data-testid="link-email"
-                  className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
-                  style={{
-                    color:
-                      copiedContact === "email" ? "var(--primary)" : undefined,
-                  }}
-                >
-                  {copiedContact === "email" ? (
-                    <Check className="w-3 h-3" />
-                  ) : (
-                    <Mail className="w-3 h-3" />
-                  )}
-                  {copiedContact === "email"
-                    ? "Copied!"
-                    : "Insureit@insureitgroup.net"}
-                </a>
-              </div>
             </div>
-
-            {/* Full-width Map */}
-            {(() => {
-              return (
-                <div className="relative mb-2.5">
-                  <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden h-[368px] sm:h-[428px] md:h-[488px] w-full">
-                    <iframe
-                      src="https://www.google.com/maps/embed?pb=!4v1772407358800!6m8!1m7!1sduMvKfdLYRewb8CVXg-ybA!2m2!1d30.1626398364991!2d-81.63340592784719!3f271.0787535168472!4f2.850590466226677!5f0.4000000000000002"
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0, display: "block" }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title="Insure IT Group Office - Street View"
-                    />
-                  </div>
-                  {/* Address badge sticker — centered on mobile, left-pinned on sm+ */}
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(
-                        "11570 San Jose Blvd, Suite 11, Jacksonville, FL 32223",
-                      );
-                      setAddressCopied(true);
-                      setTimeout(() => setAddressCopied(false), 2000);
-                    }}
-                    className="absolute bottom-3 left-1/2 -translate-x-1/2 sm:left-3 sm:translate-x-0 z-10 flex items-start gap-2 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-slate-200/80 transition-colors hover:bg-white active:bg-slate-50 cursor-pointer"
-                  >
-                    {addressCopied ? (
-                      <>
-                        <svg
-                          className="w-4 h-4 text-green-500 mt-0.5 shrink-0"
-                          viewBox="0 0 12 12"
-                          fill="none"
-                        >
-                          <path
-                            d="M2 6l3 3 5-5"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <div className="leading-tight">
-                          <p className="text-xs font-bold text-green-600 whitespace-nowrap">
-                            Copied!
-                          </p>
-                          <p className="text-[11px] text-green-500 whitespace-nowrap">
-                            Address copied to clipboard
-                          </p>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                        <div className="leading-tight text-left">
-                          <p className="text-xs font-bold text-slate-800 whitespace-nowrap">
-                            11570 San Jose Blvd, Suite 11
-                          </p>
-                          <p className="text-[11px] text-slate-500 whitespace-nowrap">
-                            Jacksonville, FL 32223
-                          </p>
-                        </div>
-                      </>
-                    )}
-                  </button>
-                </div>
-              );
-            })()}
           </div>
         </div>
 

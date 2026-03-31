@@ -629,7 +629,7 @@ export default function Landing() {
                 {/* Shield glass card — PNG background, no clip-path needed */}
                 <div
                   ref={cardInnerRef}
-                  className="relative flex flex-col md:block pt-6 pb-16 px-8 sm:px-12 md:pb-36 md:px-16 h-[460px] sm:h-[460px] md:h-auto"
+                  className="relative flex flex-col md:block pt-10 pb-28 px-10 sm:px-14 md:pb-44 md:px-16"
                   style={{
                     backgroundImage: `url(${shieldGlassImg})`,
                     backgroundSize: "100% 100%",
@@ -639,14 +639,14 @@ export default function Landing() {
                   {/* Minimize button */}
                   <button
                     onClick={handleMinimize}
-                    className="absolute top-4 right-5 z-30 w-8 h-8 rounded-full bg-blue-400/30 backdrop-blur-sm border border-blue-300/50 flex items-center justify-center hover:bg-blue-500/50 hover:border-blue-300 transition-all duration-200 group"
+                    className="absolute top-5 right-6 z-30 w-8 h-8 rounded-full bg-blue-400/30 backdrop-blur-sm border border-blue-300/50 flex items-center justify-center hover:bg-blue-500/50 hover:border-blue-300 transition-all duration-200 group"
                     aria-label="Minimize"
                   >
                     <Minus className="w-4 h-4 text-blue-700 group-hover:text-white transition-colors" />
                   </button>
 
                   {/* Logo */}
-                  <div className="relative mt-[19px] md:mt-[37px] mb-2 md:mb-0 z-10 md:-mx-12">
+                  <div className="relative mt-2 md:mt-4 mb-2 md:mb-0 z-10 md:-mx-12">
                     <Logo size="large" showTagline={true} variant="white" />
                   </div>
 

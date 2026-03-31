@@ -691,7 +691,7 @@ export default function ChatBot() {
             data-testid="chatbot-widget"
           >
           {!isExpanded ? (
-            <div className="flex items-center gap-2">
+            <motion.div layout transition={{ type: "spring", stiffness: 400, damping: 35 }} className="flex items-center gap-2">
               {/* Liz avatar — leftmost */}
               <div className="relative shrink-0">
                 <AnimatePresence>
@@ -700,7 +700,7 @@ export default function ChatBot() {
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
-                      className="absolute -top-[53px] left-0 whitespace-nowrap"
+                      className="absolute -top-[53px] right-0 whitespace-nowrap"
                     >
                       <div
                         className="rounded-2xl p-[2px] shadow-xl relative"
@@ -715,7 +715,7 @@ export default function ChatBot() {
                           </div>
                         </div>
                       </div>
-                      <span className="absolute top-full left-6 border-[6px] border-transparent border-t-blue-400" />
+                      <span className="absolute top-full right-6 border-[6px] border-transparent border-t-blue-400" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -746,15 +746,15 @@ export default function ChatBot() {
                 aria-label="Toggle social links"
                 whileHover={{ scale: 1.12 }}
                 whileTap={{ scale: 0.90 }}
-                className="relative flex flex-col items-center justify-center gap-[5px] w-8 h-[52px] rounded-full bg-white/20 backdrop-blur-sm border border-white/30 shadow-md shrink-0"
+                className="relative flex flex-col items-center justify-center gap-[4px] w-6 h-[44px] rounded-full bg-white/20 backdrop-blur-sm border border-white/30 shadow-md shrink-0"
               >
                 {socialOpen ? (
-                  <X className="w-4 h-4 text-white drop-shadow-sm" />
+                  <X className="w-3 h-3 text-white drop-shadow-sm" />
                 ) : (
                   <>
-                    <span className="w-[10px] h-[10px] rounded-full shadow-sm" style={{ backgroundColor: "#0A66C2" }} />
-                    <span className="w-[10px] h-[10px] rounded-full shadow-sm" style={{ backgroundColor: "#E1306C" }} />
-                    <span className="w-[10px] h-[10px] rounded-full shadow-sm" style={{ backgroundColor: "#1877F2" }} />
+                    <span className="w-[8px] h-[8px] rounded-full shadow-sm" style={{ backgroundColor: "#0A66C2" }} />
+                    <span className="w-[8px] h-[8px] rounded-full shadow-sm" style={{ backgroundColor: "#E1306C" }} />
+                    <span className="w-[8px] h-[8px] rounded-full shadow-sm" style={{ backgroundColor: "#1877F2" }} />
                   </>
                 )}
               </motion.button>
@@ -770,7 +770,7 @@ export default function ChatBot() {
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 320, damping: 24, delay: 0.06 }}
+                      transition={{ type: "spring", stiffness: 380, damping: 28 }}
                       className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90 shrink-0"
                     >
                       <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
@@ -782,7 +782,7 @@ export default function ChatBot() {
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 320, damping: 24, delay: 0.12 }}
+                      transition={{ type: "spring", stiffness: 380, damping: 28 }}
                       className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90 shrink-0"
                     >
                       <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
@@ -794,7 +794,7 @@ export default function ChatBot() {
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 320, damping: 24, delay: 0.18 }}
+                      transition={{ type: "spring", stiffness: 380, damping: 28 }}
                       className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90 shrink-0"
                     >
                       <FaFacebook className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
@@ -802,7 +802,7 @@ export default function ChatBot() {
                   </>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           ) : (
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}

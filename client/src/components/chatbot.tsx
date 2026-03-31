@@ -672,18 +672,92 @@ export default function ChatBot() {
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 100 }}
-          className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-[60]"
-          data-testid="chatbot-widget"
-        >
-          {!isExpanded ? (
-            /* Left-anchored row: [Liz] → [overlapping icons] → [bouncing arrow] */
-            <div className="flex items-center">
+        <>
+          {/* ── Layer 1: Social icon strip ──────────────────────────────────
+               Fixed at the SAME anchor as Liz (right-4 bottom-4), z-[60].
+               In collapsed state all three icons sit stacked at x:0 (behind
+               Liz which is z-[65]), each at ~25% opacity so a faint coloured
+               glow peeks from behind Liz's edge.
+               When expanded, they fan leftward as Liz slides away.            */}
+          {!isExpanded && (
+            <div
+              className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60]"
+              style={{ width: 64, height: 64, pointerEvents: socialOpen ? "auto" : "none" }}
+            >
+              {/* LinkedIn – leftmost when expanded */}
+              <motion.a
+                href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
+                target="_blank" rel="noopener noreferrer"
+                aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
+                animate={{ x: socialOpen ? -136 : 0, opacity: socialOpen ? 1 : 0.26, scale: socialOpen ? 1 : 0.88 }}
+                transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.06 }}
+                className="absolute inset-0 group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90"
+                style={{ zIndex: 1, pointerEvents: socialOpen ? "auto" : "none" }}
+              >
+                <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
+              </motion.a>
 
-              {/* ── 1. Liz avatar (leftmost / anchor) ── */}
+              {/* Instagram – middle */}
+              <motion.a
+                href="https://www.instagram.com/insureitgroup/"
+                target="_blank" rel="noopener noreferrer"
+                aria-label="Instagram" data-testid="chatbot-social-instagram"
+                animate={{ x: socialOpen ? -72 : 0, opacity: socialOpen ? 1 : 0.26, scale: socialOpen ? 1 : 0.88 }}
+                transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.03 }}
+                className="absolute inset-0 group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90"
+                style={{ zIndex: 2, pointerEvents: socialOpen ? "auto" : "none" }}
+              >
+                <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
+              </motion.a>
+
+              {/* Facebook – rightmost (stays near Liz's old position) */}
+              <motion.a
+                href="https://www.facebook.com/insureitgroup"
+                target="_blank" rel="noopener noreferrer"
+                aria-label="Facebook" data-testid="chatbot-social-facebook"
+                animate={{ x: socialOpen ? 0 : 0, opacity: socialOpen ? 1 : 0.26, scale: socialOpen ? 1 : 0.88 }}
+                transition={{ type: "spring", stiffness: 280, damping: 26 }}
+                className="absolute inset-0 group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90"
+                style={{ zIndex: 3, pointerEvents: socialOpen ? "auto" : "none" }}
+              >
+                <FaFacebook className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
+              </motion.a>
+            </div>
+          )}
+
+          {/* ── Layer 2: Main widget (Liz + Arrow, or expanded chat) ─────────
+               z-[65] sits on top of the icon strip.
+               In minimised mode the inner flex row slides left via x transform
+               when socialOpen, uncovering the icons underneath.              */}
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 100 }}
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[65]"
+            data-testid="chatbot-widget"
+          >
+          {!isExpanded ? (
+            /* [← arrow]  [Liz circle]  — whole row slides left when open */
+            <motion.div
+              className="flex items-center gap-3"
+              animate={{ x: socialOpen ? -208 : 0 }}
+              transition={{ type: "spring", stiffness: 280, damping: 28 }}
+            >
+              {/* Arrow — bounces left when closed, points right when open */}
+              <motion.button
+                onClick={() => setSocialOpen((p) => !p)}
+                aria-label="Toggle social links"
+                animate={!socialOpen ? { x: [0, -5, 0] } : { x: 0 }}
+                transition={!socialOpen ? { repeat: Infinity, duration: 1.1, ease: "easeInOut" } : {}}
+                className="flex items-center justify-center shrink-0 active:scale-90"
+              >
+                <ChevronLeft
+                  className="w-5 h-5 drop-shadow-[0_1px_4px_rgba(0,0,0,0.55)] text-white"
+                  style={{ transform: socialOpen ? "rotate(180deg)" : "none", transition: "transform 0.3s" }}
+                />
+              </motion.button>
+
+              {/* Liz avatar */}
               <div className="relative shrink-0">
                 <AnimatePresence>
                   {showWelcomeBubble && (
@@ -691,7 +765,7 @@ export default function ChatBot() {
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
-                      className="absolute -top-[53px] left-[0px] whitespace-nowrap"
+                      className="absolute -top-[53px] right-0 whitespace-nowrap"
                     >
                       <div
                         className="rounded-2xl p-[2px] shadow-xl relative"
@@ -706,7 +780,7 @@ export default function ChatBot() {
                           </div>
                         </div>
                       </div>
-                      <span className="absolute top-full left-6 border-[6px] border-transparent border-t-blue-400" />
+                      <span className="absolute top-full right-6 border-[6px] border-transparent border-t-blue-400" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -730,64 +804,7 @@ export default function ChatBot() {
                   )}
                 </button>
               </div>
-
-              {/* ── 2. Always-visible overlapping icon cluster ── */}
-              <div className="flex items-center">
-                {/* LinkedIn — first/leftmost icon */}
-                <motion.a
-                  href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
-                  target="_blank" rel="noopener noreferrer"
-                  aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
-                  animate={{ marginLeft: socialOpen ? 8 : -8 }}
-                  transition={{ type: "spring", stiffness: 320, damping: 26 }}
-                  className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/85 backdrop-blur-md border-2 border-white/70 shadow-xl transition-colors duration-300 hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90 shrink-0"
-                  style={{ zIndex: 3 }}
-                >
-                  <FaLinkedin className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
-                </motion.a>
-
-                {/* Instagram */}
-                <motion.a
-                  href="https://www.instagram.com/insureitgroup/"
-                  target="_blank" rel="noopener noreferrer"
-                  aria-label="Instagram" data-testid="chatbot-social-instagram"
-                  animate={{ marginLeft: socialOpen ? 8 : -22 }}
-                  transition={{ type: "spring", stiffness: 320, damping: 26, delay: 0.03 }}
-                  className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/85 backdrop-blur-md border-2 border-white/70 shadow-xl transition-colors duration-300 hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90 shrink-0"
-                  style={{ zIndex: 2 }}
-                >
-                  <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
-                </motion.a>
-
-                {/* Facebook — last/rightmost icon */}
-                <motion.a
-                  href="https://www.facebook.com/insureitgroup"
-                  target="_blank" rel="noopener noreferrer"
-                  aria-label="Facebook" data-testid="chatbot-social-facebook"
-                  animate={{ marginLeft: socialOpen ? 8 : -22 }}
-                  transition={{ type: "spring", stiffness: 320, damping: 26, delay: 0.06 }}
-                  className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/85 backdrop-blur-md border-2 border-white/70 shadow-xl transition-colors duration-300 hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90 shrink-0"
-                  style={{ zIndex: 1 }}
-                >
-                  <FaFacebook className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
-                </motion.a>
-              </div>
-
-              {/* ── 3. Pulsing bouncing arrow (rightmost) ── */}
-              <motion.button
-                onClick={() => setSocialOpen((p) => !p)}
-                aria-label="Toggle social links"
-                animate={{ x: socialOpen ? 0 : [0, 5, 0] }}
-                transition={socialOpen ? {} : { duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
-                className="ml-1 shrink-0 flex items-center justify-center active:scale-90"
-              >
-                <ChevronLeft
-                  className="w-4 h-4 text-slate-500/80 drop-shadow-sm"
-                  style={{ transform: socialOpen ? "rotate(0deg)" : "rotate(180deg)", transition: "transform 0.3s" }}
-                />
-              </motion.button>
-
-            </div>
+            </motion.div>
           ) : (
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
@@ -1147,6 +1164,7 @@ export default function ChatBot() {
             </motion.div>
           )}
         </motion.div>
+        </>
       )}
     </AnimatePresence>
   );

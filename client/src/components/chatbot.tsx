@@ -765,9 +765,9 @@ export default function ChatBot() {
                   <X className="w-3 h-3 text-white drop-shadow-sm" />
                 ) : (
                   <>
-                    <span className="w-[8px] h-[8px] rounded-full shadow-sm" style={{ backgroundColor: "#0A66C2" }} />
-                    <span className="w-[8px] h-[8px] rounded-full shadow-sm" style={{ backgroundColor: "#E1306C" }} />
-                    <span className="w-[8px] h-[8px] rounded-full shadow-sm" style={{ backgroundColor: "#1877F2" }} />
+                    <FaLinkedin style={{ width: 11, height: 11, color: "#0A66C2", filter: "drop-shadow(0 1px 1px rgba(0,0,0,0.25))" }} />
+                    <FaInstagram style={{ width: 11, height: 11, color: "#E1306C", filter: "drop-shadow(0 1px 1px rgba(0,0,0,0.25))" }} />
+                    <FaFacebook  style={{ width: 11, height: 11, color: "#1877F2", filter: "drop-shadow(0 1px 1px rgba(0,0,0,0.25))" }} />
                   </>
                 )}
               </motion.button>

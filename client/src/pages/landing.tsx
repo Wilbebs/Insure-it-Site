@@ -247,17 +247,17 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky: "from-sky-800 via-sky-800/70 to-sky-700/30",
-    blue: "from-blue-900 via-blue-900/70 to-blue-800/30",
-    indigo: "from-indigo-900 via-indigo-900/70 to-indigo-800/30",
-    violet: "from-violet-900 via-violet-900/70 to-violet-800/30",
+    sky:   "from-sky-800 via-sky-800/70 to-sky-700/30",
+    teal:  "from-teal-900 via-teal-900/70 to-teal-800/30",
+    pink:  "from-pink-900 via-pink-900/70 to-pink-800/30",
+    indigo:"from-indigo-900 via-indigo-900/70 to-indigo-800/30",
   };
 
   const iconAnimations = {
-    sky: "group-hover:animate-bounce-subtle",
-    blue: "group-hover:animate-ripple",
-    indigo: "group-hover:animate-pulse-heart",
-    violet: "group-hover:animate-grow",
+    sky:   "group-hover:animate-bounce-subtle",
+    teal:  "group-hover:animate-ripple",
+    pink:  "group-hover:animate-pulse-heart",
+    indigo:"group-hover:animate-grow",
   };
 
   const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
@@ -277,10 +277,15 @@ function InsuranceCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative rounded-xl overflow-hidden h-44 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/30"
+      className="group relative rounded-xl overflow-hidden h-44 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/30 select-none"
       style={{
         boxShadow: isHovered
-          ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${type.color === "sky" ? "rgba(56, 189, 248, 0.3)" : type.color === "blue" ? "rgba(59, 130, 246, 0.3)" : type.color === "indigo" ? "rgba(99, 102, 241, 0.3)" : "rgba(139, 92, 246, 0.3)"}`
+          ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${
+              type.color === "sky"   ? "rgba(56, 189, 248, 0.35)" :
+              type.color === "teal"  ? "rgba(20, 184, 166, 0.35)" :
+              type.color === "pink"  ? "rgba(236, 72, 153, 0.35)" :
+                                       "rgba(99, 102, 241, 0.35)"
+            }`
           : undefined,
       }}
       data-testid={`card-insurance-${type.title.toLowerCase().replace(/\s+/g, "-")}`}
@@ -426,7 +431,7 @@ export default function Landing() {
       title: t.insurance.floodTitle,
       description: t.insurance.floodDesc,
       image: floodImg,
-      color: "blue",
+      color: "teal",
     },
     {
       icon: <Heart className="w-10 h-10" />,
@@ -434,7 +439,7 @@ export default function Landing() {
       description: t.insurance.lifeDesc,
       image:
         "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80",
-      color: "indigo",
+      color: "pink",
     },
     {
       icon: <Building2 className="w-10 h-10" />,
@@ -442,7 +447,7 @@ export default function Landing() {
       description: t.insurance.businessDesc,
       image:
         "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
-      color: "violet",
+      color: "indigo",
     },
   ];
 

@@ -609,6 +609,14 @@ export default function Landing() {
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">
           <div className="w-full max-w-[575px] text-center">
+            {/* SVG clip-path definition — curved shield shape */}
+            <svg width="0" height="0" style={{ position: "absolute", overflow: "hidden" }}>
+              <defs>
+                <clipPath id="shield-hero-clip" clipPathUnits="objectBoundingBox">
+                  <path d="M 0.1,0 Q 0,0 0,0.1 L 0,0.66 Q 0,0.85 0.5,1 Q 1,0.85 1,0.66 L 1,0.1 Q 1,0 0.9,0 Z" />
+                </clipPath>
+              </defs>
+            </svg>
             {!isMinimized && (
               <motion.div
                 key="hero-card"
@@ -629,7 +637,7 @@ export default function Landing() {
                 <div
                   className="p-[1.5px]"
                   style={{
-                    clipPath: "polygon(2% 0%, 98% 0%, 100% 2%, 100% 76%, 72% 90%, 50% 100%, 28% 90%, 0% 76%, 0% 2%)",
+                    clipPath: "url(#shield-hero-clip)",
                     background: "linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.12) 100%)",
                   }}
                 >
@@ -637,7 +645,7 @@ export default function Landing() {
                 <div
                   ref={cardInnerRef}
                   className="relative flex flex-col md:block bg-white/20 backdrop-blur-xl pt-4 pb-24 px-4 sm:px-8 md:pb-44 md:px-12 h-[460px] sm:h-[460px] md:h-auto overflow-hidden"
-                  style={{ clipPath: "polygon(2% 0%, 98% 0%, 100% 2%, 100% 76%, 72% 90%, 50% 100%, 28% 90%, 0% 76%, 0% 2%)" }}
+                  style={{ clipPath: "url(#shield-hero-clip)" }}
                 >
                   {/* Minimize button */}
                   <button

@@ -681,27 +681,24 @@ export default function ChatBot() {
                When expanded, they fan leftward as Liz slides away.            */}
           {!isExpanded && (
             <div
-              className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-[60]"
+              className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60]"
               style={{ width: 64, height: 64, pointerEvents: socialOpen ? "auto" : "none" }}
             >
               {/*
-                Anchored same as Liz (left-4 bottom-4).
-                Icons peek from Liz's RIGHT edge (positive x = rightward).
+                Anchored same as Liz (right-4 bottom-4). Icons peek from Liz's LEFT edge.
                 Stacking: Liz (z-65) > LI (z:4) > IG (z:3) > FB (z:2).
-                Collapsed peek (each 75% covered by the one in front):
-                  LI x:+22  → right edge at anchor+78, 14px past Liz right (anchor+64) ✓
-                  IG x:+36  → right edge at anchor+92, 14px past LI right ✓
-                  FB x:+50  → right edge at anchor+106, 14px past IG right ✓
-                Expanded: fan out rightward with 8px gaps, clear of Liz+Arrow container.
-                  LI x:+72, IG x:+136, FB x:+200
+                Collapsed: LI x:-14 (14px left of Liz, 75% behind Liz)
+                           IG x:-28 (14px left of LI, 75% behind LI)
+                           FB x:-42 (14px left of IG, 75% behind IG)
+                Expanded: fan leftward — LI x:-128, IG x:-64, FB x:0
               */}
 
-              {/* Facebook – backmost (z:2), peeks farthest right in collapsed */}
+              {/* Facebook – backmost (z:2), peeks farthest left in collapsed */}
               <motion.a
                 href="https://www.facebook.com/insureitgroup"
                 target="_blank" rel="noopener noreferrer"
                 aria-label="Facebook" data-testid="chatbot-social-facebook"
-                animate={{ x: socialOpen ? 200 : 50, opacity: socialOpen ? 1 : 0.28 }}
+                animate={{ x: socialOpen ? 0 : -42, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 280, damping: 26 }}
                 className="absolute inset-0 group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90"
                 style={{ zIndex: 2, pointerEvents: socialOpen ? "auto" : "none" }}
@@ -714,7 +711,7 @@ export default function ChatBot() {
                 href="https://www.instagram.com/insureitgroup/"
                 target="_blank" rel="noopener noreferrer"
                 aria-label="Instagram" data-testid="chatbot-social-instagram"
-                animate={{ x: socialOpen ? 136 : 36, opacity: socialOpen ? 1 : 0.28 }}
+                animate={{ x: socialOpen ? -64 : -28, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.03 }}
                 className="absolute inset-0 group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-pink-500 hover:to-purple-600 active:scale-90"
                 style={{ zIndex: 3, pointerEvents: socialOpen ? "auto" : "none" }}
@@ -727,7 +724,7 @@ export default function ChatBot() {
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
                 target="_blank" rel="noopener noreferrer"
                 aria-label="LinkedIn" data-testid="chatbot-social-linkedin"
-                animate={{ x: socialOpen ? 72 : 22, opacity: socialOpen ? 1 : 0.28 }}
+                animate={{ x: socialOpen ? -128 : -14, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 280, damping: 26, delay: 0.06 }}
                 className="absolute inset-0 group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 active:scale-90"
                 style={{ zIndex: 4, pointerEvents: socialOpen ? "auto" : "none" }}
@@ -745,21 +742,25 @@ export default function ChatBot() {
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 100 }}
-            className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-[65]"
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[65]"
             data-testid="chatbot-widget"
           >
           {!isExpanded ? (
-            /* [← arrow]  [Liz circle]  — Liz stays fixed; icons fan out to the right */
-            <div className="flex items-center gap-1">
-              {/* Arrow — bounces RIGHT (toward icons) when closed, flips when open */}
+            /* [← arrow]  [Liz circle]  — slides left when open to reveal icons */
+            <motion.div
+              className="flex items-center gap-1"
+              animate={{ x: socialOpen ? -200 : 0 }}
+              transition={{ type: "spring", stiffness: 280, damping: 28 }}
+            >
+              {/* Arrow — bounces left (toward icons) when closed, flips when open */}
               <motion.button
                 onClick={() => setSocialOpen((p) => !p)}
                 aria-label="Toggle social links"
-                animate={!socialOpen ? { x: [0, 5, 0] } : { x: 0 }}
+                animate={!socialOpen ? { x: [0, -5, 0] } : { x: 0 }}
                 transition={!socialOpen ? { repeat: Infinity, duration: 1.1, ease: "easeInOut" } : {}}
                 className="flex items-center justify-center shrink-0 active:scale-90"
               >
-                <ChevronRight
+                <ChevronLeft
                   className="w-5 h-5 drop-shadow-[0_1px_4px_rgba(0,0,0,0.55)] text-white"
                   style={{ transform: socialOpen ? "rotate(180deg)" : "none", transition: "transform 0.3s" }}
                 />
@@ -773,7 +774,7 @@ export default function ChatBot() {
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
-                      className="absolute -top-[53px] left-0 whitespace-nowrap"
+                      className="absolute -top-[53px] right-0 whitespace-nowrap"
                     >
                       <div
                         className="rounded-2xl p-[2px] shadow-xl relative"
@@ -788,7 +789,7 @@ export default function ChatBot() {
                           </div>
                         </div>
                       </div>
-                      <span className="absolute top-full left-6 border-[6px] border-transparent border-t-blue-400" />
+                      <span className="absolute top-full right-6 border-[6px] border-transparent border-t-blue-400" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -812,7 +813,7 @@ export default function ChatBot() {
                   )}
                 </button>
               </div>
-            </div>
+            </motion.div>
           ) : (
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}

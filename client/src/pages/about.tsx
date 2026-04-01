@@ -37,12 +37,12 @@ function SocialButton({
       data-testid={testId}
     >
       <div
-        className={`${colorClass} p-3 sm:p-6 rounded-2xl hover-lift transition-all duration-300 ${hoverColorClass} flex items-center justify-center`}
+        className={`${colorClass} p-2 sm:p-4 rounded-2xl hover-lift transition-all duration-300 ${hoverColorClass} flex items-center justify-center`}
       >
         {icon}
       </div>
       <p
-        className={`mt-3 font-semibold text-muted-foreground ${textHoverClass} transition-colors`}
+        className={`mt-1.5 text-sm font-semibold text-muted-foreground ${textHoverClass} transition-colors`}
       >
         {label}
       </p>
@@ -194,8 +194,8 @@ export default function About() {
       >
         <div className="container mx-auto px-4 sm:px-6">
           {/* Connect With Us Section - Team + Social */}
-          <div className="mb-6 sm:mb-10 relative overflow-hidden">
-            <div className="text-center mb-6 sm:mb-10 relative z-10">
+          <div className="mb-2 sm:mb-4 relative overflow-hidden">
+            <div className="text-center mb-4 relative z-10">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-3 select-none">
                 {t.about.ourPeople}
               </p>
@@ -210,7 +210,7 @@ export default function About() {
                 className="insurance-card rounded-2xl overflow-hidden hover-lift"
                 data-testid="team-member-wilbert-hernandez"
               >
-                <div className="aspect-[3/4] overflow-hidden relative group">
+                <div className="aspect-[1/1] overflow-hidden relative group">
                   <img
                     src={wilbertPhoto}
                     alt="Wilbert Hernandez - President"
@@ -227,11 +227,11 @@ export default function About() {
                     <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
-                <div className="p-3 sm:p-6 text-center">
-                  <h3 className="text-sm sm:text-xl font-bold mb-1 sm:mb-2">
+                <div className="p-2 sm:p-4 text-center">
+                  <h3 className="text-sm sm:text-lg font-bold mb-0.5 sm:mb-1">
                     Wilbert Hernandez
                   </h3>
-                  <p className="text-primary font-medium text-xs sm:text-base">
+                  <p className="text-primary font-medium text-xs sm:text-sm">
                     {t.about.president}
                   </p>
                 </div>
@@ -242,7 +242,7 @@ export default function About() {
                 className="insurance-card rounded-2xl overflow-hidden hover-lift"
                 data-testid="team-member-elizabeth-hernandez"
               >
-                <div className="aspect-[3/4] overflow-hidden relative group">
+                <div className="aspect-[1/1] overflow-hidden relative group">
                   <img
                     src={elizabethPhoto}
                     alt="Elizabeth Hernandez - Operations Manager"
@@ -258,11 +258,11 @@ export default function About() {
                     <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
-                <div className="p-3 sm:p-6 text-center">
-                  <h3 className="text-sm sm:text-xl font-bold mb-1 sm:mb-2">
+                <div className="p-2 sm:p-4 text-center">
+                  <h3 className="text-sm sm:text-lg font-bold mb-0.5 sm:mb-1">
                     Elizabeth Hernandez
                   </h3>
-                  <p className="text-primary font-medium text-xs sm:text-base">
+                  <p className="text-primary font-medium text-xs sm:text-sm">
                     {t.about.operationsManager}
                   </p>
                 </div>
@@ -273,7 +273,7 @@ export default function About() {
                 className="insurance-card rounded-2xl overflow-hidden hover-lift"
                 data-testid="team-member-david-hernandez"
               >
-                <div className="aspect-[3/4] overflow-hidden relative group">
+                <div className="aspect-[1/1] overflow-hidden relative group">
                   <img
                     src={davidPhoto}
                     alt="David Hernandez - Account Executive"
@@ -289,25 +289,25 @@ export default function About() {
                     <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
-                <div className="p-3 sm:p-6 text-center">
-                  <h3 className="text-sm sm:text-xl font-bold mb-1 sm:mb-2">
+                <div className="p-2 sm:p-4 text-center">
+                  <h3 className="text-sm sm:text-lg font-bold mb-0.5 sm:mb-1">
                     David Hernandez
                   </h3>
-                  <p className="text-primary font-medium text-xs sm:text-base">
+                  <p className="text-primary font-medium text-xs sm:text-sm">
                     {t.about.accountExecutive}
                   </p>
                 </div>
               </div>
             </div>
 
-            <p className="text-base text-muted-foreground mt-4 mb-4 mx-auto text-center relative z-10 sm:whitespace-nowrap">
+            <p className="text-sm text-muted-foreground mt-3 mb-2 mx-auto text-center relative z-10 sm:whitespace-nowrap">
               {t.about.connectDesc}
             </p>
             <div className="flex justify-center gap-3 sm:gap-6 lg:gap-8 relative z-10">
               <SocialButton
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
                 icon={
-                  <FaLinkedin className="w-8 h-8 sm:w-12 sm:h-12 text-primary group-hover:text-white transition-colors duration-300 relative z-10" />
+                  <FaLinkedin className="w-7 h-7 sm:w-10 sm:h-10 text-primary group-hover:text-white transition-colors duration-300 relative z-10" />
                 }
                 label="LinkedIn"
                 colorClass="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50"
@@ -319,7 +319,7 @@ export default function About() {
               <SocialButton
                 href="https://www.instagram.com/insureitgroup/"
                 icon={
-                  <FaInstagram className="w-8 h-8 sm:w-12 sm:h-12 text-pink-600 dark:text-pink-400 group-hover:text-white transition-colors duration-300 relative z-10" />
+                  <FaInstagram className="w-7 h-7 sm:w-10 sm:h-10 text-pink-600 dark:text-pink-400 group-hover:text-white transition-colors duration-300 relative z-10" />
                 }
                 label="Instagram"
                 colorClass="bg-gradient-to-br from-pink-50 to-purple-100 dark:from-pink-900/50 dark:to-purple-900/50"
@@ -331,7 +331,7 @@ export default function About() {
               <SocialButton
                 href="https://www.facebook.com/insureitgroup"
                 icon={
-                  <FaFacebook className="w-8 h-8 sm:w-12 sm:h-12 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300 relative z-10" />
+                  <FaFacebook className="w-7 h-7 sm:w-10 sm:h-10 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300 relative z-10" />
                 }
                 label="Facebook"
                 colorClass="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50"

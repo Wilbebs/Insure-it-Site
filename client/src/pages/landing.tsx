@@ -610,6 +610,25 @@ export default function Landing() {
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">
           <div className="w-full max-w-[700px] text-center">
+            {/* Hidden SVG — defines the heraldic shield clip-path shape */}
+            <svg width="0" height="0" style={{ position: "absolute", overflow: "hidden" }} aria-hidden="true">
+              <defs>
+                <clipPath id="shield-clip" clipPathUnits="objectBoundingBox">
+                  {/* Classic wide heraldic shield: arched top with center notch, nearly vertical sides, pointed bottom */}
+                  <path d="
+                    M 0.5,0.04
+                    C 0.38,0.02 0.22,0.02 0.12,0.07
+                    C 0.03,0.13 0.01,0.23 0.01,0.34
+                    C 0.01,0.56 0.07,0.74 0.5,1
+                    C 0.93,0.74 0.99,0.56 0.99,0.34
+                    C 0.99,0.23 0.97,0.13 0.88,0.07
+                    C 0.78,0.02 0.62,0.02 0.5,0.04
+                    Z
+                  " />
+                </clipPath>
+              </defs>
+            </svg>
+
             {!isMinimized && (
               <motion.div
                 key="hero-card"
@@ -626,21 +645,16 @@ export default function Landing() {
                 }}
                 whileDrag={{ cursor: "grabbing" }}
               >
-                {/* Shield card — PNG used as mask, CSS handles the glass effect */}
+                {/* Shield card — SVG clip-path shapes it, CSS handles the glass effect */}
                 <div
                   ref={cardInnerRef}
                   className="relative flex flex-col backdrop-blur-xl bg-white/[0.14]"
                   style={{
-                    WebkitMaskImage: `url(${shieldGlassImg})`,
-                    maskImage: `url(${shieldGlassImg})`,
-                    WebkitMaskSize: "100% 100%",
-                    maskSize: "100% 100%",
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                    paddingTop: "26%",
-                    paddingBottom: "20%",
-                    paddingLeft: "10%",
-                    paddingRight: "10%",
+                    clipPath: "url(#shield-clip)",
+                    paddingTop: "22%",
+                    paddingBottom: "18%",
+                    paddingLeft: "8%",
+                    paddingRight: "8%",
                   }}
                 >
                   {/* Minimize button */}

@@ -700,16 +700,16 @@ export default function Landing() {
                   {/* Insurance types — above CTAs on desktop, below on mobile */}
                   <div className="order-3 flex items-end justify-center gap-3 sm:gap-7 mt-3 sm:mt-4 mb-[5px] md:mb-[18px]">
                     {[
-                      { icon: <House className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[0], short: t.hero.coveragesShort[0], color: "text-sky-300" },
-                      { icon: <Car className="w-5 h-5 sm:w-9 sm:h-9" />,   label: t.hero.coverages[1], short: t.hero.coveragesShort[1], color: "text-blue-300" },
-                      { icon: <Heart className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[2], short: t.hero.coveragesShort[2], color: "text-pink-300" },
-                      { icon: <Building2 className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[3], short: t.hero.coveragesShort[3], color: "text-indigo-300" },
-                      { icon: <Waves className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[4], short: t.hero.coveragesShort[4], color: "text-teal-300" },
+                      { icon: <House className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[0], short: t.hero.coveragesShort[0], color: "text-sky-500" },
+                      { icon: <Car className="w-5 h-5 sm:w-9 sm:h-9" />,   label: t.hero.coverages[1], short: t.hero.coveragesShort[1], color: "text-blue-500" },
+                      { icon: <Heart className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[2], short: t.hero.coveragesShort[2], color: "text-pink-500" },
+                      { icon: <Building2 className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[3], short: t.hero.coveragesShort[3], color: "text-indigo-500" },
+                      { icon: <Waves className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[4], short: t.hero.coveragesShort[4], color: "text-teal-500" },
                     ].map(({ icon, label, short, color }, i, arr) => (
                       <div key={label} className="flex items-end gap-3 sm:gap-7">
                         <div className="flex flex-col items-center gap-1 select-none">
-                          <span className={`${color} drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]`}>{icon}</span>
-                          <span className="text-white/80 text-[8px] sm:text-[16px] font-medium tracking-wide whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
+                          <span className={`${color} drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]`}>{icon}</span>
+                          <span className="text-slate-700 text-[8px] sm:text-[15px] font-semibold tracking-wide whitespace-nowrap drop-shadow-none">
                             <span className="sm:hidden">{short}</span>
                             <span className="hidden sm:inline">{label}</span>
                           </span>
@@ -766,11 +766,11 @@ export default function Landing() {
                   <div className="order-[99] hidden sm:flex justify-center mt-10 mb-1">
                     <button
                       onClick={handleMinimize}
-                      className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-300/20 border border-blue-300/40 hover:bg-blue-300/35 hover:border-blue-300/70 transition-all duration-200 group"
+                      className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-300/20 bg-transparent opacity-25 hover:opacity-100 hover:bg-blue-300/25 hover:border-blue-300/60 hover:shadow-[0_0_14px_rgba(96,165,250,0.4)] transition-all duration-300 group"
                       aria-label="Minimize shield"
                     >
-                      <Minus className="w-3.5 h-3.5 text-blue-200/80 group-hover:text-blue-100 transition-colors" />
-                      <span className="text-[10px] tracking-[0.14em] uppercase font-medium text-blue-200/80 group-hover:text-blue-100 transition-colors">Minimize</span>
+                      <Minus className="w-3.5 h-3.5 text-blue-300 transition-colors" />
+                      <span className="text-[10px] tracking-[0.14em] uppercase font-medium text-blue-300 transition-colors">Minimize</span>
                     </button>
                   </div>
                 </div>

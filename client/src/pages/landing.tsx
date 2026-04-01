@@ -617,7 +617,7 @@ export default function Landing() {
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-1 sm:px-6 md:px-16 pt-0">
-          <div className="w-full max-w-[933px] text-center" style={{ zoom: isDesktop ? 0.582 : 0.672 }}>
+          <div className="w-full max-w-[933px] text-center" style={{ zoom: isDesktop ? 0.52 : 0.60 }}>
             {!isMinimized && (
               <motion.div
                 key="hero-card"
@@ -732,7 +732,7 @@ export default function Landing() {
                   >
                     <button
                       onClick={() => setQuoteModalOpen(true)}
-                      className="animated-border-btn group relative overflow-hidden text-primary-foreground px-7 sm:px-14 py-4 sm:py-7 rounded-lg font-semibold text-base sm:text-2xl shadow-xl shadow-primary/25 transition-all duration-300 sm:hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none whitespace-nowrap"
+                      className="animated-border-btn group relative overflow-hidden text-primary-foreground px-7 sm:px-14 py-4 sm:py-7 rounded-lg font-semibold text-base sm:text-2xl shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none whitespace-nowrap"
                       data-testid="button-get-quote"
                     >
                       <span className="relative z-10">

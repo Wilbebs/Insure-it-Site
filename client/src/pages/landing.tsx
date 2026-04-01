@@ -615,25 +615,26 @@ export default function Landing() {
               <defs>
                 <clipPath id="shield-clip" clipPathUnits="objectBoundingBox">
                   {/*
-                    Police-badge shield:
-                    - Two rounded humps at top with a V-notch between them
-                    - Sides bow outward slightly (wider at mid than at top)
-                    - Flat-ish bottom with a tiny center nick
+                    Heraldic shield — center spike at top, two arch-humps flanking it,
+                    rounded corners, nearly vertical sides, rounded bottom point.
+                    Traced from the reference image.
                   */}
                   <path d="
-                    M 0.50,0.14
-                    C 0.40,0.05 0.28,0.02 0.24,0.03
-                    C 0.18,0.05 0.12,0.10 0.09,0.17
-                    C 0.03,0.26 0.01,0.39 0.01,0.52
-                    C 0.01,0.66 0.05,0.78 0.15,0.87
-                    C 0.24,0.94 0.37,0.98 0.47,0.995
-                    C 0.48,0.998 0.50,1.0  0.50,1.0
-                    C 0.50,1.0  0.52,0.998 0.53,0.995
-                    C 0.63,0.98 0.76,0.94 0.85,0.87
-                    C 0.95,0.78 0.99,0.66 0.99,0.52
-                    C 0.99,0.39 0.97,0.26 0.91,0.17
-                    C 0.88,0.10 0.82,0.05 0.76,0.03
-                    C 0.72,0.02 0.60,0.05 0.50,0.14
+                    M 0.50,0.05
+                    C 0.54,0.14  0.57,0.18  0.61,0.16
+                    C 0.65,0.13  0.70,0.07  0.73,0.08
+                    C 0.78,0.09  0.84,0.15  0.88,0.19
+                    C 0.95,0.23  0.98,0.32  0.98,0.44
+                    C 0.98,0.62  0.94,0.77  0.86,0.88
+                    C 0.76,0.95  0.63,0.99  0.52,0.995
+                    C 0.51,0.998 0.50,1.0   0.50,1.0
+                    C 0.50,1.0   0.49,0.998 0.48,0.995
+                    C 0.37,0.99  0.24,0.95  0.14,0.88
+                    C 0.06,0.77  0.02,0.62  0.02,0.44
+                    C 0.02,0.32  0.05,0.23  0.12,0.19
+                    C 0.16,0.15  0.22,0.09  0.27,0.08
+                    C 0.30,0.07  0.35,0.13  0.39,0.16
+                    C 0.43,0.18  0.46,0.14  0.50,0.05
                     Z
                   " />
                 </clipPath>

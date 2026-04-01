@@ -62,21 +62,21 @@ function InsuranceDetailModal({
 
   const accentColor =
     type?.color === "sky"
-      ? "from-sky-600 to-sky-400"
+      ? "from-blue-700 to-blue-500"
       : type?.color === "blue"
-        ? "from-blue-700 to-blue-500"
+        ? "from-indigo-700 to-indigo-500"
         : type?.color === "indigo"
-          ? "from-indigo-700 to-indigo-500"
-          : "from-violet-700 to-violet-500";
+          ? "from-violet-700 to-violet-500"
+          : "from-purple-800 to-purple-600";
 
   const pillColor =
     type?.color === "sky"
-      ? "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300"
+      ? "bg-blue-100 text-blue-700"
       : type?.color === "blue"
-        ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
+        ? "bg-indigo-100 text-indigo-700"
         : type?.color === "indigo"
-          ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300"
-          : "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300";
+          ? "bg-violet-100 text-violet-700"
+          : "bg-purple-100 text-purple-700";
 
   return (
     <AnimatePresence>
@@ -247,17 +247,17 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky:   "from-blue-700 via-blue-700/70 to-blue-600/30",
-    teal:  "from-indigo-700 via-indigo-700/70 to-indigo-600/30",
-    pink:  "from-violet-700 via-violet-700/70 to-violet-600/30",
-    indigo:"from-purple-800 via-purple-800/70 to-purple-700/30",
+    sky:    "from-blue-700 via-blue-700/70 to-blue-600/30",
+    blue:   "from-indigo-700 via-indigo-700/70 to-indigo-600/30",
+    indigo: "from-violet-700 via-violet-700/70 to-violet-600/30",
+    violet: "from-purple-800 via-purple-800/70 to-purple-700/30",
   };
 
   const iconAnimations = {
-    sky:   "group-hover:animate-bounce-subtle",
-    teal:  "group-hover:animate-ripple",
-    pink:  "group-hover:animate-pulse-heart",
-    indigo:"group-hover:animate-grow",
+    sky:    "group-hover:animate-bounce-subtle",
+    blue:   "group-hover:animate-ripple",
+    indigo: "group-hover:animate-pulse-heart",
+    violet: "group-hover:animate-grow",
   };
 
   const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
@@ -281,10 +281,10 @@ function InsuranceCard({
       style={{
         boxShadow: isHovered
           ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${
-              type.color === "sky"   ? "rgba(37, 99, 235, 0.45)" :
-              type.color === "teal"  ? "rgba(79, 70, 229, 0.45)" :
-              type.color === "pink"  ? "rgba(124, 58, 237, 0.45)" :
-                                       "rgba(147, 51, 234, 0.45)"
+              type.color === "sky"    ? "rgba(37, 99, 235, 0.45)" :
+              type.color === "blue"   ? "rgba(79, 70, 229, 0.45)" :
+              type.color === "indigo" ? "rgba(124, 58, 237, 0.45)" :
+                                        "rgba(147, 51, 234, 0.45)"
             }`
           : undefined,
       }}
@@ -448,7 +448,7 @@ export default function Landing() {
       title: t.insurance.floodTitle,
       description: t.insurance.floodDesc,
       image: floodImg,
-      color: "teal",
+      color: "blue",
     },
     {
       icon: <Heart className="w-10 h-10" />,
@@ -456,7 +456,7 @@ export default function Landing() {
       description: t.insurance.lifeDesc,
       image:
         "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80",
-      color: "pink",
+      color: "indigo",
     },
     {
       icon: <Building2 className="w-10 h-10" />,
@@ -464,7 +464,7 @@ export default function Landing() {
       description: t.insurance.businessDesc,
       image:
         "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
-      color: "indigo",
+      color: "violet",
     },
   ];
 

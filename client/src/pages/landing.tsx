@@ -353,8 +353,20 @@ export default function Landing() {
   const [scrollY, setScrollY] = useState(0);
   const [copiedContact, setCopiedContact] = useState<string | null>(null);
   const [addressCopied, setAddressCopied] = useState(false);
+  const [isShieldHovered, setIsShieldHovered] = useState(false);
+  const [shieldSweeping, setShieldSweeping] = useState(false);
   const highFiveRef = useRef<HTMLDivElement>(null);
   const [highFiveVisible, setHighFiveVisible] = useState(false);
+
+  // Auto-cycle shield shimmer every 4 s
+  useEffect(() => {
+    const trigger = () => {
+      setShieldSweeping(true);
+      setTimeout(() => setShieldSweeping(false), 1100);
+    };
+    const id = setInterval(trigger, 4000);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     const el = highFiveRef.current;
@@ -627,8 +639,26 @@ export default function Landing() {
                 whileDrag={{ cursor: "grabbing" }}
               >
                 {/* Wrapper: positions the border layer behind the card */}
-                <div className="relative">
-                  {/* Solid border layer — same shield mask, slightly expanded, soft blurred edge */}
+                <div
+                  className="relative"
+                  onMouseEnter={() => {
+                    setIsShieldHovered(true);
+                    setShieldSweeping(false);
+                    requestAnimationFrame(() => {
+                      setShieldSweeping(true);
+                      setTimeout(() => setShieldSweeping(false), 1100);
+                    });
+                  }}
+                  onMouseLeave={() => {
+                    setIsShieldHovered(false);
+                    setShieldSweeping(false);
+                    requestAnimationFrame(() => {
+                      setShieldSweeping(true);
+                      setTimeout(() => setShieldSweeping(false), 1100);
+                    });
+                  }}
+                >
+                  {/* Solid border layer — pulses brighter on hover */}
                   <div
                     className="absolute pointer-events-none"
                     style={{
@@ -639,8 +669,11 @@ export default function Landing() {
                       maskSize: "100% 100%",
                       WebkitMaskRepeat: "no-repeat",
                       maskRepeat: "no-repeat",
-                      background: "rgba(255, 255, 255, 0.65)",
-                      filter: "blur(4px)",
+                      background: isShieldHovered
+                        ? "rgba(255, 255, 255, 0.92)"
+                        : "rgba(255, 255, 255, 0.65)",
+                      filter: isShieldHovered ? "blur(6px)" : "blur(4px)",
+                      transition: "background 0.35s ease, filter 0.35s ease",
                       zIndex: 0,
                     }}
                   />
@@ -661,6 +694,15 @@ export default function Landing() {
                     paddingRight: "8%",
                   }}
                 >
+                  {/* Shimmer sweep — white light band sliding top→bottom, clipped by shield mask */}
+                  <div
+                    key={shieldSweeping ? "sweep-on" : "sweep-off"}
+                    className={`absolute inset-0 pointer-events-none z-20 ${shieldSweeping ? "shield-sweep" : ""}`}
+                    style={{
+                      background:
+                        "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.12) 38%, rgba(255,255,255,0.26) 50%, rgba(255,255,255,0.12) 62%, transparent 100%)",
+                    }}
+                  />
                   {/* Minimize button */}
                   <button
                     onClick={handleMinimize}

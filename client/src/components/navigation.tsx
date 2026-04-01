@@ -119,7 +119,7 @@ export default function Navigation() {
             {(!isScrolled || socialHovered) && (
               <button
                 onClick={toggleLanguage}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-6"
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'ml-1' : 'ml-6'}`}
                 data-testid="language-toggle"
                 aria-label={t.nav.switchLang}
               >

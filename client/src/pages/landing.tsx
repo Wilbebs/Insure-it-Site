@@ -808,7 +808,7 @@ export default function Landing() {
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-4 select-none">
                   {t.whoWeAre.subtitle}
                 </p>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
@@ -919,7 +919,7 @@ export default function Landing() {
 
                 {/* Top: Title + bullets */}
                 <div className="flex flex-col items-start text-left">
-                  <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3 select-none">
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-3 select-none">
                     {t.contact.subtitle}
                   </p>
                   <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 select-none">

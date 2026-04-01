@@ -196,7 +196,7 @@ export default function About() {
           {/* Connect With Us Section - Team + Social */}
           <div className="mb-6 sm:mb-10 relative overflow-hidden">
             <div className="text-center mb-6 sm:mb-10 relative z-10">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3 select-none">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-3 select-none">
                 {t.about.ourPeople}
               </p>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 select-none">

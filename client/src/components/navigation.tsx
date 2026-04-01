@@ -74,7 +74,7 @@ export default function Navigation() {
             </Link>
           </div>
 
-          {/* Right side: Social icons fan-out + Language Toggle */}
+          {/* Right side: Social Media Links + Theme Toggle */}
           <div
             className={`flex items-center flex-shrink-0 transition-all duration-300 ease-in-out ${
               isScrolled && !socialHovered ? '-space-x-6' : 'gap-2'
@@ -92,6 +92,7 @@ export default function Navigation() {
             >
               <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
             </a>
+            
             <a 
               href="https://www.instagram.com/insureitgroup/"
               target="_blank"
@@ -102,6 +103,7 @@ export default function Navigation() {
             >
               <FaInstagram className="w-5 h-5 text-pink-600 group-hover:text-white transition-colors duration-300" />
             </a>
+            
             <a 
               href="https://www.facebook.com/insureitgroup"
               target="_blank"
@@ -113,25 +115,25 @@ export default function Navigation() {
               <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
             </a>
 
-            {/* Language Toggle — always in layout (invisible when collapsed) so navbar width never shifts */}
-            <button
-              onClick={toggleLanguage}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-2 ${
-                isScrolled && !socialHovered ? 'opacity-0 pointer-events-none' : 'opacity-100'
-              }`}
-              data-testid="language-toggle"
-              aria-label={t.nav.switchLang}
-            >
-              <img
-                src={language === "en" ? usaFlagIcon : spainFlagIcon}
-                alt=""
-                aria-hidden="true"
-                className="w-4 h-4 object-contain rounded-full drop-shadow-sm flex-shrink-0"
-              />
-              <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
-                {language === "en" ? "EN" : "ES"}
-              </span>
-            </button>
+            {/* Language Toggle - visible when full-sized or when social icons are hovered */}
+            {(!isScrolled || socialHovered) && (
+              <button
+                onClick={toggleLanguage}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-6"
+                data-testid="language-toggle"
+                aria-label={t.nav.switchLang}
+              >
+                <img
+                  src={language === "en" ? usaFlagIcon : spainFlagIcon}
+                  alt=""
+                  aria-hidden="true"
+                  className="w-4 h-4 object-contain rounded-full drop-shadow-sm flex-shrink-0"
+                />
+                <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
+                  {language === "en" ? "EN" : "ES"}
+                </span>
+              </button>
+            )}
           </div>
         </div>
       </nav>

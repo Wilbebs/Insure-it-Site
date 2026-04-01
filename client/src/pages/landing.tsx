@@ -638,7 +638,7 @@ export default function Landing() {
                     WebkitMaskRepeat: "no-repeat",
                     maskRepeat: "no-repeat",
                     paddingTop: "22%",
-                    paddingBottom: "18%",
+                    paddingBottom: "28%",
                     paddingLeft: "8%",
                     paddingRight: "8%",
                   }}

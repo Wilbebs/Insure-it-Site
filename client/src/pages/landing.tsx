@@ -592,7 +592,7 @@ export default function Landing() {
       <section
         ref={heroRef as RefObject<HTMLElement>}
         className="flex items-start relative pt-16 sm:pt-[72px] pb-10"
-        style={{ minHeight: "calc(100vh + 48px)" }}
+        style={{ minHeight: "calc(100vh + 41px)" }}
       >
         {/* Hero Video Background - Parallax with blur */}
         <div
@@ -672,8 +672,8 @@ export default function Landing() {
                     maskSize: "100% 100%",
                     WebkitMaskRepeat: "no-repeat",
                     maskRepeat: "no-repeat",
-                    paddingTop: "22%",
-                    paddingBottom: "28%",
+                    paddingTop: "24.5%",
+                    paddingBottom: "25.5%",
                     paddingLeft: "8%",
                     paddingRight: "8%",
                   }}

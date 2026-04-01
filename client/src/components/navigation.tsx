@@ -119,19 +119,19 @@ export default function Navigation() {
             {(!isScrolled || socialHovered) && (
               <button
                 onClick={toggleLanguage}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-md ml-6"
+                className="relative px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-6"
                 data-testid="language-toggle"
                 aria-label={t.nav.switchLang}
               >
+                <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
+                  {language === "en" ? "EN" : "ES"}
+                </span>
                 <img
                   src={language === "en" ? usaFlagIcon : spainFlagIcon}
                   alt=""
                   aria-hidden="true"
-                  className="w-4 h-4 object-contain rounded-full drop-shadow-sm flex-shrink-0"
+                  className="absolute -top-1 -right-1 w-5 h-5 object-contain rounded-full drop-shadow-sm"
                 />
-                <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
-                  {language === "en" ? "EN" : "ES"}
-                </span>
               </button>
             )}
           </div>

@@ -389,7 +389,7 @@ export default function Landing() {
   const cardX = useMotionValue(0);
   const cardY = useMotionValue(30);
   const cardOpacity = useMotionValue(0);
-  const cardScale = useMotionValue(0.6);
+  const cardScale = useMotionValue(0.70);
 
   // Shield drag motion values
   const shieldX = useMotionValue(0);
@@ -498,13 +498,13 @@ export default function Landing() {
       cardX.set(0);
       cardY.set(0);
       cardOpacity.set(0);
-      cardScale.set(0.54);
+      cardScale.set(0.63);
       isRestoring.current = false;
       sessionStorage.setItem("heroWindowMinimized", "false");
       setIsMinimized(false);
       requestAnimationFrame(() => {
         animateValue(cardOpacity, 1, { duration: 0.5, ease: "easeOut" });
-        animateValue(cardScale, 0.6, { duration: 0.5, ease: "easeOut" });
+        animateValue(cardScale, 0.70, { duration: 0.5, ease: "easeOut" });
       });
     }
   }, [scrollY, isMinimized]);
@@ -540,7 +540,7 @@ export default function Landing() {
     cardX.set(0);
     cardY.set(0);
     cardOpacity.set(0);
-    cardScale.set(0.6);
+    cardScale.set(0.70);
   };
 
   const handleRestore = () => {
@@ -570,7 +570,7 @@ export default function Landing() {
       animateValue(cardX, 0, { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] });
       animateValue(cardY, 0, { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] });
       animateValue(cardOpacity, 1, { duration: 0.4, ease: "easeOut" });
-      animateValue(cardScale, 0.6, {
+      animateValue(cardScale, 0.70, {
         duration: 0.55,
         ease: [0.22, 1.1, 0.36, 1],
       });

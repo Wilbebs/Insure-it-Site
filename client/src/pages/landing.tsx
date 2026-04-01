@@ -584,7 +584,7 @@ export default function Landing() {
       {/* Hero Section */}
       <section
         ref={heroRef as RefObject<HTMLElement>}
-        className="flex items-center relative pt-20 sm:pt-24 pb-24"
+        className="flex items-start relative pt-20 sm:pt-24 pb-24"
         style={{ minHeight: "calc(100vh + 38px)" }}
       >
         {/* Hero Video Background - Parallax with blur */}
@@ -609,7 +609,7 @@ export default function Landing() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16 -mt-[30px]">
+        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16 pt-5">
           <div className="w-full max-w-[933px] text-center">
             {!isMinimized && (
               <motion.div

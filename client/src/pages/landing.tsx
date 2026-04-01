@@ -616,8 +616,8 @@ export default function Landing() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16 pt-0">
-          <div className="shield-zoom w-full max-w-[933px] text-center">
+        <div className="relative z-10 w-full flex items-center justify-center px-1 sm:px-6 md:px-16 pt-0">
+          <div className="w-full max-w-[933px] text-center" style={{ zoom: isDesktop ? 0.52 : 0.60 }}>
             {!isMinimized && (
               <motion.div
                 key="hero-card"
@@ -759,8 +759,8 @@ export default function Landing() {
                     </a>
                   </motion.div>
 
-                  {/* Minimize button — centered below CTAs */}
-                  <div className="flex justify-center mt-5 mb-1">
+                  {/* Minimize button — centered below CTAs, desktop only */}
+                  <div className="hidden sm:flex justify-center mt-5 mb-1">
                     <button
                       onClick={handleMinimize}
                       className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 hover:border-white/40 transition-all duration-200 group"

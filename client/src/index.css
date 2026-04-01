@@ -706,15 +706,6 @@
   animation: shield-sweep 0.7s ease-out forwards;
 }
 
-/* Responsive zoom: slightly wider on mobile, normal on sm+ */
-.shield-zoom {
-  zoom: 0.60;
-}
-@media (min-width: 640px) {
-  .shield-zoom {
-    zoom: 0.52;
-  }
-}
 
 /* Subtle dot-grid texture — applied to white/muted sections */
 .dot-pattern {

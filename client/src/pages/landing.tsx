@@ -614,15 +614,26 @@ export default function Landing() {
             <svg width="0" height="0" style={{ position: "absolute", overflow: "hidden" }} aria-hidden="true">
               <defs>
                 <clipPath id="shield-clip" clipPathUnits="objectBoundingBox">
-                  {/* Classic wide heraldic shield: arched top with center notch, nearly vertical sides, pointed bottom */}
+                  {/*
+                    Police-badge shield:
+                    - Two rounded humps at top with a V-notch between them
+                    - Sides bow outward slightly (wider at mid than at top)
+                    - Flat-ish bottom with a tiny center nick
+                  */}
                   <path d="
-                    M 0.5,0.04
-                    C 0.38,0.02 0.22,0.02 0.12,0.07
-                    C 0.03,0.13 0.01,0.23 0.01,0.34
-                    C 0.01,0.56 0.07,0.74 0.5,1
-                    C 0.93,0.74 0.99,0.56 0.99,0.34
-                    C 0.99,0.23 0.97,0.13 0.88,0.07
-                    C 0.78,0.02 0.62,0.02 0.5,0.04
+                    M 0.50,0.14
+                    C 0.40,0.05 0.28,0.02 0.24,0.03
+                    C 0.18,0.05 0.12,0.10 0.09,0.17
+                    C 0.03,0.26 0.01,0.39 0.01,0.52
+                    C 0.01,0.66 0.05,0.78 0.15,0.87
+                    C 0.24,0.94 0.37,0.98 0.47,0.995
+                    C 0.48,0.998 0.50,1.0  0.50,1.0
+                    C 0.50,1.0  0.52,0.998 0.53,0.995
+                    C 0.63,0.98 0.76,0.94 0.85,0.87
+                    C 0.95,0.78 0.99,0.66 0.99,0.52
+                    C 0.99,0.39 0.97,0.26 0.91,0.17
+                    C 0.88,0.10 0.82,0.05 0.76,0.03
+                    C 0.72,0.02 0.60,0.05 0.50,0.14
                     Z
                   " />
                 </clipPath>

@@ -20,7 +20,6 @@ import {
   Shield,
   ArrowRight,
   Minus,
-  Waves,
   ChevronDown,
   Check,
   X,
@@ -713,65 +712,38 @@ export default function Landing() {
                     Life&apos;s Uncertain. Your Coverage Isn&apos;t.
                   </p>
 
-                  {/* Insurance types — above CTAs on desktop, below on mobile */}
-                  <div className="order-3 flex items-end justify-center gap-3 sm:gap-7 mt-3 sm:mt-4 mb-[5px] md:mb-[18px]">
-                    {[
-                      { icon: <House className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[0], short: t.hero.coveragesShort[0], color: "text-sky-500" },
-                      { icon: <Car className="w-5 h-5 sm:w-9 sm:h-9" />,   label: t.hero.coverages[1], short: t.hero.coveragesShort[1], color: "text-blue-500" },
-                      { icon: <Heart className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[2], short: t.hero.coveragesShort[2], color: "text-pink-500" },
-                      { icon: <Building2 className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[3], short: t.hero.coveragesShort[3], color: "text-indigo-500" },
-                      { icon: <Waves className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[4], short: t.hero.coveragesShort[4], color: "text-teal-500" },
-                    ].map(({ icon, label, short, color }, i, arr) => (
-                      <div key={label} className="flex items-end gap-3 sm:gap-7">
-                        <div className="flex flex-col items-center gap-1 select-none">
-                          <span className={`${color} drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]`}>{icon}</span>
-                          <span className="text-slate-700 text-[8px] sm:text-[15px] font-semibold tracking-wide whitespace-nowrap drop-shadow-none">
-                            <span className="sm:hidden">{short}</span>
-                            <span className="hidden sm:inline">{label}</span>
-                          </span>
-                        </div>
-                        {i < arr.length - 1 && (
-                          <span className="self-stretch w-px bg-white/20 mb-1 shrink-0" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* CTAs — order-2 on mobile puts them BEFORE the icons row */}
+                  {/* CTAs — stacked vertically, full width to fill shield space */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={
                       heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
                     }
                     transition={{ duration: 0.8, delay: 0.5 }}
-                    className="order-2 relative flex flex-row items-center gap-2 sm:gap-4 justify-center mt-2 sm:mt-0"
+                    className="relative flex flex-col items-stretch gap-4 sm:gap-5 justify-center mt-4 sm:mt-6 w-full px-4 sm:px-6"
                   >
                     <button
                       onClick={() => setQuoteModalOpen(true)}
-                      className="animated-border-btn group relative overflow-hidden text-primary-foreground px-4 sm:px-14 py-2.5 sm:py-7 rounded-lg font-semibold text-sm sm:text-2xl shadow-xl shadow-primary/25 transition-all duration-300 sm:hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none whitespace-nowrap"
+                      className="animated-border-btn group relative overflow-hidden text-primary-foreground w-full py-4 sm:py-7 rounded-xl font-semibold text-lg sm:text-2xl shadow-xl shadow-primary/25 transition-all duration-300 sm:hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
                       data-testid="button-get-quote"
                     >
-                      <span className="relative z-10">
+                      <span className="relative z-10 flex items-center justify-center gap-2">
                         {t.hero.getQuoted}
-                        <ArrowRight className="inline-block ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
                       </span>
                       <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
                     </button>
                     <a
                       href="tel:+19049090897"
                       onClick={() => copyToClipboard("9049090897", "phone")}
-                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-4 sm:px-14 py-2.5 sm:py-7 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-2 sm:gap-4 select-none whitespace-nowrap"
+                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 w-full py-4 sm:py-7 rounded-xl hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
                       data-testid="button-call-us"
                     >
-                      <Phone className="w-4 h-4 shrink-0" />
-                      <span className="sm:hidden text-sm font-bold">
-                        {copiedContact === "phone" ? "Copied!" : t.hero.callUs}
-                      </span>
-                      <span className="hidden sm:flex flex-col items-start leading-none">
-                        <span className="text-sm font-bold whitespace-nowrap">
+                      <Phone className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
+                      <span className="flex flex-col items-start leading-none">
+                        <span className="text-lg sm:text-2xl font-bold whitespace-nowrap">
                           {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
                         </span>
-                        <span className="text-[10px] font-medium opacity-75 whitespace-nowrap">
+                        <span className="text-xs sm:text-sm font-medium opacity-75 whitespace-nowrap">
                           {t.hero.callUs}
                         </span>
                       </span>

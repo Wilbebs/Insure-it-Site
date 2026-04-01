@@ -10,7 +10,6 @@ export default function Navigation() {
   const [location] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoHighlight, setLogoHighlight] = useState(false);
-  const [socialHovered, setSocialHovered] = useState(false);
   const { t, language, toggleLanguage } = useTranslation();
 
   useEffect(() => {
@@ -32,7 +31,7 @@ export default function Navigation() {
     <>
       {/* Desktop Navigation */}
       <nav 
-        className={`fixed left-1/2 transform -translate-x-1/2 z-50 glass-nav py-4 hidden lg:block transition-all duration-500 ease-in-out overflow-hidden ${
+        className={`fixed left-1/2 transform -translate-x-1/2 z-50 glass-nav py-4 hidden lg:block transition-all duration-500 ease-in-out ${
           isScrolled 
             ? 'top-4 rounded-full px-6' 
             : 'top-0 rounded-none w-full px-4 sm:px-8'
@@ -74,21 +73,14 @@ export default function Navigation() {
             </Link>
           </div>
 
-          {/* Right side: Social Media Links + Theme Toggle */}
-          <div
-            className={`flex items-center flex-shrink-0 transition-all duration-300 ease-in-out ${
-              isScrolled && !socialHovered ? '-space-x-6' : 'gap-2'
-            }`}
-            onMouseEnter={() => isScrolled && setSocialHovered(true)}
-            onMouseLeave={() => setSocialHovered(false)}
-          >
+          {/* Right side: Social Media Links + Language Toggle */}
+          <div className="flex items-center gap-2 flex-shrink-0">
             <a 
               href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-linkedin"
-              style={{ zIndex: 3 }}
             >
               <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
             </a>
@@ -99,7 +91,6 @@ export default function Navigation() {
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-white/90 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-instagram"
-              style={{ zIndex: 2 }}
             >
               <FaInstagram className="w-5 h-5 text-pink-600 group-hover:text-white transition-colors duration-300" />
             </a>
@@ -110,37 +101,34 @@ export default function Navigation() {
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-white/90 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-facebook"
-              style={{ zIndex: 1 }}
             >
               <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
             </a>
 
-            {/* Language Toggle - visible when full-sized or when social icons are hovered */}
-            {(!isScrolled || socialHovered) && (
-              <button
-                onClick={toggleLanguage}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-6"
-                data-testid="language-toggle"
-                aria-label={t.nav.switchLang}
-              >
-                <img
-                  src={language === "en" ? usaFlagIcon : spainFlagIcon}
-                  alt=""
-                  aria-hidden="true"
-                  className="w-4 h-4 object-contain rounded-full drop-shadow-sm flex-shrink-0"
-                />
-                <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
-                  {language === "en" ? "EN" : "ES"}
-                </span>
-              </button>
-            )}
+            {/* Language Toggle — always in layout to prevent width shifts */}
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-2"
+              data-testid="language-toggle"
+              aria-label={t.nav.switchLang}
+            >
+              <img
+                src={language === "en" ? usaFlagIcon : spainFlagIcon}
+                alt=""
+                aria-hidden="true"
+                className="w-4 h-4 object-contain rounded-full drop-shadow-sm flex-shrink-0"
+              />
+              <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
+                {language === "en" ? "EN" : "ES"}
+              </span>
+            </button>
           </div>
         </div>
       </nav>
 
       {/* Mobile Navigation */}
       <nav
-        className={`fixed left-0 right-0 z-50 glass-nav lg:hidden transition-all duration-500 ease-in-out overflow-hidden ${
+        className={`fixed left-0 right-0 z-50 glass-nav lg:hidden transition-all duration-500 ease-in-out ${
           isScrolled
             ? 'top-3 rounded-full mx-3 px-3 py-2'
             : 'top-0 rounded-none px-4 py-3'

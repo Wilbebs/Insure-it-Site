@@ -626,6 +626,10 @@ export default function Landing() {
                 }}
                 whileDrag={{ cursor: "grabbing" }}
               >
+                {/* Drop-shadow wrapper — traces the mask silhouette to create a soft rounded border */}
+                <div style={{
+                  filter: "drop-shadow(0 0 3px rgba(255,255,255,0.85)) drop-shadow(0 0 8px rgba(255,255,255,0.35))",
+                }}>
                 {/* Shield card — PNG mask defines the exact shape, CSS drives the frosted glass */}
                 <div
                   ref={cardInnerRef}
@@ -724,6 +728,7 @@ export default function Landing() {
                     </a>
                   </motion.div>
                 </div>
+                </div>{/* end drop-shadow wrapper */}
               </motion.div>
             )}
           </div>

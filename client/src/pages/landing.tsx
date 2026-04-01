@@ -806,7 +806,7 @@ export default function Landing() {
       >
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 items-end">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-4 select-none">
                   {t.whoWeAre.subtitle}
@@ -821,21 +821,12 @@ export default function Landing() {
                 <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6">
                   {t.whoWeAre.paragraph1}
                 </p>
-                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8">
+                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                   {t.whoWeAre.paragraph2}
                 </p>
-
-                <button
-                  onClick={() => (window.location.href = "/about")}
-                  className="hidden md:block self-start group bg-primary hover:bg-primary/90 text-primary-foreground px-6 sm:px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] select-none"
-                  data-testid="button-read-more"
-                >
-                  {t.whoWeAre.meetTeam}
-                  <ArrowRight className="inline-block ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
               </div>
 
-              {/* Insurance Types 2x2 Grid - aligned with button */}
+              {/* Insurance Types 2x2 Grid */}
               <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 {insuranceTypes.map((type, index) => (
                   <InsuranceCard

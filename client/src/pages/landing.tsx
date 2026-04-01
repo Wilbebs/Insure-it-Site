@@ -617,7 +617,7 @@ export default function Landing() {
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16 pt-0">
-          <div className="w-full max-w-[933px] text-center" style={{ zoom: 0.52 }}>
+          <div className="shield-zoom w-full max-w-[933px] text-center">
             {!isMinimized && (
               <motion.div
                 key="hero-card"
@@ -649,15 +649,14 @@ export default function Landing() {
                   <div
                     className="absolute pointer-events-none"
                     style={{
-                      inset: "-5px",
+                      inset: "-4px",
                       WebkitMaskImage: `url(${shieldGlassImg})`,
                       maskImage: `url(${shieldGlassImg})`,
                       WebkitMaskSize: "100% 100%",
                       maskSize: "100% 100%",
                       WebkitMaskRepeat: "no-repeat",
                       maskRepeat: "no-repeat",
-                      background: "rgba(255, 255, 255, 0.65)",
-                      filter: "blur(4px)",
+                      background: "rgba(255, 255, 255, 0.92)",
                       zIndex: 0,
                     }}
                   />
@@ -731,7 +730,7 @@ export default function Landing() {
                   >
                     <button
                       onClick={() => setQuoteModalOpen(true)}
-                      className="animated-border-btn group relative overflow-hidden text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                      className="animated-border-btn group relative overflow-hidden text-primary-foreground w-full sm:w-auto px-5 sm:px-8 py-2.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
                       data-testid="button-get-quote"
                     >
                       <span className="relative z-10">
@@ -743,7 +742,7 @@ export default function Landing() {
                     <a
                       href="tel:+19049090897"
                       onClick={() => copyToClipboard("9049090897", "phone")}
-                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
+                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 w-full sm:w-auto px-5 sm:px-8 py-2.5 sm:py-4 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
                       data-testid="button-call-us"
                     >
                       <Phone className="w-4 h-4 shrink-0" />

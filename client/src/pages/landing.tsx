@@ -719,11 +719,11 @@ export default function Landing() {
                       heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
                     }
                     transition={{ duration: 0.8, delay: 0.5 }}
-                    className="relative flex flex-col items-stretch gap-4 sm:gap-5 justify-center mt-4 sm:mt-6 w-full px-14 sm:px-20"
+                    className="relative flex flex-col items-center gap-4 sm:gap-5 justify-center mt-4 sm:mt-6 w-full"
                   >
                     <button
                       onClick={() => setQuoteModalOpen(true)}
-                      className="animated-border-btn group relative overflow-hidden text-primary-foreground w-full py-4 sm:py-7 rounded-xl font-semibold text-lg sm:text-2xl shadow-xl shadow-primary/25 transition-all duration-300 sm:hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                      className="animated-border-btn group relative overflow-hidden text-primary-foreground w-[74%] py-4 sm:py-7 rounded-xl font-semibold text-lg sm:text-2xl shadow-xl shadow-primary/25 transition-all duration-300 sm:hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
                       data-testid="button-get-quote"
                     >
                       <span className="relative z-10 flex items-center justify-center gap-2">
@@ -735,7 +735,7 @@ export default function Landing() {
                     <a
                       href="tel:+19049090897"
                       onClick={() => copyToClipboard("9049090897", "phone")}
-                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 w-full py-4 sm:py-7 rounded-xl hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
+                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 w-[57%] py-4 sm:py-7 rounded-xl hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
                       data-testid="button-call-us"
                     >
                       <Phone className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />

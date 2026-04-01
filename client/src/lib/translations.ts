@@ -195,7 +195,7 @@ const translations = {
       licensed: "Licensed & Insured",
       bullets: [
         "Family-owned since 2011, rooted in Jacksonville",
-        "Free quotes — no pressure, no obligation",
+        "Free quotes, no pressure, no obligation",
         "Coverage for Home, Auto, Flood, Life & Business",
         "Real agents who pick up the phone",
       ],
@@ -644,7 +644,7 @@ const translations = {
       licensed: "Licenciados y Asegurados",
       bullets: [
         "Empresa familiar desde 2011, arraigada en Jacksonville",
-        "Cotizaciones gratuitas — sin presión ni compromiso",
+        "Cotizaciones gratuitas, sin presión ni compromiso",
         "Cobertura para Hogar, Auto, Inundación, Vida y Negocio",
         "Agentes reales que contestan el teléfono",
       ],

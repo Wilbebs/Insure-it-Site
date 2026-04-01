@@ -942,8 +942,8 @@ export default function Landing() {
                 </div>
 
                 {/* Bottom: pills + button pinned to bottom */}
-                <div className="mt-auto flex flex-col items-center gap-3">
-                  <div className="flex flex-nowrap gap-1.5 sm:gap-2 justify-center">
+                <div className="mt-auto flex flex-col items-start gap-3">
+                  <div className="flex flex-nowrap gap-1.5 sm:gap-2">
                     <a
                       href="tel:+19049090897"
                       onClick={() => copyToClipboard("9049090897", "phone")}

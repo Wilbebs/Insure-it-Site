@@ -32,7 +32,7 @@ export default function Navigation() {
     <>
       {/* Desktop Navigation */}
       <nav 
-        className={`fixed left-1/2 transform -translate-x-1/2 z-50 glass-nav py-4 hidden lg:block transition-all duration-500 ease-in-out ${
+        className={`fixed left-1/2 transform -translate-x-1/2 z-50 glass-nav py-4 hidden lg:block transition-all duration-500 ease-in-out overflow-hidden ${
           isScrolled 
             ? 'top-4 rounded-full px-6' 
             : 'top-0 rounded-none w-full px-4 sm:px-8'
@@ -140,7 +140,7 @@ export default function Navigation() {
 
       {/* Mobile Navigation */}
       <nav
-        className={`fixed left-0 right-0 z-50 glass-nav lg:hidden transition-all duration-500 ease-in-out ${
+        className={`fixed left-0 right-0 z-50 glass-nav lg:hidden transition-all duration-500 ease-in-out overflow-hidden ${
           isScrolled
             ? 'top-3 rounded-full mx-3 px-3 py-2'
             : 'top-0 rounded-none px-4 py-3'

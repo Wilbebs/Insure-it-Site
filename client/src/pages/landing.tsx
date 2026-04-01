@@ -353,7 +353,6 @@ export default function Landing() {
   const [scrollY, setScrollY] = useState(0);
   const [copiedContact, setCopiedContact] = useState<string | null>(null);
   const [addressCopied, setAddressCopied] = useState(false);
-  const [isShieldHovered, setIsShieldHovered] = useState(false);
   const [shieldSweeping, setShieldSweeping] = useState(false);
   const highFiveRef = useRef<HTMLDivElement>(null);
   const [highFiveVisible, setHighFiveVisible] = useState(false);
@@ -642,7 +641,6 @@ export default function Landing() {
                 <div
                   className="relative"
                   onMouseEnter={() => {
-                    setIsShieldHovered(true);
                     setShieldSweeping(false);
                     requestAnimationFrame(() => {
                       setShieldSweeping(true);
@@ -650,7 +648,6 @@ export default function Landing() {
                     });
                   }}
                   onMouseLeave={() => {
-                    setIsShieldHovered(false);
                     setShieldSweeping(false);
                     requestAnimationFrame(() => {
                       setShieldSweeping(true);
@@ -669,11 +666,8 @@ export default function Landing() {
                       maskSize: "100% 100%",
                       WebkitMaskRepeat: "no-repeat",
                       maskRepeat: "no-repeat",
-                      background: isShieldHovered
-                        ? "rgba(255, 255, 255, 0.92)"
-                        : "rgba(255, 255, 255, 0.65)",
-                      filter: isShieldHovered ? "blur(6px)" : "blur(4px)",
-                      transition: "background 0.35s ease, filter 0.35s ease",
+                      background: "rgba(255, 255, 255, 0.65)",
+                      filter: "blur(4px)",
                       zIndex: 0,
                     }}
                   />
@@ -700,7 +694,7 @@ export default function Landing() {
                     className={`absolute inset-0 pointer-events-none z-20 ${shieldSweeping ? "shield-sweep" : ""}`}
                     style={{
                       background:
-                        "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.12) 38%, rgba(255,255,255,0.26) 50%, rgba(255,255,255,0.12) 62%, transparent 100%)",
+                        "linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.10) 38%, rgba(255,255,255,0.28) 50%, rgba(255,255,255,0.10) 62%, transparent 100%)",
                     }}
                   />
                   {/* Minimize button */}

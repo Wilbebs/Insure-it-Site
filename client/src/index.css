@@ -696,12 +696,12 @@
   filter: drop-shadow(0 1px 6px rgba(14, 165, 233, 0.5));
 }
 
-/* Shield shimmer sweep — top-to-bottom light band */
+/* Shield shimmer sweep — diagonal top-left → bottom-right */
 @keyframes shield-sweep {
-  0%   { transform: translateY(-120%); opacity: 0; }
+  0%   { transform: translate(-160%, -160%); opacity: 0; }
   12%  { opacity: 1; }
   88%  { opacity: 1; }
-  100% { transform: translateY(220%); opacity: 0; }
+  100% { transform: translate(160%, 160%); opacity: 0; }
 }
 
 .shield-sweep {

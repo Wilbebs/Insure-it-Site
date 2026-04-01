@@ -37,6 +37,7 @@ export default function Navigation() {
             ? 'top-4 rounded-full pl-6 pr-8' 
             : 'top-0 rounded-none w-full px-4 sm:px-8'
         }`}
+        style={isScrolled && socialHovered ? { paddingRight: '4rem' } : undefined}
         data-testid="main-navigation"
       >
         <div className="flex items-center justify-between w-full gap-12">

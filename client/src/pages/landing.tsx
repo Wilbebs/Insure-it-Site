@@ -698,7 +698,7 @@ export default function Landing() {
                   </p>
 
                   {/* Insurance types — above CTAs on desktop, below on mobile */}
-                  <div className="order-3 sm:order-none flex items-end justify-center gap-3 sm:gap-7 mt-3 sm:mt-6 md:mt-8 mb-[5px] md:mb-[18px]">
+                  <div className="order-3 flex items-end justify-center gap-3 sm:gap-7 mt-3 sm:mt-4 mb-[5px] md:mb-[18px]">
                     {[
                       { icon: <House className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[0], short: t.hero.coveragesShort[0], color: "text-sky-300" },
                       { icon: <Car className="w-5 h-5 sm:w-9 sm:h-9" />,   label: t.hero.coverages[1], short: t.hero.coveragesShort[1], color: "text-blue-300" },
@@ -728,7 +728,7 @@ export default function Landing() {
                       heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
                     }
                     transition={{ duration: 0.8, delay: 0.5 }}
-                    className="order-2 sm:order-none relative flex flex-row items-center gap-2 sm:gap-4 justify-center mt-2 sm:mt-0"
+                    className="order-2 relative flex flex-row items-center gap-2 sm:gap-4 justify-center mt-2 sm:mt-0"
                   >
                     <button
                       onClick={() => setQuoteModalOpen(true)}

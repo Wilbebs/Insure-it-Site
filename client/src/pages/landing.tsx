@@ -247,10 +247,10 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky:   "from-sky-800 via-sky-800/70 to-sky-700/30",
-    teal:  "from-teal-900 via-teal-900/70 to-teal-800/30",
-    pink:  "from-pink-900 via-pink-900/70 to-pink-800/30",
-    indigo:"from-indigo-900 via-indigo-900/70 to-indigo-800/30",
+    sky:   "from-blue-700 via-blue-700/70 to-blue-600/30",
+    teal:  "from-indigo-700 via-indigo-700/70 to-indigo-600/30",
+    pink:  "from-violet-700 via-violet-700/70 to-violet-600/30",
+    indigo:"from-purple-800 via-purple-800/70 to-purple-700/30",
   };
 
   const iconAnimations = {
@@ -281,10 +281,10 @@ function InsuranceCard({
       style={{
         boxShadow: isHovered
           ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${
-              type.color === "sky"   ? "rgba(56, 189, 248, 0.35)" :
-              type.color === "teal"  ? "rgba(20, 184, 166, 0.35)" :
-              type.color === "pink"  ? "rgba(236, 72, 153, 0.35)" :
-                                       "rgba(99, 102, 241, 0.35)"
+              type.color === "sky"   ? "rgba(37, 99, 235, 0.45)" :
+              type.color === "teal"  ? "rgba(79, 70, 229, 0.45)" :
+              type.color === "pink"  ? "rgba(124, 58, 237, 0.45)" :
+                                       "rgba(147, 51, 234, 0.45)"
             }`
           : undefined,
       }}

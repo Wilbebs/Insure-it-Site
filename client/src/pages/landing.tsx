@@ -610,37 +610,6 @@ export default function Landing() {
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">
           <div className="w-full max-w-[700px] text-center">
-            {/* Hidden SVG — defines the heraldic shield clip-path shape */}
-            <svg width="0" height="0" style={{ position: "absolute", overflow: "hidden" }} aria-hidden="true">
-              <defs>
-                <clipPath id="shield-clip" clipPathUnits="objectBoundingBox">
-                  {/*
-                    Heraldic shield — center spike at top, two arch-humps flanking it,
-                    rounded corners, nearly vertical sides, rounded bottom point.
-                    Traced from the reference image.
-                  */}
-                  <path d="
-                    M 0.50,0.05
-                    C 0.54,0.14  0.57,0.18  0.61,0.16
-                    C 0.65,0.13  0.70,0.07  0.73,0.08
-                    C 0.78,0.09  0.84,0.15  0.88,0.19
-                    C 0.95,0.23  0.98,0.32  0.98,0.44
-                    C 0.98,0.62  0.94,0.77  0.86,0.88
-                    C 0.76,0.95  0.63,0.99  0.52,0.995
-                    C 0.51,0.998 0.50,1.0   0.50,1.0
-                    C 0.50,1.0   0.49,0.998 0.48,0.995
-                    C 0.37,0.99  0.24,0.95  0.14,0.88
-                    C 0.06,0.77  0.02,0.62  0.02,0.44
-                    C 0.02,0.32  0.05,0.23  0.12,0.19
-                    C 0.16,0.15  0.22,0.09  0.27,0.08
-                    C 0.30,0.07  0.35,0.13  0.39,0.16
-                    C 0.43,0.18  0.46,0.14  0.50,0.05
-                    Z
-                  " />
-                </clipPath>
-              </defs>
-            </svg>
-
             {!isMinimized && (
               <motion.div
                 key="hero-card"
@@ -657,12 +626,17 @@ export default function Landing() {
                 }}
                 whileDrag={{ cursor: "grabbing" }}
               >
-                {/* Shield card — SVG clip-path shapes it, CSS handles the glass effect */}
+                {/* Shield card — PNG mask defines the exact shape, CSS drives the frosted glass */}
                 <div
                   ref={cardInnerRef}
                   className="relative flex flex-col backdrop-blur-xl bg-white/[0.14]"
                   style={{
-                    clipPath: "url(#shield-clip)",
+                    WebkitMaskImage: `url(${shieldGlassImg})`,
+                    maskImage: `url(${shieldGlassImg})`,
+                    WebkitMaskSize: "100% 100%",
+                    maskSize: "100% 100%",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
                     paddingTop: "22%",
                     paddingBottom: "18%",
                     paddingLeft: "8%",

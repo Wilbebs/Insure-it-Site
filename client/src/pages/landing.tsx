@@ -609,7 +609,7 @@ export default function Landing() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">
+        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16 -mt-5">
           <div className="w-full max-w-[933px] text-center">
             {!isMinimized && (
               <motion.div
@@ -671,15 +671,16 @@ export default function Landing() {
                     paddingRight: "8%",
                   }}
                 >
-                  {/* Shimmer sweep — white light band sliding top→bottom, clipped by shield mask */}
-                  <div
-                    key={shieldSweeping ? "sweep-on" : "sweep-off"}
-                    className={`absolute inset-0 pointer-events-none z-20 ${shieldSweeping ? "shield-sweep" : ""}`}
-                    style={{
-                      background:
-                        "linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.18) 35%, rgba(255,255,255,0.48) 50%, rgba(255,255,255,0.18) 65%, transparent 100%)",
-                    }}
-                  />
+                  {/* Shimmer sweep — only mounted while animating so the gradient is invisible at rest */}
+                  {shieldSweeping && (
+                    <div
+                      className="absolute inset-0 pointer-events-none z-20 shield-sweep"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.18) 35%, rgba(255,255,255,0.48) 50%, rgba(255,255,255,0.18) 65%, transparent 100%)",
+                      }}
+                    />
+                  )}
                   {/* Minimize button */}
                   <button
                     onClick={handleMinimize}

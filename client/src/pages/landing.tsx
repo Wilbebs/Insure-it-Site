@@ -626,14 +626,28 @@ export default function Landing() {
                 }}
                 whileDrag={{ cursor: "grabbing" }}
               >
-                {/* Drop-shadow wrapper — traces the mask silhouette to create a soft rounded border */}
-                <div style={{
-                  filter: "drop-shadow(0 0 3px rgba(255,255,255,0.85)) drop-shadow(0 0 8px rgba(255,255,255,0.35))",
-                }}>
+                {/* Wrapper: positions the border layer behind the card */}
+                <div className="relative">
+                  {/* Solid border layer — same shield mask, slightly expanded, soft blurred edge */}
+                  <div
+                    className="absolute pointer-events-none"
+                    style={{
+                      inset: "-5px",
+                      WebkitMaskImage: `url(${shieldGlassImg})`,
+                      maskImage: `url(${shieldGlassImg})`,
+                      WebkitMaskSize: "100% 100%",
+                      maskSize: "100% 100%",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskRepeat: "no-repeat",
+                      background: "rgba(255, 255, 255, 0.65)",
+                      filter: "blur(4px)",
+                      zIndex: 0,
+                    }}
+                  />
                 {/* Shield card — PNG mask defines the exact shape, CSS drives the frosted glass */}
                 <div
                   ref={cardInnerRef}
-                  className="relative flex flex-col backdrop-blur-xl bg-white/[0.14]"
+                  className="relative z-10 flex flex-col backdrop-blur-[36px] bg-white/[0.14]"
                   style={{
                     WebkitMaskImage: `url(${shieldGlassImg})`,
                     maskImage: `url(${shieldGlassImg})`,

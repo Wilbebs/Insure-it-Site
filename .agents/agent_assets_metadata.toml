@@ -4,10 +4,10 @@ uploads = []
 id = "lWNqC1uqRKaLXvC58jJWw"
 uri = "file://client/src/assets/shield-glass.png"
 type = "image"
-title = "premium-blue-glass-shield"
+title = "frosted-glass-heraldic-shield-correct-shape"
 
 [[outputs]]
 id = "ICpmWszxOSiaHnLLCMBIa"
 uri = "file://client/src/assets/shield-glass.png"
 type = "image"
-title = "Generated Glass Shield"
+title = "Frosted Glass Heraldic Shield"

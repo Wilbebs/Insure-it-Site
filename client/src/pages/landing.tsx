@@ -610,7 +610,7 @@ export default function Landing() {
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16 pt-5">
-          <div className="w-full max-w-[440px] text-center">
+          <div className="w-full max-w-[933px] text-center" style={{ zoom: 0.52 }}>
             {!isMinimized && (
               <motion.div
                 key="hero-card"

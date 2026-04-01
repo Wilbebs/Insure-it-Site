@@ -73,7 +73,7 @@ export default function TestimonialsCarousel() {
     <div className="max-w-5xl mx-auto">
 
       {/* Header row: title top-left, nav arrows top-right */}
-      <div className="flex items-end justify-between mb-4 sm:mb-5 px-1">
+      <div className="flex items-end justify-between mb-3 px-1">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-white/70 font-semibold mb-1 select-none">
             {t.testimonials.subtitle}
@@ -149,7 +149,7 @@ export default function TestimonialsCarousel() {
                 </div>
 
                 {/* Quote */}
-                <p className="text-slate-600 text-[10px] sm:text-xs leading-relaxed mb-2 sm:mb-3 line-clamp-4 flex-1">
+                <p className="text-slate-600 text-[10px] sm:text-xs leading-relaxed mb-2 sm:mb-3 line-clamp-3 flex-1">
                   &ldquo;{testimonial.text}&rdquo;
                 </p>
 
@@ -166,7 +166,7 @@ export default function TestimonialsCarousel() {
       </div>
 
       {/* Dot indicators */}
-      <div className="flex justify-center gap-2 mt-4 sm:mt-5">
+      <div className="flex justify-center gap-2 mt-3">
         {Array.from({ length: TOTAL_PAGES }).map((_, i) => (
           <button
             key={i}

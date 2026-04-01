@@ -1013,7 +1013,7 @@ export default function Landing() {
         }}
       >
         <div className="absolute inset-0 bg-slate-900/40 dark:bg-slate-900/50" />
-        <section className="py-10 relative z-10">
+        <section className="py-6 relative z-10">
           <div className="container mx-auto px-4 sm:px-6">
             <TestimonialsCarousel />
           </div>

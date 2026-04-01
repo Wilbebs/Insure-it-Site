@@ -387,9 +387,9 @@ export default function Landing() {
 
   // Card motion values (fully imperative — avoids animate prop / drag conflict)
   const cardX = useMotionValue(0);
-  const cardY = useMotionValue(30);
+  const cardY = useMotionValue(0);
   const cardOpacity = useMotionValue(0);
-  const cardScale = useMotionValue(0.85);
+  const cardScale = useMotionValue(1);
 
   // Shield drag motion values
   const shieldX = useMotionValue(0);
@@ -498,13 +498,13 @@ export default function Landing() {
       cardX.set(0);
       cardY.set(0);
       cardOpacity.set(0);
-      cardScale.set(0.77);
+      cardScale.set(0.9);
       isRestoring.current = false;
       sessionStorage.setItem("heroWindowMinimized", "false");
       setIsMinimized(false);
       requestAnimationFrame(() => {
         animateValue(cardOpacity, 1, { duration: 0.5, ease: "easeOut" });
-        animateValue(cardScale, 0.85, { duration: 0.5, ease: "easeOut" });
+        animateValue(cardScale, 1, { duration: 0.5, ease: "easeOut" });
       });
     }
   }, [scrollY, isMinimized]);
@@ -540,7 +540,7 @@ export default function Landing() {
     cardX.set(0);
     cardY.set(0);
     cardOpacity.set(0);
-    cardScale.set(0.85);
+    cardScale.set(1);
   };
 
   const handleRestore = () => {
@@ -570,7 +570,7 @@ export default function Landing() {
       animateValue(cardX, 0, { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] });
       animateValue(cardY, 0, { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] });
       animateValue(cardOpacity, 1, { duration: 0.4, ease: "easeOut" });
-      animateValue(cardScale, 0.85, {
+      animateValue(cardScale, 1, {
         duration: 0.55,
         ease: [0.22, 1.1, 0.36, 1],
       });
@@ -584,8 +584,8 @@ export default function Landing() {
       {/* Hero Section */}
       <section
         ref={heroRef as RefObject<HTMLElement>}
-        className="flex items-start relative pt-20 sm:pt-24 pb-12"
-        style={{ minHeight: "80vh" }}
+        className="flex items-start relative pt-20 sm:pt-24 pb-10"
+        style={{ minHeight: "76vh" }}
       >
         {/* Hero Video Background - Parallax with blur */}
         <div
@@ -610,7 +610,7 @@ export default function Landing() {
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16 pt-5">
-          <div className="w-full max-w-[933px] text-center">
+          <div className="w-full max-w-[440px] text-center">
             {!isMinimized && (
               <motion.div
                 key="hero-card"

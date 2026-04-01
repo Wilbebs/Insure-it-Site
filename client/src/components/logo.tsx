@@ -50,15 +50,15 @@ export default function Logo({
 
         {/* Desktop: absolute + scale crops all 4 sides of transparent video padding */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <div className="relative h-[200px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
+          <div className="relative h-[140px] w-full overflow-hidden mx-auto" style={{ marginTop: '-3px' }}>
             <video
               autoPlay
               muted
               playsInline
               className="absolute left-1/2 w-[990px] h-auto pointer-events-none z-10"
               style={{
-                top: "-57px",
-                transform: "translateX(-50%) scale(1.55)",
+                top: "-38px",
+                transform: "translateX(-50%) scale(1.1)",
                 transformOrigin: "center center",
               }}
             >
@@ -66,7 +66,7 @@ export default function Logo({
             </video>
           </div>
           {showTagline && (
-            <p className="mt-[43px] text-xl md:text-2xl font-semibold italic tagline-shimmer select-none">
+            <p className="mt-[28px] text-lg md:text-xl font-semibold italic tagline-shimmer select-none">
               {taglineText}
             </p>
           )}

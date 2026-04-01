@@ -732,7 +732,7 @@ export default function Landing() {
                   >
                     <button
                       onClick={() => setQuoteModalOpen(true)}
-                      className="animated-border-btn group relative overflow-hidden text-primary-foreground px-5 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none whitespace-nowrap"
+                      className="animated-border-btn group relative overflow-hidden text-primary-foreground px-5 sm:px-10 py-3 sm:py-5 rounded-lg font-semibold text-sm sm:text-xl shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none whitespace-nowrap"
                       data-testid="button-get-quote"
                     >
                       <span className="relative z-10">
@@ -744,7 +744,7 @@ export default function Landing() {
                     <a
                       href="tel:+19049090897"
                       onClick={() => copyToClipboard("9049090897", "phone")}
-                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-5 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-2 sm:gap-3 select-none whitespace-nowrap"
+                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-5 sm:px-10 py-3 sm:py-5 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-2 sm:gap-3 select-none whitespace-nowrap"
                       data-testid="button-call-us"
                     >
                       <Phone className="w-4 h-4 shrink-0" />
@@ -762,15 +762,15 @@ export default function Landing() {
                     </a>
                   </motion.div>
 
-                  {/* Minimize button — centered below CTAs, desktop only */}
-                  <div className="hidden sm:flex justify-center mt-5 mb-1">
+                  {/* Minimize button — below insurance types, desktop only */}
+                  <div className="order-4 hidden sm:flex justify-center mt-3 mb-1">
                     <button
                       onClick={handleMinimize}
-                      className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 hover:border-white/40 transition-all duration-200 group"
+                      className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-300/20 border border-blue-300/40 hover:bg-blue-300/35 hover:border-blue-300/70 transition-all duration-200 group"
                       aria-label="Minimize shield"
                     >
-                      <Minus className="w-3.5 h-3.5 text-white/60 group-hover:text-white/90 transition-colors" />
-                      <span className="text-[10px] tracking-[0.14em] uppercase font-medium text-white/60 group-hover:text-white/90 transition-colors">Minimize</span>
+                      <Minus className="w-3.5 h-3.5 text-blue-200/80 group-hover:text-blue-100 transition-colors" />
+                      <span className="text-[10px] tracking-[0.14em] uppercase font-medium text-blue-200/80 group-hover:text-blue-100 transition-colors">Minimize</span>
                     </button>
                   </div>
                 </div>

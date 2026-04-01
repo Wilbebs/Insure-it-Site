@@ -630,6 +630,7 @@ export default function Landing() {
                 {/* Wrapper: positions the border layer behind the card */}
                 <div
                   className="relative"
+                  style={{ zoom: 0.6 }}
                   onMouseLeave={() => {
                     setShieldSweeping(false);
                     requestAnimationFrame(() => {

@@ -592,7 +592,7 @@ export default function Landing() {
       <section
         ref={heroRef as RefObject<HTMLElement>}
         className="flex items-start relative pt-16 sm:pt-[72px] pb-10"
-        style={{ minHeight: "90vh" }}
+        style={{ minHeight: "calc(100vh + 55px)" }}
       >
         {/* Hero Video Background - Parallax with blur */}
         <div
@@ -764,11 +764,11 @@ export default function Landing() {
                   <div className="flex justify-center mt-5 mb-1">
                     <button
                       onClick={handleMinimize}
-                      className="flex flex-col items-center gap-1.5 text-white/40 hover:text-white/80 transition-all duration-200 group"
+                      className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 hover:border-white/40 transition-all duration-200 group"
                       aria-label="Minimize shield"
                     >
-                      <ChevronDown className="w-6 h-6 group-hover:translate-y-0.5 transition-transform duration-200" />
-                      <span className="text-[9px] tracking-[0.18em] uppercase font-medium">Minimize</span>
+                      <Minus className="w-3.5 h-3.5 text-white/60 group-hover:text-white/90 transition-colors" />
+                      <span className="text-[10px] tracking-[0.14em] uppercase font-medium text-white/60 group-hover:text-white/90 transition-colors">Minimize</span>
                     </button>
                   </div>
                 </div>

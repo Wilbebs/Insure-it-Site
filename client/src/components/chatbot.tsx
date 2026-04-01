@@ -711,7 +711,7 @@ export default function ChatBot() {
                       initial={{ opacity: 0, scale: 0.9, y: 4 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.9, y: 4 }}
-                      className={`absolute whitespace-nowrap z-20 ${socialOpen ? 'left-0' : 'right-0'}`}
+                      className={`absolute whitespace-nowrap z-20 ${socialOpen ? 'left-2' : 'right-2'}`}
                       style={{ bottom: 'calc(100% + 10px)' }}
                     >
                       <div

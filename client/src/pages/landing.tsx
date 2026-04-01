@@ -732,7 +732,7 @@ export default function Landing() {
                   >
                     <button
                       onClick={() => setQuoteModalOpen(true)}
-                      className="animated-border-btn group relative overflow-hidden text-primary-foreground px-5 sm:px-10 py-3 sm:py-5 rounded-lg font-semibold text-sm sm:text-xl shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none whitespace-nowrap"
+                      className="animated-border-btn group relative overflow-hidden text-primary-foreground px-7 sm:px-14 py-4 sm:py-7 rounded-lg font-semibold text-base sm:text-2xl shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none whitespace-nowrap"
                       data-testid="button-get-quote"
                     >
                       <span className="relative z-10">
@@ -744,7 +744,7 @@ export default function Landing() {
                     <a
                       href="tel:+19049090897"
                       onClick={() => copyToClipboard("9049090897", "phone")}
-                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-5 sm:px-10 py-3 sm:py-5 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-2 sm:gap-3 select-none whitespace-nowrap"
+                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-7 sm:px-14 py-4 sm:py-7 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-2 sm:gap-4 select-none whitespace-nowrap"
                       data-testid="button-call-us"
                     >
                       <Phone className="w-4 h-4 shrink-0" />
@@ -762,8 +762,8 @@ export default function Landing() {
                     </a>
                   </motion.div>
 
-                  {/* Minimize button — below insurance types, desktop only */}
-                  <div className="order-4 hidden sm:flex justify-center mt-3 mb-1">
+                  {/* Minimize button — very bottom of shield, desktop only */}
+                  <div className="order-[99] hidden sm:flex justify-center mt-10 mb-1">
                     <button
                       onClick={handleMinimize}
                       className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-300/20 border border-blue-300/40 hover:bg-blue-300/35 hover:border-blue-300/70 transition-all duration-200 group"

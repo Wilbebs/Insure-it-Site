@@ -400,8 +400,24 @@ export default function Landing() {
   const [isDesktop, setIsDesktop] = useState(
     typeof window !== "undefined" && window.innerWidth >= 1024
   );
+
+  // Graduated shield zoom: scales up with phone screen size
+  const getShieldZoom = () => {
+    if (typeof window === "undefined") return 0.52;
+    const w = window.innerWidth;
+    if (w >= 1024) return 0.52;
+    if (w >= 640)  return 0.68;
+    if (w >= 430)  return 0.78;
+    if (w >= 390)  return 0.75;
+    return 0.67;
+  };
+  const [shieldZoom, setShieldZoom] = useState(getShieldZoom);
+
   useEffect(() => {
-    const onResize = () => setIsDesktop(window.innerWidth >= 1024);
+    const onResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+      setShieldZoom(getShieldZoom());
+    };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
@@ -617,7 +633,7 @@ export default function Landing() {
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-1 sm:px-6 md:px-16 pt-0">
-          <div className="w-full max-w-[933px] text-center" style={{ zoom: isDesktop ? 0.52 : 0.67 }}>
+          <div className="w-full max-w-[933px] text-center" style={{ zoom: shieldZoom }}>
             {!isMinimized && (
               <motion.div
                 key="hero-card"

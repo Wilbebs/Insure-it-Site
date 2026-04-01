@@ -592,7 +592,7 @@ export default function Landing() {
       <section
         ref={heroRef as RefObject<HTMLElement>}
         className="flex items-start relative pt-16 sm:pt-[72px] pb-10"
-        style={{ minHeight: "calc(100vh + 55px)" }}
+        style={{ minHeight: "calc(100vh + 48px)" }}
       >
         {/* Hero Video Background - Parallax with blur */}
         <div

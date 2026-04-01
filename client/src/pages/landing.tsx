@@ -859,27 +859,16 @@ export default function Landing() {
 
       {/* Ready to Get Started + Map Section */}
       <section
-        className="pt-5 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
+        className="pt-8 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
         style={{ marginTop: 0, zIndex: 10, position: "relative" }}
       >
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-5xl mx-auto">
-            {/* Centered CTA block — Title → Map → Pills → Button */}
-            <div className="flex flex-col items-center text-center gap-5 mb-8">
+            {/* Two-column layout: Map left, Content right */}
+            <div className="grid md:grid-cols-2 gap-8 items-center mb-8">
 
-              {/* Title */}
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3 select-none">
-                  {t.contact.subtitle}
-                </p>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 select-none">
-                  {t.contact.title}
-                </h2>
-                <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
-              </div>
-
-              {/* Map — full width, original height */}
-              <div className="relative h-[368px] sm:h-[428px] md:h-[488px] w-full">
+              {/* Left column: Map */}
+              <div className="relative h-[340px] sm:h-[400px] md:h-[460px]">
                 <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden w-full h-full">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!4v1772407358800!6m8!1m7!1sduMvKfdLYRewb8CVXg-ybA!2m2!1d30.1626398364991!2d-81.63340592784719!3f271.0787535168472!4f2.850590466226677!5f0.4000000000000002"
@@ -925,46 +914,75 @@ export default function Landing() {
                 </button>
               </div>
 
-              {/* Contact pills */}
-              <div className="flex flex-nowrap gap-1.5 sm:gap-2 justify-center">
-                <a
-                  href="tel:+19049090897"
-                  onClick={() => copyToClipboard("9049090897", "phone")}
-                  data-testid="link-phone"
-                  className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
-                  style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
-                >
-                  {copiedContact === "phone" ? <Check className="w-3 h-3" /> : <Phone className="w-3 h-3" />}
-                  {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
-                </a>
-                <a
-                  href="mailto:Insureit@insureitgroup.net"
-                  onClick={() => copyToClipboard("Insureit@insureitgroup.net", "email")}
-                  data-testid="link-email"
-                  className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
-                  style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
-                >
-                  {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
-                  {copiedContact === "email" ? "Copied!" : "Insureit@insureitgroup.net"}
-                </a>
-              </div>
+              {/* Right column: Title + bullets + pills + button */}
+              <div className="flex flex-col items-center text-center gap-5">
 
-              {/* Get Quoted button */}
-              <div className="relative">
-                <div className="absolute -inset-[5px] bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-400 rounded-xl opacity-40 blur-md animate-pulse pointer-events-none" />
-                <button
-                  onClick={() => setQuoteModalOpen(true)}
-                  className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
-                  data-testid="button-get-quote-contact"
-                >
-                  <span className="relative z-10">
-                    {t.contact.getQuoted}
-                    <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
-                </button>
-              </div>
+                {/* Title */}
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3 select-none">
+                    {t.contact.subtitle}
+                  </p>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 select-none">
+                    {t.contact.title}
+                  </h2>
+                  <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
+                </div>
 
+                {/* Bullet points */}
+                <ul className="text-left space-y-3 w-full">
+                  {t.contact.bullets.map((bullet, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
+                        <svg className="w-3 h-3 text-primary" viewBox="0 0 12 12" fill="none">
+                          <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                      <span className="text-sm sm:text-base text-muted-foreground leading-snug">{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Contact pills */}
+                <div className="flex flex-nowrap gap-1.5 sm:gap-2 justify-center">
+                  <a
+                    href="tel:+19049090897"
+                    onClick={() => copyToClipboard("9049090897", "phone")}
+                    data-testid="link-phone"
+                    className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                    style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
+                  >
+                    {copiedContact === "phone" ? <Check className="w-3 h-3" /> : <Phone className="w-3 h-3" />}
+                    {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
+                  </a>
+                  <a
+                    href="mailto:Insureit@insureitgroup.net"
+                    onClick={() => copyToClipboard("Insureit@insureitgroup.net", "email")}
+                    data-testid="link-email"
+                    className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                    style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
+                  >
+                    {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
+                    {copiedContact === "email" ? "Copied!" : "Insureit@insureitgroup.net"}
+                  </a>
+                </div>
+
+                {/* Get Quoted button */}
+                <div className="relative">
+                  <div className="absolute -inset-[5px] bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-400 rounded-xl opacity-40 blur-md animate-pulse pointer-events-none" />
+                  <button
+                    onClick={() => setQuoteModalOpen(true)}
+                    className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                    data-testid="button-get-quote-contact"
+                  >
+                    <span className="relative z-10">
+                      {t.contact.getQuoted}
+                      <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
+                  </button>
+                </div>
+
+              </div>
             </div>
           </div>
         </div>

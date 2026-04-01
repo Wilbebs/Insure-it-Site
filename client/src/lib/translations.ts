@@ -193,6 +193,12 @@ const translations = {
       getQuoted: "Get Quoted Today",
       location: "St. Johns, FL",
       licensed: "Licensed & Insured",
+      bullets: [
+        "Family-owned since 2011, rooted in Jacksonville",
+        "Free quotes — no pressure, no obligation",
+        "Coverage for Home, Auto, Flood, Life & Business",
+        "Real agents who pick up the phone",
+      ],
     },
     footer: {
       description: "A proud family-owned business serving Florida for 14 years. From our roots in Miami to serving thousands of clients statewide, we're your trusted partner in comprehensive insurance solutions.",
@@ -636,6 +642,12 @@ const translations = {
       getQuoted: "Cotice Hoy",
       location: "St. Johns, FL",
       licensed: "Licenciados y Asegurados",
+      bullets: [
+        "Empresa familiar desde 2011, arraigada en Jacksonville",
+        "Cotizaciones gratuitas — sin presión ni compromiso",
+        "Cobertura para Hogar, Auto, Inundación, Vida y Negocio",
+        "Agentes reales que contestan el teléfono",
+      ],
     },
     footer: {
       description: "Un orgulloso negocio familiar sirviendo a Florida por 14 años. Desde nuestras raíces en Miami hasta servir a miles de clientes en todo el estado, somos su socio de confianza en soluciones de seguros integrales.",

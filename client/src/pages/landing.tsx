@@ -700,16 +700,16 @@ export default function Landing() {
 
                   <div className="flex items-end justify-center gap-5 sm:gap-7 mt-6 md:mt-8 mb-[5px] md:mb-[18px]">
                     {[
-                      { icon: <House className="w-5 h-5 sm:w-6 sm:h-6" />, label: t.hero.coverages[0], short: t.hero.coveragesShort[0], color: "text-sky-300" },
-                      { icon: <Car className="w-5 h-5 sm:w-6 sm:h-6" />,   label: t.hero.coverages[1], short: t.hero.coveragesShort[1], color: "text-blue-300" },
-                      { icon: <Heart className="w-5 h-5 sm:w-6 sm:h-6" />, label: t.hero.coverages[2], short: t.hero.coveragesShort[2], color: "text-pink-300" },
-                      { icon: <Building2 className="w-5 h-5 sm:w-6 sm:h-6" />, label: t.hero.coverages[3], short: t.hero.coveragesShort[3], color: "text-indigo-300" },
-                      { icon: <Waves className="w-5 h-5 sm:w-6 sm:h-6" />, label: t.hero.coverages[4], short: t.hero.coveragesShort[4], color: "text-teal-300" },
+                      { icon: <House className="w-8 h-8 sm:w-9 sm:h-9" />, label: t.hero.coverages[0], short: t.hero.coveragesShort[0], color: "text-sky-300" },
+                      { icon: <Car className="w-8 h-8 sm:w-9 sm:h-9" />,   label: t.hero.coverages[1], short: t.hero.coveragesShort[1], color: "text-blue-300" },
+                      { icon: <Heart className="w-8 h-8 sm:w-9 sm:h-9" />, label: t.hero.coverages[2], short: t.hero.coveragesShort[2], color: "text-pink-300" },
+                      { icon: <Building2 className="w-8 h-8 sm:w-9 sm:h-9" />, label: t.hero.coverages[3], short: t.hero.coveragesShort[3], color: "text-indigo-300" },
+                      { icon: <Waves className="w-8 h-8 sm:w-9 sm:h-9" />, label: t.hero.coverages[4], short: t.hero.coveragesShort[4], color: "text-teal-300" },
                     ].map(({ icon, label, short, color }, i, arr) => (
                       <div key={label} className="flex items-end gap-5 sm:gap-7">
                         <div className="flex flex-col items-center gap-1 select-none">
                           <span className={`${color} drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]`}>{icon}</span>
-                          <span className="text-white/80 text-[9px] sm:text-[11px] font-medium tracking-wide whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
+                          <span className="text-white/80 text-[13px] sm:text-[16px] font-medium tracking-wide whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
                             <span className="sm:hidden">{short}</span>
                             <span className="hidden sm:inline">{label}</span>
                           </span>

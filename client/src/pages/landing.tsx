@@ -609,7 +609,7 @@ export default function Landing() {
 
         {/* Content */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16">
-          <div className="w-full max-w-[575px] text-center">
+          <div className="w-full max-w-[700px] text-center">
             {!isMinimized && (
               <motion.div
                 key="hero-card"
@@ -637,16 +637,16 @@ export default function Landing() {
                     maskSize: "100% 100%",
                     WebkitMaskRepeat: "no-repeat",
                     maskRepeat: "no-repeat",
-                    paddingTop: "18%",
-                    paddingBottom: "24%",
-                    paddingLeft: "13%",
-                    paddingRight: "13%",
+                    paddingTop: "26%",
+                    paddingBottom: "20%",
+                    paddingLeft: "10%",
+                    paddingRight: "10%",
                   }}
                 >
                   {/* Minimize button */}
                   <button
                     onClick={handleMinimize}
-                    className="absolute top-[12%] right-[10%] z-30 w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm border border-white/40 flex items-center justify-center hover:bg-white/35 transition-all duration-200 group"
+                    className="absolute top-[18%] right-[12%] z-30 w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm border border-white/40 flex items-center justify-center hover:bg-white/35 transition-all duration-200 group"
                     aria-label="Minimize"
                   >
                     <Minus className="w-4 h-4 text-white group-hover:text-blue-100 transition-colors" />

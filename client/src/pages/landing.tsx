@@ -719,7 +719,7 @@ export default function Landing() {
                       heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
                     }
                     transition={{ duration: 0.8, delay: 0.5 }}
-                    className="relative flex flex-col items-stretch gap-4 sm:gap-5 justify-center mt-4 sm:mt-6 w-full px-4 sm:px-6"
+                    className="relative flex flex-col items-stretch gap-4 sm:gap-5 justify-center mt-4 sm:mt-6 w-full px-14 sm:px-20"
                   >
                     <button
                       onClick={() => setQuoteModalOpen(true)}

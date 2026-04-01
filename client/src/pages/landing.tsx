@@ -918,14 +918,14 @@ export default function Landing() {
               <div className="flex flex-col h-[340px] sm:h-[400px] md:h-[460px]">
 
                 {/* Top: Title + bullets */}
-                <div className="flex flex-col items-center text-center">
+                <div className="flex flex-col items-start text-left">
                   <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3 select-none">
                     {t.contact.subtitle}
                   </p>
                   <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 select-none">
                     {t.contact.title}
                   </h2>
-                  <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto mb-5" />
+                  <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-5" />
 
                   <ul className="text-left space-y-3 w-full">
                     {t.contact.bullets.map((bullet, i) => (

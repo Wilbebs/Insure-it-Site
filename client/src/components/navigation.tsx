@@ -10,6 +10,7 @@ export default function Navigation() {
   const [location] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoHighlight, setLogoHighlight] = useState(false);
+  const [socialHovered, setSocialHovered] = useState(false);
   const { t, language, toggleLanguage } = useTranslation();
 
   useEffect(() => {
@@ -73,42 +74,51 @@ export default function Navigation() {
             </Link>
           </div>
 
-          {/* Right side: Social Media Links + Language Toggle */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Right side: Social icons fan-out + Language Toggle */}
+          <div
+            className={`flex items-center flex-shrink-0 transition-all duration-300 ease-in-out ${
+              isScrolled && !socialHovered ? '-space-x-6' : 'gap-2'
+            }`}
+            onMouseEnter={() => isScrolled && setSocialHovered(true)}
+            onMouseLeave={() => setSocialHovered(false)}
+          >
             <a 
               href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-linkedin"
+              style={{ zIndex: 3 }}
             >
               <FaLinkedin className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" />
             </a>
-            
             <a 
               href="https://www.instagram.com/insureitgroup/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-white/90 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-instagram"
+              style={{ zIndex: 2 }}
             >
               <FaInstagram className="w-5 h-5 text-pink-600 group-hover:text-white transition-colors duration-300" />
             </a>
-            
             <a 
               href="https://www.facebook.com/insureitgroup"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full bg-white/90 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-facebook"
+              style={{ zIndex: 1 }}
             >
               <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
             </a>
 
-            {/* Language Toggle — always in layout to prevent width shifts */}
+            {/* Language Toggle — always in layout (invisible when collapsed) so navbar width never shifts */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-2"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ml-2 ${
+                isScrolled && !socialHovered ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              }`}
               data-testid="language-toggle"
               aria-label={t.nav.switchLang}
             >

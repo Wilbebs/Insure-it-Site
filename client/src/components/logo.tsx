@@ -50,7 +50,7 @@ export default function Logo({
 
         {/* Desktop: absolute + scale crops all 4 sides of transparent video padding */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <div className="relative h-[163px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
+          <div className="relative h-[200px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
             <video
               autoPlay
               muted

@@ -632,7 +632,7 @@ export default function Landing() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-full flex items-center justify-center px-1 sm:px-6 md:px-16 pt-0 mt-[35px] sm:mt-0">
+        <div className="relative z-10 w-full flex items-center justify-center px-1 sm:px-6 md:px-16 pt-0 mt-[65px] sm:mt-0">
           <div className="w-full max-w-[933px] text-center" style={{ zoom: shieldZoom }}>
             {!isMinimized && (
               <motion.div

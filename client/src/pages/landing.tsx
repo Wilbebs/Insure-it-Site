@@ -389,7 +389,7 @@ export default function Landing() {
   const cardX = useMotionValue(0);
   const cardY = useMotionValue(30);
   const cardOpacity = useMotionValue(0);
-  const cardScale = useMotionValue(0.70);
+  const cardScale = useMotionValue(0.85);
 
   // Shield drag motion values
   const shieldX = useMotionValue(0);
@@ -498,13 +498,13 @@ export default function Landing() {
       cardX.set(0);
       cardY.set(0);
       cardOpacity.set(0);
-      cardScale.set(0.63);
+      cardScale.set(0.77);
       isRestoring.current = false;
       sessionStorage.setItem("heroWindowMinimized", "false");
       setIsMinimized(false);
       requestAnimationFrame(() => {
         animateValue(cardOpacity, 1, { duration: 0.5, ease: "easeOut" });
-        animateValue(cardScale, 0.70, { duration: 0.5, ease: "easeOut" });
+        animateValue(cardScale, 0.85, { duration: 0.5, ease: "easeOut" });
       });
     }
   }, [scrollY, isMinimized]);
@@ -540,7 +540,7 @@ export default function Landing() {
     cardX.set(0);
     cardY.set(0);
     cardOpacity.set(0);
-    cardScale.set(0.70);
+    cardScale.set(0.85);
   };
 
   const handleRestore = () => {
@@ -570,7 +570,7 @@ export default function Landing() {
       animateValue(cardX, 0, { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] });
       animateValue(cardY, 0, { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] });
       animateValue(cardOpacity, 1, { duration: 0.4, ease: "easeOut" });
-      animateValue(cardScale, 0.70, {
+      animateValue(cardScale, 0.85, {
         duration: 0.55,
         ease: [0.22, 1.1, 0.36, 1],
       });
@@ -634,7 +634,7 @@ export default function Landing() {
                     setShieldSweeping(false);
                     requestAnimationFrame(() => {
                       setShieldSweeping(true);
-                      setTimeout(() => setShieldSweeping(false), 1800);
+                      setTimeout(() => setShieldSweeping(false), 700);
                     });
                   }}
                 >
@@ -671,13 +671,13 @@ export default function Landing() {
                     paddingRight: "8%",
                   }}
                 >
-                  {/* Shimmer sweep — only mounted while animating so the gradient is invisible at rest */}
+                  {/* Shimmer sweep — identical to Get Quoted Today button */}
                   {shieldSweeping && (
                     <div
                       className="absolute inset-0 pointer-events-none z-20 shield-sweep"
                       style={{
                         background:
-                          "linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.18) 35%, rgba(255,255,255,0.48) 50%, rgba(255,255,255,0.18) 65%, transparent 100%)",
+                          "linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent)",
                       }}
                     />
                   )}

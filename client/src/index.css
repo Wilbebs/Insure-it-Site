@@ -696,16 +696,14 @@
   filter: drop-shadow(0 1px 6px rgba(14, 165, 233, 0.5));
 }
 
-/* Shield shimmer sweep — diagonal top-left → bottom-right */
+/* Shield shimmer — identical to Get Quoted Today button: left→right with skew */
 @keyframes shield-sweep {
-  0%   { transform: translate(-160%, -160%); opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translate(160%, 160%); opacity: 0; }
+  0%   { transform: translateX(-100%) skewX(-12deg); }
+  100% { transform: translateX(100%) skewX(-12deg); }
 }
 
 .shield-sweep {
-  animation: shield-sweep 1.8s ease-in-out forwards;
+  animation: shield-sweep 0.7s ease-out forwards;
 }
 
 /* Subtle dot-grid texture — applied to white/muted sections */

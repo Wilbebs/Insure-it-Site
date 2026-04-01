@@ -357,16 +357,6 @@ export default function Landing() {
   const highFiveRef = useRef<HTMLDivElement>(null);
   const [highFiveVisible, setHighFiveVisible] = useState(false);
 
-  // Auto-cycle shield shimmer every 4 s
-  useEffect(() => {
-    const trigger = () => {
-      setShieldSweeping(true);
-      setTimeout(() => setShieldSweeping(false), 1100);
-    };
-    const id = setInterval(trigger, 4000);
-    return () => clearInterval(id);
-  }, []);
-
   useEffect(() => {
     const el = highFiveRef.current;
     if (!el) return;
@@ -640,18 +630,11 @@ export default function Landing() {
                 {/* Wrapper: positions the border layer behind the card */}
                 <div
                   className="relative"
-                  onMouseEnter={() => {
-                    setShieldSweeping(false);
-                    requestAnimationFrame(() => {
-                      setShieldSweeping(true);
-                      setTimeout(() => setShieldSweeping(false), 1100);
-                    });
-                  }}
                   onMouseLeave={() => {
                     setShieldSweeping(false);
                     requestAnimationFrame(() => {
                       setShieldSweeping(true);
-                      setTimeout(() => setShieldSweeping(false), 1100);
+                      setTimeout(() => setShieldSweeping(false), 1800);
                     });
                   }}
                 >
@@ -694,7 +677,7 @@ export default function Landing() {
                     className={`absolute inset-0 pointer-events-none z-20 ${shieldSweeping ? "shield-sweep" : ""}`}
                     style={{
                       background:
-                        "linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.10) 38%, rgba(255,255,255,0.28) 50%, rgba(255,255,255,0.10) 62%, transparent 100%)",
+                        "linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.18) 35%, rgba(255,255,255,0.48) 50%, rgba(255,255,255,0.18) 65%, transparent 100%)",
                     }}
                   />
                   {/* Minimize button */}

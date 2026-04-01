@@ -521,17 +521,23 @@ export default function Landing() {
       const shieldCenterY = SHIELD_TOP + shieldY.get() + SHIELD_SIZE / 2;
       const dx = shieldCenterX - cardCenterX;
       const dy = shieldCenterY - cardCenterY;
+      // Stage 1 — brief compress (snap inward like a breath-in)
+      await Promise.all([
+        animateValue(cardScale, 0.88, { duration: 0.12, ease: [0.4, 0, 1, 1] }),
+        animateValue(cardOpacity, 0.85, { duration: 0.12, ease: "easeOut" }),
+      ]);
+      // Stage 2 — implode: fly to "it" shield and vanish
       await Promise.all([
         animateValue(cardX, cardX.get() + dx, {
-          duration: 0.45,
-          ease: [0.4, 0, 1, 1],
+          duration: 0.38,
+          ease: [0.55, 0, 1, 0.7],
         }),
         animateValue(cardY, cardY.get() + dy, {
-          duration: 0.45,
-          ease: [0.4, 0, 1, 1],
+          duration: 0.38,
+          ease: [0.55, 0, 1, 0.7],
         }),
-        animateValue(cardOpacity, 0, { duration: 0.3, ease: [0.4, 0, 1, 1] }),
-        animateValue(cardScale, 0.05, { duration: 0.45, ease: [0.4, 0, 1, 1] }),
+        animateValue(cardOpacity, 0, { duration: 0.22, ease: [0.6, 0, 1, 1] }),
+        animateValue(cardScale, 0, { duration: 0.38, ease: [0.55, 0, 1, 0.7] }),
       ]);
     }
     hasScrolledDown.current = false;
@@ -557,22 +563,23 @@ export default function Landing() {
         y: shieldCenterY - cardNaturalCenterY,
       };
     }
-    // Pre-set card to shield position before mounting
+    // Pre-set card to shield position before mounting (scale 0, invisible)
     cardX.set(restoreFrom.current.x);
     cardY.set(restoreFrom.current.y);
     cardOpacity.set(0);
-    cardScale.set(0.05);
+    cardScale.set(0);
     isRestoring.current = true;
     sessionStorage.setItem("heroWindowMinimized", "false");
     setIsMinimized(false);
-    // Animate to center after React renders the card
+    // Stage 1 — explode out from the "it" shield with spring overshoot
     requestAnimationFrame(() => {
-      animateValue(cardX, 0, { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] });
-      animateValue(cardY, 0, { duration: 0.55, ease: [0.22, 1.1, 0.36, 1] });
-      animateValue(cardOpacity, 1, { duration: 0.4, ease: "easeOut" });
+      animateValue(cardX, 0, { duration: 0.6, ease: [0.22, 1.4, 0.36, 1] });
+      animateValue(cardY, 0, { duration: 0.6, ease: [0.22, 1.4, 0.36, 1] });
+      animateValue(cardOpacity, 1, { duration: 0.35, ease: [0.22, 1, 0.36, 1] });
+      // Scale overshoots to 1.06 then settles — handled by the spring ease
       animateValue(cardScale, 1, {
-        duration: 0.55,
-        ease: [0.22, 1.1, 0.36, 1],
+        duration: 0.6,
+        ease: [0.22, 1.4, 0.36, 1],
       });
     });
   };
@@ -584,7 +591,7 @@ export default function Landing() {
       {/* Hero Section */}
       <section
         ref={heroRef as RefObject<HTMLElement>}
-        className="flex items-start relative pt-20 sm:pt-24 pb-10"
+        className="flex items-start relative pt-16 sm:pt-[72px] pb-10"
         style={{ minHeight: "90vh" }}
       >
         {/* Hero Video Background - Parallax with blur */}
@@ -609,7 +616,7 @@ export default function Landing() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16 pt-5">
+        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 md:px-16 pt-0">
           <div className="w-full max-w-[933px] text-center" style={{ zoom: 0.52 }}>
             {!isMinimized && (
               <motion.div
@@ -681,15 +688,6 @@ export default function Landing() {
                       }}
                     />
                   )}
-                  {/* Minimize button */}
-                  <button
-                    onClick={handleMinimize}
-                    className="absolute top-[18%] right-[12%] z-30 w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm border border-white/40 flex items-center justify-center hover:bg-white/35 transition-all duration-200 group"
-                    aria-label="Minimize"
-                  >
-                    <Minus className="w-4 h-4 text-white group-hover:text-blue-100 transition-colors" />
-                  </button>
-
                   {/* Logo */}
                   <div className="relative mb-2 z-10">
                     <Logo size="large" showTagline={true} variant="white" />
@@ -761,6 +759,18 @@ export default function Landing() {
                       </span>
                     </a>
                   </motion.div>
+
+                  {/* Minimize button — centered below CTAs */}
+                  <div className="flex justify-center mt-5 mb-1">
+                    <button
+                      onClick={handleMinimize}
+                      className="flex flex-col items-center gap-1.5 text-white/40 hover:text-white/80 transition-all duration-200 group"
+                      aria-label="Minimize shield"
+                    >
+                      <ChevronDown className="w-6 h-6 group-hover:translate-y-0.5 transition-transform duration-200" />
+                      <span className="text-[9px] tracking-[0.18em] uppercase font-medium">Minimize</span>
+                    </button>
+                  </div>
                 </div>
                 </div>{/* end drop-shadow wrapper */}
               </motion.div>

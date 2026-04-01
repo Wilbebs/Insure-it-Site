@@ -697,18 +697,19 @@ export default function Landing() {
                     Life&apos;s Uncertain. Your Coverage Isn&apos;t.
                   </p>
 
-                  <div className="flex items-end justify-center gap-5 sm:gap-7 mt-6 md:mt-8 mb-[5px] md:mb-[18px]">
+                  {/* Insurance types — above CTAs on desktop, below on mobile */}
+                  <div className="order-3 sm:order-none flex items-end justify-center gap-3 sm:gap-7 mt-3 sm:mt-6 md:mt-8 mb-[5px] md:mb-[18px]">
                     {[
-                      { icon: <House className="w-8 h-8 sm:w-9 sm:h-9" />, label: t.hero.coverages[0], short: t.hero.coveragesShort[0], color: "text-sky-300" },
-                      { icon: <Car className="w-8 h-8 sm:w-9 sm:h-9" />,   label: t.hero.coverages[1], short: t.hero.coveragesShort[1], color: "text-blue-300" },
-                      { icon: <Heart className="w-8 h-8 sm:w-9 sm:h-9" />, label: t.hero.coverages[2], short: t.hero.coveragesShort[2], color: "text-pink-300" },
-                      { icon: <Building2 className="w-8 h-8 sm:w-9 sm:h-9" />, label: t.hero.coverages[3], short: t.hero.coveragesShort[3], color: "text-indigo-300" },
-                      { icon: <Waves className="w-8 h-8 sm:w-9 sm:h-9" />, label: t.hero.coverages[4], short: t.hero.coveragesShort[4], color: "text-teal-300" },
+                      { icon: <House className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[0], short: t.hero.coveragesShort[0], color: "text-sky-300" },
+                      { icon: <Car className="w-5 h-5 sm:w-9 sm:h-9" />,   label: t.hero.coverages[1], short: t.hero.coveragesShort[1], color: "text-blue-300" },
+                      { icon: <Heart className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[2], short: t.hero.coveragesShort[2], color: "text-pink-300" },
+                      { icon: <Building2 className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[3], short: t.hero.coveragesShort[3], color: "text-indigo-300" },
+                      { icon: <Waves className="w-5 h-5 sm:w-9 sm:h-9" />, label: t.hero.coverages[4], short: t.hero.coveragesShort[4], color: "text-teal-300" },
                     ].map(({ icon, label, short, color }, i, arr) => (
-                      <div key={label} className="flex items-end gap-5 sm:gap-7">
+                      <div key={label} className="flex items-end gap-3 sm:gap-7">
                         <div className="flex flex-col items-center gap-1 select-none">
                           <span className={`${color} drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]`}>{icon}</span>
-                          <span className="text-white/80 text-[13px] sm:text-[16px] font-medium tracking-wide whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
+                          <span className="text-white/80 text-[8px] sm:text-[16px] font-medium tracking-wide whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
                             <span className="sm:hidden">{short}</span>
                             <span className="hidden sm:inline">{label}</span>
                           </span>
@@ -720,37 +721,36 @@ export default function Landing() {
                     ))}
                   </div>
 
+                  {/* CTAs — order-2 on mobile puts them BEFORE the icons row */}
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={
                       heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
                     }
                     transition={{ duration: 0.8, delay: 0.5 }}
-                    className="relative flex flex-row items-center gap-2 sm:gap-4 justify-center"
+                    className="order-2 sm:order-none relative flex flex-row items-center gap-2 sm:gap-4 justify-center mt-2 sm:mt-0"
                   >
                     <button
                       onClick={() => setQuoteModalOpen(true)}
-                      className="animated-border-btn group relative overflow-hidden text-primary-foreground px-3 sm:px-8 py-2 sm:py-4 rounded-lg font-semibold text-[11px] sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none whitespace-nowrap"
+                      className="animated-border-btn group relative overflow-hidden text-primary-foreground px-5 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none whitespace-nowrap"
                       data-testid="button-get-quote"
                     >
                       <span className="relative z-10">
                         {t.hero.getQuoted}
-                        <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="inline-block ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                       </span>
                       <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
                     </button>
                     <a
                       href="tel:+19049090897"
                       onClick={() => copyToClipboard("9049090897", "phone")}
-                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-3 sm:px-8 py-2 sm:py-4 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-1.5 sm:gap-3 select-none whitespace-nowrap"
+                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 px-5 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-2 sm:gap-3 select-none whitespace-nowrap"
                       data-testid="button-call-us"
                     >
-                      <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                      {/* Mobile: compact label only */}
-                      <span className="sm:hidden text-[11px] font-bold">
+                      <Phone className="w-4 h-4 shrink-0" />
+                      <span className="sm:hidden text-sm font-bold">
                         {copiedContact === "phone" ? "Copied!" : t.hero.callUs}
                       </span>
-                      {/* Desktop: full number + subtext */}
                       <span className="hidden sm:flex flex-col items-start leading-none">
                         <span className="text-sm font-bold whitespace-nowrap">
                           {copiedContact === "phone" ? "Copied!" : "904-909-0897"}

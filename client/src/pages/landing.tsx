@@ -263,7 +263,7 @@ function InsuranceCard({
     sky:    "from-amber-500/55 via-amber-400/30 to-amber-300/10",
     teal:   "from-teal-500/55 via-teal-400/30 to-teal-300/10",
     blue:   "from-blue-600/55 via-blue-500/30 to-blue-400/10",
-    indigo: "from-rose-500/50 via-purple-500/28 to-purple-400/8",
+    indigo: "from-violet-600/44 via-violet-500/22 to-violet-400/6",
     violet: "from-slate-600/50 via-slate-500/28 to-slate-400/8",
     green:  "from-emerald-500/55 via-emerald-400/30 to-emerald-300/10",
     red:    "from-red-500/55 via-red-400/30 to-red-300/10",
@@ -304,7 +304,7 @@ function InsuranceCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 h-[72px] sm:h-44 sm:hover:-translate-y-2 sm:hover:shadow-2xl sm:hover:shadow-black/30 select-none active:scale-[0.98]"
+      className="group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 h-[72px] sm:h-44 sm:hover:-translate-y-2 sm:hover:shadow-2xl sm:hover:shadow-black/30 select-none active:scale-[0.98] transform-gpu will-change-transform"
       style={{
         boxShadow: isHovered
           ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${

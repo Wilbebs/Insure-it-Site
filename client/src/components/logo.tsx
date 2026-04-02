@@ -50,15 +50,15 @@ export default function Logo({
 
         {/* Desktop: absolute + scale crops all 4 sides of transparent video padding */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
+          <div className="relative h-[230px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
             <video
               autoPlay
               muted
               playsInline
               className="absolute left-1/2 w-[990px] h-auto pointer-events-none z-10"
               style={{
-                top: "-57px",
-                transform: "translateX(-50%) scale(1.55)",
+                top: "-85px",
+                transform: "translateX(-50%) scale(2.3)",
                 transformOrigin: "center center",
               }}
             >

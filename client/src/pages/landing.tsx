@@ -828,7 +828,7 @@ export default function Landing() {
           marginTop: -18,
           position: "relative",
           zIndex: 30,
-          paddingTop: 40,
+          paddingTop: 32,
           paddingBottom: 40,
         }}
       >

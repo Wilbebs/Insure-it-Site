@@ -361,26 +361,12 @@ function InsuranceCard({
 
       {/* Default state: icon + title at TOP */}
       <div className="hidden sm:block absolute inset-x-0 top-0 p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
-        {type.color === "indigo" ? (
-          /* Life card: heartbeat icon centered inline with title */
-          <div className="flex items-center gap-2">
-            <div className={`text-white shrink-0 [&_svg]:w-5 [&_svg]:h-5 ${iconAnimation}`}>
-              {type.icon}
-            </div>
-            <h3 className="text-base font-bold text-white leading-tight drop-shadow">
-              {type.title}
-            </h3>
-          </div>
-        ) : (
-          <>
-            <div className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}>
-              {type.icon}
-            </div>
-            <h3 className="text-base font-bold text-white leading-tight drop-shadow">
-              {type.title}
-            </h3>
-          </>
-        )}
+        <div className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}>
+          {type.icon}
+        </div>
+        <h3 className="text-base font-bold text-white leading-tight drop-shadow">
+          {type.title}
+        </h3>
       </div>
 
       {/* Auto card: crash particles (desktop only, hidden on hover) */}

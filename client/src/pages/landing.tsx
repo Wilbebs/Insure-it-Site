@@ -381,7 +381,8 @@ function ScaledContainer({
     <div
       ref={wrapperRef}
       style={{
-        overflow: scale !== 1 ? "hidden" : "visible",
+        overflowX: scale !== 1 ? ("clip" as any) : "visible",
+        overflowY: "visible",
         height: typeof height === "number" ? `${height}px` : height,
       }}
     >
@@ -824,7 +825,7 @@ export default function Landing() {
       <section
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern"
         style={{
-          marginTop: -40,
+          marginTop: -18,
           position: "relative",
           zIndex: 30,
           paddingTop: 40,

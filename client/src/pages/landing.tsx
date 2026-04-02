@@ -388,7 +388,7 @@ function ScaledContainer({
       <div
         ref={innerRef}
         style={{
-          width: `${desktopWidth}px`,
+          width: scale !== 1 ? `${desktopWidth}px` : "100%",
           transform: scale !== 1 ? `scale(${scale})` : undefined,
           transformOrigin: "top left",
         }}

@@ -832,7 +832,7 @@ export default function Landing() {
         }}
       >
         <ScaledContainer desktopWidth={640}>
-          <div className="px-4 sm:px-6 pb-6">
+          <div className="px-4 sm:px-6 pb-4">
             <div className="max-w-5xl mx-auto">
               <div className="grid grid-cols-2 gap-8 items-center">
                 <div>
@@ -892,7 +892,7 @@ export default function Landing() {
         style={{ marginTop: 0, zIndex: 10, position: "relative", paddingBottom: 40 }}
       >
         <ScaledContainer desktopWidth={640}>
-          <div className="px-4 sm:px-6 pb-6 relative z-10">
+          <div className="px-4 sm:px-6 pb-4 relative z-10">
             <div className="max-w-5xl mx-auto">
               {/* Two-column layout: Map left, Content right */}
               <div className="grid grid-cols-2 gap-8 items-center mb-8">

@@ -895,7 +895,7 @@ export default function Landing() {
           <div className="px-4 sm:px-6 pb-4 relative z-10">
             <div className="max-w-5xl mx-auto">
               {/* Two-column layout: Map left, Content right */}
-              <div className="grid grid-cols-2 gap-8 items-center mb-8">
+              <div className="grid grid-cols-2 gap-8 items-center">
 
                 {/* Left column: Map */}
                 <div className="relative h-[380px]">
@@ -1019,7 +1019,7 @@ export default function Landing() {
         </ScaledContainer>
 
         {/* Wave divider — all-blue waves, no white bottom */}
-        <div className="relative z-20" style={{ marginTop: 33, marginBottom: -40 }}>
+        <div className="relative z-20" style={{ marginTop: 20, marginBottom: -40 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"

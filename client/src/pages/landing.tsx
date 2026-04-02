@@ -341,6 +341,64 @@ function InsuranceCard({
   );
 }
 
+// Renders children at a fixed desktop width then CSS-scales them to fit the
+// available container width — giving mobile users a zoomed-out desktop view.
+function ScaledContainer({
+  children,
+  desktopWidth = 640,
+}: {
+  children: React.ReactNode;
+  desktopWidth?: number;
+}) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+  const [height, setHeight] = useState<number | "auto">("auto");
+
+  useEffect(() => {
+    const update = () => {
+      const wrapper = wrapperRef.current;
+      const inner = innerRef.current;
+      if (!wrapper || !inner) return;
+      const w = wrapper.offsetWidth;
+      if (w < desktopWidth) {
+        const s = w / desktopWidth;
+        setScale(s);
+        setHeight(inner.scrollHeight * s);
+      } else {
+        setScale(1);
+        setHeight("auto");
+      }
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    const els = [wrapperRef.current, innerRef.current].filter(Boolean) as Element[];
+    els.forEach((el) => ro.observe(el));
+    return () => ro.disconnect();
+  }, [desktopWidth]);
+
+  return (
+    <div
+      ref={wrapperRef}
+      style={{
+        overflow: "hidden",
+        height: typeof height === "number" ? `${height}px` : height,
+      }}
+    >
+      <div
+        ref={innerRef}
+        style={{
+          width: `${desktopWidth}px`,
+          transform: scale !== 1 ? `scale(${scale})` : undefined,
+          transformOrigin: "top left",
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export default function Landing() {
   const { t } = useTranslation();
   const [heroVisible, setHeroVisible] = useState(false);
@@ -772,42 +830,44 @@ export default function Landing() {
           paddingTop: 18,
         }}
       >
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-4 select-none">
-                  {t.whoWeAre.subtitle}
-                </p>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 select-none">
-                  {t.whoWeAre.titleLine1}
-                  <br />
-                  <span className="text-primary">{t.whoWeAre.titleLine2}</span>
-                </h2>
-                <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-6"></div>
+        <ScaledContainer desktopWidth={640}>
+          <div className="px-4 sm:px-6">
+            <div className="max-w-5xl mx-auto">
+              <div className="grid grid-cols-2 gap-8 items-center">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-4 select-none">
+                    {t.whoWeAre.subtitle}
+                  </p>
+                  <h2 className="text-2xl font-bold text-foreground mb-4 select-none">
+                    {t.whoWeAre.titleLine1}
+                    <br />
+                    <span className="text-primary">{t.whoWeAre.titleLine2}</span>
+                  </h2>
+                  <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-6"></div>
 
-                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6">
-                  {t.whoWeAre.paragraph1}
-                </p>
-                <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                  {t.whoWeAre.paragraph2}
-                </p>
-              </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                    {t.whoWeAre.paragraph1}
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {t.whoWeAre.paragraph2}
+                  </p>
+                </div>
 
-              {/* Insurance Types 2x2 Grid */}
-              <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                {insuranceTypes.map((type, index) => (
-                  <InsuranceCard
-                    key={type.title}
-                    type={type}
-                    index={index}
-                    onClick={() => setSelectedInsurance(type)}
-                  />
-                ))}
+                {/* Insurance Types 2x2 Grid */}
+                <div className="grid grid-cols-2 gap-3">
+                  {insuranceTypes.map((type, index) => (
+                    <InsuranceCard
+                      key={type.title}
+                      type={type}
+                      index={index}
+                      onClick={() => setSelectedInsurance(type)}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </ScaledContainer>
 
         <div
           className="relative z-20"
@@ -830,13 +890,14 @@ export default function Landing() {
         className="pt-8 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
         style={{ marginTop: 0, zIndex: 10, position: "relative" }}
       >
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="max-w-5xl mx-auto">
-            {/* Two-column layout: Map left, Content right */}
-            <div className="grid md:grid-cols-2 gap-8 items-center mb-8">
+        <ScaledContainer desktopWidth={640}>
+          <div className="px-4 sm:px-6 relative z-10">
+            <div className="max-w-5xl mx-auto">
+              {/* Two-column layout: Map left, Content right */}
+              <div className="grid grid-cols-2 gap-8 items-center mb-8">
 
-              {/* Left column: Map */}
-              <div className="relative h-[340px] sm:h-[400px] md:h-[460px]">
+                {/* Left column: Map */}
+                <div className="relative h-[380px]">
                 <div className="animated-border-panel rounded-2xl shadow-xl overflow-hidden w-full h-full">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!4v1772407358800!6m8!1m7!1sduMvKfdLYRewb8CVXg-ybA!2m2!1d30.1626398364991!2d-81.63340592784719!3f271.0787535168472!4f2.850590466226677!5f0.4000000000000002"
@@ -883,7 +944,7 @@ export default function Landing() {
               </div>
 
               {/* Right column: same height as map, content top + pills+button pinned to bottom */}
-              <div className="flex flex-col h-[340px] sm:h-[400px] md:h-[460px]">
+              <div className="flex flex-col h-[380px]">
 
                 {/* Top: Title + bullets */}
                 <div className="flex flex-col items-start text-left">
@@ -954,6 +1015,7 @@ export default function Landing() {
             </div>
           </div>
         </div>
+        </ScaledContainer>
 
         {/* Wave divider — all-blue waves, no white bottom */}
         <div className="relative z-20" style={{ marginTop: 2, marginBottom: -2 }}>

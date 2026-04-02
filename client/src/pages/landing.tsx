@@ -828,6 +828,7 @@ export default function Landing() {
           position: "relative",
           zIndex: 30,
           paddingTop: 18,
+          paddingBottom: 33,
         }}
       >
         <ScaledContainer desktopWidth={640}>

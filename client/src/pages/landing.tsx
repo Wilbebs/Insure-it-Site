@@ -25,13 +25,15 @@ import {
   X,
   CheckCircle2,
   Sparkles,
+  AppWindow,
 } from "lucide-react";
 import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef, type RefObject } from "react";
 const heroVideo = "/api/videos/herovid1.mp4";
-import shieldIcon from "@assets/shield_icon.png";
-import shieldGlassImg from "@/assets/shield-glass.png";
+// SHIELD DESIGN PRESERVED — uncomment these to restore the shield look:
+// import shieldIcon from "@assets/shield_icon.png";
+// import shieldGlassImg from "@/assets/shield-glass.png";
 import floodImg from "@assets/flood_insurance.jpg";
 import highFiveImg from "@assets/team_highfive.jpg";
 
@@ -352,7 +354,7 @@ export default function Landing() {
   const [scrollY, setScrollY] = useState(0);
   const [copiedContact, setCopiedContact] = useState<string | null>(null);
   const [addressCopied, setAddressCopied] = useState(false);
-  const [shieldSweeping, setShieldSweeping] = useState(false);
+  // const [shieldSweeping, setShieldSweeping] = useState(false); // SHIELD — uncomment to restore
   const highFiveRef = useRef<HTMLDivElement>(null);
   const [highFiveVisible, setHighFiveVisible] = useState(false);
 
@@ -400,22 +402,22 @@ export default function Landing() {
     typeof window !== "undefined" && window.innerWidth >= 1024
   );
 
-  // Graduated shield zoom: scales up with phone screen size
-  const getShieldZoom = () => {
-    if (typeof window === "undefined") return 0.52;
-    const w = window.innerWidth;
-    if (w >= 1024) return 0.52;
-    if (w >= 640)  return 0.68;
-    if (w >= 430)  return 0.78;
-    if (w >= 390)  return 0.75;
-    return 0.67;
-  };
-  const [shieldZoom, setShieldZoom] = useState(getShieldZoom);
+  // SHIELD DESIGN PRESERVED — graduated zoom for the shield shape (uncomment to restore)
+  // const getShieldZoom = () => {
+  //   if (typeof window === "undefined") return 0.52;
+  //   const w = window.innerWidth;
+  //   if (w >= 1024) return 0.52;
+  //   if (w >= 640)  return 0.68;
+  //   if (w >= 430)  return 0.78;
+  //   if (w >= 390)  return 0.75;
+  //   return 0.67;
+  // };
+  // const [shieldZoom, setShieldZoom] = useState(getShieldZoom);
 
   useEffect(() => {
     const onResize = () => {
       setIsDesktop(window.innerWidth >= 1024);
-      setShieldZoom(getShieldZoom());
+      // setShieldZoom(getShieldZoom()); // SHIELD — uncomment to restore
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -631,8 +633,9 @@ export default function Landing() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-full flex items-center justify-center px-1 sm:px-6 md:px-16 pt-0 mt-[65px] sm:mt-0">
-          <div className="w-full max-w-[933px] text-center" style={{ zoom: shieldZoom }}>
+        {/* WINDOW CARD — replaces shield. Shield design preserved in comments above. */}
+        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 mt-[80px] sm:mt-[100px] md:mt-[110px]">
+          <div className="w-full flex justify-center">
             {!isMinimized && (
               <motion.div
                 key="hero-card"
@@ -648,121 +651,77 @@ export default function Landing() {
                   cursor: isDesktop ? "grab" : "default",
                 }}
                 whileDrag={{ cursor: "grabbing" }}
+                className="w-full max-w-[400px] sm:max-w-[440px]"
               >
-                {/* Wrapper: positions the border layer behind the card */}
-                <div
-                  className="relative"
-                  onMouseLeave={() => {
-                    setShieldSweeping(false);
-                    requestAnimationFrame(() => {
-                      setShieldSweeping(true);
-                      setTimeout(() => setShieldSweeping(false), 700);
-                    });
-                  }}
-                >
-                  {/* Solid border layer — pulses brighter on hover */}
-                  <div
-                    className="absolute pointer-events-none"
-                    style={{
-                      inset: "-4px",
-                      WebkitMaskImage: `url(${shieldGlassImg})`,
-                      maskImage: `url(${shieldGlassImg})`,
-                      WebkitMaskSize: "100% 100%",
-                      maskSize: "100% 100%",
-                      WebkitMaskRepeat: "no-repeat",
-                      maskRepeat: "no-repeat",
-                      background: "rgba(255, 255, 255, 0.92)",
-                      zIndex: 0,
-                    }}
-                  />
-                {/* Shield card — PNG mask defines the exact shape, CSS drives the frosted glass */}
+                {/* App-window card */}
                 <div
                   ref={cardInnerRef}
-                  className="relative z-10 flex flex-col backdrop-blur-[36px] bg-white/[0.14]"
-                  style={{
-                    WebkitMaskImage: `url(${shieldGlassImg})`,
-                    maskImage: `url(${shieldGlassImg})`,
-                    WebkitMaskSize: "100% 100%",
-                    maskSize: "100% 100%",
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                    paddingTop: "27%",
-                    paddingBottom: "23%",
-                    paddingLeft: "8%",
-                    paddingRight: "8%",
-                  }}
+                  className="relative bg-white/30 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/40 overflow-hidden"
                 >
-                  {/* Shimmer sweep — identical to Get Quoted Today button */}
-                  {shieldSweeping && (
-                    <div
-                      className="absolute inset-0 pointer-events-none z-20 shield-sweep"
-                      style={{
-                        background:
-                          "linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent)",
-                      }}
-                    />
-                  )}
-                  {/* Logo */}
-                  <div className="relative mb-2 z-10">
-                    <Logo size="large" showTagline={true} variant="white" />
-                  </div>
-
-                  {/* Mobile tagline — directly under logo */}
-                  <p className="md:hidden text-base font-semibold italic tagline-shimmer select-none text-center mb-6">
-                    Life&apos;s Uncertain. Your Coverage Isn&apos;t.
-                  </p>
-
-                  {/* CTAs — stacked vertically, full width to fill shield space */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={
-                      heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-                    }
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                    className="relative flex flex-col items-center gap-4 sm:gap-5 justify-center mt-4 sm:mt-6 w-full"
-                  >
-                    <button
-                      onClick={() => setQuoteModalOpen(true)}
-                      className="animated-border-btn group relative overflow-hidden text-primary-foreground w-[74%] py-4 sm:py-7 rounded-xl font-semibold text-lg sm:text-2xl shadow-xl shadow-primary/25 transition-all duration-300 sm:hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
-                      data-testid="button-get-quote"
-                    >
-                      <span className="relative z-10 flex items-center justify-center gap-2">
-                        {t.hero.getQuoted}
-                        <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
-                      </span>
-                      <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
-                    </button>
-                    <a
-                      href="tel:+19049090897"
-                      onClick={() => copyToClipboard("9049090897", "phone")}
-                      className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 w-[57%] py-4 sm:py-7 rounded-xl hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
-                      data-testid="button-call-us"
-                    >
-                      <Phone className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
-                      <span className="flex flex-col items-start leading-none">
-                        <span className="text-lg sm:text-2xl font-bold whitespace-nowrap">
-                          {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
-                        </span>
-                        <span className="text-xs sm:text-sm font-medium opacity-75 whitespace-nowrap">
-                          {t.hero.callUs}
-                        </span>
-                      </span>
-                    </a>
-                  </motion.div>
-
-                  {/* Minimize button — very bottom of shield, desktop only */}
-                  <div className="order-[99] hidden sm:flex justify-center mt-10 mb-1">
+                  {/* Window title bar — macOS-style traffic lights */}
+                  <div className="flex items-center gap-1.5 px-4 py-2.5 bg-white/10 border-b border-white/20">
                     <button
                       onClick={handleMinimize}
-                      className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-300/20 bg-transparent opacity-25 hover:opacity-100 hover:bg-blue-300/25 hover:border-blue-300/60 hover:shadow-[0_0_14px_rgba(96,165,250,0.4)] transition-all duration-300 group"
-                      aria-label="Minimize shield"
+                      className="w-3 h-3 rounded-full bg-red-400/80 hover:bg-red-500 transition-colors"
+                      aria-label="Minimize window"
+                    />
+                    <div className="w-3 h-3 rounded-full bg-yellow-400/60" />
+                    <div className="w-3 h-3 rounded-full bg-green-400/60" />
+                    <div className="flex-1 text-center text-[11px] font-medium text-white/55 select-none tracking-wide">
+                      Insure-it Group Corp
+                    </div>
+                  </div>
+
+                  {/* Window body */}
+                  <div className="px-6 sm:px-8 py-5 sm:py-7 flex flex-col items-center gap-4 sm:gap-5">
+                    {/* Logo */}
+                    <div className="relative z-10">
+                      <Logo size="large" showTagline={true} variant="white" />
+                    </div>
+
+                    {/* Mobile tagline */}
+                    <p className="md:hidden text-base font-semibold italic tagline-shimmer select-none text-center">
+                      Life&apos;s Uncertain. Your Coverage Isn&apos;t.
+                    </p>
+
+                    {/* CTAs */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                      transition={{ duration: 0.8, delay: 0.5 }}
+                      className="relative flex flex-col items-center gap-3 sm:gap-4 w-full"
                     >
-                      <Minus className="w-3.5 h-3.5 text-blue-300 transition-colors" />
-                      <span className="text-[10px] tracking-[0.14em] uppercase font-medium text-blue-300 transition-colors">Minimize</span>
-                    </button>
+                      <button
+                        onClick={() => setQuoteModalOpen(true)}
+                        className="animated-border-btn group relative overflow-hidden text-primary-foreground w-full py-3.5 sm:py-4 rounded-xl font-semibold text-lg sm:text-xl shadow-xl shadow-primary/25 transition-all duration-300 sm:hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                        data-testid="button-get-quote"
+                      >
+                        <span className="relative z-10 flex items-center justify-center gap-2">
+                          {t.hero.getQuoted}
+                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                        <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
+                      </button>
+
+                      <a
+                        href="tel:+19049090897"
+                        onClick={() => copyToClipboard("9049090897", "phone")}
+                        className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 w-full py-3.5 sm:py-4 rounded-xl hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
+                        data-testid="button-call-us"
+                      >
+                        <Phone className="w-5 h-5 shrink-0" />
+                        <span className="flex flex-col items-start leading-none">
+                          <span className="text-lg sm:text-xl font-bold whitespace-nowrap">
+                            {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
+                          </span>
+                          <span className="text-xs sm:text-sm font-medium opacity-75 whitespace-nowrap">
+                            {t.hero.callUs}
+                          </span>
+                        </span>
+                      </a>
+                    </motion.div>
                   </div>
                 </div>
-                </div>{/* end drop-shadow wrapper */}
               </motion.div>
             )}
           </div>
@@ -1094,16 +1053,14 @@ export default function Landing() {
                       Tap to reopen the Insure-it window!
                     </div>
                   </div>
-                  {/* Arrow tail pointing down-right toward shield */}
+                  {/* Arrow tail pointing down-right toward window */}
                   <span className="absolute right-4 top-full border-[6px] border-transparent border-t-blue-400" />
                 </motion.div>
               )}
             </AnimatePresence>
-            <img
-              src={shieldIcon}
-              alt="Restore"
-              className="w-full h-full object-contain hover:scale-110 transition-transform duration-200 pointer-events-none"
-            />
+            <div className="w-full h-full flex items-center justify-center hover:scale-110 transition-transform duration-200 pointer-events-none">
+              <AppWindow className="w-8 h-8 sm:w-10 sm:h-10 text-white drop-shadow-lg" />
+            </div>
           </motion.button>
         )}
       </AnimatePresence>

@@ -65,7 +65,8 @@ This is a simplified, professional insurance website built with React and Expres
 
 ### Key Components
 - **Navigation**: Glass morphism navbar with Home and About Us links
-- **Logo**: InsureIT logo with animated shield and typing tagline
+- **Logo**: InsureIT logo with animated typing tagline
+- **Hero Window Card**: Frosted-glass app-window card (macOS title bar aesthetic) in the hero — draggable on desktop, minimize/restore animated. Shield design preserved in comments in landing.tsx for easy restore.
 - **QuoteModal**: Contact form modal for quote requests
 - **TestimonialsCarousel**: Client review carousel
 - **Footer**: Site footer with company info

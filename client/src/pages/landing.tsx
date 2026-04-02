@@ -260,13 +260,13 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky:    "from-amber-700/80 via-amber-600/70 to-amber-500/50",
-    teal:   "from-teal-700/80 via-teal-600/65 to-teal-500/25",
-    blue:   "from-blue-800/80 via-blue-700/65 to-blue-600/25",
-    indigo: "from-rose-700/80 via-purple-700/65 to-purple-600/25",
-    violet: "from-slate-700/80 via-slate-600/65 to-slate-500/25",
-    green:  "from-emerald-700/80 via-emerald-600/65 to-emerald-500/25",
-    red:    "from-red-700/80 via-red-600/65 to-red-500/25",
+    sky:    "from-amber-700/68 via-amber-600/58 to-amber-500/35",
+    teal:   "from-teal-700/68 via-teal-600/52 to-teal-500/18",
+    blue:   "from-blue-800/68 via-blue-700/52 to-blue-600/18",
+    indigo: "from-rose-700/68 via-purple-700/52 to-purple-600/18",
+    violet: "from-slate-700/68 via-slate-600/52 to-slate-500/18",
+    green:  "from-emerald-700/68 via-emerald-600/52 to-emerald-500/18",
+    red:    "from-red-700/68 via-red-600/52 to-red-500/18",
   };
 
   const iconAnimations = {
@@ -363,8 +363,8 @@ function InsuranceCard({
       <div className="hidden sm:block absolute inset-x-0 top-0 p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
         {(type.color === "indigo" || type.color === "red") ? (
           <div
-            className={`text-white mb-1.5 -ml-0.5 [&_svg]:w-[18px] [&_svg]:h-[18px] ${iconAnimation}`}
-            style={{ transformOrigin: "9px 9px" }}
+            className={`text-white mb-1.5 -ml-0.5 [&_svg]:w-[27px] [&_svg]:h-[27px] ${iconAnimation}`}
+            style={{ transformOrigin: "13.5px 13.5px" }}
           >
             {type.icon}
           </div>

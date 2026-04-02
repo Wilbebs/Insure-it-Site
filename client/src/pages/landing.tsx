@@ -304,14 +304,16 @@ function InsuranceCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative rounded-xl overflow-hidden h-44 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/30 select-none"
+      className="group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 h-[72px] sm:h-44 sm:hover:-translate-y-2 sm:hover:shadow-2xl sm:hover:shadow-black/30 select-none active:scale-[0.98]"
       style={{
         boxShadow: isHovered
           ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${
-              type.color === "sky"    ? "rgba(37, 99, 235, 0.45)" :
-              type.color === "blue"   ? "rgba(79, 70, 229, 0.45)" :
-              type.color === "indigo" ? "rgba(124, 58, 237, 0.45)" :
-                                        "rgba(147, 51, 234, 0.45)"
+              type.color === "sky"    ? "rgba(217, 119, 6, 0.45)" :
+              type.color === "teal"   ? "rgba(13, 148, 136, 0.45)" :
+              type.color === "blue"   ? "rgba(37, 99, 235, 0.45)" :
+              type.color === "indigo" ? "rgba(225, 29, 72, 0.45)" :
+              type.color === "red"    ? "rgba(220, 38, 38, 0.45)" :
+                                        "rgba(100, 116, 139, 0.45)"
             }`
           : undefined,
       }}
@@ -322,7 +324,7 @@ function InsuranceCard({
 
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 sm:group-hover:scale-110"
         style={{ backgroundImage: `url(${type.image})` }}
       />
 
@@ -331,20 +333,35 @@ function InsuranceCard({
         className={`absolute inset-0 bg-gradient-to-t transition-all duration-500 ${gradientClass}`}
       />
 
-      {/* Dynamic mouse-following gradient */}
+      {/* Dynamic mouse-following gradient (desktop only) */}
       <div
-        className="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100 z-10"
+        className="hidden sm:block absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100 z-10"
         style={dynamicGradientStyle}
       />
 
-      {/* Top gradient scrim for title legibility (default state only) */}
-      <div className={`absolute inset-x-0 top-0 h-24 bg-gradient-to-b ${scrimClass} to-transparent z-10 transition-opacity duration-300 group-hover:opacity-0 pointer-events-none`} />
+      {/* ── MOBILE: horizontal list row ── */}
+      <div className="sm:hidden absolute inset-0 flex items-center gap-4 px-4 z-20">
+        <div className="shrink-0 text-white [&_svg]:w-7 [&_svg]:h-7">
+          {type.icon}
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-white font-bold text-sm leading-tight drop-shadow">
+            {type.title}
+          </h3>
+          <p className="text-white/80 text-xs leading-snug mt-0.5 line-clamp-2">
+            {type.description}
+          </p>
+        </div>
+        <ArrowRight className="shrink-0 w-4 h-4 text-white/70" />
+      </div>
+
+      {/* ── DESKTOP: tile layout ── */}
+      {/* Top gradient scrim for title legibility */}
+      <div className={`hidden sm:block absolute inset-x-0 top-0 h-24 bg-gradient-to-b ${scrimClass} to-transparent z-10 transition-opacity duration-300 group-hover:opacity-0 pointer-events-none`} />
 
       {/* Default state: icon + title at TOP */}
-      <div className="absolute inset-x-0 top-0 p-3 sm:p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
-        <div
-          className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}
-        >
+      <div className="hidden sm:block absolute inset-x-0 top-0 p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
+        <div className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}>
           {type.icon}
         </div>
         <h3 className="text-base font-bold text-white leading-tight drop-shadow">
@@ -352,8 +369,8 @@ function InsuranceCard({
         </h3>
       </div>
 
-      {/* Hover state: full overlay with complete description */}
-      <div className="absolute inset-0 bg-black/72 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-4 flex flex-col overflow-y-auto custom-scrollbar">
+      {/* Hover state: full overlay with description */}
+      <div className="hidden sm:flex absolute inset-0 bg-black/72 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-4 flex-col overflow-y-auto custom-scrollbar">
         <h3 className="text-white font-bold text-sm mb-2 leading-tight shrink-0">
           {type.title}
         </h3>
@@ -895,8 +912,8 @@ export default function Landing() {
                   </p>
                 </div>
 
-                {/* Insurance Types 3x2 Grid */}
-                <div className="grid grid-cols-3 gap-3">
+                {/* Insurance Types: list on mobile, 3×2 grid on desktop */}
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
                   {insuranceTypes.map((type, index) => (
                     <InsuranceCard
                       key={type.title}

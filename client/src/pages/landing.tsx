@@ -361,13 +361,18 @@ function InsuranceCard({
 
       {/* Default state: icon + title at TOP */}
       <div className="hidden sm:block absolute inset-x-0 top-0 p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
-        <div className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${(type.color === "indigo" || type.color === "red") ? "" : iconAnimation}`}>
-          {(type.color === "indigo" || type.color === "red") ? (
-            <div className={iconAnimation} style={{ transformOrigin: "calc(50% - 4px) 50%" }}>
-              {type.icon}
-            </div>
-          ) : type.icon}
-        </div>
+        {(type.color === "indigo" || type.color === "red") ? (
+          <div
+            className={`text-white mb-1.5 -ml-0.5 [&_svg]:w-[18px] [&_svg]:h-[18px] ${iconAnimation}`}
+            style={{ transformOrigin: "9px 9px" }}
+          >
+            {type.icon}
+          </div>
+        ) : (
+          <div className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}>
+            {type.icon}
+          </div>
+        )}
         <h3 className="text-base font-bold text-white leading-tight drop-shadow">
           {type.title}
         </h3>

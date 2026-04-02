@@ -381,7 +381,7 @@ function ScaledContainer({
     <div
       ref={wrapperRef}
       style={{
-        overflow: "hidden",
+        overflow: scale !== 1 ? "hidden" : "visible",
         height: typeof height === "number" ? `${height}px` : height,
       }}
     >

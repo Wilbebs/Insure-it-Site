@@ -824,10 +824,10 @@ export default function Landing() {
       <section
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern"
         style={{
-          marginTop: -18,
+          marginTop: -40,
           position: "relative",
           zIndex: 30,
-          paddingTop: 18,
+          paddingTop: 40,
           paddingBottom: 40,
         }}
       >

@@ -260,13 +260,13 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky:    "from-amber-700/68 via-amber-600/58 to-amber-500/35",
-    teal:   "from-teal-700/68 via-teal-600/52 to-teal-500/18",
-    blue:   "from-blue-800/68 via-blue-700/52 to-blue-600/18",
-    indigo: "from-rose-700/68 via-purple-700/52 to-purple-600/18",
-    violet: "from-slate-700/68 via-slate-600/52 to-slate-500/18",
-    green:  "from-emerald-700/68 via-emerald-600/52 to-emerald-500/18",
-    red:    "from-red-700/68 via-red-600/52 to-red-500/18",
+    sky:    "from-amber-700/82 via-amber-600/68 to-amber-500/42",
+    teal:   "from-teal-700/78 via-teal-600/62 to-teal-500/28",
+    blue:   "from-blue-800/78 via-blue-700/62 to-blue-600/28",
+    indigo: "from-rose-700/78 via-purple-700/62 to-purple-600/28",
+    violet: "from-slate-700/78 via-slate-600/62 to-slate-500/28",
+    green:  "from-emerald-700/78 via-emerald-600/62 to-emerald-500/28",
+    red:    "from-red-700/78 via-red-600/62 to-red-500/28",
   };
 
   const iconAnimations = {

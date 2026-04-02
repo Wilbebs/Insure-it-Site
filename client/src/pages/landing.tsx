@@ -889,7 +889,7 @@ export default function Landing() {
       {/* Ready to Get Started + Map Section */}
       <section
         className="pt-8 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: 0, zIndex: 10, position: "relative" }}
+        style={{ marginTop: 0, zIndex: 10, position: "relative", paddingBottom: 40 }}
       >
         <ScaledContainer desktopWidth={640}>
           <div className="px-4 sm:px-6 relative z-10">
@@ -1019,7 +1019,7 @@ export default function Landing() {
         </ScaledContainer>
 
         {/* Wave divider — all-blue waves, no white bottom */}
-        <div className="relative z-20" style={{ marginTop: 2, marginBottom: -2 }}>
+        <div className="relative z-20" style={{ marginTop: 33, marginBottom: -40 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"

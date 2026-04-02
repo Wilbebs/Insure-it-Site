@@ -651,7 +651,7 @@ export default function Landing() {
                   cursor: isDesktop ? "grab" : "default",
                 }}
                 whileDrag={{ cursor: "grabbing" }}
-                className="w-full max-w-[400px] sm:max-w-[440px]"
+                className="w-full max-w-[560px] sm:max-w-[640px]"
               >
                 {/* App-window card */}
                 <div
@@ -673,32 +673,32 @@ export default function Landing() {
                   </div>
 
                   {/* Window body */}
-                  <div className="px-6 sm:px-8 py-5 sm:py-7 flex flex-col items-center gap-4 sm:gap-5">
+                  <div className="px-6 sm:px-10 py-4 sm:py-6 flex flex-col items-center gap-3 sm:gap-4">
                     {/* Logo */}
                     <div className="relative z-10">
                       <Logo size="large" showTagline={true} variant="white" />
                     </div>
 
-                    {/* Mobile tagline */}
-                    <p className="md:hidden text-base font-semibold italic tagline-shimmer select-none text-center">
+                    {/* Tagline — shown on all sizes since card is wider */}
+                    <p className="text-sm sm:text-base font-semibold italic tagline-shimmer select-none text-center">
                       Life&apos;s Uncertain. Your Coverage Isn&apos;t.
                     </p>
 
-                    {/* CTAs */}
+                    {/* CTAs — side by side */}
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                       transition={{ duration: 0.8, delay: 0.5 }}
-                      className="relative flex flex-col items-center gap-3 sm:gap-4 w-full"
+                      className="relative flex flex-row items-stretch gap-3 w-full"
                     >
                       <button
                         onClick={() => setQuoteModalOpen(true)}
-                        className="animated-border-btn group relative overflow-hidden text-primary-foreground w-full py-3.5 sm:py-4 rounded-xl font-semibold text-lg sm:text-xl shadow-xl shadow-primary/25 transition-all duration-300 sm:hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                        className="animated-border-btn group relative overflow-hidden text-primary-foreground flex-1 py-3 sm:py-3.5 rounded-xl font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 sm:hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
                         data-testid="button-get-quote"
                       >
                         <span className="relative z-10 flex items-center justify-center gap-2">
                           {t.hero.getQuoted}
-                          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                         </span>
                         <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
                       </button>
@@ -706,15 +706,15 @@ export default function Landing() {
                       <a
                         href="tel:+19049090897"
                         onClick={() => copyToClipboard("9049090897", "phone")}
-                        className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 w-full py-3.5 sm:py-4 rounded-xl hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-3 select-none"
+                        className="bg-blue-400/30 backdrop-blur-sm border-2 border-blue-300/60 text-blue-800 flex-1 py-3 sm:py-3.5 rounded-xl hover:bg-blue-500/50 hover:border-blue-300 hover:text-white transition-all flex items-center justify-center gap-2 select-none"
                         data-testid="button-call-us"
                       >
-                        <Phone className="w-5 h-5 shrink-0" />
-                        <span className="flex flex-col items-start leading-none">
-                          <span className="text-lg sm:text-xl font-bold whitespace-nowrap">
+                        <Phone className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                        <span className="flex flex-col items-start leading-tight">
+                          <span className="text-sm sm:text-base font-bold whitespace-nowrap">
                             {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
                           </span>
-                          <span className="text-xs sm:text-sm font-medium opacity-75 whitespace-nowrap">
+                          <span className="text-[10px] sm:text-xs font-medium opacity-75 whitespace-nowrap">
                             {t.hero.callUs}
                           </span>
                         </span>

@@ -828,7 +828,7 @@ export default function Landing() {
           position: "relative",
           zIndex: 30,
           paddingTop: 18,
-          paddingBottom: 14,
+          paddingBottom: 40,
         }}
       >
         <ScaledContainer desktopWidth={640}>
@@ -872,7 +872,7 @@ export default function Landing() {
 
         <div
           className="relative z-20"
-          style={{ marginTop: 10, marginBottom: -40 }}
+          style={{ marginTop: 33, marginBottom: -40 }}
         >
           <SectionDivider
             variant="wave-layered"

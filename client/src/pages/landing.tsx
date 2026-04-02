@@ -371,7 +371,7 @@ function InsuranceCard({
 
       {/* Auto card: crash particles (desktop only, hidden on hover) */}
       {type.color === "teal" && (
-        <div className="hidden sm:block absolute top-5 left-[56px] z-30 pointer-events-none transition-opacity duration-200 group-hover:opacity-0">
+        <div className="hidden sm:block absolute top-5 left-[63px] z-30 pointer-events-none transition-opacity duration-200 group-hover:opacity-0">
           <div className="crash-particle crash-particle-loop-1" style={{ background: "rgba(255,255,255,0.85)" }} />
           <div className="crash-particle crash-particle-loop-2" style={{ background: "rgba(255,255,255,0.75)" }} />
           <div className="crash-particle crash-particle-loop-3" style={{ background: "rgba(255,255,255,0.7)" }} />

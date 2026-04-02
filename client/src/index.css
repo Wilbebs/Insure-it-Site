@@ -159,37 +159,66 @@
 }
 
 @keyframes car-crash {
-  0% {
-    transform: translateX(0) rotate(0deg);
-  }
-  35% {
-    transform: translateX(40px) rotate(-3deg);
-  }
-  40% {
-    transform: translateX(40px) rotate(3deg) scale(0.95);
-  }
-  45% {
-    transform: translateX(40px) rotate(-3deg) scale(0.95);
-  }
-  100% {
-    transform: translateX(0) rotate(0deg);
-  }
+  0%   { transform: translateX(0) rotate(0deg); }
+  5%   { transform: translateX(38px) rotate(-5deg); }
+  6%   { transform: translateX(40px) rotate(5deg) scale(0.93); }
+  7.5% { transform: translateX(37px) rotate(-3deg) scale(0.97); }
+  9%   { transform: translateX(40px) rotate(2deg); }
+  10%  { transform: translateX(0) rotate(0deg); }
+  100% { transform: translateX(0) rotate(0deg); }
 }
 
 .animate-car-crash {
-  animation: car-crash 2s ease-in-out;
+  animation: car-crash 2s linear;
 }
 
 .animate-car-crash-loop {
-  animation: car-crash 12s ease-in-out infinite;
+  animation: car-crash 12s linear infinite;
 }
 
-.crash-particle-loop-1 { animation: particle-burst-1 12s ease-in-out infinite; }
-.crash-particle-loop-2 { animation: particle-burst-2 12s ease-in-out infinite; }
-.crash-particle-loop-3 { animation: particle-burst-3 12s ease-in-out infinite; }
-.crash-particle-loop-4 { animation: particle-burst-4 12s ease-in-out infinite; }
-.crash-particle-loop-5 { animation: particle-burst-5 12s ease-in-out infinite; }
-.crash-particle-loop-6 { animation: particle-burst-6 12s ease-in-out infinite; }
+@keyframes particle-loop-1 {
+  0%, 5%  { opacity: 0; transform: translate(0, 0) scale(0); }
+  6%      { opacity: 1; transform: translate(-14px, -14px) scale(1); }
+  10%     { opacity: 0; transform: translate(-24px, -24px) scale(0.4); }
+  100%    { opacity: 0; }
+}
+@keyframes particle-loop-2 {
+  0%, 5%  { opacity: 0; transform: translate(0, 0) scale(0); }
+  6%      { opacity: 1; transform: translate(14px, -18px) scale(1.2); }
+  10%     { opacity: 0; transform: translate(26px, -30px) scale(0.3); }
+  100%    { opacity: 0; }
+}
+@keyframes particle-loop-3 {
+  0%, 5%  { opacity: 0; transform: translate(0, 0) scale(0); }
+  6%      { opacity: 1; transform: translate(-10px, 13px) scale(0.9); }
+  10%     { opacity: 0; transform: translate(-18px, 23px) scale(0.3); }
+  100%    { opacity: 0; }
+}
+@keyframes particle-loop-4 {
+  0%, 5%  { opacity: 0; transform: translate(0, 0) scale(0); }
+  6%      { opacity: 1; transform: translate(16px, 11px) scale(1.1); }
+  10%     { opacity: 0; transform: translate(28px, 20px) scale(0.3); }
+  100%    { opacity: 0; }
+}
+@keyframes particle-loop-5 {
+  0%, 5%  { opacity: 0; transform: translate(0, 0) scale(0); }
+  6%      { opacity: 1; transform: translate(-6px, -22px) scale(0.8); }
+  10%     { opacity: 0; transform: translate(-12px, -36px) scale(0.2); }
+  100%    { opacity: 0; }
+}
+@keyframes particle-loop-6 {
+  0%, 5%  { opacity: 0; transform: translate(0, 0) scale(0); }
+  6%      { opacity: 1; transform: translate(10px, 18px) scale(1); }
+  10%     { opacity: 0; transform: translate(20px, 30px) scale(0.3); }
+  100%    { opacity: 0; }
+}
+
+.crash-particle-loop-1 { animation: particle-loop-1 12s linear infinite; }
+.crash-particle-loop-2 { animation: particle-loop-2 12s linear infinite; }
+.crash-particle-loop-3 { animation: particle-loop-3 12s linear infinite; }
+.crash-particle-loop-4 { animation: particle-loop-4 12s linear infinite; }
+.crash-particle-loop-5 { animation: particle-loop-5 12s linear infinite; }
+.crash-particle-loop-6 { animation: particle-loop-6 12s linear infinite; }
 
 @keyframes impact-line {
   0% {

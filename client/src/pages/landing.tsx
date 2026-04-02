@@ -259,7 +259,7 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky:    "from-amber-600 via-amber-500/80 to-amber-400/30",
+    sky:    "from-amber-600/95 via-amber-500/90 to-amber-400/70",
     teal:   "from-teal-600 via-teal-500/80 to-teal-400/30",
     blue:   "from-blue-700 via-blue-600/80 to-blue-500/30",
     indigo: "from-rose-600 via-purple-600/80 to-purple-500/30",
@@ -281,6 +281,14 @@ function InsuranceCard({
   const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
   const iconAnimation =
     iconAnimations[type.color as keyof typeof iconAnimations] || "";
+
+  const scrimClass =
+    type.color === "sky"    ? "from-amber-800/50" :
+    type.color === "teal"   ? "from-teal-900/55" :
+    type.color === "indigo" ? "from-rose-900/55" :
+    type.color === "violet" ? "from-slate-900/55" :
+    type.color === "red"    ? "from-red-900/55" :
+                              "from-black/55";
 
   const dynamicGradientStyle = isHovered
     ? {
@@ -329,7 +337,7 @@ function InsuranceCard({
       />
 
       {/* Top gradient scrim for title legibility (default state only) */}
-      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 to-transparent z-10 transition-opacity duration-300 group-hover:opacity-0 pointer-events-none" />
+      <div className={`absolute inset-x-0 top-0 h-24 bg-gradient-to-b ${scrimClass} to-transparent z-10 transition-opacity duration-300 group-hover:opacity-0 pointer-events-none`} />
 
       {/* Default state: icon + title at TOP */}
       <div className="absolute inset-x-0 top-0 p-3 sm:p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">

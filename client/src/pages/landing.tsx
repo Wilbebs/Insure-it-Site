@@ -7,6 +7,7 @@ import {
   motion,
   AnimatePresence,
   useMotionValue,
+  useDragControls,
   animate as animateValue,
 } from "framer-motion";
 import {
@@ -25,14 +26,13 @@ import {
   X,
   CheckCircle2,
   Sparkles,
-  AppWindow,
 } from "lucide-react";
 import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef, type RefObject } from "react";
 const heroVideo = "/api/videos/herovid1.mp4";
 // SHIELD DESIGN PRESERVED — uncomment these to restore the shield look:
-// import shieldIcon from "@assets/shield_icon.png";
+import shieldIcon from "@assets/shield_icon.png";
 // import shieldGlassImg from "@/assets/shield-glass.png";
 import logoImage from "@assets/insure_it_logo.png";
 import floodImg from "@assets/flood_insurance.jpg";
@@ -392,6 +392,7 @@ export default function Landing() {
   const cardY = useMotionValue(0);
   const cardOpacity = useMotionValue(0);
   const cardScale = useMotionValue(1);
+  const dragControls = useDragControls();
 
   // Shield drag motion values
   const shieldX = useMotionValue(0);
@@ -641,6 +642,8 @@ export default function Landing() {
               <motion.div
                 key="hero-card"
                 drag={isDesktop}
+                dragControls={dragControls}
+                dragListener={false}
                 dragConstraints={heroRef as RefObject<Element>}
                 dragElastic={0.05}
                 dragMomentum={false}
@@ -649,9 +652,7 @@ export default function Landing() {
                   y: cardY,
                   opacity: cardOpacity,
                   scale: cardScale,
-                  cursor: isDesktop ? "grab" : "default",
                 }}
-                whileDrag={{ cursor: "grabbing" }}
                 className="w-full max-w-[560px] sm:max-w-[640px]"
               >
                 {/* App-window card */}
@@ -659,10 +660,14 @@ export default function Landing() {
                   ref={cardInnerRef}
                   className="relative bg-white/30 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/40 overflow-hidden"
                 >
-                  {/* Window title bar — macOS-style traffic lights */}
-                  <div className="flex items-center gap-1.5 px-4 py-2.5 bg-white/10 border-b border-white/20">
+                  {/* Window title bar — macOS-style traffic lights; drag handle on desktop */}
+                  <div
+                    className={`flex items-center gap-1.5 px-4 py-2.5 bg-white/10 border-b border-white/20 ${isDesktop ? "cursor-grab active:cursor-grabbing" : ""}`}
+                    onPointerDown={(e) => { if (isDesktop) dragControls.start(e); }}
+                  >
                     <button
                       onClick={handleMinimize}
+                      onPointerDown={(e) => e.stopPropagation()}
                       className="w-3 h-3 rounded-full bg-red-400/80 hover:bg-red-500 transition-colors"
                       aria-label="Minimize window"
                     />
@@ -1063,7 +1068,7 @@ export default function Landing() {
               )}
             </AnimatePresence>
             <div className="w-full h-full flex items-center justify-center hover:scale-110 transition-transform duration-200 pointer-events-none">
-              <AppWindow className="w-8 h-8 sm:w-10 sm:h-10 text-white drop-shadow-lg" />
+              <img src={shieldIcon} alt="Restore window" className="w-full h-full object-contain drop-shadow-2xl" draggable={false} />
             </div>
           </motion.button>
         )}

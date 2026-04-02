@@ -78,7 +78,7 @@ export default function TestimonialsCarousel() {
           <p className="text-xs uppercase tracking-[0.2em] text-white/70 font-semibold mb-1 select-none">
             {t.testimonials.subtitle}
           </p>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white select-none">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white select-none">
             {t.testimonials.title}
           </h2>
         </div>

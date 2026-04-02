@@ -181,8 +181,15 @@
 }
 
 .animate-car-crash-loop {
-  animation: car-crash 5s ease-in-out infinite;
+  animation: car-crash 12s ease-in-out infinite;
 }
+
+.crash-particle-loop-1 { animation: particle-burst-1 12s ease-in-out infinite; }
+.crash-particle-loop-2 { animation: particle-burst-2 12s ease-in-out infinite; }
+.crash-particle-loop-3 { animation: particle-burst-3 12s ease-in-out infinite; }
+.crash-particle-loop-4 { animation: particle-burst-4 12s ease-in-out infinite; }
+.crash-particle-loop-5 { animation: particle-burst-5 12s ease-in-out infinite; }
+.crash-particle-loop-6 { animation: particle-burst-6 12s ease-in-out infinite; }
 
 @keyframes impact-line {
   0% {

@@ -276,7 +276,7 @@ function InsuranceCard({
     indigo: "animate-heartbeat",
     violet: "group-hover:animate-grow",
     green:  "group-hover:animate-pulse-heart",
-    red:    "animate-health-pulse",
+    red:    "",
   };
 
   const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
@@ -361,13 +361,39 @@ function InsuranceCard({
 
       {/* Default state: icon + title at TOP */}
       <div className="hidden sm:block absolute inset-x-0 top-0 p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
-        <div className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}>
-          {type.icon}
-        </div>
-        <h3 className="text-base font-bold text-white leading-tight drop-shadow">
-          {type.title}
-        </h3>
+        {type.color === "indigo" ? (
+          /* Life card: heartbeat icon centered inline with title */
+          <div className="flex items-center gap-2">
+            <div className={`text-white shrink-0 [&_svg]:w-5 [&_svg]:h-5 ${iconAnimation}`}>
+              {type.icon}
+            </div>
+            <h3 className="text-base font-bold text-white leading-tight drop-shadow">
+              {type.title}
+            </h3>
+          </div>
+        ) : (
+          <>
+            <div className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}>
+              {type.icon}
+            </div>
+            <h3 className="text-base font-bold text-white leading-tight drop-shadow">
+              {type.title}
+            </h3>
+          </>
+        )}
       </div>
+
+      {/* Auto card: crash particles (desktop only, hidden on hover) */}
+      {type.color === "teal" && (
+        <div className="hidden sm:block absolute top-4 left-[46px] z-30 pointer-events-none transition-opacity duration-200 group-hover:opacity-0">
+          <div className="crash-particle crash-particle-loop-1" style={{ background: "rgba(255,255,255,0.85)" }} />
+          <div className="crash-particle crash-particle-loop-2" style={{ background: "rgba(255,255,255,0.75)" }} />
+          <div className="crash-particle crash-particle-loop-3" style={{ background: "rgba(255,255,255,0.7)" }} />
+          <div className="crash-particle crash-particle-loop-4" style={{ background: "rgba(255,255,255,0.8)" }} />
+          <div className="crash-particle crash-particle-loop-5" style={{ background: "rgba(255,255,255,0.65)" }} />
+          <div className="crash-particle crash-particle-loop-6" style={{ background: "rgba(255,255,255,0.7)" }} />
+        </div>
+      )}
 
       {/* Hover state: full overlay with description */}
       <div className="hidden sm:flex absolute inset-0 bg-black/72 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-4 flex-col overflow-y-auto custom-scrollbar">

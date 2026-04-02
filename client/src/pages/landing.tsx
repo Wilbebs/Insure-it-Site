@@ -12,6 +12,7 @@ import {
 } from "framer-motion";
 import {
   Car,
+  Stethoscope,
   House,
   Heart,
   Building2,
@@ -66,20 +67,28 @@ function InsuranceDetailModal({
   const accentColor =
     type?.color === "sky"
       ? "from-blue-700 to-blue-500"
-      : type?.color === "blue"
-        ? "from-indigo-700 to-indigo-500"
-        : type?.color === "indigo"
-          ? "from-violet-700 to-violet-500"
-          : "from-purple-800 to-purple-600";
+      : type?.color === "teal"
+        ? "from-teal-700 to-teal-500"
+        : type?.color === "blue"
+          ? "from-indigo-700 to-indigo-500"
+          : type?.color === "indigo"
+            ? "from-violet-700 to-violet-500"
+            : type?.color === "green"
+              ? "from-emerald-700 to-emerald-500"
+              : "from-purple-800 to-purple-600";
 
   const pillColor =
     type?.color === "sky"
       ? "bg-blue-100 text-blue-700"
-      : type?.color === "blue"
-        ? "bg-indigo-100 text-indigo-700"
-        : type?.color === "indigo"
-          ? "bg-violet-100 text-violet-700"
-          : "bg-purple-100 text-purple-700";
+      : type?.color === "teal"
+        ? "bg-teal-100 text-teal-700"
+        : type?.color === "blue"
+          ? "bg-indigo-100 text-indigo-700"
+          : type?.color === "indigo"
+            ? "bg-violet-100 text-violet-700"
+            : type?.color === "green"
+              ? "bg-emerald-100 text-emerald-700"
+              : "bg-purple-100 text-purple-700";
 
   return (
     <AnimatePresence>
@@ -251,16 +260,20 @@ function InsuranceCard({
 
   const colorClasses = {
     sky:    "from-blue-700 via-blue-700/70 to-blue-600/30",
+    teal:   "from-teal-700 via-teal-700/70 to-teal-600/30",
     blue:   "from-indigo-700 via-indigo-700/70 to-indigo-600/30",
     indigo: "from-violet-700 via-violet-700/70 to-violet-600/30",
     violet: "from-purple-800 via-purple-800/70 to-purple-700/30",
+    green:  "from-emerald-700 via-emerald-700/70 to-emerald-600/30",
   };
 
   const iconAnimations = {
     sky:    "group-hover:animate-bounce-subtle",
+    teal:   "group-hover:animate-bounce-subtle",
     blue:   "group-hover:animate-ripple",
     indigo: "group-hover:animate-pulse-heart",
     violet: "group-hover:animate-grow",
+    green:  "group-hover:animate-pulse-heart",
   };
 
   const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
@@ -499,12 +512,20 @@ export default function Landing() {
 
   const insuranceTypes = [
     {
-      icon: <Car className="w-10 h-10" />,
-      title: t.insurance.homeAutoTitle,
-      description: t.insurance.homeAutoDesc,
+      icon: <House className="w-10 h-10" />,
+      title: t.insurance.homeTitle,
+      description: t.insurance.homeDesc,
       image:
         "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
       color: "sky",
+    },
+    {
+      icon: <Car className="w-10 h-10" />,
+      title: t.insurance.autoTitle,
+      description: t.insurance.autoDesc,
+      image:
+        "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80",
+      color: "teal",
     },
     {
       icon: <House className="w-10 h-10" />,
@@ -528,6 +549,14 @@ export default function Landing() {
       image:
         "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
       color: "violet",
+    },
+    {
+      icon: <Stethoscope className="w-10 h-10" />,
+      title: t.insurance.healthTitle,
+      description: t.insurance.healthDesc,
+      image:
+        "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=800&q=80",
+      color: "green",
     },
   ];
 
@@ -855,8 +884,8 @@ export default function Landing() {
                   </p>
                 </div>
 
-                {/* Insurance Types 2x2 Grid */}
-                <div className="grid grid-cols-2 gap-3">
+                {/* Insurance Types 3x2 Grid */}
+                <div className="grid grid-cols-3 gap-3">
                   {insuranceTypes.map((type, index) => (
                     <InsuranceCard
                       key={type.title}

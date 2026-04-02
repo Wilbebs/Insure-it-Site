@@ -831,7 +831,7 @@ export default function Landing() {
           paddingBottom: 40,
         }}
       >
-        <ScaledContainer desktopWidth={520}>
+        <ScaledContainer desktopWidth={640}>
           <div className="px-4 sm:px-6">
             <div className="max-w-5xl mx-auto">
               <div className="grid grid-cols-2 gap-8 items-center">
@@ -846,10 +846,10 @@ export default function Landing() {
                   </h2>
                   <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-6"></div>
 
-                  <p className="text-base text-muted-foreground leading-relaxed mb-6">
+                  <p className="text-base text-muted-foreground leading-snug mb-4">
                     {t.whoWeAre.paragraph1}
                   </p>
-                  <p className="text-base text-muted-foreground leading-relaxed">
+                  <p className="text-base text-muted-foreground leading-snug">
                     {t.whoWeAre.paragraph2}
                   </p>
                 </div>
@@ -891,7 +891,7 @@ export default function Landing() {
         className="pt-8 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
         style={{ marginTop: 0, zIndex: 10, position: "relative", paddingBottom: 40 }}
       >
-        <ScaledContainer desktopWidth={520}>
+        <ScaledContainer desktopWidth={640}>
           <div className="px-4 sm:px-6 relative z-10">
             <div className="max-w-5xl mx-auto">
               {/* Two-column layout: Map left, Content right */}
@@ -957,7 +957,7 @@ export default function Landing() {
                   </h2>
                   <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-5" />
 
-                  <ul className="text-left space-y-3 w-full">
+                  <ul className="text-left space-y-2 w-full">
                     {t.contact.bullets.map((bullet, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">

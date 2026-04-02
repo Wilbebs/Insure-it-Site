@@ -808,7 +808,7 @@ export default function Landing() {
           paints over the wave's flat bottom, leaving only the curves visible */}
       <div
         className="relative pointer-events-none"
-        style={{ marginTop: -62, zIndex: 5, height: 62 }}
+        style={{ marginTop: -80, zIndex: 5, height: 80 }}
       >
         <SectionDivider
           variant="wave-layered"
@@ -816,7 +816,7 @@ export default function Landing() {
           wave1Color="hsla(205, 70%, 82%, 0.3)"
           wave2Color="hsla(205, 70%, 82%, 0.6)"
           wave3Color="#ffffff"
-          height={62}
+          height={80}
           noBgFill={false}
         />
       </div>

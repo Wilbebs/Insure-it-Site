@@ -276,7 +276,7 @@ function InsuranceCard({
     indigo: "animate-heartbeat",
     violet: "group-hover:animate-grow",
     green:  "group-hover:animate-pulse-heart",
-    red:    "",
+    red:    "animate-health-pulse",
   };
 
   const gradientClass = colorClasses[type.color as keyof typeof colorClasses];

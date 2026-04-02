@@ -363,7 +363,7 @@ function InsuranceCard({
       <div className="hidden sm:block absolute inset-x-0 top-0 p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
         <div className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${(type.color === "indigo" || type.color === "red") ? "" : iconAnimation}`}>
           {(type.color === "indigo" || type.color === "red") ? (
-            <div className={`origin-center ${iconAnimation}`}>
+            <div className={iconAnimation} style={{ transformOrigin: "calc(50% - 4px) 50%" }}>
               {type.icon}
             </div>
           ) : type.icon}

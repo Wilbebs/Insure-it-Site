@@ -66,29 +66,29 @@ function InsuranceDetailModal({
 
   const accentColor =
     type?.color === "sky"
-      ? "from-amber-700 to-amber-500"
+      ? "from-amber-600 to-amber-400"
       : type?.color === "teal"
-        ? "from-teal-700 to-teal-500"
+        ? "from-teal-600 to-teal-400"
         : type?.color === "blue"
-          ? "from-slate-700 to-slate-500"
+          ? "from-blue-700 to-blue-500"
           : type?.color === "indigo"
-            ? "from-rose-700 to-purple-600"
+            ? "from-rose-600 to-purple-500"
             : type?.color === "green"
-              ? "from-emerald-700 to-emerald-500"
-              : "from-gray-700 to-gray-500";
+              ? "from-emerald-600 to-emerald-400"
+              : "from-slate-600 to-slate-400";
 
   const pillColor =
     type?.color === "sky"
-      ? "bg-amber-100 text-amber-800"
+      ? "bg-amber-100 text-amber-700"
       : type?.color === "teal"
         ? "bg-teal-100 text-teal-700"
         : type?.color === "blue"
-          ? "bg-slate-100 text-slate-700"
+          ? "bg-blue-100 text-blue-700"
           : type?.color === "indigo"
             ? "bg-rose-100 text-rose-700"
             : type?.color === "green"
               ? "bg-emerald-100 text-emerald-700"
-              : "bg-gray-100 text-gray-700";
+              : "bg-slate-100 text-slate-700";
 
   return (
     <AnimatePresence>
@@ -259,12 +259,12 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky:    "from-amber-800 via-amber-700/80 to-amber-600/30",
-    teal:   "from-teal-800 via-teal-700/80 to-teal-600/30",
-    blue:   "from-slate-800 via-slate-800/80 to-slate-700/30",
-    indigo: "from-rose-700 via-purple-700/80 to-purple-600/30",
-    violet: "from-gray-800 via-gray-700/80 to-gray-600/30",
-    green:  "from-emerald-800 via-emerald-700/80 to-emerald-600/30",
+    sky:    "from-amber-600 via-amber-500/80 to-amber-400/30",
+    teal:   "from-teal-600 via-teal-500/80 to-teal-400/30",
+    blue:   "from-blue-700 via-blue-600/80 to-blue-500/30",
+    indigo: "from-rose-600 via-purple-600/80 to-purple-500/30",
+    violet: "from-slate-600 via-slate-500/80 to-slate-400/30",
+    green:  "from-emerald-600 via-emerald-500/80 to-emerald-400/30",
   };
 
   const iconAnimations = {

@@ -825,10 +825,10 @@ export default function Landing() {
       <section
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern"
         style={{
-          marginTop: -18,
+          marginTop: -40,
           position: "relative",
           zIndex: 30,
-          paddingTop: 32,
+          paddingTop: 40,
           paddingBottom: 40,
         }}
       >
@@ -873,7 +873,7 @@ export default function Landing() {
 
         <div
           className="relative z-20"
-          style={{ marginTop: 33, marginBottom: -40 }}
+          style={{ marginTop: 20, marginBottom: -40 }}
         >
           <SectionDivider
             variant="wave-layered"

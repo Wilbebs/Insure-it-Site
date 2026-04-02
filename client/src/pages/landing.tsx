@@ -12,7 +12,7 @@ import {
 } from "framer-motion";
 import {
   Car,
-  Stethoscope,
+  HeartPulse,
   House,
   Heart,
   Building2,
@@ -73,8 +73,8 @@ function InsuranceDetailModal({
           ? "from-blue-700 to-blue-500"
           : type?.color === "indigo"
             ? "from-rose-600 to-purple-500"
-            : type?.color === "green"
-              ? "from-emerald-600 to-emerald-400"
+            : type?.color === "red"
+              ? "from-red-600 to-red-400"
               : "from-slate-600 to-slate-400";
 
   const pillColor =
@@ -86,8 +86,8 @@ function InsuranceDetailModal({
           ? "bg-blue-100 text-blue-700"
           : type?.color === "indigo"
             ? "bg-rose-100 text-rose-700"
-            : type?.color === "green"
-              ? "bg-emerald-100 text-emerald-700"
+            : type?.color === "red"
+              ? "bg-red-100 text-red-700"
               : "bg-slate-100 text-slate-700";
 
   return (
@@ -265,6 +265,7 @@ function InsuranceCard({
     indigo: "from-rose-600 via-purple-600/80 to-purple-500/30",
     violet: "from-slate-600 via-slate-500/80 to-slate-400/30",
     green:  "from-emerald-600 via-emerald-500/80 to-emerald-400/30",
+    red:    "from-red-600 via-red-500/80 to-red-400/30",
   };
 
   const iconAnimations = {
@@ -274,6 +275,7 @@ function InsuranceCard({
     indigo: "group-hover:animate-pulse-heart",
     violet: "group-hover:animate-grow",
     green:  "group-hover:animate-pulse-heart",
+    red:    "group-hover:animate-pulse-heart",
   };
 
   const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
@@ -551,12 +553,12 @@ export default function Landing() {
       color: "violet",
     },
     {
-      icon: <Stethoscope className="w-10 h-10" />,
+      icon: <HeartPulse className="w-10 h-10" />,
       title: t.insurance.healthTitle,
       description: t.insurance.healthDesc,
       image:
         "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=800&q=80",
-      color: "green",
+      color: "red",
     },
   ];
 

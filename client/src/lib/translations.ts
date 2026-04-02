@@ -153,7 +153,7 @@ const translations = {
           ],
           whyUs: "From sole proprietors to growing companies, we build coverage packages tailored to your industry — because one-size-fits-all never works in business.",
         },
-        green: {
+        red: {
           tagline: "Quality Health Coverage for You and Your Family",
           covers: [
             "Preventive care and annual wellness visits",
@@ -644,7 +644,7 @@ const translations = {
           ],
           whyUs: "Desde trabajadores independientes hasta empresas en crecimiento, creamos paquetes de cobertura adaptados a su industria — porque una solución única nunca funciona en los negocios.",
         },
-        green: {
+        red: {
           tagline: "Cobertura de Salud de Calidad para Usted y Su Familia",
           covers: [
             "Cuidado preventivo y visitas anuales de bienestar",

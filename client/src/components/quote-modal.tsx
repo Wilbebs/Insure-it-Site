@@ -197,7 +197,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         aria-describedby="quote-form-description"
       >
         <DialogHeader className="pb-2">
-          <DialogTitle className="text-3xl font-bold text-slate-800 text-center">
+          <DialogTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 text-center">
             {showSuccess ? t.quote.successTitle : t.quote.dialogTitle}
           </DialogTitle>
           {!showSuccess && (

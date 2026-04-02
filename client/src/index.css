@@ -334,19 +334,19 @@
 
 @keyframes heartbeat {
   0%, 100% {
-    transform: scale(0.75);
+    transform: scale(1);
   }
   10% {
-    transform: scale(0.825);
+    transform: scale(1.1);
   }
   20% {
-    transform: scale(0.75);
+    transform: scale(1);
   }
   30% {
-    transform: scale(0.863);
+    transform: scale(1.15);
   }
   40% {
-    transform: scale(0.75);
+    transform: scale(1);
   }
 }
 
@@ -374,11 +374,11 @@
 @keyframes health-pulse {
   0%, 100% {
     opacity: 1;
-    transform: scale(0.75);
+    transform: scale(1);
   }
   50% {
     opacity: 0.7;
-    transform: scale(0.788);
+    transform: scale(1.05);
   }
 }
 

@@ -835,7 +835,7 @@ export default function Landing() {
         <ScaledContainer desktopWidth={640}>
           <div className="px-6 sm:px-10 pb-4">
             <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-2 gap-8 items-center">
+              <div className="grid grid-cols-2 gap-8 items-start">
                 <div>
                   <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-4 select-none">
                     {t.whoWeAre.subtitle}

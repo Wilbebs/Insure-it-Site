@@ -13,6 +13,7 @@ import {
 import {
   Car,
   HeartPulse,
+  Waves,
   House,
   Heart,
   Building2,
@@ -538,7 +539,7 @@ export default function Landing() {
       color: "teal",
     },
     {
-      icon: <House className="w-10 h-10" />,
+      icon: <Waves className="w-10 h-10" />,
       title: t.insurance.floodTitle,
       description: t.insurance.floodDesc,
       image: floodImg,

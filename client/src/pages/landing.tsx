@@ -260,23 +260,23 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky:    "from-amber-600/95 via-amber-500/90 to-amber-400/70",
-    teal:   "from-teal-600 via-teal-500/80 to-teal-400/30",
-    blue:   "from-blue-700 via-blue-600/80 to-blue-500/30",
-    indigo: "from-rose-600 via-purple-600/80 to-purple-500/30",
-    violet: "from-slate-600 via-slate-500/80 to-slate-400/30",
-    green:  "from-emerald-600 via-emerald-500/80 to-emerald-400/30",
-    red:    "from-red-600 via-red-500/80 to-red-400/30",
+    sky:    "from-amber-700/80 via-amber-600/70 to-amber-500/50",
+    teal:   "from-teal-700/80 via-teal-600/65 to-teal-500/25",
+    blue:   "from-blue-800/80 via-blue-700/65 to-blue-600/25",
+    indigo: "from-rose-700/80 via-purple-700/65 to-purple-600/25",
+    violet: "from-slate-700/80 via-slate-600/65 to-slate-500/25",
+    green:  "from-emerald-700/80 via-emerald-600/65 to-emerald-500/25",
+    red:    "from-red-700/80 via-red-600/65 to-red-500/25",
   };
 
   const iconAnimations = {
     sky:    "group-hover:animate-bounce-subtle",
-    teal:   "group-hover:animate-bounce-subtle",
+    teal:   "animate-car-crash-loop",
     blue:   "group-hover:animate-ripple",
-    indigo: "group-hover:animate-pulse-heart",
+    indigo: "animate-heartbeat",
     violet: "group-hover:animate-grow",
     green:  "group-hover:animate-pulse-heart",
-    red:    "group-hover:animate-pulse-heart",
+    red:    "animate-health-pulse",
   };
 
   const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
@@ -341,7 +341,7 @@ function InsuranceCard({
 
       {/* ── MOBILE: horizontal list row ── */}
       <div className="sm:hidden absolute inset-0 flex items-center gap-4 px-4 z-20">
-        <div className="shrink-0 text-white [&_svg]:w-7 [&_svg]:h-7">
+        <div className={`shrink-0 text-white [&_svg]:w-7 [&_svg]:h-7 ${iconAnimation}`}>
           {type.icon}
         </div>
         <div className="flex-1 min-w-0">

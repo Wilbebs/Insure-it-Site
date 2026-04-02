@@ -180,6 +180,10 @@
   animation: car-crash 2s ease-in-out;
 }
 
+.animate-car-crash-loop {
+  animation: car-crash 5s ease-in-out infinite;
+}
+
 @keyframes impact-line {
   0% {
     opacity: 0;

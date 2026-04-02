@@ -831,7 +831,7 @@ export default function Landing() {
           paddingBottom: 40,
         }}
       >
-        <ScaledContainer desktopWidth={640}>
+        <ScaledContainer desktopWidth={520}>
           <div className="px-4 sm:px-6">
             <div className="max-w-5xl mx-auto">
               <div className="grid grid-cols-2 gap-8 items-center">
@@ -846,10 +846,10 @@ export default function Landing() {
                   </h2>
                   <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-6"></div>
 
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                  <p className="text-base text-muted-foreground leading-relaxed mb-6">
                     {t.whoWeAre.paragraph1}
                   </p>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-base text-muted-foreground leading-relaxed">
                     {t.whoWeAre.paragraph2}
                   </p>
                 </div>
@@ -891,7 +891,7 @@ export default function Landing() {
         className="pt-8 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
         style={{ marginTop: 0, zIndex: 10, position: "relative", paddingBottom: 40 }}
       >
-        <ScaledContainer desktopWidth={640}>
+        <ScaledContainer desktopWidth={520}>
           <div className="px-4 sm:px-6 relative z-10">
             <div className="max-w-5xl mx-auto">
               {/* Two-column layout: Map left, Content right */}
@@ -965,7 +965,7 @@ export default function Landing() {
                             <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </span>
-                        <span className="text-sm sm:text-base text-muted-foreground leading-snug">{bullet}</span>
+                        <span className="text-base text-muted-foreground leading-snug">{bullet}</span>
                       </li>
                     ))}
                   </ul>

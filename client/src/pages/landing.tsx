@@ -679,11 +679,6 @@ export default function Landing() {
                       <Logo size="large" showTagline={true} variant="white" />
                     </div>
 
-                    {/* Tagline — shown on all sizes since card is wider */}
-                    <p className="text-sm sm:text-base font-semibold italic tagline-shimmer select-none text-center">
-                      Life&apos;s Uncertain. Your Coverage Isn&apos;t.
-                    </p>
-
                     {/* CTAs — side by side */}
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}

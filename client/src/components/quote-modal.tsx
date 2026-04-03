@@ -176,7 +176,6 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         <Check className="w-10 h-10 text-green-600" />
       </div>
       <div className="space-y-2">
-        <h3 className="text-2xl font-bold text-slate-800">{t.quote.thankYou}</h3>
         <p className="text-slate-600 max-w-md mx-auto">
           {t.quote.successMessage}
         </p>
@@ -199,7 +198,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
       >
         <DialogHeader className="pb-2">
           <DialogTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 text-center">
-            {showSuccess ? t.quote.successTitle : t.quote.dialogTitle}
+            {showSuccess ? t.quote.thankYou : t.quote.dialogTitle}
           </DialogTitle>
           {!showSuccess && (
             <p id="quote-form-description" className="text-slate-600 text-center text-sm">

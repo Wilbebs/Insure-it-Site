@@ -1063,43 +1063,40 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Action row — below map/checklist grid: left empty, right = button + pills */}
-            <div className="grid grid-cols-2 gap-8 mt-5">
-              <div /> {/* empty column below map */}
-              <div className="flex flex-col items-start gap-2">
-                <button
-                  onClick={() => setQuoteModalOpen(true)}
-                  className="animated-border-btn group relative overflow-hidden text-primary-foreground w-full px-6 py-3 sm:py-4 rounded-lg font-semibold text-lg sm:text-xl shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
-                  data-testid="button-get-quote-contact"
+            {/* Action row — centered across the full section */}
+            <div className="mt-5 flex flex-col items-center gap-2">
+              <button
+                onClick={() => setQuoteModalOpen(true)}
+                className="animated-border-btn group relative overflow-hidden text-primary-foreground min-w-[280px] px-10 py-3 sm:py-4 rounded-lg font-semibold text-lg sm:text-xl shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                data-testid="button-get-quote-contact"
+              >
+                <span className="relative z-10">
+                  {t.contact.getQuoted}
+                  <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
+              </button>
+              <div className="flex flex-nowrap gap-1.5 justify-center">
+                <a
+                  href="tel:+19049090897"
+                  onClick={() => copyToClipboard("9049090897", "phone")}
+                  data-testid="link-phone-desktop"
+                  className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[9px] sm:text-[10px] font-medium px-2 sm:px-2.5 py-1 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                  style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
                 >
-                  <span className="relative z-10">
-                    {t.contact.getQuoted}
-                    <ArrowRight className="inline-block ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
-                </button>
-                <div className="flex flex-nowrap gap-1.5">
-                  <a
-                    href="tel:+19049090897"
-                    onClick={() => copyToClipboard("9049090897", "phone")}
-                    data-testid="link-phone-desktop"
-                    className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[9px] sm:text-[10px] font-medium px-2 sm:px-2.5 py-1 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
-                    style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
-                  >
-                    {copiedContact === "phone" ? <Check className="w-2.5 h-2.5" /> : <Phone className="w-2.5 h-2.5" />}
-                    {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
-                  </a>
-                  <a
-                    href="mailto:Info@insureitgroup.net"
-                    onClick={() => copyToClipboard("Info@insureitgroup.net", "email")}
-                    data-testid="link-email-desktop"
-                    className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[9px] sm:text-[10px] font-medium px-2 sm:px-2.5 py-1 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
-                    style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
-                  >
-                    {copiedContact === "email" ? <Check className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
-                    {copiedContact === "email" ? "Copied!" : "Info@insureitgroup.net"}
-                  </a>
-                </div>
+                  {copiedContact === "phone" ? <Check className="w-2.5 h-2.5" /> : <Phone className="w-2.5 h-2.5" />}
+                  {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
+                </a>
+                <a
+                  href="mailto:Info@insureitgroup.net"
+                  onClick={() => copyToClipboard("Info@insureitgroup.net", "email")}
+                  data-testid="link-email-desktop"
+                  className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[9px] sm:text-[10px] font-medium px-2 sm:px-2.5 py-1 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                  style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
+                >
+                  {copiedContact === "email" ? <Check className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
+                  {copiedContact === "email" ? "Copied!" : "Info@insureitgroup.net"}
+                </a>
               </div>
             </div>
           </div>

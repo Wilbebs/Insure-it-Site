@@ -1006,7 +1006,7 @@ export default function Landing() {
                       "11570 San Jose Blvd, Suite 11, Jacksonville, FL 32223",
                     );
                     setAddressCopied(true);
-                    setTimeout(() => setAddressCopied(false), 2000);
+                    setTimeout(() => setAddressCopied(false), 7000);
                   }}
                   onDoubleClick={() => {
                     window.open(

@@ -1024,7 +1024,7 @@ export default function Landing() {
                       </svg>
                       <div className="leading-tight">
                         <p className="text-xs font-bold text-green-600 whitespace-nowrap">Copied!</p>
-                        <p className="text-[11px] text-green-500 whitespace-nowrap">Address copied to clipboard</p>
+                        <p className="text-[11px] text-green-500 whitespace-nowrap">Tap again to open in Maps</p>
                       </div>
                     </>
                   ) : (

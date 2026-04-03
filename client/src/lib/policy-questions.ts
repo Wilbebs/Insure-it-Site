@@ -582,5 +582,6 @@ export const policyQuestionFlows: Record<string, PolicyQuestionFlow> = {
   auto: autoQuestionFlow,
   home: homeQuestionFlow,
   life: lifeQuestionFlow,
+  health: lifeQuestionFlow,
   commercial: commercialQuestionFlow
 };

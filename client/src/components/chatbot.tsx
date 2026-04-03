@@ -108,6 +108,7 @@ const INSURANCE_PATTERNS = {
   auto: ['car', 'auto', 'vehicle', 'driver', 'driving', 'automobile'],
   home: ['home', 'house', 'property', 'homeowner', 'dwelling'],
   life: ['life', 'death', 'beneficiary', 'term', 'whole life'],
+  health: ['health', 'medical', 'doctor', 'hospital', 'prescription', 'coverage plan', 'individual plan', 'family plan'],
   commercial: ['commercial', 'business', 'company', 'liability', 'workers comp', 'professional']
 };
 
@@ -198,6 +199,7 @@ export default function ChatBot() {
     { type: 'auto' as PolicyType, label: t.chatbot.autoInsurance },
     { type: 'home' as PolicyType, label: t.chatbot.homeInsurance },
     { type: 'life' as PolicyType, label: t.chatbot.lifeInsurance },
+    { type: 'health' as PolicyType, label: t.chatbot.healthInsurance },
     { type: 'commercial' as PolicyType, label: t.chatbot.commercialInsurance },
   ];
 

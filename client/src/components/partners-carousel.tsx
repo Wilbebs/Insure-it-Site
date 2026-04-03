@@ -36,11 +36,11 @@ export default function PartnersCarousel({ className = "" }: { className?: strin
         </div>
 
         {/* Desktop: single centered row that wraps */}
-        <div className="hidden sm:flex flex-wrap justify-center gap-2.5">
+        <div className="hidden sm:flex flex-wrap justify-center gap-1.5">
           {partners.map((p) => (
             <div
               key={p.name}
-              className={`${chipBase} px-5 py-2.5 text-base`}
+              className={`${chipBase} px-2.5 py-1 text-xs`}
               data-testid={`partner-logo-${p.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
               {p.logo}

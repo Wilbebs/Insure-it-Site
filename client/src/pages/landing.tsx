@@ -976,11 +976,11 @@ export default function Landing() {
 
       {/* Ready to Get Started + Map Section */}
       <section
-        className="pt-8 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: 0, zIndex: 10, position: "relative", paddingBottom: 30 }}
+        className="pt-6 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
+        style={{ marginTop: 0, zIndex: 10, position: "relative", paddingBottom: 22 }}
       >
         <ScaledContainer desktopWidth={640}>
-          <div className="px-4 sm:px-6 pb-4 relative z-10">
+          <div className="px-4 sm:px-6 pb-3 relative z-10">
             <div className="max-w-5xl mx-auto">
               {/* Two-column layout: Map left, Content right */}
               <div className="grid grid-cols-2 gap-8 items-center">
@@ -1064,7 +1064,7 @@ export default function Landing() {
             </div>
 
             {/* Action row — centered across the full section */}
-            <div className="mt-5 flex flex-col items-center gap-2">
+            <div className="mt-4 flex flex-col items-center gap-2">
               <button
                 onClick={() => setQuoteModalOpen(true)}
                 className="animated-border-btn group relative overflow-hidden text-primary-foreground min-w-[280px] px-10 py-3 sm:py-4 rounded-lg font-semibold text-lg sm:text-xl shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"

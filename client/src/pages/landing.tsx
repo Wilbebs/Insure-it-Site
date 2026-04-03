@@ -812,9 +812,11 @@ export default function Landing() {
                     <button
                       onClick={handleMinimize}
                       onPointerDown={(e) => e.stopPropagation()}
-                      className="w-3 h-3 rounded-full bg-yellow-400/80 hover:bg-yellow-500 transition-colors shrink-0"
+                      className="w-5 h-5 rounded-full bg-white/20 hover:bg-white/40 border border-white/30 transition-colors shrink-0 flex items-center justify-center"
                       aria-label="Minimize window"
-                    />
+                    >
+                      <span className="block w-2.5 h-px bg-white/70 rounded-full" />
+                    </button>
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                       <span className="text-[11px] font-medium text-white/55 select-none tracking-wide">
                         Insure-it Group Corp

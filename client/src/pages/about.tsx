@@ -234,6 +234,9 @@ export default function About() {
                   <p className="text-primary font-medium text-xs sm:text-sm">
                     {t.about.president}
                   </p>
+                  <a href="mailto:Wilbert@insureitgroup.net" className="text-[10px] sm:text-xs text-muted-foreground hover:text-primary transition-colors mt-0.5 block truncate">
+                    Wilbert@insureitgroup.net
+                  </a>
                 </div>
               </div>
 
@@ -265,6 +268,9 @@ export default function About() {
                   <p className="text-primary font-medium text-xs sm:text-sm">
                     {t.about.operationsManager}
                   </p>
+                  <a href="mailto:Liz@insureitgroup.net" className="text-[10px] sm:text-xs text-muted-foreground hover:text-primary transition-colors mt-0.5 block truncate">
+                    Liz@insureitgroup.net
+                  </a>
                 </div>
               </div>
 
@@ -296,6 +302,9 @@ export default function About() {
                   <p className="text-primary font-medium text-xs sm:text-sm">
                     {t.about.accountExecutive}
                   </p>
+                  <a href="mailto:David@insureitgroup.net" className="text-[10px] sm:text-xs text-muted-foreground hover:text-primary transition-colors mt-0.5 block truncate">
+                    David@insureitgroup.net
+                  </a>
                 </div>
               </div>
             </div>

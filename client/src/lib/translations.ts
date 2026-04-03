@@ -1,7 +1,7 @@
 const translations = {
   en: {
     nav: {
-      getQuoted: "Get Quoted",
+      getQuoted: "Home",
       aboutUs: "About Us",
       switchLang: "Switch to Spanish",
     },
@@ -9,7 +9,7 @@ const translations = {
       tagline: "Your Trusted Insurance Partner",
       coverages: ["Home", "Auto", "Life", "Business", "Flood"],
       coveragesShort: ["Home", "Auto", "Life", "Biz", "Flood"],
-      getQuoted: "Get Quoted Today",
+      getQuoted: "Get a Quote",
       callUs: "Call Us Now",
     },
     stats: {
@@ -25,7 +25,7 @@ const translations = {
       paragraph1: "We are a family-owned insurance agency based in sunny St. Johns, FL. Since 2011, we have been helping families all over Florida with their home, auto, and business insurance needs. From first-time homeowners to growing businesses, we work hard to make sure every client feels protected and valued.",
       paragraph2: "Our team takes pride in providing personalized service and finding the best coverage at competitive rates. We take the time to understand your unique situation, because no two families are the same. When you call us, you talk to an agency who genuinely cares.",
       meetTeam: "Connect With Us",
-      ourPeople: "Our People",
+      ourPeople: "Our Team",
       licensedTitle: "Licensed & Trusted",
       licensedDesc: "Fully licensed in Florida with a proven track record of protecting families.",
       familyTitle: "Family Values",
@@ -236,9 +236,9 @@ const translations = {
       goToLabel: "Go to testimonial",
     },
     contact: {
-      subtitle: "Connect with an Agent Now",
+      subtitle: "Connect with an Agent",
       title: "Ready to Get Started?",
-      getQuoted: "Get Quoted Today",
+      getQuoted: "Get a Quote",
       location: "St. Johns, FL",
       licensed: "Licensed & Insured",
       bullets: [
@@ -445,7 +445,7 @@ const translations = {
     },
     chatbot: {
       welcomeMessage: "Hi! I'm Liz, your insurance assistant. What type of insurance are you interested in today?",
-      welcomeBubble: "I can help you get started! 👋",
+      welcomeBubble: "I can help you get connected! 👋",
       title: "Liz",
       subtitle: "Insurance Assistant",
       applicationProgress: "Application Progress",
@@ -491,14 +491,14 @@ const translations = {
       documentUploadMsg: "Great! Now, do you have any documents you'd like to upload? (Driver's license, current policy, etc.) You can upload PDF, DOC, DOCX, JPG, or PNG files.",
       reviewMsg: "Perfect! Let me summarize your application. Please review the information below and confirm if everything looks correct.",
       submittedMsg: "Thank you! One of our agents will contact you shortly to discuss your coverage options.",
-      fallbackMsg: "Thanks for your question! For personalized assistance, please contact us at 904-909-0897, email us at Insureit@insureitgroup.net, or fill out our contact form.",
+      fallbackMsg: "Thanks for your question! For personalized assistance, please contact us at 904-909-0897, email us at Info@insureitgroup.net, or fill out our contact form.",
       addAnotherVehiclePrompt: "Would you like to add another vehicle to this policy?",
       addAnotherDriverPrompt: "Would you like to add another driver to this policy?",
     },
   },
   es: {
     nav: {
-      getQuoted: "Cotizar",
+      getQuoted: "Inicio",
       aboutUs: "Sobre Nosotros",
       switchLang: "Cambiar a Inglés",
     },
@@ -506,7 +506,7 @@ const translations = {
       tagline: "Su Socio de Confianza en Seguros",
       coverages: ["Hogar", "Auto", "Vida", "Negocio", "Inundación"],
       coveragesShort: ["Hogar", "Auto", "Vida", "Neg.", "Inund."],
-      getQuoted: "Cotice Hoy",
+      getQuoted: "Obtener Cotización",
       callUs: "Llámenos Ahora",
     },
     stats: {
@@ -522,7 +522,7 @@ const translations = {
       paragraph1: "Somos una agencia de seguros familiar ubicada en St. Johns, FL. Desde 2011, hemos ayudado a familias en toda Florida con sus necesidades de seguros de hogar, auto y negocio. Desde compradores primerizos hasta negocios en crecimiento, trabajamos para que cada cliente se sienta protegido y valorado.",
       paragraph2: "Nuestro equipo se enorgullece de brindar un servicio personalizado y encontrar la mejor cobertura a precios competitivos. Nos tomamos el tiempo para entender su situación única, porque no hay dos familias iguales. Cuando nos llama, habla con una agencia que se preocupa genuinamente.",
       meetTeam: "Conéctese Con Nosotros",
-      ourPeople: "Nuestra Gente",
+      ourPeople: "Nuestro Equipo",
       licensedTitle: "Licenciados y Confiables",
       licensedDesc: "Completamente licenciados en Florida con un historial comprobado de protección a familias.",
       familyTitle: "Valores Familiares",
@@ -733,9 +733,9 @@ const translations = {
       goToLabel: "Ir al testimonio",
     },
     contact: {
-      subtitle: "Conéctese con un Agente Ahora",
+      subtitle: "Conéctese con un Agente",
       title: "¿Listo para Comenzar?",
-      getQuoted: "Cotice Hoy",
+      getQuoted: "Obtener Cotización",
       location: "St. Johns, FL",
       licensed: "Licenciados y Asegurados",
       bullets: [
@@ -942,7 +942,7 @@ const translations = {
     },
     chatbot: {
       welcomeMessage: "¡Hola! Soy Liz, tu asistente de seguros. ¿Qué tipo de seguro te interesa hoy?",
-      welcomeBubble: "¡Puedo ayudarte a comenzar! 👋",
+      welcomeBubble: "¡Puedo ayudarte a conectar! 👋",
       title: "Liz",
       subtitle: "Asistente de Seguros",
       applicationProgress: "Progreso de Solicitud",
@@ -988,7 +988,7 @@ const translations = {
       documentUploadMsg: "¡Genial! ¿Tiene documentos que le gustaría subir? (Licencia de conducir, póliza actual, etc.) Puede subir archivos PDF, DOC, DOCX, JPG o PNG.",
       reviewMsg: "¡Perfecto! Permítame resumir su solicitud. Revise la información a continuación y confirme si todo se ve correcto.",
       submittedMsg: "¡Gracias! Uno de nuestros agentes se comunicará con usted en breve para hablar sobre sus opciones de cobertura.",
-      fallbackMsg: "¡Gracias por su pregunta! Para asistencia personalizada, contáctenos al 904-909-0897, escríbanos a Insureit@insureitgroup.net o complete nuestro formulario de contacto.",
+      fallbackMsg: "¡Gracias por su pregunta! Para asistencia personalizada, contáctenos al 904-909-0897, escríbanos a Info@insureitgroup.net o complete nuestro formulario de contacto.",
       addAnotherVehiclePrompt: "¿Le gustaría agregar otro vehículo a esta póliza?",
       addAnotherDriverPrompt: "¿Le gustaría agregar otro conductor a esta póliza?",
     },

@@ -94,9 +94,9 @@ export default function Footer({ onGetQuote }: FooterProps) {
                 <Phone className="w-2.5 h-2.5 mr-1 sm:w-3.5 sm:h-3.5 sm:mr-2 shrink-0" />
                 <span>904-909-0897</span>
               </a>
-              <a href="mailto:Insureit@insureitgroup.net" className="flex items-center hover:opacity-100 transition-opacity" data-testid="contact-email">
+              <a href="mailto:Info@insureitgroup.net" className="flex items-center hover:opacity-100 transition-opacity" data-testid="contact-email">
                 <Mail className="w-2.5 h-2.5 mr-1 sm:w-3.5 sm:h-3.5 sm:mr-2 shrink-0" />
-                <span className="break-all">Insureit@insureitgroup.net</span>
+                <span className="break-all">Info@insureitgroup.net</span>
               </a>
               <a
                 href="https://maps.google.com/?q=11570+San+Jose+Blvd+Suite+11+Jacksonville+FL+32223"

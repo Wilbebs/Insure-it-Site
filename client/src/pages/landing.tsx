@@ -1080,14 +1080,14 @@ export default function Landing() {
                       {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
                     </a>
                     <a
-                      href="mailto:Insureit@insureitgroup.net"
-                      onClick={() => copyToClipboard("Insureit@insureitgroup.net", "email")}
+                      href="mailto:Info@insureitgroup.net"
+                      onClick={() => copyToClipboard("Info@insureitgroup.net", "email")}
                       data-testid="link-email-desktop"
                       className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
                       style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
                     >
                       {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
-                      {copiedContact === "email" ? "Copied!" : "Insureit@insureitgroup.net"}
+                      {copiedContact === "email" ? "Copied!" : "Info@insureitgroup.net"}
                     </a>
                   </div>
                   <button
@@ -1122,14 +1122,14 @@ export default function Landing() {
             {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
           </a>
           <a
-            href="mailto:Insureit@insureitgroup.net"
-            onClick={() => copyToClipboard("Insureit@insureitgroup.net", "email")}
+            href="mailto:Info@insureitgroup.net"
+            onClick={() => copyToClipboard("Info@insureitgroup.net", "email")}
             data-testid="link-email"
             className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] font-medium px-2.5 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
             style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
           >
             {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
-            {copiedContact === "email" ? "Copied!" : "Insureit@insureitgroup.net"}
+            {copiedContact === "email" ? "Copied!" : "Info@insureitgroup.net"}
           </a>
         </div>
 

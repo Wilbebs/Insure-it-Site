@@ -922,7 +922,18 @@ export default function Landing() {
         <ScaledContainer desktopWidth={640}>
           <div className="px-4 sm:px-6 pb-4">
             <div className="max-w-5xl mx-auto">
-              <div className="grid grid-cols-2 gap-8 items-end">
+              <div className="grid grid-cols-2 gap-8 items-start">
+                {/* Left column: body paragraphs */}
+                <div className="pt-8">
+                  <p className="text-base text-muted-foreground leading-snug mb-4">
+                    {t.whoWeAre.paragraph1}
+                  </p>
+                  <p className="text-base text-muted-foreground leading-snug">
+                    {t.whoWeAre.paragraph2}
+                  </p>
+                </div>
+
+                {/* Right column: title + insurance cards — both share this column's left edge */}
                 <div>
                   <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-4 select-none">
                     {t.whoWeAre.subtitle}
@@ -932,26 +943,19 @@ export default function Landing() {
                     <br />
                     <span className="text-primary">{t.whoWeAre.titleLine2}</span>
                   </h2>
-                  <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-6"></div>
+                  <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mb-4"></div>
 
-                  <p className="text-base text-muted-foreground leading-snug mb-4">
-                    {t.whoWeAre.paragraph1}
-                  </p>
-                  <p className="text-base text-muted-foreground leading-snug">
-                    {t.whoWeAre.paragraph2}
-                  </p>
-                </div>
-
-                {/* Insurance Types: list on mobile, 3×2 grid on desktop */}
-                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
-                  {insuranceTypes.map((type, index) => (
-                    <InsuranceCard
-                      key={type.title}
-                      type={type}
-                      index={index}
-                      onClick={() => setSelectedInsurance(type)}
-                    />
-                  ))}
+                  {/* Insurance Types: list on mobile, 3×2 grid on desktop */}
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
+                    {insuranceTypes.map((type, index) => (
+                      <InsuranceCard
+                        key={type.title}
+                        type={type}
+                        index={index}
+                        onClick={() => setSelectedInsurance(type)}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -1066,33 +1070,11 @@ export default function Landing() {
                   </ul>
                 </div>
 
-                {/* Bottom: pills (desktop only) + button pinned to bottom */}
-                <div className="mt-auto flex flex-col items-start gap-3">
-                  <div className="hidden sm:flex flex-nowrap gap-1.5 sm:gap-2">
-                    <a
-                      href="tel:+19049090897"
-                      onClick={() => copyToClipboard("9049090897", "phone")}
-                      data-testid="link-phone-desktop"
-                      className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
-                      style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
-                    >
-                      {copiedContact === "phone" ? <Check className="w-3 h-3" /> : <Phone className="w-3 h-3" />}
-                      {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
-                    </a>
-                    <a
-                      href="mailto:Info@insureitgroup.net"
-                      onClick={() => copyToClipboard("Info@insureitgroup.net", "email")}
-                      data-testid="link-email-desktop"
-                      className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
-                      style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
-                    >
-                      {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
-                      {copiedContact === "email" ? "Copied!" : "Info@insureitgroup.net"}
-                    </a>
-                  </div>
+                {/* Bottom: Get a Quote (prominent) → phone + email pills (smaller), pinned to bottom */}
+                <div className="mt-auto flex flex-col items-start gap-2">
                   <button
                     onClick={() => setQuoteModalOpen(true)}
-                    className="animated-border-btn group relative overflow-hidden text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-lg font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
+                    className="animated-border-btn group relative overflow-hidden text-primary-foreground w-full px-6 py-3 sm:py-4 rounded-lg font-semibold text-lg sm:text-xl shadow-xl shadow-primary/25 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
                     data-testid="button-get-quote-contact"
                   >
                     <span className="relative z-10">
@@ -1101,6 +1083,28 @@ export default function Landing() {
                     </span>
                     <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
                   </button>
+                  <div className="hidden sm:flex flex-nowrap gap-1 sm:gap-1.5">
+                    <a
+                      href="tel:+19049090897"
+                      onClick={() => copyToClipboard("9049090897", "phone")}
+                      data-testid="link-phone-desktop"
+                      className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[9px] sm:text-[10px] font-medium px-2 sm:px-2.5 py-1 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                      style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
+                    >
+                      {copiedContact === "phone" ? <Check className="w-2.5 h-2.5" /> : <Phone className="w-2.5 h-2.5" />}
+                      {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
+                    </a>
+                    <a
+                      href="mailto:Info@insureitgroup.net"
+                      onClick={() => copyToClipboard("Info@insureitgroup.net", "email")}
+                      data-testid="link-email-desktop"
+                      className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[9px] sm:text-[10px] font-medium px-2 sm:px-2.5 py-1 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+                      style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
+                    >
+                      {copiedContact === "email" ? <Check className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
+                      {copiedContact === "email" ? "Copied!" : "Info@insureitgroup.net"}
+                    </a>
+                  </div>
                 </div>
 
               </div>

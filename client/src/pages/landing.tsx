@@ -360,21 +360,9 @@ function InsuranceCard({
       {/* Top gradient scrim for title legibility */}
       <div className={`hidden sm:block absolute inset-x-0 top-0 h-24 bg-gradient-to-b ${scrimClass} to-transparent z-10 transition-opacity duration-300 group-hover:opacity-0 pointer-events-none`} />
 
-      {/* Default state: icon + title at TOP (or horizontal for Auto) */}
+      {/* Default state: icon + title at TOP */}
       <div className="hidden sm:block absolute inset-x-0 top-0 p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
-        {type.color === "teal" ? (
-          <div className="flex items-center gap-2">
-            <div className={`text-white shrink-0 scale-75 origin-left -ml-0.5 ${iconAnimation}`}>
-              {type.icon}
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-white leading-tight drop-shadow">
-                {type.title}
-              </h3>
-              <p className="text-white/70 text-xs leading-tight mt-0.5">{type.shortDesc}</p>
-            </div>
-          </div>
-        ) : (type.color === "indigo" || type.color === "red") ? (
+        {(type.color === "indigo" || type.color === "red") ? (
           <div
             className={`text-white mb-1.5 -ml-0.5 [&_svg]:w-[27px] [&_svg]:h-[27px] ${iconAnimation}`}
             style={{ transformOrigin: "13.5px 13.5px" }}
@@ -386,16 +374,14 @@ function InsuranceCard({
             {type.icon}
           </div>
         )}
-        {type.color !== "teal" && (
-          <h3 className="text-base font-bold text-white leading-tight drop-shadow">
-            {type.title}
-          </h3>
-        )}
+        <h3 className="text-base font-bold text-white leading-tight drop-shadow">
+          {type.title}
+        </h3>
       </div>
 
       {/* Auto card: crash particles (desktop only, hidden on hover) */}
       {type.color === "teal" && (
-        <div className="hidden sm:block absolute top-5 left-[56px] z-30 pointer-events-none transition-opacity duration-200 group-hover:opacity-0">
+        <div className="hidden sm:block absolute top-5 left-[76px] z-30 pointer-events-none transition-opacity duration-200 group-hover:opacity-0">
           <div className="crash-particle crash-particle-loop-1" style={{ background: "rgba(255,255,255,0.85)" }} />
           <div className="crash-particle crash-particle-loop-2" style={{ background: "rgba(255,255,255,0.75)" }} />
           <div className="crash-particle crash-particle-loop-3" style={{ background: "rgba(255,255,255,0.7)" }} />
@@ -955,7 +941,7 @@ export default function Landing() {
                 </div>
 
                 {/* Insurance Types: list on mobile, 3×2 grid on desktop */}
-                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3 sm:pt-7">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:gap-3">
                   {insuranceTypes.map((type, index) => (
                     <InsuranceCard
                       key={type.title}

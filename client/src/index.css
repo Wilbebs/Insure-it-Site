@@ -160,10 +160,10 @@
 
 @keyframes car-crash {
   0%   { transform: translateX(0) rotate(0deg); }
-  5%   { transform: translateX(20px) rotate(-5deg); }
-  6%   { transform: translateX(22px) rotate(5deg) scale(0.93); }
-  7.5%  { transform: translateX(19px) rotate(-3deg) scale(0.97); }
-  9%    { transform: translateX(22px) rotate(0deg); }
+  5%   { transform: translateX(38px) rotate(-5deg); }
+  6%   { transform: translateX(40px) rotate(5deg) scale(0.93); }
+  7.5%  { transform: translateX(37px) rotate(-3deg) scale(0.97); }
+  9%    { transform: translateX(40px) rotate(0deg); }
   25.7% { transform: translateX(0) rotate(0deg); }
   100%  { transform: translateX(0) rotate(0deg); }
 }

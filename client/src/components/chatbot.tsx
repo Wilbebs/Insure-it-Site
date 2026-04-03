@@ -644,31 +644,16 @@ export default function ChatBot() {
       }
     }
 
-    const matchedQA = PRESET_QA.find(qa => {
-      const questionWords = qa.question.toLowerCase().split(' ');
-      const userWords = userMessage.toLowerCase().split(' ');
-      return questionWords.some(word => userWords.includes(word)) ||
-        userWords.some(word => questionWords.includes(word));
-    });
-
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
-      if (matchedQA) {
-        setMessages(prev => [...prev, { type: 'bot', text: matchedQA.answer, link: matchedQA.link }]);
-        if (matchedQA.question.toLowerCase().includes('types of insurance') ||
-          matchedQA.question.toLowerCase().includes('tell me about')) {
-          setShowPolicySelection(true);
-        }
-      } else {
-        setMessages(prev => [...prev, {
-          type: 'bot',
-          text: t.chatbot.fallbackMsg,
-          link: "/#connect"
-        }]);
-      }
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        text: t.chatbot.fallbackMsg,
+        link: "/#connect"
+      }]);
       playMessageSound();
-    }, 2000);
+    }, 800);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

@@ -71,6 +71,7 @@ This is a simplified, professional insurance website built with React and Expres
 - **TestimonialsCarousel**: Client review carousel
 - **Footer**: Site footer with company info
 - **ChatBot**: AI assistant "Liz" for insurance inquiries
+- **Team (About page)**: 4 members in 2×4 grid — Wilbert Hernandez (President), Elizabeth Hernandez (Agency Operations Manager), David Hernandez (Account Executive), Wilbert Hernandez Jr. (Automation Engineer). Photos in attached_assets/; Jr.'s photo compressed to ~61KB JPEG.
 
 ### API Endpoints
 - `POST /api/contact` - Submit contact form with optional documents

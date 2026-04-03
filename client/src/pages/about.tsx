@@ -9,6 +9,7 @@ import { useTranslation } from "@/components/theme-provider";
 import wilbertPhoto from "@assets/wilbert_photo.png";
 import elizabethPhoto from "@assets/elizabeth_photo.png";
 import davidPhoto from "@assets/david_photo.png";
+import wilbertJrPhoto from "@assets/wilbert_jr_photo.jpg";
 import familyRiverImg from "@assets/jax_beach_pier.jpg";
 
 function SocialButton({
@@ -204,7 +205,7 @@ export default function About() {
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-sky-500 to-blue-500 rounded-full mx-auto" />
             </div>
-            <div className="grid grid-cols-3 gap-2 sm:gap-6 max-w-4xl mx-auto relative z-10">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 max-w-4xl mx-auto relative z-10">
               {/* Wilbert Hernandez - President */}
               <div
                 className="insurance-card rounded-2xl overflow-hidden hover-lift"
@@ -227,20 +228,20 @@ export default function About() {
                     <FaLinkedin className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
-                <div className="p-2 sm:p-4 text-center">
-                  <h3 className="text-sm sm:text-lg font-bold mb-0.5 sm:mb-1">
+                <div className="p-2 sm:p-3 text-center">
+                  <h3 className="text-sm sm:text-base font-bold mb-0.5">
                     Wilbert Hernandez
                   </h3>
-                  <p className="text-primary font-medium text-xs sm:text-sm">
+                  <p className="text-primary font-medium text-[11px] sm:text-xs leading-tight">
                     {t.about.president}
                   </p>
-                  <a href="mailto:Wilbert@insureitgroup.net" className="text-[10px] sm:text-xs text-muted-foreground hover:text-primary transition-colors mt-0.5 block truncate">
+                  <a href="mailto:Wilbert@insureitgroup.net" className="text-[10px] sm:text-[11px] text-muted-foreground hover:text-primary transition-colors mt-0.5 block truncate">
                     Wilbert@insureitgroup.net
                   </a>
                 </div>
               </div>
 
-              {/* Elizabeth Hernandez - Operations Manager */}
+              {/* Elizabeth Hernandez - Agency Operations Manager */}
               <div
                 className="insurance-card rounded-2xl overflow-hidden hover-lift"
                 data-testid="team-member-elizabeth-hernandez"
@@ -248,7 +249,7 @@ export default function About() {
                 <div className="aspect-[1/1] overflow-hidden relative group">
                   <img
                     src={elizabethPhoto}
-                    alt="Elizabeth Hernandez - Operations Manager"
+                    alt="Elizabeth Hernandez - Agency Operations Manager"
                     className="w-full h-full object-cover object-top"
                   />
                   <a
@@ -261,14 +262,14 @@ export default function About() {
                     <FaLinkedin className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
-                <div className="p-2 sm:p-4 text-center">
-                  <h3 className="text-sm sm:text-lg font-bold mb-0.5 sm:mb-1">
+                <div className="p-2 sm:p-3 text-center">
+                  <h3 className="text-sm sm:text-base font-bold mb-0.5">
                     Elizabeth Hernandez
                   </h3>
-                  <p className="text-primary font-medium text-xs sm:text-sm">
+                  <p className="text-primary font-medium text-[11px] sm:text-xs leading-tight">
                     {t.about.operationsManager}
                   </p>
-                  <a href="mailto:Liz@insureitgroup.net" className="text-[10px] sm:text-xs text-muted-foreground hover:text-primary transition-colors mt-0.5 block truncate">
+                  <a href="mailto:Liz@insureitgroup.net" className="text-[10px] sm:text-[11px] text-muted-foreground hover:text-primary transition-colors mt-0.5 block truncate">
                     Liz@insureitgroup.net
                   </a>
                 </div>
@@ -295,15 +296,49 @@ export default function About() {
                     <FaLinkedin className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
-                <div className="p-2 sm:p-4 text-center">
-                  <h3 className="text-sm sm:text-lg font-bold mb-0.5 sm:mb-1">
+                <div className="p-2 sm:p-3 text-center">
+                  <h3 className="text-sm sm:text-base font-bold mb-0.5">
                     David Hernandez
                   </h3>
-                  <p className="text-primary font-medium text-xs sm:text-sm">
+                  <p className="text-primary font-medium text-[11px] sm:text-xs leading-tight">
                     {t.about.accountExecutive}
                   </p>
-                  <a href="mailto:David@insureitgroup.net" className="text-[10px] sm:text-xs text-muted-foreground hover:text-primary transition-colors mt-0.5 block truncate">
+                  <a href="mailto:David@insureitgroup.net" className="text-[10px] sm:text-[11px] text-muted-foreground hover:text-primary transition-colors mt-0.5 block truncate">
                     David@insureitgroup.net
+                  </a>
+                </div>
+              </div>
+
+              {/* Wilbert Hernandez Jr. - Automation Engineer */}
+              <div
+                className="insurance-card rounded-2xl overflow-hidden hover-lift"
+                data-testid="team-member-wilbert-hernandez-jr"
+              >
+                <div className="aspect-[1/1] overflow-hidden relative group">
+                  <img
+                    src={wilbertJrPhoto}
+                    alt="Wilbert Hernandez Jr. - Automation Engineer"
+                    className="w-full h-full object-cover object-top"
+                  />
+                  <a
+                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white group-hover:bg-white rounded-full p-1 sm:p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
+                    data-testid="linkedin-wilbert-hernandez-jr"
+                  >
+                    <FaLinkedin className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary hover:text-white transition-colors duration-300" />
+                  </a>
+                </div>
+                <div className="p-2 sm:p-3 text-center">
+                  <h3 className="text-sm sm:text-base font-bold mb-0.5">
+                    Wilbert Hernandez Jr.
+                  </h3>
+                  <p className="text-primary font-medium text-[11px] sm:text-xs leading-tight">
+                    {t.about.automationEngineer}
+                  </p>
+                  <a href="mailto:Info@insureitgroup.net" className="text-[10px] sm:text-[11px] text-muted-foreground hover:text-primary transition-colors mt-0.5 block truncate">
+                    Info@insureitgroup.net
                   </a>
                 </div>
               </div>

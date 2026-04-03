@@ -920,7 +920,7 @@ export default function Landing() {
         <ScaledContainer desktopWidth={640}>
           <div className="px-4 sm:px-6 pb-4">
             <div className="max-w-5xl mx-auto">
-              <div className="grid grid-cols-2 gap-8 items-start">
+              <div className="grid grid-cols-2 gap-8 items-end">
                 <div>
                   <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-semibold mb-4 select-none">
                     {t.whoWeAre.subtitle}
@@ -1131,9 +1131,11 @@ export default function Landing() {
       >
         <div className="absolute inset-0 bg-slate-900/40 dark:bg-slate-900/50" />
         <section className="py-6 relative z-10">
-          <div className="container mx-auto px-4 sm:px-6">
-            <TestimonialsCarousel />
-          </div>
+          <ScaledContainer desktopWidth={640}>
+            <div className="px-4 sm:px-6">
+              <TestimonialsCarousel />
+            </div>
+          </ScaledContainer>
         </section>
 
         {/* Partners — sits inside the high-five container, light frosted glass over the image */}

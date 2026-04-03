@@ -11,18 +11,18 @@ export default function TestimonialsCarousel() {
   const { t } = useTranslation();
 
   const allTestimonials = [
-    { name: "Maria Garcia",    location: "Miami, FL",           rating: 5, text: t.testimonials.t1,  insurance: t.testimonials.t1type  },
-    { name: "James Thompson",  location: "Orlando, FL",          rating: 5, text: t.testimonials.t2,  insurance: t.testimonials.t2type  },
-    { name: "Jennifer Lee",    location: "Tampa, FL",            rating: 5, text: t.testimonials.t3,  insurance: t.testimonials.t3type  },
-    { name: "Robert Martinez", location: "Jacksonville, FL",     rating: 5, text: t.testimonials.t4,  insurance: t.testimonials.t4type  },
-    { name: "Sarah Williams",  location: "Fort Lauderdale, FL",  rating: 5, text: t.testimonials.t5,  insurance: t.testimonials.t5type  },
-    { name: "David Chen",      location: "Tallahassee, FL",      rating: 5, text: t.testimonials.t6,  insurance: t.testimonials.t6type  },
-    { name: "Carlos Rivera",   location: "Hialeah, FL",          rating: 5, text: t.testimonials.t7,  insurance: t.testimonials.t7type  },
-    { name: "Emily Santos",    location: "Naples, FL",           rating: 5, text: t.testimonials.t8,  insurance: t.testimonials.t8type  },
-    { name: "Michael Brown",   location: "Boca Raton, FL",       rating: 5, text: t.testimonials.t9,  insurance: t.testimonials.t9type  },
-    { name: "Patricia Nguyen", location: "Gainesville, FL",      rating: 5, text: t.testimonials.t10, insurance: t.testimonials.t10type },
-    { name: "Anthony Russo",   location: "Palm Beach, FL",       rating: 5, text: t.testimonials.t11, insurance: t.testimonials.t11type },
-    { name: "Linda Morales",   location: "Coral Springs, FL",    rating: 5, text: t.testimonials.t12, insurance: t.testimonials.t12type },
+    { name: "Maria Rodriguez",    location: "Jacksonville, FL",  rating: 5, text: t.testimonials.t1,  insurance: t.testimonials.t1type  },
+    { name: "Carlos Perez",       location: "Miami, FL",         rating: 5, text: t.testimonials.t2,  insurance: t.testimonials.t2type  },
+    { name: "Ana Gomez",          location: "Tampa, FL",         rating: 5, text: t.testimonials.t3,  insurance: t.testimonials.t3type  },
+    { name: "Luis Castillo",      location: "Orlando, FL",       rating: 5, text: t.testimonials.t4,  insurance: t.testimonials.t4type  },
+    { name: "Rosa Martinez",      location: "Hialeah, FL",       rating: 5, text: t.testimonials.t5,  insurance: t.testimonials.t5type  },
+    { name: "Jorge Ramirez",      location: "Fort Lauderdale, FL", rating: 5, text: t.testimonials.t6, insurance: t.testimonials.t6type },
+    { name: "Sofia Morales",      location: "Coral Springs, FL", rating: 5, text: t.testimonials.t7,  insurance: t.testimonials.t7type  },
+    { name: "Andres Vargas",      location: "Naples, FL",        rating: 5, text: t.testimonials.t8,  insurance: t.testimonials.t8type  },
+    { name: "Carmen Lopez",       location: "Jacksonville, FL",  rating: 5, text: t.testimonials.t9,  insurance: t.testimonials.t9type  },
+    { name: "Marc Jean-Baptiste", location: "Miami, FL",         rating: 5, text: t.testimonials.t10, insurance: t.testimonials.t10type },
+    { name: "Sophia Pierre",      location: "Palm Beach, FL",    rating: 5, text: t.testimonials.t11, insurance: t.testimonials.t11type },
+    { name: "David Smith",        location: "St. Johns, FL",     rating: 5, text: t.testimonials.t12, insurance: t.testimonials.t12type },
   ];
 
   const [currentPage, setCurrentPage] = useState(0);

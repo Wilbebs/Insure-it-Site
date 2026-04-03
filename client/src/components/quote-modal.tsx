@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
-import { X, Car, Home, Heart, Building2, Check, Waves } from "lucide-react";
+import { X, Car, Home, Heart, Building2, Check, Waves, Activity } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useTranslation } from "./theme-provider";
@@ -115,6 +115,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     { value: "auto", label: t.quote.auto, icon: Car, description: t.quote.autoDesc },
     { value: "home", label: t.quote.home, icon: Home, description: t.quote.homeDesc },
     { value: "life", label: t.quote.life, icon: Heart, description: t.quote.lifeDesc },
+    { value: "health", label: t.quote.health, icon: Activity, description: t.quote.healthDesc },
     { value: "commercial", label: t.quote.commercial, icon: Building2, description: t.quote.commercialDesc },
     { value: "flood", label: t.quote.flood, icon: Waves, description: t.quote.floodDesc },
   ];

@@ -48,12 +48,12 @@ export default function PartnersCarousel({ className = "" }: { className?: strin
         </div>
       </div>
 
-      {/* Mobile: compact 2-column chip grid */}
-      <div className="sm:hidden px-4 grid grid-cols-2 gap-2">
+      {/* Mobile: compact 3-column chip grid */}
+      <div className="sm:hidden px-3 grid grid-cols-3 gap-1.5">
         {partners.map((partner) => (
           <div
             key={partner.name}
-            className="flex items-center justify-center px-2 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[11px] font-semibold text-slate-500 dark:text-slate-400 tracking-tight"
+            className="flex items-center justify-center px-1 py-1 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[10px] font-semibold text-slate-500 dark:text-slate-400 tracking-tight text-center"
             data-testid={`partner-logo-${partner.name.toLowerCase().replace(/\s+/g, '-')}`}
           >
             {partner.logo}

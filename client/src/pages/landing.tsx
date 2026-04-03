@@ -806,19 +806,19 @@ export default function Landing() {
                 >
                   {/* Window title bar — macOS-style traffic lights; drag handle on desktop */}
                   <div
-                    className={`flex items-center gap-1.5 px-4 py-2.5 bg-white/10 border-b border-white/20 ${isDesktop ? "cursor-grab active:cursor-grabbing" : ""}`}
+                    className={`relative flex items-center px-4 py-2.5 bg-white/10 border-b border-white/20 ${isDesktop ? "cursor-grab active:cursor-grabbing" : ""}`}
                     onPointerDown={(e) => { if (isDesktop) dragControls.start(e); }}
                   >
                     <button
                       onClick={handleMinimize}
                       onPointerDown={(e) => e.stopPropagation()}
-                      className="w-3 h-3 rounded-full bg-red-400/80 hover:bg-red-500 transition-colors"
+                      className="w-3 h-3 rounded-full bg-yellow-400/80 hover:bg-yellow-500 transition-colors shrink-0"
                       aria-label="Minimize window"
                     />
-                    <div className="w-3 h-3 rounded-full bg-yellow-400/60" />
-                    <div className="w-3 h-3 rounded-full bg-green-400/60" />
-                    <div className="flex-1 text-center text-[11px] font-medium text-white/55 select-none tracking-wide">
-                      Insure-it Group Corp
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <span className="text-[11px] font-medium text-white/55 select-none tracking-wide">
+                        Insure-it Group Corp
+                      </span>
                     </div>
                   </div>
 

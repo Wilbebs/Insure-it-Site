@@ -391,7 +391,7 @@ function InsuranceCard({
       )}
 
       {/* Hover state: full overlay with description */}
-      <div className="hidden sm:flex absolute inset-0 rounded-xl bg-black/72 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-4 flex-col overflow-y-auto custom-scrollbar">
+      <div className="hidden sm:flex absolute inset-0 bg-black/72 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-4 flex-col overflow-y-auto custom-scrollbar">
         <h3 className="text-white font-bold text-sm mb-2 leading-tight shrink-0">
           {type.title}
         </h3>

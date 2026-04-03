@@ -109,7 +109,8 @@ const INSURANCE_PATTERNS = {
   home: ['home', 'house', 'property', 'homeowner', 'dwelling'],
   life: ['life', 'death', 'beneficiary', 'term', 'whole life'],
   health: ['health', 'medical', 'doctor', 'hospital', 'prescription', 'coverage plan', 'individual plan', 'family plan'],
-  commercial: ['commercial', 'business', 'company', 'liability', 'workers comp', 'professional']
+  commercial: ['commercial', 'business', 'company', 'liability', 'workers comp', 'professional'],
+  flood: ['flood', 'flooding', 'water damage', 'storm surge', 'hurricane water']
 };
 
 function detectInsuranceIntent(message: string): PolicyType | null {
@@ -201,6 +202,7 @@ export default function ChatBot() {
     { type: 'life' as PolicyType, label: t.chatbot.lifeInsurance },
     { type: 'health' as PolicyType, label: t.chatbot.healthInsurance },
     { type: 'commercial' as PolicyType, label: t.chatbot.commercialInsurance },
+    { type: 'flood' as PolicyType, label: t.chatbot.floodInsurance },
   ];
 
   const [messages, setMessages] = useState<Message[]>([
@@ -220,6 +222,7 @@ export default function ChatBot() {
   const [inApplicationFlow, setInApplicationFlow] = useState(false);
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const [groupFormValues, setGroupFormValues] = useState<Record<string, string>>({});
+  const [simpleFormValues, setSimpleFormValues] = useState({ firstName: '', lastName: '', email: '', phone: '' });
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -601,19 +604,54 @@ export default function ChatBot() {
     setMessages(prev => [...prev, { type: 'user', text: selectedLabels }]);
 
     setInApplicationFlow(true);
-    setCurrentGroupIndex(0);
-    setGroupFormValues({});
+    setSimpleFormValues({ firstName: '', lastName: '', email: '', phone: '' });
 
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
       setMessages(prev => [...prev, {
         type: 'bot',
-        text: t.chatbot.startMsgShort.replace('{policy}', selectedLabels).replace('{question}', coreQuestionGroups[0].title)
+        text: language === 'es'
+          ? 'Por favor complete su informacion de contacto y nos pondremos en contacto con usted muy pronto.'
+          : 'Please fill in your contact information and we will be in touch very soon.'
       }]);
       playMessageSound();
       dispatch({ type: 'TRANSITION_STATE', state: 'collectingCore' });
     }, 800);
+  };
+
+  const handleSimpleFormSubmit = async () => {
+    const { firstName, lastName, email, phone } = simpleFormValues;
+    if (!firstName.trim() || !lastName.trim() || !email.trim() || !phone.trim()) {
+      toast({ title: "Please fill in all fields.", variant: "destructive" });
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const formData = new FormData();
+      formData.append("fullName", `${firstName.trim()} ${lastName.trim()}`);
+      formData.append("emailAddress", email.trim());
+      formData.append("phoneNumber", phone.trim());
+      formData.append("policyType", convState.policyTypes.join(', '));
+
+      await apiRequest('POST', '/api/contact', formData);
+
+      dispatch({ type: 'TRANSITION_STATE', state: 'submitted' });
+      addBotMessage(t.chatbot.submittedMsg);
+      toast({ title: t.chatbot.submitApplication, description: t.chatbot.submittedMsg });
+
+      localStorage.removeItem('policyConversation');
+      setTimeout(() => {
+        setInApplicationFlow(false);
+        dispatch({ type: 'RESET_CONVERSATION' });
+        setSimpleFormValues({ firstName: '', lastName: '', email: '', phone: '' });
+        setShowPolicySelection(true);
+      }, 3000);
+    } catch {
+      toast({ title: "Submission Failed", description: "Please try again or contact us directly.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleSendMessage = () => {
@@ -967,145 +1005,63 @@ export default function ChatBot() {
                     </div>
                   )}
 
-                  {/* Grouped Question Form - All fields in a group shown together */}
-                  {currentGroup && !isTyping && convState.state === 'collectingCore' && (
+                  {/* Simple Contact Form */}
+                  {convState.state === 'collectingCore' && !isTyping && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-3"
-                      data-testid="question-group-form"
+                      data-testid="simple-contact-form"
                     >
                       <p className="text-sm font-bold text-blue-600 dark:text-blue-400 border-b border-blue-100 dark:border-slate-600 pb-2">
-                        {currentGroup.title}
+                        {language === 'es' ? 'Su Informacion' : 'Your Information'}
                       </p>
 
-                      {currentGroup.questions.map((q) => (
-                        <div key={q.id} className="space-y-1">
-                          <label className="text-xs font-semibold text-gray-600 dark:text-gray-300">
-                            {q.text}
-                            {q.validation?.required && <span className="text-red-400 ml-0.5">*</span>}
-                          </label>
-
-                          {q.type === 'select' ? (
-                            <select
-                              value={groupFormValues[q.fieldKey] || ''}
-                              onChange={(e) => handleGroupFieldChange(q.fieldKey, e.target.value)}
-                              className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200"
-                              data-testid={`group-field-${q.fieldKey}`}
-                            >
-                              <option value="">{t.chatbot.selectPlaceholder}</option>
-                              {q.options?.map(opt => (
-                                <option key={opt} value={opt}>{opt}</option>
-                              ))}
-                            </select>
-                          ) : (
-                            <input
-                              type={q.type === 'number' ? 'number' : 'text'}
-                              value={groupFormValues[q.fieldKey] || ''}
-                              onChange={(e) => handleGroupFieldChange(q.fieldKey, e.target.value)}
-                              placeholder={q.placeholder || q.helperText || ''}
-                              className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-                              data-testid={`group-field-${q.fieldKey}`}
-                            />
-                          )}
-                        </div>
-                      ))}
-
-                      <button
-                        onClick={handleGroupSubmit}
-                        className="w-full bg-blue-600 text-white p-2.5 rounded-lg hover:bg-blue-700 font-semibold text-sm transition-colors mt-2"
-                        data-testid="group-submit-button"
-                      >
-                        {t.chatbot.continueBtn}
-                      </button>
-                    </motion.div>
-                  )}
-
-                  {/* Document Upload UI */}
-                  {convState.state === 'collectingDocuments' && !isTyping && (
-                    <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-4">
-                      <label className="cursor-pointer block relative">
-                        <div className="border-2 border-dashed border-blue-300 dark:border-blue-500 rounded-lg p-6 text-center hover:border-blue-500 dark:hover:border-blue-400 transition-colors pointer-events-none">
-                          <Upload className="w-8 h-8 mx-auto mb-2 text-blue-500" />
-                          <p className="text-sm text-gray-600 dark:text-gray-300">{t.chatbot.uploadDocuments}</p>
-                          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{t.chatbot.uploadFormats}</p>
-                        </div>
+                      <div className="space-y-2">
                         <input
-                          type="file"
-                          multiple
-                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                          onChange={handleFileSelect}
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                          data-testid="file-upload-input"
+                          type="text"
+                          placeholder={language === 'es' ? 'Nombre' : 'First name'}
+                          value={simpleFormValues.firstName}
+                          onChange={(e) => setSimpleFormValues(prev => ({ ...prev, firstName: e.target.value }))}
+                          className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                          data-testid="simple-first-name"
                         />
-                      </label>
-
-                      {uploadedFiles.length > 0 && (
-                        <div className="space-y-2">
-                          {uploadedFiles.map((file, idx) => (
-                            <div key={idx} className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-slate-600 rounded">
-                              <FileText className="w-4 h-4 text-blue-500" />
-                              <div className="flex-1 min-w-0">
-                                <p className="text-xs truncate text-gray-700 dark:text-gray-200">{file.file.name}</p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">{formatFileSize(file.file.size)}</p>
-                              </div>
-                              {file.uploading && (
-                                <div className="text-xs text-blue-500">{t.chatbot.uploading}</div>
-                              )}
-                              {file.url && (
-                                <CheckCircle2 className="w-4 h-4 text-green-500" />
-                              )}
-                              <button
-                                onClick={() => handleRemoveFile(file)}
-                                className="text-red-500 hover:text-red-700 z-10 relative"
-                                data-testid={`file-remove-${idx}`}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      <button
-                        onClick={handleContinueToReview}
-                        className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 font-semibold relative z-10"
-                        data-testid="continue-to-review"
-                      >
-                        {t.chatbot.continueReview}
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Review & Submit UI */}
-                  {convState.state === 'reviewing' && !isTyping && (
-                    <div className="bg-white dark:bg-slate-700 p-4 rounded-lg shadow-md space-y-3">
-                      <h3 className="font-bold text-gray-800 dark:text-gray-200">{t.chatbot.summaryTitle}</h3>
-                      <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                        <div>
-                          <span className="font-semibold">{t.chatbot.policyTypeLabel}</span> {convState.policyTypes.join(', ')}
-                        </div>
-                        <div>
-                          <span className="font-semibold">{t.chatbot.nameLabel}</span> {convState.coreInfo.firstName} {convState.coreInfo.lastName}
-                        </div>
-                        <div>
-                          <span className="font-semibold">{t.chatbot.emailLabel}</span> {convState.coreInfo.email}
-                        </div>
-                        <div>
-                          <span className="font-semibold">{t.chatbot.phoneLabel}</span> {convState.coreInfo.phone}
-                        </div>
+                        <input
+                          type="text"
+                          placeholder={language === 'es' ? 'Apellido' : 'Last name'}
+                          value={simpleFormValues.lastName}
+                          onChange={(e) => setSimpleFormValues(prev => ({ ...prev, lastName: e.target.value }))}
+                          className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                          data-testid="simple-last-name"
+                        />
+                        <input
+                          type="email"
+                          placeholder="email@example.com"
+                          value={simpleFormValues.email}
+                          onChange={(e) => setSimpleFormValues(prev => ({ ...prev, email: e.target.value }))}
+                          className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                          data-testid="simple-email"
+                        />
+                        <input
+                          type="tel"
+                          placeholder="305-555-1234"
+                          value={simpleFormValues.phone}
+                          onChange={(e) => setSimpleFormValues(prev => ({ ...prev, phone: e.target.value }))}
+                          className="w-full p-2 text-sm border dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+                          data-testid="simple-phone"
+                        />
                       </div>
 
                       <button
-                        onClick={handleSubmitApplication}
+                        onClick={handleSimpleFormSubmit}
                         disabled={isSubmitting}
-                        className="animated-border-btn w-full text-white p-3 rounded-lg font-semibold disabled:bg-gray-400 overflow-hidden relative group transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]"
-                        data-testid="submit-application"
+                        className="animated-border-btn w-full text-white p-2.5 rounded-lg font-semibold disabled:bg-gray-400 overflow-hidden relative group transition-all duration-300 hover:scale-[1.02]"
+                        data-testid="simple-submit-button"
                       >
                         <span className="relative z-10">{isSubmitting ? t.chatbot.submitting : t.chatbot.submitApplication}</span>
                         <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-12" />
                       </button>
-                    </div>
+                    </motion.div>
                   )}
 
                   {/* Preset Questions */}

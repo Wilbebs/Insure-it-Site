@@ -583,5 +583,6 @@ export const policyQuestionFlows: Record<string, PolicyQuestionFlow> = {
   home: homeQuestionFlow,
   life: lifeQuestionFlow,
   health: lifeQuestionFlow,
-  commercial: commercialQuestionFlow
+  commercial: commercialQuestionFlow,
+  flood: homeQuestionFlow
 };

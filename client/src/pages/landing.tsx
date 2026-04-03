@@ -1108,20 +1108,20 @@ export default function Landing() {
             href="tel:+19049090897"
             onClick={() => copyToClipboard("9049090897", "phone")}
             data-testid="link-phone"
-            className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-4 py-2 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+            className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] font-medium px-2.5 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
             style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
           >
-            {copiedContact === "phone" ? <Check className="w-3.5 h-3.5" /> : <Phone className="w-3.5 h-3.5" />}
+            {copiedContact === "phone" ? <Check className="w-3 h-3" /> : <Phone className="w-3 h-3" />}
             {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
           </a>
           <a
             href="mailto:Insureit@insureitgroup.net"
             onClick={() => copyToClipboard("Insureit@insureitgroup.net", "email")}
             data-testid="link-email"
-            className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-4 py-2 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+            className="flex items-center gap-1 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] font-medium px-2.5 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
             style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
           >
-            {copiedContact === "email" ? <Check className="w-3.5 h-3.5" /> : <Mail className="w-3.5 h-3.5" />}
+            {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
             {copiedContact === "email" ? "Copied!" : "Insureit@insureitgroup.net"}
           </a>
         </div>

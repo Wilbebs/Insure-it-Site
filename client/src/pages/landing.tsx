@@ -977,7 +977,7 @@ export default function Landing() {
       {/* Ready to Get Started + Map Section */}
       <section
         className="pt-8 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: 0, zIndex: 10, position: "relative", paddingBottom: 40 }}
+        style={{ marginTop: 0, zIndex: 10, position: "relative", paddingBottom: 30 }}
       >
         <ScaledContainer desktopWidth={640}>
           <div className="px-4 sm:px-6 pb-4 relative z-10">

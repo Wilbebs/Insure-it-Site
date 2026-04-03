@@ -185,18 +185,18 @@ export default function Navigation() {
           {/* Language toggle */}
           <button
             onClick={toggleLanguage}
-            className={`relative rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg flex-shrink-0 ${isScrolled ? 'px-2 py-1' : 'px-2.5 py-1.5'}`}
+            className="relative rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg flex-shrink-0 w-9 h-9 flex items-center justify-center"
             data-testid="language-toggle-mobile"
             aria-label={t.nav.switchLang}
           >
-            <span className={`font-bold text-slate-700 group-hover:text-white transition-colors duration-300 ${isScrolled ? 'text-[10px]' : 'text-xs'}`}>
+            <span className="font-bold text-slate-700 group-hover:text-white transition-colors duration-300 text-xs">
               {language === "en" ? "EN" : "ES"}
             </span>
             <img
               src={language === "en" ? usaFlagIcon : spainFlagIcon}
               alt=""
               aria-hidden="true"
-              className={`absolute -top-0.5 -left-0.5 object-contain rounded-full drop-shadow-sm ${isScrolled ? 'w-3 h-3' : 'w-4 h-4'}`}
+              className="absolute -top-0.5 -left-0.5 w-3.5 h-3.5 object-contain rounded-full drop-shadow-sm"
             />
           </button>
         </div>

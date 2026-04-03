@@ -1057,31 +1057,8 @@ export default function Landing() {
                   </ul>
                 </div>
 
-                {/* Bottom: pills + button pinned to bottom */}
-                <div className="mt-auto flex flex-col items-start gap-3">
-                  <div className="flex flex-nowrap gap-1.5 sm:gap-2">
-                    <a
-                      href="tel:+19049090897"
-                      onClick={() => copyToClipboard("9049090897", "phone")}
-                      data-testid="link-phone"
-                      className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
-                      style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
-                    >
-                      {copiedContact === "phone" ? <Check className="w-3 h-3" /> : <Phone className="w-3 h-3" />}
-                      {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
-                    </a>
-                    <a
-                      href="mailto:Insureit@insureitgroup.net"
-                      onClick={() => copyToClipboard("Insureit@insureitgroup.net", "email")}
-                      data-testid="link-email"
-                      className="flex items-center gap-1 sm:gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-[10px] sm:text-xs font-medium px-2.5 sm:px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
-                      style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
-                    >
-                      {copiedContact === "email" ? <Check className="w-3 h-3" /> : <Mail className="w-3 h-3" />}
-                      {copiedContact === "email" ? "Copied!" : "Insureit@insureitgroup.net"}
-                    </a>
-                  </div>
-
+                {/* Bottom: button pinned to bottom */}
+                <div className="mt-auto">
                   <div className="relative">
                     <div className="absolute -inset-[5px] bg-gradient-to-r from-sky-400 via-blue-500 to-indigo-400 rounded-xl opacity-40 blur-md animate-pulse pointer-events-none" />
                     <button
@@ -1103,6 +1080,30 @@ export default function Landing() {
           </div>
         </div>
         </ScaledContainer>
+
+        {/* Full-width contact pills bar */}
+        <div className="w-full flex justify-center gap-3 px-4 pt-4 pb-2">
+          <a
+            href="tel:+19049090897"
+            onClick={() => copyToClipboard("9049090897", "phone")}
+            data-testid="link-phone"
+            className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-4 py-2 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+            style={{ color: copiedContact === "phone" ? "var(--primary)" : undefined }}
+          >
+            {copiedContact === "phone" ? <Check className="w-3.5 h-3.5" /> : <Phone className="w-3.5 h-3.5" />}
+            {copiedContact === "phone" ? "Copied!" : "904-909-0897"}
+          </a>
+          <a
+            href="mailto:Insureit@insureitgroup.net"
+            onClick={() => copyToClipboard("Insureit@insureitgroup.net", "email")}
+            data-testid="link-email"
+            className="flex items-center gap-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-xs font-medium px-4 py-2 rounded-full shadow-sm whitespace-nowrap transition-colors hover:border-primary hover:text-primary cursor-pointer"
+            style={{ color: copiedContact === "email" ? "var(--primary)" : undefined }}
+          >
+            {copiedContact === "email" ? <Check className="w-3.5 h-3.5" /> : <Mail className="w-3.5 h-3.5" />}
+            {copiedContact === "email" ? "Copied!" : "Insureit@insureitgroup.net"}
+          </a>
+        </div>
 
         {/* Wave divider — all-blue waves, no white bottom */}
         <div className="relative z-20" style={{ marginTop: 20, marginBottom: -40 }}>

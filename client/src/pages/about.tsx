@@ -221,10 +221,10 @@ export default function About() {
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute top-3 right-3 bg-white group-hover:bg-white rounded-full p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
+                    className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white group-hover:bg-white rounded-full p-1 sm:p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
                     data-testid="linkedin-wilbert-hernandez"
                   >
-                    <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
+                    <FaLinkedin className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
                 <div className="p-2 sm:p-4 text-center">
@@ -252,10 +252,10 @@ export default function About() {
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute top-3 right-3 bg-white group-hover:bg-white rounded-full p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
+                    className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white group-hover:bg-white rounded-full p-1 sm:p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
                     data-testid="linkedin-elizabeth-hernandez"
                   >
-                    <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
+                    <FaLinkedin className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
                 <div className="p-2 sm:p-4 text-center">
@@ -283,10 +283,10 @@ export default function About() {
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute top-3 right-3 bg-white group-hover:bg-white rounded-full p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
+                    className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white group-hover:bg-white rounded-full p-1 sm:p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
                     data-testid="linkedin-david-hernandez"
                   >
-                    <FaLinkedin className="w-5 h-5 text-primary hover:text-white transition-colors duration-300" />
+                    <FaLinkedin className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary hover:text-white transition-colors duration-300" />
                   </a>
                 </div>
                 <div className="p-2 sm:p-4 text-center">

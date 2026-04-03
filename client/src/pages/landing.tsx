@@ -977,7 +977,7 @@ export default function Landing() {
       {/* Ready to Get Started + Map Section */}
       <section
         className="pt-6 pb-0 bg-muted dark:bg-slate-800 relative overflow-hidden dot-pattern"
-        style={{ marginTop: 0, zIndex: 10, position: "relative", paddingBottom: 22 }}
+        style={{ marginTop: 0, zIndex: 10, position: "relative", paddingBottom: 10 }}
       >
         <ScaledContainer desktopWidth={640}>
           <div className="px-4 sm:px-6 pb-3 relative z-10">
@@ -1103,19 +1103,20 @@ export default function Landing() {
         </div>
         </ScaledContainer>
 
-        {/* Wave divider — all-blue waves, no white bottom */}
-        <div className="relative z-20" style={{ marginTop: 0, marginBottom: 0 }}>
-          <SectionDivider
-            variant="wave-layered"
-            position="bottom"
-            toColor="transparent"
-            wave1Color="hsla(205, 70%, 72%, 0.40)"
-            wave2Color="hsla(205, 70%, 72%, 0.70)"
-            wave3Color="hsla(205, 68%, 70%, 0.90)"
-            height={22}
-          />
-        </div>
       </section>
+
+      {/* Wave divider — sits over the section boundary, above both sections */}
+      <div className="relative z-30" style={{ marginTop: -22 }}>
+        <SectionDivider
+          variant="wave-layered"
+          position="bottom"
+          toColor="transparent"
+          wave1Color="hsla(205, 70%, 72%, 0.40)"
+          wave2Color="hsla(205, 70%, 72%, 0.70)"
+          wave3Color="hsla(205, 68%, 70%, 0.90)"
+          height={22}
+        />
+      </div>
 
       {/* Testimonials Section — team high-five parallax background */}
       <div

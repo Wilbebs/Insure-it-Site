@@ -11,18 +11,90 @@ export default function TestimonialsCarousel() {
   const { t } = useTranslation();
 
   const allTestimonials = [
-    { name: "Maria Rodriguez",    location: "Jacksonville, FL",  rating: 5, text: t.testimonials.t1,  insurance: t.testimonials.t1type  },
-    { name: "Carlos Perez",       location: "Miami, FL",         rating: 5, text: t.testimonials.t2,  insurance: t.testimonials.t2type  },
-    { name: "Ana Gomez",          location: "Tampa, FL",         rating: 5, text: t.testimonials.t3,  insurance: t.testimonials.t3type  },
-    { name: "Luis Castillo",      location: "Orlando, FL",       rating: 5, text: t.testimonials.t4,  insurance: t.testimonials.t4type  },
-    { name: "Rosa Martinez",      location: "Hialeah, FL",       rating: 5, text: t.testimonials.t5,  insurance: t.testimonials.t5type  },
-    { name: "Jorge Ramirez",      location: "Fort Lauderdale, FL", rating: 5, text: t.testimonials.t6, insurance: t.testimonials.t6type },
-    { name: "Sofia Morales",      location: "Coral Springs, FL", rating: 5, text: t.testimonials.t7,  insurance: t.testimonials.t7type  },
-    { name: "Andres Vargas",      location: "Naples, FL",        rating: 5, text: t.testimonials.t8,  insurance: t.testimonials.t8type  },
-    { name: "Carmen Lopez",       location: "Jacksonville, FL",  rating: 5, text: t.testimonials.t9,  insurance: t.testimonials.t9type  },
-    { name: "Marc Jean-Baptiste", location: "Miami, FL",         rating: 5, text: t.testimonials.t10, insurance: t.testimonials.t10type },
-    { name: "Sophia Pierre",      location: "Palm Beach, FL",    rating: 5, text: t.testimonials.t11, insurance: t.testimonials.t11type },
-    { name: "David Smith",        location: "St. Johns, FL",     rating: 5, text: t.testimonials.t12, insurance: t.testimonials.t12type },
+    {
+      name: "Maria Rodriguez",
+      location: "Jacksonville, FL",
+      rating: 5,
+      text: t.testimonials.t1,
+      insurance: t.testimonials.t1type,
+    },
+    {
+      name: "Carlos Perez",
+      location: "Miami, FL",
+      rating: 5,
+      text: t.testimonials.t2,
+      insurance: t.testimonials.t2type,
+    },
+    {
+      name: "Ana Gomez",
+      location: "Tampa, FL",
+      rating: 5,
+      text: t.testimonials.t3,
+      insurance: t.testimonials.t3type,
+    },
+    {
+      name: "Luis Castillo",
+      location: "Orlando, FL",
+      rating: 5,
+      text: t.testimonials.t4,
+      insurance: t.testimonials.t4type,
+    },
+    {
+      name: "Rosa Martins",
+      location: "Hialeah, FL",
+      rating: 5,
+      text: t.testimonials.t5,
+      insurance: t.testimonials.t5type,
+    },
+    {
+      name: "Jorge Ramirez",
+      location: "Fort Lauderdale, FL",
+      rating: 5,
+      text: t.testimonials.t6,
+      insurance: t.testimonials.t6type,
+    },
+    {
+      name: "Sofia Morales",
+      location: "Coral Springs, FL",
+      rating: 5,
+      text: t.testimonials.t7,
+      insurance: t.testimonials.t7type,
+    },
+    {
+      name: "Andres Vargas",
+      location: "Naples, FL",
+      rating: 5,
+      text: t.testimonials.t8,
+      insurance: t.testimonials.t8type,
+    },
+    {
+      name: "Carmen Lopez",
+      location: "Jacksonville, FL",
+      rating: 5,
+      text: t.testimonials.t9,
+      insurance: t.testimonials.t9type,
+    },
+    {
+      name: "Marc Jean-Baptiste",
+      location: "Miami, FL",
+      rating: 5,
+      text: t.testimonials.t10,
+      insurance: t.testimonials.t10type,
+    },
+    {
+      name: "Sophia Pierre",
+      location: "Palm Beach, FL",
+      rating: 5,
+      text: t.testimonials.t11,
+      insurance: t.testimonials.t11type,
+    },
+    {
+      name: "David Hayes",
+      location: "St. Johns, FL",
+      rating: 5,
+      text: t.testimonials.t12,
+      insurance: t.testimonials.t12type,
+    },
   ];
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -46,7 +118,9 @@ export default function TestimonialsCarousel() {
 
   useEffect(() => {
     intervalRef.current = setInterval(next, AUTO_CYCLE_MS);
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [next]);
 
   const resetTimer = useCallback(() => {
@@ -54,24 +128,32 @@ export default function TestimonialsCarousel() {
     intervalRef.current = setInterval(next, AUTO_CYCLE_MS);
   }, [next]);
 
-  const handlePrev = () => { prev(); resetTimer(); };
-  const handleNext = () => { next(); resetTimer(); };
-  const handleDot = (i: number) => { goTo(i, i > currentPage ? 1 : -1); resetTimer(); };
+  const handlePrev = () => {
+    prev();
+    resetTimer();
+  };
+  const handleNext = () => {
+    next();
+    resetTimer();
+  };
+  const handleDot = (i: number) => {
+    goTo(i, i > currentPage ? 1 : -1);
+    resetTimer();
+  };
 
   const pageTestimonials = allTestimonials.slice(
     currentPage * CARDS_PER_PAGE,
-    currentPage * CARDS_PER_PAGE + CARDS_PER_PAGE
+    currentPage * CARDS_PER_PAGE + CARDS_PER_PAGE,
   );
 
   const variants = {
     enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 50 : -50 }),
     center: { opacity: 1, x: 0 },
-    exit:  (dir: number) => ({ opacity: 0, x: dir > 0 ? -50 : 50 }),
+    exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -50 : 50 }),
   };
 
   return (
     <div className="max-w-5xl mx-auto">
-
       {/* Header row: title top-left, nav arrows top-right */}
       <div className="flex items-end justify-between mb-3 px-1">
         <div>
@@ -106,12 +188,20 @@ export default function TestimonialsCarousel() {
       {/* 2×2 grid — always 2 columns, 2 rows */}
       <div
         className="overflow-hidden"
-        onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; touchEndX.current = null; }}
-        onTouchMove={(e) => { touchEndX.current = e.touches[0].clientX; }}
+        onTouchStart={(e) => {
+          touchStartX.current = e.touches[0].clientX;
+          touchEndX.current = null;
+        }}
+        onTouchMove={(e) => {
+          touchEndX.current = e.touches[0].clientX;
+        }}
         onTouchEnd={() => {
-          if (touchStartX.current === null || touchEndX.current === null) return;
+          if (touchStartX.current === null || touchEndX.current === null)
+            return;
           const delta = touchStartX.current - touchEndX.current;
-          if (Math.abs(delta) > 40) { delta > 0 ? handleNext() : handlePrev(); }
+          if (Math.abs(delta) > 40) {
+            delta > 0 ? handleNext() : handlePrev();
+          }
           touchStartX.current = null;
           touchEndX.current = null;
         }}
@@ -138,13 +228,18 @@ export default function TestimonialsCarousel() {
                   <h3 className="font-bold text-slate-800 text-[11px] sm:text-sm leading-tight">
                     {testimonial.name}
                   </h3>
-                  <p className="text-[10px] sm:text-xs text-slate-500">{testimonial.location}</p>
+                  <p className="text-[10px] sm:text-xs text-slate-500">
+                    {testimonial.location}
+                  </p>
                 </div>
 
                 {/* Stars */}
                 <div className="flex gap-0.5 mb-1.5 sm:mb-2">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-amber-400 text-amber-400" />
+                    <Star
+                      key={i}
+                      className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-amber-400 text-amber-400"
+                    />
                   ))}
                 </div>
 
@@ -172,7 +267,9 @@ export default function TestimonialsCarousel() {
             key={i}
             onClick={() => handleDot(i)}
             className={`h-2 rounded-full transition-all duration-300 min-w-[8px] ${
-              i === currentPage ? "w-6 sm:w-7 bg-white" : "w-2 bg-white/40 hover:bg-white/60"
+              i === currentPage
+                ? "w-6 sm:w-7 bg-white"
+                : "w-2 bg-white/40 hover:bg-white/60"
             }`}
             aria-label={`${t.testimonials.goToLabel} ${i + 1}`}
           />

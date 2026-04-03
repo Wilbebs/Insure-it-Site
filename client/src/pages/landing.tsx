@@ -1104,7 +1104,7 @@ export default function Landing() {
         </ScaledContainer>
 
         {/* Wave divider — all-blue waves, no white bottom */}
-        <div className="relative z-20" style={{ marginTop: 20, marginBottom: -40 }}>
+        <div className="relative z-20" style={{ marginTop: 0, marginBottom: -40 }}>
           <SectionDivider
             variant="wave-layered"
             position="bottom"

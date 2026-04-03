@@ -1008,6 +1008,13 @@ export default function Landing() {
                     setAddressCopied(true);
                     setTimeout(() => setAddressCopied(false), 2000);
                   }}
+                  onDoubleClick={() => {
+                    window.open(
+                      "https://maps.google.com/?daddr=11570+San+Jose+Blvd+Suite+11+Jacksonville+FL+32223",
+                      "_blank",
+                    );
+                  }}
+                  title="Tap to copy · Double-tap for directions"
                   className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-start gap-2 bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-slate-200/80 transition-colors hover:bg-white active:bg-slate-50 cursor-pointer"
                 >
                   {addressCopied ? (

@@ -241,6 +241,7 @@ function InsuranceCard({
     icon: React.ReactNode;
     title: string;
     description: string;
+    shortDesc: string;
     image: string;
     color: string;
   };
@@ -341,15 +342,15 @@ function InsuranceCard({
 
       {/* ── MOBILE: horizontal list row ── */}
       <div className="sm:hidden absolute inset-0 flex items-center gap-4 px-4 z-20">
-        <div className={`shrink-0 text-white [&_svg]:w-7 [&_svg]:h-7 ${iconAnimation}`}>
+        <div className={`shrink-0 text-white [&_svg]:w-7 [&_svg]:h-7 ${type.color === "teal" ? "" : iconAnimation}`}>
           {type.icon}
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-white font-bold text-sm leading-tight drop-shadow">
             {type.title}
           </h3>
-          <p className="text-white/80 text-xs leading-snug mt-0.5 line-clamp-2">
-            {type.description}
+          <p className="text-white/80 text-xs leading-snug mt-0.5 line-clamp-1">
+            {type.shortDesc}
           </p>
         </div>
         <ArrowRight className="shrink-0 w-4 h-4 text-white/70" />
@@ -564,6 +565,7 @@ export default function Landing() {
       icon: <House className="w-10 h-10" />,
       title: t.insurance.homeTitle,
       description: t.insurance.homeDesc,
+      shortDesc: t.insurance.homeShortDesc,
       image:
         "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
       color: "sky",
@@ -572,6 +574,7 @@ export default function Landing() {
       icon: <Car className="w-10 h-10" />,
       title: t.insurance.autoTitle,
       description: t.insurance.autoDesc,
+      shortDesc: t.insurance.autoShortDesc,
       image:
         "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80",
       color: "teal",
@@ -580,6 +583,7 @@ export default function Landing() {
       icon: <Waves className="w-10 h-10" />,
       title: t.insurance.floodTitle,
       description: t.insurance.floodDesc,
+      shortDesc: t.insurance.floodShortDesc,
       image: floodImg,
       color: "blue",
     },
@@ -587,6 +591,7 @@ export default function Landing() {
       icon: <Heart className="w-10 h-10" />,
       title: t.insurance.lifeTitle,
       description: t.insurance.lifeDesc,
+      shortDesc: t.insurance.lifeShortDesc,
       image:
         "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&q=80",
       color: "indigo",
@@ -595,6 +600,7 @@ export default function Landing() {
       icon: <Building2 className="w-10 h-10" />,
       title: t.insurance.businessTitle,
       description: t.insurance.businessDesc,
+      shortDesc: t.insurance.businessShortDesc,
       image:
         "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
       color: "violet",
@@ -603,6 +609,7 @@ export default function Landing() {
       icon: <HeartPulse className="w-10 h-10" />,
       title: t.insurance.healthTitle,
       description: t.insurance.healthDesc,
+      shortDesc: t.insurance.healthShortDesc,
       image:
         "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=800&q=80",
       color: "red",

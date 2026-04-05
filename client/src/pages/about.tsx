@@ -65,6 +65,18 @@ export default function About() {
     return () => window.removeEventListener("open-quote-modal", openQuote);
   }, []);
 
+  useEffect(() => {
+    const prevTitle = document.title;
+    const prevDesc = document.querySelector('meta[name="description"]')?.getAttribute("content") ?? "";
+    document.title = "About Us | Insure-it Group Corp | Jacksonville, FL";
+    const descTag = document.querySelector('meta[name="description"]');
+    if (descTag) descTag.setAttribute("content", "Meet the Insure-it Group Corp team — a family-owned Florida insurance agency with over 35 years of combined experience serving Jacksonville and all of Florida.");
+    return () => {
+      document.title = prevTitle;
+      if (descTag) descTag.setAttribute("content", prevDesc);
+    };
+  }, []);
+
   const fullTitle = t.about.ourStory;
   const fullLastParagraph = t.about.storyP4;
   const fullSignature = t.about.signature;

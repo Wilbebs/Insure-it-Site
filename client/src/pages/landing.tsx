@@ -36,7 +36,6 @@ const heroVideo = "/api/videos/herovid1.mp4";
 // SHIELD DESIGN PRESERVED — uncomment these to restore the shield look:
 import shieldIcon from "@assets/shield_icon.png";
 // import shieldGlassImg from "@/assets/shield-glass.png";
-import logoImage from "@assets/insure_it_logo.png";
 import floodImg from "@assets/flood_insurance.jpg";
 import highFiveImg from "@assets/team_highfive.jpg";
 
@@ -826,13 +825,8 @@ export default function Landing() {
 
                   {/* Window body */}
                   <div className="px-6 sm:px-10 py-4 sm:py-5 flex flex-col items-center gap-3 sm:gap-3.5">
-                    {/* Logo — PNG fills the full content width, no clipping */}
-                    <img
-                      src={logoImage}
-                      alt="Insure-it Group Corp"
-                      className="w-full h-auto object-contain"
-                      draggable={false}
-                    />
+                    {/* Logo — animated video on desktop, static PNG on mobile */}
+                    <Logo size="large" showTagline={false} className="w-full" />
 
                     {/* Tagline */}
                     <p className="text-sm sm:text-base font-semibold italic tagline-shimmer select-none text-center -mt-1">

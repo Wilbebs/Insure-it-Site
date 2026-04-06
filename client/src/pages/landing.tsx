@@ -510,7 +510,7 @@ export default function Landing() {
   // Card motion values (fully imperative — avoids animate prop / drag conflict)
   const cardX = useMotionValue(0);
   const cardY = useMotionValue(0);
-  const cardOpacity = useMotionValue(0);
+  const cardOpacity = useMotionValue(1);
   const cardScale = useMotionValue(1);
   const dragControls = useDragControls();
 
@@ -625,14 +625,6 @@ export default function Landing() {
     window.scrollTo(0, 0);
     setHeroVisible(true);
 
-    // First-load card entrance
-    cardY.set(30);
-    cardOpacity.set(0);
-    const t1 = setTimeout(() => {
-      animateValue(cardY, 0, { duration: 0.8, ease: "easeOut" });
-      animateValue(cardOpacity, 1, { duration: 0.8, ease: "easeOut" });
-    }, 200);
-
     const handleScroll = () => {
       const y = window.scrollY;
       if (y > 200) hasScrolledDown.current = true;
@@ -641,7 +633,6 @@ export default function Landing() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      clearTimeout(t1);
     };
   }, []);
 

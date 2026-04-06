@@ -1033,6 +1033,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .h-svh{
   height: 100svh;
 }
+.h-\[3px\]{
+  height: 3px;
+}
 .max-h-96{
   max-height: 24rem;
 }
@@ -2327,14 +2330,11 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .pt-6{
   padding-top: 1.5rem;
 }
-.pt-\[10px\]{
-  padding-top: 10px;
+.pt-\[20px\]{
+  padding-top: 20px;
 }
 .pt-\[65px\]{
   padding-top: 65px;
-}
-.pt-\[20px\]{
-  padding-top: 20px;
 }
 .text-left{
   text-align: left;
@@ -2956,6 +2956,26 @@ p, span, a, li, td, th, input, textarea, .selectable {
 
 .animate-car-crash-loop {
   animation: car-crash 12s linear infinite;
+}
+
+/* Mobile auto card: stationary car + scrolling road */
+@keyframes mobile-road-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes car-drive-mobile {
+  0%, 100% { transform: translateY(0px); }
+  25%       { transform: translateY(-1px) rotate(-1deg); }
+  75%       { transform: translateY(1px) rotate(0.5deg); }
+}
+
+.mobile-road-dash {
+  animation: mobile-road-scroll 0.55s linear infinite;
+}
+
+.animate-car-drive-mobile {
+  animation: car-drive-mobile 0.45s ease-in-out infinite;
 }
 
 @keyframes particle-loop-1 {

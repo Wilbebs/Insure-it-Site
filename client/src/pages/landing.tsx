@@ -340,9 +340,28 @@ function InsuranceCard({
 
       {/* ── MOBILE: horizontal list row ── */}
       <div className="sm:hidden absolute inset-0 flex items-center gap-4 px-4 z-20">
-        <div className={`shrink-0 text-white [&_svg]:w-7 [&_svg]:h-7 ${type.color === "teal" ? "" : iconAnimation}`}>
-          {type.icon}
-        </div>
+        {type.color === "teal" ? (
+          <div className="shrink-0 flex flex-col items-center gap-0.5">
+            <div className="text-white animate-car-drive-mobile [&_svg]:w-7 [&_svg]:h-7">
+              {type.icon}
+            </div>
+            {/* Scrolling road dashes beneath the car */}
+            <div className="w-9 h-[3px] rounded-full overflow-hidden bg-white/20">
+              <div
+                className="mobile-road-dash h-full"
+                style={{
+                  width: "200%",
+                  background:
+                    "repeating-linear-gradient(90deg, rgba(255,255,255,0.8) 0px, rgba(255,255,255,0.8) 5px, transparent 5px, transparent 11px)",
+                }}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className={`shrink-0 text-white [&_svg]:w-7 [&_svg]:h-7 ${iconAnimation}`}>
+            {type.icon}
+          </div>
+        )}
         <div className="flex-1 min-w-0">
           <h3 className="text-white font-bold text-sm leading-tight drop-shadow">
             {type.title}

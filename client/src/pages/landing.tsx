@@ -145,12 +145,12 @@ function InsuranceDetailModal({
                   <X className="w-4 h-4" />
                 </button>
                 <div className="absolute bottom-4 left-5 flex items-center gap-3">
-                  <div className="text-white opacity-90">{type.icon}</div>
+                  <div className="text-white opacity-90 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">{type.icon}</div>
                   <div>
-                    <p className="text-white/70 text-[11px] uppercase tracking-widest font-medium">
+                    <p className="text-white/80 text-[11px] uppercase tracking-widest font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.95),0_2px_10px_rgba(0,0,0,0.7)]">
                       {t.insuranceModal.coverageLabel}
                     </p>
-                    <h2 className="text-white text-xl font-bold leading-tight">
+                    <h2 className="text-white text-xl font-bold leading-tight [text-shadow:0_1px_8px_rgba(0,0,0,0.95),0_3px_16px_rgba(0,0,0,0.75)]">
                       {type.title}
                     </h2>
                   </div>
@@ -405,14 +405,14 @@ function InsuranceCard({
           {type.icon}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-white font-bold text-sm leading-tight drop-shadow">
+          <h3 className="text-white font-bold text-sm leading-tight [text-shadow:0_1px_6px_rgba(0,0,0,0.95),0_2px_12px_rgba(0,0,0,0.7)]">
             {type.title}
           </h3>
-          <p className="text-white/80 text-xs leading-snug mt-0.5 line-clamp-1">
+          <p className="text-white/90 text-xs leading-snug mt-0.5 line-clamp-1 [text-shadow:0_1px_5px_rgba(0,0,0,0.9),0_2px_10px_rgba(0,0,0,0.65)]">
             {type.shortDesc}
           </p>
         </div>
-        <ArrowRight className="shrink-0 w-4 h-4 text-white/70" />
+        <ArrowRight className="shrink-0 w-4 h-4 text-white/80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" />
       </div>
 
       {/* ── DESKTOP: tile layout ── */}
@@ -433,7 +433,7 @@ function InsuranceCard({
             {type.icon}
           </div>
         )}
-        <h3 className="text-base font-bold text-white leading-tight drop-shadow">
+        <h3 className="text-base font-bold text-white leading-tight [text-shadow:0_1px_6px_rgba(0,0,0,0.95),0_2px_14px_rgba(0,0,0,0.7)]">
           {type.title}
         </h3>
       </div>
@@ -452,10 +452,10 @@ function InsuranceCard({
 
       {/* Hover state: full overlay with description */}
       <div className="hidden sm:flex absolute inset-0 bg-black/72 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-4 flex-col overflow-y-auto custom-scrollbar">
-        <h3 className="text-white font-bold text-sm mb-2 leading-tight shrink-0">
+        <h3 className="text-white font-bold text-sm mb-2 leading-tight shrink-0 [text-shadow:0_1px_4px_rgba(0,0,0,0.8)]">
           {type.title}
         </h3>
-        <p className="text-slate-200 text-xs leading-relaxed">
+        <p className="text-slate-100 text-xs leading-relaxed [text-shadow:0_1px_3px_rgba(0,0,0,0.7)]">
           {type.description}
         </p>
       </div>

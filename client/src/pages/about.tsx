@@ -11,7 +11,7 @@ import { useTranslation } from "@/components/theme-provider";
 const wilbertPhoto = "/images/wilbert_photo.jpg";
 const elizabethPhoto = "/images/elizabeth_photo.png";
 const davidPhoto = "/images/david_photo.png";
-const wilbertJrPhoto = "/images/wilbert_jr_photo.jpg";
+const wilbertJrPhoto = "/images/whjr_photo.jpg";
 const familyRiverImg = "/images/jax_beach_pier.jpg";
 
 function SocialButton({

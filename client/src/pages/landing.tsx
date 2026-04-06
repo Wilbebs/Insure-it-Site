@@ -78,7 +78,7 @@ function InsuranceDetailModal({
                 ? "from-purple-500/58 to-fuchsia-400/28"
                 : "from-slate-600/55 to-slate-400/25";
 
-  const modalImageBlur = type?.color === "blue";
+  const modalImageBlur = false;
 
   const pillColor =
     type?.color === "sky"

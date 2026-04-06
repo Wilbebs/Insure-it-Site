@@ -2023,6 +2023,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .to-yellow-400\/10{
   --tw-gradient-to: rgb(250 204 21 / 0.1) var(--tw-gradient-to-position);
 }
+.to-orange-200\/10{
+  --tw-gradient-to: rgb(254 215 170 / 0.1) var(--tw-gradient-to-position);
+}
 .bg-cover{
   background-size: cover;
 }

@@ -71,7 +71,7 @@ function InsuranceDetailModal({
         : type?.color === "blue"
           ? "from-sky-500/58 to-cyan-400/28"
           : type?.color === "indigo"
-            ? "from-green-500/55 to-lime-400/25"
+            ? "from-amber-500/58 to-yellow-400/28"
             : type?.color === "violet"
               ? "from-amber-500/60 to-orange-400/28"
               : type?.color === "red"
@@ -89,7 +89,7 @@ function InsuranceDetailModal({
         : type?.color === "blue"
           ? "bg-sky-100 text-sky-800"
           : type?.color === "indigo"
-            ? "bg-green-100 text-green-800"
+            ? "bg-amber-100 text-amber-800"
             : type?.color === "violet"
               ? "bg-amber-100 text-amber-800"
               : type?.color === "red"
@@ -274,7 +274,7 @@ function InsuranceCard({
     sky:    "bg-gradient-to-tr from-orange-500/38 via-amber-300/15 to-transparent",    // bright warm diagonal
     teal:   "bg-gradient-to-t from-slate-900/50 via-blue-400/12 to-transparent",       // near-glass, dark base only
     blue:   "bg-gradient-to-t from-sky-500/42 via-cyan-300/16 to-transparent",         // bright ocean
-    indigo: "bg-gradient-to-b from-green-500/32 via-lime-300/14 to-yellow-400/10",     // bright sunlight top-down
+    indigo: "bg-gradient-to-b from-amber-400/36 via-yellow-300/16 to-orange-200/10",    // warm golden sunlight
     violet: "bg-gradient-to-tl from-amber-500/38 via-orange-300/14 to-transparent",   // bright cognac diagonal
     green:  "bg-gradient-to-t from-emerald-500/40 via-emerald-300/16 to-transparent",
     red:    "bg-gradient-to-t from-purple-500/38 via-fuchsia-300/14 to-transparent",   // bright plum
@@ -322,7 +322,7 @@ function InsuranceCard({
               type.color === "sky"    ? "rgba(249, 115, 22, 0.40)" :   // bright orange
               type.color === "teal"   ? "rgba(59, 130, 246, 0.35)" :  // bright blue glass
               type.color === "blue"   ? "rgba(14, 165, 233, 0.40)" :  // bright sky
-              type.color === "indigo" ? "rgba(34, 197, 94, 0.38)" :   // bright green
+              type.color === "indigo" ? "rgba(251, 191, 36, 0.42)" :   // warm amber/gold
               type.color === "violet" ? "rgba(245, 158, 11, 0.40)" :  // bright amber
               type.color === "red"    ? "rgba(168, 85, 247, 0.40)" :  // bright purple
                                         "rgba(100, 116, 139, 0.40)"

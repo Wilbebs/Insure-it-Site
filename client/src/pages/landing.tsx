@@ -772,7 +772,7 @@ export default function Landing() {
             muted
             loop
             playsInline
-            poster={highFiveImg}
+            poster="/images/heroimage1.jpg"
             className="w-full h-full object-cover"
             style={{
               objectPosition: "center 40%",

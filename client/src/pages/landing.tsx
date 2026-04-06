@@ -259,13 +259,13 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky:    "from-amber-500/55 via-amber-400/30 to-amber-300/10",
-    teal:   "from-teal-500/55 via-teal-400/30 to-teal-300/10",
-    blue:   "from-blue-600/55 via-blue-500/30 to-blue-400/10",
-    indigo: "from-rose-800/55 via-purple-700/35 to-purple-500/10",
-    violet: "from-slate-800/65 via-slate-700/42 to-slate-600/15",
+    sky:    "from-orange-950/70 via-stone-900/42 to-stone-800/10",   // terracotta/copper
+    teal:   "from-zinc-900/72 via-blue-950/42 to-blue-900/10",       // midnight steel
+    blue:   "from-sky-950/72 via-cyan-950/42 to-cyan-900/10",        // deep ocean
+    indigo: "from-emerald-950/70 via-green-900/42 to-green-800/10",  // forest emerald
+    violet: "from-amber-950/68 via-stone-900/42 to-stone-800/10",    // rich cognac
     green:  "from-emerald-500/55 via-emerald-400/30 to-emerald-300/10",
-    red:    "from-red-500/55 via-red-400/30 to-red-300/10",
+    red:    "from-purple-950/70 via-fuchsia-950/42 to-fuchsia-900/10", // deep plum
   };
 
   const iconAnimations = {
@@ -283,11 +283,11 @@ function InsuranceCard({
     iconAnimations[type.color as keyof typeof iconAnimations] || "";
 
   const scrimClass =
-    type.color === "sky"    ? "from-amber-800/50" :
-    type.color === "teal"   ? "from-teal-900/55" :
-    type.color === "indigo" ? "from-rose-900/55" :
-    type.color === "violet" ? "from-slate-900/55" :
-    type.color === "red"    ? "from-red-900/55" :
+    type.color === "sky"    ? "from-orange-950/60" :
+    type.color === "teal"   ? "from-zinc-950/65" :
+    type.color === "indigo" ? "from-emerald-950/65" :
+    type.color === "violet" ? "from-amber-950/60" :
+    type.color === "red"    ? "from-purple-950/65" :
                               "from-black/55";
 
   const dynamicGradientStyle = isHovered
@@ -307,12 +307,13 @@ function InsuranceCard({
       style={{
         boxShadow: isHovered
           ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${
-              type.color === "sky"    ? "rgba(217, 119, 6, 0.45)" :
-              type.color === "teal"   ? "rgba(13, 148, 136, 0.45)" :
-              type.color === "blue"   ? "rgba(37, 99, 235, 0.45)" :
-              type.color === "indigo" ? "rgba(225, 29, 72, 0.45)" :
-              type.color === "red"    ? "rgba(220, 38, 38, 0.45)" :
-                                        "rgba(100, 116, 139, 0.45)"
+              type.color === "sky"    ? "rgba(124, 45, 18, 0.50)" :   // terracotta
+              type.color === "teal"   ? "rgba(23, 37, 84, 0.55)" :    // midnight steel
+              type.color === "blue"   ? "rgba(8, 47, 73, 0.55)" :     // deep ocean
+              type.color === "indigo" ? "rgba(6, 78, 59, 0.50)" :     // forest emerald
+              type.color === "violet" ? "rgba(120, 53, 15, 0.50)" :   // rich cognac
+              type.color === "red"    ? "rgba(88, 28, 135, 0.50)" :   // deep plum
+                                        "rgba(15, 23, 42, 0.50)"
             }`
           : undefined,
       }}

@@ -12,7 +12,7 @@ import { initialConversationContext } from "@/lib/conversation-types";
 import { coreQuestions, coreQuestionGroups, policyQuestionFlows } from "@/lib/policy-questions";
 import { validatePolicyDocument, formatFileSize } from "@/lib/file-upload";
 import { apiRequest } from "@/lib/queryClient";
-const elizabethPhoto = "/images/elizabeth_photo.png";
+const elizabethPhoto = "/images/elizabeth_photo.jpg";
 const usaFlagIcon = "/images/usa_flag.png";
 const spainFlagIcon = "/images/spain_flag.png";
 

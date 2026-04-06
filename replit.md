@@ -73,7 +73,7 @@ This is a simplified, professional insurance website built with React and Expres
 - **TestimonialsCarousel**: 2x2 grid, 12 testimonials across 3 pages, auto-cycles every 6s with swipe support
 - **Footer**: Site footer with company info — uses Next.js Link
 - **ChatBot**: AI assistant "Liz" — uses useRouter from next/navigation for programmatic navigation
-- **Team (About page)**: 4 members in 2x4 grid — Wilbert Hernandez (President), Elizabeth Hernandez (Agency Operations Manager), David Hernandez (Account Executive), Wilbert Hernandez Jr. (Automation Engineer). Photos in attached_assets/; Jr.'s photo compressed to ~61KB JPEG.
+- **Team (About page)**: 4 members in 2x4 grid — Wilbert Hernandez (President), Elizabeth Hernandez (Agency Operations Manager), David Hernandez (Account Executive), Wilbert Hernandez Jr. (Automation Engineer). All photos compressed to JPEG in public/images/ — elizabeth_photo.jpg (~76KB), david_photo.jpg (~66KB), wilbert_photo.jpg (~133KB), whjr_photo.jpg (~277KB).
 
 ### API Endpoints
 - `POST /api/contact` - Submit contact form with optional documents

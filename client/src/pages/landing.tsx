@@ -38,7 +38,7 @@ import SectionDivider from "@/components/section-divider";
 
 const heroVideo = "/api/videos/herovid1.mp4";
 const shieldIcon = "/images/shield_icon.png";
-const floodImg = "/images/flood_insurance.jpg";
+const floodImg = "/images/flood_card.jpg";
 const highFiveImg = "/images/team_highfive.jpg";
 
 function InsuranceDetailModal({
@@ -635,7 +635,7 @@ export default function Landing() {
       description: t.insurance.homeDesc,
       shortDesc: t.insurance.homeShortDesc,
       image:
-        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+        "/images/home_card.jpg",
       color: "sky",
     },
     {
@@ -670,7 +670,7 @@ export default function Landing() {
       description: t.insurance.businessDesc,
       shortDesc: t.insurance.businessShortDesc,
       image:
-        "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=800&q=80",
+        "/images/business_card.jpg",
       color: "violet",
     },
     {
@@ -679,7 +679,7 @@ export default function Landing() {
       description: t.insurance.healthDesc,
       shortDesc: t.insurance.healthShortDesc,
       image:
-        "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=800&q=80",
+        "/images/health_card.jpg",
       color: "red",
     },
   ];

@@ -314,7 +314,7 @@ function InsuranceCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 h-[72px] sm:h-44 sm:hover:-translate-y-2 sm:hover:shadow-2xl sm:hover:shadow-black/30 select-none active:scale-[0.98] transform-gpu will-change-transform"
+      className="group relative rounded-xl overflow-hidden isolate cursor-pointer transition-all duration-300 h-[72px] sm:h-44 sm:hover:-translate-y-2 sm:hover:shadow-2xl sm:hover:shadow-black/30 select-none active:scale-[0.98] transform-gpu will-change-transform"
       style={{
         boxShadow: isHovered
           ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${
@@ -336,12 +336,7 @@ function InsuranceCard({
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 sm:group-hover:scale-110"
-        style={{
-          backgroundImage: `url(${type.image})`,
-          ...(type.color === "blue"
-            ? { filter: "blur(0.5px)", transform: "scale(1.02)" }
-            : {}),
-        }}
+        style={{ backgroundImage: `url(${type.image})` }}
       />
 
       {/* Base Gradient Overlay */}

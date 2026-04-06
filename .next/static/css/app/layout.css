@@ -723,6 +723,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .top-full{
   top: 100%;
 }
+.isolate{
+  isolation: isolate;
+}
 .z-0{
   z-index: 0;
 }

@@ -2794,6 +2794,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .ease-out{
   animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
+.\[clip-path\:inset\(0_round_0\.75rem\)\]{
+  clip-path: inset(0 round 0.75rem);
+}
 .\[text-shadow\:0_1px_3px_rgba\(0\2c 0\2c 0\2c 0\.7\)\]{
   text-shadow: 0 1px 3px rgba(0,0,0,0.7);
 }

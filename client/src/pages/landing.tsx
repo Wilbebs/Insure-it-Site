@@ -262,7 +262,7 @@ function InsuranceCard({
     sky:    "from-amber-500/55 via-amber-400/30 to-amber-300/10",
     teal:   "from-teal-500/55 via-teal-400/30 to-teal-300/10",
     blue:   "from-blue-600/55 via-blue-500/30 to-blue-400/10",
-    indigo: "from-indigo-700/55 via-indigo-600/30 to-indigo-500/8",
+    indigo: "from-rose-800/55 via-purple-700/35 to-purple-500/10",
     violet: "from-slate-800/65 via-slate-700/42 to-slate-600/15",
     green:  "from-emerald-500/55 via-emerald-400/30 to-emerald-300/10",
     red:    "from-red-500/55 via-red-400/30 to-red-300/10",
@@ -345,16 +345,26 @@ function InsuranceCard({
             <div className="text-white animate-car-drive-mobile [&_svg]:w-7 [&_svg]:h-7">
               {type.icon}
             </div>
-            {/* Scrolling road dashes beneath the car */}
-            <div className="w-9 h-[3px] rounded-full overflow-hidden bg-white/20">
+            {/* Two-lane road beneath the car */}
+            <div className="w-10 h-[13px] overflow-hidden rounded-sm relative bg-slate-700/80">
+              {/* Top edge line */}
+              <div className="absolute top-[1.5px] inset-x-0 h-[1.5px] bg-white/55" />
+              {/* Bottom edge line */}
+              <div className="absolute bottom-[1.5px] inset-x-0 h-[1.5px] bg-white/55" />
+              {/* Scrolling yellow center dash */}
               <div
-                className="mobile-road-dash h-full"
-                style={{
-                  width: "200%",
-                  background:
-                    "repeating-linear-gradient(90deg, rgba(255,255,255,0.8) 0px, rgba(255,255,255,0.8) 5px, transparent 5px, transparent 11px)",
-                }}
-              />
+                className="mobile-road-dash absolute inset-y-0 left-0 flex items-center"
+                style={{ width: "200%" }}
+              >
+                <div
+                  style={{
+                    height: "2px",
+                    width: "100%",
+                    background:
+                      "repeating-linear-gradient(90deg, rgba(255,215,0,0.9) 0px, rgba(255,215,0,0.9) 6px, transparent 6px, transparent 14px)",
+                  }}
+                />
+              </div>
             </div>
           </div>
         ) : (

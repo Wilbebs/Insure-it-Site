@@ -633,6 +633,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .bottom-4{
   bottom: 1rem;
 }
+.bottom-\[1\.5px\]{
+  bottom: 1.5px;
+}
 .bottom-full{
   bottom: 100%;
 }
@@ -707,6 +710,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 }
 .top-5{
   top: 1.25rem;
+}
+.top-\[1\.5px\]{
+  top: 1.5px;
 }
 .top-\[110px\]{
   top: 110px;
@@ -997,6 +1003,12 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .h-9{
   height: 2.25rem;
 }
+.h-\[1\.5px\]{
+  height: 1.5px;
+}
+.h-\[13px\]{
+  height: 13px;
+}
 .h-\[155px\]{
   height: 155px;
 }
@@ -1032,9 +1044,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
 }
 .h-svh{
   height: 100svh;
-}
-.h-\[3px\]{
-  height: 3px;
 }
 .max-h-96{
   max-height: 24rem;
@@ -1852,6 +1861,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
   --tw-bg-opacity: 1;
   background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1));
 }
+.bg-slate-700\/80{
+  background-color: rgb(51 65 85 / 0.8);
+}
 .bg-slate-900{
   --tw-bg-opacity: 1;
   background-color: rgb(15 23 42 / var(--tw-bg-opacity, 1));
@@ -1881,6 +1893,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 }
 .bg-white\/40{
   background-color: rgb(255 255 255 / 0.4);
+}
+.bg-white\/55{
+  background-color: rgb(255 255 255 / 0.55);
 }
 .bg-white\/70{
   background-color: rgb(255 255 255 / 0.7);
@@ -1956,11 +1971,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
   --tw-gradient-to: rgb(16 185 129 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
-.from-indigo-700\/55{
-  --tw-gradient-from: rgb(67 56 202 / 0.55) var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(67 56 202 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
 .from-pink-50{
   --tw-gradient-from: #fdf2f8 var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(253 242 248 / 0) var(--tw-gradient-to-position);
@@ -1984,6 +1994,11 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .from-rose-600{
   --tw-gradient-from: #e11d48 var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(225 29 72 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.from-rose-800\/55{
+  --tw-gradient-from: rgb(159 18 57 / 0.55) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(159 18 57 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 .from-rose-900\/55{
@@ -2047,9 +2062,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
   --tw-gradient-to: rgb(52 211 153 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(52 211 153 / 0.3) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
-.via-indigo-600\/30{
-  --tw-gradient-to: rgb(79 70 229 / 0)  var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), rgb(79 70 229 / 0.3) var(--tw-gradient-via-position), var(--tw-gradient-to);
+.via-purple-700\/35{
+  --tw-gradient-to: rgb(126 34 206 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(126 34 206 / 0.35) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 .via-red-400\/30{
   --tw-gradient-to: rgb(248 113 113 / 0)  var(--tw-gradient-to-position);
@@ -2086,6 +2101,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 }
 .to-purple-500{
   --tw-gradient-to: #a855f7 var(--tw-gradient-to-position);
+}
+.to-purple-500\/10{
+  --tw-gradient-to: rgb(168 85 247 / 0.1) var(--tw-gradient-to-position);
 }
 .to-red-300\/10{
   --tw-gradient-to: rgb(252 165 165 / 0.1) var(--tw-gradient-to-position);

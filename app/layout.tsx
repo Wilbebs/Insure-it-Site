@@ -38,10 +38,7 @@ const jsonLd = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://insureitgroup.net"),
-  title: {
-    default: "Insure-it | Insurance Agency",
-    template: "%s | Insure-it",
-  },
+  title: "Insure-it | Insurance Agency",
   description:
     "Family-owned independent insurance agency serving Jacksonville, FL since 2011. Personalized home, auto, flood, life, and business insurance coverage you can trust.",
   keywords: [

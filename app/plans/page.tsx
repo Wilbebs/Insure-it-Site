@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Plans from "@/pages/plans";
 
 export const metadata: Metadata = {
-  title: "Insurance Plans",
+  title: "Insurance Plans | Insure-it",
   description:
     "Explore our range of insurance plans including home, auto, flood, life, and business coverage. Get a personalized quote today.",
 };

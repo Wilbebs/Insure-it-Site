@@ -263,13 +263,13 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky:    "from-orange-950/70 via-stone-900/42 to-stone-800/10",   // terracotta/copper
-    teal:   "from-zinc-900/72 via-blue-950/42 to-blue-900/10",       // midnight steel
-    blue:   "from-sky-950/72 via-cyan-950/42 to-cyan-900/10",        // deep ocean
-    indigo: "from-green-900/70 via-lime-950/38 to-yellow-950/10",    // warm growth/life
-    violet: "from-amber-950/68 via-stone-900/42 to-stone-800/10",    // rich cognac
-    green:  "from-emerald-500/55 via-emerald-400/30 to-emerald-300/10",
-    red:    "from-purple-950/70 via-fuchsia-950/42 to-fuchsia-900/10", // deep plum
+    sky:    "bg-gradient-to-tr from-orange-950/78 via-stone-900/45 to-orange-800/15",  // diagonal warm
+    teal:   "bg-gradient-to-t from-zinc-950/92 via-zinc-900/62 to-zinc-800/18",        // heavy bottom
+    blue:   "bg-sky-950/62",                                                            // flat solid tint
+    indigo: "bg-gradient-to-b from-green-900/68 via-lime-900/34 to-yellow-900/14",     // top-down sunlight
+    violet: "bg-gradient-to-tl from-amber-950/80 via-stone-900/48 to-stone-800/14",   // opposite diagonal
+    green:  "bg-gradient-to-t from-emerald-500/55 via-emerald-400/30 to-emerald-300/10",
+    red:    "bg-purple-900/62",                                                         // flat solid bold
   };
 
   const iconAnimations = {
@@ -334,7 +334,7 @@ function InsuranceCard({
 
       {/* Base Gradient Overlay */}
       <div
-        className={`absolute inset-0 bg-gradient-to-t transition-all duration-500 ${gradientClass}`}
+        className={`absolute inset-0 transition-all duration-500 ${gradientClass}`}
       />
 
       {/* Dynamic mouse-following gradient (desktop only) */}

@@ -1976,6 +1976,11 @@ p, span, a, li, td, th, input, textarea, .selectable {
   --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+.from-black\/35{
+  --tw-gradient-from: rgb(0 0 0 / 0.35) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
 .via-amber-300\/15{
   --tw-gradient-to: rgb(252 211 77 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(252 211 77 / 0.15) var(--tw-gradient-via-position), var(--tw-gradient-to);
@@ -2014,6 +2019,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 }
 .to-transparent{
   --tw-gradient-to: transparent var(--tw-gradient-to-position);
+}
+.to-black\/10{
+  --tw-gradient-to: rgb(0 0 0 / 0.1) var(--tw-gradient-to-position);
 }
 .bg-cover{
   background-size: cover;

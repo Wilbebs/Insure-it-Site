@@ -65,7 +65,7 @@ function InsuranceDetailModal({
 
   const accentColor =
     type?.color === "sky"
-      ? "from-orange-500/60 to-amber-400/30"
+      ? "from-black/35 to-black/10"
       : type?.color === "teal"
         ? "from-slate-900/55 to-blue-400/20"
         : type?.color === "blue"
@@ -342,7 +342,7 @@ function InsuranceCard({
           ...(type.color === "sky" || type.color === "violet"
             ? { filter: "blur(2px)", transform: "scale(1.06)" }
             : type.color === "blue"
-            ? { filter: "blur(1px)", transform: "scale(1.03)" }
+            ? { filter: "blur(0.5px)", transform: "scale(1.02)" }
             : {}),
         }}
       />

@@ -1121,7 +1121,7 @@ export default function Landing() {
         }}
       >
         <div className="absolute inset-0 bg-slate-900/40 dark:bg-slate-900/50" />
-        <section className="pt-1 pb-6 relative z-10">
+        <section className="pt-[10px] pb-6 relative z-10">
           <ScaledContainer desktopWidth={640}>
             <div className="px-4 sm:px-6">
               <TestimonialsCarousel />

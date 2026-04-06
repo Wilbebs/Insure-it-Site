@@ -263,13 +263,13 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky:    "bg-gradient-to-tr from-orange-950/78 via-stone-900/45 to-orange-800/15",  // diagonal warm
-    teal:   "bg-gradient-to-t from-zinc-950/92 via-zinc-900/62 to-zinc-800/18",        // heavy bottom
-    blue:   "bg-sky-950/62",                                                            // flat solid tint
-    indigo: "bg-gradient-to-b from-green-900/68 via-lime-900/34 to-yellow-900/14",     // top-down sunlight
-    violet: "bg-gradient-to-tl from-amber-950/80 via-stone-900/48 to-stone-800/14",   // opposite diagonal
-    green:  "bg-gradient-to-t from-emerald-500/55 via-emerald-400/30 to-emerald-300/10",
-    red:    "bg-purple-900/62",                                                         // flat solid bold
+    sky:    "bg-gradient-to-tr from-orange-500/38 via-amber-300/15 to-transparent",    // bright warm diagonal
+    teal:   "bg-gradient-to-t from-slate-900/50 via-blue-400/12 to-transparent",       // near-glass, dark base only
+    blue:   "bg-gradient-to-t from-sky-500/42 via-cyan-300/16 to-transparent",         // bright ocean
+    indigo: "bg-gradient-to-b from-green-500/32 via-lime-300/14 to-yellow-400/10",     // bright sunlight top-down
+    violet: "bg-gradient-to-tl from-amber-500/38 via-orange-300/14 to-transparent",   // bright cognac diagonal
+    green:  "bg-gradient-to-t from-emerald-500/40 via-emerald-300/16 to-transparent",
+    red:    "bg-gradient-to-t from-purple-500/38 via-fuchsia-300/14 to-transparent",   // bright plum
   };
 
   const iconAnimations = {
@@ -287,12 +287,12 @@ function InsuranceCard({
     iconAnimations[type.color as keyof typeof iconAnimations] || "";
 
   const scrimClass =
-    type.color === "sky"    ? "from-orange-950/60" :
-    type.color === "teal"   ? "from-zinc-950/65" :
-    type.color === "indigo" ? "from-green-950/65" :
-    type.color === "violet" ? "from-amber-950/60" :
-    type.color === "red"    ? "from-purple-950/65" :
-                              "from-black/55";
+    type.color === "sky"    ? "from-black/48" :
+    type.color === "teal"   ? "from-black/52" :
+    type.color === "indigo" ? "from-black/45" :
+    type.color === "violet" ? "from-black/48" :
+    type.color === "red"    ? "from-black/48" :
+                              "from-black/48";
 
   const dynamicGradientStyle = isHovered
     ? {
@@ -311,13 +311,13 @@ function InsuranceCard({
       style={{
         boxShadow: isHovered
           ? `0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 30px -5px ${
-              type.color === "sky"    ? "rgba(124, 45, 18, 0.50)" :   // terracotta
-              type.color === "teal"   ? "rgba(23, 37, 84, 0.55)" :    // midnight steel
-              type.color === "blue"   ? "rgba(8, 47, 73, 0.55)" :     // deep ocean
-              type.color === "indigo" ? "rgba(22, 101, 52, 0.50)" :    // warm growth
-              type.color === "violet" ? "rgba(120, 53, 15, 0.50)" :   // rich cognac
-              type.color === "red"    ? "rgba(88, 28, 135, 0.50)" :   // deep plum
-                                        "rgba(15, 23, 42, 0.50)"
+              type.color === "sky"    ? "rgba(249, 115, 22, 0.40)" :   // bright orange
+              type.color === "teal"   ? "rgba(59, 130, 246, 0.35)" :  // bright blue glass
+              type.color === "blue"   ? "rgba(14, 165, 233, 0.40)" :  // bright sky
+              type.color === "indigo" ? "rgba(34, 197, 94, 0.38)" :   // bright green
+              type.color === "violet" ? "rgba(245, 158, 11, 0.40)" :  // bright amber
+              type.color === "red"    ? "rgba(168, 85, 247, 0.40)" :  // bright purple
+                                        "rgba(100, 116, 139, 0.40)"
             }`
           : undefined,
       }}
@@ -629,7 +629,7 @@ export default function Landing() {
       description: t.insurance.autoDesc,
       shortDesc: t.insurance.autoShortDesc,
       image:
-        "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80",
+        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80",
       color: "teal",
     },
     {

@@ -979,6 +979,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .h-4{
   height: 1rem;
 }
+.h-48{
+  height: 12rem;
+}
 .h-5{
   height: 1.25rem;
 }
@@ -1117,6 +1120,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .w-4{
   width: 1rem;
 }
+.w-48{
+  width: 12rem;
+}
 .w-5{
   width: 1.25rem;
 }
@@ -1146,6 +1152,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 }
 .w-\[1px\]{
   width: 1px;
+}
+.w-\[560px\]{
+  width: 560px;
 }
 .w-\[990px\]{
   width: 990px;
@@ -2561,6 +2570,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 }
 .text-white\/55{
   color: rgb(255 255 255 / 0.55);
+}
+.text-white\/60{
+  color: rgb(255 255 255 / 0.6);
 }
 .text-white\/70{
   color: rgb(255 255 255 / 0.7);

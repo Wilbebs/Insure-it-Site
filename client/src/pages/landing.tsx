@@ -65,29 +65,33 @@ function InsuranceDetailModal({
 
   const accentColor =
     type?.color === "sky"
-      ? "from-amber-600 to-amber-400"
+      ? "from-orange-900 to-orange-700"      // terracotta/copper
       : type?.color === "teal"
-        ? "from-teal-600 to-teal-400"
+        ? "from-slate-800 to-zinc-700"       // midnight steel
         : type?.color === "blue"
-          ? "from-blue-700 to-blue-500"
+          ? "from-sky-900 to-cyan-800"       // deep ocean
           : type?.color === "indigo"
-            ? "from-rose-600 to-purple-500"
-            : type?.color === "red"
-              ? "from-red-600 to-red-400"
-              : "from-slate-600 to-slate-400";
+            ? "from-green-800 to-lime-700"   // warm growth/life
+            : type?.color === "violet"
+              ? "from-amber-900 to-stone-700" // rich cognac
+              : type?.color === "red"
+                ? "from-purple-900 to-fuchsia-800" // deep plum
+                : "from-slate-700 to-slate-600";
 
   const pillColor =
     type?.color === "sky"
-      ? "bg-amber-100 text-amber-700"
+      ? "bg-orange-100 text-orange-800"
       : type?.color === "teal"
-        ? "bg-teal-100 text-teal-700"
+        ? "bg-slate-200 text-slate-800"
         : type?.color === "blue"
-          ? "bg-blue-100 text-blue-700"
+          ? "bg-sky-100 text-sky-800"
           : type?.color === "indigo"
-            ? "bg-rose-100 text-rose-700"
-            : type?.color === "red"
-              ? "bg-red-100 text-red-700"
-              : "bg-slate-100 text-slate-700";
+            ? "bg-green-100 text-green-800"
+            : type?.color === "violet"
+              ? "bg-amber-100 text-amber-800"
+              : type?.color === "red"
+                ? "bg-purple-100 text-purple-800"
+                : "bg-slate-100 text-slate-700";
 
   return (
     <AnimatePresence>
@@ -262,7 +266,7 @@ function InsuranceCard({
     sky:    "from-orange-950/70 via-stone-900/42 to-stone-800/10",   // terracotta/copper
     teal:   "from-zinc-900/72 via-blue-950/42 to-blue-900/10",       // midnight steel
     blue:   "from-sky-950/72 via-cyan-950/42 to-cyan-900/10",        // deep ocean
-    indigo: "from-emerald-950/70 via-green-900/42 to-green-800/10",  // forest emerald
+    indigo: "from-green-900/70 via-lime-950/38 to-yellow-950/10",    // warm growth/life
     violet: "from-amber-950/68 via-stone-900/42 to-stone-800/10",    // rich cognac
     green:  "from-emerald-500/55 via-emerald-400/30 to-emerald-300/10",
     red:    "from-purple-950/70 via-fuchsia-950/42 to-fuchsia-900/10", // deep plum
@@ -285,7 +289,7 @@ function InsuranceCard({
   const scrimClass =
     type.color === "sky"    ? "from-orange-950/60" :
     type.color === "teal"   ? "from-zinc-950/65" :
-    type.color === "indigo" ? "from-emerald-950/65" :
+    type.color === "indigo" ? "from-green-950/65" :
     type.color === "violet" ? "from-amber-950/60" :
     type.color === "red"    ? "from-purple-950/65" :
                               "from-black/55";
@@ -310,7 +314,7 @@ function InsuranceCard({
               type.color === "sky"    ? "rgba(124, 45, 18, 0.50)" :   // terracotta
               type.color === "teal"   ? "rgba(23, 37, 84, 0.55)" :    // midnight steel
               type.color === "blue"   ? "rgba(8, 47, 73, 0.55)" :     // deep ocean
-              type.color === "indigo" ? "rgba(6, 78, 59, 0.50)" :     // forest emerald
+              type.color === "indigo" ? "rgba(22, 101, 52, 0.50)" :    // warm growth
               type.color === "violet" ? "rgba(120, 53, 15, 0.50)" :   // rich cognac
               type.color === "red"    ? "rgba(88, 28, 135, 0.50)" :   // deep plum
                                         "rgba(15, 23, 42, 0.50)"

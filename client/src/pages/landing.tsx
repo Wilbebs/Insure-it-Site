@@ -65,18 +65,21 @@ function InsuranceDetailModal({
 
   const accentColor =
     type?.color === "sky"
-      ? "from-orange-900 to-orange-700"      // terracotta/copper
+      ? "from-orange-500/60 to-amber-400/30"
       : type?.color === "teal"
-        ? "from-slate-800 to-zinc-700"       // midnight steel
+        ? "from-slate-900/55 to-blue-400/20"
         : type?.color === "blue"
-          ? "from-sky-900 to-cyan-800"       // deep ocean
+          ? "from-sky-500/58 to-cyan-400/28"
           : type?.color === "indigo"
-            ? "from-green-800 to-lime-700"   // warm growth/life
+            ? "from-green-500/55 to-lime-400/25"
             : type?.color === "violet"
-              ? "from-amber-900 to-stone-700" // rich cognac
+              ? "from-amber-500/60 to-orange-400/28"
               : type?.color === "red"
-                ? "from-purple-900 to-fuchsia-800" // deep plum
-                : "from-slate-700 to-slate-600";
+                ? "from-purple-500/58 to-fuchsia-400/28"
+                : "from-slate-600/55 to-slate-400/25";
+
+  const modalImageBlur =
+    type?.color === "sky" || type?.color === "violet" || type?.color === "blue";
 
   const pillColor =
     type?.color === "sky"
@@ -124,10 +127,15 @@ function InsuranceDetailModal({
               <div className="relative h-36 flex-shrink-0 overflow-hidden">
                 <div
                   className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${type.image})` }}
+                  style={{
+                    backgroundImage: `url(${type.image})`,
+                    ...(modalImageBlur
+                      ? { filter: "blur(2px)", transform: "scale(1.06)" }
+                      : {}),
+                  }}
                 />
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${accentColor} opacity-80`}
+                  className={`absolute inset-0 bg-gradient-to-br ${accentColor}`}
                 />
                 <button
                   onClick={onClose}
@@ -329,7 +337,12 @@ function InsuranceCard({
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 sm:group-hover:scale-110"
-        style={{ backgroundImage: `url(${type.image})` }}
+        style={{
+          backgroundImage: `url(${type.image})`,
+          ...(type.color === "sky" || type.color === "violet" || type.color === "blue"
+            ? { filter: "blur(2px)", transform: "scale(1.06)" }
+            : {}),
+        }}
       />
 
       {/* Base Gradient Overlay */}
@@ -629,7 +642,7 @@ export default function Landing() {
       description: t.insurance.autoDesc,
       shortDesc: t.insurance.autoShortDesc,
       image:
-        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80",
+        "/images/autocar.jpg",
       color: "teal",
     },
     {

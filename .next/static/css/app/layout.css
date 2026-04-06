@@ -997,6 +997,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .h-9{
   height: 2.25rem;
 }
+.h-\[1\.5px\]{
+  height: 1.5px;
+}
 .h-\[155px\]{
   height: 155px;
 }
@@ -1878,6 +1881,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 }
 .bg-white\/40{
   background-color: rgb(255 255 255 / 0.4);
+}
+.bg-white\/55{
+  background-color: rgb(255 255 255 / 0.55);
 }
 .bg-white\/70{
   background-color: rgb(255 255 255 / 0.7);
@@ -2958,12 +2964,10 @@ p, span, a, li, td, th, input, textarea, .selectable {
   animation: car-crash 12s linear infinite;
 }
 
-/* Mobile auto card: lane dashes flying past (clipped to 72px car zone) */
-@keyframes lane-dash-fly {
-  0%   { transform: translateX(0px); opacity: 0; }
-  8%   { opacity: 0.9; }
-  88%  { opacity: 0.9; }
-  100% { transform: translateX(-90px); opacity: 0; }
+/* Mobile auto card: road lines */
+@keyframes mobile-road-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-14px); }
 }
 
 @keyframes car-drive-mobile {
@@ -2976,20 +2980,18 @@ p, span, a, li, td, th, input, textarea, .selectable {
   animation: car-drive-mobile 0.45s ease-in-out infinite;
 }
 
-.lane-dash-m {
-  position: absolute;
-  height: 3px;
-  width: 16px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.9);
-  right: 0;
-  top: 50%;
-  margin-top: -1.5px;
+.mobile-center-dash {
+  width: 400%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 215, 0, 0.92) 0px,
+    rgba(255, 215, 0, 0.92) 4px,
+    transparent 4px,
+    transparent 14px
+  );
+  animation: mobile-road-scroll 0.45s linear infinite;
 }
-.lane-dash-m-1 { animation: lane-dash-fly 0.9s linear infinite 0s; }
-.lane-dash-m-2 { animation: lane-dash-fly 0.9s linear infinite 0.225s; }
-.lane-dash-m-3 { animation: lane-dash-fly 0.9s linear infinite 0.45s; }
-.lane-dash-m-4 { animation: lane-dash-fly 0.9s linear infinite 0.675s; }
 
 @keyframes particle-loop-1 {
   0%, 5%  { opacity: 0; transform: translate(0, 0) scale(0); }

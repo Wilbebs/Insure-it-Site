@@ -227,7 +227,7 @@ function InsuranceDetailModal({
                     onClose();
                     onGetQuote();
                   }}
-                  className={`w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r ${accentColor} hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-md`}
+                  className="w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-green-600 hover:bg-green-700 active:bg-green-800 transition-colors flex items-center justify-center gap-2 shadow-md"
                 >
                   {t.insuranceModal.getQuotePrefix} {type.title}
                   {t.insuranceModal.getQuoteSuffix}

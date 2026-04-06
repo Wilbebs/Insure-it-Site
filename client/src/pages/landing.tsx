@@ -338,40 +338,21 @@ function InsuranceCard({
         style={dynamicGradientStyle}
       />
 
+      {/* Speed streaks overlay — auto card, mobile only */}
+      {type.color === "teal" && (
+        <div className="sm:hidden absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 18 }}>
+          <div className="speed-streak-m speed-streak-m-1" />
+          <div className="speed-streak-m speed-streak-m-2" />
+          <div className="speed-streak-m speed-streak-m-3" />
+          <div className="speed-streak-m speed-streak-m-4" />
+        </div>
+      )}
+
       {/* ── MOBILE: horizontal list row ── */}
       <div className="sm:hidden absolute inset-0 flex items-center gap-4 px-4 z-20">
-        {type.color === "teal" ? (
-          <div className="shrink-0 flex flex-col items-center gap-0.5">
-            <div className="text-white animate-car-drive-mobile [&_svg]:w-7 [&_svg]:h-7">
-              {type.icon}
-            </div>
-            {/* Two-lane road beneath the car */}
-            <div className="w-10 h-[13px] overflow-hidden rounded-sm relative bg-slate-700/80">
-              {/* Top edge line */}
-              <div className="absolute top-[1.5px] inset-x-0 h-[1.5px] bg-white/55" />
-              {/* Bottom edge line */}
-              <div className="absolute bottom-[1.5px] inset-x-0 h-[1.5px] bg-white/55" />
-              {/* Scrolling yellow center dash */}
-              <div
-                className="mobile-road-dash absolute inset-y-0 left-0 flex items-center"
-                style={{ width: "200%" }}
-              >
-                <div
-                  style={{
-                    height: "2px",
-                    width: "100%",
-                    background:
-                      "repeating-linear-gradient(90deg, rgba(255,215,0,0.9) 0px, rgba(255,215,0,0.9) 6px, transparent 6px, transparent 14px)",
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className={`shrink-0 text-white [&_svg]:w-7 [&_svg]:h-7 ${iconAnimation}`}>
-            {type.icon}
-          </div>
-        )}
+        <div className={`shrink-0 text-white [&_svg]:w-7 [&_svg]:h-7 ${type.color === "teal" ? "animate-car-drive-mobile" : iconAnimation}`}>
+          {type.icon}
+        </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-white font-bold text-sm leading-tight drop-shadow">
             {type.title}

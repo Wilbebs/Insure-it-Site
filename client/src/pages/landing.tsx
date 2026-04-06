@@ -78,8 +78,7 @@ function InsuranceDetailModal({
                 ? "from-purple-500/58 to-fuchsia-400/28"
                 : "from-slate-600/55 to-slate-400/25";
 
-  const modalImageBlur =
-    type?.color === "sky" || type?.color === "violet" || type?.color === "blue";
+  const modalImageBlur = type?.color === "blue";
 
   const pillColor =
     type?.color === "sky"
@@ -339,9 +338,7 @@ function InsuranceCard({
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 sm:group-hover:scale-110"
         style={{
           backgroundImage: `url(${type.image})`,
-          ...(type.color === "sky" || type.color === "violet"
-            ? { filter: "blur(2px)", transform: "scale(1.06)" }
-            : type.color === "blue"
+          ...(type.color === "blue"
             ? { filter: "blur(0.5px)", transform: "scale(1.02)" }
             : {}),
         }}

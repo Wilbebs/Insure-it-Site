@@ -271,7 +271,7 @@ function InsuranceCard({
   };
 
   const colorClasses = {
-    sky:    "bg-gradient-to-tr from-orange-500/38 via-amber-300/15 to-transparent",    // bright warm diagonal
+    sky:    "bg-gradient-to-t from-black/18 to-transparent",                           // clean — no tint
     teal:   "bg-gradient-to-t from-slate-900/50 via-blue-400/12 to-transparent",       // near-glass, dark base only
     blue:   "bg-gradient-to-t from-sky-500/42 via-cyan-300/16 to-transparent",         // bright ocean
     indigo: "bg-gradient-to-b from-amber-400/36 via-yellow-300/16 to-orange-200/10",    // warm golden sunlight
@@ -339,8 +339,10 @@ function InsuranceCard({
         className="absolute inset-0 bg-cover bg-center transition-transform duration-700 sm:group-hover:scale-110"
         style={{
           backgroundImage: `url(${type.image})`,
-          ...(type.color === "sky" || type.color === "violet" || type.color === "blue"
+          ...(type.color === "sky" || type.color === "violet"
             ? { filter: "blur(2px)", transform: "scale(1.06)" }
+            : type.color === "blue"
+            ? { filter: "blur(1px)", transform: "scale(1.03)" }
             : {}),
         }}
       />

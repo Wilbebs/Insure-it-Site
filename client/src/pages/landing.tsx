@@ -338,9 +338,12 @@ function InsuranceCard({
         style={dynamicGradientStyle}
       />
 
-      {/* Lane dashes overlay — auto card, mobile only */}
+      {/* Lane dashes — constrained to car icon zone only, mobile */}
       {type.color === "teal" && (
-        <div className="sm:hidden absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 18 }}>
+        <div
+          className="sm:hidden absolute left-0 top-0 bottom-0 overflow-hidden pointer-events-none"
+          style={{ width: "72px", zIndex: 18 }}
+        >
           <div className="lane-dash-m lane-dash-m-1" />
           <div className="lane-dash-m lane-dash-m-2" />
           <div className="lane-dash-m lane-dash-m-3" />

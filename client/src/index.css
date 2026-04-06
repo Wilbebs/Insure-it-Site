@@ -176,12 +176,12 @@
   animation: car-crash 12s linear infinite;
 }
 
-/* Mobile auto card: lane dashes flying past */
+/* Mobile auto card: lane dashes flying past (clipped to 72px car zone) */
 @keyframes lane-dash-fly {
   0%   { transform: translateX(0px); opacity: 0; }
-  6%   { opacity: 0.85; }
-  92%  { opacity: 0.85; }
-  100% { transform: translateX(-360px); opacity: 0; }
+  8%   { opacity: 0.9; }
+  88%  { opacity: 0.9; }
+  100% { transform: translateX(-90px); opacity: 0; }
 }
 
 @keyframes car-drive-mobile {
@@ -197,17 +197,17 @@
 .lane-dash-m {
   position: absolute;
   height: 3px;
-  width: 18px;
+  width: 16px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.88);
-  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  right: 0;
   top: 50%;
   margin-top: -1.5px;
 }
-.lane-dash-m-1 { animation: lane-dash-fly 1.1s linear infinite 0s; }
-.lane-dash-m-2 { animation: lane-dash-fly 1.1s linear infinite 0.275s; }
-.lane-dash-m-3 { animation: lane-dash-fly 1.1s linear infinite 0.55s; }
-.lane-dash-m-4 { animation: lane-dash-fly 1.1s linear infinite 0.825s; }
+.lane-dash-m-1 { animation: lane-dash-fly 0.9s linear infinite 0s; }
+.lane-dash-m-2 { animation: lane-dash-fly 0.9s linear infinite 0.225s; }
+.lane-dash-m-3 { animation: lane-dash-fly 0.9s linear infinite 0.45s; }
+.lane-dash-m-4 { animation: lane-dash-fly 0.9s linear infinite 0.675s; }
 
 @keyframes particle-loop-1 {
   0%, 5%  { opacity: 0; transform: translate(0, 0) scale(0); }

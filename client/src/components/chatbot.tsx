@@ -1,8 +1,10 @@
+"use client";
+
 import { useState, useEffect, useReducer, useRef } from "react";
 import { MessageCircle, X, ChevronDown, ChevronLeft, ChevronRight, Send, Upload, FileText, Trash2, CheckCircle2 } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation } from "wouter";
+import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "./theme-provider";
 import type { ConversationContext, ConversationAction, ConversationState, PolicyType, ContactMethod, QuestionGroup } from "@/lib/conversation-types";
@@ -212,7 +214,7 @@ export default function ChatBot() {
   const [inputValue, setInputValue] = useState("");
   const [showQuestions, setShowQuestions] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
-  const [, setLocation] = useLocation();
+  const router = useRouter();
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -569,7 +571,7 @@ export default function ChatBot() {
     if (link.startsWith('/#')) {
       const section = link.substring(2);
       if (window.location.pathname !== '/') {
-        setLocation('/');
+        router.push('/');
         setTimeout(() => {
           document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
         }, 300);
@@ -577,7 +579,7 @@ export default function ChatBot() {
         document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      setLocation(link);
+      router.push(link);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     setIsExpanded(false);

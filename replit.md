@@ -51,27 +51,29 @@ This is a simplified, professional insurance website built with React and Expres
 ## System Architecture
 
 ### Frontend Architecture
-- **React with TypeScript**: Modern React application using functional components and hooks
-- **Routing**: Client-side routing with Wouter (only 2 pages: / and /about)
-- **Styling**: TailwindCSS + Shadcn/ui components
+- **Next.js 14 (App Router)**: Migrated from Vite SPA — enables SSG/SSR for SEO. Pages pre-rendered as static HTML.
+- **Routing**: Next.js file-based App Router (`app/` directory). Navigation uses `next/link` and `usePathname`.
+- **Styling**: TailwindCSS 3 + Shadcn/ui components
 - **Animations**: Framer Motion for subtle entrance animations
-- **State Management**: React Query for server state
+- **State Management**: TanStack React Query v5 for server state
+- **"use client" boundary**: Top-level page components (`landing.tsx`, `about.tsx`, `plans.tsx`) are marked "use client". Their entire import tree becomes client-side. `app/page.tsx` etc. are Server Components that export metadata and render the page.
 
 ### Backend Architecture
-- **Express.js Server**: RESTful API server with TypeScript
-- **Database**: PostgreSQL (AWS RDS)
+- **Express.js Server**: RESTful API server with TypeScript — runs as custom server alongside Next.js
+- **Next.js Custom Server**: `server/index.ts` initializes Next.js, prepares it, then delegates all non-API requests via `app.all('*', handle)`
+- **Database**: PostgreSQL 17 (AWS RDS db.t4g.micro)
 - **File Storage**: AWS S3 for document uploads
 - **Middleware**: Multer for file uploads, Zod for validation
 
 ### Key Components
-- **Navigation**: Glass morphism navbar with Home and About Us links
-- **Logo**: InsureIT logo with animated typing tagline
-- **Hero Window Card**: Frosted-glass app-window card (macOS title bar aesthetic) in the hero — draggable on desktop, minimize/restore animated. Shield design preserved in comments in landing.tsx for easy restore.
-- **QuoteModal**: Contact form modal for quote requests
-- **TestimonialsCarousel**: Client review carousel
-- **Footer**: Site footer with company info
-- **ChatBot**: AI assistant "Liz" for insurance inquiries
-- **Team (About page)**: 4 members in 2×4 grid — Wilbert Hernandez (President), Elizabeth Hernandez (Agency Operations Manager), David Hernandez (Account Executive), Wilbert Hernandez Jr. (Automation Engineer). Photos in attached_assets/; Jr.'s photo compressed to ~61KB JPEG.
+- **Navigation**: Glass morphism navbar with Next.js Link components, usePathname for active state
+- **Logo**: InsureIT logo with WebM shield animation (served from `/public/shield_animation.webm`)
+- **Hero Window Card**: Frosted-glass app-window card (macOS title bar aesthetic) in the hero — draggable on desktop, minimize/restore animated.
+- **QuoteModal**: Contact form modal for quote requests with S3 document upload
+- **TestimonialsCarousel**: 2x2 grid, 12 testimonials across 3 pages, auto-cycles every 6s with swipe support
+- **Footer**: Site footer with company info — uses Next.js Link
+- **ChatBot**: AI assistant "Liz" — uses useRouter from next/navigation for programmatic navigation
+- **Team (About page)**: 4 members in 2x4 grid — Wilbert Hernandez (President), Elizabeth Hernandez (Agency Operations Manager), David Hernandez (Account Executive), Wilbert Hernandez Jr. (Automation Engineer). Photos in attached_assets/; Jr.'s photo compressed to ~61KB JPEG.
 
 ### API Endpoints
 - `POST /api/contact` - Submit contact form with optional documents
@@ -79,22 +81,29 @@ This is a simplified, professional insurance website built with React and Expres
 - `POST /api/objects/upload` - Get presigned URL for file uploads
 - `GET /api/documents/:s3Key` - Download uploaded documents
 - `GET /api/images/:imageName` - Serve placeholder images
+- `GET /api/videos/herovid1.mp4` - Stream hero background video
+
+### Build & Deployment
+- **Dev**: `npm run dev` → `tsx server/index.ts` starts Express + Next.js dev server on port 5000
+- **Build**: `next build` generates static pages in `.next/`
+- **Start**: `NODE_ENV=production tsx server/index.ts` serves the built Next.js app via custom Express server
 
 ## External Dependencies
 
 ### Core Dependencies
-- **express**: Web server framework
+- **next**: Next.js 14 — SSG/SSR framework
+- **express**: Web server framework (custom Next.js server)
 - **multer**: File upload handling
 - **@aws-sdk/client-s3**: AWS S3 integration
 - **drizzle-orm**: Database ORM
 
 ### Frontend Dependencies
-- **@radix-ui/***: UI primitives
+- **@radix-ui/***: UI primitives (via shadcn/ui)
 - **@tanstack/react-query**: Server state management
 - **framer-motion**: Animations
 - **react-hook-form**: Form handling
-- **wouter**: Routing
 - **lucide-react**: Icons
+- **react-icons**: Social media icons (FaLinkedin, FaFacebook, FaInstagram)
 
 ## Design Guidelines
 

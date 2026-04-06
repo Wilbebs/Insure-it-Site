@@ -1,5 +1,7 @@
+"use client";
+
 import { Phone, Mail, MapPin } from "lucide-react";
-import { Link } from "wouter";
+import Link from "next/link";
 import { FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
 import Logo from "./logo";
 import { useTranslation } from "./theme-provider";

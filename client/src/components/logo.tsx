@@ -1,6 +1,9 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import logoImage from "@assets/insure_it_logo.png";
-import shieldVideo from "@assets/shield_animation.webm";
+
+const shieldVideo = "/shield_animation.webm";
 
 interface LogoProps {
   className?: string;

@@ -449,6 +449,9 @@ function InsuranceCard({
         </div>
       )}
 
+      {/* Blur layer — fades in on hover to soften image behind text */}
+      <div className="hidden sm:block absolute inset-0 backdrop-blur-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-[15] pointer-events-none" />
+
       {/* Hover state: full overlay with description */}
       <div className="hidden sm:flex absolute inset-0 bg-black/72 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 p-4 flex-col overflow-y-auto custom-scrollbar">
         <h3 className="text-white font-bold text-sm mb-2 leading-tight shrink-0 [text-shadow:0_1px_4px_rgba(0,0,0,0.8)]">

@@ -39,8 +39,8 @@ const jsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://insureitgroup.net"),
   title: {
-    default: "Insure IT Group Corp | Insurance Agency | Jacksonville, FL",
-    template: "%s | Insure IT Group Corp",
+    default: "Insure-it | Insurance Agency",
+    template: "%s | Insure-it",
   },
   description:
     "Family-owned independent insurance agency serving Jacksonville, FL since 2011. Personalized home, auto, flood, life, and business insurance coverage you can trust.",
@@ -59,13 +59,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://insureitgroup.net",
     siteName: "Insure IT Group Corp",
-    title: "Insure IT Group Corp | Insurance Agency | Jacksonville, FL",
+    title: "Insure-it | Insurance Agency",
     description:
       "Family-owned independent insurance agency serving Jacksonville, FL since 2011. Personalized home, auto, flood, life, and business insurance coverage.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Insure IT Group Corp | Insurance Agency | Jacksonville, FL",
+    title: "Insure-it | Insurance Agency",
     description:
       "Family-owned independent insurance agency serving Jacksonville, FL since 2011.",
   },

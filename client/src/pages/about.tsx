@@ -321,7 +321,8 @@ export default function About() {
                   <img
                     src={wilbertJrPhoto}
                     alt="Wilbert Hernandez Jr. - Automation Engineer"
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: "center calc(18% - 15px)" }}
                   />
                   <a
                     href="https://www.linkedin.com/in/hernandez-wilbert/"

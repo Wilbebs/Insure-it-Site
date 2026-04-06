@@ -1908,12 +1908,14 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .bg-gradient-to-tl{
   background-image: linear-gradient(to top left, var(--tw-gradient-stops));
 }
-.bg-gradient-to-tr{
-  background-image: linear-gradient(to top right, var(--tw-gradient-stops));
-}
 .from-amber-500\/60{
   --tw-gradient-from: rgb(245 158 11 / 0.6) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(245 158 11 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.from-black\/35{
+  --tw-gradient-from: rgb(0 0 0 / 0.35) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 .from-black\/45{
@@ -1939,11 +1941,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .from-emerald-500\/40{
   --tw-gradient-from: rgb(16 185 129 / 0.4) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(16 185 129 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-.from-orange-500\/60{
-  --tw-gradient-from: rgb(249 115 22 / 0.6) var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(249 115 22 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 .from-pink-50{
@@ -1976,15 +1973,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
   --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
-.from-black\/35{
-  --tw-gradient-from: rgb(0 0 0 / 0.35) var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-.via-amber-300\/15{
-  --tw-gradient-to: rgb(252 211 77 / 0)  var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), rgb(252 211 77 / 0.15) var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
 .via-blue-500{
   --tw-gradient-to: rgb(59 130 246 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #3b82f6 var(--tw-gradient-via-position), var(--tw-gradient-to);
@@ -1993,8 +1981,8 @@ p, span, a, li, td, th, input, textarea, .selectable {
   --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(255 255 255 / 0.25) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
-.to-amber-400\/30{
-  --tw-gradient-to: rgb(251 191 36 / 0.3) var(--tw-gradient-to-position);
+.to-black\/10{
+  --tw-gradient-to: rgb(0 0 0 / 0.1) var(--tw-gradient-to-position);
 }
 .to-blue-100{
   --tw-gradient-to: #dbeafe var(--tw-gradient-to-position);
@@ -2019,9 +2007,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
 }
 .to-transparent{
   --tw-gradient-to: transparent var(--tw-gradient-to-position);
-}
-.to-black\/10{
-  --tw-gradient-to: rgb(0 0 0 / 0.1) var(--tw-gradient-to-position);
 }
 .bg-cover{
   background-size: cover;

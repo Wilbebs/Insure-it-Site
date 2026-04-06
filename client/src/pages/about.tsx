@@ -253,7 +253,8 @@ export default function About() {
                   <img
                     src={elizabethPhoto}
                     alt="Elizabeth Hernandez - Agency Operations Manager"
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: "center calc(18% - 15px)" }}
                   />
                   <a
                     href="https://www.linkedin.com/in/hernandez-wilbert/"
@@ -287,7 +288,8 @@ export default function About() {
                   <img
                     src={davidPhoto}
                     alt="David Hernandez - Account Executive"
-                    className="w-full h-full object-cover scale-[1.15] object-top"
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: "center calc(18% - 15px)" }}
                   />
                   <a
                     href="https://www.linkedin.com/in/hernandez-wilbert/"

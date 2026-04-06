@@ -770,7 +770,7 @@ export default function ChatBot() {
                       src={LIZ_AVATAR}
                       alt="Chat with Liz"
                       className="w-full h-full object-cover"
-                      style={{ objectPosition: "center calc(18% - 15px)" }}
+                      style={{ objectPosition: "center 32%" }}
                     />
                   </div>
                   {hasNotification && !showWelcomeBubble && (
@@ -851,7 +851,7 @@ export default function ChatBot() {
                         src={LIZ_AVATAR}
                         alt="Liz - Insurance Assistant"
                         className="w-10 h-10 rounded-full border-2 border-white object-cover"
-                        style={{ objectPosition: "center calc(18% - 15px)" }}
+                        style={{ objectPosition: "center 32%" }}
                       />
                       <div>
                         <h3 className="font-bold" style={{ transform: 'translateY(8px)' }}>{t.chatbot.title}</h3>
@@ -986,7 +986,7 @@ export default function ChatBot() {
                         src={LIZ_AVATAR}
                         alt="Liz typing"
                         className="w-8 h-8 rounded-full object-cover"
-                        style={{ objectPosition: "center calc(18% - 15px)" }}
+                        style={{ objectPosition: "center 32%" }}
                       />
                       <div className="bg-white dark:bg-slate-700 p-3 rounded-2xl shadow-md">
                         <div className="flex gap-1">

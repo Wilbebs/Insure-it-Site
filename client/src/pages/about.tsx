@@ -8,7 +8,7 @@ import { Shield, Users, Award, Clock } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useTranslation } from "@/components/theme-provider";
-const wilbertPhoto = "/images/wilbert_photo.png";
+const wilbertPhoto = "/images/wilbert_photo.jpg";
 const elizabethPhoto = "/images/elizabeth_photo.png";
 const davidPhoto = "/images/david_photo.png";
 const wilbertJrPhoto = "/images/wilbert_jr_photo.jpg";

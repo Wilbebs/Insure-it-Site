@@ -41,7 +41,6 @@ import shieldIcon from "@assets/shield_icon.png";
 import floodImg from "@assets/flood_insurance.jpg";
 import highFiveImg from "@assets/team_highfive.jpg";
 
-import heroPoster from "@/assets/heroimage1.jpg";
 import SectionDivider from "@/components/section-divider";
 
 function InsuranceDetailModal({
@@ -523,9 +522,7 @@ export default function Landing() {
   const shieldDragged = useRef(false);
 
   // Only allow window drag on desktop (≥1024px) — mobile drag confuses users
-  const [isDesktop, setIsDesktop] = useState(
-    typeof window !== "undefined" && window.innerWidth >= 1024
-  );
+  const [isDesktop, setIsDesktop] = useState(false);
 
   // SHIELD DESIGN PRESERVED — graduated zoom for the shield shape (uncomment to restore)
   // const getShieldZoom = () => {
@@ -540,6 +537,7 @@ export default function Landing() {
   // const [shieldZoom, setShieldZoom] = useState(getShieldZoom);
 
   useEffect(() => {
+    setIsDesktop(window.innerWidth >= 1024);
     const onResize = () => {
       setIsDesktop(window.innerWidth >= 1024);
       // setShieldZoom(getShieldZoom()); // SHIELD — uncomment to restore
@@ -548,12 +546,20 @@ export default function Landing() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // Shield fixed-position constants (responsive: sm = 640px)
-  const SHIELD_RIGHT =
-    typeof window !== "undefined" && window.innerWidth >= 640 ? 72 : 16;
+  // Shield fixed-position constants — SSR-safe: start with mobile defaults, update after mount
+  const [SHIELD_RIGHT, setSHIELD_RIGHT] = useState(16);
   const SHIELD_TOP = 110;
-  const SHIELD_SIZE =
-    typeof window !== "undefined" && window.innerWidth >= 640 ? 80 : 64;
+  const [SHIELD_SIZE, setSHIELD_SIZE] = useState(64);
+
+  useEffect(() => {
+    const update = () => {
+      setSHIELD_RIGHT(window.innerWidth >= 640 ? 72 : 16);
+      setSHIELD_SIZE(window.innerWidth >= 640 ? 80 : 64);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   useEffect(() => {
     const openQuote = () => setQuoteModalOpen(true);
@@ -768,7 +774,7 @@ export default function Landing() {
             muted
             loop
             playsInline
-            poster={heroPoster}
+            poster={highFiveImg}
             className="w-full h-full object-cover"
             style={{
               objectPosition: "center 40%",

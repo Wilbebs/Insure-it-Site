@@ -338,13 +338,13 @@ function InsuranceCard({
         style={dynamicGradientStyle}
       />
 
-      {/* Speed streaks overlay — auto card, mobile only */}
+      {/* Lane dashes overlay — auto card, mobile only */}
       {type.color === "teal" && (
         <div className="sm:hidden absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 18 }}>
-          <div className="speed-streak-m speed-streak-m-1" />
-          <div className="speed-streak-m speed-streak-m-2" />
-          <div className="speed-streak-m speed-streak-m-3" />
-          <div className="speed-streak-m speed-streak-m-4" />
+          <div className="lane-dash-m lane-dash-m-1" />
+          <div className="lane-dash-m lane-dash-m-2" />
+          <div className="lane-dash-m lane-dash-m-3" />
+          <div className="lane-dash-m lane-dash-m-4" />
         </div>
       )}
 

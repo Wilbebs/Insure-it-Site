@@ -581,10 +581,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
   left: 0px;
   right: 0px;
 }
-.inset-x-4{
-  left: 1rem;
-  right: 1rem;
-}
 .inset-y-0{
   top: 0px;
   bottom: 0px;
@@ -1883,9 +1879,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .bg-white\/40{
   background-color: rgb(255 255 255 / 0.4);
 }
-.bg-white\/50{
-  background-color: rgb(255 255 255 / 0.5);
-}
 .bg-white\/70{
   background-color: rgb(255 255 255 / 0.7);
 }
@@ -2062,10 +2055,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .via-teal-400\/30{
   --tw-gradient-to: rgb(45 212 191 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(45 212 191 / 0.3) var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
-.via-white{
-  --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), #fff var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 .via-white\/25{
   --tw-gradient-to: rgb(255 255 255 / 0)  var(--tw-gradient-to-position);
@@ -2644,9 +2633,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .opacity-90{
   opacity: 0.9;
 }
-.opacity-\[0\.03\]{
-  opacity: 0.03;
-}
 .shadow-2xl{
   --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
@@ -2972,12 +2958,12 @@ p, span, a, li, td, th, input, textarea, .selectable {
   animation: car-crash 12s linear infinite;
 }
 
-/* Mobile auto card: speed streaks */
-@keyframes speed-streak-mobile {
-  0%   { opacity: 0; transform: translateX(0px); }
-  18%  { opacity: 0.7; }
-  82%  { opacity: 0.7; }
-  100% { opacity: 0; transform: translateX(-260px); }
+/* Mobile auto card: lane dashes flying past */
+@keyframes lane-dash-fly {
+  0%   { transform: translateX(0px); opacity: 0; }
+  6%   { opacity: 0.85; }
+  92%  { opacity: 0.85; }
+  100% { transform: translateX(-360px); opacity: 0; }
 }
 
 @keyframes car-drive-mobile {
@@ -2990,17 +2976,20 @@ p, span, a, li, td, th, input, textarea, .selectable {
   animation: car-drive-mobile 0.45s ease-in-out infinite;
 }
 
-.speed-streak-m {
+.lane-dash-m {
   position: absolute;
-  height: 1.5px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.82);
-  right: 14px;
+  height: 3px;
+  width: 18px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.88);
+  right: 10px;
+  top: 50%;
+  margin-top: -1.5px;
 }
-.speed-streak-m-1 { width: 34px; top: calc(50% - 8px); animation: speed-streak-mobile 0.75s ease-in-out infinite 0s; }
-.speed-streak-m-2 { width: 22px; top: calc(50% - 3px); animation: speed-streak-mobile 0.75s ease-in-out infinite 0.18s; }
-.speed-streak-m-3 { width: 42px; top: calc(50% + 2px); animation: speed-streak-mobile 0.75s ease-in-out infinite 0.08s; }
-.speed-streak-m-4 { width: 18px; top: calc(50% + 7px); animation: speed-streak-mobile 0.75s ease-in-out infinite 0.34s; }
+.lane-dash-m-1 { animation: lane-dash-fly 1.1s linear infinite 0s; }
+.lane-dash-m-2 { animation: lane-dash-fly 1.1s linear infinite 0.275s; }
+.lane-dash-m-3 { animation: lane-dash-fly 1.1s linear infinite 0.55s; }
+.lane-dash-m-4 { animation: lane-dash-fly 1.1s linear infinite 0.825s; }
 
 @keyframes particle-loop-1 {
   0%, 5%  { opacity: 0; transform: translate(0, 0) scale(0); }

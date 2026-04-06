@@ -179,7 +179,7 @@
 /* Mobile auto card: road lines */
 @keyframes mobile-road-scroll {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-14px); }
+  100% { transform: translateX(-8px); }
 }
 
 @keyframes car-drive-mobile {
@@ -192,17 +192,24 @@
   animation: car-drive-mobile 0.45s ease-in-out infinite;
 }
 
+/* 3px dash + 5px gap = 8px cycle; 16px zone = exactly 2 dashes always */
 .mobile-center-dash {
   width: 400%;
   height: 2px;
   background: repeating-linear-gradient(
     90deg,
-    rgba(255, 215, 0, 0.92) 0px,
-    rgba(255, 215, 0, 0.92) 4px,
-    transparent 4px,
-    transparent 14px
+    rgba(255, 215, 0, 0.95) 0px,
+    rgba(255, 215, 0, 0.95) 3px,
+    transparent 3px,
+    transparent 8px
   );
-  animation: mobile-road-scroll 0.45s linear infinite;
+  animation: mobile-road-scroll 0.4s linear infinite;
+}
+
+/* Front zone: phase-offset by half cycle (car body = 28px = 3.5 cycles of 8px)
+   so dashes read as one continuous stream interrupted by the car */
+.mobile-center-dash-front {
+  animation-delay: -0.2s;
 }
 
 @keyframes particle-loop-1 {

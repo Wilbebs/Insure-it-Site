@@ -338,25 +338,25 @@ function InsuranceCard({
         style={dynamicGradientStyle}
       />
 
-      {/* Road overlay — mobile auto card, left lane section only */}
+      {/* Road overlay — mobile auto card, solid-car model */}
       {type.color === "teal" && (
         <div className="sm:hidden absolute inset-0 pointer-events-none" style={{ zIndex: 18 }}>
-          {/* Top road edge line — stops at hood (x=58px) */}
-          <div
-            className="absolute left-0 h-[1.5px] bg-white/60"
-            style={{ top: "30%", width: "58px" }}
-          />
-          {/* Bottom road edge line — stops at hood (x=58px) */}
-          <div
-            className="absolute left-0 h-[1.5px] bg-white/60"
-            style={{ bottom: "30%", width: "58px" }}
-          />
-          {/* Center yellow dashes — left edge to car hood (x=44px), overflow clipped */}
+          {/* Road edge lines — span full road section (behind + car + in-front) */}
+          <div className="absolute left-0 h-[1.5px] bg-white/60" style={{ top: "30%", width: "64px" }} />
+          <div className="absolute left-0 h-[1.5px] bg-white/60" style={{ bottom: "30%", width: "64px" }} />
+          {/* BEHIND car — rear dashes, x=0→16px (car tail at x=16) */}
           <div
             className="absolute left-0 top-1/2 -translate-y-1/2 overflow-hidden"
-            style={{ width: "44px", height: "2px" }}
+            style={{ width: "16px", height: "2px" }}
           >
             <div className="mobile-center-dash" />
+          </div>
+          {/* IN FRONT of car — ahead dashes, x=44→60px (car hood at x=44), max 2 visible */}
+          <div
+            className="absolute top-1/2 -translate-y-1/2 overflow-hidden"
+            style={{ left: "44px", width: "16px", height: "2px" }}
+          >
+            <div className="mobile-center-dash mobile-center-dash-front" />
           </div>
         </div>
       )}

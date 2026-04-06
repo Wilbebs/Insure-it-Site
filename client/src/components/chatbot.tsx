@@ -12,9 +12,9 @@ import { initialConversationContext } from "@/lib/conversation-types";
 import { coreQuestions, coreQuestionGroups, policyQuestionFlows } from "@/lib/policy-questions";
 import { validatePolicyDocument, formatFileSize } from "@/lib/file-upload";
 import { apiRequest } from "@/lib/queryClient";
-import elizabethPhoto from "@assets/elizabeth_photo.png";
-import usaFlagIcon from "@assets/usa_flag.png";
-import spainFlagIcon from "@assets/spain_flag.png";
+const elizabethPhoto = "/images/elizabeth_photo.png";
+const usaFlagIcon = "/images/usa_flag.png";
+const spainFlagIcon = "/images/spain_flag.png";
 
 interface Message {
   type: 'bot' | 'user' | 'system';

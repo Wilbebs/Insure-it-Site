@@ -34,14 +34,12 @@ import {
 import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef, type RefObject } from "react";
-const heroVideo = "/api/videos/herovid1.mp4";
-// SHIELD DESIGN PRESERVED — uncomment these to restore the shield look:
-import shieldIcon from "@assets/shield_icon.png";
-// import shieldGlassImg from "@/assets/shield-glass.png";
-import floodImg from "@assets/flood_insurance.jpg";
-import highFiveImg from "@assets/team_highfive.jpg";
-
 import SectionDivider from "@/components/section-divider";
+
+const heroVideo = "/api/videos/herovid1.mp4";
+const shieldIcon = "/images/shield_icon.png";
+const floodImg = "/images/flood_insurance.jpg";
+const highFiveImg = "/images/team_highfive.jpg";
 
 function InsuranceDetailModal({
   type,
@@ -591,7 +589,7 @@ export default function Landing() {
       title: t.insurance.floodTitle,
       description: t.insurance.floodDesc,
       shortDesc: t.insurance.floodShortDesc,
-      image: (floodImg as any).src ?? floodImg,
+      image: floodImg,
       color: "blue",
     },
     {
@@ -774,7 +772,7 @@ export default function Landing() {
             muted
             loop
             playsInline
-            poster={(highFiveImg as any).src ?? highFiveImg}
+            poster={highFiveImg}
             className="w-full h-full object-cover"
             style={{
               objectPosition: "center 40%",
@@ -1125,7 +1123,7 @@ export default function Landing() {
         ref={highFiveRef}
         className="relative overflow-hidden"
         style={{
-          backgroundImage: highFiveVisible ? `url(${(highFiveImg as any).src ?? highFiveImg})` : undefined,
+          backgroundImage: highFiveVisible ? `url(${highFiveImg})` : undefined,
           backgroundSize: "cover",
           backgroundPosition: "center 20%",
           backgroundAttachment: "fixed",
@@ -1221,7 +1219,7 @@ export default function Landing() {
               )}
             </AnimatePresence>
             <div className="w-full h-full flex items-center justify-center hover:scale-110 transition-transform duration-200 pointer-events-none">
-              <img src={(shieldIcon as any).src ?? shieldIcon} alt="Restore window" className="w-full h-full object-contain drop-shadow-2xl" draggable={false} />
+              <img src={shieldIcon} alt="Restore window" className="w-full h-full object-contain drop-shadow-2xl" draggable={false} />
             </div>
           </motion.button>
         )}

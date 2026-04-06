@@ -6,8 +6,8 @@ import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Logo from "./logo";
 import { useTranslation } from "./theme-provider";
-import usaFlagIcon from "@assets/usa_flag.png";
-import spainFlagIcon from "@assets/spain_flag.png";
+const usaFlagIcon = "/images/usa_flag.png";
+const spainFlagIcon = "/images/spain_flag.png";
 
 export default function Navigation() {
   const location = usePathname();

@@ -8,11 +8,11 @@ import { Shield, Users, Award, Clock } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useTranslation } from "@/components/theme-provider";
-import wilbertPhoto from "@assets/wilbert_photo.png";
-import elizabethPhoto from "@assets/elizabeth_photo.png";
-import davidPhoto from "@assets/david_photo.png";
-import wilbertJrPhoto from "@assets/wilbert_jr_photo.jpg";
-import familyRiverImg from "@assets/jax_beach_pier.jpg";
+const wilbertPhoto = "/images/wilbert_photo.png";
+const elizabethPhoto = "/images/elizabeth_photo.png";
+const davidPhoto = "/images/david_photo.png";
+const wilbertJrPhoto = "/images/wilbert_jr_photo.jpg";
+const familyRiverImg = "/images/jax_beach_pier.jpg";
 
 function SocialButton({
   href,

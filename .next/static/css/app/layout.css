@@ -2333,6 +2333,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .pt-\[65px\]{
   padding-top: 65px;
 }
+.pt-\[20px\]{
+  padding-top: 20px;
+}
 .text-left{
   text-align: left;
 }

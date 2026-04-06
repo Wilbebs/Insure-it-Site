@@ -1897,6 +1897,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .bg-white\/95{
   background-color: rgb(255 255 255 / 0.95);
 }
+.bg-white\/60{
+  background-color: rgb(255 255 255 / 0.6);
+}
 .bg-gradient-to-b{
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }

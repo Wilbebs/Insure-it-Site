@@ -245,6 +245,7 @@ function InsuranceCard({
   type,
   index,
   onClick,
+  carAnimationActive = false,
 }: {
   type: {
     icon: React.ReactNode;
@@ -256,6 +257,7 @@ function InsuranceCard({
   };
   index: number;
   onClick: () => void;
+  carAnimationActive?: boolean;
 }) {
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
   const [isHovered, setIsHovered] = useState(false);
@@ -291,7 +293,9 @@ function InsuranceCard({
 
   const gradientClass = colorClasses[type.color as keyof typeof colorClasses];
   const iconAnimation =
-    iconAnimations[type.color as keyof typeof iconAnimations] || "";
+    type.color === "teal"
+      ? (carAnimationActive ? "animate-car-crash-loop" : "")
+      : iconAnimations[type.color as keyof typeof iconAnimations] || "";
 
   const scrimClass =
     type.color === "sky"    ? "from-black/48" :
@@ -432,8 +436,8 @@ function InsuranceCard({
         </h3>
       </div>
 
-      {/* Auto card: crash particles (desktop only, hidden on hover) */}
-      {type.color === "teal" && (
+      {/* Auto card: crash particles (desktop only, hidden on hover, only when animation active) */}
+      {type.color === "teal" && carAnimationActive && (
         <div className="hidden sm:block absolute top-5 left-[76px] z-30 pointer-events-none transition-opacity duration-200 group-hover:opacity-0">
           <div className="crash-particle crash-particle-loop-1" style={{ background: "rgba(255,255,255,0.85)" }} />
           <div className="crash-particle crash-particle-loop-2" style={{ background: "rgba(255,255,255,0.75)" }} />
@@ -536,6 +540,8 @@ export default function Landing() {
   // const [shieldSweeping, setShieldSweeping] = useState(false); // SHIELD — uncomment to restore
   const highFiveRef = useRef<HTMLDivElement>(null);
   const [highFiveVisible, setHighFiveVisible] = useState(false);
+  const insuranceSectionRef = useRef<HTMLElement>(null);
+  const [carAnimActive, setCarAnimActive] = useState(false);
 
   useEffect(() => {
     const el = highFiveRef.current;
@@ -552,6 +558,24 @@ export default function Landing() {
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const el = insuranceSectionRef.current;
+    if (!el || carAnimActive) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          timer = setTimeout(() => setCarAnimActive(true), 2300);
+        } else {
+          clearTimeout(timer);
+        }
+      },
+      { threshold: 0.25 },
+    );
+    observer.observe(el);
+    return () => { observer.disconnect(); clearTimeout(timer); };
+  }, [carAnimActive]);
 
   const copyToClipboard = (text: string, key: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -959,6 +983,7 @@ export default function Landing() {
 
       {/* More than Insurace. Peace of Mind. */}
       <section
+        ref={insuranceSectionRef}
         className="py-10 bg-white dark:bg-slate-800 relative overflow-hidden dot-pattern"
         style={{
           marginTop: -40,
@@ -999,6 +1024,7 @@ export default function Landing() {
                       type={type}
                       index={index}
                       onClick={() => setSelectedInsurance(type)}
+                      carAnimationActive={carAnimActive}
                     />
                   ))}
                 </div>

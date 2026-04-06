@@ -125,7 +125,7 @@
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("964a1657672b692f")
+/******/ 		__webpack_require__.h = () => ("2ad4ec6d0a298c80")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -163,6 +163,11 @@
 /******/ 			var r = fn();
 /******/ 			return r === undefined ? result : r;
 /******/ 		}
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		__webpack_require__.p = "/_next/";
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/nonce */

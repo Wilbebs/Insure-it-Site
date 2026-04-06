@@ -83,6 +83,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/images/heroimage1.webp"
+          type="image/webp"
+        />
+      </head>
       <body>
         <script
           type="application/ld+json"

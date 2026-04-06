@@ -526,6 +526,7 @@ function ScaledContainer({
 export default function Landing() {
   const { t } = useTranslation();
   const [heroVisible, setHeroVisible] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [showShieldTooltip, setShowShieldTooltip] = useState(false);
   const isRestoring = useRef(false);
@@ -576,6 +577,17 @@ export default function Landing() {
     observer.observe(el);
     return () => { observer.disconnect(); clearTimeout(timer); };
   }, [carAnimActive]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (document.readyState === "complete") {
+      setVideoReady(true);
+    } else {
+      const onLoad = () => setVideoReady(true);
+      window.addEventListener("load", onLoad);
+      return () => window.removeEventListener("load", onLoad);
+    }
+  }, []);
 
   const copyToClipboard = (text: string, key: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -835,25 +847,31 @@ export default function Landing() {
         className="flex items-start relative pt-16 sm:pt-[72px] pb-10"
         style={{ minHeight: "calc(100vh + 37px)" }}
       >
-        {/* Hero Video Background - Parallax with blur */}
+        {/* Hero Background - Static image shown immediately (LCP/SEO), video swapped in after load */}
         <div
           className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform dark:brightness-75 overflow-hidden bg-slate-900"
           style={{ transform: `translateY(${scrollY * 0.4}px) scale(1.02)` }}
         >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/images/heroimage1.jpg"
-            className="w-full h-full object-cover"
-            style={{
-              objectPosition: "center 40%",
-              aspectRatio: "16 / 9",
-            }}
-          >
-            <source src={heroVideo} type="video/mp4" />
-          </video>
+          {videoReady ? (
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover"
+              style={{ objectPosition: "center 40%", aspectRatio: "16 / 9" }}
+            >
+              <source src={heroVideo} type="video/mp4" />
+            </video>
+          ) : (
+            <img
+              src="/images/heroimage1.webp"
+              alt="Insure IT Group Corp - Insurance Agency Jacksonville FL"
+              className="w-full h-full object-cover"
+              style={{ objectPosition: "center 40%" }}
+              fetchPriority="high"
+            />
+          )}
         </div>
 
         {/* Content */}

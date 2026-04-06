@@ -1,0 +1,35 @@
+You are on the right track, but there is a technical distinction between a "Poster Image" and a "Lazy-Loaded Swap" that often trips people up.
+
+If your code currently looks like a standard <video poster="image.jpg"> tag, you haven't actually bypassed the SEO penalty yet. Here is why, and how the "Thumbnail Solution" fixes it.
+
+The Problem: Standard "Poster" Tags
+Even if you have a static poster image, most browsers (and Google's bots) will see the <source> tag and immediately start a "partial download" of the video to check its metadata (duration, dimensions, etc.).
+
+The Penalty: Google’s LCP (Largest Contentful Paint) often counts the video as the "main element." If the browser is busy negotiating a 10MB stream, your "Time to Interactive" score drops.
+
+The Solution: The "Data-Src" Swap
+The "Thumbnail Solution" (or true Lazy-Loading) involves hiding the video URL from the browser until the page is already "Stable" (finished loading).
+
+Initial State: The HTML contains an <img> tag (your 200KB Jacksonville skyline). Google sees this, sees it loads instantly, and gives you an A+ for speed.
+
+The Trigger: A tiny script waits for the window.onload event (meaning the rest of your site is fully functional).
+
+The Swap: The script then injects the video URL into the background. The user sees the static image suddenly "come to life" and start moving.
+
+How to check if you've actually done this
+Open your website Insure-it and look at the Network Tab in your browser's inspect tool:
+
+Fail: If the video file starts downloading at the exact same time as your logo and CSS.
+
+Success: If the video file doesn't show up in the list until 1–2 seconds after the text is already visible.
+
+Is it worth the hassle?
+The guy you quoted is right about 100MB, but he's being a bit of a "performance purist" regarding 10MB.
+
+For 10MB: A standard poster tag with preload="none" is usually "fine" for most local businesses.
+
+For a Software Consultant: Since your site is a portfolio of your technical skill, implementing the JavaScript Swap proves you understand high-end web optimization. It’s a "flex" that shows you care about the user's data and speed.
+
+Pro Tip: If you want the EverBank sign to look as sharp as possible, the "Thumbnail Solution" is actually your best friend. You can use a very high-res WebP image as the thumbnail (where the text is perfectly clear) and let the video be the "movement" in the background.
+
+Do you want me to give you the specific JavaScript "Swap" code to give to your developer?

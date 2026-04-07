@@ -847,30 +847,60 @@ export default function Landing() {
         className="flex items-start relative pt-16 sm:pt-[72px] pb-10"
         style={{ minHeight: "calc(100vh + 37px)" }}
       >
-        {/* Hero Background - Static image shown immediately (LCP/SEO), video swapped in after load */}
+        {/* Hero Background — three layers of fallback:
+            1. CSS background on container (instant, no flash)
+            2. <img> always in DOM for SEO + permanent static fallback
+            3. <video> injected after window.onload, fades in only when playable,
+               stays invisible on error so the img shows through */}
         <div
-          className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform dark:brightness-75 overflow-hidden bg-slate-900"
-          style={{ transform: `translateY(${scrollY * 0.4}px) scale(1.02)` }}
+          className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform dark:brightness-75 overflow-hidden"
+          style={{
+            transform: `translateY(${scrollY * 0.4}px) scale(1.02)`,
+            backgroundImage: "url(/images/heroimage1.webp)",
+            backgroundSize: "cover",
+            backgroundPosition: "center 40%",
+          }}
         >
-          {videoReady ? (
+          {/* Layer 1 — always-present img (SEO + fallback) */}
+          <img
+            src="/images/heroimage1.webp"
+            alt="Insure IT Group Corp - Insurance Agency Jacksonville FL"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: "center 40%" }}
+            fetchPriority="high"
+          />
+          {/* Layer 2 — video injected after load, invisible until ready */}
+          {videoReady && (
             <video
               autoPlay
               muted
               loop
               playsInline
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center 40%", aspectRatio: "16 / 9" }}
+              poster="/images/heroimage1.webp"
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{
+                objectPosition: "center 40%",
+                backgroundColor: "transparent",
+                opacity: 0,
+                transition: "opacity 0.6s ease",
+              }}
+              onCanPlay={(e) => {
+                (e.currentTarget as HTMLVideoElement).style.opacity = "1";
+              }}
+              onError={(e) => {
+                (e.currentTarget as HTMLVideoElement).style.opacity = "0";
+              }}
             >
-              <source src={heroVideo} type="video/mp4" />
+              <source
+                src={heroVideo}
+                type="video/mp4"
+                onError={(e) => {
+                  const vid = (e.currentTarget as HTMLSourceElement)
+                    .parentElement as HTMLVideoElement;
+                  if (vid) vid.style.opacity = "0";
+                }}
+              />
             </video>
-          ) : (
-            <img
-              src="/images/heroimage1.webp"
-              alt="Insure IT Group Corp - Insurance Agency Jacksonville FL"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center 40%" }}
-              fetchPriority="high"
-            />
           )}
         </div>
 

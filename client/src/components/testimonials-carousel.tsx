@@ -1,12 +1,11 @@
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslation } from "./theme-provider";
 
 const CARDS_PER_PAGE  = 4;
 const TOTAL_PAGES     = 3;
 const AUTO_CYCLE_MS   = 6000;
-const SWIPE_THRESHOLD = 50;
+const SWIPE_THRESHOLD = 60;
 
 export default function TestimonialsCarousel() {
   const { t } = useTranslation();
@@ -27,7 +26,6 @@ export default function TestimonialsCarousel() {
   ];
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [direction,   setDirection]   = useState(1);
   const [isDragging,  setIsDragging]  = useState(false);
   const [dragOffset,  setDragOffset]  = useState(0);
 
@@ -41,16 +39,13 @@ export default function TestimonialsCarousel() {
   const pageSlice = (page: number) =>
     allTestimonials.slice(page * CARDS_PER_PAGE, page * CARDS_PER_PAGE + CARDS_PER_PAGE);
 
-  const prevPage = (currentPage - 1 + TOTAL_PAGES) % TOTAL_PAGES;
-  const nextPage = (currentPage + 1) % TOTAL_PAGES;
-
-  const goTo = useCallback((page: number, dir: number) => {
-    setDirection(dir);
+  const goTo = useCallback((page: number) => {
     setCurrentPage(page);
+    setDragOffset(0);
   }, []);
 
-  const next = useCallback(() => goTo((currentPageRef.current + 1) % TOTAL_PAGES, 1),  [goTo]);
-  const prev = useCallback(() => goTo((currentPageRef.current - 1 + TOTAL_PAGES) % TOTAL_PAGES, -1), [goTo]);
+  const next = useCallback(() => goTo((currentPageRef.current + 1) % TOTAL_PAGES), [goTo]);
+  const prev = useCallback(() => goTo((currentPageRef.current - 1 + TOTAL_PAGES) % TOTAL_PAGES), [goTo]);
 
   const startInterval = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -64,13 +59,12 @@ export default function TestimonialsCarousel() {
 
   const handlePrev = () => { prev(); startInterval(); };
   const handleNext = () => { next(); startInterval(); };
-  const handleDot  = (i: number) => { goTo(i, i > currentPageRef.current ? 1 : -1); startInterval(); };
+  const handleDot  = (i: number) => { goTo(i); startInterval(); };
 
   const onDragStart = useCallback((clientX: number) => {
     dragStartX.current = clientX;
     pausedRef.current  = true;
     setIsDragging(true);
-    setDragOffset(0);
   }, []);
 
   const onDragMove = useCallback((clientX: number) => {
@@ -85,33 +79,26 @@ export default function TestimonialsCarousel() {
     setIsDragging(false);
     setDragOffset(0);
     if (Math.abs(delta) > SWIPE_THRESHOLD) {
-      delta > 0 ? next() : prev();
+      if (delta > 0) next(); else prev();
     }
     pausedRef.current = false;
     startInterval();
   }, [next, prev, startInterval]);
 
   const onMouseDown  = (e: React.MouseEvent) => { e.preventDefault(); onDragStart(e.clientX); };
-  const onMouseMove  = (e: React.MouseEvent) => onDragMove(e.clientX);
-  const onMouseUp    = (e: React.MouseEvent) => onDragEnd(e.clientX);
+  const onMouseMove  = (e: React.MouseEvent) => { if (dragStartX.current !== null) onDragMove(e.clientX); };
+  const onMouseUp    = (e: React.MouseEvent) => { if (dragStartX.current !== null) onDragEnd(e.clientX); };
   const onMouseLeave = (e: React.MouseEvent) => { if (dragStartX.current !== null) onDragEnd(e.clientX); };
 
   const onTouchStart = (e: React.TouchEvent) => onDragStart(e.touches[0].clientX);
   const onTouchMove  = (e: React.TouchEvent) => { e.preventDefault(); onDragMove(e.touches[0].clientX); };
   const onTouchEnd   = (e: React.TouchEvent) => onDragEnd(e.changedTouches[0].clientX);
 
-  const containerW  = containerRef.current?.offsetWidth ?? 600;
-  const dragRatio   = Math.min(1, Math.abs(dragOffset) / (containerW * 0.5));
-  const adjacentOpacity = isDragging ? dragRatio * 0.85 : 0;
-
-  const variants = {
-    enter:  (dir: number) => ({ opacity: 0, x: dir > 0 ?  60 : -60 }),
-    center:              () => ({ opacity: 1, x: 0 }),
-    exit:   (dir: number) => ({ opacity: 0, x: dir > 0 ? -60 :  60 }),
-  };
+  const prevPage = (currentPage - 1 + TOTAL_PAGES) % TOTAL_PAGES;
+  const nextPage = (currentPage + 1) % TOTAL_PAGES;
 
   const PageGrid = ({ testimonials }: { testimonials: typeof allTestimonials }) => (
-    <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+    <div className="grid grid-cols-2 gap-2.5 sm:gap-4 w-full flex-shrink-0">
       {testimonials.map((testimonial, index) => (
         <div
           key={index}
@@ -177,10 +164,10 @@ export default function TestimonialsCarousel() {
         </div>
       </div>
 
-      {/* Clip container */}
+      {/* Track container — clips the 3-wide flex row */}
       <div
         ref={containerRef}
-        className={`relative overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        className={`overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
@@ -189,51 +176,30 @@ export default function TestimonialsCarousel() {
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
-        {/* Adjacent slide: PREV — peeks in from the left when dragging right */}
+        {/*
+          3-wide flex track: [prev][current][next]
+          Default offset = -100% (shows current, the middle slide)
+          During drag: -100% + dragOffset px
+          On commit: update currentPage, offset snaps back to -100% with new pages
+        */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="flex"
           style={{
-            transform: `translateX(calc(-100% + ${dragOffset}px))`,
-            opacity: dragOffset > 0 ? adjacentOpacity : 0,
-            transition: isDragging ? "none" : "opacity 0.25s ease, transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94)",
+            width: "300%",
+            transform: `translateX(calc(-33.333% + ${dragOffset}px))`,
+            transition: isDragging ? "none" : "transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            willChange: "transform",
           }}
         >
-          <PageGrid testimonials={pageSlice(prevPage)} />
-        </div>
-
-        {/* Current page — follows the drag */}
-        <div
-          style={{
-            transform: `translateX(${dragOffset}px)`,
-            transition: isDragging ? "none" : "transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94)",
-            pointerEvents: isDragging ? "none" : "auto",
-          }}
-        >
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={`page-${currentPage}`}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.28, ease: "easeInOut" }}
-            >
-              <PageGrid testimonials={pageSlice(currentPage)} />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Adjacent slide: NEXT — peeks in from the right when dragging left */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            transform: `translateX(calc(100% + ${dragOffset}px))`,
-            opacity: dragOffset < 0 ? adjacentOpacity : 0,
-            transition: isDragging ? "none" : "opacity 0.25s ease, transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94)",
-          }}
-        >
-          <PageGrid testimonials={pageSlice(nextPage)} />
+          <div style={{ width: "33.333%" }} className="px-0">
+            <PageGrid testimonials={pageSlice(prevPage)} />
+          </div>
+          <div style={{ width: "33.333%" }} className="px-0">
+            <PageGrid testimonials={pageSlice(currentPage)} />
+          </div>
+          <div style={{ width: "33.333%" }} className="px-0">
+            <PageGrid testimonials={pageSlice(nextPage)} />
+          </div>
         </div>
       </div>
 

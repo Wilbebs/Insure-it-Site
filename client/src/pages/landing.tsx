@@ -866,10 +866,10 @@ export default function Landing() {
           }}
         >
           {/* Layer 1 — <picture> for responsive static image (SEO + fallback).
-              Mobile phones (≤640px) get heroimage_mobile.png (portrait).
+              Mobile phones (≤640px) get heroimage_mobile.webp (portrait, 173KB).
               Desktop/tablet get heroimage1.webp (landscape). */}
           <picture className="w-full h-full">
-            <source media="(max-width: 640px)" srcSet="/images/heroimage_mobile.png" />
+            <source media="(max-width: 640px)" srcSet="/images/heroimage_mobile.webp" />
             <img
               src="/images/heroimage1.webp"
               alt="Insure IT Group Corp - Insurance Agency Jacksonville FL"
@@ -887,7 +887,7 @@ export default function Landing() {
               muted
               loop
               playsInline
-              poster={isMobilePhone ? "/images/heroimage_mobile.png" : "/images/heroimage1.webp"}
+              poster={isMobilePhone ? "/images/heroimage_mobile.webp" : "/images/heroimage1.webp"}
               className="absolute inset-0"
               style={{
                 width: "100%",

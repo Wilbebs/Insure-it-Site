@@ -853,40 +853,41 @@ export default function Landing() {
         style={{ minHeight: "calc(100vh + 37px)" }}
       >
         {/* Hero Background — three layers of fallback:
-            1. CSS background on container (instant, no flash)
-            2. <img> always in DOM for SEO + permanent static fallback
-            3. <video> injected after window.onload, fades in only when playable,
-               stays invisible on error so the img shows through */}
+            1. <picture> always in DOM for SEO + immediate static background.
+               Browsers download only the matching source — phones never fetch
+               the desktop image, desktop never fetches the mobile image.
+            2. <video> lazy-loads after window.onload, fades in only when
+               playable, stays invisible on error so the picture shows through.
+               poster= matches the static image so the hero never flashes. */}
         <div
           className="absolute -inset-x-0 -top-20 -bottom-40 will-change-transform dark:brightness-75 overflow-hidden"
           style={{
             transform: `translateY(${scrollY * 0.4}px) scale(1.02)`,
-            backgroundImage: "url(/images/heroimage1.webp)",
-            backgroundSize: "cover",
-            backgroundPosition: "center 40%",
           }}
         >
-          {/* Layer 1 — always-present img (SEO + fallback) */}
-          <img
-            src="/images/heroimage1.webp"
-            alt="Insure IT Group Corp - Insurance Agency Jacksonville FL"
-            className="w-full h-full object-cover"
-            style={{ objectPosition: "center 40%" }}
-            fetchPriority="high"
-          />
-          {/* Layer 2 — video injected after load, invisible until ready.
-              Two sources let the browser pick the right cut:
-              - Mobile phones (≤640px): portrait 9:19.5 video from CloudFront
-              - Desktop / tablet: landscape video from CloudFront
-              poster= keeps the hero image visible while the video buffers,
-              preserving the static-image SEO fallback at all times. */}
+          {/* Layer 1 — <picture> for responsive static image (SEO + fallback).
+              Mobile phones (≤640px) get heroimage_mobile.png (portrait).
+              Desktop/tablet get heroimage1.webp (landscape). */}
+          <picture className="w-full h-full">
+            <source media="(max-width: 640px)" srcSet="/images/heroimage_mobile.png" />
+            <img
+              src="/images/heroimage1.webp"
+              alt="Insure IT Group Corp - Insurance Agency Jacksonville FL"
+              className="w-full h-full object-cover"
+              style={{ objectPosition: "center 40%" }}
+              fetchPriority="high"
+            />
+          </picture>
+          {/* Layer 2 — video lazy-loads after page load.
+              isMobilePhone is set once on window.onload via window.innerWidth,
+              selecting portrait clip for phones and landscape for desktop. */}
           {videoReady && (
             <video
               autoPlay
               muted
               loop
               playsInline
-              poster="/images/heroimage1.webp"
+              poster={isMobilePhone ? "/images/heroimage_mobile.png" : "/images/heroimage1.webp"}
               className="absolute inset-0"
               style={{
                 width: "100%",

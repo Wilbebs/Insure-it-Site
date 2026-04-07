@@ -36,7 +36,8 @@ import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef, type RefObject } from "react";
 import SectionDivider from "@/components/section-divider";
 
-const heroVideo = "/api/videos/herovid1.mp4";
+const heroVideoDesktop = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/herovid1.mp4";
+const heroVideoMobile  = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/herovid_mobile.mp4";
 const shieldIcon = "/images/shield_icon.webp";
 const floodImg = "/images/flood_card.webp";
 const highFiveImg = "/images/team_highfive.webp";
@@ -869,7 +870,12 @@ export default function Landing() {
             style={{ objectPosition: "center 40%" }}
             fetchPriority="high"
           />
-          {/* Layer 2 — video injected after load, invisible until ready */}
+          {/* Layer 2 — video injected after load, invisible until ready.
+              Two sources let the browser pick the right cut:
+              - Mobile phones (≤640px): portrait 9:19.5 video from CloudFront
+              - Desktop / tablet: landscape video from CloudFront
+              poster= keeps the hero image visible while the video buffers,
+              preserving the static-image SEO fallback at all times. */}
           {videoReady && (
             <video
               autoPlay
@@ -877,8 +883,11 @@ export default function Landing() {
               loop
               playsInline
               poster="/images/heroimage1.webp"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0"
               style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
                 objectPosition: "center 40%",
                 backgroundColor: "transparent",
                 opacity: 0,
@@ -891,8 +900,20 @@ export default function Landing() {
                 (e.currentTarget as HTMLVideoElement).style.opacity = "0";
               }}
             >
+              {/* Mobile-first source — portrait video for phones */}
               <source
-                src={heroVideo}
+                src={heroVideoMobile}
+                type="video/mp4"
+                media="(max-width: 640px)"
+                onError={(e) => {
+                  const vid = (e.currentTarget as HTMLSourceElement)
+                    .parentElement as HTMLVideoElement;
+                  if (vid) vid.style.opacity = "0";
+                }}
+              />
+              {/* Desktop / tablet source — landscape video */}
+              <source
+                src={heroVideoDesktop}
                 type="video/mp4"
                 onError={(e) => {
                   const vid = (e.currentTarget as HTMLSourceElement)

@@ -64,10 +64,9 @@ export default function TestimonialsCarousel() {
       if (customNext) customNext(); else {
         const cw = containerWRef.current;
         if (cw <= 0) return;
-        // commit next via animation
         animatingRef.current = true;
         setAnimated(true);
-        setDragOffset(-cw);
+        setDragOffset(-(cw + 15));
         setTimeout(() => {
           setAnimated(false);
           setCurrentPage(p => (p + 1) % TOTAL_PAGES);
@@ -93,9 +92,9 @@ export default function TestimonialsCarousel() {
     animatingRef.current = true;
     pausedRef.current    = true;
 
-    // 1. Animate slide to its final resting position
+    // 1. Animate slide to its final resting position (gap of 15px between slides)
     setAnimated(true);
-    setDragOffset(dir === 1 ? -cw : cw);
+    setDragOffset(dir === 1 ? -(cw + 15) : (cw + 15));
 
     // 2. After animation: silently swap page, reset position, re-enable transitions
     setTimeout(() => {
@@ -254,7 +253,7 @@ export default function TestimonialsCarousel() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            transform: `translateX(${-containerWidth + dragOffset}px)`,
+            transform: `translateX(${-containerWidth - 15 + dragOffset}px)`,
             transition,
           }}
         >
@@ -276,7 +275,7 @@ export default function TestimonialsCarousel() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            transform: `translateX(${containerWidth + dragOffset}px)`,
+            transform: `translateX(${containerWidth + 15 + dragOffset}px)`,
             transition,
           }}
         >

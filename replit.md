@@ -69,6 +69,7 @@ This is a simplified, professional insurance website built with React and Expres
 - **Navigation**: Glass morphism navbar with Next.js Link components, usePathname for active state
 - **Logo**: InsureIT logo with WebM shield animation (served from `/public/shield_animation.webm`)
 - **Hero Window Card**: Frosted-glass app-window card (macOS title bar aesthetic) in the hero — draggable on desktop, minimize/restore animated.
+- **Hero Video**: Dual-source via CloudFront CDN. Mobile phones (≤640px) receive `herovid_mobile.mp4` (portrait 9:19.5); desktop/tablet receive `herovid1.mp4` (landscape). Both at `https://d3gkfgi9drj9kb.cloudfront.net/video-assets/`. Three-layer fallback: CSS bg → `<img>` (always in DOM for SEO) → `<video>` fades in on `canPlay`.
 - **QuoteModal**: Contact form modal for quote requests with S3 document upload
 - **TestimonialsCarousel**: 2x2 grid, 12 testimonials across 3 pages, auto-cycles every 6s with swipe support
 - **Footer**: Site footer with company info — uses Next.js Link

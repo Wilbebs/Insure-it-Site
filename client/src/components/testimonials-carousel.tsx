@@ -31,11 +31,18 @@ export default function TestimonialsCarousel() {
   const [isDragging,  setIsDragging]  = useState(false);
   const [dragOffset,  setDragOffset]  = useState(0);
 
-  const intervalRef     = useRef<ReturnType<typeof setInterval> | null>(null);
-  const pausedRef       = useRef(false);
-  const dragStartX      = useRef<number | null>(null);
-  const currentPageRef  = useRef(currentPage);
+  const intervalRef    = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pausedRef      = useRef(false);
+  const dragStartX     = useRef<number | null>(null);
+  const containerRef   = useRef<HTMLDivElement>(null);
+  const currentPageRef = useRef(currentPage);
   currentPageRef.current = currentPage;
+
+  const pageSlice = (page: number) =>
+    allTestimonials.slice(page * CARDS_PER_PAGE, page * CARDS_PER_PAGE + CARDS_PER_PAGE);
+
+  const prevPage = (currentPage - 1 + TOTAL_PAGES) % TOTAL_PAGES;
+  const nextPage = (currentPage + 1) % TOTAL_PAGES;
 
   const goTo = useCallback((page: number, dir: number) => {
     setDirection(dir);
@@ -55,19 +62,16 @@ export default function TestimonialsCarousel() {
     return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
   }, [startInterval]);
 
-  const pause  = useCallback(() => { pausedRef.current = true;  }, []);
-  const resume = useCallback(() => { pausedRef.current = false; }, []);
-
   const handlePrev = () => { prev(); startInterval(); };
   const handleNext = () => { next(); startInterval(); };
   const handleDot  = (i: number) => { goTo(i, i > currentPageRef.current ? 1 : -1); startInterval(); };
 
   const onDragStart = useCallback((clientX: number) => {
     dragStartX.current = clientX;
-    pause();
+    pausedRef.current  = true;
     setIsDragging(true);
     setDragOffset(0);
-  }, [pause]);
+  }, []);
 
   const onDragMove = useCallback((clientX: number) => {
     if (dragStartX.current === null) return;
@@ -77,15 +81,15 @@ export default function TestimonialsCarousel() {
   const onDragEnd = useCallback((clientX: number) => {
     if (dragStartX.current === null) return;
     const delta = dragStartX.current - clientX;
-    setDragOffset(0);
+    dragStartX.current = null;
     setIsDragging(false);
+    setDragOffset(0);
     if (Math.abs(delta) > SWIPE_THRESHOLD) {
       delta > 0 ? next() : prev();
     }
-    dragStartX.current = null;
-    resume();
+    pausedRef.current = false;
     startInterval();
-  }, [next, prev, resume, startInterval]);
+  }, [next, prev, startInterval]);
 
   const onMouseDown  = (e: React.MouseEvent) => { e.preventDefault(); onDragStart(e.clientX); };
   const onMouseMove  = (e: React.MouseEvent) => onDragMove(e.clientX);
@@ -93,19 +97,52 @@ export default function TestimonialsCarousel() {
   const onMouseLeave = (e: React.MouseEvent) => { if (dragStartX.current !== null) onDragEnd(e.clientX); };
 
   const onTouchStart = (e: React.TouchEvent) => onDragStart(e.touches[0].clientX);
-  const onTouchMove  = (e: React.TouchEvent) => onDragMove(e.touches[0].clientX);
+  const onTouchMove  = (e: React.TouchEvent) => { e.preventDefault(); onDragMove(e.touches[0].clientX); };
   const onTouchEnd   = (e: React.TouchEvent) => onDragEnd(e.changedTouches[0].clientX);
 
-  const pageTestimonials = allTestimonials.slice(
-    currentPage * CARDS_PER_PAGE,
-    currentPage * CARDS_PER_PAGE + CARDS_PER_PAGE,
-  );
+  const containerW  = containerRef.current?.offsetWidth ?? 600;
+  const dragRatio   = Math.min(1, Math.abs(dragOffset) / (containerW * 0.5));
+  const adjacentOpacity = isDragging ? dragRatio * 0.85 : 0;
 
   const variants = {
     enter:  (dir: number) => ({ opacity: 0, x: dir > 0 ?  60 : -60 }),
     center:              () => ({ opacity: 1, x: 0 }),
     exit:   (dir: number) => ({ opacity: 0, x: dir > 0 ? -60 :  60 }),
   };
+
+  const PageGrid = ({ testimonials }: { testimonials: typeof allTestimonials }) => (
+    <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
+      {testimonials.map((testimonial, index) => (
+        <div
+          key={index}
+          className="bg-white/95 backdrop-blur-md rounded-xl p-3 sm:p-4 shadow-lg border border-white/80 flex flex-col"
+        >
+          <div className="mb-1.5 sm:mb-2">
+            <h3 className="font-bold text-slate-800 text-[11px] sm:text-sm leading-tight">
+              {testimonial.name}
+            </h3>
+            <p className="text-[10px] sm:text-xs text-slate-500">{testimonial.location}</p>
+          </div>
+          <div className="flex gap-0.5 mb-1.5 sm:mb-2">
+            {[...Array(testimonial.rating)].map((_, i) => (
+              <Star key={i} className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-amber-400 text-amber-400" />
+            ))}
+          </div>
+          <p
+            className="text-slate-600 text-[10px] sm:text-xs leading-relaxed mb-2 sm:mb-3 line-clamp-3 flex-1"
+            style={{ userSelect: "none", WebkitUserSelect: "none", pointerEvents: "none" }}
+          >
+            &ldquo;{testimonial.text}&rdquo;
+          </p>
+          <div className="pt-1.5 sm:pt-2 border-t border-slate-200">
+            <p className="text-[9px] sm:text-[11px] text-primary font-semibold">
+              {testimonial.insurance}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <div
@@ -118,9 +155,7 @@ export default function TestimonialsCarousel() {
           <p className="text-xs uppercase tracking-[0.2em] text-white/70 font-semibold mb-1">
             {t.testimonials.subtitle}
           </p>
-          <h2 className="text-xl font-bold text-white">
-            {t.testimonials.title}
-          </h2>
+          <h2 className="text-xl font-bold text-white">{t.testimonials.title}</h2>
         </div>
         <div className="flex items-center gap-2 shrink-0 pb-1">
           <button
@@ -142,9 +177,10 @@ export default function TestimonialsCarousel() {
         </div>
       </div>
 
-      {/* Drag container */}
+      {/* Clip container */}
       <div
-        className={`overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        ref={containerRef}
+        className={`relative overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
@@ -153,11 +189,24 @@ export default function TestimonialsCarousel() {
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
-        {/* Live drag translation wrapper — snaps back via CSS transition when released */}
+        {/* Adjacent slide: PREV — peeks in from the left when dragging right */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            transform: `translateX(calc(-100% + ${dragOffset}px))`,
+            opacity: dragOffset > 0 ? adjacentOpacity : 0,
+            transition: isDragging ? "none" : "opacity 0.25s ease, transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94)",
+          }}
+        >
+          <PageGrid testimonials={pageSlice(prevPage)} />
+        </div>
+
+        {/* Current page — follows the drag */}
         <div
           style={{
             transform: `translateX(${dragOffset}px)`,
-            transition: isDragging ? "none" : "transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            transition: isDragging ? "none" : "transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94)",
+            pointerEvents: isDragging ? "none" : "auto",
           }}
         >
           <AnimatePresence mode="wait" custom={direction}>
@@ -169,43 +218,22 @@ export default function TestimonialsCarousel() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.28, ease: "easeInOut" }}
-              className="grid grid-cols-2 gap-2.5 sm:gap-4"
-              style={{ pointerEvents: isDragging ? "none" : "auto" }}
             >
-              {pageTestimonials.map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="bg-white/95 backdrop-blur-md rounded-xl p-3 sm:p-4 shadow-lg border border-white/80 flex flex-col"
-                  data-testid={`testimonial-carousel-${currentPage * CARDS_PER_PAGE + index}`}
-                >
-                  <div className="mb-1.5 sm:mb-2">
-                    <h3 className="font-bold text-slate-800 text-[11px] sm:text-sm leading-tight">
-                      {testimonial.name}
-                    </h3>
-                    <p className="text-[10px] sm:text-xs text-slate-500">
-                      {testimonial.location}
-                    </p>
-                  </div>
-                  <div className="flex gap-0.5 mb-1.5 sm:mb-2">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  <p
-                    className="text-slate-600 text-[10px] sm:text-xs leading-relaxed mb-2 sm:mb-3 line-clamp-3 flex-1"
-                    style={{ userSelect: "none", WebkitUserSelect: "none", pointerEvents: "none" }}
-                  >
-                    &ldquo;{testimonial.text}&rdquo;
-                  </p>
-                  <div className="pt-1.5 sm:pt-2 border-t border-slate-200">
-                    <p className="text-[9px] sm:text-[11px] text-primary font-semibold">
-                      {testimonial.insurance}
-                    </p>
-                  </div>
-                </div>
-              ))}
+              <PageGrid testimonials={pageSlice(currentPage)} />
             </motion.div>
           </AnimatePresence>
+        </div>
+
+        {/* Adjacent slide: NEXT — peeks in from the right when dragging left */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            transform: `translateX(calc(100% + ${dragOffset}px))`,
+            opacity: dragOffset < 0 ? adjacentOpacity : 0,
+            transition: isDragging ? "none" : "opacity 0.25s ease, transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94)",
+          }}
+        >
+          <PageGrid testimonials={pageSlice(nextPage)} />
         </div>
       </div>
 

@@ -5,7 +5,8 @@ import { useTranslation } from "./theme-provider";
 const CARDS_PER_PAGE  = 4;
 const TOTAL_PAGES     = 3;
 const AUTO_CYCLE_MS   = 6000;
-const SWIPE_THRESHOLD = 60;
+const SWIPE_THRESHOLD = 30;   // px to trigger page change
+const TRANSITION_MS   = 300;  // must match CSS transition duration
 
 export default function TestimonialsCarousel() {
   const { t } = useTranslation();
@@ -25,46 +26,106 @@ export default function TestimonialsCarousel() {
     { name: "David Hayes",        location: "St. Johns, FL",       rating: 5, text: t.testimonials.t12, insurance: t.testimonials.t12type },
   ];
 
-  const [currentPage, setCurrentPage] = useState(0);
-  const [isDragging,  setIsDragging]  = useState(false);
-  const [dragOffset,  setDragOffset]  = useState(0);
+  const [currentPage,    setCurrentPage]    = useState(0);
+  const [dragOffset,     setDragOffset]     = useState(0);
+  const [animated,       setAnimated]       = useState(true);  // enable CSS transition
+  const [containerWidth, setContainerWidth] = useState(0);
 
   const intervalRef    = useRef<ReturnType<typeof setInterval> | null>(null);
   const pausedRef      = useRef(false);
+  const animatingRef   = useRef(false);           // block new drags during commit animation
   const dragStartX     = useRef<number | null>(null);
   const containerRef   = useRef<HTMLDivElement>(null);
   const currentPageRef = useRef(currentPage);
   currentPageRef.current = currentPage;
+  const containerWRef  = useRef(containerWidth);
+  containerWRef.current = containerWidth;
+
+  // Measure container width
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width);
+    });
+    ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, []);
 
   const pageSlice = (page: number) =>
     allTestimonials.slice(page * CARDS_PER_PAGE, page * CARDS_PER_PAGE + CARDS_PER_PAGE);
 
-  const goTo = useCallback((page: number) => {
-    setCurrentPage(page);
-    setDragOffset(0);
-  }, []);
+  const prevPage = (currentPage - 1 + TOTAL_PAGES) % TOTAL_PAGES;
+  const nextPage = (currentPage + 1) % TOTAL_PAGES;
 
-  const next = useCallback(() => goTo((currentPageRef.current + 1) % TOTAL_PAGES), [goTo]);
-  const prev = useCallback(() => goTo((currentPageRef.current - 1 + TOTAL_PAGES) % TOTAL_PAGES), [goTo]);
-
-  const startInterval = useCallback(() => {
+  const startInterval = useCallback((customNext?: () => void) => {
     if (intervalRef.current) clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => { if (!pausedRef.current) next(); }, AUTO_CYCLE_MS);
-  }, [next]);
+    intervalRef.current = setInterval(() => {
+      if (pausedRef.current || animatingRef.current) return;
+      if (customNext) customNext(); else {
+        const cw = containerWRef.current;
+        if (cw <= 0) return;
+        // commit next via animation
+        animatingRef.current = true;
+        setAnimated(true);
+        setDragOffset(-cw);
+        setTimeout(() => {
+          setAnimated(false);
+          setCurrentPage(p => (p + 1) % TOTAL_PAGES);
+          setDragOffset(0);
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            setAnimated(true);
+            animatingRef.current = false;
+          }));
+        }, TRANSITION_MS);
+      }
+    }, AUTO_CYCLE_MS);
+  }, []);
 
   useEffect(() => {
     startInterval();
     return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
   }, [startInterval]);
 
-  const handlePrev = () => { prev(); startInterval(); };
-  const handleNext = () => { next(); startInterval(); };
-  const handleDot  = (i: number) => { goTo(i); startInterval(); };
+  // Commit to a direction: +1 = next, -1 = prev
+  const commitPage = useCallback((dir: 1 | -1) => {
+    const cw = containerWRef.current;
+    if (cw <= 0 || animatingRef.current) return;
+    animatingRef.current = true;
+    pausedRef.current    = true;
+
+    // 1. Animate slide to its final resting position
+    setAnimated(true);
+    setDragOffset(dir === 1 ? -cw : cw);
+
+    // 2. After animation: silently swap page, reset position, re-enable transitions
+    setTimeout(() => {
+      setAnimated(false);
+      setCurrentPage(p => dir === 1
+        ? (p + 1) % TOTAL_PAGES
+        : (p - 1 + TOTAL_PAGES) % TOTAL_PAGES
+      );
+      setDragOffset(0);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        setAnimated(true);
+        animatingRef.current = false;
+        pausedRef.current    = false;
+        startInterval();
+      }));
+    }, TRANSITION_MS);
+  }, [startInterval]);
+
+  const handlePrev = () => { if (!animatingRef.current) commitPage(-1); };
+  const handleNext = () => { if (!animatingRef.current) commitPage(1); };
+  const handleDot  = (i: number) => {
+    if (animatingRef.current) return;
+    commitPage(i > currentPageRef.current ? 1 : -1);
+  };
 
   const onDragStart = useCallback((clientX: number) => {
+    if (animatingRef.current) return;
     dragStartX.current = clientX;
     pausedRef.current  = true;
-    setIsDragging(true);
+    setAnimated(false);  // disable transition during live drag
   }, []);
 
   const onDragMove = useCallback((clientX: number) => {
@@ -74,16 +135,20 @@ export default function TestimonialsCarousel() {
 
   const onDragEnd = useCallback((clientX: number) => {
     if (dragStartX.current === null) return;
-    const delta = dragStartX.current - clientX;
+    const delta = dragStartX.current - clientX;   // positive = dragged left = go next
     dragStartX.current = null;
-    setIsDragging(false);
-    setDragOffset(0);
-    if (Math.abs(delta) > SWIPE_THRESHOLD) {
-      if (delta > 0) next(); else prev();
+
+    if (Math.abs(delta) >= SWIPE_THRESHOLD) {
+      // Let commitPage handle the rest from the current dragOffset position
+      commitPage(delta > 0 ? 1 : -1);
+    } else {
+      // Snap back
+      setAnimated(true);
+      setDragOffset(0);
+      pausedRef.current = false;
+      startInterval();
     }
-    pausedRef.current = false;
-    startInterval();
-  }, [next, prev, startInterval]);
+  }, [commitPage, startInterval]);
 
   const onMouseDown  = (e: React.MouseEvent) => { e.preventDefault(); onDragStart(e.clientX); };
   const onMouseMove  = (e: React.MouseEvent) => { if (dragStartX.current !== null) onDragMove(e.clientX); };
@@ -94,11 +159,14 @@ export default function TestimonialsCarousel() {
   const onTouchMove  = (e: React.TouchEvent) => { e.preventDefault(); onDragMove(e.touches[0].clientX); };
   const onTouchEnd   = (e: React.TouchEvent) => onDragEnd(e.changedTouches[0].clientX);
 
-  const prevPage = (currentPage - 1 + TOTAL_PAGES) % TOTAL_PAGES;
-  const nextPage = (currentPage + 1) % TOTAL_PAGES;
+  const isDragging = dragStartX.current !== null;
+
+  const transition = animated
+    ? `transform ${TRANSITION_MS}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`
+    : "none";
 
   const PageGrid = ({ testimonials }: { testimonials: typeof allTestimonials }) => (
-    <div className="grid grid-cols-2 gap-2.5 sm:gap-4 w-full flex-shrink-0">
+    <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
       {testimonials.map((testimonial, index) => (
         <div
           key={index}
@@ -148,7 +216,6 @@ export default function TestimonialsCarousel() {
           <button
             onClick={handlePrev}
             className="bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:scale-110 active:scale-95 transition-transform min-w-[34px] min-h-[34px] sm:min-w-[38px] sm:min-h-[38px] flex items-center justify-center border border-white/50"
-            data-testid="carousel-prev"
             aria-label={t.testimonials.prevLabel}
           >
             <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-slate-700" />
@@ -156,7 +223,6 @@ export default function TestimonialsCarousel() {
           <button
             onClick={handleNext}
             className="bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:scale-110 active:scale-95 transition-transform min-w-[34px] min-h-[34px] sm:min-w-[38px] sm:min-h-[38px] flex items-center justify-center border border-white/50"
-            data-testid="carousel-next"
             aria-label={t.testimonials.nextLabel}
           >
             <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-700" />
@@ -164,10 +230,17 @@ export default function TestimonialsCarousel() {
         </div>
       </div>
 
-      {/* Track container — clips the 3-wide flex row */}
+      {/*
+        Track: relative container clips overflowing adjacent slides.
+        Three divs sit side-by-side:
+          prev   at x = -(containerWidth - dragOffset) → starts fully off-screen left
+          current at x = dragOffset
+          next   at x = +(containerWidth + dragOffset) → starts fully off-screen right
+        All share the same dragOffset, so they move together like a solid track.
+      */}
       <div
         ref={containerRef}
-        className={`overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        className={`relative overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
@@ -175,31 +248,39 @@ export default function TestimonialsCarousel() {
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
+        style={{ touchAction: "pan-y" }}
       >
-        {/*
-          3-wide flex track: [prev][current][next]
-          Default offset = -100% (shows current, the middle slide)
-          During drag: -100% + dragOffset px
-          On commit: update currentPage, offset snaps back to -100% with new pages
-        */}
+        {/* Prev — off-screen left, moves right on drag */}
         <div
-          className="flex"
+          className="absolute inset-0 pointer-events-none"
           style={{
-            width: "300%",
-            transform: `translateX(calc(-33.333% + ${dragOffset}px))`,
-            transition: isDragging ? "none" : "transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-            willChange: "transform",
+            transform: `translateX(${-containerWidth + dragOffset}px)`,
+            transition,
           }}
         >
-          <div style={{ width: "33.333%" }} className="px-0">
-            <PageGrid testimonials={pageSlice(prevPage)} />
-          </div>
-          <div style={{ width: "33.333%" }} className="px-0">
-            <PageGrid testimonials={pageSlice(currentPage)} />
-          </div>
-          <div style={{ width: "33.333%" }} className="px-0">
-            <PageGrid testimonials={pageSlice(nextPage)} />
-          </div>
+          <PageGrid testimonials={pageSlice(prevPage)} />
+        </div>
+
+        {/* Current — in document flow (sets container height), follows drag */}
+        <div
+          style={{
+            transform: `translateX(${dragOffset}px)`,
+            transition,
+            pointerEvents: isDragging ? "none" : "auto",
+          }}
+        >
+          <PageGrid testimonials={pageSlice(currentPage)} />
+        </div>
+
+        {/* Next — off-screen right, moves left on drag */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            transform: `translateX(${containerWidth + dragOffset}px)`,
+            transition,
+          }}
+        >
+          <PageGrid testimonials={pageSlice(nextPage)} />
         </div>
       </div>
 

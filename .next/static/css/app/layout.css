@@ -1381,6 +1381,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .cursor-grab{
   cursor: grab;
 }
+.cursor-grabbing{
+  cursor: grabbing;
+}
 .cursor-pointer{
   cursor: pointer;
 }

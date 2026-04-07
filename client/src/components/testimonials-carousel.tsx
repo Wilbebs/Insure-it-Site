@@ -6,102 +6,35 @@ import { useTranslation } from "./theme-provider";
 const CARDS_PER_PAGE = 4;
 const TOTAL_PAGES = 3;
 const AUTO_CYCLE_MS = 6000;
+const SWIPE_THRESHOLD = 40;
 
 export default function TestimonialsCarousel() {
   const { t } = useTranslation();
 
   const allTestimonials = [
-    {
-      name: "Maria Rodriguez",
-      location: "Jacksonville, FL",
-      rating: 5,
-      text: t.testimonials.t1,
-      insurance: t.testimonials.t1type,
-    },
-    {
-      name: "Carlos Perez",
-      location: "Miami, FL",
-      rating: 5,
-      text: t.testimonials.t2,
-      insurance: t.testimonials.t2type,
-    },
-    {
-      name: "Ana Gomez",
-      location: "Tampa, FL",
-      rating: 5,
-      text: t.testimonials.t3,
-      insurance: t.testimonials.t3type,
-    },
-    {
-      name: "Luis Castillo",
-      location: "Orlando, FL",
-      rating: 5,
-      text: t.testimonials.t4,
-      insurance: t.testimonials.t4type,
-    },
-    {
-      name: "Rosa Martins",
-      location: "Hialeah, FL",
-      rating: 5,
-      text: t.testimonials.t5,
-      insurance: t.testimonials.t5type,
-    },
-    {
-      name: "Jorge Ramirez",
-      location: "Fort Lauderdale, FL",
-      rating: 5,
-      text: t.testimonials.t6,
-      insurance: t.testimonials.t6type,
-    },
-    {
-      name: "Sofia Morales",
-      location: "Coral Springs, FL",
-      rating: 5,
-      text: t.testimonials.t7,
-      insurance: t.testimonials.t7type,
-    },
-    {
-      name: "Andres Vargas",
-      location: "Naples, FL",
-      rating: 5,
-      text: t.testimonials.t8,
-      insurance: t.testimonials.t8type,
-    },
-    {
-      name: "Carmen Lopez",
-      location: "Jacksonville, FL",
-      rating: 5,
-      text: t.testimonials.t9,
-      insurance: t.testimonials.t9type,
-    },
-    {
-      name: "Marc Jean-Baptiste",
-      location: "Miami, FL",
-      rating: 5,
-      text: t.testimonials.t10,
-      insurance: t.testimonials.t10type,
-    },
-    {
-      name: "Sophia Pierre",
-      location: "Palm Beach, FL",
-      rating: 5,
-      text: t.testimonials.t11,
-      insurance: t.testimonials.t11type,
-    },
-    {
-      name: "David Hayes",
-      location: "St. Johns, FL",
-      rating: 5,
-      text: t.testimonials.t12,
-      insurance: t.testimonials.t12type,
-    },
+    { name: "Maria Rodriguez", location: "Jacksonville, FL", rating: 5, text: t.testimonials.t1, insurance: t.testimonials.t1type },
+    { name: "Carlos Perez",    location: "Miami, FL",        rating: 5, text: t.testimonials.t2, insurance: t.testimonials.t2type },
+    { name: "Ana Gomez",       location: "Tampa, FL",        rating: 5, text: t.testimonials.t3, insurance: t.testimonials.t3type },
+    { name: "Luis Castillo",   location: "Orlando, FL",      rating: 5, text: t.testimonials.t4, insurance: t.testimonials.t4type },
+    { name: "Rosa Martins",    location: "Hialeah, FL",      rating: 5, text: t.testimonials.t5, insurance: t.testimonials.t5type },
+    { name: "Jorge Ramirez",   location: "Fort Lauderdale, FL", rating: 5, text: t.testimonials.t6, insurance: t.testimonials.t6type },
+    { name: "Sofia Morales",   location: "Coral Springs, FL", rating: 5, text: t.testimonials.t7, insurance: t.testimonials.t7type },
+    { name: "Andres Vargas",   location: "Naples, FL",       rating: 5, text: t.testimonials.t8, insurance: t.testimonials.t8type },
+    { name: "Carmen Lopez",    location: "Jacksonville, FL", rating: 5, text: t.testimonials.t9, insurance: t.testimonials.t9type },
+    { name: "Marc Jean-Baptiste", location: "Miami, FL",     rating: 5, text: t.testimonials.t10, insurance: t.testimonials.t10type },
+    { name: "Sophia Pierre",   location: "Palm Beach, FL",   rating: 5, text: t.testimonials.t11, insurance: t.testimonials.t11type },
+    { name: "David Hayes",     location: "St. Johns, FL",    rating: 5, text: t.testimonials.t12, insurance: t.testimonials.t12type },
   ];
 
   const [currentPage, setCurrentPage] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
+  const [direction, setDirection]     = useState(1);
+  const [isDragging, setIsDragging]   = useState(false);
+
+  const intervalRef  = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pausedRef    = useRef(false);
+  const dragStartX   = useRef<number | null>(null);
+  const currentPageRef = useRef(currentPage);
+  currentPageRef.current = currentPage;
 
   const goTo = useCallback((page: number, dir: number) => {
     setDirection(dir);
@@ -109,37 +42,61 @@ export default function TestimonialsCarousel() {
   }, []);
 
   const next = useCallback(() => {
-    goTo((currentPage + 1) % TOTAL_PAGES, 1);
-  }, [currentPage, goTo]);
+    goTo((currentPageRef.current + 1) % TOTAL_PAGES, 1);
+  }, [goTo]);
 
   const prev = useCallback(() => {
-    goTo((currentPage - 1 + TOTAL_PAGES) % TOTAL_PAGES, -1);
-  }, [currentPage, goTo]);
+    goTo((currentPageRef.current - 1 + TOTAL_PAGES) % TOTAL_PAGES, -1);
+  }, [goTo]);
+
+  const startInterval = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      if (!pausedRef.current) next();
+    }, AUTO_CYCLE_MS);
+  }, [next]);
 
   useEffect(() => {
-    intervalRef.current = setInterval(next, AUTO_CYCLE_MS);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [next]);
+    startInterval();
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [startInterval]);
+
+  const pause  = useCallback(() => { pausedRef.current = true;  }, []);
+  const resume = useCallback(() => { pausedRef.current = false; }, []);
 
   const resetTimer = useCallback(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(next, AUTO_CYCLE_MS);
-  }, [next]);
+    startInterval();
+  }, [startInterval]);
 
-  const handlePrev = () => {
-    prev();
+  const handlePrev = () => { prev(); resetTimer(); };
+  const handleNext = () => { next(); resetTimer(); };
+  const handleDot  = (i: number) => { goTo(i, i > currentPageRef.current ? 1 : -1); resetTimer(); };
+
+  const onDragStart = useCallback((clientX: number) => {
+    dragStartX.current = clientX;
+    pause();
+    setIsDragging(true);
+  }, [pause]);
+
+  const onDragEnd = useCallback((clientX: number) => {
+    if (dragStartX.current !== null) {
+      const delta = dragStartX.current - clientX;
+      if (Math.abs(delta) > SWIPE_THRESHOLD) {
+        delta > 0 ? next() : prev();
+      }
+      dragStartX.current = null;
+    }
+    setIsDragging(false);
+    resume();
     resetTimer();
-  };
-  const handleNext = () => {
-    next();
-    resetTimer();
-  };
-  const handleDot = (i: number) => {
-    goTo(i, i > currentPage ? 1 : -1);
-    resetTimer();
-  };
+  }, [next, prev, resume, resetTimer]);
+
+  const onMouseDown  = (e: React.MouseEvent) => onDragStart(e.clientX);
+  const onMouseUp    = (e: React.MouseEvent) => onDragEnd(e.clientX);
+  const onMouseLeave = (e: React.MouseEvent) => { if (dragStartX.current !== null) onDragEnd(e.clientX); };
+
+  const onTouchStart = (e: React.TouchEvent) => onDragStart(e.touches[0].clientX);
+  const onTouchEnd   = (e: React.TouchEvent) => onDragEnd(e.changedTouches[0].clientX);
 
   const pageTestimonials = allTestimonials.slice(
     currentPage * CARDS_PER_PAGE,
@@ -147,24 +104,23 @@ export default function TestimonialsCarousel() {
   );
 
   const variants = {
-    enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 50 : -50 }),
-    center: { opacity: 1, x: 0 },
-    exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -50 : 50 }),
+    enter:  (dir: number) => ({ opacity: 0, x: dir > 0 ?  50 : -50 }),
+    center:              ()  => ({ opacity: 1, x: 0 }),
+    exit:   (dir: number) => ({ opacity: 0, x: dir > 0 ? -50 :  50 }),
   };
 
   return (
-    <div className="max-w-5xl mx-auto">
-      {/* Header row: title top-left, nav arrows top-right */}
+    <div className="max-w-5xl mx-auto select-none">
+      {/* Header row */}
       <div className="flex items-end justify-between mb-3 px-1">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-white/70 font-semibold mb-1 select-none">
+          <p className="text-xs uppercase tracking-[0.2em] text-white/70 font-semibold mb-1">
             {t.testimonials.subtitle}
           </p>
-          <h2 className="text-xl font-bold text-white select-none">
+          <h2 className="text-xl font-bold text-white">
             {t.testimonials.title}
           </h2>
         </div>
-
         <div className="flex items-center gap-2 shrink-0 pb-1">
           <button
             onClick={handlePrev}
@@ -185,26 +141,14 @@ export default function TestimonialsCarousel() {
         </div>
       </div>
 
-      {/* 2×2 grid — always 2 columns, 2 rows */}
+      {/* Swipeable / draggable grid */}
       <div
-        className="overflow-hidden"
-        onTouchStart={(e) => {
-          touchStartX.current = e.touches[0].clientX;
-          touchEndX.current = null;
-        }}
-        onTouchMove={(e) => {
-          touchEndX.current = e.touches[0].clientX;
-        }}
-        onTouchEnd={() => {
-          if (touchStartX.current === null || touchEndX.current === null)
-            return;
-          const delta = touchStartX.current - touchEndX.current;
-          if (Math.abs(delta) > 40) {
-            delta > 0 ? handleNext() : handlePrev();
-          }
-          touchStartX.current = null;
-          touchEndX.current = null;
-        }}
+        className={`overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeave}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
       >
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
@@ -216,6 +160,7 @@ export default function TestimonialsCarousel() {
             exit="exit"
             transition={{ duration: 0.32, ease: "easeInOut" }}
             className="grid grid-cols-2 gap-2.5 sm:gap-4"
+            style={{ pointerEvents: isDragging ? "none" : "auto" }}
           >
             {pageTestimonials.map((testimonial, index) => (
               <div
@@ -223,7 +168,6 @@ export default function TestimonialsCarousel() {
                 className="bg-white/95 backdrop-blur-md rounded-xl p-3 sm:p-4 shadow-lg border border-white/80 flex flex-col"
                 data-testid={`testimonial-carousel-${currentPage * CARDS_PER_PAGE + index}`}
               >
-                {/* Name + location */}
                 <div className="mb-1.5 sm:mb-2">
                   <h3 className="font-bold text-slate-800 text-[11px] sm:text-sm leading-tight">
                     {testimonial.name}
@@ -232,23 +176,14 @@ export default function TestimonialsCarousel() {
                     {testimonial.location}
                   </p>
                 </div>
-
-                {/* Stars */}
                 <div className="flex gap-0.5 mb-1.5 sm:mb-2">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-amber-400 text-amber-400"
-                    />
+                    <Star key={i} className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
-
-                {/* Quote */}
                 <p className="text-slate-600 text-[10px] sm:text-xs leading-relaxed mb-2 sm:mb-3 line-clamp-3 flex-1">
                   &ldquo;{testimonial.text}&rdquo;
                 </p>
-
-                {/* Insurance type tag */}
                 <div className="pt-1.5 sm:pt-2 border-t border-slate-200">
                   <p className="text-[9px] sm:text-[11px] text-primary font-semibold">
                     {testimonial.insurance}

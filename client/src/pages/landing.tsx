@@ -37,9 +37,9 @@ import { useEffect, useState, useRef, type RefObject } from "react";
 import SectionDivider from "@/components/section-divider";
 
 const heroVideo = "/api/videos/herovid1.mp4";
-const shieldIcon = "/images/shield_icon.png";
-const floodImg = "/images/flood_card.jpg";
-const highFiveImg = "/images/team_highfive.jpg";
+const shieldIcon = "/images/shield_icon.webp";
+const floodImg = "/images/flood_card.webp";
+const highFiveImg = "/images/team_highfive.webp";
 
 function InsuranceDetailModal({
   type,
@@ -666,7 +666,7 @@ export default function Landing() {
       description: t.insurance.homeDesc,
       shortDesc: t.insurance.homeShortDesc,
       image:
-        "/images/home_card.jpg",
+        "/images/home_card.webp",
       color: "sky",
     },
     {
@@ -675,7 +675,7 @@ export default function Landing() {
       description: t.insurance.autoDesc,
       shortDesc: t.insurance.autoShortDesc,
       image:
-        "/images/autocar.jpg",
+        "/images/autocar.webp",
       color: "teal",
     },
     {
@@ -701,7 +701,7 @@ export default function Landing() {
       description: t.insurance.businessDesc,
       shortDesc: t.insurance.businessShortDesc,
       image:
-        "/images/business_card.jpg",
+        "/images/business_card.webp",
       color: "violet",
     },
     {
@@ -710,7 +710,7 @@ export default function Landing() {
       description: t.insurance.healthDesc,
       shortDesc: t.insurance.healthShortDesc,
       image:
-        "/images/health_card.jpg",
+        "/images/health_card.webp",
       color: "red",
     },
   ];

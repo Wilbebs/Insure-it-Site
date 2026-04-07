@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-const logoImage = "/images/insure_it_logo.png";
+const logoImage = "/images/insure_it_logo.webp";
 
 const shieldVideo = "/shield_animation.webm";
 

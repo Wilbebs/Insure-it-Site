@@ -528,6 +528,7 @@ export default function Landing() {
   const { t } = useTranslation();
   const [heroVisible, setHeroVisible] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
+  const [isMobilePhone, setIsMobilePhone] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [showShieldTooltip, setShowShieldTooltip] = useState(false);
   const isRestoring = useRef(false);
@@ -581,12 +582,15 @@ export default function Landing() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (document.readyState === "complete") {
+    const activate = () => {
+      setIsMobilePhone(window.innerWidth <= 640);
       setVideoReady(true);
+    };
+    if (document.readyState === "complete") {
+      activate();
     } else {
-      const onLoad = () => setVideoReady(true);
-      window.addEventListener("load", onLoad);
-      return () => window.removeEventListener("load", onLoad);
+      window.addEventListener("load", activate);
+      return () => window.removeEventListener("load", activate);
     }
   }, []);
 
@@ -900,20 +904,8 @@ export default function Landing() {
                 (e.currentTarget as HTMLVideoElement).style.opacity = "0";
               }}
             >
-              {/* Mobile-first source — portrait video for phones */}
               <source
-                src={heroVideoMobile}
-                type="video/mp4"
-                media="(max-width: 640px)"
-                onError={(e) => {
-                  const vid = (e.currentTarget as HTMLSourceElement)
-                    .parentElement as HTMLVideoElement;
-                  if (vid) vid.style.opacity = "0";
-                }}
-              />
-              {/* Desktop / tablet source — landscape video */}
-              <source
-                src={heroVideoDesktop}
+                src={isMobilePhone ? heroVideoMobile : heroVideoDesktop}
                 type="video/mp4"
                 onError={(e) => {
                   const vid = (e.currentTarget as HTMLSourceElement)

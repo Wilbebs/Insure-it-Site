@@ -41,12 +41,12 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: animated WebP (transparent background, ~190KB) — same position as static PNG */}
-        <div className="md:hidden flex flex-col items-center">
+        {/* Mobile: animated WebP (transparent background, ~190KB) — fills card width */}
+        <div className="md:hidden w-full flex flex-col items-center">
           <img
             src="/shield_logo_mobile.webp"
             alt="Insure-it Group Corp"
-            className="h-28 sm:h-32 w-auto object-contain"
+            className="w-full h-auto object-contain"
             width={320}
             height={118}
             fetchPriority="high"

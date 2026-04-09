@@ -970,9 +970,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .h-24{
   height: 6rem;
 }
-.h-28{
-  height: 7rem;
-}
 .h-3{
   height: 0.75rem;
 }
@@ -4949,9 +4946,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
   }
   .sm\:h-3\.5{
     height: 0.875rem;
-  }
-  .sm\:h-32{
-    height: 8rem;
   }
   .sm\:h-4{
     height: 1rem;

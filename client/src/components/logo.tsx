@@ -51,13 +51,13 @@ export default function Logo({
 
         {/* Mobile: static logo loads first (LCP), animated WebP fades in once downloaded */}
         <div className="md:hidden w-full flex flex-col items-center">
-          <div className="relative w-full" style={{ aspectRatio: "360/137" }}>
+          <div className="relative w-full" style={{ aspectRatio: "1228/420" }}>
             <img
               src="/images/insure_it_logo.webp"
               alt="Insure-it Group Corp"
               className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-0" : "opacity-100"}`}
               width={360}
-              height={137}
+              height={123}
               fetchPriority="high"
               draggable={false}
             />
@@ -66,7 +66,7 @@ export default function Logo({
               alt="Insure-it Group Corp"
               className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-100" : "opacity-0"}`}
               width={360}
-              height={137}
+              height={123}
               draggable={false}
               aria-hidden={!animReady}
             />

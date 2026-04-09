@@ -399,17 +399,19 @@ function InsuranceCard({
       )}
 
       {/* ── MOBILE: horizontal list row ── */}
-      <div className="sm:hidden absolute inset-0 flex items-center gap-4 px-4 z-20">
-        <div className={`shrink-0 text-white [&_svg]:w-7 [&_svg]:h-7 ${type.color === "teal" ? "animate-car-drive-mobile" : iconAnimation}`}>
-          {type.icon}
-        </div>
-        <div className="flex-1 min-w-0">
-          <h3 className="text-white font-bold text-sm leading-tight [text-shadow:0_1px_6px_rgba(0,0,0,0.95),0_2px_12px_rgba(0,0,0,0.7)]">
-            {type.title}
-          </h3>
-          <p className="text-white/90 text-xs leading-snug mt-0.5 line-clamp-1 [text-shadow:0_1px_5px_rgba(0,0,0,0.9),0_2px_10px_rgba(0,0,0,0.65)]">
-            {type.shortDesc}
-          </p>
+      <div className="sm:hidden absolute inset-0 flex items-center gap-3 px-3 z-20">
+        <div className="flex-1 min-w-0 flex items-center gap-3 bg-black/40 backdrop-blur-sm rounded-2xl px-3 py-2">
+          <div className={`shrink-0 text-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.55)] [&_svg]:w-7 [&_svg]:h-7 ${type.color === "teal" ? "animate-car-drive-mobile" : iconAnimation}`}>
+            {type.icon}
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-white font-bold text-sm leading-tight [text-shadow:0_1px_6px_rgba(0,0,0,0.95),0_2px_12px_rgba(0,0,0,0.7)]">
+              {type.title}
+            </h3>
+            <p className="text-sky-100/90 text-xs leading-snug mt-0.5 line-clamp-1 [text-shadow:0_1px_5px_rgba(0,0,0,0.9),0_2px_10px_rgba(0,0,0,0.65)]">
+              {type.shortDesc}
+            </p>
+          </div>
         </div>
         <ArrowRight className="shrink-0 w-4 h-4 text-white/80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" />
       </div>
@@ -422,13 +424,13 @@ function InsuranceCard({
       <div className="hidden sm:block absolute inset-x-0 top-0 p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
         {(type.color === "indigo" || type.color === "red") ? (
           <div
-            className={`text-white mb-1.5 -ml-0.5 [&_svg]:w-[27px] [&_svg]:h-[27px] ${iconAnimation}`}
+            className={`text-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.55)] mb-1.5 -ml-0.5 [&_svg]:w-[27px] [&_svg]:h-[27px] ${iconAnimation}`}
             style={{ transformOrigin: "13.5px 13.5px" }}
           >
             {type.icon}
           </div>
         ) : (
-          <div className={`text-white mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}>
+          <div className={`text-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.55)] mb-1.5 scale-75 origin-top-left -ml-0.5 ${iconAnimation}`}>
             {type.icon}
           </div>
         )}

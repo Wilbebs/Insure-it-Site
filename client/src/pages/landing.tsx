@@ -145,12 +145,12 @@ function InsuranceDetailModal({
                   <X className="w-4 h-4" />
                 </button>
                 <div className="absolute bottom-4 left-5 flex items-center gap-3">
-                  <div className="text-white opacity-90 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">{type.icon}</div>
+                  <div className="text-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.55)] drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">{type.icon}</div>
                   <div>
-                    <p className="text-white/80 text-[11px] uppercase tracking-widest font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.95),0_2px_10px_rgba(0,0,0,0.7)]">
+                    <p className="text-sky-200 text-[11px] uppercase tracking-widest font-medium [text-shadow:0_0_8px_rgba(56,189,248,0.4),0_1px_6px_rgba(0,0,0,0.95),0_2px_10px_rgba(0,0,0,0.7)]">
                       {t.insuranceModal.coverageLabel}
                     </p>
-                    <h2 className="text-white text-xl font-bold leading-tight [text-shadow:0_1px_8px_rgba(0,0,0,0.95),0_3px_16px_rgba(0,0,0,0.75)]">
+                    <h2 className="text-white font-extrabold text-xl leading-tight [text-shadow:0_0_12px_rgba(255,255,255,0.45),0_1px_8px_rgba(0,0,0,0.95),0_3px_16px_rgba(0,0,0,0.75)]">
                       {type.title}
                     </h2>
                   </div>

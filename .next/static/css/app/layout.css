@@ -970,9 +970,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .h-24{
   height: 6rem;
 }
-.h-28{
-  height: 7rem;
-}
 .h-3{
   height: 0.75rem;
 }
@@ -1006,8 +1003,8 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .h-\[1\.5px\]{
   height: 1.5px;
 }
-.h-\[155px\]{
-  height: 155px;
+.h-\[130px\]{
+  height: 130px;
 }
 .h-\[1px\]{
   height: 1px;
@@ -4950,9 +4947,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
   .sm\:h-3\.5{
     height: 0.875rem;
   }
-  .sm\:h-32{
-    height: 8rem;
-  }
   .sm\:h-4{
     height: 1rem;
   }
@@ -5217,8 +5211,8 @@ p, span, a, li, td, th, input, textarea, .selectable {
   .md\:flex{
     display: flex;
   }
-  .md\:hidden{
-    display: none;
+  .md\:h-\[155px\]{
+    height: 155px;
   }
   .md\:w-\[420px\]{
     width: 420px;
@@ -5237,12 +5231,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
   }
   .md\:grid-cols-3{
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .md\:flex-col{
-    flex-direction: column;
-  }
-  .md\:items-center{
-    align-items: center;
   }
   .md\:p-8{
     padding: 2rem;

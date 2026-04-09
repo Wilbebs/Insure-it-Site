@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 const logoImage = "/images/insure_it_logo.webp";
 
-const shieldVideo = "/shield_animation.webm";
+const shieldVideoWebm = "/shield_animation.webm";
+const shieldVideoMp4 = "/shield_animation.mp4";
 
 interface LogoProps {
   className?: string;
@@ -41,19 +42,13 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: static PNG only — tagline is rendered in landing.tsx below the logo */}
-        <div className="md:hidden flex flex-col items-center">
-          <img
-            src={logoImage}
-            alt="Insure-it Group Corp"
-            className="h-28 sm:h-32 w-auto object-contain"
-            draggable={false}
-          />
-        </div>
-
-        {/* Desktop: absolute + scale crops all 4 sides of transparent video padding */}
-        <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
+        {/* Shield animation — all screen sizes. Container clips the video vertically;
+            overflow-hidden clips it horizontally on narrow mobile screens. */}
+        <div className="flex flex-col items-center w-full">
+          <div
+            className="relative h-[130px] md:h-[155px] w-full overflow-hidden mx-auto"
+            style={{ marginTop: "-5px" }}
+          >
             <video
               autoPlay
               muted
@@ -65,9 +60,20 @@ export default function Logo({
                 transformOrigin: "center center",
               }}
             >
-              <source src={shieldVideo} type="video/webm" />
+              <source src={shieldVideoMp4} type="video/mp4" />
+              <source src={shieldVideoWebm} type="video/webm" />
             </video>
+
+            {/* Static PNG fallback — shown only when video cannot play (e.g. older browsers) */}
+            <img
+              src={logoImage}
+              alt="Insure-it Group Corp"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-20 w-auto object-contain"
+              draggable={false}
+              aria-hidden="true"
+            />
           </div>
+
           {showTagline && (
             <p className="mt-2 text-xl md:text-2xl font-semibold italic tagline-shimmer select-none">
               {taglineText}

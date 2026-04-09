@@ -2297,6 +2297,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .font-bold{
   font-weight: 700;
 }
+.font-extrabold{
+  font-weight: 800;
+}
 .font-medium{
   font-weight: 500;
 }
@@ -2447,9 +2450,6 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .text-sidebar-foreground{
   color: var(--sidebar-foreground);
 }
-.text-sky-100\/95{
-  color: rgb(224 242 254 / 0.95);
-}
 .text-sky-300{
   --tw-text-opacity: 1;
   color: rgb(125 211 252 / var(--tw-text-opacity, 1));
@@ -2501,6 +2501,9 @@ p, span, a, li, td, th, input, textarea, .selectable {
 }
 .text-white\/90{
   color: rgb(255 255 255 / 0.9);
+}
+.text-white\/95{
+  color: rgb(255 255 255 / 0.95);
 }
 .underline{
   text-decoration-line: underline;
@@ -2808,6 +2811,12 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .\[clip-path\:inset\(0_round_0\.75rem\)\]{
   clip-path: inset(0 round 0.75rem);
 }
+.\[text-shadow\:0_0_12px_rgba\(255\2c 255\2c 255\2c 0\.45\)\2c 0_1px_8px_rgba\(0\2c 0\2c 0\2c 1\)\2c 0_2px_16px_rgba\(0\2c 0\2c 0\2c 0\.85\)\]{
+  text-shadow: 0 0 12px rgba(255,255,255,0.45),0 1px 8px rgba(0,0,0,1),0 2px 16px rgba(0,0,0,0.85);
+}
+.\[text-shadow\:0_0_8px_rgba\(255\2c 255\2c 255\2c 0\.3\)\2c 0_1px_6px_rgba\(0\2c 0\2c 0\2c 1\)\2c 0_2px_12px_rgba\(0\2c 0\2c 0\2c 0\.8\)\]{
+  text-shadow: 0 0 8px rgba(255,255,255,0.3),0 1px 6px rgba(0,0,0,1),0 2px 12px rgba(0,0,0,0.8);
+}
 .\[text-shadow\:0_1px_3px_rgba\(0\2c 0\2c 0\2c 0\.7\)\]{
   text-shadow: 0 1px 3px rgba(0,0,0,0.7);
 }
@@ -2820,14 +2829,8 @@ p, span, a, li, td, th, input, textarea, .selectable {
 .\[text-shadow\:0_1px_6px_rgba\(0\2c 0\2c 0\2c 0\.95\)\2c 0_2px_14px_rgba\(0\2c 0\2c 0\2c 0\.7\)\]{
   text-shadow: 0 1px 6px rgba(0,0,0,0.95),0 2px 14px rgba(0,0,0,0.7);
 }
-.\[text-shadow\:0_1px_6px_rgba\(0\2c 0\2c 0\2c 1\)\2c 0_2px_12px_rgba\(0\2c 0\2c 0\2c 0\.8\)\]{
-  text-shadow: 0 1px 6px rgba(0,0,0,1),0 2px 12px rgba(0,0,0,0.8);
-}
 .\[text-shadow\:0_1px_8px_rgba\(0\2c 0\2c 0\2c 0\.95\)\2c 0_3px_16px_rgba\(0\2c 0\2c 0\2c 0\.75\)\]{
   text-shadow: 0 1px 8px rgba(0,0,0,0.95),0 3px 16px rgba(0,0,0,0.75);
-}
-.\[text-shadow\:0_1px_8px_rgba\(0\2c 0\2c 0\2c 1\)\2c 0_2px_16px_rgba\(0\2c 0\2c 0\2c 0\.85\)\]{
-  text-shadow: 0 1px 8px rgba(0,0,0,1),0 2px 16px rgba(0,0,0,0.85);
 }
 
 :root {
@@ -2907,6 +2910,16 @@ p, span, a, li, td, th, input, textarea, .selectable {
 
 .animate-car-crash-loop {
   animation: car-crash 12s linear infinite;
+}
+
+/* Insurance card: top-to-bottom glow pulse */
+@keyframes card-glow-pulse {
+  0%   { box-shadow: inset 0 0 0 0px rgba(255,255,255,0), 0 0 0px rgba(255,255,255,0); }
+  35%  { box-shadow: inset 0 0 0 2px rgba(255,255,255,0.70), 0 0 18px rgba(255,255,255,0.22); }
+  100% { box-shadow: inset 0 0 0 0px rgba(255,255,255,0), 0 0 0px rgba(255,255,255,0); }
+}
+.card-glow-pulse {
+  animation: card-glow-pulse 0.75s ease-out !important;
 }
 
 /* Mobile auto card: road lines */

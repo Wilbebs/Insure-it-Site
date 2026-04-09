@@ -33,7 +33,7 @@ import {
 } from "lucide-react";
 import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
-import { useEffect, useState, useRef, type RefObject } from "react";
+import { useEffect, useState, useRef, useCallback, type RefObject } from "react";
 import SectionDivider from "@/components/section-divider";
 
 const heroVideoDesktop = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/herovid1.mp4";
@@ -247,6 +247,7 @@ function InsuranceCard({
   index,
   onClick,
   carAnimationActive = false,
+  isPulsing = false,
 }: {
   type: {
     icon: React.ReactNode;
@@ -259,10 +260,23 @@ function InsuranceCard({
   index: number;
   onClick: () => void;
   carAnimationActive?: boolean;
+  isPulsing?: boolean;
 }) {
   const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // Apply glow-pulse CSS class when isPulsing fires
+  useEffect(() => {
+    if (isPulsing && cardRef.current) {
+      const el = cardRef.current;
+      el.classList.remove("card-glow-pulse");
+      void el.offsetWidth; // force reflow so animation restarts
+      el.classList.add("card-glow-pulse");
+      const t = setTimeout(() => el.classList.remove("card-glow-pulse"), 850);
+      return () => clearTimeout(t);
+    }
+  }, [isPulsing]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -406,10 +420,10 @@ function InsuranceCard({
           {type.icon}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-white font-bold text-sm leading-tight [text-shadow:0_1px_8px_rgba(0,0,0,1),0_2px_16px_rgba(0,0,0,0.85)]">
+          <h3 className="text-white font-extrabold text-sm leading-tight [text-shadow:0_0_12px_rgba(255,255,255,0.45),0_1px_8px_rgba(0,0,0,1),0_2px_16px_rgba(0,0,0,0.85)]">
             {type.title}
           </h3>
-          <p className="text-sky-100/95 text-xs leading-snug mt-0.5 line-clamp-1 [text-shadow:0_1px_6px_rgba(0,0,0,1),0_2px_12px_rgba(0,0,0,0.8)]">
+          <p className="text-white/95 text-xs leading-snug mt-0.5 line-clamp-1 [text-shadow:0_0_8px_rgba(255,255,255,0.3),0_1px_6px_rgba(0,0,0,1),0_2px_12px_rgba(0,0,0,0.8)]">
             {type.shortDesc}
           </p>
         </div>
@@ -547,6 +561,39 @@ export default function Landing() {
   const [highFiveVisible, setHighFiveVisible] = useState(false);
   const insuranceSectionRef = useRef<HTMLElement>(null);
   const [carAnimActive, setCarAnimActive] = useState(false);
+  const [pulseIndex, setPulseIndex] = useState(-1);
+  const pulseIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pulsedOnce = useRef(false);
+
+  const triggerPulse = useCallback(() => {
+    const TOTAL_CARDS = 6;
+    const STAGGER_MS  = 230;
+    for (let i = 0; i < TOTAL_CARDS; i++) {
+      setTimeout(() => setPulseIndex(i), i * STAGGER_MS);
+    }
+    setTimeout(() => setPulseIndex(-1), (TOTAL_CARDS - 1) * STAGGER_MS + 900);
+  }, []);
+
+  useEffect(() => {
+    const el = insuranceSectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !pulsedOnce.current) {
+          pulsedOnce.current = true;
+          triggerPulse();
+          pulseIntervalRef.current = setInterval(triggerPulse, 14000);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      if (pulseIntervalRef.current) clearInterval(pulseIntervalRef.current);
+    };
+  }, [triggerPulse]);
 
   useEffect(() => {
     const el = highFiveRef.current;
@@ -1089,6 +1136,7 @@ export default function Landing() {
                       index={index}
                       onClick={() => setSelectedInsurance(type)}
                       carAnimationActive={carAnimActive}
+                      isPulsing={pulseIndex === index}
                     />
                   ))}
                 </div>

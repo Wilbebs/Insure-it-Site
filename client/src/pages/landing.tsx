@@ -256,6 +256,7 @@ function InsuranceCard({
     shortDesc: string;
     image: string;
     color: string;
+    bgPosition?: string;
   };
   index: number;
   onClick: () => void;
@@ -354,8 +355,8 @@ function InsuranceCard({
 
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 sm:group-hover:scale-110"
-        style={{ backgroundImage: `url(${type.image})` }}
+        className="absolute inset-0 bg-cover transition-transform duration-700 sm:group-hover:scale-110"
+        style={{ backgroundImage: `url(${type.image})`, backgroundPosition: type.bgPosition ?? "center" }}
       />
 
       {/* Base Gradient Overlay */}
@@ -427,7 +428,7 @@ function InsuranceCard({
             {type.shortDesc}
           </p>
         </div>
-        <ArrowRight className="shrink-0 w-4 h-4 text-white/80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]" />
+        <ArrowRight className="shrink-0 w-5 h-5 text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)] animate-arrow-nudge" />
       </div>
 
       {/* ── DESKTOP: tile layout ── */}
@@ -757,6 +758,7 @@ export default function Landing() {
       image:
         "/images/business_card.webp",
       color: "violet",
+      bgPosition: "center 18%",
     },
     {
       icon: <HeartPulse className="w-10 h-10" />,
@@ -766,6 +768,7 @@ export default function Landing() {
       image:
         "/images/health_card.webp",
       color: "red",
+      bgPosition: "center 22%",
     },
   ];
 

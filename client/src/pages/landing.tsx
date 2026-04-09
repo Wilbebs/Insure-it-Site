@@ -769,7 +769,7 @@ export default function Landing() {
       image:
         "/images/health_card.webp",
       color: "red",
-      bgPosition: "40% 22%",
+      bgPosition: "40% 32%",
       bgSize: "112% auto",
     },
   ];

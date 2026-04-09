@@ -58,6 +58,7 @@ export default function Logo({
                 top: "-57px",
                 transform: "translateX(-50%) scale(1.55)",
                 transformOrigin: "center center",
+                mixBlendMode: "screen",
               }}
             >
               <source src={shieldVideoMp4} type="video/mp4" />

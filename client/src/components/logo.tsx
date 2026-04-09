@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 const logoImage = "/images/insure_it_logo.webp";
 
 const shieldVideo = "/shield_animation.webm";
+const shieldVideoMobile = "/shield_animation_mobile.mp4";
 
 interface LogoProps {
   className?: string;
@@ -21,7 +22,8 @@ export default function Logo({
 }: LogoProps) {
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
-  const [animReady, setAnimReady] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (showTagline && size === "large") {
@@ -40,35 +42,38 @@ export default function Logo({
 
   useEffect(() => {
     if (size !== "large") return;
-    const img = new window.Image();
-    img.onload = () => setAnimReady(true);
-    img.src = "/shield_logo_mobile.webp";
+    const video = videoRef.current;
+    if (!video) return;
+    const onCanPlay = () => setVideoReady(true);
+    video.addEventListener("canplay", onCanPlay);
+    video.src = shieldVideoMobile;
+    video.load();
+    return () => video.removeEventListener("canplay", onCanPlay);
   }, [size]);
 
   if (size === "large") {
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: static logo loads first (LCP), animated WebP fades in once downloaded */}
+        {/* Mobile: static logo (13KB) loads first as LCP, then MP4 (79KB) fades in */}
         <div className="md:hidden w-full flex flex-col items-center">
-          <div className="relative w-full" style={{ aspectRatio: "450/121" }}>
+          <div className="relative w-full" style={{ aspectRatio: "600/162" }}>
             <img
               src="/shield_logo_static.webp"
               alt="Insure-it Group Corp"
-              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-0" : "opacity-100"}`}
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${videoReady ? "opacity-0" : "opacity-100"}`}
               width={450}
               height={121}
               fetchPriority="high"
               draggable={false}
             />
-            <img
-              src="/shield_logo_mobile.webp"
-              alt="Insure-it Group Corp"
-              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-100" : "opacity-0"}`}
-              width={450}
-              height={121}
-              draggable={false}
-              aria-hidden={!animReady}
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              playsInline
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${videoReady ? "opacity-100" : "opacity-0"}`}
+              style={{ mixBlendMode: "screen" }}
             />
           </div>
         </div>

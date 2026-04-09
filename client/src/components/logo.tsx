@@ -65,14 +65,6 @@ export default function Logo({
               <source src={shieldVideoWebm} type="video/webm" />
             </video>
 
-            {/* Static PNG fallback — shown only when video cannot play (e.g. older browsers) */}
-            <img
-              src={logoImage}
-              alt="Insure-it Group Corp"
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-20 w-auto object-contain"
-              draggable={false}
-              aria-hidden="true"
-            />
           </div>
 
           {showTagline && (

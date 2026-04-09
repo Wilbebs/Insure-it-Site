@@ -257,6 +257,7 @@ function InsuranceCard({
     image: string;
     color: string;
     bgPosition?: string;
+    bgSize?: string;
   };
   index: number;
   onClick: () => void;
@@ -356,7 +357,7 @@ function InsuranceCard({
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover transition-transform duration-700 sm:group-hover:scale-110"
-        style={{ backgroundImage: `url(${type.image})`, backgroundPosition: type.bgPosition ?? "center" }}
+        style={{ backgroundImage: `url(${type.image})`, backgroundPosition: type.bgPosition ?? "center", backgroundSize: type.bgSize ?? "cover" }}
       />
 
       {/* Base Gradient Overlay */}
@@ -758,7 +759,7 @@ export default function Landing() {
       image:
         "/images/business_card.webp",
       color: "violet",
-      bgPosition: "center 18%",
+      bgPosition: "center 28%",
     },
     {
       icon: <HeartPulse className="w-10 h-10" />,
@@ -768,7 +769,8 @@ export default function Landing() {
       image:
         "/images/health_card.webp",
       color: "red",
-      bgPosition: "center 22%",
+      bgPosition: "40% 22%",
+      bgSize: "112% auto",
     },
   ];
 

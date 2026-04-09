@@ -47,8 +47,8 @@ export default function Logo({
             src="/shield_logo_mobile.webp"
             alt="Insure-it Group Corp"
             className="w-full h-auto object-contain"
-            width={320}
-            height={118}
+            width={265}
+            height={101}
             fetchPriority="high"
             draggable={false}
           />

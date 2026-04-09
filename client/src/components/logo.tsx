@@ -41,10 +41,10 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: static PNG only — tagline is rendered in landing.tsx below the logo */}
+        {/* Mobile: animated WebP (transparent background, ~190KB) — same position as static PNG */}
         <div className="md:hidden flex flex-col items-center">
           <img
-            src={logoImage}
+            src="/shield_logo_mobile.webp"
             alt="Insure-it Group Corp"
             className="h-28 sm:h-32 w-auto object-contain"
             draggable={false}

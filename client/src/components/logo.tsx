@@ -21,6 +21,7 @@ export default function Logo({
 }: LogoProps) {
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
+  const [animReady, setAnimReady] = useState(false);
 
   useEffect(() => {
     if (showTagline && size === "large") {
@@ -37,21 +38,39 @@ export default function Logo({
     }
   }, [showTagline, size]);
 
+  useEffect(() => {
+    if (size !== "large") return;
+    const img = new window.Image();
+    img.onload = () => setAnimReady(true);
+    img.src = "/shield_logo_mobile.webp";
+  }, [size]);
+
   if (size === "large") {
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: animated WebP (transparent background, ~190KB) — fills card width */}
+        {/* Mobile: static logo loads first (LCP), animated WebP fades in once downloaded */}
         <div className="md:hidden w-full flex flex-col items-center">
-          <img
-            src="/shield_logo_mobile.webp"
-            alt="Insure-it Group Corp"
-            className="w-full h-auto object-contain"
-            width={360}
-            height={137}
-            fetchPriority="high"
-            draggable={false}
-          />
+          <div className="relative w-full" style={{ aspectRatio: "360/137" }}>
+            <img
+              src="/images/insure_it_logo.webp"
+              alt="Insure-it Group Corp"
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-0" : "opacity-100"}`}
+              width={360}
+              height={137}
+              fetchPriority="high"
+              draggable={false}
+            />
+            <img
+              src="/shield_logo_mobile.webp"
+              alt="Insure-it Group Corp"
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-100" : "opacity-0"}`}
+              width={360}
+              height={137}
+              draggable={false}
+              aria-hidden={!animReady}
+            />
+          </div>
         </div>
 
         {/* Desktop: absolute + scale crops all 4 sides of transparent video padding */}

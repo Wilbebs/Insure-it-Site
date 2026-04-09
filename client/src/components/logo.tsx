@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 const logoImage = "/images/insure_it_logo.webp";
 
-const shieldVideoWebm = "/shield_animation.webm";
-const shieldVideoMp4 = "/shield_animation.mp4";
+const shieldVideo = "/shield_animation.webm";
 
 interface LogoProps {
   className?: string;
@@ -42,13 +41,19 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Shield animation — all screen sizes. Container clips the video vertically;
-            overflow-hidden clips it horizontally on narrow mobile screens. */}
-        <div className="flex flex-col items-center w-full">
-          <div
-            className="relative h-[130px] md:h-[155px] w-full overflow-hidden mx-auto"
-            style={{ marginTop: "-5px" }}
-          >
+        {/* Mobile: static PNG only — tagline is rendered in landing.tsx below the logo */}
+        <div className="md:hidden flex flex-col items-center">
+          <img
+            src={logoImage}
+            alt="Insure-it Group Corp"
+            className="h-28 sm:h-32 w-auto object-contain"
+            draggable={false}
+          />
+        </div>
+
+        {/* Desktop: absolute + scale crops all 4 sides of transparent video padding */}
+        <div className="hidden md:flex md:flex-col md:items-center w-full">
+          <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
             <video
               autoPlay
               muted
@@ -58,15 +63,11 @@ export default function Logo({
                 top: "-57px",
                 transform: "translateX(-50%) scale(1.55)",
                 transformOrigin: "center center",
-                mixBlendMode: "screen",
               }}
             >
-              <source src={shieldVideoMp4} type="video/mp4" />
-              <source src={shieldVideoWebm} type="video/webm" />
+              <source src={shieldVideo} type="video/webm" />
             </video>
-
           </div>
-
           {showTagline && (
             <p className="mt-2 text-xl md:text-2xl font-semibold italic tagline-shimmer select-none">
               {taglineText}

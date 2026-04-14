@@ -1311,7 +1311,6 @@ export default function Landing() {
           backgroundImage: highFiveVisible ? `url(${highFiveImg})` : undefined,
           backgroundSize: "cover",
           backgroundPosition: "center 20%",
-          backgroundAttachment: "fixed",
         }}
       >
         <div className="absolute inset-0 bg-slate-900/40 dark:bg-slate-900/50" />

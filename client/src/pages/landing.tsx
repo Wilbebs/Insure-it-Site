@@ -554,6 +554,7 @@ export default function Landing() {
   const [addressCopied, setAddressCopied] = useState(false);
   // const [shieldSweeping, setShieldSweeping] = useState(false); // SHIELD — uncomment to restore
   const highFiveRef = useRef<HTMLDivElement>(null);
+  const highFiveBgRef = useRef<HTMLDivElement>(null);
   const [highFiveVisible, setHighFiveVisible] = useState(false);
   const insuranceSectionRef = useRef<HTMLElement>(null);
   const [carAnimActive, setCarAnimActive] = useState(false);
@@ -775,6 +776,18 @@ export default function Landing() {
       const y = window.scrollY;
       if (y > 200) hasScrolledDown.current = true;
       setScrollY(y);
+
+      // Parallax: directly mutate DOM to avoid re-render lag
+      const section = highFiveRef.current;
+      const bg = highFiveBgRef.current;
+      if (section && bg) {
+        const rect = section.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const progress = (vh - rect.top) / (vh + rect.height);
+        const clamped = Math.max(0, Math.min(1, progress));
+        const offset = (clamped - 0.5) * 60;
+        bg.style.transform = `translateY(${offset}px)`;
+      }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
@@ -1304,15 +1317,20 @@ export default function Landing() {
       </div>
 
       {/* Testimonials Section — team high-five parallax background */}
-      <div
-        ref={highFiveRef}
-        className="relative overflow-hidden"
-        style={{
-          backgroundImage: highFiveVisible ? `url(${highFiveImg})` : undefined,
-          backgroundSize: "cover",
-          backgroundPosition: "center 20%",
-        }}
-      >
+      <div ref={highFiveRef} className="relative overflow-hidden">
+        {/* Parallax bg layer — oversized vertically so it can slide without gaps */}
+        <div
+          ref={highFiveBgRef}
+          className="absolute left-0 right-0 pointer-events-none"
+          style={{
+            top: "-10%",
+            bottom: "-10%",
+            backgroundImage: highFiveVisible ? `url(${highFiveImg})` : undefined,
+            backgroundSize: "cover",
+            backgroundPosition: "center 20%",
+            willChange: "transform",
+          }}
+        />
         <div className="absolute inset-0 bg-slate-900/40 dark:bg-slate-900/50" />
         <section className="pt-[20px] pb-6 relative z-10">
           <ScaledContainer desktopWidth={640}>

@@ -778,12 +778,11 @@ export default function Landing() {
       setScrollY(y);
 
       // JS parallax — Safari-safe (no background-attachment:fixed)
+      // Background moves at 25% of scroll speed → strong parallax drift
       const section = highFiveRef.current;
       const bg = highFiveBgRef.current;
       if (section && bg) {
-        const rect = section.getBoundingClientRect();
-        const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-        const offset = (Math.max(0, Math.min(1, progress)) - 0.5) * 60;
+        const offset = -section.getBoundingClientRect().top * 0.25;
         bg.style.transform = `translateY(${offset}px)`;
       }
     };
@@ -1324,8 +1323,8 @@ export default function Landing() {
           ref={highFiveBgRef}
           className="absolute left-0 right-0 pointer-events-none"
           style={{
-            top: "-10%",
-            bottom: "-10%",
+            top: "-30%",
+            bottom: "-30%",
             backgroundImage: highFiveVisible ? `url(${highFiveImg})` : undefined,
             backgroundSize: "cover",
             backgroundPosition: "center 20%",

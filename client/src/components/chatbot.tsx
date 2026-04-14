@@ -709,7 +709,7 @@ export default function ChatBot() {
 
   const currentGroup = getCurrentGroup();
   const progressPercent = (() => {
-    if (!convState.policyType) return 0;
+    if (!convState.policyTypes) return 0;
     const totalGroups = getTotalGroupCount();
     if (totalGroups === 0) return 50;
     const completedGroups = getCompletedGroupCount();

@@ -92,11 +92,13 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <Providers>
+          {children}
+        </Providers>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Providers>{children}</Providers>
       </body>
     </html>
   );

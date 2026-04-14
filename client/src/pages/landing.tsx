@@ -314,13 +314,7 @@ function InsuranceCard({
       ? (carAnimationActive ? "animate-car-crash-loop" : "")
       : iconAnimations[type.color as keyof typeof iconAnimations] || "";
 
-  const scrimClass =
-    type.color === "sky"    ? "from-black/48" :
-    type.color === "teal"   ? "from-black/52" :
-    type.color === "indigo" ? "from-black/45" :
-    type.color === "violet" ? "from-black/48" :
-    type.color === "red"    ? "from-black/48" :
-                              "from-black/48";
+  const scrimClass = "from-black/65 via-black/30";
 
   const dynamicGradientStyle = isHovered
     ? {

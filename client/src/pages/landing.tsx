@@ -782,7 +782,7 @@ export default function Landing() {
       const section = highFiveRef.current;
       const bg = highFiveBgRef.current;
       if (section && bg) {
-        const offset = -section.getBoundingClientRect().top * 0.25;
+        const offset = -section.getBoundingClientRect().top * 0.4;
         bg.style.transform = `translateY(${offset}px)`;
       }
     };

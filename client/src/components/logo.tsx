@@ -4,6 +4,21 @@ import { useState, useEffect, useRef } from "react";
 const logoImage    = "/images/insure_it_logo.webp";
 const shieldVideo  = "/shield_animation.webm";
 
+// insure_it_logo.webp is 4224×1444px.
+// At RENDER_W=1100px: scale=0.2604, imgH=376px.
+// Logo content occupies y=26–316px (height≈290px) and x=22–1082px (width≈1060px).
+// Container height=290px with top=-26px reveals the full logo, nothing more.
+// The card's overflow-hidden clips the ±270px horizontal bleed on each side cleanly.
+const RENDER_W   = 1100;   // rendered image width (px)
+const LOGO_TOP   = 26;     // rendered y where logo content starts (px) — clip above this
+const LOGO_H     = 290;    // rendered logo content height (px)
+
+// shield_animation.webm is 1920×1080px.
+// Logo lives at x=466-1423, y=367-499 (132px tall).
+// At VID_W=4218px: scale=2.197, logo renders 290px tall starting at vidY=806px.
+const VID_W      = 4218;
+const VID_TOP    = 806;    // rendered y where video logo starts (px)
+
 interface LogoProps {
   className?: string;
   imgClassName?: string;
@@ -38,7 +53,6 @@ export default function Logo({
     }
   }, [showTagline, size]);
 
-  // Lazy-load WebM shield animation after window.onload
   useEffect(() => {
     if (size !== "large") return;
     const video = videoRef.current;
@@ -62,22 +76,39 @@ export default function Logo({
   if (size === "large") {
     return (
       <div className={`flex flex-col items-center ${className}`}>
-        <div className="relative w-full">
-          {/* Static logo — always present, fades out when animation ready */}
+        {/* Overflow-hidden crop window — reveals only the logo content area */}
+        <div
+          className="relative w-full overflow-hidden"
+          style={{ height: `${LOGO_H}px` }}
+        >
+          {/* Static logo: rendered at RENDER_W wide, shifted up so content starts at y=0 */}
           <img
             src={logoImage}
             alt="Insure-it Group Corp"
-            className={`w-full sm:max-w-[380px] sm:mx-auto h-auto block pointer-events-none select-none transition-opacity duration-500 ${videoReady ? "opacity-0" : "opacity-100"}`}
             fetchPriority="high"
             draggable={false}
+            className={`absolute pointer-events-none select-none transition-opacity duration-500 ${videoReady ? "opacity-0" : "opacity-100"}`}
+            style={{
+              width:     `${RENDER_W}px`,
+              left:      "50%",
+              top:       `-${LOGO_TOP}px`,
+              transform: "translateX(-50%)",
+            }}
           />
-          {/* Animated overlay — fades in once the WebM can play */}
+
+          {/* Animated WebM — same crop window, lazy-loads after window.onload */}
           <video
             ref={videoRef}
             autoPlay
             muted
             playsInline
-            className={`absolute inset-0 w-full sm:max-w-[380px] sm:mx-auto h-full object-contain pointer-events-none transition-opacity duration-500 ${videoReady ? "opacity-100" : "opacity-0"}`}
+            className={`absolute pointer-events-none transition-opacity duration-500 ${videoReady ? "opacity-100" : "opacity-0"}`}
+            style={{
+              width:     `${VID_W}px`,
+              left:      "50%",
+              top:       `-${VID_TOP}px`,
+              transform: "translateX(-50%)",
+            }}
           />
         </div>
 

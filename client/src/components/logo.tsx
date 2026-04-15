@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-const logoImage = "/images/insure_it_logo.webp";
+const logoImage = "/images/staticinsureitlogo.webp";
 
 const shieldVideo = "/shield_animation.webm";
-const shieldStatic = "/shield_animation_static.webp";
+const shieldStatic = "/images/staticinsureitlogo.webp";
 
 interface LogoProps {
   className?: string;
@@ -67,7 +67,7 @@ export default function Logo({
         <div className="md:hidden w-full flex flex-col items-center">
           <div className="relative w-full" style={{ aspectRatio: "450/121" }}>
             <img
-              src="/shield_logo_static.webp"
+              src="/images/staticinsureitlogo.webp"
               alt="Insure-it Group Corp"
               className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-0" : "opacity-100"}`}
               width={450}
@@ -76,7 +76,7 @@ export default function Logo({
               draggable={false}
             />
             <img
-              src="/shield_logo_mobile.webp"
+              src="/images/staticinsureitlogo.webp"
               alt="Insure-it Group Corp"
               className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-100" : "opacity-0"}`}
               width={450}

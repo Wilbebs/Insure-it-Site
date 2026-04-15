@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { useState, useEffect } from "react";
-// import Logo from "./logo";
+import Logo from "./logo";
 import { useTranslation } from "./theme-provider";
 const usaFlagIcon = "/images/usa_flag.png";
 const spainFlagIcon = "/images/spain_flag.png";
@@ -46,7 +46,7 @@ export default function Navigation() {
         <div className="flex items-center justify-between w-full gap-12">
           {/* Left side: Logo */}
           <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative flex-shrink-0" data-testid="link-home">
-            {/* <Logo /> */}
+            <Logo />
             <div className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full transition-all duration-500 ${
               logoHighlight ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-3/4 group-hover:opacity-100'
             }`}></div>
@@ -154,7 +154,7 @@ export default function Navigation() {
         <div className="flex items-center justify-between gap-1.5">
           {/* Logo */}
           <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative flex-shrink-0" data-testid="link-home-mobile">
-            {/* <Logo imgClassName={isScrolled ? "h-6" : "h-9"} /> */}
+            <Logo imgClassName={isScrolled ? "h-6" : "h-9"} />
             <div className={`absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 h-0.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full transition-all duration-500 ${
               logoHighlight ? 'w-full opacity-100' : 'w-0 opacity-0'
             }`}></div>

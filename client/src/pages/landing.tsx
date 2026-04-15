@@ -1022,12 +1022,7 @@ export default function Landing() {
                     </p>
 
                     {/* CTAs — side by side */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                      transition={{ duration: 0.3, delay: 0 }}
-                      className="relative z-20 flex flex-col sm:flex-row items-stretch gap-2.5 sm:gap-3 w-full"
-                    >
+                    <div className="relative z-20 flex flex-col sm:flex-row items-stretch gap-2.5 sm:gap-3 w-full">
                       <button
                         onClick={() => setQuoteModalOpen(true)}
                         className="animated-border-btn group relative overflow-hidden text-primary-foreground flex-1 py-3 sm:py-3.5 rounded-xl font-semibold text-base sm:text-lg shadow-xl shadow-primary/25 transition-all duration-300 sm:hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] select-none"
@@ -1056,7 +1051,7 @@ export default function Landing() {
                           </span>
                         </span>
                       </a>
-                    </motion.div>
+                    </div>
                   </div>
                 </div>
               </motion.div>

@@ -107,6 +107,23 @@ This is a simplified, professional insurance website built with React and Expres
 - **lucide-react**: Icons
 - **react-icons**: Social media icons (FaLinkedin, FaFacebook, FaInstagram)
 
+## Safari / iOS Compatibility Notes
+
+### Parallax Backgrounds (Safari-safe)
+`background-attachment: fixed` is **broken on Safari/iOS** — the background image simply doesn't render when used inside an `overflow: hidden` container. This affects both the testimonials high-five image (landing page) and the About page hero background.
+
+**Fix:** Replaced CSS `background-image` + `background-attachment: fixed` with an actual `<img>` element using transform-based parallax:
+- Image is **130% tall** with `top: -15%`, giving 30% extra vertical room to shift
+- On scroll, `translateY()` moves the image based on scroll position relative to the section
+- `will-change-transform` enables GPU acceleration for smooth performance
+- Parallax strength: landing testimonials = 80px max shift, about hero = 100px max shift
+- Formula: `translateY(((scrollY - (sectionOffsetTop - viewportHeight)) / (sectionHeight + viewportHeight)) * strength)`
+
+This approach works on all browsers including Safari, Chrome, Firefox, and all iOS/Android devices.
+
+### VP8 Alpha WebM (Shield Animation)
+The shield animation WebM uses VP8 with a secondary alpha stream. When extracting frames with ffmpeg, you **must** use `-c:v libvpx` — the default decoder silently drops the alpha channel, producing opaque black backgrounds. See Logo section above for details.
+
 ## Design Guidelines
 
 See `design_guidelines.md` for detailed design specifications including:

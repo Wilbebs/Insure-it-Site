@@ -143,7 +143,7 @@ export default function About() {
             transform: `translateY(${
               heroRef.current
                 ? ((scrollY - (heroRef.current.offsetTop - window.innerHeight)) /
-                    (heroRef.current.offsetHeight + window.innerHeight)) * 50
+                    (heroRef.current.offsetHeight + window.innerHeight)) * 100
                 : 0
             }px)`,
           }}

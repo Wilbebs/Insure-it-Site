@@ -1316,7 +1316,7 @@ export default function Landing() {
               transform: `translateY(${
                 highFiveRef.current
                   ? ((scrollY - (highFiveRef.current.offsetTop - window.innerHeight)) /
-                      (highFiveRef.current.offsetHeight + window.innerHeight)) * 40
+                      (highFiveRef.current.offsetHeight + window.innerHeight)) * 80
                   : 0
               }px)`,
             }}

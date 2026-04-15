@@ -7,13 +7,13 @@ const shieldStatic = "/shield_animation_static.webp";
 // Mobile: same shield_animation.webm, cropped via overflow:hidden to logo region only
 const mobileStatic = "/shield_logo_static.webp";
 
-// Logo content lives at x=463–1501, y=268–672 in the 1920×1080 frame.
-// At video rendered width=600px:
-//   - Logo x: 144.7–469.1px → fills exactly 320px container, no black on sides
-//   - Logo y: 83.8–210px  → container h=126px, top=-84px clips top & bottom black
+// Logo content lives at x=463–1501, y=325–575 in the 1920×1080 frame (verified by sampling).
+// At video rendered width=600px (height=337.5px):
+//   - Logo x: 144.7–469.1px → fills ~324px (slightly wider than 320px mobile container)
+//   - Logo y: 101.6–179.7px → 78px tall; container 90px, top=-96 centers it
 const MOBILE_VIDEO_W = 600;   // rendered video width (px)
-const MOBILE_CROP_H  = 126;   // container height that shows only the logo strip
-const MOBILE_TOP     = -84;   // negative top to skip the black above the logo
+const MOBILE_CROP_H  = 90;    // container height ≈ same aspect as original 992/280 animation
+const MOBILE_TOP     = -96;   // centers logo (y≈140.5) in the 90px container
 
 interface LogoProps {
   className?: string;

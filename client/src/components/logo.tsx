@@ -55,7 +55,7 @@ export default function Logo({
     const canvas = canvasRef.current;
     if (!video || !canvas) return;
 
-    const W = 496, H = 140;
+    const W = 992, H = 280;
     canvas.width  = W;
     canvas.height = H;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });

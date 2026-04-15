@@ -3,9 +3,11 @@
 import { useState, useEffect, useRef } from "react";
 const logoImage = "/images/insure_it_logo.webp";
 
-const shieldVideo = "/shield_animation.webm";
-const shieldVideoMobile = "/shield_animation_mobile.mp4";
-const shieldStatic = "/shield_animation_static.webp";
+const shieldVideo        = "/shield_animation.webm";
+const shieldStatic       = "/shield_animation_static.webp";
+const mobileVideoWebm    = "/insureit_logo_mobile.webm";
+const mobileVideoMp4     = "/insureit_animation.mp4";
+const mobileStatic       = "/insureit_logo_mobile_static.webp";
 
 interface LogoProps {
   className?: string;
@@ -26,7 +28,7 @@ export default function Logo({
   const [desktopVideoReady, setDesktopVideoReady] = useState(false);
   const [mobileVideoReady, setMobileVideoReady] = useState(false);
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
-  const mobileVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef  = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (showTagline && size === "large") {
@@ -43,37 +45,78 @@ export default function Logo({
     }
   }, [showTagline, size]);
 
+  // Mobile: lazy-load after window.onload (same timing as hero video)
+  // Uses WebM (1.3MB, best quality) with MP4 fallback (123KB, Safari <14.1)
   useEffect(() => {
     if (size !== "large") return;
     const video = mobileVideoRef.current;
     if (!video) return;
-    const onCanPlay = () => setMobileVideoReady(true);
-    video.addEventListener("canplay", onCanPlay);
-    video.src = shieldVideoMobile;
-    video.load();
-    return () => video.removeEventListener("canplay", onCanPlay);
+
+    const loadVideo = () => {
+      const onCanPlay = () => setMobileVideoReady(true);
+      video.addEventListener("canplay", onCanPlay);
+
+      // Dynamically add sources so nothing downloads until now
+      const webmSrc = document.createElement("source");
+      webmSrc.src  = mobileVideoWebm;
+      webmSrc.type = "video/webm";
+      const mp4Src = document.createElement("source");
+      mp4Src.src   = mobileVideoMp4;
+      mp4Src.type  = "video/mp4";
+      video.appendChild(webmSrc);
+      video.appendChild(mp4Src);
+      video.load();
+
+      return () => video.removeEventListener("canplay", onCanPlay);
+    };
+
+    if (document.readyState === "complete") {
+      return loadVideo();
+    }
+    let cleanup: (() => void) | undefined;
+    const onLoad = () => { cleanup = loadVideo(); };
+    window.addEventListener("load", onLoad);
+    return () => {
+      window.removeEventListener("load", onLoad);
+      cleanup?.();
+    };
   }, [size]);
 
+  // Desktop: lazy-load WebM after window.onload
   useEffect(() => {
     if (size !== "large") return;
     const video = desktopVideoRef.current;
     if (!video) return;
-    const onCanPlay = () => setDesktopVideoReady(true);
-    video.addEventListener("canplay", onCanPlay);
-    video.src = shieldVideo;
-    video.load();
-    return () => video.removeEventListener("canplay", onCanPlay);
+
+    const loadVideo = () => {
+      const onCanPlay = () => setDesktopVideoReady(true);
+      video.addEventListener("canplay", onCanPlay);
+      video.src = shieldVideo;
+      video.load();
+      return () => video.removeEventListener("canplay", onCanPlay);
+    };
+
+    if (document.readyState === "complete") {
+      return loadVideo();
+    }
+    let cleanup: (() => void) | undefined;
+    const onLoad = () => { cleanup = loadVideo(); };
+    window.addEventListener("load", onLoad);
+    return () => {
+      window.removeEventListener("load", onLoad);
+      cleanup?.();
+    };
   }, [size]);
 
   if (size === "large") {
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: static placeholder loads first, MP4 fades in lazily */}
+        {/* Mobile: static last-frame placeholder, video fades in after page load */}
         <div className="md:hidden w-full flex flex-col items-center">
           <div className="relative w-full" style={{ aspectRatio: "450/121" }}>
             <img
-              src="/shield_logo_static.webp"
+              src={mobileStatic}
               alt="Insure-it Group Corp"
               className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
               width={450}
@@ -92,7 +135,7 @@ export default function Logo({
           </div>
         </div>
 
-        {/* Desktop: static last-frame shows instantly, WebM fades in lazily */}
+        {/* Desktop: static last-frame shows instantly, WebM fades in after page load */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
           <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
             <img

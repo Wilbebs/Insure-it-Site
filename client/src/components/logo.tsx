@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 const logoImage = "/images/staticinsureitlogo.webp";
 
 const shieldVideo = "/shield_animation.webm";
-const shieldStatic = "/images/shield_lastframe.webp";
+const shieldStatic = "/images/staticinsureitlogo_padded.webp";
 
 interface LogoProps {
   className?: string;
@@ -74,7 +74,12 @@ export default function Logo({
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+              style={{
+                top: "-57px",
+                transform: "translateX(-50%) scale(1.55)",
+                transformOrigin: "center center",
+              }}
               fetchPriority="high"
               draggable={false}
             />
@@ -99,7 +104,12 @@ export default function Logo({
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
+              style={{
+                top: "-57px",
+                transform: "translateX(-50%) scale(1.55)",
+                transformOrigin: "center center",
+              }}
               fetchPriority="high"
               draggable={false}
             />

@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 const logoImage    = "/images/insure_it_logo.webp";
 const shieldVideo  = "/shield_animation.webm";
-const shieldStatic = "/shield_animation_static.webp";
 
 interface LogoProps {
   className?: string;
@@ -21,8 +20,8 @@ export default function Logo({
 }: LogoProps) {
   const [taglineText, setTaglineText]             = useState("");
   const fullTagline                               = "Life's Uncertain. Your Coverage Isn't.";
-  const [desktopVideoReady, setDesktopVideoReady] = useState(false);
-  const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const [videoReady, setVideoReady] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (showTagline && size === "large") {
@@ -42,11 +41,11 @@ export default function Logo({
   // Lazy-load WebM shield animation after window.onload
   useEffect(() => {
     if (size !== "large") return;
-    const video = desktopVideoRef.current;
+    const video = videoRef.current;
     if (!video) return;
 
     const loadVideo = () => {
-      const onCanPlay = () => setDesktopVideoReady(true);
+      const onCanPlay = () => setVideoReady(true);
       video.addEventListener("canplay", onCanPlay);
       video.src = shieldVideo;
       video.load();
@@ -61,51 +60,24 @@ export default function Logo({
   }, [size]);
 
   if (size === "large") {
-    /*
-      Logo crop strategy — pixel-exact measurements:
-      - shield_animation_static.webp is 1920×1080 ARGB (transparent background).
-      - Opaque logo content: x=466–1439 (width≈974px), y=367–499 (height=132px), center-x≈934.
-      - background-size=1000px (scale=0.521x):
-          bg height = 562.5px
-          logo top  = 367 × (562.5/1080) = 191px
-          logo bottom = 499 × (562.5/1080) = 260px  →  logo height ≈ 69px
-          logo width = 974 × 0.521 = 508px  (fits desktop card ~520px content area)
-      - background-position: center -191px → shows bg rows 191–261, covers full logo.
-      - Fixed px values → identical crop on every screen width.
-    */
     return (
       <div className={`flex flex-col items-center ${className}`}>
-
-        <div
-          className="relative w-full overflow-hidden"
-          style={{
-            height: "70px",
-            marginTop: "-5px",
-          }}
-        >
-          {/* Static placeholder — shown until the video is ready */}
-          <div
-            className={`absolute inset-0 transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
-            style={{
-              backgroundImage: `url(${shieldStatic})`,
-              backgroundSize: "1000px auto",
-              backgroundPosition: "center -191px",
-              backgroundRepeat: "no-repeat",
-            }}
+        <div className="relative w-full">
+          {/* Static logo — always present, fades out when animation ready */}
+          <img
+            src={logoImage}
+            alt="Insure-it Group Corp"
+            className={`w-full sm:max-w-[380px] sm:mx-auto h-auto block pointer-events-none select-none transition-opacity duration-500 ${videoReady ? "opacity-0" : "opacity-100"}`}
+            fetchPriority="high"
+            draggable={false}
           />
-
-          {/* Animated video — fades in once it can play */}
+          {/* Animated overlay — fades in once the WebM can play */}
           <video
-            ref={desktopVideoRef}
+            ref={videoRef}
             autoPlay
             muted
             playsInline
-            className={`absolute left-1/2 pointer-events-none z-10 transition-opacity duration-500 ${desktopVideoReady ? "opacity-100" : "opacity-0"}`}
-            style={{
-              width: "1000px",
-              top: "-191px",
-              transform: "translateX(-50%)",
-            }}
+            className={`absolute inset-0 w-full sm:max-w-[380px] sm:mx-auto h-full object-contain pointer-events-none transition-opacity duration-500 ${videoReady ? "opacity-100" : "opacity-0"}`}
           />
         </div>
 
@@ -114,7 +86,6 @@ export default function Logo({
             {taglineText}
           </p>
         )}
-
       </div>
     );
   }

@@ -73,7 +73,7 @@ app.use((req, res, next) => {
 
   const startListening = (retriesLeft = 8, delayMs = 1500): void => {
     server.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
-      log(`serving on port ${port}`);
+      log(`serving on port ${port} (${dev ? 'development' : 'production'})`);
     });
     server.once('error', (err: any) => {
       if (err.code === 'EADDRINUSE' && retriesLeft > 0) {

@@ -86,9 +86,14 @@ This is a simplified, professional insurance website built with React and Expres
 - `GET /api/videos/herovid1.mp4` - Stream hero background video
 
 ### Build & Deployment
-- **Dev**: `npm run dev` → `tsx server/index.ts` starts Express + Next.js dev server on port 5000
-- **Build**: `next build` generates static pages in `.next/`
-- **Start**: `NODE_ENV=production tsx server/index.ts` serves the built Next.js app via custom Express server
+- **Dev**: `npm run dev` → `cross-env NODE_ENV=development tsx server/index.ts` starts Express + Next.js dev server on port 5000
+- **Build**: `npm run build` → `next build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist` — builds Next.js static pages into `.next/` and bundles the Express server into `dist/index.js`. The `--format=esm` flag is **required** because `package.json` has `"type": "module"`.
+- **Start**: `npm start` → `NODE_ENV=production node dist/index.js` — serves the built Next.js app via the bundled Express server
+
+### Production (EC2) Notes
+- **Port**: Server reads `process.env.PORT`, defaulting to `5000` if unset. Nginx reverse-proxies to port 5000 — if the server listens elsewhere, Nginx returns 502.
+- **Static assets**: `app.all('*', handle)` delegates to Next.js's request handler, which automatically serves `.next/static/` files. No extra Express static middleware needed.
+- **Deploy steps**: `git pull` → `npm run build` → `pm2 restart insure-it-prod`
 
 ## External Dependencies
 

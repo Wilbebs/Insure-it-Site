@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 const logoImage = "/images/staticinsureitlogo.webp";
 
 const shieldVideo = "/shield_animation.webm";
-const shieldStatic = "/images/shield_lastframe.png";
+const shieldStatic = "/images/staticinsureitlogo.webp";
 
 interface LogoProps {
   className?: string;
@@ -68,9 +68,9 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: static logo shows instantly, WebM fades in lazily */}
+        {/* Mobile: static logo full-size, WebM fades in with same zoom/crop as desktop */}
         <div className="md:hidden w-full flex flex-col items-center">
-          <div className="relative w-full" style={{ aspectRatio: "1920/1080" }}>
+          <div className="relative h-[90px] w-full overflow-hidden">
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
@@ -83,23 +83,23 @@ export default function Logo({
               autoPlay
               muted
               playsInline
-              className={`absolute inset-0 w-full h-full object-contain pointer-events-none z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
-            />
-          </div>
-        </div>
-
-        {/* Desktop: static logo shows instantly, WebM fades in lazily with crop */}
-        <div className="hidden md:flex md:flex-col md:items-center w-full">
-          <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
-            <img
-              src={shieldStatic}
-              alt="Insure-it Group Corp"
-              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
               style={{
                 top: "-57px",
                 transform: "translateX(-50%) scale(1.55)",
                 transformOrigin: "center center",
               }}
+            />
+          </div>
+        </div>
+
+        {/* Desktop: static logo full-size via object-contain, WebM fades in with zoom/crop */}
+        <div className="hidden md:flex md:flex-col md:items-center w-full">
+          <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
+            <img
+              src={shieldStatic}
+              alt="Insure-it Group Corp"
+              className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
               fetchPriority="high"
               draggable={false}
             />

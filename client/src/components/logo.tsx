@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 const logoImage = "/images/staticinsureitlogo.webp";
 
 const shieldVideo = "/shield_animation.webm";
-const shieldStatic = "/images/staticinsureitlogo.webp";
+const shieldStatic = "/images/shield_lastframe.png";
 
 interface LogoProps {
   className?: string;
@@ -70,7 +70,7 @@ export default function Logo({
 
         {/* Mobile: static logo shows instantly, WebM fades in lazily */}
         <div className="md:hidden w-full flex flex-col items-center">
-          <div className="relative w-full" style={{ aspectRatio: "4224/1444" }}>
+          <div className="relative w-full" style={{ aspectRatio: "1920/1080" }}>
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
@@ -94,7 +94,12 @@ export default function Logo({
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
+              style={{
+                top: "-57px",
+                transform: "translateX(-50%) scale(1.55)",
+                transformOrigin: "center center",
+              }}
               fetchPriority="high"
               draggable={false}
             />

@@ -1023,10 +1023,10 @@ export default function Landing() {
 
                     {/* CTAs — side by side */}
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                      transition={{ duration: 0.8, delay: 0.5 }}
-                      className="relative flex flex-col sm:flex-row items-stretch gap-2.5 sm:gap-3 w-full"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={heroVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                      transition={{ duration: 0.3, delay: 0 }}
+                      className="relative z-20 flex flex-col sm:flex-row items-stretch gap-2.5 sm:gap-3 w-full"
                     >
                       <button
                         onClick={() => setQuoteModalOpen(true)}

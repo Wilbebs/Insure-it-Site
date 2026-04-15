@@ -5,9 +5,8 @@ const logoImage = "/images/insure_it_logo.webp";
 
 const shieldVideo        = "/shield_animation.webm";
 const shieldStatic       = "/shield_animation_static.webp";
-const mobileVideoWebm    = "/insureit_logo_mobile_cropped.webm";
-const mobileVideoMp4     = "/insureit_logo_mobile_cropped.mp4";
-const mobileStatic       = "/insureit_logo_mobile_static.webp";
+const mobileVideoSrc     = "/shield_animation_mobile.mp4";
+const mobileStatic       = "/shield_logo_static.webp";
 
 interface LogoProps {
   className?: string;
@@ -46,7 +45,6 @@ export default function Logo({
   }, [showTagline, size]);
 
   // Mobile: lazy-load after window.onload (same timing as hero video)
-  // Uses WebM (1.3MB, best quality) with MP4 fallback (123KB, Safari <14.1)
   useEffect(() => {
     if (size !== "large") return;
     const video = mobileVideoRef.current;
@@ -55,18 +53,8 @@ export default function Logo({
     const loadVideo = () => {
       const onCanPlay = () => setMobileVideoReady(true);
       video.addEventListener("canplay", onCanPlay);
-
-      // Dynamically add sources so nothing downloads until now
-      const webmSrc = document.createElement("source");
-      webmSrc.src  = mobileVideoWebm;
-      webmSrc.type = "video/webm";
-      const mp4Src = document.createElement("source");
-      mp4Src.src   = mobileVideoMp4;
-      mp4Src.type  = "video/mp4";
-      video.appendChild(webmSrc);
-      video.appendChild(mp4Src);
+      video.src = mobileVideoSrc;
       video.load();
-
       return () => video.removeEventListener("canplay", onCanPlay);
     };
 
@@ -112,15 +100,15 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: pre-cropped 993×280 files — simple object-contain, no CSS tricks */}
+        {/* Mobile: transparent-bg static shows instantly, MP4 fades in after load */}
         <div className="md:hidden w-full">
-          <div className="relative w-full" style={{ aspectRatio: "993/280" }}>
+          <div className="relative w-full" style={{ aspectRatio: "450/121" }}>
             <img
               src={mobileStatic}
               alt="Insure-it Group Corp"
               className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
-              width={993}
-              height={280}
+              width={450}
+              height={121}
               fetchPriority="high"
               draggable={false}
             />

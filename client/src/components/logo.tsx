@@ -71,8 +71,8 @@ export default function Logo({
             alt="Insure-it Group Corp"
             className={`absolute left-1/2 w-[990px] h-auto pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
             style={{
-              top: "-30px",
-              transform: "translateX(-50%) scale(1.55)",
+              top: "-15px",
+              transform: "translateX(-50%) scale(1.7)",
               transformOrigin: "center center",
             }}
             width={1920}
@@ -87,8 +87,8 @@ export default function Logo({
             playsInline
             className={`absolute left-1/2 w-[990px] h-auto pointer-events-none z-10 transition-opacity duration-500 ${desktopVideoReady ? "opacity-100" : "opacity-0"}`}
             style={{
-              top: "-30px",
-              transform: "translateX(-50%) scale(1.55)",
+              top: "-15px",
+              transform: "translateX(-50%) scale(1.7)",
               transformOrigin: "center center",
             }}
           />

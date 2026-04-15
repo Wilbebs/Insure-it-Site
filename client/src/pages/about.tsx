@@ -123,16 +123,14 @@ export default function About() {
         className="relative flex items-center justify-center overflow-hidden"
         style={{ minHeight: "calc(100vh + 43px)" }}
       >
-        {/* Background Image with Parallax */}
-        <div
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: `url(${familyRiverImg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundAttachment: "fixed",
-          }}
-        ></div>
+        {/* Background Image */}
+        <img
+          src={familyRiverImg}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0"
+          loading="lazy"
+        />
 
         {/* Floating Story Window */}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-[65px] sm:pt-[50px] lg:pt-[90px] pb-24 sm:pb-22">

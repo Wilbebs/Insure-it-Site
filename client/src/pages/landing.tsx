@@ -1298,17 +1298,21 @@ export default function Landing() {
         />
       </div>
 
-      {/* Testimonials Section — team high-five parallax background */}
+      {/* Testimonials Section — team high-five background (no background-attachment:fixed — breaks Safari/iOS) */}
       <div
         ref={highFiveRef}
         className="relative overflow-hidden"
-        style={{
-          backgroundImage: highFiveVisible ? `url(${highFiveImg})` : undefined,
-          backgroundSize: "cover",
-          backgroundPosition: "center 20%",
-          backgroundAttachment: "fixed",
-        }}
       >
+        {highFiveVisible && (
+          <img
+            src={highFiveImg}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            style={{ objectPosition: "center 20%" }}
+            loading="lazy"
+          />
+        )}
         <div className="absolute inset-0 bg-slate-900/40 dark:bg-slate-900/50" />
         <section className="pt-7 pb-10 relative z-10">
           <ScaledContainer desktopWidth={640}>

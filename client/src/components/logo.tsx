@@ -113,19 +113,20 @@ export default function Logo({
       <div className={`flex flex-col items-center ${className}`}>
 
         {/* Mobile: crop-and-scale to show logo content at full card width */}
-        {/* Content bounding box in 1920×1080 frame: 993×280 starting at (463, 312) */}
-        {/* Scale factor: 1920/993 ≈ 193.6% — content fills container edge-to-edge */}
-        <div className="md:hidden w-full flex flex-col items-center">
+        {/* Logo content sits at (463,312) in a 1920×1080 frame, 993×280px */}
+        {/* Scale 193.6% to fill full width; translateY(-28.89%) = -312/1080 of own height */}
+        <div className="md:hidden w-full">
           <div className="relative w-full overflow-hidden" style={{ aspectRatio: "993/280" }}>
             <img
               src={mobileStatic}
               alt="Insure-it Group Corp"
-              className={`absolute h-auto pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`absolute pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
               style={{
                 width: "193.6%",
+                height: "auto",
                 left: "50%",
-                top: "-112%",
-                transform: "translateX(-50%)",
+                top: "0",
+                transform: "translateX(-50%) translateY(-28.89%)",
               }}
               width={1920}
               height={1080}
@@ -137,12 +138,13 @@ export default function Logo({
               autoPlay
               muted
               playsInline
-              className={`absolute h-auto pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
+              className={`absolute pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
               style={{
                 width: "193.6%",
+                height: "auto",
                 left: "50%",
-                top: "-112%",
-                transform: "translateX(-50%)",
+                top: "0",
+                transform: "translateX(-50%) translateY(-28.89%)",
               }}
               aria-hidden={!mobileVideoReady}
             />

@@ -3,7 +3,7 @@
 import { Phone, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
 import { FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
-import Logo from "./logo";
+// import Logo from "./logo";
 import { useTranslation } from "./theme-provider";
 
 interface FooterProps {
@@ -17,9 +17,9 @@ export default function Footer({ onGetQuote }: FooterProps) {
       <div className="container mx-auto px-3 sm:px-6">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-6">
           <div className="col-span-2 md:col-span-1">
-            <div className="mb-1">
+            {/* <div className="mb-1">
               <Logo imgClassName="h-7 sm:h-10" />
-            </div>
+            </div> */}
             <p className="opacity-90 leading-snug text-[10px] sm:text-xs mb-1.5 sm:mb-2">
               {t.footer.description}
             </p>

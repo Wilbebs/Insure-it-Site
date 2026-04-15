@@ -31,7 +31,7 @@ import {
   CheckCircle2,
   Sparkles,
 } from "lucide-react";
-import Logo from "@/components/logo";
+// import Logo from "@/components/logo";
 import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef, useCallback, type RefObject } from "react";
 import SectionDivider from "@/components/section-divider";
@@ -1014,7 +1014,7 @@ export default function Landing() {
                   {/* Window body */}
                   <div className="px-6 sm:px-10 py-4 sm:py-5 flex flex-col items-center gap-3 sm:gap-3.5">
                     {/* Logo — animated video on desktop, static PNG on mobile */}
-                    <Logo size="large" showTagline={false} className="w-full" />
+                    {/* <Logo size="large" showTagline={false} className="w-full" /> */}
 
                     {/* Tagline */}
                     <p className="text-sm sm:text-base font-semibold italic tagline-shimmer select-none text-center -mt-1">

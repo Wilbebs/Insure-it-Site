@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from "react";
 const logoImage    = "/images/insure_it_logo.webp";
 const shieldVideo  = "/shield_animation.webm";
 const shieldStatic = "/shield_animation_static.webp";
-// Mobile: pre-cropped to 992×280 logo region. mix-blend-mode:screen removes black bg.
-const mobileStatic = "/shield_logo_static.webp";
-const mobileVideoSrc = "/insureit_logo_mobile_cropped.webm";
+// Mobile: alpha-channel WebM (black bg keyed out with colorkey filter, yuva420p)
+const mobileStatic   = "/insureit_logo_mobile_static.webp";
+const mobileVideoSrc = "/insureit_logo_mobile_alpha.webm";
 
 interface LogoProps {
   className?: string;
@@ -90,16 +90,15 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: static transparent logo first, then animated video via screen blend */}
-        {/* mix-blend-mode:screen makes black pixels transparent — no alpha channel needed */}
+        {/* Mobile: alpha-channel WebM — black bg keyed out, true transparency */}
         <div className="md:hidden w-full" style={{ aspectRatio: "992/280" }}>
           <div className="relative w-full h-full">
             <img
               src={mobileStatic}
               alt="Insure-it Group Corp"
               className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-700 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
-              width={450}
-              height={121}
+              width={992}
+              height={280}
               fetchPriority="high"
               draggable={false}
             />
@@ -110,7 +109,6 @@ export default function Logo({
               playsInline
               loop
               className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-700 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
-              style={{ mixBlendMode: "screen" }}
               aria-hidden={!mobileVideoReady}
             />
           </div>

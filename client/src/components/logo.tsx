@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-const logoImage = "/images/insure_it_logo.webp";
-
-const shieldVideo        = "/shield_animation.webm";
-const shieldStatic       = "/shield_animation_static.webp";
-const mobileVideoSrc     = "/shield_animation_mobile.mp4";
-const mobileStatic       = "/shield_logo_static.webp";
+const logoImage    = "/images/insure_it_logo.webp";
+const shieldVideo  = "/shield_animation.webm";
+const shieldStatic = "/shield_animation_static.webp";
+const mobileStatic = "/shield_logo_static.webp";
 
 interface LogoProps {
   className?: string;
@@ -25,9 +23,7 @@ export default function Logo({
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
   const [desktopVideoReady, setDesktopVideoReady] = useState(false);
-  const [mobileVideoReady, setMobileVideoReady] = useState(false);
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
-  const mobileVideoRef  = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (showTagline && size === "large") {
@@ -43,32 +39,6 @@ export default function Logo({
       return () => clearInterval(interval);
     }
   }, [showTagline, size]);
-
-  // Mobile: lazy-load after window.onload (same timing as hero video)
-  useEffect(() => {
-    if (size !== "large") return;
-    const video = mobileVideoRef.current;
-    if (!video) return;
-
-    const loadVideo = () => {
-      const onCanPlay = () => setMobileVideoReady(true);
-      video.addEventListener("canplay", onCanPlay);
-      video.src = mobileVideoSrc;
-      video.load();
-      return () => video.removeEventListener("canplay", onCanPlay);
-    };
-
-    if (document.readyState === "complete") {
-      return loadVideo();
-    }
-    let cleanup: (() => void) | undefined;
-    const onLoad = () => { cleanup = loadVideo(); };
-    window.addEventListener("load", onLoad);
-    return () => {
-      window.removeEventListener("load", onLoad);
-      cleanup?.();
-    };
-  }, [size]);
 
   // Desktop: lazy-load WebM after window.onload
   useEffect(() => {
@@ -100,27 +70,17 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: transparent-bg static shows instantly, MP4 fades in after load */}
+        {/* Mobile: static transparent-bg logo (all available animations have opaque bg) */}
         <div className="md:hidden w-full">
-          <div className="relative w-full" style={{ aspectRatio: "450/121" }}>
-            <img
-              src={mobileStatic}
-              alt="Insure-it Group Corp"
-              className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
-              width={450}
-              height={121}
-              fetchPriority="high"
-              draggable={false}
-            />
-            <video
-              ref={mobileVideoRef}
-              autoPlay
-              muted
-              playsInline
-              className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
-              aria-hidden={!mobileVideoReady}
-            />
-          </div>
+          <img
+            src={mobileStatic}
+            alt="Insure-it Group Corp"
+            className="w-full h-auto object-contain pointer-events-none"
+            width={450}
+            height={121}
+            fetchPriority="high"
+            draggable={false}
+          />
         </div>
 
         {/* Desktop: static last-frame shows instantly, WebM fades in after page load */}

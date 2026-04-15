@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 const logoImage = "/images/staticinsureitlogo.webp";
 
 const shieldVideo = "/shield_animation.webm";
+const shieldStatic = "/images/shield_lastframe.webp";
 
 interface LogoProps {
   className?: string;
@@ -63,6 +64,13 @@ export default function Logo({
     return () => video.removeEventListener("canplay", onCanPlay);
   }, [size]);
 
+  const shieldCss = "absolute left-1/2 w-[990px] h-auto pointer-events-none";
+  const shieldStyle = {
+    top: "-57px",
+    transform: "translateX(-50%) scale(1.55)",
+    transformOrigin: "center center",
+  };
+
   if (size === "large") {
     return (
       <div className={`flex flex-col items-center ${className}`}>
@@ -71,9 +79,10 @@ export default function Logo({
         <div className="md:hidden w-full flex flex-col items-center">
           <div className="relative h-[90px] w-full overflow-hidden">
             <img
-              src={logoImage}
+              src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`${shieldCss} transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+              style={shieldStyle}
               fetchPriority="high"
               draggable={false}
             />
@@ -82,12 +91,8 @@ export default function Logo({
               autoPlay
               muted
               playsInline
-              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
-              style={{
-                top: "-57px",
-                transform: "translateX(-50%) scale(1.55)",
-                transformOrigin: "center center",
-              }}
+              className={`${shieldCss} z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
+              style={shieldStyle}
             />
           </div>
         </div>
@@ -96,9 +101,10 @@ export default function Logo({
         <div className="hidden md:flex md:flex-col md:items-center w-full">
           <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
             <img
-              src={logoImage}
+              src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`${shieldCss} transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
+              style={shieldStyle}
               fetchPriority="high"
               draggable={false}
             />
@@ -107,12 +113,8 @@ export default function Logo({
               autoPlay
               muted
               playsInline
-              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none z-10 transition-opacity duration-500 ${desktopVideoReady ? "opacity-100" : "opacity-0"}`}
-              style={{
-                top: "-57px",
-                transform: "translateX(-50%) scale(1.55)",
-                transformOrigin: "center center",
-              }}
+              className={`${shieldCss} z-10 transition-opacity duration-500 ${desktopVideoReady ? "opacity-100" : "opacity-0"}`}
+              style={shieldStyle}
             />
           </div>
           {showTagline && (

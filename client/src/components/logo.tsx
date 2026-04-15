@@ -124,9 +124,15 @@ export default function Logo({
       rafRef.current = requestAnimationFrame(drawFrame);
     };
 
-    video.addEventListener("play", onPlay);
+    // Off-DOM videos don't autoplay — explicitly call play() once enough data is buffered
+    const onCanPlay = () => {
+      video.play().catch(() => {/* blocked by browser policy — stay on static */});
+    };
 
-    // Defer video load until page is fully loaded for LCP optimisation
+    video.addEventListener("play", onPlay);
+    video.addEventListener("canplay", onCanPlay);
+
+    // Defer video load until page is fully loaded (LCP optimisation)
     const startLoad = () => {
       video.src = shieldVideo;
       video.load();
@@ -141,6 +147,7 @@ export default function Logo({
       running = false;
       cancelAnimationFrame(rafRef.current);
       video.removeEventListener("play", onPlay);
+      video.removeEventListener("canplay", onCanPlay);
       video.pause();
       video.src = "";
     };

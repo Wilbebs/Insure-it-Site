@@ -554,7 +554,6 @@ export default function Landing() {
   const [addressCopied, setAddressCopied] = useState(false);
   // const [shieldSweeping, setShieldSweeping] = useState(false); // SHIELD — uncomment to restore
   const highFiveRef = useRef<HTMLDivElement>(null);
-  const highFiveBgRef = useRef<HTMLDivElement>(null);
   const [highFiveVisible, setHighFiveVisible] = useState(false);
   const insuranceSectionRef = useRef<HTMLElement>(null);
   const [carAnimActive, setCarAnimActive] = useState(false);
@@ -776,15 +775,6 @@ export default function Landing() {
       const y = window.scrollY;
       if (y > 200) hasScrolledDown.current = true;
       setScrollY(y);
-
-      // JS parallax — Safari-safe (no background-attachment:fixed)
-      // Background moves at 25% of scroll speed → strong parallax drift
-      const section = highFiveRef.current;
-      const bg = highFiveBgRef.current;
-      if (section && bg) {
-        const offset = -section.getBoundingClientRect().top * 0.25;
-        bg.style.transform = `translateY(${offset}px)`;
-      }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
@@ -1022,7 +1012,7 @@ export default function Landing() {
                   </div>
 
                   {/* Window body */}
-                  <div className="px-6 sm:px-10 py-4 sm:py-5 flex flex-col items-center gap-[10px]">
+                  <div className="px-6 sm:px-10 py-4 sm:py-5 flex flex-col items-center gap-3 sm:gap-3.5">
                     {/* Logo — animated video on desktop, static PNG on mobile */}
                     <Logo size="large" showTagline={false} className="w-full" />
 
@@ -1317,20 +1307,13 @@ export default function Landing() {
       <div
         ref={highFiveRef}
         className="relative overflow-hidden"
+        style={{
+          backgroundImage: highFiveVisible ? `url(${highFiveImg})` : undefined,
+          backgroundSize: "cover",
+          backgroundPosition: "center 20%",
+          backgroundAttachment: "fixed",
+        }}
       >
-        {/* Parallax background — oversized so edges never show while sliding */}
-        <div
-          ref={highFiveBgRef}
-          className="absolute left-0 right-0 pointer-events-none"
-          style={{
-            top: "-30%",
-            bottom: "-30%",
-            backgroundImage: highFiveVisible ? `url(${highFiveImg})` : undefined,
-            backgroundSize: "cover",
-            backgroundPosition: "center 20%",
-            willChange: "transform",
-          }}
-        />
         <div className="absolute inset-0 bg-slate-900/40 dark:bg-slate-900/50" />
         <section className="pt-[20px] pb-6 relative z-10">
           <ScaledContainer desktopWidth={640}>

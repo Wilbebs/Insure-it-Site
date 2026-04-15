@@ -1,26 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+const logoImage = "/images/insure_it_logo.webp";
 
-const logoNavbar      = "/images/insure_it_logo.webp";
-const logoPlaceholder = "/images/logo_placeholder.webp"; // transparent WebP, 1039×400 crop
-const shieldVideo     = "/shield_animation.webm";
-
-// ─── Layout ──────────────────────────────────────────────────────────────────
-// Container aspect-ratio: 1039/400 (exact logo-crop dimensions from the video).
-// Both the static <img> and the canvas fill this container identically.
-//
-// Video: 1920×1080, logo at x=463–1502, y=272–672 (1039×400 px)
-// Canvas internal size: 520×200 (1039/2 : 400/2, same aspect).
-// drawImage crops SRC_X/Y/W/H → fills the full canvas at DEST 0,0,520,200.
-// Per-pixel black removal makes the background transparent — same as the
-// transparent static placeholder. No blend-mode, no position:absolute.
-// ─────────────────────────────────────────────────────────────────────────────
-
-const CANVAS_W = 520;
-const CANVAS_H = 200; // 520 × (400/1039) ≈ 200
-
-const SRC_X = 463, SRC_Y = 272, SRC_W = 1039, SRC_H = 400;
+const shieldVideo = "/shield_animation.webm";
+const shieldStatic = "/shield_animation_static.webp";
 
 interface LogoProps {
   className?: string;
@@ -38,164 +22,119 @@ export default function Logo({
 }: LogoProps) {
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
-  const [videoReady, setVideoReady] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rafRef    = useRef<number>(0);
+  const [animReady, setAnimReady] = useState(false);
+  const [desktopVideoReady, setDesktopVideoReady] = useState(false);
+  const desktopVideoRef = useRef<HTMLVideoElement>(null);
 
-  // Typewriter tagline
   useEffect(() => {
     if (showTagline && size === "large") {
       let index = 0;
-      const id = setInterval(() => {
+      const interval = setInterval(() => {
         if (index <= fullTagline.length) {
-          setTaglineText(fullTagline.slice(0, index++));
+          setTaglineText(fullTagline.slice(0, index));
+          index++;
         } else {
-          clearInterval(id);
+          clearInterval(interval);
         }
       }, 50);
-      return () => clearInterval(id);
+      return () => clearInterval(interval);
     }
   }, [showTagline, size]);
 
-  // Canvas render loop — draws the logo crop with transparent black background
   useEffect(() => {
     if (size !== "large") return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const video = document.createElement("video");
-    video.muted       = true;
-    video.loop        = true;
-    video.playsInline = true;
-
-    canvas.width  = CANVAS_W;
-    canvas.height = CANVAS_H;
-
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    if (!ctx) return;
-
-    let running = false;
-
-    const drawFrame = () => {
-      if (!running) return;
-      ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-      // Crop logo area from video, stretch to fill entire canvas
-      ctx.drawImage(video, SRC_X, SRC_Y, SRC_W, SRC_H, 0, 0, CANVAS_W, CANVAS_H);
-
-      // Per-pixel: remove near-black (background) — same threshold as static WebP fuzz 12%
-      const img  = ctx.getImageData(0, 0, CANVAS_W, CANVAS_H);
-      const data = img.data;
-      for (let i = 0; i < data.length; i += 4) {
-        const r = data[i], g = data[i + 1], b = data[i + 2];
-        const mag2 = r * r + g * g + b * b;
-        if (mag2 < 600) {
-          data[i + 3] = 0;
-        } else if (mag2 < 2400) {
-          data[i + 3] = Math.round(255 * (mag2 - 600) / 1800);
-        }
-      }
-      ctx.putImageData(img, 0, 0);
-      rafRef.current = requestAnimationFrame(drawFrame);
-    };
-
-    const onPlay = () => {
-      running = true;
-      setVideoReady(true);
-      rafRef.current = requestAnimationFrame(drawFrame);
-    };
-
-    const onCanPlay = () => {
-      video.play().catch(() => {});
-    };
-
-    video.addEventListener("play",    onPlay);
-    video.addEventListener("canplay", onCanPlay);
-
-    // Defer video load until page is fully loaded (LCP optimisation)
-    const startLoad = () => {
-      video.src = shieldVideo;
-      video.load();
-    };
-    if (document.readyState === "complete") {
-      startLoad();
-    } else {
-      window.addEventListener("load", startLoad, { once: true });
-    }
-
-    return () => {
-      running = false;
-      cancelAnimationFrame(rafRef.current);
-      video.removeEventListener("play",    onPlay);
-      video.removeEventListener("canplay", onCanPlay);
-      video.pause();
-      video.src = "";
-    };
+    const img = new window.Image();
+    img.onload = () => setAnimReady(true);
+    img.src = "/shield_logo_mobile.webp";
   }, [size]);
 
-  // ── Small variant (navbar) ──────────────────────────────────────────────
-  if (size !== "large") {
+  useEffect(() => {
+    if (size !== "large") return;
+    const video = desktopVideoRef.current;
+    if (!video) return;
+    const onCanPlay = () => setDesktopVideoReady(true);
+    video.addEventListener("canplay", onCanPlay);
+    video.src = shieldVideo;
+    video.load();
+    return () => video.removeEventListener("canplay", onCanPlay);
+  }, [size]);
+
+  if (size === "large") {
     return (
-      <div className={`flex items-center group cursor-pointer ${className}`}>
-        <img
-          src={logoNavbar}
-          alt="Insure-it Group Corp"
-          className={`${imgClassName ?? "h-10"} w-auto transition-transform duration-300 group-hover:scale-105`}
-        />
+      <div className={`flex flex-col items-center ${className}`}>
+
+        {/* Mobile: static placeholder (13KB) loads first as LCP, animated WebP fades in lazily */}
+        <div className="md:hidden w-full flex flex-col items-center">
+          <div className="relative w-full" style={{ aspectRatio: "450/121" }}>
+            <img
+              src="/shield_logo_static.webp"
+              alt="Insure-it Group Corp"
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-0" : "opacity-100"}`}
+              width={450}
+              height={121}
+              fetchPriority="high"
+              draggable={false}
+            />
+            <img
+              src="/shield_logo_mobile.webp"
+              alt="Insure-it Group Corp"
+              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-100" : "opacity-0"}`}
+              width={450}
+              height={121}
+              draggable={false}
+              aria-hidden={!animReady}
+            />
+          </div>
+        </div>
+
+        {/* Desktop: static last-frame shows instantly, WebM fades in lazily */}
+        <div className="hidden md:flex md:flex-col md:items-center w-full">
+          <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
+            <img
+              src={shieldStatic}
+              alt="Insure-it Group Corp"
+              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
+              style={{
+                top: "-57px",
+                transform: "translateX(-50%) scale(1.55)",
+                transformOrigin: "center center",
+              }}
+              width={1920}
+              height={1080}
+              fetchPriority="high"
+              draggable={false}
+            />
+            <video
+              ref={desktopVideoRef}
+              autoPlay
+              muted
+              playsInline
+              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none z-10 transition-opacity duration-500 ${desktopVideoReady ? "opacity-100" : "opacity-0"}`}
+              style={{
+                top: "-57px",
+                transform: "translateX(-50%) scale(1.55)",
+                transformOrigin: "center center",
+              }}
+            />
+          </div>
+          {showTagline && (
+            <p className="mt-2 text-xl md:text-2xl font-semibold italic tagline-shimmer select-none">
+              {taglineText}
+            </p>
+          )}
+        </div>
+
       </div>
     );
   }
 
-  // ── Large variant (hero card) ───────────────────────────────────────────
   return (
-    <div className={`flex flex-col items-center ${className}`}>
-      {/*
-        Container: aspect-ratio matches logo crop (1039:400).
-        CSS Grid → static <img> and <canvas> share cell 1/1.
-        No position:absolute — safe inside backdrop-blur on iOS/WebKit.
-      */}
-      <div
-        className="w-full sm:w-4/5 mx-auto"
-        style={{ display: "grid", aspectRatio: "1039 / 400" }}
-      >
-        {/* Static transparent placeholder — fades out once animation starts */}
-        <img
-          src={logoPlaceholder}
-          alt="Insure-it Group Corp"
-          fetchPriority="high"
-          draggable={false}
-          style={{
-            gridArea: "1 / 1",
-            width: "100%",
-            height: "100%",
-            display: "block",
-            opacity: videoReady ? 0 : 1,
-            transition: "opacity 0.6s",
-            pointerEvents: "none",
-            userSelect: "none",
-          }}
-        />
-
-        {/* Canvas: same crop region, per-pixel black removed → transparent bg */}
-        <canvas
-          ref={canvasRef}
-          style={{
-            gridArea: "1 / 1",
-            width: "100%",
-            aspectRatio: "1039 / 400",
-            display: "block",
-            opacity: videoReady ? 1 : 0,
-            transition: "opacity 0.6s",
-            pointerEvents: "none",
-            userSelect: "none",
-          }}
-        />
-      </div>
-
-      {showTagline && (
-        <p className="mt-2 text-xl md:text-2xl font-semibold italic tagline-shimmer select-none">
-          {taglineText}
-        </p>
-      )}
+    <div className={`flex items-center group cursor-pointer ${className}`}>
+      <img
+        src={logoImage}
+        alt="Insure-it Group Corp"
+        className={`${imgClassName ?? "h-10"} w-auto transition-transform duration-300 group-hover:scale-105`}
+      />
     </div>
   );
 }

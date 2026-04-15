@@ -6,7 +6,7 @@ import QuoteModal from "@/components/quote-modal";
 import SectionDivider from "@/components/section-divider";
 import { Shield, Users, Award, Clock } from "lucide-react";
 import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "@/components/theme-provider";
 const wilbertPhoto = "/images/wilbert_photo.webp";
 const elizabethPhoto = "/images/elizabeth_photo.webp";
@@ -60,11 +60,18 @@ export default function About() {
   const [signatureText, setSignatureText] = useState("");
   const [showCursor, setShowCursor] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const openQuote = () => setQuoteModalOpen(true);
     window.addEventListener("open-quote-modal", openQuote);
-    return () => window.removeEventListener("open-quote-modal", openQuote);
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("open-quote-modal", openQuote);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
 
@@ -120,15 +127,26 @@ export default function About() {
 
       {/* Hero Section*/}
       <section
+        ref={heroRef}
         className="relative flex items-center justify-center overflow-hidden"
         style={{ minHeight: "calc(100vh + 43px)" }}
       >
-        {/* Background Image */}
+        {/* Background Image — transform-based parallax (iOS-safe) */}
         <img
           src={familyRiverImg}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0"
+          className="absolute inset-x-0 w-full object-cover object-center pointer-events-none z-0 will-change-transform"
+          style={{
+            height: "130%",
+            top: "-15%",
+            transform: `translateY(${
+              heroRef.current
+                ? ((scrollY - (heroRef.current.offsetTop - window.innerHeight)) /
+                    (heroRef.current.offsetHeight + window.innerHeight)) * 50
+                : 0
+            }px)`,
+          }}
           loading="lazy"
         />
 

@@ -1308,8 +1308,18 @@ export default function Landing() {
             src={highFiveImg}
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-            style={{ objectPosition: "center 20%" }}
+            className="absolute inset-x-0 w-full object-cover pointer-events-none will-change-transform"
+            style={{
+              height: "130%",
+              top: "-15%",
+              objectPosition: "center 20%",
+              transform: `translateY(${
+                highFiveRef.current
+                  ? ((scrollY - (highFiveRef.current.offsetTop - window.innerHeight)) /
+                      (highFiveRef.current.offsetHeight + window.innerHeight)) * 40
+                  : 0
+              }px)`,
+            }}
             loading="lazy"
           />
         )}

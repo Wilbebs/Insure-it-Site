@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 const logoImage = "/images/staticinsureitlogo.webp";
 
 const shieldVideo = "/shield_animation.webm";
-const shieldStatic = "/images/shield_lastframe.png";
+const shieldStatic = "/images/shield_lastframe.webp";
 
 interface LogoProps {
   className?: string;

@@ -70,8 +70,21 @@ app.use((req, res, next) => {
   });
 
   const port = parseInt(process.env.PORT || '5000', 10);
-  server.listen(
-    { port, host: "0.0.0.0", reusePort: true },
-    () => { log(`serving on port ${port}`); }
-  );
+
+  const startListening = (retriesLeft = 8, delayMs = 1500): void => {
+    server.listen({ port, host: "0.0.0.0", reusePort: true }, () => {
+      log(`serving on port ${port}`);
+    });
+    server.once('error', (err: any) => {
+      if (err.code === 'EADDRINUSE' && retriesLeft > 0) {
+        console.warn(`⚠️  Port ${port} busy — retrying in ${delayMs}ms (${retriesLeft} left)…`);
+        server.close(() => setTimeout(() => startListening(retriesLeft - 1, delayMs), delayMs));
+      } else {
+        console.error('Fatal server error:', err);
+        process.exit(1);
+      }
+    });
+  };
+
+  startListening();
 })();

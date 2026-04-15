@@ -65,9 +65,14 @@ export default function Logo({
   }, [size]);
 
   const shieldCss = "absolute left-1/2 w-[990px] h-auto pointer-events-none";
-  const shieldStyle = {
+  const desktopShieldStyle = {
     top: "-57px",
     transform: "translateX(-50%) scale(1.55)",
+    transformOrigin: "center center",
+  };
+  const mobileShieldStyle = {
+    top: "-38px",
+    transform: "translateX(-50%) scale(1.72)",
     transformOrigin: "center center",
   };
 
@@ -77,12 +82,12 @@ export default function Logo({
 
         {/* Mobile */}
         <div className="md:hidden w-full flex flex-col items-center">
-          <div className="relative h-[90px] w-full overflow-hidden">
+          <div className="relative h-[110px] w-full overflow-hidden">
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
               className={`${shieldCss} transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
-              style={shieldStyle}
+              style={mobileShieldStyle}
               fetchPriority="high"
               draggable={false}
             />
@@ -92,7 +97,7 @@ export default function Logo({
               muted
               playsInline
               className={`${shieldCss} z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
-              style={shieldStyle}
+              style={mobileShieldStyle}
             />
           </div>
         </div>
@@ -104,7 +109,7 @@ export default function Logo({
               src={shieldStatic}
               alt="Insure-it Group Corp"
               className={`${shieldCss} transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
-              style={shieldStyle}
+              style={desktopShieldStyle}
               fetchPriority="high"
               draggable={false}
             />
@@ -114,7 +119,7 @@ export default function Logo({
               muted
               playsInline
               className={`${shieldCss} z-10 transition-opacity duration-500 ${desktopVideoReady ? "opacity-100" : "opacity-0"}`}
-              style={shieldStyle}
+              style={desktopShieldStyle}
             />
           </div>
           {showTagline && (

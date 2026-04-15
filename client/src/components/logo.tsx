@@ -22,9 +22,10 @@ export default function Logo({
 }: LogoProps) {
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
-  const [animReady, setAnimReady] = useState(false);
   const [desktopVideoReady, setDesktopVideoReady] = useState(false);
+  const [mobileVideoReady, setMobileVideoReady] = useState(false);
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (showTagline && size === "large") {
@@ -43,16 +44,20 @@ export default function Logo({
 
   useEffect(() => {
     if (size !== "large") return;
-    const img = new window.Image();
-    img.onload = () => setAnimReady(true);
-    img.src = "/shield_logo_mobile.webp";
+    const video = desktopVideoRef.current;
+    if (!video) return;
+    const onCanPlay = () => setDesktopVideoReady(true);
+    video.addEventListener("canplay", onCanPlay);
+    video.src = shieldVideo;
+    video.load();
+    return () => video.removeEventListener("canplay", onCanPlay);
   }, [size]);
 
   useEffect(() => {
     if (size !== "large") return;
-    const video = desktopVideoRef.current;
+    const video = mobileVideoRef.current;
     if (!video) return;
-    const onCanPlay = () => setDesktopVideoReady(true);
+    const onCanPlay = () => setMobileVideoReady(true);
     video.addEventListener("canplay", onCanPlay);
     video.src = shieldVideo;
     video.load();
@@ -63,44 +68,33 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: static placeholder (13KB) loads first as LCP, animated WebP fades in lazily */}
+        {/* Mobile: static logo shows instantly, WebM fades in lazily */}
         <div className="md:hidden w-full flex flex-col items-center">
-          <div className="relative w-full" style={{ aspectRatio: "450/121" }}>
+          <div className="relative w-full" style={{ aspectRatio: "4224/1444" }}>
             <img
-              src="/images/staticinsureitlogo.webp"
+              src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-0" : "opacity-100"}`}
-              width={450}
-              height={121}
+              className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
               fetchPriority="high"
               draggable={false}
             />
-            <img
-              src="/images/staticinsureitlogo.webp"
-              alt="Insure-it Group Corp"
-              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${animReady ? "opacity-100" : "opacity-0"}`}
-              width={450}
-              height={121}
-              draggable={false}
-              aria-hidden={!animReady}
+            <video
+              ref={mobileVideoRef}
+              autoPlay
+              muted
+              playsInline
+              className={`absolute inset-0 w-full h-full object-contain pointer-events-none z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
             />
           </div>
         </div>
 
-        {/* Desktop: static last-frame shows instantly, WebM fades in lazily */}
+        {/* Desktop: static logo shows instantly, WebM fades in lazily with crop */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
           <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
-              style={{
-                top: "-57px",
-                transform: "translateX(-50%) scale(1.55)",
-                transformOrigin: "center center",
-              }}
-              width={1920}
-              height={1080}
+              className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
               fetchPriority="high"
               draggable={false}
             />

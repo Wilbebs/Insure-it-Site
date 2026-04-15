@@ -98,35 +98,36 @@ export default function Logo({
       <div className={`flex flex-col items-center ${className}`}>
 
         {/* ── Mobile logo ──────────────────────────────────────────────────────
-            Same shield_animation.webm as desktop. Container clips to the logo
-            strip only (overflow:hidden), so the dark bg above/below/sides is
-            never visible — exactly how the desktop crop works.             */}
-        <div
-          className="md:hidden relative w-full overflow-hidden"
-          style={{ height: `${MOBILE_CROP_H}px` }}
-        >
-          {/* Transparent static placeholder — fades out when video is ready */}
+            Static img is in normal flow (defines container height).
+            Video is absolute-overlaid inside an overflow:hidden crop layer.  */}
+        <div className="md:hidden relative w-full flex justify-center">
+          {/* Static transparent logo — always visible until video ready */}
           <img
             src={mobileStatic}
             alt="Insure-it Group Corp"
-            className={`absolute left-1/2 -translate-x-1/2 h-full w-auto object-contain pointer-events-none transition-opacity duration-700 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+            className={`relative block pointer-events-none transition-opacity duration-700 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+            style={{ height: "100px", width: "auto" }}
             fetchPriority="high"
             draggable={false}
           />
-          {/* Animated video — same file, cropped to logo region */}
-          <video
-            ref={mobileVideoRef}
-            autoPlay
-            muted
-            playsInline
-            loop
-            className={`absolute left-1/2 pointer-events-none transition-opacity duration-700 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
-            style={{
-              width:  `${MOBILE_VIDEO_W}px`,
-              top:    `${MOBILE_TOP}px`,
-              transform: "translateX(-50%)",
-            }}
-          />
+          {/* Animated video in an overflow:hidden crop window, same footprint */}
+          <div
+            className="absolute inset-0 overflow-hidden pointer-events-none"
+          >
+            <video
+              ref={mobileVideoRef}
+              autoPlay
+              muted
+              playsInline
+              loop
+              className={`absolute left-1/2 transition-opacity duration-700 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
+              style={{
+                width:     `${MOBILE_VIDEO_W}px`,
+                top:       `${MOBILE_TOP}px`,
+                transform: "translateX(-50%)",
+              }}
+            />
+          </div>
         </div>
 
         {/* ── Desktop logo ─────────────────────────────────────────────────── */}

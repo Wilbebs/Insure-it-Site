@@ -82,7 +82,7 @@ export default function Logo({
 
         {/* Mobile */}
         <div className="md:hidden w-full flex flex-col items-center">
-          <div className="relative h-[130px] w-full overflow-hidden">
+          <div className="relative h-[115px] w-full overflow-hidden">
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"

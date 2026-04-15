@@ -40,7 +40,7 @@ const heroVideoDesktop = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/her
 const heroVideoMobile  = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/herovid_mobile.mp4";
 const shieldIcon = "/images/shield_icon.webp";
 const floodImg = "/images/flood_card.webp";
-const highFiveImg = "/images/team_highfive.webp";
+const highFiveImg = "/images/team_highfive.jpg";
 
 function InsuranceDetailModal({
   type,

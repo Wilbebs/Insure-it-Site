@@ -1022,7 +1022,7 @@ export default function Landing() {
                   </div>
 
                   {/* Window body */}
-                  <div className="px-6 sm:px-10 py-4 sm:py-5 flex flex-col items-center gap-3 sm:gap-3.5">
+                  <div className="px-6 sm:px-10 py-4 sm:py-5 flex flex-col items-center gap-[10px]">
                     {/* Logo — animated video on desktop, static PNG on mobile */}
                     <Logo size="large" showTagline={false} className="w-full" />
 

@@ -67,7 +67,7 @@ This is a simplified, professional insurance website built with React and Expres
 
 ### Key Components
 - **Navigation**: Glass morphism navbar with Next.js Link components, usePathname for active state
-- **Logo**: InsureIT logo with WebM shield animation (served from `/public/shield_animation.webm`)
+- **Logo**: InsureIT logo with WebM shield animation (served from `/public/shield_animation.webm`). Static placeholder is `public/images/logo_placeholder.webp` (cropped last frame of animation, 1039×400). Animation lazy-loads after `window.onload`. Video positioned via CSS transform (`translate(-24.1%,-25.2%)` at `width:184.8%`) inside an `overflow:hidden` container (aspect-ratio 1039/400) — no canvas, no blend-mode, safe inside backdrop-blur on iOS/WebKit.
 - **Hero Window Card**: Frosted-glass app-window card (macOS title bar aesthetic) in the hero — draggable on desktop, minimize/restore animated.
 - **Hero Video**: Dual-source via CloudFront CDN. Mobile phones (≤640px) receive `herovid_mobile.mp4` (portrait 9:19.5); desktop/tablet receive `herovid1.mp4` (landscape). Both at `https://d3gkfgi9drj9kb.cloudfront.net/video-assets/`. Source selected via JS (`isMobilePhone` state, set once on `window.onload` by checking `window.innerWidth <= 640`) — NOT via `media` attribute which is unsupported for `<video><source>`.
 - **Hero Static Image**: Uses `<picture>` element with `<source media="(max-width: 640px)" srcSet="/images/heroimage_mobile.webp">` — phones download ONLY the portrait Jacksonville bridge WebP (645×1412px, 173KB), desktop/tablet download ONLY `heroimage1.webp`. `<picture>` loads eagerly (SEO, fetchPriority="high"); video lazy-loads after `window.onload`. Video `poster=` also switches per device. Both images in `public/images/`.

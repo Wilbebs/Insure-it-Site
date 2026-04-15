@@ -2,35 +2,25 @@
 
 import { useState, useEffect, useRef } from "react";
 
-const logoImage   = "/images/insure_it_logo.webp";
-const shieldVideo = "/shield_animation.webm";
+const logoNavbar    = "/images/insure_it_logo.webp";
+const logoPlaceholder = "/images/logo_placeholder.webp";
+const shieldVideo   = "/shield_animation.webm";
 
-// ─── Size reference ──────────────────────────────────────────────────────────
-// Static WebP: 4224×1444 px — content at x=77,y=168 w=4147 h=1123 (aspect 3.693:1)
-// Container aspect: 4224/1120 = 3.771:1  (aspect-ratio used in <img> style)
-// With objectFit:cover + objectPosition:center 52.5% the static img shows:
-//   full width, content y=168–1291 fills container height (0.266W ≈ containerH).
+// ─── Video crop maths ────────────────────────────────────────────────────────
+// Source video: 1920×1080, logo at x=463–1502, y=272–672 → 1039×400 px
 //
-// Video (1920×1080): logo at x=463–1502, y=272–672 → 1039×400 px (aspect 2.598:1)
-//   At objectFit:cover on 3.771:1 container → logo only 78% of container height.
+// Container: aspect-ratio 1039/400 (matches logo bounds exactly), overflow:hidden
 //
-// Canvas fix: draw video logo cropped to its bounds, fit-height into a canvas
-//   that matches the static container (3.771:1).  Per-pixel black removal replaces
-//   the black background with transparency — no blend-mode hue issues.
-//   Logo renders at 68.9% of container width, centered, with transparent sides.
+// Video scaled so logo fills container:
+//   width = (1920/1039) × 100% = 184.8%   height = auto (16:9 maintained)
+//   Video dims at container width W: 1.848W × 1.039W
+//   Logo top-left in scaled video: (463/1039)×W = 0.446W, (272/1039)×W = 0.262W
+//   translateX: -0.446W / 1.848W = -24.1% of own width
+//   translateY: -0.262W / 1.039W = -25.2% of own height
+//
+// Result: logo exactly fills W×(400/1039)W, black bg clipped by overflow:hidden.
+// No position:absolute (safe inside backdrop-blur stacking contexts on iOS/WebKit).
 // ─────────────────────────────────────────────────────────────────────────────
-
-// Canvas internal dimensions matching the 3.771:1 logo container
-const CANVAS_W = 640;
-const CANVAS_H = Math.round(CANVAS_W * (1120 / 4224)); // 170 px
-
-// Video source crop (logo bounds in 1920×1080 frame)
-const SRC_X = 463, SRC_Y = 272, SRC_W = 1039, SRC_H = 400;
-
-// Destination: fit logo HEIGHT to canvas, center horizontally
-const DEST_H = CANVAS_H;
-const DEST_W = Math.round(DEST_H * (SRC_W / SRC_H)); // ≈ 441 px
-const DEST_X = Math.round((CANVAS_W - DEST_W) / 2);  // ≈  99 px
 
 interface LogoProps {
   className?: string;
@@ -49,8 +39,7 @@ export default function Logo({
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
   const [videoReady, setVideoReady] = useState(false);
-  const canvasRef  = useRef<HTMLCanvasElement>(null);
-  const rafRef     = useRef<number>(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // Typewriter tagline
   useEffect(() => {
@@ -67,87 +56,34 @@ export default function Logo({
     }
   }, [showTagline, size]);
 
-  // Canvas render loop — runs once per video frame
+  // Lazy-load video after page is fully loaded
   useEffect(() => {
     if (size !== "large") return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const video = videoRef.current;
+    if (!video) return;
 
-    // Create video element programmatically — keeps it out of the DOM entirely,
-    // avoiding any stacking-context conflicts with backdrop-blur.
-    const video = document.createElement("video");
-    video.autoplay  = true;
-    video.muted     = true;
-    video.loop      = true;
-    video.playsInline = true;
-
-    canvas.width  = CANVAS_W;
-    canvas.height = CANVAS_H;
-
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    if (!ctx) return;
-
-    let running = false;
-
-    const drawFrame = () => {
-      if (!running) return;
-
-      ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-
-      // Draw only the logo crop from the video frame
-      ctx.drawImage(video, SRC_X, SRC_Y, SRC_W, SRC_H, DEST_X, 0, DEST_W, DEST_H);
-
-      // Per-pixel: remove near-black (background) pixels
-      const img  = ctx.getImageData(0, 0, CANVAS_W, CANVAS_H);
-      const data = img.data;
-      for (let i = 0; i < data.length; i += 4) {
-        const r = data[i], g = data[i + 1], b = data[i + 2];
-        // Squared magnitude from black — logo blue ≈ (7,84,167) → mag² ≈ 34 994
-        const mag2 = r * r + g * g + b * b;
-        if (mag2 < 600) {
-          // Pure background: fully transparent
-          data[i + 3] = 0;
-        } else if (mag2 < 2400) {
-          // Soft edge: partial transparency
-          data[i + 3] = Math.round(255 * (mag2 - 600) / 1800);
-        }
-        // else: logo pixel — keep fully opaque (alpha unchanged from drawImage)
-      }
-      ctx.putImageData(img, 0, 0);
-
-      rafRef.current = requestAnimationFrame(drawFrame);
-    };
-
-    const onPlay = () => {
-      running = true;
-      setVideoReady(true);
-      rafRef.current = requestAnimationFrame(drawFrame);
-    };
-
-    // Off-DOM videos don't autoplay — explicitly call play() once enough data is buffered
-    const onCanPlay = () => {
-      video.play().catch(() => {/* blocked by browser policy — stay on static */});
-    };
-
-    video.addEventListener("play", onPlay);
-    video.addEventListener("canplay", onCanPlay);
-
-    // Defer video load until page is fully loaded (LCP optimisation)
-    const startLoad = () => {
+    const loadAndPlay = () => {
       video.src = shieldVideo;
       video.load();
+      video.addEventListener(
+        "canplay",
+        () => { video.play().catch(() => {}); },
+        { once: true }
+      );
+      video.addEventListener(
+        "play",
+        () => { setVideoReady(true); },
+        { once: true }
+      );
     };
+
     if (document.readyState === "complete") {
-      startLoad();
+      loadAndPlay();
     } else {
-      window.addEventListener("load", startLoad, { once: true });
+      window.addEventListener("load", loadAndPlay, { once: true });
     }
 
     return () => {
-      running = false;
-      cancelAnimationFrame(rafRef.current);
-      video.removeEventListener("play", onPlay);
-      video.removeEventListener("canplay", onCanPlay);
       video.pause();
       video.src = "";
     };
@@ -158,7 +94,7 @@ export default function Logo({
     return (
       <div className={`flex items-center group cursor-pointer ${className}`}>
         <img
-          src={logoImage}
+          src={logoNavbar}
           alt="Insure-it Group Corp"
           className={`${imgClassName ?? "h-10"} w-auto transition-transform duration-300 group-hover:scale-105`}
         />
@@ -170,26 +106,28 @@ export default function Logo({
   return (
     <div className={`flex flex-col items-center ${className}`}>
       {/*
-        Outer wrapper: full-width on mobile, 80 % centred on sm+.
-        CSS Grid → static <img> and <canvas> share the same grid cell (1/1).
-        No position:absolute needed — safe inside backdrop-blur stacking contexts.
+        Container: aspect-ratio matches logo crop (1039:400), overflow clips the
+        black video background.  CSS Grid → static <img> and <video> share cell
+        1/1 without position:absolute (safe inside backdrop-blur on iOS/WebKit).
       */}
       <div
         className="w-full sm:w-4/5 mx-auto"
-        style={{ display: "grid" }}
+        style={{
+          display: "grid",
+          aspectRatio: "1039 / 400",
+          overflow: "hidden",
+        }}
       >
-        {/* Static logo — shown until animation is ready, then faded out */}
+        {/* Static last-frame placeholder — shown until video starts playing */}
         <img
-          src={logoImage}
+          src={logoPlaceholder}
           alt="Insure-it Group Corp"
           fetchPriority="high"
           draggable={false}
           style={{
             gridArea: "1 / 1",
             width: "100%",
-            aspectRatio: "4224 / 1120",
-            objectFit: "cover",
-            objectPosition: "center 52.5%",
+            height: "100%",
             display: "block",
             opacity: videoReady ? 0 : 1,
             transition: "opacity 0.6s",
@@ -199,17 +137,24 @@ export default function Logo({
         />
 
         {/*
-          Canvas overlay — draws each video frame with the black background
-          removed per-pixel.  Fades in once the video starts playing.
-          Same container dimensions (3.771:1) as the static <img>.
+          Video: scaled to 184.8% width so the logo crop (1039×400 in 1920×1080)
+          fills the container exactly.  translate(-24.1%, -25.2%) shifts the video
+          so the logo top-left aligns with the container origin.
+          justify/align-self:start prevents the grid from overriding the width.
         */}
-        <canvas
-          ref={canvasRef}
+        <video
+          ref={videoRef}
+          muted
+          playsInline
+          loop
           style={{
             gridArea: "1 / 1",
-            width: "100%",
-            aspectRatio: "4224 / 1120",
+            width: "184.8%",
+            height: "auto",
             display: "block",
+            transform: "translate(-24.1%, -25.2%)",
+            justifySelf: "start",
+            alignSelf: "start",
             opacity: videoReady ? 1 : 0,
             transition: "opacity 0.6s",
             pointerEvents: "none",
@@ -223,7 +168,6 @@ export default function Logo({
           {taglineText}
         </p>
       )}
-
     </div>
   );
 }

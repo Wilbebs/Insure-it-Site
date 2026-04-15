@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 const logoImage = "/images/staticinsureitlogo.webp";
 
 const shieldVideo = "/shield_animation.webm";
-const shieldStatic = "/images/staticinsureitlogo_padded.webp";
 
 interface LogoProps {
   className?: string;
@@ -68,18 +67,13 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: static logo full-size, WebM fades in with same zoom/crop as desktop */}
+        {/* Mobile */}
         <div className="md:hidden w-full flex flex-col items-center">
           <div className="relative h-[90px] w-full overflow-hidden">
             <img
-              src={shieldStatic}
+              src={logoImage}
               alt="Insure-it Group Corp"
-              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
-              style={{
-                top: "-57px",
-                transform: "translateX(-50%) scale(1.55)",
-                transformOrigin: "center center",
-              }}
+              className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
               fetchPriority="high"
               draggable={false}
             />
@@ -98,18 +92,13 @@ export default function Logo({
           </div>
         </div>
 
-        {/* Desktop: static logo full-size via object-contain, WebM fades in with zoom/crop */}
+        {/* Desktop */}
         <div className="hidden md:flex md:flex-col md:items-center w-full">
           <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
             <img
-              src={shieldStatic}
+              src={logoImage}
               alt="Insure-it Group Corp"
-              className={`absolute left-1/2 w-[990px] h-auto pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
-              style={{
-                top: "-57px",
-                transform: "translateX(-50%) scale(1.55)",
-                transformOrigin: "center center",
-              }}
+              className={`absolute inset-0 w-full h-full object-cover object-center pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
               fetchPriority="high"
               draggable={false}
             />

@@ -4,24 +4,30 @@ import { useState, useEffect, useRef } from "react";
 const logoImage   = "/images/insure_it_logo.webp";
 const shieldVideo = "/shield_animation.webm";
 
-// ─── Static logo crop (insure_it_logo.webp  4224×1444 px) ───────────────────
-// Content y=170–1290 (height 1120), minimal horizontal margins.
-// Approach: <img> with aspect-ratio:4224/1120 + object-fit:cover + objectPosition
-//   so it NEVER needs position:absolute (avoids backdrop-blur stacking-context
-//   bug that makes absolutely-positioned elements invisible on mobile/iOS).
+// ─── Video frame analysis (shield_animation.webm  1920×1080 px) ────────────
+// ImageMagick trim on frame 30: logo bounds x=463–1502, y=272–672 (1039×400 px).
+// Background: solid black (VP8, no alpha).
 //
-// ─── Video overlay (shield_animation.webm  1920×1080 px) ────────────────────
-// Logo in video: x=466–1423, y=367–499 (height 132 px).
-// Crop via CSS transform inside an overflow:hidden wrapper (no position:abs):
-//   width:    385.7% of container W  →  video logo height = container height
-//   translateX(-37.04%)              →  −37.04% of videoW = −142.85%W  (center)
-//   translateY(-33.95%)              →  −33.95% of videoH = −73.68%W   (top-crop)
-//   transform moves PAINT only (layout stays at 0,0) — overflow:hidden clips
-//   reliably, unlike negative-margin which puts layout above the container.
+// Approach: CSS "mix-blend-mode: screen" makes black pixels transparent,
+// so the card frosted-glass shows through wherever there is no logo.
+// The video is sized with the same aspect-ratio & object-fit as the static img:
+//   • width: 100%  →  container fills card content width
+//   • aspectRatio: 4224/1120  →  same height as static logo box
+//   • objectFit: cover  →  video scaled so width = container width
+//     (container is 3.77:1, video is 16:9; width is always the binding dimension)
+//   • objectPosition: center 38.1%  →  vertically centers the logo row
+//     Calculation:
+//       rendered video h = W × 1080/1920 = 0.5625W
+//       logo y-start  = 272/1080 × 0.5625W = 0.1416W
+//       logo y-end    = 672/1080 × 0.5625W = 0.3500W  (height 0.2084W)
+//       container h   = W × 1120/4224 = 0.2652W
+//       top-pad for centered logo = (0.2652 − 0.2084)/2 = 0.0284W
+//       video top offset needed   = −(0.1416 − 0.0284) = −0.1132W
+//       overflow = 0.5625W − 0.2652W = 0.2973W
+//       Y%  = 0.1132 / 0.2973 = 38.1%
 //
-// Both elements live in the same CSS-Grid cell (gridArea:"1/1") — they overlap
-// without any absolute positioning, so backdrop-blur stacking contexts can't
-// hide them.
+// Both elements share gridArea:"1/1" → overlap without position:absolute
+// (safe inside backdrop-blur stacking contexts).
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface LogoProps {
@@ -81,8 +87,7 @@ export default function Logo({
       <div className={`flex flex-col items-center ${className}`}>
         {/*
           Outer wrapper: w-full on mobile, 80% centred on desktop (sm+).
-          CSS Grid with both children in cell 1/1 → they overlap without
-          position:absolute (safe inside backdrop-blur stacking contexts).
+          CSS Grid → both children in cell 1/1, overlap without position:absolute.
         */}
         <div
           className="w-full sm:w-4/5 mx-auto"
@@ -108,44 +113,33 @@ export default function Logo({
             }}
           />
 
-          {/* ── Animated WebM — crop via transform + padding-bottom ratio trick ── */}
           {/*
-           * height:0 + paddingBottom:26.52% → grid row sees a 26.52%W-tall item
-           * (same as the <img>), so the cell never inflates to the video's natural
-           * 217%W height.  overflow:hidden clips at the PADDING edge (26.52%W).
-           * The video is then shifted with transform so only the logo row is visible.
+           * ── Animated WebM overlay ──
+           * mix-blend-mode:screen → black background becomes transparent,
+           *   logo colors render on top of the frosted-glass card.
+           * object-fit:cover + objectPosition:center 38.1% → centers the logo
+           *   row vertically in the same box as the static <img>.
+           * No position:absolute needed — safe inside backdrop-blur stacking ctx.
            */}
-          <div
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            playsInline
             style={{
               gridArea: "1/1",
               width: "100%",
-              height: "0",
-              paddingBottom: "26.5152%",
-              overflow: "hidden",
+              aspectRatio: "4224 / 1120",
+              objectFit: "cover",
+              objectPosition: "center 38.1%",
+              display: "block",
+              mixBlendMode: "screen",
               opacity: videoReady ? 1 : 0,
               transition: "opacity 0.5s",
+              pointerEvents: "none",
+              userSelect: "none",
             }}
-          >
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              playsInline
-              style={{
-                display: "block",
-                width: "385.7%",
-                height: "auto",
-                /*
-                 * transform % values are relative to the element's OWN dimensions:
-                 *   translateX(-37.04%) = -37.04% × 385.7%W = -142.8%W  (center)
-                 *   translateY(-33.95%) = -33.95% × 217.0%W = -73.68%W  (top-crop)
-                 * Layout stays at (0,0); only paint shifts → overflow clips cleanly.
-                 */
-                transform: "translateX(-37.04%) translateY(-33.95%)",
-                pointerEvents: "none",
-              }}
-            />
-          </div>
+          />
         </div>
 
         {showTagline && (

@@ -61,35 +61,50 @@ export default function Logo({
   }, [size]);
 
   if (size === "large") {
+    /*
+      Logo crop strategy — pixel-exact measurements:
+      - shield_animation_static.webp is 1920×1080 ARGB (transparent background).
+      - Opaque logo content: x=466–1439 (width≈974px), y=367–499 (height=132px), center-x≈934.
+      - background-size=1000px (scale=0.521x):
+          bg height = 562.5px
+          logo top  = 367 × (562.5/1080) = 191px
+          logo bottom = 499 × (562.5/1080) = 260px  →  logo height ≈ 69px
+          logo width = 974 × 0.521 = 508px  (fits desktop card ~520px content area)
+      - background-position: center -191px → shows bg rows 191–261, covers full logo.
+      - Fixed px values → identical crop on every screen width.
+    */
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Same logo on all screen sizes — overflow:hidden crops to the logo strip */}
-        <div className="relative h-[162px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
-          <img
-            src={shieldStatic}
-            alt="Insure-it Group Corp"
-            className={`absolute left-1/2 w-[990px] h-auto pointer-events-none transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
+        <div
+          className="relative w-full overflow-hidden"
+          style={{
+            height: "70px",
+            marginTop: "-5px",
+          }}
+        >
+          {/* Static placeholder — shown until the video is ready */}
+          <div
+            className={`absolute inset-0 transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
             style={{
-              top: "0px",
-              transform: "translateX(-50%) scale(1.9)",
-              transformOrigin: "center center",
+              backgroundImage: `url(${shieldStatic})`,
+              backgroundSize: "1000px auto",
+              backgroundPosition: "center -191px",
+              backgroundRepeat: "no-repeat",
             }}
-            width={1920}
-            height={1080}
-            fetchPriority="high"
-            draggable={false}
           />
+
+          {/* Animated video — fades in once it can play */}
           <video
             ref={desktopVideoRef}
             autoPlay
             muted
             playsInline
-            className={`absolute left-1/2 w-[990px] h-auto pointer-events-none z-10 transition-opacity duration-500 ${desktopVideoReady ? "opacity-100" : "opacity-0"}`}
+            className={`absolute left-1/2 pointer-events-none z-10 transition-opacity duration-500 ${desktopVideoReady ? "opacity-100" : "opacity-0"}`}
             style={{
-              top: "0px",
-              transform: "translateX(-50%) scale(1.9)",
-              transformOrigin: "center center",
+              width: "1000px",
+              top: "-191px",
+              transform: "translateX(-50%)",
             }}
           />
         </div>

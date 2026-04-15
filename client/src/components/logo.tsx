@@ -5,8 +5,8 @@ const logoImage = "/images/insure_it_logo.webp";
 
 const shieldVideo        = "/shield_animation.webm";
 const shieldStatic       = "/shield_animation_static.webp";
-const mobileVideoWebm    = "/insureit_logo_mobile.webm";
-const mobileVideoMp4     = "/insureit_animation.mp4";
+const mobileVideoWebm    = "/insureit_logo_mobile_cropped.webm";
+const mobileVideoMp4     = "/insureit_logo_mobile_cropped.mp4";
 const mobileStatic       = "/insureit_logo_mobile_static.webp";
 
 interface LogoProps {
@@ -112,45 +112,24 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: crop-and-scale to show logo content at full card width        */}
-        {/* Frame: 1920×1080. Logo region: 993×280 at offset (463, 312).        */}
-        {/* Scale to 193.6% width → content fills 100% of card width.           */}
-        {/* marginLeft: -46.7% shifts content left into view.                   */}
-        {/* marginTop: -31.4% (% of parent WIDTH per CSS spec) = -312/1920×W    */}
-        {/* Margins are layout-based, so overflow:hidden clips reliably.        */}
+        {/* Mobile: pre-cropped 993×280 files — simple object-contain, no CSS tricks */}
         <div className="md:hidden w-full">
-          <div className="relative w-full overflow-hidden" style={{ aspectRatio: "993/280" }}>
-            {/* Static placeholder — block element, margin-clipped by parent */}
+          <div className="relative w-full" style={{ aspectRatio: "993/280" }}>
             <img
               src={mobileStatic}
               alt="Insure-it Group Corp"
-              className={`block pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
-              style={{
-                width: "193.6%",
-                height: "auto",
-                marginLeft: "-46.7%",
-                marginTop: "-31.4%",
-              }}
-              width={1920}
-              height={1080}
+              className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+              width={993}
+              height={280}
               fetchPriority="high"
               draggable={false}
             />
-            {/* Animated video — absolute overlay with same margin offsets */}
             <video
               ref={mobileVideoRef}
               autoPlay
               muted
               playsInline
-              className={`absolute pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
-              style={{
-                width: "193.6%",
-                height: "auto",
-                top: "0",
-                left: "0",
-                marginLeft: "-46.7%",
-                marginTop: "-31.4%",
-              }}
+              className={`absolute inset-0 w-full h-full object-contain pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
               aria-hidden={!mobileVideoReady}
             />
           </div>

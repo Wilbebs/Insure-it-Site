@@ -112,27 +112,31 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: crop-and-scale to show logo content at full card width */}
-        {/* Logo content sits at (463,312) in a 1920×1080 frame, 993×280px */}
-        {/* Scale 193.6% to fill full width; translateY(-28.89%) = -312/1080 of own height */}
+        {/* Mobile: crop-and-scale to show logo content at full card width        */}
+        {/* Frame: 1920×1080. Logo region: 993×280 at offset (463, 312).        */}
+        {/* Scale to 193.6% width → content fills 100% of card width.           */}
+        {/* marginLeft: -46.7% shifts content left into view.                   */}
+        {/* marginTop: -31.4% (% of parent WIDTH per CSS spec) = -312/1920×W    */}
+        {/* Margins are layout-based, so overflow:hidden clips reliably.        */}
         <div className="md:hidden w-full">
           <div className="relative w-full overflow-hidden" style={{ aspectRatio: "993/280" }}>
+            {/* Static placeholder — block element, margin-clipped by parent */}
             <img
               src={mobileStatic}
               alt="Insure-it Group Corp"
-              className={`absolute pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`block pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
               style={{
                 width: "193.6%",
                 height: "auto",
-                left: "50%",
-                top: "0",
-                transform: "translateX(-50%) translateY(-28.89%)",
+                marginLeft: "-46.7%",
+                marginTop: "-31.4%",
               }}
               width={1920}
               height={1080}
               fetchPriority="high"
               draggable={false}
             />
+            {/* Animated video — absolute overlay with same margin offsets */}
             <video
               ref={mobileVideoRef}
               autoPlay
@@ -142,9 +146,10 @@ export default function Logo({
               style={{
                 width: "193.6%",
                 height: "auto",
-                left: "50%",
                 top: "0",
-                transform: "translateX(-50%) translateY(-28.89%)",
+                left: "0",
+                marginLeft: "-46.7%",
+                marginTop: "-31.4%",
               }}
               aria-hidden={!mobileVideoReady}
             />

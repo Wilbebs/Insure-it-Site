@@ -4,23 +4,23 @@ import { useState, useEffect, useRef } from "react";
 const logoImage   = "/images/insure_it_logo.webp";
 const shieldVideo = "/shield_animation.webm";
 
-// ─── Static logo geometry (insure_it_logo.webp  4224×1444 px) ───────────────
-// Content y=170–1290 (height 1120), x=86–4155 (width 4069).
-// backgroundSize:"100% auto"  +  aspectRatio:"4224/1120"  +  bgPos:"center 52.5%"
-// → full logo always visible, zero horizontal clipping, fully responsive.
-// Desktop: sm:w-4/5 → 80% of card content width.
-// ─────────────────────────────────────────────────────────────────────────────
-// ─── Video overlay geometry (shield_animation.webm  1920×1080 px) ────────────
+// ─── Static logo crop (insure_it_logo.webp  4224×1444 px) ───────────────────
+// Content y=170–1290 (height 1120), minimal horizontal margins.
+// Approach: <img> with aspect-ratio:4224/1120 + object-fit:cover + objectPosition
+//   so it NEVER needs position:absolute (avoids backdrop-blur stacking-context
+//   bug that makes absolutely-positioned elements invisible on mobile/iOS).
+//
+// ─── Video overlay (shield_animation.webm  1920×1080 px) ────────────────────
 // Logo in video: x=466–1423, y=367–499 (height 132 px).
-// To match static container height H = containerW × 1120/4224:
-//   videoScale = H / 132  →  videoRenderedW = 1920 × H/132
-//                         →  videoRenderedW = 1920 × containerW × (1120/4224/132)
-//                         →  videoRenderedW = containerW × 3.857
-//   videoRenderedH = containerW × 2.170
-//   top  = –logoYstart / containerH × 100%
-//        = –(367 × videoRenderedH/1080) / containerH × 100%
-//        = –278%  of containerH    (independent of screen size)
-//   left = 50%;  transform: translateX(–50%)  →  logo centered horizontally
+// Crop via negative margins inside an overflow:hidden wrapper (no position:abs):
+//   width:   385.7% of container W  →  video logo height = container height
+//   marginLeft: -142.85%W           →  centers the wide video
+//   marginTop:  -73.68%W            →  shifts video logo to y=0 of wrapper
+//   (% margins always relative to containing block WIDTH in CSS)
+//
+// Both elements live in the same CSS-Grid cell (gridArea:"1/1") — they overlap
+// without any absolute positioning, so backdrop-blur stacking contexts can't
+// hide them.
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface LogoProps {
@@ -61,7 +61,6 @@ export default function Logo({
     if (size !== "large") return;
     const video = videoRef.current;
     if (!video) return;
-
     const loadVideo = () => {
       const onCanPlay = () => setVideoReady(true);
       video.addEventListener("canplay", onCanPlay);
@@ -69,7 +68,6 @@ export default function Logo({
       video.load();
       return () => video.removeEventListener("canplay", onCanPlay);
     };
-
     if (document.readyState === "complete") return loadVideo();
     let cleanup: (() => void) | undefined;
     const onLoad = () => { cleanup = loadVideo(); };
@@ -81,40 +79,56 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
         {/*
-          Outer: w-full on mobile, 80% (0.8×) on desktop (sm+).
-          Inner: relative + overflow-hidden crop window.
+          Outer wrapper: w-full on mobile, 80% centred on desktop (sm+).
+          CSS Grid with both children in cell 1/1 → they overlap without
+          position:absolute (safe inside backdrop-blur stacking contexts).
         */}
-        <div className="w-full sm:w-4/5 mx-auto">
-          <div
-            className="relative w-full overflow-hidden"
-            style={{ aspectRatio: "4224 / 1120" }}
-          >
-            {/* Static background-image logo — works inside backdrop-blur stacking context */}
-            <div
-              className="absolute inset-0 transition-opacity duration-500"
-              style={{
-                backgroundImage: `url(${logoImage})`,
-                backgroundSize: "100% auto",
-                backgroundPosition: "center 52.5%",
-                backgroundRepeat: "no-repeat",
-                opacity: videoReady ? 0 : 1,
-              }}
-            />
+        <div
+          className="w-full sm:w-4/5 mx-auto"
+          style={{ display: "grid" }}
+        >
+          {/* ── Static logo ── */}
+          <img
+            src={logoImage}
+            alt="Insure-it Group Corp"
+            fetchPriority="high"
+            draggable={false}
+            style={{
+              gridArea: "1/1",
+              width: "100%",
+              aspectRatio: "4224 / 1120",
+              objectFit: "cover",
+              objectPosition: "center 52.5%",
+              display: "block",
+              opacity: videoReady ? 0 : 1,
+              transition: "opacity 0.5s",
+              pointerEvents: "none",
+              userSelect: "none",
+            }}
+          />
 
-            {/* Animated WebM overlay — same crop geometry via %-based positioning */}
+          {/* ── Animated WebM — same crop via margin offsets, no position:abs ── */}
+          <div
+            style={{
+              gridArea: "1/1",
+              aspectRatio: "4224 / 1120",
+              overflow: "hidden",
+              opacity: videoReady ? 1 : 0,
+              transition: "opacity 0.5s",
+            }}
+          >
             <video
               ref={videoRef}
               autoPlay
               muted
               playsInline
-              className="absolute transition-opacity duration-500 pointer-events-none"
               style={{
-                opacity: videoReady ? 1 : 0,
+                display: "block",
                 width: "385.7%",
                 height: "auto",
-                left: "50%",
-                top: "-278%",
-                transform: "translateX(-50%)",
+                marginLeft: "-142.85%",
+                marginTop: "-73.68%",
+                pointerEvents: "none",
               }}
             />
           </div>

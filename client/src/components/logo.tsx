@@ -71,7 +71,7 @@ export default function Logo({
     transformOrigin: "center center",
   };
   const mobileShieldStyle = {
-    top: "-20px",
+    top: "5px",
     transform: "translateX(-50%) scale(1.85)",
     transformOrigin: "center center",
   };

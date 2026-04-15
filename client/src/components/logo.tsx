@@ -71,8 +71,8 @@ export default function Logo({
     transformOrigin: "center center",
   };
   const mobileShieldStyle = {
-    top: "-38px",
-    transform: "translateX(-50%) scale(1.72)",
+    top: "-20px",
+    transform: "translateX(-50%) scale(1.85)",
     transformOrigin: "center center",
   };
 
@@ -82,7 +82,7 @@ export default function Logo({
 
         {/* Mobile */}
         <div className="md:hidden w-full flex flex-col items-center">
-          <div className="relative h-[110px] w-full overflow-hidden">
+          <div className="relative h-[130px] w-full overflow-hidden">
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"

@@ -112,15 +112,23 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile: static last-frame placeholder, video fades in after page load */}
+        {/* Mobile: crop-and-scale to show logo content at full card width */}
+        {/* Content bounding box in 1920×1080 frame: 993×280 starting at (463, 312) */}
+        {/* Scale factor: 1920/993 ≈ 193.6% — content fills container edge-to-edge */}
         <div className="md:hidden w-full flex flex-col items-center">
-          <div className="relative w-full" style={{ aspectRatio: "450/121" }}>
+          <div className="relative w-full overflow-hidden" style={{ aspectRatio: "993/280" }}>
             <img
               src={mobileStatic}
               alt="Insure-it Group Corp"
-              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
-              width={450}
-              height={121}
+              className={`absolute h-auto pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+              style={{
+                width: "193.6%",
+                left: "50%",
+                top: "-112%",
+                transform: "translateX(-50%)",
+              }}
+              width={1920}
+              height={1080}
               fetchPriority="high"
               draggable={false}
             />
@@ -129,7 +137,13 @@ export default function Logo({
               autoPlay
               muted
               playsInline
-              className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
+              className={`absolute h-auto pointer-events-none transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
+              style={{
+                width: "193.6%",
+                left: "50%",
+                top: "-112%",
+                transform: "translateX(-50%)",
+              }}
               aria-hidden={!mobileVideoReady}
             />
           </div>

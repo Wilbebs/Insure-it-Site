@@ -12,11 +12,12 @@ const shieldVideo = "/shield_animation.webm";
 //
 // ─── Video overlay (shield_animation.webm  1920×1080 px) ────────────────────
 // Logo in video: x=466–1423, y=367–499 (height 132 px).
-// Crop via negative margins inside an overflow:hidden wrapper (no position:abs):
-//   width:   385.7% of container W  →  video logo height = container height
-//   marginLeft: -142.85%W           →  centers the wide video
-//   marginTop:  -73.68%W            →  shifts video logo to y=0 of wrapper
-//   (% margins always relative to containing block WIDTH in CSS)
+// Crop via CSS transform inside an overflow:hidden wrapper (no position:abs):
+//   width:    385.7% of container W  →  video logo height = container height
+//   translateX(-37.04%)              →  −37.04% of videoW = −142.85%W  (center)
+//   translateY(-33.95%)              →  −33.95% of videoH = −73.68%W   (top-crop)
+//   transform moves PAINT only (layout stays at 0,0) — overflow:hidden clips
+//   reliably, unlike negative-margin which puts layout above the container.
 //
 // Both elements live in the same CSS-Grid cell (gridArea:"1/1") — they overlap
 // without any absolute positioning, so backdrop-blur stacking contexts can't
@@ -107,11 +108,19 @@ export default function Logo({
             }}
           />
 
-          {/* ── Animated WebM — same crop via margin offsets, no position:abs ── */}
+          {/* ── Animated WebM — crop via transform + padding-bottom ratio trick ── */}
+          {/*
+           * height:0 + paddingBottom:26.52% → grid row sees a 26.52%W-tall item
+           * (same as the <img>), so the cell never inflates to the video's natural
+           * 217%W height.  overflow:hidden clips at the PADDING edge (26.52%W).
+           * The video is then shifted with transform so only the logo row is visible.
+           */}
           <div
             style={{
               gridArea: "1/1",
-              aspectRatio: "4224 / 1120",
+              width: "100%",
+              height: "0",
+              paddingBottom: "26.5152%",
               overflow: "hidden",
               opacity: videoReady ? 1 : 0,
               transition: "opacity 0.5s",
@@ -126,8 +135,13 @@ export default function Logo({
                 display: "block",
                 width: "385.7%",
                 height: "auto",
-                marginLeft: "-142.85%",
-                marginTop: "-73.68%",
+                /*
+                 * transform % values are relative to the element's OWN dimensions:
+                 *   translateX(-37.04%) = -37.04% × 385.7%W = -142.8%W  (center)
+                 *   translateY(-33.95%) = -33.95% × 217.0%W = -73.68%W  (top-crop)
+                 * Layout stays at (0,0); only paint shifts → overflow clips cleanly.
+                 */
+                transform: "translateX(-37.04%) translateY(-33.95%)",
                 pointerEvents: "none",
               }}
             />

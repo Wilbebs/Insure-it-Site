@@ -9,6 +9,8 @@ const jsonLd = {
   description:
     "Family-owned independent insurance agency serving Jacksonville, FL since 2011.",
   url: "https://insureitgroup.net",
+  logo: "https://insureitgroup.net/images/staticinsureitlogo.webp",
+  image: "https://insureitgroup.net/images/heroimage1.webp",
   telephone: "+19049090897",
   email: "Info@insureitgroup.net",
   foundingDate: "2011",
@@ -33,6 +35,11 @@ const jsonLd = {
     "Flood Insurance",
     "Life Insurance",
     "Business Insurance",
+  ],
+  sameAs: [
+    "https://www.facebook.com/insureitgroup",
+    "https://www.instagram.com/insureitgroup/",
+    "https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all",
   ],
 };
 
@@ -59,12 +66,21 @@ export const metadata: Metadata = {
     title: "Insure-it | Insurance Agency",
     description:
       "Family-owned independent insurance agency serving Jacksonville, FL since 2011. Personalized home, auto, flood, life, and business insurance coverage.",
+    images: [
+      {
+        url: "/images/heroimage1.webp",
+        width: 1920,
+        height: 1080,
+        alt: "Insure IT Group Corp — Insurance Agency Jacksonville FL",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Insure-it | Insurance Agency",
     description:
       "Family-owned independent insurance agency serving Jacksonville, FL since 2011.",
+    images: ["/images/heroimage1.webp"],
   },
   robots: {
     index: true,

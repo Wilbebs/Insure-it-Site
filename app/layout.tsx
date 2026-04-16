@@ -90,6 +90,13 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://insureitgroup.net",
   },
+  icons: {
+    icon: "/images/shield_icon.webp",
+    apple: "/images/shield_icon.webp",
+  },
+  other: {
+    "theme-color": "#1e293b",
+  },
 };
 
 export default function RootLayout({

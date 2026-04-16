@@ -90,6 +90,7 @@ export default function Navigation() {
               href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="LinkedIn"
               className="p-2 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-linkedin"
               style={{ zIndex: 3 }}
@@ -101,6 +102,7 @@ export default function Navigation() {
               href="https://www.instagram.com/insureitgroup/"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Instagram"
               className="p-2 rounded-full bg-white/90 hover:bg-pink-600 transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-instagram"
               style={{ zIndex: 2 }}
@@ -112,6 +114,7 @@ export default function Navigation() {
               href="https://www.facebook.com/insureitgroup"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Facebook"
               className="p-2 rounded-full bg-white/90 hover:bg-blue-600 transition-all duration-300 group shadow-md hover:shadow-lg"
               data-testid="nav-social-facebook"
               style={{ zIndex: 1 }}

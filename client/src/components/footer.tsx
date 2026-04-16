@@ -28,6 +28,7 @@ export default function Footer({ onGetQuote }: FooterProps) {
                 href="https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="LinkedIn"
                 className="bg-white/90 hover:bg-white p-1 sm:p-1.5 rounded transition-all hover:scale-110"
                 data-testid="footer-linkedin"
               >
@@ -37,6 +38,7 @@ export default function Footer({ onGetQuote }: FooterProps) {
                 href="https://www.instagram.com/insureitgroup/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Instagram"
                 className="bg-white/90 hover:bg-white p-1 sm:p-1.5 rounded transition-all hover:scale-110"
                 data-testid="footer-instagram"
               >
@@ -46,6 +48,7 @@ export default function Footer({ onGetQuote }: FooterProps) {
                 href="https://www.facebook.com/insureitgroup"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Facebook"
                 className="bg-white/90 hover:bg-white p-1 sm:p-1.5 rounded transition-all hover:scale-110"
                 data-testid="footer-facebook"
               >

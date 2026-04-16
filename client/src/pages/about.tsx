@@ -153,9 +153,9 @@ export default function About() {
         {/* Floating Story Window */}
         <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-[65px] sm:pt-[50px] lg:pt-[90px] pb-24 sm:pb-22">
           <div className="max-w-3xl mx-auto bg-white/40 dark:bg-slate-900/50 backdrop-blur-2xl rounded-2xl sm:rounded-3xl p-3 sm:p-6 md:p-8 shadow-2xl border border-white/40">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 text-slate-800 text-center">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3 text-slate-800 text-center">
               {t.about.ourStory}
-            </h2>
+            </h1>
             <div className="space-y-2 sm:space-y-3 text-xs sm:text-base text-slate-700 leading-relaxed">
               <p>{t.about.storyP1}</p>
               <p>{t.about.storyP2}</p>

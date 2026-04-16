@@ -966,6 +966,7 @@ export default function Landing() {
         </div>
 
         {/* Content */}
+        <h1 className="sr-only">Insure IT Group Corp - Independent Insurance Agency in Jacksonville, FL</h1>
         {/* WINDOW CARD — replaces shield. Shield design preserved in comments above. */}
         <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 mt-[110px] sm:mt-[100px] md:mt-[100px]">
           <div className="w-full flex justify-center">

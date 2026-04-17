@@ -4,14 +4,14 @@ import Landing from "@/pages/landing";
 export const metadata: Metadata = {
   title: "Home | Insure-it",
   description:
-    "Family-owned independent insurance agency serving Jacksonville, FL since 2011. Get a free quote for home, auto, flood, life, or business insurance today.",
+    "Family-owned independent insurance agency serving Jacksonville, FL since 2013. Get a free quote for home, auto, flood, life, or business insurance today.",
   alternates: {
     canonical: "https://insureitgroup.net",
   },
   openGraph: {
     title: "Home | Insure-it",
     description:
-      "Family-owned independent insurance agency serving Jacksonville, FL since 2011. Get a free quote for home, auto, flood, life, or business insurance today.",
+      "Family-owned independent insurance agency serving Jacksonville, FL since 2013. Get a free quote for home, auto, flood, life, or business insurance today.",
     url: "https://insureitgroup.net",
     images: [
       {

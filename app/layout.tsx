@@ -7,13 +7,13 @@ const jsonLd = {
   "@type": "InsuranceAgency",
   name: "Insure IT Group Corp",
   description:
-    "Family-owned independent insurance agency serving Jacksonville, FL since 2011.",
+    "Family-owned independent insurance agency serving Jacksonville, FL since 2013.",
   url: "https://insureitgroup.net",
   logo: "https://insureitgroup.net/images/staticinsureitlogo.webp",
   image: "https://insureitgroup.net/images/heroimage1.webp",
   telephone: "+19049090897",
   email: "Info@insureitgroup.net",
-  foundingDate: "2011",
+  foundingDate: "2013",
   address: {
     "@type": "PostalAddress",
     streetAddress: "11570 San Jose Blvd, Suite 11",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://insureitgroup.net"),
   title: "Insure-it | Insurance Agency",
   description:
-    "Family-owned independent insurance agency serving Jacksonville, FL since 2011. Personalized home, auto, flood, life, and business insurance coverage you can trust.",
+    "Family-owned independent insurance agency serving Jacksonville, FL since 2013. Personalized home, auto, flood, life, and business insurance coverage you can trust.",
   keywords: [
     "insurance agency Jacksonville FL",
     "home insurance Jacksonville",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     siteName: "Insure IT Group Corp",
     title: "Insure-it | Insurance Agency",
     description:
-      "Family-owned independent insurance agency serving Jacksonville, FL since 2011. Personalized home, auto, flood, life, and business insurance coverage.",
+      "Family-owned independent insurance agency serving Jacksonville, FL since 2013. Personalized home, auto, flood, life, and business insurance coverage.",
     images: [
       {
         url: "/images/heroimage1.webp",
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Insure-it | Insurance Agency",
     description:
-      "Family-owned independent insurance agency serving Jacksonville, FL since 2011.",
+      "Family-owned independent insurance agency serving Jacksonville, FL since 2013.",
     images: ["/images/heroimage1.webp"],
   },
   robots: {

@@ -4,7 +4,7 @@
 
 This is a simplified, professional insurance website built with React and Express. The site focuses on making it easy for visitors to request quotes and learn about insurance offerings. Design inspired by Ricci Insurance - clean, minimal scrolling, and conversion-focused.
 
-**Business Credentials**: Family-owned business since 2011, serving thousands of clients across Florida with personalized coverage and genuine care.
+**Business Credentials**: Family-owned business since 2013, serving thousands of clients across Florida with personalized coverage and genuine care.
 
 ## User Preferences
 

@@ -432,10 +432,17 @@ function InsuranceCard({
 
       {/* Default state: icon + title at TOP */}
       <div className="hidden sm:block absolute inset-x-0 top-0 p-4 z-20 transition-opacity duration-200 group-hover:opacity-0 pointer-events-none">
-        {(type.color === "indigo" || type.color === "red" || type.color === "teal") ? (
+        {(type.color === "indigo" || type.color === "red") ? (
           <div
             className={`text-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.55)] mb-1.5 -ml-0.5 [&_svg]:w-[27px] [&_svg]:h-[27px] ${iconAnimation}`}
             style={{ transformOrigin: "13.5px 13.5px" }}
+          >
+            {type.icon}
+          </div>
+        ) : type.color === "teal" ? (
+          <div
+            className={`text-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.55)] mb-1.5 -ml-0.5 [&_svg]:w-[32px] [&_svg]:h-[32px] ${iconAnimation}`}
+            style={{ transformOrigin: "16px 16px" }}
           >
             {type.icon}
           </div>

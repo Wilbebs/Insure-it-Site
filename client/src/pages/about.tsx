@@ -238,7 +238,7 @@ export default function About() {
                     style={{ objectPosition: "center calc(18% - 15px)" }}
                   />
                   <a
-                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    href="https://www.linkedin.com/in/wilbert-hernandez-2105b577/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white group-hover:bg-white rounded-full p-1 sm:p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
@@ -273,7 +273,7 @@ export default function About() {
                     style={{ objectPosition: "center calc(18% - 15px)" }}
                   />
                   <a
-                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    href="https://www.linkedin.com/in/liz-hernandez-867516231/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white group-hover:bg-white rounded-full p-1 sm:p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"
@@ -308,7 +308,7 @@ export default function About() {
                     style={{ objectPosition: "center calc(18% - 15px)" }}
                   />
                   <a
-                    href="https://www.linkedin.com/in/hernandez-wilbert/"
+                    href="https://www.linkedin.com/in/david-hernandez-b7ab94227/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-white group-hover:bg-white rounded-full p-1 sm:p-2 shadow-lg hover:!bg-primary hover:scale-110 transition-all duration-300 z-10"

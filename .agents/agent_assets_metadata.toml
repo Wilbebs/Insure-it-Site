@@ -35,3 +35,9 @@ id = "43ClzXOwAqS2sxvDzHGtR"
 uri = "file://attached_assets/generated_images/fb_banner_jax_bluehour.png"
 type = "image"
 title = "Option 2: Blue Hour Bridge"
+
+[[outputs]]
+id = "0EjyUxgpKwvd32XJeZIxT"
+uri = "file://attached_assets/exports/hero_first_frame.png"
+type = "image"
+title = "Hero Video — First Frame"

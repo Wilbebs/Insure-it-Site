@@ -6,8 +6,32 @@ uri = "file://client/src/assets/shield-glass.png"
 type = "image"
 title = "frosted-glass-heraldic-shield-correct-shape"
 
+[[generated]]
+id = "cIZLANbjUxNk_7c6g8cgn"
+uri = "file://attached_assets/generated_images/fb_banner_jax_golden.png"
+type = "image"
+title = "Jacksonville golden hour skyline banner"
+
+[[generated]]
+id = "i8UdZxwvbt_oNWukAUuXF"
+uri = "file://attached_assets/generated_images/fb_banner_jax_bluehour.png"
+type = "image"
+title = "Jacksonville blue hour banner"
+
 [[outputs]]
 id = "ICpmWszxOSiaHnLLCMBIa"
 uri = "file://client/src/assets/shield-glass.png"
 type = "image"
 title = "Isolated Frosted Glass Shield"
+
+[[outputs]]
+id = "q1BQ4Ik9l671popg7WSwK"
+uri = "file://attached_assets/generated_images/fb_banner_jax_golden.png"
+type = "image"
+title = "Option 1: Golden Hour Skyline"
+
+[[outputs]]
+id = "43ClzXOwAqS2sxvDzHGtR"
+uri = "file://attached_assets/generated_images/fb_banner_jax_bluehour.png"
+type = "image"
+title = "Option 2: Blue Hour Bridge"

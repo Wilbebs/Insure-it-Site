@@ -111,7 +111,7 @@ export default function Navigation() {
             </a>
             
             <a 
-              href="https://www.facebook.com/insureitgroup"
+              href="https://www.facebook.com/profile.php?id=61573260677064"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"

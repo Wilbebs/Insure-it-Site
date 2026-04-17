@@ -395,7 +395,7 @@ export default function About() {
               />
 
               <SocialButton
-                href="https://www.facebook.com/insureitgroup"
+                href="https://www.facebook.com/profile.php?id=61573260677064"
                 icon={
                   <FaFacebook className="w-7 h-7 sm:w-10 sm:h-10 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300 relative z-10" />
                 }

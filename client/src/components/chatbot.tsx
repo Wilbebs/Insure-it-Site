@@ -825,7 +825,7 @@ export default function ChatBot() {
                     <FaInstagram className="w-7 h-7 text-pink-600 group-hover:text-white transition-colors duration-300" />
                   </a>
                   <a
-                    href="https://www.facebook.com/insureitgroup"
+                    href="https://www.facebook.com/profile.php?id=61573260677064"
                     target="_blank" rel="noopener noreferrer"
                     aria-label="Facebook" data-testid="chatbot-social-facebook"
                     className="group w-14 h-14 rounded-full flex items-center justify-center bg-white/90 backdrop-blur-md border-2 border-white/70 shadow-2xl hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-700 active:scale-90 shrink-0"

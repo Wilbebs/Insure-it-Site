@@ -20,7 +20,7 @@ const SOCIALS = [
     testId: "sidebar-instagram",
   },
   {
-    href: "https://www.facebook.com/insureitgroup",
+    href: "https://www.facebook.com/profile.php?id=61573260677064",
     Icon: FaFacebook,
     iconClass: "text-blue-600 group-hover:text-white group-active:text-white",
     bgClass: "bg-gradient-to-br from-blue-50 to-blue-100",

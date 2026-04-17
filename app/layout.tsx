@@ -37,7 +37,7 @@ const jsonLd = {
     "Business Insurance",
   ],
   sameAs: [
-    "https://www.facebook.com/insureitgroup",
+    "https://www.facebook.com/profile.php?id=61573260677064",
     "https://www.instagram.com/insureitgroup/",
     "https://www.linkedin.com/company/insure-itgroupcorp./posts/?feedView=all",
   ],

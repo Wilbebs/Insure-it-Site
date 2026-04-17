@@ -45,7 +45,7 @@ export default function Footer({ onGetQuote }: FooterProps) {
                 <FaInstagram className="w-3 h-3 sm:w-4 sm:h-4 text-pink-600" />
               </a>
               <a
-                href="https://www.facebook.com/insureitgroup"
+                href="https://www.facebook.com/profile.php?id=61573260677064"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"

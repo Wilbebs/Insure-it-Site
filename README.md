@@ -162,18 +162,25 @@ All handled by Express, co-located with the Next.js server on port 5000.
 ### Prerequisites
 - Node.js 20+
 - PostgreSQL 17 (or AWS RDS connection via `DATABASE_URL`)
-- AWS credentials (for S3 uploads)
+- AWS access for S3 uploads and Lambda invocations (see "AWS Credentials" below)
 
 ### Environment Variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `DATABASE_URL` | Yes | PostgreSQL connection string |
-| `AWS_REGION` | Yes | AWS region (e.g., `us-east-1`) |
-| `AWS_ACCESS_KEY_ID` | Yes | AWS IAM access key |
-| `AWS_SECRET_ACCESS_KEY` | Yes | AWS IAM secret key |
-| `S3_BUCKET` | Yes | S3 bucket name for document uploads |
+| `S3_BUCKET_NAME` | Yes | S3 bucket name for document uploads (defaults to `insure-it`) |
+| `LAMBDA_NOTIFICATION_FUNCTION` | Optional | Lambda function name for form notifications (defaults to `sendFormNotification`) |
 | `OPENAI_API_KEY` | Optional | Powers the Liz chatbot AI responses |
+| `AWS_ACCESS_KEY_ID` | Local dev only | See "AWS Credentials" below — **not used in production** |
+| `AWS_SECRET_ACCESS_KEY` | Local dev only | See "AWS Credentials" below — **not used in production** |
+
+### AWS Credentials
+
+The S3 and Lambda clients (`server/s3Client.ts`, `server/lambdaClient.ts`) are initialized **without a hardcoded credentials block** and rely on the AWS SDK's default credential provider chain. Region is hardcoded to `us-east-1`.
+
+- **Production (EC2):** The `insure-it-server-role` IAM role is attached to the EC2 instance. The SDK automatically retrieves rotating temporary credentials from the EC2 instance metadata service. **No static keys are needed or configured in production.**
+- **Local development:** The credential chain falls back to `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` env vars if present. Without them, any code path that calls S3 or Lambda will throw a credential-provider error. The Lambda invoke is wrapped in a try/catch so contact form submissions still succeed even if the notification fails.
 
 ### Running Locally
 

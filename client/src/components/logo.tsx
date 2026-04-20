@@ -23,8 +23,10 @@ export default function Logo({
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
   const [desktopVideoReady, setDesktopVideoReady] = useState(false);
+  const [tabletVideoReady, setTabletVideoReady] = useState(false);
   const [mobileVideoReady, setMobileVideoReady] = useState(false);
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const tabletVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -55,6 +57,17 @@ export default function Logo({
 
   useEffect(() => {
     if (size !== "large") return;
+    const video = tabletVideoRef.current;
+    if (!video) return;
+    const onCanPlay = () => setTabletVideoReady(true);
+    video.addEventListener("canplay", onCanPlay);
+    video.src = shieldVideo;
+    video.load();
+    return () => video.removeEventListener("canplay", onCanPlay);
+  }, [size]);
+
+  useEffect(() => {
+    if (size !== "large") return;
     const video = mobileVideoRef.current;
     if (!video) return;
     const onCanPlay = () => setMobileVideoReady(true);
@@ -64,10 +77,17 @@ export default function Logo({
     return () => video.removeEventListener("canplay", onCanPlay);
   }, [size]);
 
-  const shieldCss = "absolute left-1/2 w-[990px] h-auto pointer-events-none";
+  const desktopShieldCss = "absolute left-1/2 w-[990px] h-auto pointer-events-none";
+  const tabletShieldCss = "absolute left-1/2 w-[700px] h-auto pointer-events-none";
+  const mobileShieldCss = "absolute left-1/2 w-[990px] h-auto pointer-events-none";
   const desktopShieldStyle = {
     top: "-57px",
     transform: "translateX(-50%) scale(1.55)",
+    transformOrigin: "center center",
+  };
+  const tabletShieldStyle = {
+    top: "-40px",
+    transform: "translateX(-50%) scale(1.3)",
     transformOrigin: "center center",
   };
   const mobileShieldStyle = {
@@ -80,13 +100,13 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile */}
+        {/* Mobile (under 768px) */}
         <div className="md:hidden w-full flex flex-col items-center">
           <div className="relative h-[92px] w-full overflow-hidden">
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`${shieldCss} transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`${mobileShieldCss} transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
               style={mobileShieldStyle}
               fetchPriority="high"
               draggable={false}
@@ -96,19 +116,46 @@ export default function Logo({
               autoPlay
               muted
               playsInline
-              className={`${shieldCss} z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
+              className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
               style={mobileShieldStyle}
             />
           </div>
         </div>
 
-        {/* Desktop */}
-        <div className="hidden md:flex md:flex-col md:items-center w-full">
+        {/* Tablet (768px – 1023px) */}
+        <div className="hidden md:flex lg:hidden md:flex-col md:items-center w-full">
+          <div className="relative h-[125px] w-full overflow-hidden mx-auto">
+            <img
+              src={shieldStatic}
+              alt="Insure-it Group Corp"
+              className={`${tabletShieldCss} transition-opacity duration-500 ${tabletVideoReady ? "opacity-0" : "opacity-100"}`}
+              style={tabletShieldStyle}
+              fetchPriority="high"
+              draggable={false}
+            />
+            <video
+              ref={tabletVideoRef}
+              autoPlay
+              muted
+              playsInline
+              className={`${tabletShieldCss} z-10 transition-opacity duration-500 ${tabletVideoReady ? "opacity-100" : "opacity-0"}`}
+              style={tabletShieldStyle}
+            />
+          </div>
+          {showTagline && (
+            <p className="mt-2 text-xl font-semibold italic tagline-shimmer select-none">
+              {taglineText}
+            </p>
+          )}
+        </div>
+
+        {/* Desktop (1024px+) */}
+        <div className="hidden lg:flex lg:flex-col lg:items-center w-full">
           <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`${shieldCss} transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`${desktopShieldCss} transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
               style={desktopShieldStyle}
               fetchPriority="high"
               draggable={false}
@@ -118,12 +165,12 @@ export default function Logo({
               autoPlay
               muted
               playsInline
-              className={`${shieldCss} z-10 transition-opacity duration-500 ${desktopVideoReady ? "opacity-100" : "opacity-0"}`}
+              className={`${desktopShieldCss} z-10 transition-opacity duration-500 ${desktopVideoReady ? "opacity-100" : "opacity-0"}`}
               style={desktopShieldStyle}
             />
           </div>
           {showTagline && (
-            <p className="mt-2 text-xl md:text-2xl font-semibold italic tagline-shimmer select-none">
+            <p className="mt-2 text-2xl font-semibold italic tagline-shimmer select-none">
               {taglineText}
             </p>
           )}

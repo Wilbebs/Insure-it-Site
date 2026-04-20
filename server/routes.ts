@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import { PutObjectCommand } from '@aws-sdk/client-s3'; // NEW: AWS S3 SDK
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'; // Presigned URL generator
 import { s3Client, S3_BUCKET } from './s3Client'; // NEW: S3 client
+import { InvokeCommand } from '@aws-sdk/client-lambda';
+import { lambdaClient, LAMBDA_NOTIFICATION_FUNCTION } from './lambdaClient';
 import { pool } from './db';
 
 const upload = multer({
@@ -105,6 +107,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: validatedData.additionalInformation || null,
         documents: documentUrls.length > 0 ? documentUrls.join(',') : null,
       });
+
+      // Trigger Lambda notification (non-blocking — failure here must NOT
+      // break the customer's submission; we already saved to PostgreSQL).
+      try {
+        const payload = {
+          submissionId: submission.id,
+          formData: req.body,
+          documentUrls,
+        };
+        await lambdaClient.send(new InvokeCommand({
+          FunctionName: LAMBDA_NOTIFICATION_FUNCTION,
+          InvocationType: 'Event', // async — fire-and-forget, no response wait
+          Payload: Buffer.from(JSON.stringify(payload)),
+        }));
+        console.log(`✅ Lambda notification triggered: ${LAMBDA_NOTIFICATION_FUNCTION}`);
+      } catch (lambdaError) {
+        console.error('⚠️  Lambda notification failed (submission still saved):', lambdaError);
+      }
 
       res.json({
         success: true,

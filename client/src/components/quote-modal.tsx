@@ -293,17 +293,16 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
                       </div>
                       <FormControl>
                         <div className="grid grid-cols-2 gap-3">
-                          {policyOptions.map((option, i) => {
+                          {policyOptions.map((option) => {
                             const Icon = option.icon;
                             const isSelected = selected.includes(option.value);
-                            const isFlood = i === policyOptions.length - 1;
                             return (
                               <button
                                 key={option.value}
                                 type="button"
                                 onClick={() => toggle(option.value)}
                                 data-testid={`policy-option-${option.value}`}
-                                className={`relative p-4 rounded-2xl border transition-all duration-300 text-left ${isFlood ? "col-span-2" : ""} ${
+                                className={`relative p-4 rounded-2xl border transition-all duration-300 text-left ${
                                   isSelected
                                     ? "border-blue-500 bg-blue-50 shadow-lg shadow-blue-500/20"
                                     : "border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50/50"

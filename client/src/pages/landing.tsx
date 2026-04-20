@@ -904,7 +904,7 @@ export default function Landing() {
       {/* Hero Section */}
       <section
         ref={heroRef as RefObject<HTMLElement>}
-        className="flex items-start relative pt-16 sm:pt-[72px] pb-10"
+        className="flex items-start sm:items-center lg:items-start relative pt-16 sm:pt-[72px] pb-10"
         style={{ minHeight: "calc(100vh + 37px)" }}
       >
         {/* Hero Background — three layers of fallback:
@@ -976,7 +976,7 @@ export default function Landing() {
         {/* Content */}
         <h1 className="sr-only">Insure IT Group Corp - Independent Insurance Agency in Jacksonville, FL</h1>
         {/* WINDOW CARD — replaces shield. Shield design preserved in comments above. */}
-        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 mt-[110px] sm:mt-[140px] lg:mt-[100px]">
+        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 mt-[110px] sm:mt-0 lg:mt-[100px]">
           <div className="w-full flex justify-center">
             {!isMinimized && (
               <motion.div

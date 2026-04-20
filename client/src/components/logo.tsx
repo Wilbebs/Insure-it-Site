@@ -22,11 +22,9 @@ export default function Logo({
 }: LogoProps) {
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
-  const [desktopVideoReady, setDesktopVideoReady] = useState(false);
-  const [tabletVideoReady, setTabletVideoReady] = useState(false);
+  const [fluidVideoReady, setFluidVideoReady] = useState(false);
   const [mobileVideoReady, setMobileVideoReady] = useState(false);
-  const desktopVideoRef = useRef<HTMLVideoElement>(null);
-  const tabletVideoRef = useRef<HTMLVideoElement>(null);
+  const fluidVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -46,20 +44,9 @@ export default function Logo({
 
   useEffect(() => {
     if (size !== "large") return;
-    const video = desktopVideoRef.current;
+    const video = fluidVideoRef.current;
     if (!video) return;
-    const onCanPlay = () => setDesktopVideoReady(true);
-    video.addEventListener("canplay", onCanPlay);
-    video.src = shieldVideo;
-    video.load();
-    return () => video.removeEventListener("canplay", onCanPlay);
-  }, [size]);
-
-  useEffect(() => {
-    if (size !== "large") return;
-    const video = tabletVideoRef.current;
-    if (!video) return;
-    const onCanPlay = () => setTabletVideoReady(true);
+    const onCanPlay = () => setFluidVideoReady(true);
     video.addEventListener("canplay", onCanPlay);
     video.src = shieldVideo;
     video.load();
@@ -77,30 +64,35 @@ export default function Logo({
     return () => video.removeEventListener("canplay", onCanPlay);
   }, [size]);
 
-  const desktopShieldCss = "absolute left-1/2 w-[990px] h-auto pointer-events-none";
-  const tabletShieldCss = "absolute left-1/2 w-[700px] h-auto pointer-events-none";
   const mobileShieldCss = "absolute left-1/2 w-[990px] h-auto pointer-events-none";
-  const desktopShieldStyle = {
-    top: "-57px",
-    transform: "translateX(-50%) scale(1.55)",
-    transformOrigin: "center center",
-  };
-  const tabletShieldStyle = {
-    top: "-40px",
-    transform: "translateX(-50%) scale(1.3)",
-    transformOrigin: "center center",
-  };
   const mobileShieldStyle = {
     top: "-12px",
     transform: "translateX(-50%) scale(1.85)",
     transformOrigin: "center center",
   };
 
+  // Fluid sizing for tablet+desktop (≥768px viewport).
+  // Linearly interpolates between two anchor points:
+  //   • 768px viewport → width 700px, scale 1.30, top -40px, container 125px tall
+  //   • 1280px viewport → width 990px, scale 1.55, top -57px, container 155px tall
+  // Above 1280px and below 768px, clamp() locks the values at the bounds.
+  const fluidShieldCss = "absolute left-1/2 h-auto pointer-events-none";
+  const fluidShieldStyle = {
+    width: "clamp(700px, calc(700px + (100vw - 768px) * 0.566), 990px)",
+    top: "clamp(-57px, calc(-40px + (100vw - 768px) * -0.0332), -40px)",
+    transform:
+      "translateX(-50%) scale(clamp(1.3, calc(1.3 + (100vw - 768px) * 0.000488 / 1px), 1.55))",
+    transformOrigin: "center center",
+  } as const;
+  const fluidContainerStyle = {
+    height: "clamp(125px, calc(125px + (100vw - 768px) * 0.0586), 155px)",
+  } as const;
+
   if (size === "large") {
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Mobile (under 768px) */}
+        {/* Mobile (under 768px) — discrete sizing tuned for narrow viewports */}
         <div className="md:hidden w-full flex flex-col items-center">
           <div className="relative h-[92px] w-full overflow-hidden">
             <img
@@ -122,55 +114,31 @@ export default function Logo({
           </div>
         </div>
 
-        {/* Tablet (768px – 1023px) */}
-        <div className="hidden md:flex lg:hidden md:flex-col md:items-center w-full">
-          <div className="relative h-[125px] w-full overflow-hidden mx-auto">
+        {/* Tablet + Desktop (≥768px) — fluidly interpolated via clamp() */}
+        <div className="hidden md:flex md:flex-col md:items-center w-full">
+          <div
+            className="relative w-full overflow-hidden mx-auto"
+            style={fluidContainerStyle}
+          >
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`${tabletShieldCss} transition-opacity duration-500 ${tabletVideoReady ? "opacity-0" : "opacity-100"}`}
-              style={tabletShieldStyle}
+              className={`${fluidShieldCss} transition-opacity duration-500 ${fluidVideoReady ? "opacity-0" : "opacity-100"}`}
+              style={fluidShieldStyle}
               fetchPriority="high"
               draggable={false}
             />
             <video
-              ref={tabletVideoRef}
+              ref={fluidVideoRef}
               autoPlay
               muted
               playsInline
-              className={`${tabletShieldCss} z-10 transition-opacity duration-500 ${tabletVideoReady ? "opacity-100" : "opacity-0"}`}
-              style={tabletShieldStyle}
+              className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidVideoReady ? "opacity-100" : "opacity-0"}`}
+              style={fluidShieldStyle}
             />
           </div>
           {showTagline && (
-            <p className="mt-2 text-xl font-semibold italic tagline-shimmer select-none">
-              {taglineText}
-            </p>
-          )}
-        </div>
-
-        {/* Desktop (1024px+) */}
-        <div className="hidden lg:flex lg:flex-col lg:items-center w-full">
-          <div className="relative h-[155px] w-full overflow-hidden mx-auto" style={{ marginTop: '-5px' }}>
-            <img
-              src={shieldStatic}
-              alt="Insure-it Group Corp"
-              className={`${desktopShieldCss} transition-opacity duration-500 ${desktopVideoReady ? "opacity-0" : "opacity-100"}`}
-              style={desktopShieldStyle}
-              fetchPriority="high"
-              draggable={false}
-            />
-            <video
-              ref={desktopVideoRef}
-              autoPlay
-              muted
-              playsInline
-              className={`${desktopShieldCss} z-10 transition-opacity duration-500 ${desktopVideoReady ? "opacity-100" : "opacity-0"}`}
-              style={desktopShieldStyle}
-            />
-          </div>
-          {showTagline && (
-            <p className="mt-2 text-2xl font-semibold italic tagline-shimmer select-none">
+            <p className="mt-2 text-xl lg:text-2xl font-semibold italic tagline-shimmer select-none">
               {taglineText}
             </p>
           )}

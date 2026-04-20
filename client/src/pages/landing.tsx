@@ -670,7 +670,8 @@ export default function Landing() {
   const shieldY = useMotionValue(0);
   const shieldDragged = useRef(false);
 
-  // Only allow window drag on desktop (≥1024px) — mobile drag confuses users
+  // Allow window drag on tablet + desktop (≥640px) — phones get tap-only behavior
+  // (Variable kept named `isDesktop` to avoid a sweeping rename across the file.)
   const [isDesktop, setIsDesktop] = useState(false);
 
   // SHIELD DESIGN PRESERVED — graduated zoom for the shield shape (uncomment to restore)
@@ -686,9 +687,9 @@ export default function Landing() {
   // const [shieldZoom, setShieldZoom] = useState(getShieldZoom);
 
   useEffect(() => {
-    setIsDesktop(window.innerWidth >= 1024);
+    setIsDesktop(window.innerWidth >= 640);
     const onResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
+      setIsDesktop(window.innerWidth >= 640);
       // setShieldZoom(getShieldZoom()); // SHIELD — uncomment to restore
     };
     window.addEventListener("resize", onResize);
@@ -975,7 +976,7 @@ export default function Landing() {
         {/* Content */}
         <h1 className="sr-only">Insure IT Group Corp - Independent Insurance Agency in Jacksonville, FL</h1>
         {/* WINDOW CARD — replaces shield. Shield design preserved in comments above. */}
-        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 mt-[110px] sm:mt-[100px] md:mt-[100px]">
+        <div className="relative z-10 w-full flex items-center justify-center px-4 sm:px-6 mt-[110px] sm:mt-[140px] lg:mt-[100px]">
           <div className="w-full flex justify-center">
             {!isMinimized && (
               <motion.div

@@ -74,21 +74,21 @@ export default function Logo({
   // Fluid sizing for non-phone viewports (≥640px). Anything below 640px uses
   // the dedicated mobile branch since composition needs are different there.
   // Linearly interpolates between two anchor points:
-  //   • 640px viewport → width 700px, scale 1.30, top -25px, container 125px tall
+  //   • 640px viewport → width 700px, scale 1.30, top -45px, container 145px tall
   //   • 1280px viewport → width 990px, scale 1.55, top -57px, container 155px tall
   // Above 1280px and below 640px, clamp() locks the values at the bounds.
-  // Slopes derived from a 640px range: width 290/640=0.453, top -32/640=-0.05,
-  // scale 0.25/640=0.000391, height 30/640=0.0469.
+  // Slopes derived from a 640px range: width 290/640=0.453, top -12/640=-0.01875,
+  // scale 0.25/640=0.000391, height 10/640=0.01563.
   const fluidShieldCss = "absolute left-1/2 h-auto pointer-events-none";
   const fluidShieldStyle = {
     width: "clamp(700px, calc(700px + (100vw - 640px) * 0.453), 990px)",
-    top: "clamp(-57px, calc(-25px + (100vw - 640px) * -0.05), -25px)",
+    top: "clamp(-57px, calc(-45px + (100vw - 640px) * -0.01875), -45px)",
     transform:
       "translateX(-50%) scale(clamp(1.3, calc(1.3 + (100vw - 640px) * 0.000391 / 1px), 1.55))",
     transformOrigin: "center center",
   } as const;
   const fluidContainerStyle = {
-    height: "clamp(125px, calc(125px + (100vw - 640px) * 0.0469), 155px)",
+    height: "clamp(145px, calc(145px + (100vw - 640px) * 0.01563), 155px)",
   } as const;
 
   if (size === "large") {

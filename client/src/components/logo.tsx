@@ -117,8 +117,8 @@ export default function Logo({
           </div>
         </div>
 
-        {/* Tablet + Desktop (≥768px) — fluidly interpolated via clamp() */}
-        <div className="hidden md:flex md:flex-col md:items-center w-full">
+        {/* Tablet + Desktop (≥640px) — fluidly interpolated via clamp() */}
+        <div className="hidden sm:flex sm:flex-col sm:items-center w-full">
           <div
             className="relative w-full overflow-hidden mx-auto"
             style={fluidContainerStyle}

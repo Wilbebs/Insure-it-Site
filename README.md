@@ -171,6 +171,7 @@ All handled by Express, co-located with the Next.js server on port 5000.
 | `DATABASE_URL` | Yes | PostgreSQL connection string |
 | `S3_BUCKET_NAME` | Yes | S3 bucket name for document uploads (defaults to `insure-it`) |
 | `LAMBDA_NOTIFICATION_FUNCTION` | Optional | Lambda function name for form notifications (defaults to `sendFormNotification`) |
+| `ADMIN_API_TOKEN` | Yes | Bearer token required to access all admin endpoints (`GET /api/contact`, `GET /api/policy-applications`, `GET /api/documents/*`, etc.). If unset, admin endpoints fail closed with `503`. |
 | `OPENAI_API_KEY` | Optional | Powers the Liz chatbot AI responses |
 | `AWS_ACCESS_KEY_ID` | Local dev only | See "AWS Credentials" below — **not used in production** |
 | `AWS_SECRET_ACCESS_KEY` | Local dev only | See "AWS Credentials" below — **not used in production** |

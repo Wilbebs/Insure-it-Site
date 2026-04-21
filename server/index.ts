@@ -5,9 +5,11 @@ console.log('🔍 DATABASE_URL loaded:', process.env.DATABASE_URL ? 'YES' : 'NO'
 console.log('🔍 AWS_REGION loaded:', process.env.AWS_REGION ? 'YES' : 'NO');
 
 import express, { type Request, Response, NextFunction } from "express";
+import helmet from "helmet";
 import { registerRoutes } from "./routes";
 import { log } from "./logger";
 import { runMigrations } from "./migrate";
+import { generalApiLimiter } from "./security";
 import next from "next";
 import path from "path";
 
@@ -16,8 +18,20 @@ const nextApp = next({ dev, dir: path.resolve(process.cwd()) });
 const handle = nextApp.getRequestHandler();
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
+app.set("trust proxy", 1);
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
+
+app.use(express.json({ limit: "1mb" }));
+app.use(express.urlencoded({ extended: false, limit: "1mb" }));
+
+app.use("/api/", generalApiLimiter);
 
 app.use((req, res, next) => {
   const start = Date.now();

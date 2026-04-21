@@ -10,22 +10,25 @@ import { s3Client, S3_BUCKET } from './s3Client'; // NEW: S3 client
 import { InvokeCommand } from '@aws-sdk/client-lambda';
 import { lambdaClient, LAMBDA_NOTIFICATION_FUNCTION } from './lambdaClient';
 import { pool } from './db';
+import {
+  requireAdmin,
+  contactLimiter,
+  uploadLimiter,
+  ALLOWED_UPLOAD_MIMES,
+  safeExtensionForMime,
+  isSafeDocumentKey,
+  ALLOWED_DOCUMENT_PREFIX,
+} from './security';
 
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB limit
+    fileSize: 10 * 1024 * 1024, // 10MB per file
+    files: 5,
+    fields: 20,
   },
   fileFilter: (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-    const allowedTypes = [
-      'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'image/jpeg',
-      'image/jpg',
-      'image/png'
-    ];
-    if (allowedTypes.includes(file.mimetype)) {
+    if (ALLOWED_UPLOAD_MIMES.includes(file.mimetype)) {
       cb(null, true);
     } else {
       cb(new Error('Invalid file type. Only PDF, DOC, DOCX, JPG, and PNG files are allowed.'));
@@ -36,14 +39,8 @@ const upload = multer({
 export async function registerRoutes(app: Express): Promise<Server> {
 
   // Contact form submission endpoint
-  app.post("/api/contact", upload.array('documents', 5), async (req, res) => {
+  app.post("/api/contact", contactLimiter, upload.array('documents', 5), async (req, res) => {
     try {
-      console.log('\n=== FORM SUBMISSION DEBUG ===');
-      console.log('Request method:', req.method);
-      console.log('Content-Type:', req.get('Content-Type'));
-      console.log('Request body:', req.body);
-      console.log('============================\n');
-
       const files = req.files as Express.Multer.File[];
       const documentUrls: string[] = [];
 
@@ -51,10 +48,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (files && files.length > 0) {
         for (const file of files) {
           try {
-            // Generate unique filename
-            const fileExtension = file.originalname.split('.').pop();
+            // Generate unique filename — derive extension from mimetype, NOT from
+            // user-supplied originalname (which can contain anything).
+            const fileExtension = safeExtensionForMime(file.mimetype);
             const uniqueFileName = `${uuidv4()}.${fileExtension}`;
-            const s3Key = `contact-documents/${uniqueFileName}`;
+            const s3Key = `${ALLOWED_DOCUMENT_PREFIX}${uniqueFileName}`;
 
             // Upload to S3
             await s3Client.send(new PutObjectCommand({
@@ -65,9 +63,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
             }));
 
             documentUrls.push(s3Key);
-            console.log(`✅ Uploaded file to S3: ${s3Key}`);
+            console.log(`✅ Uploaded file to S3 (${file.mimetype}, ${file.size} bytes)`);
           } catch (uploadError) {
-            console.error(`Failed to upload file ${file.originalname}:`, uploadError);
+            console.error(`Failed to upload file (mime=${file.mimetype}):`, uploadError);
             // Continue with other files even if one fails
           }
         }
@@ -93,9 +91,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         additionalInformation: req.body.additionalInformation
       });
 
-      console.log('✅ Contact form submission received and validated:');
-      console.log('Contact Data:', validatedData);
-      console.log('Files uploaded:', documentUrls.length, 'documents');
+      console.log(`✅ Contact form submission received and validated (policy=${validatedData.policyType}, files=${documentUrls.length})`);
 
       // Create submission in storage (now PostgreSQL)
       const submission = await storage.createContactSubmission({
@@ -111,9 +107,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Trigger Lambda notification (non-blocking — failure here must NOT
       // break the customer's submission; we already saved to PostgreSQL).
       try {
+        // Send only validated fields to Lambda — never raw req.body, which
+        // could contain attacker-controlled extra fields.
         const payload = {
           submissionId: submission.id,
-          formData: req.body,
+          formData: validatedData,
           documentUrls,
         };
         await lambdaClient.send(new InvokeCommand({
@@ -148,8 +146,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get all contact submissions (for admin purposes)
-  app.get("/api/contact", async (req, res) => {
+  // Get all contact submissions (admin only)
+  app.get("/api/contact", requireAdmin, async (req, res) => {
     try {
       const submissions = await storage.getContactSubmissions();
       res.json(submissions);
@@ -175,18 +173,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // POST new feature request for plans page
-  app.post("/api/feature-requests", async (req, res) => {
+  app.post("/api/feature-requests", contactLimiter, async (req, res) => {
     try {
-      const { title, description, priority } = req.body;
+      const featureRequestSchema = z.object({
+        title: z.string().min(1).max(200),
+        description: z.string().max(5000).optional().default(''),
+        priority: z.enum(['low', 'medium', 'high']).optional().default('medium'),
+      });
+      const { title, description, priority } = featureRequestSchema.parse(req.body);
 
       const result = await pool.query(
         'INSERT INTO feature_requests (title, description, priority) VALUES ($1, $2, $3) RETURNING *',
-        [title, description, priority || 'medium']
+        [title, description, priority]
       );
 
       res.json({ success: true, data: result.rows[0] });
     } catch (error) {
       console.error('Error creating feature request:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ success: false, message: 'Validation error', errors: error.errors });
+      }
       res.status(500).json({ success: false, message: 'Failed to create request' });
     }
   });
@@ -205,8 +211,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Update carousel image (placeholder - in production would upload to object storage)
-  app.post("/api/carousel-images/:type", async (req, res) => {
+  // Update carousel image (admin only)
+  app.post("/api/carousel-images/:type", requireAdmin, async (req, res) => {
     try {
       const insuranceType = req.params.type;
       const validTypes = ['auto', 'home', 'life', 'health', 'commercial'];
@@ -236,8 +242,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Strategic Suggestions API endpoints
-  app.get("/api/suggestions", async (req, res) => {
+  // Strategic Suggestions API endpoints (admin only)
+  app.get("/api/suggestions", requireAdmin, async (req, res) => {
     try {
       const suggestions = await storage.getStrategicSuggestions();
       res.json(suggestions);
@@ -250,7 +256,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/suggestions", async (req, res) => {
+  app.post("/api/suggestions", requireAdmin, async (req, res) => {
     try {
       const suggestionSchema = z.object({
         title: z.string().min(1, "Title is required"),
@@ -286,7 +292,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/suggestions/:id", async (req, res) => {
+  app.delete("/api/suggestions/:id", requireAdmin, async (req, res) => {
     try {
       const { id } = req.params;
       await storage.deleteStrategicSuggestion(id);
@@ -306,8 +312,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Policy Application endpoints
 
-  // Submit policy application from chatbot
-  app.post("/api/policy-applications", async (req, res) => {
+  // Submit policy application from chatbot (rate-limited)
+  app.post("/api/policy-applications", contactLimiter, async (req, res) => {
     try {
       const policyApplicationSchema = z.object({
         applicantName: z.string().min(2, "Name must be at least 2 characters"),
@@ -369,8 +375,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get all policy applications (for admin purposes)
-  app.get("/api/policy-applications", async (req, res) => {
+  // Get all policy applications (admin only)
+  app.get("/api/policy-applications", requireAdmin, async (req, res) => {
     try {
       const applications = await storage.getPolicyApplications();
       res.json(applications);
@@ -383,11 +389,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // NEW: S3 file download endpoint
-  app.get("/api/documents/:s3Key(*)", async (req, res) => {
+  // S3 file download endpoint — admin only, locked to contact-documents/ prefix,
+  // forced as attachment so the browser cannot inline-render anything malicious.
+  app.get("/api/documents/:s3Key(*)", requireAdmin, async (req, res) => {
     try {
       const { GetObjectCommand } = await import('@aws-sdk/client-s3');
       const s3Key = req.params.s3Key;
+
+      if (!isSafeDocumentKey(s3Key)) {
+        return res.status(400).json({ error: "Invalid document key" });
+      }
 
       const command = new GetObjectCommand({
         Bucket: S3_BUCKET,
@@ -396,9 +407,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const response = await s3Client.send(command);
 
+      const safeFilename = s3Key.split('/').pop() || 'document';
+
       res.set({
-        'Content-Type': response.ContentType || 'application/octet-stream',
-        'Content-Length': response.ContentLength,
+        'Content-Type': 'application/octet-stream',
+        'Content-Length': response.ContentLength as any,
+        'Content-Disposition': `attachment; filename="${safeFilename.replace(/[^A-Za-z0-9._-]/g, '_')}"`,
+        'X-Content-Type-Options': 'nosniff',
       });
 
       // @ts-ignore - Stream the file
@@ -493,45 +508,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Presigned S3 upload URL — used by Liz Bot file uploader for direct browser-to-S3 uploads
-  // Both the chatbot and the quote form can use this if they need file uploads
-  app.post("/api/objects/upload", async (req, res) => {
+  // Presigned S3 upload URL — used by Liz Bot file uploader for direct browser-to-S3 uploads.
+  // Rate-limited; only allowed mimetypes get a presigned URL; extension derived from mimetype.
+  app.post("/api/objects/upload", uploadLimiter, async (req, res) => {
     try {
-      const { fileName, contentType } = req.body;
+      const uploadSchema = z.object({
+        fileName: z.string().min(1).max(255).optional(),
+        contentType: z.string().min(1).max(100).refine(
+          (v) => ALLOWED_UPLOAD_MIMES.includes(v),
+          { message: "Unsupported content type" }
+        ),
+      });
 
-      if (!fileName) {
-        return res.status(400).json({ success: false, message: "fileName is required" });
-      }
+      const parsed = uploadSchema.parse(req.body);
 
-      const allowedTypes = [
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'image/jpeg',
-        'image/jpg',
-        'image/png'
-      ];
-
-      const safeContentType = contentType && allowedTypes.includes(contentType)
-        ? contentType
-        : 'application/octet-stream';
-
-      const ext = fileName.split('.').pop() || 'bin';
-      const s3Key = `contact-documents/${uuidv4()}.${ext}`;
+      // Derive extension from validated mimetype, never from user-supplied fileName
+      const ext = safeExtensionForMime(parsed.contentType);
+      const s3Key = `${ALLOWED_DOCUMENT_PREFIX}${uuidv4()}.${ext}`;
 
       const command = new PutObjectCommand({
         Bucket: S3_BUCKET,
         Key: s3Key,
-        ContentType: safeContentType,
+        ContentType: parsed.contentType,
       });
 
       // URL is valid for 5 minutes
       const uploadURL = await getSignedUrl(s3Client, command, { expiresIn: 300 });
 
-      console.log(`✅ Generated presigned upload URL for: ${s3Key}`);
+      console.log(`✅ Generated presigned upload URL (mime=${parsed.contentType})`);
 
       res.json({ success: true, uploadURL, s3Key });
     } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ success: false, message: "Validation error", errors: error.errors });
+      }
       console.error("Error generating presigned URL:", error);
       res.status(500).json({ success: false, message: "Failed to generate upload URL" });
     }

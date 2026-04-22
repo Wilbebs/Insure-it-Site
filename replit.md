@@ -62,15 +62,16 @@ This is a simplified, professional insurance website built with React and Expres
 - **Express.js Server**: RESTful API server with TypeScript — runs as custom server alongside Next.js
 - **Next.js Custom Server**: `server/index.ts` initializes Next.js, prepares it, then delegates all non-API requests via `app.all('*', handle)`
 - **Database**: PostgreSQL 17 (AWS RDS db.t4g.micro)
-- **File Storage**: AWS S3 for document uploads
+- **File Storage**: AWS S3 for document uploads (bucket `insure-it`, prefix `documents/`)
+- **Static Media CDN**: AWS CloudFront distribution `d3gkfgi9drj9kb.cloudfront.net` fronts the same `insure-it` S3 bucket. All large/static media (hero images, logo, shield video, hero videos, testimonial parallax bg) is served from the CDN, not the EC2 origin. See **CDN Asset Strategy** below.
 - **Middleware**: Multer for file uploads, Zod for validation
 
 ### Key Components
 - **Navigation**: Glass morphism navbar with Next.js Link components, usePathname for active state
-- **Logo**: InsureIT logo with WebM shield animation (served from `/public/shield_animation.webm`). Static placeholder is the last frame of the animation extracted as lossless WebP with alpha (`/public/images/shield_lastframe.webp`, 80KB). Must use `-c:v libvpx` when extracting frames from VP8+alpha WebM — default decoder drops the alpha channel. Both static and video use identical CSS: `w-[990px] scale(1.55) top:-57px translateX(-50%)`.
+- **Logo**: InsureIT logo with WebM shield animation. Source files live in `public/` for local dev fallback but in production are served from CloudFront: `https://d3gkfgi9drj9kb.cloudfront.net/video-assets/shield_animation.webm` (1.2 MB, VP8+alpha) and the static last-frame placeholder `https://d3gkfgi9drj9kb.cloudfront.net/image-assets/shield_lastframe.webp` (80 KB). When extracting frames from the VP8+alpha WebM you **must** use `-c:v libvpx` — the default decoder silently drops the alpha channel. Both static and video use identical CSS: `w-[990px] scale(1.55) top:-57px translateX(-50%)`. The same CDN URL for `staticinsureitlogo.webp` powers the navbar wordmark via `next/image` (CloudFront hostname is whitelisted in `next.config.mjs` `remotePatterns`).
 - **Hero Window Card**: Frosted-glass app-window card (macOS title bar aesthetic) in the hero — draggable on desktop, minimize/restore animated.
-- **Hero Video**: Dual-source via CloudFront CDN. Mobile phones (≤640px) receive `herovid_mobile.mp4` (portrait 9:19.5); desktop/tablet receive `herovid1.mp4` (landscape). Both at `https://d3gkfgi9drj9kb.cloudfront.net/video-assets/`. Source selected via JS (`isMobilePhone` state, set once on `window.onload` by checking `window.innerWidth <= 640`) — NOT via `media` attribute which is unsupported for `<video><source>`.
-- **Hero Static Image**: Uses `<picture>` element with `<source media="(max-width: 640px)" srcSet="/images/heroimage_mobile.webp">` — phones download ONLY the portrait Jacksonville bridge WebP (645×1412px, 173KB), desktop/tablet download ONLY `heroimage1.webp`. `<picture>` loads eagerly (SEO, fetchPriority="high"); video lazy-loads after `window.onload`. Video `poster=` also switches per device. Both images in `public/images/`.
+- **Hero Video**: Dual-source via CloudFront CDN. Mobile phones (≤640px) receive `herovid_mobile.mp4` (portrait 9:19.5, 17.7 MB); desktop/tablet receive `herovid1.mp4` (landscape, 21.8 MB). Both at `https://d3gkfgi9drj9kb.cloudfront.net/video-assets/`. Source selected via JS (`isMobilePhone` state, set once on `window.onload` by checking `window.innerWidth <= 640`) — NOT via `media` attribute which is unsupported for `<video><source>`.
+- **Hero Static Image**: Uses `<picture>` element with two CDN sources — `<source media="(max-width: 640px)" srcSet="https://d3gkfgi9drj9kb.cloudfront.net/image-assets/heroimage_mobile.webp">` (645×1412px, 172KB portrait Jacksonville bridge) and the desktop/tablet `heroimage1.webp` (1920×1080, 286KB). Phones download only the mobile variant; desktop downloads only the landscape. `<picture>` loads eagerly (SEO, `fetchPriority="high"`); video lazy-loads after `window.onload`. Video `poster=` also switches per device. `app/layout.tsx` ships two media-gated `<link rel="preload" as="image">` tags pointing at the same CDN URLs so the correct hero image starts downloading during HTML parse.
 - **QuoteModal**: Contact form modal for quote requests with S3 document upload
 - **TestimonialsCarousel**: 2x2 grid, 12 testimonials across 3 pages, auto-cycles every 6s with swipe support
 - **Footer**: Site footer with company info — uses Next.js Link
@@ -128,6 +129,45 @@ This approach works on all browsers including Safari, Chrome, Firefox, and all i
 
 ### VP8 Alpha WebM (Shield Animation)
 The shield animation WebM uses VP8 with a secondary alpha stream. When extracting frames with ffmpeg, you **must** use `-c:v libvpx` — the default decoder silently drops the alpha channel, producing opaque black backgrounds. See Logo section above for details.
+
+## CDN Asset Strategy
+
+All large/static media is served from CloudFront (`d3gkfgi9drj9kb.cloudfront.net`) backed by the S3 bucket `insure-it`. The EC2 origin no longer streams these files, dramatically reducing origin bandwidth and improving global TTFB.
+
+### S3 layout
+```
+s3://insure-it/
+  image-assets/   ← public, cacheable forever (immutable assets)
+    heroimage1.webp           1920×1080  286 KB   landscape hero (desktop/tablet)
+    heroimage_mobile.webp      645×1412  172 KB   portrait hero (phones ≤640px)
+    shield_lastframe.webp     1920×1080   80 KB   logo static placeholder
+    staticinsureitlogo.webp   4224×1444   96 KB   InsureIT wordmark
+    team_highfive.webp        4700×3133  220 KB   testimonials parallax bg
+  video-assets/   ← public, cacheable forever
+    herovid1.mp4                          21.8 MB  desktop hero loop
+    herovid_mobile.mp4                    17.7 MB  mobile hero loop
+    shield_animation.webm                  1.2 MB  VP8+alpha logo animation
+  documents/      ← private, presigned-URL access only (quote uploads)
+```
+
+### Cache headers
+All CDN-served media is uploaded with `Cache-Control: public, max-age=31536000, immutable`. Filenames are the version contract — to change a file's contents, either upload under a new filename **or** issue a CloudFront invalidation for that path. CloudFront's first 1,000 invalidation paths/month are free.
+
+### Where the URLs live in code
+- `client/src/components/logo.tsx` — `staticinsureitlogo.webp`, `shield_lastframe.webp`, `shield_animation.webm`
+- `client/src/pages/landing.tsx` — `heroimage1.webp`, `heroimage_mobile.webp`, `herovid1.mp4`, `herovid_mobile.mp4`, `team_highfive.webp`
+- `app/layout.tsx` — two media-gated `<link rel="preload">` tags for the hero images
+- `app/loading.tsx` — `shield_animation.webm`
+- `next.config.mjs` — `d3gkfgi9drj9kb.cloudfront.net` whitelisted under `images.remotePatterns` so `next/image` can optimize CDN-hosted images (currently used by the navbar logo).
+
+### What stays on the EC2 origin
+- HTML, JS, CSS, fonts, `.next/static/*` chunks
+- Smaller team headshots in `public/images/` (elizabeth_photo.jpg, david_photo.jpg, wilbert_photo.jpg, whjr_photo.jpg) — these load on the About page and aren't large enough to warrant CDN
+- SEO/Open Graph/JSON-LD `image` URLs deliberately reference `https://insureitgroup.net/images/...` (canonical domain) rather than the CDN — keep it that way for crawler stability
+
+### Operations
+- **Add or replace a CDN asset**: upload to the matching S3 prefix with `Content-Type` and `Cache-Control: public, max-age=31536000, immutable`. If the filename already existed, run a CloudFront invalidation on `/image-assets/<filename>` (or `/video-assets/<filename>`) so edges drop the stale copy.
+- **Local source of truth**: the originals also live in `public/images/` and `public/` for dev fallback. If you swap one, re-upload to S3 to keep them in sync.
 
 ## Design Guidelines
 

@@ -136,3 +136,13 @@ See `design_guidelines.md` for detailed design specifications including:
 - Typography (Inter font family)
 - Component specifications
 - Animation guidelines
+
+## CI: Mobile Lighthouse Performance Check
+
+A GitHub Action (`.github/workflows/lighthouse.yml`) runs on every push to `main` and on pull requests. It:
+1. Builds the app (`npm run build`) and starts it (`npm run start`).
+2. Runs Lighthouse CI (`@lhci/cli`) 3 times against `http://localhost:5000/` using a mobile emulation profile (Moto G Power, slow 4G throttling).
+3. Fails the build with a clear error message if the **mobile performance score drops below 0.85 (85)**.
+4. Uploads the full Lighthouse HTML/JSON report as the `lighthouse-mobile-report` artifact (30-day retention) so it can be downloaded and inspected from the CI run.
+
+Configuration lives in `.lighthouserc.json` (threshold, throttling, device emulation). Bump `minScore` there if the team agrees to a stricter floor.

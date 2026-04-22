@@ -36,11 +36,14 @@ import { useTranslation } from "@/components/theme-provider";
 import { useEffect, useState, useRef, useCallback, type RefObject } from "react";
 import SectionDivider from "@/components/section-divider";
 
+const CDN_IMG = "https://d3gkfgi9drj9kb.cloudfront.net/image-assets";
 const heroVideoDesktop = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/herovid1.mp4";
 const heroVideoMobile  = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/herovid_mobile.mp4";
+const heroImageDesktop = `${CDN_IMG}/heroimage1.webp`;
+const heroImageMobile  = `${CDN_IMG}/heroimage_mobile.webp`;
 const shieldIcon = "/images/shield_icon.webp";
 const floodImg = "/images/flood_card.webp";
-const highFiveImg = "/images/team_highfive.jpg";
+const highFiveImg = `${CDN_IMG}/team_highfive.webp`;
 
 function InsuranceDetailModal({
   type,
@@ -924,9 +927,9 @@ export default function Landing() {
               Mobile phones (≤640px) get heroimage_mobile.webp (portrait, 173KB).
               Desktop/tablet get heroimage1.webp (landscape). */}
           <picture className="w-full h-full">
-            <source media="(max-width: 640px)" srcSet="/images/heroimage_mobile.webp" />
+            <source media="(max-width: 640px)" srcSet={heroImageMobile} />
             <img
-              src="/images/heroimage1.webp"
+              src={heroImageDesktop}
               alt="Insure IT Group Corp - Insurance Agency Jacksonville FL"
               className="w-full h-full object-cover"
               style={{ objectPosition: "center 40%" }}
@@ -942,7 +945,7 @@ export default function Landing() {
               muted
               loop
               playsInline
-              poster={isMobilePhone ? "/images/heroimage_mobile.webp" : "/images/heroimage1.webp"}
+              poster={isMobilePhone ? heroImageMobile : heroImageDesktop}
               className="absolute inset-0"
               style={{
                 width: "100%",

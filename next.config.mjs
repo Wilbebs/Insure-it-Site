@@ -10,6 +10,7 @@ const nextConfig = {
     remotePatterns: [
       { hostname: "images.unsplash.com" },
       { hostname: "plus.unsplash.com" },
+      { hostname: "d3gkfgi9drj9kb.cloudfront.net" },
     ],
   },
   webpack(config) {

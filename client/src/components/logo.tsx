@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-const logoImage = "/images/staticinsureitlogo.webp";
+const CDN = "https://d3gkfgi9drj9kb.cloudfront.net/image-assets";
+const logoImage = `${CDN}/staticinsureitlogo.webp`;
 
 const shieldVideo = "/shield_animation.webm";
-const shieldStatic = "/images/shield_lastframe.webp";
+const shieldStatic = `${CDN}/shield_lastframe.webp`;
 
 interface LogoProps {
   className?: string;

@@ -125,7 +125,7 @@ export default function Logo({
                 playsInline
                 preload="auto"
                 className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
-                style={mobileShieldStyle}
+                style={{ ...mobileShieldStyle, mixBlendMode: "screen" }}
               >
                 <source src={shieldVideoMobileMp4} type="video/mp4" />
                 <source src={shieldVideoWebm} type="video/webm" />
@@ -156,7 +156,7 @@ export default function Logo({
                 playsInline
                 preload="auto"
                 className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidVideoReady ? "opacity-100" : "opacity-0"}`}
-                style={fluidShieldStyle}
+                style={{ ...fluidShieldStyle, mixBlendMode: "screen" }}
               >
                 <source src={shieldVideoDesktopMp4} type="video/mp4" />
                 <source src={shieldVideoWebm} type="video/webm" />

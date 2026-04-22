@@ -146,7 +146,6 @@ export default function Logo({
                 className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidVideoReady ? "opacity-100" : "opacity-0"}`}
                 style={fluidShieldStyle}
               >
-                <source src={shieldVideoDesktopMp4} type="video/mp4" />
                 <source src={shieldVideoWebm} type="video/webm" />
               </video>
             )}

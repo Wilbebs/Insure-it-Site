@@ -1,9 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 const logoImage = "/images/staticinsureitlogo.webp";
 
-const shieldVideo = "/shield_animation.webm";
+const shieldVideoMobileMp4 = "/shield_animation_mobile.mp4";
+const shieldVideoDesktopMp4 = "/shield_animation.mp4";
+const shieldVideoWebm = "/shield_animation.webm";
 const shieldStatic = "/images/shield_lastframe.webp";
 
 interface LogoProps {
@@ -48,7 +51,6 @@ export default function Logo({
     if (!video) return;
     const onCanPlay = () => setFluidVideoReady(true);
     video.addEventListener("canplay", onCanPlay);
-    video.src = shieldVideo;
     video.load();
     return () => video.removeEventListener("canplay", onCanPlay);
   }, [size]);
@@ -59,7 +61,6 @@ export default function Logo({
     if (!video) return;
     const onCanPlay = () => setMobileVideoReady(true);
     video.addEventListener("canplay", onCanPlay);
-    video.src = shieldVideo;
     video.load();
     return () => video.removeEventListener("canplay", onCanPlay);
   }, [size]);
@@ -111,9 +112,13 @@ export default function Logo({
               autoPlay
               muted
               playsInline
+              preload="metadata"
               className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
               style={mobileShieldStyle}
-            />
+            >
+              <source src={shieldVideoMobileMp4} type="video/mp4" />
+              <source src={shieldVideoWebm} type="video/webm" />
+            </video>
           </div>
         </div>
 
@@ -136,9 +141,13 @@ export default function Logo({
               autoPlay
               muted
               playsInline
+              preload="metadata"
               className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidVideoReady ? "opacity-100" : "opacity-0"}`}
               style={fluidShieldStyle}
-            />
+            >
+              <source src={shieldVideoDesktopMp4} type="video/mp4" />
+              <source src={shieldVideoWebm} type="video/webm" />
+            </video>
           </div>
           {showTagline && (
             <p className="mt-2 text-xl lg:text-2xl font-semibold italic tagline-shimmer select-none">
@@ -153,9 +162,13 @@ export default function Logo({
 
   return (
     <div className={`flex items-center group cursor-pointer ${className}`}>
-      <img
+      <Image
         src={logoImage}
         alt="Insure-it Group Corp"
+        width={800}
+        height={273}
+        priority
+        sizes="(max-width: 640px) 80px, 140px"
         className={`${imgClassName ?? "h-10"} w-auto transition-transform duration-300 group-hover:scale-105`}
       />
     </div>

@@ -111,6 +111,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+    <meta name="google-site-verification" content="2i_f63ELXZtuiO7pOhBS9f3w79ANoA9NktjyoezNvxo" />
         <link
           rel="preload"
           as="image"

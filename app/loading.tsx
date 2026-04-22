@@ -19,7 +19,7 @@ export default function Loading() {
           className="absolute w-[520px] h-auto pointer-events-none"
           style={{ transform: "scale(1.55)", transformOrigin: "center center" }}
         >
-          <source src="/shield_animation.webm" type="video/webm" />
+          <source src="https://d3gkfgi9drj9kb.cloudfront.net/video-assets/shield_animation.webm" type="video/webm" />
         </video>
       </div>
 

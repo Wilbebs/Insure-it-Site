@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 const CDN = "https://d3gkfgi9drj9kb.cloudfront.net/image-assets";
 const logoImage = `${CDN}/staticinsureitlogo.webp`;
 
-const shieldVideo = "/shield_animation.webm";
+const shieldVideo = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/shield_animation.webm";
 const shieldStatic = `${CDN}/shield_lastframe.webp`;
 
 interface LogoProps {

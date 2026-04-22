@@ -7,6 +7,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pull-requests: write
+  actions: read
+
 jobs:
   lighthouse:
     name: Mobile performance check
@@ -38,13 +43,50 @@ jobs:
 
       - name: Run mobile Lighthouse audit
         id: lhci
+        continue-on-error: true
         run: npx --yes @lhci/cli@0.14.x autorun
 
-      - name: Report failure
-        if: failure() && steps.lhci.outcome == 'failure'
-        run: |
-          echo "::error::Mobile Lighthouse performance score dropped below the 85 threshold."
-          echo "Download the 'lighthouse-mobile-report' artifact from this run to see the full report."
+      - name: Summarize Lighthouse results
+        id: summary
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const lhciDir = '.lighthouseci';
+            const manifestPath = path.join(lhciDir, 'manifest.json');
+            if (!fs.existsSync(manifestPath)) {
+              core.warning('No Lighthouse manifest found; skipping summary.');
+              core.setOutput('available', 'false');
+              return;
+            }
+
+            const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+            const representative = manifest.find(r => r.isRepresentativeRun) || manifest[0];
+            if (!representative) {
+              core.warning('Manifest is empty; skipping summary.');
+              core.setOutput('available', 'false');
+              return;
+            }
+
+            const report = JSON.parse(fs.readFileSync(representative.jsonPath, 'utf8'));
+            const perf = report.categories?.performance?.score ?? null;
+            const audits = report.audits || {};
+
+            const summary = {
+              url: report.finalDisplayedUrl || report.finalUrl || representative.url,
+              performance: perf,
+              lcp: audits['largest-contentful-paint']?.numericValue ?? null,
+              tbt: audits['total-blocking-time']?.numericValue ?? null,
+              cls: audits['cumulative-layout-shift']?.numericValue ?? null,
+              fcp: audits['first-contentful-paint']?.numericValue ?? null,
+              si: audits['speed-index']?.numericValue ?? null,
+            };
+
+            fs.writeFileSync(path.join(lhciDir, 'summary.json'), JSON.stringify(summary, null, 2));
+            core.setOutput('available', 'true');
 
       - name: Upload Lighthouse report
         if: always()
@@ -54,3 +96,190 @@ jobs:
           path: .lighthouseci
           if-no-files-found: ignore
           retention-days: 30
+
+      - name: Install baseline parser deps
+        if: always() && github.event_name == 'pull_request' && steps.summary.outputs.available == 'true'
+        run: npm install --no-save --no-audit --no-fund adm-zip@0.5.x
+
+      - name: Fetch baseline from main
+        id: baseline
+        if: always() && github.event_name == 'pull_request' && steps.summary.outputs.available == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const AdmZip = (() => { try { return require('adm-zip'); } catch { return null; } })();
+
+            async function findLatestMainArtifact() {
+              const runs = await github.paginate(
+                github.rest.actions.listWorkflowRuns,
+                {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  workflow_id: 'lighthouse.yml',
+                  branch: 'main',
+                  event: 'push',
+                  status: 'completed',
+                  per_page: 20,
+                },
+                (response) => response.data,
+              );
+              for (const run of runs.slice(0, 20)) {
+                const { data: artifacts } = await github.rest.actions.listWorkflowRunArtifacts({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  run_id: run.id,
+                });
+                const art = artifacts.artifacts.find(a => a.name === 'lighthouse-mobile-report' && !a.expired);
+                if (art) return { run, artifact: art };
+              }
+              return null;
+            }
+
+            try {
+              const found = await findLatestMainArtifact();
+              if (!found) {
+                core.info('No baseline artifact available from main.');
+                core.setOutput('available', 'false');
+                return;
+              }
+              if (!AdmZip) {
+                core.info('adm-zip not available; skipping baseline parse.');
+                core.setOutput('available', 'false');
+                return;
+              }
+              const dl = await github.rest.actions.downloadArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: found.artifact.id,
+                archive_format: 'zip',
+              });
+              const zip = new AdmZip(Buffer.from(dl.data));
+              const entry = zip.getEntries().find(e => e.entryName.endsWith('summary.json'));
+              if (!entry) {
+                core.info('Baseline artifact has no summary.json.');
+                core.setOutput('available', 'false');
+                return;
+              }
+              const baseline = JSON.parse(entry.getData().toString('utf8'));
+              fs.writeFileSync('baseline-summary.json', JSON.stringify(baseline));
+              core.setOutput('available', 'true');
+              core.setOutput('run_id', String(found.run.id));
+              core.setOutput('sha', found.run.head_sha);
+            } catch (err) {
+              core.warning(`Failed to fetch baseline: ${err.message}`);
+              core.setOutput('available', 'false');
+            }
+
+      - name: Comment Lighthouse summary on PR
+        if: always() && github.event_name == 'pull_request' && steps.summary.outputs.available == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = JSON.parse(fs.readFileSync('.lighthouseci/summary.json', 'utf8'));
+            const baselineAvailable = '${{ steps.baseline.outputs.available }}' === 'true';
+            const baseline = baselineAvailable
+              ? JSON.parse(fs.readFileSync('baseline-summary.json', 'utf8'))
+              : null;
+
+            const fmtScore = (v) => v == null ? 'n/a' : Math.round(v * 100).toString();
+            const fmtMs = (v) => v == null ? 'n/a' : `${(v / 1000).toFixed(2)} s`;
+            const fmtCls = (v) => v == null ? 'n/a' : v.toFixed(3);
+
+            const arrow = (delta, betterWhenLower) => {
+              if (delta === 0) return '➡️';
+              const improved = betterWhenLower ? delta < 0 : delta > 0;
+              return improved ? '🟢' : '🔴';
+            };
+
+            const deltaScore = (cur, base) => {
+              if (cur == null || base == null) return '';
+              const d = Math.round(cur * 100) - Math.round(base * 100);
+              if (d === 0) return ' (±0)';
+              return ` (${arrow(d, false)} ${d > 0 ? '+' : ''}${d})`;
+            };
+            const deltaMs = (cur, base) => {
+              if (cur == null || base == null) return '';
+              const d = cur - base;
+              if (Math.abs(d) < 1) return ' (±0)';
+              return ` (${arrow(d, true)} ${d > 0 ? '+' : ''}${(d / 1000).toFixed(2)} s)`;
+            };
+            const deltaCls = (cur, base) => {
+              if (cur == null || base == null) return '';
+              const d = cur - base;
+              if (Math.abs(d) < 0.001) return ' (±0)';
+              return ` (${arrow(d, true)} ${d > 0 ? '+' : ''}${d.toFixed(3)})`;
+            };
+
+            const score = fmtScore(summary.performance);
+            const threshold = 85;
+            const passing = summary.performance != null && Math.round(summary.performance * 100) >= threshold;
+            const statusEmoji = passing ? '✅' : '❌';
+
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const baselineLine = baseline
+              ? `Compared against baseline from \`main\` @ \`${'${{ steps.baseline.outputs.sha }}'.slice(0, 7)}\` ([run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${'${{ steps.baseline.outputs.run_id }}'})).`
+              : '_No baseline from `main` available yet — deltas will appear on future PRs._';
+
+            const body = [
+              '<!-- lighthouse-mobile-report -->',
+              `### ${statusEmoji} Mobile Lighthouse Report`,
+              '',
+              `**URL audited:** \`${summary.url}\`  `,
+              `**Performance score:** **${score} / 100**${deltaScore(summary.performance, baseline?.performance)} (threshold: ${threshold})`,
+              '',
+              '| Metric | Value | vs main |',
+              '| --- | --- | --- |',
+              `| Largest Contentful Paint (LCP) | ${fmtMs(summary.lcp)} | ${baseline ? deltaMs(summary.lcp, baseline.lcp).trim() || '±0' : 'n/a'} |`,
+              `| Total Blocking Time (TBT) | ${fmtMs(summary.tbt)} | ${baseline ? deltaMs(summary.tbt, baseline.tbt).trim() || '±0' : 'n/a'} |`,
+              `| Cumulative Layout Shift (CLS) | ${fmtCls(summary.cls)} | ${baseline ? deltaCls(summary.cls, baseline.cls).trim() || '±0' : 'n/a'} |`,
+              `| First Contentful Paint (FCP) | ${fmtMs(summary.fcp)} | ${baseline ? deltaMs(summary.fcp, baseline.fcp).trim() || '±0' : 'n/a'} |`,
+              `| Speed Index | ${fmtMs(summary.si)} | ${baseline ? deltaMs(summary.si, baseline.si).trim() || '±0' : 'n/a'} |`,
+              '',
+              baselineLine,
+              '',
+              `📄 [Download the full HTML report](${runUrl}#artifacts) (artifact: \`lighthouse-mobile-report\`).`,
+            ].join('\n');
+
+            const marker = '<!-- lighthouse-mobile-report -->';
+            const allComments = await github.paginate(
+              github.rest.issues.listComments,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                per_page: 100,
+              },
+            );
+            const existing = allComments.find(c => c.body && c.body.includes(marker));
+            try {
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: existing.id,
+                  body,
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body,
+                });
+              }
+            } catch (err) {
+              core.warning(`Could not post Lighthouse comment (likely a forked PR with read-only token): ${err.message}`);
+              await core.summary
+                .addHeading('Mobile Lighthouse Report')
+                .addRaw(body)
+                .write();
+            }
+
+      - name: Enforce Lighthouse outcome
+        if: always() && steps.lhci.outcome == 'failure'
+        run: |
+          echo "::error::Mobile Lighthouse performance score dropped below the 85 threshold."
+          echo "See the PR comment or download the 'lighthouse-mobile-report' artifact for details."
+          exit 1

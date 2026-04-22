@@ -1,12 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 const logoImage = "/images/staticinsureitlogo.webp";
 
-const shieldVideoMobileMp4 = "/shield_animation_mobile.mp4";
-const shieldVideoDesktopMp4 = "/shield_animation.mp4";
-const shieldVideoWebm = "/shield_animation.webm";
+const shieldVideo = "/shield_animation.webm";
 const shieldStatic = "/images/shield_lastframe.webp";
 
 interface LogoProps {
@@ -27,18 +24,8 @@ export default function Logo({
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
   const [fluidVideoReady, setFluidVideoReady] = useState(false);
   const [mobileVideoReady, setMobileVideoReady] = useState(false);
-  const [isPhone, setIsPhone] = useState<boolean | null>(null);
   const fluidVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mql = window.matchMedia("(max-width: 639.98px)");
-    const update = () => setIsPhone(mql.matches);
-    update();
-    mql.addEventListener("change", update);
-    return () => mql.removeEventListener("change", update);
-  }, []);
 
   useEffect(() => {
     if (showTagline && size === "large") {
@@ -56,24 +43,26 @@ export default function Logo({
   }, [showTagline, size]);
 
   useEffect(() => {
-    if (size !== "large" || isPhone !== false) return;
+    if (size !== "large") return;
     const video = fluidVideoRef.current;
     if (!video) return;
     const onCanPlay = () => setFluidVideoReady(true);
     video.addEventListener("canplay", onCanPlay);
+    video.src = shieldVideo;
     video.load();
     return () => video.removeEventListener("canplay", onCanPlay);
-  }, [size, isPhone]);
+  }, [size]);
 
   useEffect(() => {
-    if (size !== "large" || isPhone !== true) return;
+    if (size !== "large") return;
     const video = mobileVideoRef.current;
     if (!video) return;
     const onCanPlay = () => setMobileVideoReady(true);
     video.addEventListener("canplay", onCanPlay);
+    video.src = shieldVideo;
     video.load();
     return () => video.removeEventListener("canplay", onCanPlay);
-  }, [size, isPhone]);
+  }, [size]);
 
   const mobileShieldCss = "absolute left-1/2 w-[990px] h-auto pointer-events-none";
   const mobileShieldStyle = {
@@ -112,13 +101,19 @@ export default function Logo({
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`${mobileShieldCss} opacity-100`}
+              className={`${mobileShieldCss} transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
               style={mobileShieldStyle}
               fetchPriority="high"
               draggable={false}
             />
-            {/* Mobile intentionally shows the static shield only — no video.
-                Avoids the opaque-MP4 black-rectangle artifact on small viewports. */}
+            <video
+              ref={mobileVideoRef}
+              autoPlay
+              muted
+              playsInline
+              className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
+              style={mobileShieldStyle}
+            />
           </div>
         </div>
 
@@ -136,19 +131,14 @@ export default function Logo({
               fetchPriority="high"
               draggable={false}
             />
-            {isPhone === false && (
-              <video
-                ref={fluidVideoRef}
-                autoPlay
-                muted
-                playsInline
-                preload="auto"
-                className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidVideoReady ? "opacity-100" : "opacity-0"}`}
-                style={fluidShieldStyle}
-              >
-                <source src={shieldVideoWebm} type="video/webm" />
-              </video>
-            )}
+            <video
+              ref={fluidVideoRef}
+              autoPlay
+              muted
+              playsInline
+              className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidVideoReady ? "opacity-100" : "opacity-0"}`}
+              style={fluidShieldStyle}
+            />
           </div>
           {showTagline && (
             <p className="mt-2 text-xl lg:text-2xl font-semibold italic tagline-shimmer select-none">
@@ -163,13 +153,9 @@ export default function Logo({
 
   return (
     <div className={`flex items-center group cursor-pointer ${className}`}>
-      <Image
+      <img
         src={logoImage}
         alt="Insure-it Group Corp"
-        width={800}
-        height={273}
-        priority
-        sizes="(max-width: 640px) 80px, 140px"
         className={`${imgClassName ?? "h-10"} w-auto transition-transform duration-300 group-hover:scale-105`}
       />
     </div>

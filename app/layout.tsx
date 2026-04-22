@@ -117,14 +117,6 @@ export default function RootLayout({
           as="image"
           href="/images/heroimage1.webp"
           type="image/webp"
-          media="(min-width: 641px)"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/images/heroimage_mobile.webp"
-          type="image/webp"
-          media="(max-width: 640px)"
         />
       </head>
       <body>

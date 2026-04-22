@@ -40,7 +40,7 @@ const heroVideoDesktop = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/her
 const heroVideoMobile  = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/herovid_mobile.mp4";
 const shieldIcon = "/images/shield_icon.webp";
 const floodImg = "/images/flood_card.webp";
-const highFiveImg = "/images/team_highfive.webp";
+const highFiveImg = "/images/team_highfive.jpg";
 
 function InsuranceDetailModal({
   type,
@@ -1332,7 +1332,7 @@ export default function Landing() {
             loading="lazy"
           />
         )}
-        <div className="absolute inset-0 bg-slate-900/60 dark:bg-slate-900/65" />
+        <div className="absolute inset-0 bg-slate-900/40 dark:bg-slate-900/50" />
         <section className="pt-7 pb-10 relative z-10">
           <ScaledContainer desktopWidth={640}>
             <div className="px-4 sm:px-6">

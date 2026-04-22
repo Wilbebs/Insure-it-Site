@@ -27,8 +27,18 @@ export default function Logo({
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
   const [fluidVideoReady, setFluidVideoReady] = useState(false);
   const [mobileVideoReady, setMobileVideoReady] = useState(false);
+  const [isPhone, setIsPhone] = useState<boolean | null>(null);
   const fluidVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mql = window.matchMedia("(max-width: 639.98px)");
+    const update = () => setIsPhone(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     if (showTagline && size === "large") {
@@ -46,24 +56,24 @@ export default function Logo({
   }, [showTagline, size]);
 
   useEffect(() => {
-    if (size !== "large") return;
+    if (size !== "large" || isPhone !== false) return;
     const video = fluidVideoRef.current;
     if (!video) return;
     const onCanPlay = () => setFluidVideoReady(true);
     video.addEventListener("canplay", onCanPlay);
     video.load();
     return () => video.removeEventListener("canplay", onCanPlay);
-  }, [size]);
+  }, [size, isPhone]);
 
   useEffect(() => {
-    if (size !== "large") return;
+    if (size !== "large" || isPhone !== true) return;
     const video = mobileVideoRef.current;
     if (!video) return;
     const onCanPlay = () => setMobileVideoReady(true);
     video.addEventListener("canplay", onCanPlay);
     video.load();
     return () => video.removeEventListener("canplay", onCanPlay);
-  }, [size]);
+  }, [size, isPhone]);
 
   const mobileShieldCss = "absolute left-1/2 w-[990px] h-auto pointer-events-none";
   const mobileShieldStyle = {
@@ -107,18 +117,20 @@ export default function Logo({
               fetchPriority="high"
               draggable={false}
             />
-            <video
-              ref={mobileVideoRef}
-              autoPlay
-              muted
-              playsInline
-              preload="metadata"
-              className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
-              style={mobileShieldStyle}
-            >
-              <source src={shieldVideoMobileMp4} type="video/mp4" />
-              <source src={shieldVideoWebm} type="video/webm" />
-            </video>
+            {isPhone === true && (
+              <video
+                ref={mobileVideoRef}
+                autoPlay
+                muted
+                playsInline
+                preload="auto"
+                className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
+                style={mobileShieldStyle}
+              >
+                <source src={shieldVideoMobileMp4} type="video/mp4" />
+                <source src={shieldVideoWebm} type="video/webm" />
+              </video>
+            )}
           </div>
         </div>
 
@@ -136,18 +148,20 @@ export default function Logo({
               fetchPriority="high"
               draggable={false}
             />
-            <video
-              ref={fluidVideoRef}
-              autoPlay
-              muted
-              playsInline
-              preload="metadata"
-              className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidVideoReady ? "opacity-100" : "opacity-0"}`}
-              style={fluidShieldStyle}
-            >
-              <source src={shieldVideoDesktopMp4} type="video/mp4" />
-              <source src={shieldVideoWebm} type="video/webm" />
-            </video>
+            {isPhone === false && (
+              <video
+                ref={fluidVideoRef}
+                autoPlay
+                muted
+                playsInline
+                preload="auto"
+                className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidVideoReady ? "opacity-100" : "opacity-0"}`}
+                style={fluidShieldStyle}
+              >
+                <source src={shieldVideoDesktopMp4} type="video/mp4" />
+                <source src={shieldVideoWebm} type="video/webm" />
+              </video>
+            )}
           </div>
           {showTagline && (
             <p className="mt-2 text-xl lg:text-2xl font-semibold italic tagline-shimmer select-none">

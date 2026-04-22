@@ -112,25 +112,13 @@ export default function Logo({
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`${mobileShieldCss} transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`${mobileShieldCss} opacity-100`}
               style={mobileShieldStyle}
               fetchPriority="high"
               draggable={false}
             />
-            {isPhone === true && (
-              <video
-                ref={mobileVideoRef}
-                autoPlay
-                muted
-                playsInline
-                preload="auto"
-                className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
-                style={{ ...mobileShieldStyle, mixBlendMode: "screen" }}
-              >
-                <source src={shieldVideoMobileMp4} type="video/mp4" />
-                <source src={shieldVideoWebm} type="video/webm" />
-              </video>
-            )}
+            {/* Mobile intentionally shows the static shield only — no video.
+                Avoids the opaque-MP4 black-rectangle artifact on small viewports. */}
           </div>
         </div>
 
@@ -156,7 +144,7 @@ export default function Logo({
                 playsInline
                 preload="auto"
                 className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidVideoReady ? "opacity-100" : "opacity-0"}`}
-                style={{ ...fluidShieldStyle, mixBlendMode: "screen" }}
+                style={fluidShieldStyle}
               >
                 <source src={shieldVideoDesktopMp4} type="video/mp4" />
                 <source src={shieldVideoWebm} type="video/webm" />

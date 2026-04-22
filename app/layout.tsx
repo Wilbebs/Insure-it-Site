@@ -45,9 +45,9 @@ const jsonLd = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://insureitgroup.net"),
-  title: "Insure-it | Insurance Agency",
+  title: "Insure-it | Life\u2019s Uncertain. Your Coverage Isn\u2019t.",
   description:
-    "Family-owned independent insurance agency serving Jacksonville, FL since 2013. Personalized home, auto, flood, life, and business insurance coverage you can trust.",
+    "Family-owned independent insurance agency in Jacksonville, FL since 2013. Personalized home, auto, flood, life and business coverage from agents who truly care.",
   keywords: [
     "insurance agency Jacksonville FL",
     "home insurance Jacksonville",
@@ -63,9 +63,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://insureitgroup.net",
     siteName: "Insure IT Group Corp",
-    title: "Insure-it | Insurance Agency",
+    title: "Insure-it | Life\u2019s Uncertain. Your Coverage Isn\u2019t.",
     description:
-      "Family-owned independent insurance agency serving Jacksonville, FL since 2013. Personalized home, auto, flood, life, and business insurance coverage.",
+      "Family-owned independent insurance agency in Jacksonville, FL since 2013. Personalized home, auto, flood, life and business coverage from agents who truly care.",
     images: [
       {
         url: "/images/heroimage1.webp",
@@ -77,9 +77,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Insure-it | Insurance Agency",
+    title: "Insure-it | Life\u2019s Uncertain. Your Coverage Isn\u2019t.",
     description:
-      "Family-owned independent insurance agency serving Jacksonville, FL since 2013.",
+      "Family-owned independent insurance agency in Jacksonville, FL since 2013. Personalized home, auto, flood, life and business coverage from agents who truly care.",
     images: ["/images/heroimage1.webp"],
   },
   robots: {
@@ -91,7 +91,11 @@ export const metadata: Metadata = {
     canonical: "https://insureitgroup.net",
   },
   icons: {
-    icon: "/images/shield_icon.webp",
+    icon: [
+      { url: "/images/shield_icon.webp", type: "image/webp" },
+      { url: "/icon.png", type: "image/png", sizes: "any" },
+    ],
+    shortcut: "/icon.png",
     apple: "/images/shield_icon.webp",
   },
   other: {

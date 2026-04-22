@@ -56,7 +56,7 @@ This is a simplified, professional insurance website built with React and Expres
 - **Styling**: TailwindCSS 3 + Shadcn/ui components
 - **Animations**: Framer Motion for subtle entrance animations
 - **State Management**: TanStack React Query v5 for server state
-- **"use client" boundary**: Top-level page components (`landing.tsx`, `about.tsx`, `plans.tsx`) are marked "use client". Their entire import tree becomes client-side. `app/page.tsx` etc. are Server Components that export metadata and render the page.
+- **"use client" boundary**: Top-level page components (`landing.tsx`, `about.tsx`) are marked "use client". Their entire import tree becomes client-side. `app/page.tsx` etc. are Server Components that export metadata and render the page.
 
 ### Backend Architecture
 - **Express.js Server**: RESTful API server with TypeScript — runs as custom server alongside Next.js

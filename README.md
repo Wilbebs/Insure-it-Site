@@ -73,7 +73,6 @@ Node.js Server (Next.js 14 + Express.js — port 5000)
 │   ├── providers.tsx           # Client-side providers (React Query, Language, Tooltip)
 │   ├── page.tsx                # Home page (/ route)
 │   ├── about/page.tsx          # About page (/about)
-│   ├── plans/page.tsx          # Plans page (/plans)
 │   └── not-found.tsx           # 404 page
 │
 ├── client/src/
@@ -91,7 +90,6 @@ Node.js Server (Next.js 14 + Express.js — port 5000)
 │   ├── pages/                  # Page content components (all "use client")
 │   │   ├── landing.tsx         # Homepage content (~1,240 lines)
 │   │   ├── about.tsx           # About page — team, story
-│   │   ├── plans.tsx           # Insurance plans
 │   │   └── not-found.tsx       # 404 content
 │   │
 │   └── lib/
@@ -127,7 +125,6 @@ Node.js Server (Next.js 14 + Express.js — port 5000)
 |-------|-------------|-----------|
 | `/` | Homepage — hero, insurance types, testimonials, contact | SSG |
 | `/about` | Team profiles, company story | SSG |
-| `/plans` | Insurance plans detail | SSG |
 
 ---
 

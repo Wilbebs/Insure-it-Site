@@ -16,6 +16,9 @@ build/
 *.log
 npm-debug.log*
 
+# Lighthouse CI reports
+.lighthouseci/
+
 # OS files
 .DS_Store
 Thumbs.db

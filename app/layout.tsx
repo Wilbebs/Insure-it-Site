@@ -131,16 +131,17 @@ export default function RootLayout({
           type="image/webp"
           media="(min-width: 641px)"
         />
-        {/* Mobile preload uses the v3 file — a still extracted from the
-            mobile hero video at the 8.5s mark (720×1560, q=85, ~183 KB).
-            Visual continuity: phones see the exact frame the video would
-            have settled on, so dropping the video on mobile costs no
-            visual context. The older heroimage_mobile.webp / _v2 files
-            remain on the CDN for OG/social previews. */}
+        {/* Mobile preload uses the v5 file — a still extracted from the
+            mobile hero video at the 5.9s mark (720×1560, q=85). Iterated
+            ~150ms later than _v4 (5.75s) for a slightly different
+            composition. Visual continuity: phones see a frame the video
+            naturally lands on, so dropping the video on mobile costs no
+            visual context. Older variants remain on the CDN for OG/social
+            previews. */}
         <link
           rel="preload"
           as="image"
-          href="https://d3gkfgi9drj9kb.cloudfront.net/image-assets/heroimage_mobile_v3.webp"
+          href="https://d3gkfgi9drj9kb.cloudfront.net/image-assets/heroimage_mobile_v5.webp"
           type="image/webp"
           media="(max-width: 640px)"
         />

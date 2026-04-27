@@ -40,14 +40,14 @@ const CDN_IMG = "https://d3gkfgi9drj9kb.cloudfront.net/image-assets";
 const heroVideoDesktop = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/herovid1.mp4";
 const heroVideoMobile  = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/herovid_mobile.mp4";
 const heroImageDesktop = `${CDN_IMG}/heroimage1.webp`;
-// _v3 is a still extracted from the mobile hero video at the 8.5s mark
-// (720×1560, q=85, ~183 KB). Picked for visual continuity — what mobile
-// users see is now the exact frame the video would have settled on, so
-// dropping the video on phones doesn't cost any visual context. Source
-// frame is from the native 1080×2340 video, downscaled to a retina sweet
-// spot. Both the rendered <picture> source and the LCP preload in
-// app/layout.tsx point at this file.
-const heroImageMobile  = `${CDN_IMG}/heroimage_mobile_v3.webp`;
+// _v5 is a still extracted from the mobile hero video at the 5.9s mark
+// (720×1560, q=85). Iterated from _v4 (5.75s) by ~150ms for a slightly
+// later composition. Visual continuity: phones see a frame the video
+// naturally lands on, so dropping the video on mobile costs no visual
+// context. Source frame is from the native 1080×2340 video, downscaled
+// to a retina sweet spot. Both the rendered <picture> source and the
+// LCP preload in app/layout.tsx point at this file.
+const heroImageMobile  = `${CDN_IMG}/heroimage_mobile_v5.webp`;
 const shieldIcon = "/images/shield_icon.webp";
 const floodImg = "/images/flood_card.webp";
 const highFiveImg = `${CDN_IMG}/team_highfive.webp`;

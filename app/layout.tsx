@@ -55,6 +55,25 @@ const jsonLd = {
   ],
 };
 
+// WebSite schema with potentialAction. This is the structured data Google
+// uses to decide whether to render a "Sitelinks Searchbox" under the main
+// search result. It costs nothing to include and is a prerequisite for
+// that feature even being eligible.
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Insure IT Group Corp",
+  url: "https://insureitgroup.net",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://insureitgroup.net/?q={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://insureitgroup.net"),
   title: "Insure-it | Life\u2019s Uncertain. Your Coverage Isn\u2019t.",
@@ -78,11 +97,15 @@ export const metadata: Metadata = {
     title: "Insure-it | Life\u2019s Uncertain. Your Coverage Isn\u2019t.",
     description:
       "Family-owned independent insurance agency in Jacksonville, FL since 2013. Personalized home, auto, flood, life and business coverage from agents who truly care.",
+    // OG image must be JPG/PNG at 1200×630 for maximum compatibility.
+    // LinkedIn, iMessage and several other previewers silently fail on
+    // WebP, which was the bug behind missing/broken social link previews.
     images: [
       {
-        url: "/images/heroimage1.webp",
-        width: 1920,
-        height: 1080,
+        url: "/images/og_image.jpg",
+        width: 1200,
+        height: 630,
+        type: "image/jpeg",
         alt: "Insure IT Group Corp — Insurance Agency Jacksonville FL",
       },
     ],
@@ -92,7 +115,7 @@ export const metadata: Metadata = {
     title: "Insure-it | Life\u2019s Uncertain. Your Coverage Isn\u2019t.",
     description:
       "Family-owned independent insurance agency in Jacksonville, FL since 2013. Personalized home, auto, flood, life and business coverage from agents who truly care.",
-    images: ["/images/heroimage1.webp"],
+    images: ["/images/og_image.jpg"],
   },
   robots: {
     index: true,
@@ -162,6 +185,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </body>
     </html>

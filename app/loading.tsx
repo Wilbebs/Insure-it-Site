@@ -6,17 +6,21 @@ const SHIELD_VIDEO = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/shield_
 const SHIELD_STATIC = "https://d3gkfgi9drj9kb.cloudfront.net/image-assets/shield_lastframe.webp";
 
 export default function Loading() {
-  // WebKit (iOS Safari + macOS Safari + every iOS browser) decodes VP8 but
-  // ignores the alpha channel — it would paint a solid black rectangle behind
-  // the shield. On those clients we never mount the video and just show the
-  // static last-frame image. Defaults to false during SSR/first paint so other
-  // browsers aren't penalised with a flash of static.
+  // Skip the video and show only the static shield when:
+  //   • Browser is WebKit (iOS Safari + macOS Safari) — VP8+alpha decodes
+  //     to a black rectangle there.
+  //   • Viewport is mobile-sized (≤640px) — saves bandwidth on cellular and
+  //     keeps Lighthouse mobile performance / SEO scores high.
+  // Defaults to false during SSR/first paint so desktop clients aren't
+  // penalised with a flash of static.
   const [noVideo, setNoVideo] = useState(false);
   const [videoFadedIn, setVideoFadedIn] = useState(false);
 
   useEffect(() => {
     const ua = navigator.userAgent;
-    setNoVideo(/AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua));
+    const isWebKit = /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua);
+    const isMobile = window.innerWidth <= 640;
+    setNoVideo(isWebKit || isMobile);
   }, []);
 
   return (

@@ -67,9 +67,7 @@ export default function Logo({
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
   const [fluidShieldReady, setFluidShieldReady] = useState(false);
-  const [mobileShieldReady, setMobileShieldReady] = useState(false);
   const fluidVideoRef = useRef<HTMLVideoElement>(null);
-  const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const noVideo = useNoVideo();
   const pageLoaded = useAfterPageLoad();
   // Mount the <video> only when (a) we know the browser can decode it and
@@ -124,30 +122,20 @@ export default function Logo({
     return (
       <div className={`flex flex-col items-center ${className}`}>
 
-        {/* Phone / phablet (under 640px) — discrete sizing tuned for narrow viewports */}
+        {/* Phone / phablet (under 640px) — static image only.
+            Mobile devices (both iOS and Android) skip the WebM entirely so we
+            don't pay the bandwidth cost on cellular connections. This also
+            helps Lighthouse mobile performance / SEO scores. */}
         <div className="sm:hidden w-full flex flex-col items-center">
           <div className="relative h-[92px] w-full overflow-hidden">
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`${mobileShieldCss} transition-opacity duration-500 ${mobileShieldReady ? "opacity-0" : "opacity-100"}`}
+              className={mobileShieldCss}
               style={mobileShieldStyle}
               fetchPriority="high"
               draggable={false}
             />
-            {showVideo && (
-              <video
-                ref={mobileVideoRef}
-                src={shieldVideo}
-                autoPlay
-                muted
-                playsInline
-                preload="auto"
-                onCanPlay={() => setMobileShieldReady(true)}
-                className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileShieldReady ? "opacity-100" : "opacity-0"}`}
-                style={mobileShieldStyle}
-              />
-            )}
           </div>
         </div>
 

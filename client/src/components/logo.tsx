@@ -7,7 +7,11 @@ const logoImage = `${CDN}/staticinsureitlogo.webp`;
 // Animated WebP — works with proper alpha on every modern browser including
 // iOS Safari 14+. Replaces the previous VP8+alpha WebM, which Safari decoded
 // without honouring the alpha channel (showing a black rectangle).
-const shieldAnimated = `${CDN}/shield_animation.webp`;
+// v2: full-canvas frames (640×360, 33ms each, infinite loop). The v1 file
+// used sub-rectangle frame optimization which Chromium rendered as a frozen
+// still on frame 1 instead of looping. Bumping the filename forces edges to
+// drop the broken cached copy without needing a CloudFront invalidation.
+const shieldAnimated = `${CDN}/shield_animation_v2.webp`;
 const shieldStatic = `${CDN}/shield_lastframe.webp`;
 
 interface LogoProps {

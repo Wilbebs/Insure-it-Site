@@ -14,7 +14,7 @@ export default function Loading() {
           iOS Safari 14+. No <video> autoplay quirks. */}
       <div className="relative w-44 h-44 overflow-hidden flex items-center justify-center">
         <img
-          src="https://d3gkfgi9drj9kb.cloudfront.net/image-assets/shield_animation.webp"
+          src="https://d3gkfgi9drj9kb.cloudfront.net/image-assets/shield_animation_v2.webp"
           alt=""
           aria-hidden="true"
           className="absolute w-[520px] h-auto pointer-events-none"

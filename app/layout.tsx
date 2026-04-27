@@ -21,7 +21,7 @@ const jsonLd = {
   description:
     "Family-owned independent insurance agency serving Jacksonville, FL since 2013.",
   url: "https://insureitgroup.net",
-  logo: "https://insureitgroup.net/images/staticinsureitlogo.webp",
+  logo: "https://insureitgroup.net/images/staticinsureitlogo_v2.webp",
   image: "https://insureitgroup.net/images/heroimage1.webp",
   telephone: "+19049090897",
   email: "Info@insureitgroup.net",

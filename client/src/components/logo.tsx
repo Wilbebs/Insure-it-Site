@@ -6,7 +6,11 @@ const CDN = "https://d3gkfgi9drj9kb.cloudfront.net";
 const CDN_IMG = `${CDN}/image-assets`;
 const CDN_VID = `${CDN}/video-assets`;
 
-const logoImage = `${CDN_IMG}/staticinsureitlogo.webp`;
+// _v2 is the navbar logo properly sized for its actual rendered size.
+// The original (4224×1444, 96 KB) was being downscaled to 105×36 in the
+// browser — Lighthouse correctly flagged it as "image larger than displayed".
+// _v2 is 320×110 (3× retina for the 105×36 display), 8 KB. Saves ~88 KB.
+const logoImage = `${CDN_IMG}/staticinsureitlogo_v2.webp`;
 // VP8+alpha WebM — 1.2 MB. Animates correctly on every browser engine that
 // honours the alpha channel (Chrome, Firefox, Edge, Android WebView, etc).
 // The WebKit family (iOS Safari + macOS Safari + every iOS browser, since they
@@ -14,7 +18,11 @@ const logoImage = `${CDN_IMG}/staticinsureitlogo.webp`;
 // For those browsers we never mount the <video> at all and let the static
 // shield stay visible. See `useNoVideo()` below.
 const shieldVideo = `${CDN_VID}/shield_animation.webm`;
-const shieldStatic = `${CDN_IMG}/shield_lastframe.webp`;
+// _v2 is the static shield resized for its actual rendered size. The
+// original was an animated WebP with one frame on a 1920×1080 canvas
+// (79 KB). _v2 is a flat static WebP at 990×558 (3× retina for the
+// 330×186 display), 19 KB. Saves ~60 KB.
+const shieldStatic = `${CDN_IMG}/shield_lastframe_v2.webp`;
 
 interface LogoProps {
   className?: string;

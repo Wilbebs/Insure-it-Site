@@ -4,7 +4,7 @@ import { CloudFrontClient, ListDistributionsCommand, CreateInvalidationCommand }
 const s3 = new S3Client({ region: "us-east-1" });
 const cf = new CloudFrontClient({ region: "us-east-1" });
 
-const files = ["shield_lastframe.webp", "staticinsureitlogo.webp"];
+const files = ["shield_lastframe_v2.webp", "staticinsureitlogo_v2.webp"];
 console.log("=== S3 actual ETags ===");
 for (const f of files) {
   const h = await s3.send(new HeadObjectCommand({ Bucket: "insure-it", Key: `image-assets/${f}` }));
@@ -24,8 +24,8 @@ if (target?.Id) {
     InvalidationBatch: {
       CallerReference: `cli-${Date.now()}`,
       Paths: { Quantity: 5, Items: [
-        "/image-assets/shield_lastframe.webp",
-        "/image-assets/staticinsureitlogo.webp",
+        "/image-assets/shield_lastframe_v2.webp",
+        "/image-assets/staticinsureitlogo_v2.webp",
         "/image-assets/heroimage1.webp",
         "/image-assets/heroimage_mobile_v5.webp",
         "/image-assets/team_highfive.webp",

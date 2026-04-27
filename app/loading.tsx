@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const SHIELD_VIDEO = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/shield_animation.webm";
-const SHIELD_STATIC = "https://d3gkfgi9drj9kb.cloudfront.net/image-assets/shield_lastframe.webp";
+const SHIELD_STATIC = "https://d3gkfgi9drj9kb.cloudfront.net/image-assets/shield_lastframe_v2.webp";
 
 export default function Loading() {
   // Skip the video and show only the static shield when:

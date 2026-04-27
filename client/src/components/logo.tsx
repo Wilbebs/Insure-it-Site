@@ -7,13 +7,12 @@ const CDN_IMG = `${CDN}/image-assets`;
 const CDN_VID = `${CDN}/video-assets`;
 
 const logoImage = `${CDN_IMG}/staticinsureitlogo.webp`;
-// Real video format with inter-frame compression — 1.2 MB and reliably loops on
-// every browser engine that decodes VP8+alpha (Chrome, Firefox, Edge, Android
-// WebView, etc). The WebKit family (iOS Safari + macOS Safari + every iOS
-// browser, since they all use WebKit) decodes VP8 but ignores the alpha channel,
-// painting a black rectangle. For those browsers we fall back to the static
-// shield via `useNoVideo()` below — they get a clean stationary logo instead of
-// the black box.
+// VP8+alpha WebM — 1.2 MB. Animates correctly on every browser engine that
+// honours the alpha channel (Chrome, Firefox, Edge, Android WebView, etc).
+// The WebKit family (iOS Safari + macOS Safari + every iOS browser, since they
+// all use WebKit) decodes VP8 but ignores alpha, painting a black rectangle.
+// For those browsers we never mount the <video> at all and let the static
+// shield stay visible. See `useNoVideo()` below.
 const shieldVideo = `${CDN_VID}/shield_animation.webm`;
 const shieldStatic = `${CDN_IMG}/shield_lastframe.webp`;
 
@@ -27,10 +26,9 @@ interface LogoProps {
 
 // Returns true on browsers whose video decoder strips the alpha channel from
 // VP8+alpha WebM (the WebKit family). On those, we never mount the <video>
-// element at all and let the static placeholder stay visible. On every other
-// browser we mount the video and animate normally. Defaults to `false` during
-// SSR / first paint so non-Safari clients aren't penalised with a flash of
-// static.
+// element at all and let the static placeholder stay visible. Defaults to
+// `false` during SSR / first paint so non-Safari clients aren't penalised
+// with a flash of static.
 function useNoVideo(): boolean {
   const [noVideo, setNoVideo] = useState(false);
   useEffect(() => {
@@ -39,6 +37,25 @@ function useNoVideo(): boolean {
     setNoVideo(webkit);
   }, []);
   return noVideo;
+}
+
+// Returns true once the page has finished loading. Used to defer mounting the
+// video element until after `window.onload` — the page renders with just the
+// static shield, then the animation downloads and plays in the background.
+// Same pattern as the hero video lazy-load in `landing.tsx`.
+function useAfterPageLoad(): boolean {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (document.readyState === "complete") {
+      setReady(true);
+      return;
+    }
+    const onLoad = () => setReady(true);
+    window.addEventListener("load", onLoad);
+    return () => window.removeEventListener("load", onLoad);
+  }, []);
+  return ready;
 }
 
 export default function Logo({
@@ -54,6 +71,12 @@ export default function Logo({
   const fluidVideoRef = useRef<HTMLVideoElement>(null);
   const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const noVideo = useNoVideo();
+  const pageLoaded = useAfterPageLoad();
+  // Mount the <video> only when (a) we know the browser can decode it and
+  // (b) the rest of the page has finished loading. The animation plays once
+  // (no `loop` attribute) and rests on its final frame, which matches the
+  // static placeholder pixel-for-pixel — so the user never notices the seam.
+  const showVideo = !noVideo && pageLoaded;
 
   useEffect(() => {
     if (showTagline && size === "large") {
@@ -112,13 +135,12 @@ export default function Logo({
               fetchPriority="high"
               draggable={false}
             />
-            {!noVideo && (
+            {showVideo && (
               <video
                 ref={mobileVideoRef}
                 src={shieldVideo}
                 autoPlay
                 muted
-                loop
                 playsInline
                 preload="auto"
                 onCanPlay={() => setMobileShieldReady(true)}
@@ -143,13 +165,12 @@ export default function Logo({
               fetchPriority="high"
               draggable={false}
             />
-            {!noVideo && (
+            {showVideo && (
               <video
                 ref={fluidVideoRef}
                 src={shieldVideo}
                 autoPlay
                 muted
-                loop
                 playsInline
                 preload="auto"
                 onCanPlay={() => setFluidShieldReady(true)}

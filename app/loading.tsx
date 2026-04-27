@@ -12,6 +12,8 @@ export default function Loading() {
   // static last-frame image. Defaults to false during SSR/first paint so other
   // browsers aren't penalised with a flash of static.
   const [noVideo, setNoVideo] = useState(false);
+  const [videoFadedIn, setVideoFadedIn] = useState(false);
+
   useEffect(() => {
     const ua = navigator.userAgent;
     setNoVideo(/AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua));
@@ -28,23 +30,26 @@ export default function Loading() {
       }}
     >
       <div className="relative w-44 h-44 overflow-hidden flex items-center justify-center">
-        {noVideo ? (
-          <img
-            src={SHIELD_STATIC}
-            alt=""
-            aria-hidden="true"
-            className="absolute w-[520px] h-auto pointer-events-none"
-            style={{ transform: "scale(1.55)", transformOrigin: "center center" }}
-            draggable={false}
-          />
-        ) : (
+        {/* Static shield is always present underneath. On WebKit it's the only
+            thing rendered. On other browsers the video plays once and fades in
+            on top of it, ending on its final frame which matches the static
+            pixel-for-pixel — so the seam is invisible. */}
+        <img
+          src={SHIELD_STATIC}
+          alt=""
+          aria-hidden="true"
+          className={`absolute w-[520px] h-auto pointer-events-none transition-opacity duration-500 ${videoFadedIn ? "opacity-0" : "opacity-100"}`}
+          style={{ transform: "scale(1.55)", transformOrigin: "center center" }}
+          draggable={false}
+        />
+        {!noVideo && (
           <video
             autoPlay
             muted
-            loop
             playsInline
             preload="auto"
-            className="absolute w-[520px] h-auto pointer-events-none"
+            onCanPlay={() => setVideoFadedIn(true)}
+            className={`absolute w-[520px] h-auto pointer-events-none z-10 transition-opacity duration-500 ${videoFadedIn ? "opacity-100" : "opacity-0"}`}
             style={{ transform: "scale(1.55)", transformOrigin: "center center" }}
           >
             <source src={SHIELD_VIDEO} type="video/webm" />

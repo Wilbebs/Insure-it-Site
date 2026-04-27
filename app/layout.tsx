@@ -102,14 +102,23 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://insureitgroup.net",
   },
+  // Favicons MUST be PNG/ICO. WebP favicons are silently ignored by Safari
+  // (iOS + macOS) and by Google Search's favicon crawler, so the previous
+  // shield_icon.webp setup never produced a tab icon for Safari users or a
+  // Google search-result icon. The file set below is generated from the
+  // shield artwork at build time and lives at the public/ root so the
+  // standard /favicon.ico fallback path also resolves.
   icons: {
     icon: [
-      { url: "/images/shield_icon.webp", type: "image/webp" },
-      { url: "/icon.png", type: "image/png", sizes: "any" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-48x48.png", type: "image/png", sizes: "48x48" },
     ],
-    shortcut: "/icon.png",
-    apple: "/images/shield_icon.webp",
+    shortcut: "/favicon.ico",
+    apple: { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
   },
+  manifest: "/site.webmanifest",
   other: {
     "theme-color": "#1e293b",
   },

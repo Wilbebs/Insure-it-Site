@@ -1,6 +1,18 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "../client/src/index.css";
 import { Providers } from "./providers";
+
+// Self-hosts the Inter font at build time. Eliminates the render-blocking
+// CSS @import to fonts.googleapis.com that was costing ~480ms on the
+// mobile Lighthouse run. The `--font-inter` CSS variable is wired into
+// `--font-sans` in client/src/index.css so all existing styles still resolve.
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -109,7 +121,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <head>
     <meta name="google-site-verification" content="2i_f63ELXZtuiO7pOhBS9f3w79ANoA9NktjyoezNvxo" />
         <link
@@ -119,10 +131,13 @@ export default function RootLayout({
           type="image/webp"
           media="(min-width: 641px)"
         />
+        {/* Mobile preload uses the v2 file (84 KB, recompressed at q=70).
+            The original heroimage_mobile.webp (173 KB) is still on the CDN
+            for OG/social previews but isn't fetched by the page itself. */}
         <link
           rel="preload"
           as="image"
-          href="https://d3gkfgi9drj9kb.cloudfront.net/image-assets/heroimage_mobile.webp"
+          href="https://d3gkfgi9drj9kb.cloudfront.net/image-assets/heroimage_mobile_v2.webp"
           type="image/webp"
           media="(max-width: 640px)"
         />

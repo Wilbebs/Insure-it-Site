@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Inter is now self-hosted via next/font (see app/layout.tsx). The font
+   binary is preloaded by Next at build-time and served from the same origin,
+   eliminating the render-blocking @import that previously cost ~480ms on
+   mobile Lighthouse runs. The CSS var `--font-sans` below resolves to the
+   `--font-inter` variable that next/font injects on <body>. */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -36,7 +40,7 @@
   --sidebar-accent-foreground: hsl(210, 40%, 10%);
   --sidebar-border: hsl(210, 40%, 88%);
   --sidebar-ring: hsl(217, 91%, 60%);
-  --font-sans: "Inter", "system-ui", "sans-serif";
+  --font-sans: var(--font-inter), "system-ui", "sans-serif";
   --font-serif: "Georgia", "serif";
   --font-mono: "Menlo", "monospace";
   --radius: 0.5rem;

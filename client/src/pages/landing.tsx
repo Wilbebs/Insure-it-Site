@@ -40,7 +40,10 @@ const CDN_IMG = "https://d3gkfgi9drj9kb.cloudfront.net/image-assets";
 const heroVideoDesktop = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/herovid1.mp4";
 const heroVideoMobile  = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/herovid_mobile.mp4";
 const heroImageDesktop = `${CDN_IMG}/heroimage1.webp`;
-const heroImageMobile  = `${CDN_IMG}/heroimage_mobile.webp`;
+// _v2 is the recompressed mobile hero (84 KB vs 173 KB original). Same
+// dimensions (645×1412), q=70 instead of default. Used for both the
+// rendered <picture> source and the LCP preload in app/layout.tsx.
+const heroImageMobile  = `${CDN_IMG}/heroimage_mobile_v2.webp`;
 const shieldIcon = "/images/shield_icon.webp";
 const floodImg = "/images/flood_card.webp";
 const highFiveImg = `${CDN_IMG}/team_highfive.webp`;
@@ -937,9 +940,10 @@ export default function Landing() {
             />
           </picture>
           {/* Layer 2 — video lazy-loads after page load.
-              isMobilePhone is set once on window.onload via window.innerWidth,
-              selecting portrait clip for phones and landscape for desktop. */}
-          {videoReady && (
+              Mobile phones (≤640px) skip the video entirely — no fetch, no
+              decode, no LCP risk. Desktop/tablet still get the ambient clip
+              after window.onload via the videoReady gate. */}
+          {videoReady && !isMobilePhone && (
             <video
               autoPlay
               muted
@@ -1335,7 +1339,9 @@ export default function Landing() {
             loading="lazy"
           />
         )}
-        <div className="absolute inset-0 bg-slate-900/40 dark:bg-slate-900/50" />
+        {/* Bumped from /40 to /60 to satisfy WCAG AA contrast for the white
+            testimonial text against the high-five background photo. */}
+        <div className="absolute inset-0 bg-slate-900/60 dark:bg-slate-900/65" />
         <section className="pt-7 pb-10 relative z-10">
           <ScaledContainer desktopWidth={640}>
             <div className="px-4 sm:px-6">

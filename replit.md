@@ -47,6 +47,12 @@ This project is a professional insurance website built with React and Express, f
 - `GET /api/images/:imageName` - Serve placeholder images.
 - `GET /api/videos/herovid1.mp4` - Stream hero video.
 
+### Mobile Performance / SEO Optimizations
+- **Inter font** is self-hosted via `next/font/google` in `app/layout.tsx` (not loaded via CSS `@import`). The font's CSS variable (`--font-inter`) is wired to `--font-sans` in `client/src/index.css`. This eliminates the render-blocking external CSS request that previously cost ~480ms on mobile Lighthouse.
+- **Hero video** is gated on `!isMobilePhone` in `landing.tsx` — phones (≤640px) never fetch or decode the hero video. Desktop/tablet still get it after `window.onload`.
+- **Mobile hero image** uses `heroimage_mobile_v2.webp` (84 KB, recompressed at q=70 from the original 173 KB). Same dimensions (645×1412). Original is still on the CDN for OG/social previews. Both desktop and mobile preload tags in `app/layout.tsx` use conditional `media` queries so each device only fetches its variant.
+- **Shield logo animation**: WebKit (iOS/macOS Safari) AND all phones (≤640px viewport) skip the WebM and show only `shield_lastframe.webp`. Desktop non-WebKit clients lazy-load the WebM after `window.onload` and play it once (no loop).
+
 ### Build & Deployment
 - **Development**: `npm run dev` starts Express + Next.js dev server on port 5000.
 - **Production Build**: `npm run build` compiles Next.js and bundles Express server.

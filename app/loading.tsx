@@ -9,18 +9,18 @@ export default function Loading() {
         backgroundSize: "22px 22px",
       }}
     >
-      {/* Shield animation directly on background */}
+      {/* Shield animation directly on background — animated WebP plays
+          natively (with proper alpha) in every modern browser including
+          iOS Safari 14+. No <video> autoplay quirks. */}
       <div className="relative w-44 h-44 overflow-hidden flex items-center justify-center">
-        <video
-          autoPlay
-          muted
-          playsInline
-          loop
+        <img
+          src="https://d3gkfgi9drj9kb.cloudfront.net/image-assets/shield_animation.webp"
+          alt=""
+          aria-hidden="true"
           className="absolute w-[520px] h-auto pointer-events-none"
           style={{ transform: "scale(1.55)", transformOrigin: "center center" }}
-        >
-          <source src="https://d3gkfgi9drj9kb.cloudfront.net/video-assets/shield_animation.webm" type="video/webm" />
-        </video>
+          draggable={false}
+        />
       </div>
 
       <p className="text-slate-500 text-xs font-semibold tracking-[0.25em] uppercase animate-pulse mt-1">

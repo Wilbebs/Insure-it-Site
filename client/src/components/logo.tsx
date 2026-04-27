@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 const CDN = "https://d3gkfgi9drj9kb.cloudfront.net/image-assets";
 const logoImage = `${CDN}/staticinsureitlogo.webp`;
 
-const shieldVideo = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/shield_animation.webm";
+// Animated WebP — works with proper alpha on every modern browser including
+// iOS Safari 14+. Replaces the previous VP8+alpha WebM, which Safari decoded
+// without honouring the alpha channel (showing a black rectangle).
+const shieldAnimated = `${CDN}/shield_animation.webp`;
 const shieldStatic = `${CDN}/shield_lastframe.webp`;
 
 interface LogoProps {
@@ -23,10 +26,8 @@ export default function Logo({
 }: LogoProps) {
   const [taglineText, setTaglineText] = useState("");
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
-  const [fluidVideoReady, setFluidVideoReady] = useState(false);
-  const [mobileVideoReady, setMobileVideoReady] = useState(false);
-  const fluidVideoRef = useRef<HTMLVideoElement>(null);
-  const mobileVideoRef = useRef<HTMLVideoElement>(null);
+  const [fluidShieldReady, setFluidShieldReady] = useState(false);
+  const [mobileShieldReady, setMobileShieldReady] = useState(false);
 
   useEffect(() => {
     if (showTagline && size === "large") {
@@ -42,28 +43,6 @@ export default function Logo({
       return () => clearInterval(interval);
     }
   }, [showTagline, size]);
-
-  useEffect(() => {
-    if (size !== "large") return;
-    const video = fluidVideoRef.current;
-    if (!video) return;
-    const onCanPlay = () => setFluidVideoReady(true);
-    video.addEventListener("canplay", onCanPlay);
-    video.src = shieldVideo;
-    video.load();
-    return () => video.removeEventListener("canplay", onCanPlay);
-  }, [size]);
-
-  useEffect(() => {
-    if (size !== "large") return;
-    const video = mobileVideoRef.current;
-    if (!video) return;
-    const onCanPlay = () => setMobileVideoReady(true);
-    video.addEventListener("canplay", onCanPlay);
-    video.src = shieldVideo;
-    video.load();
-    return () => video.removeEventListener("canplay", onCanPlay);
-  }, [size]);
 
   const mobileShieldCss = "absolute left-1/2 w-[990px] h-auto pointer-events-none";
   const mobileShieldStyle = {
@@ -102,18 +81,19 @@ export default function Logo({
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`${mobileShieldCss} transition-opacity duration-500 ${mobileVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`${mobileShieldCss} transition-opacity duration-500 ${mobileShieldReady ? "opacity-0" : "opacity-100"}`}
               style={mobileShieldStyle}
               fetchPriority="high"
               draggable={false}
             />
-            <video
-              ref={mobileVideoRef}
-              autoPlay
-              muted
-              playsInline
-              className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileVideoReady ? "opacity-100" : "opacity-0"}`}
+            <img
+              src={shieldAnimated}
+              alt=""
+              aria-hidden="true"
+              onLoad={() => setMobileShieldReady(true)}
+              className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileShieldReady ? "opacity-100" : "opacity-0"}`}
               style={mobileShieldStyle}
+              draggable={false}
             />
           </div>
         </div>
@@ -127,18 +107,19 @@ export default function Logo({
             <img
               src={shieldStatic}
               alt="Insure-it Group Corp"
-              className={`${fluidShieldCss} transition-opacity duration-500 ${fluidVideoReady ? "opacity-0" : "opacity-100"}`}
+              className={`${fluidShieldCss} transition-opacity duration-500 ${fluidShieldReady ? "opacity-0" : "opacity-100"}`}
               style={fluidShieldStyle}
               fetchPriority="high"
               draggable={false}
             />
-            <video
-              ref={fluidVideoRef}
-              autoPlay
-              muted
-              playsInline
-              className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidVideoReady ? "opacity-100" : "opacity-0"}`}
+            <img
+              src={shieldAnimated}
+              alt=""
+              aria-hidden="true"
+              onLoad={() => setFluidShieldReady(true)}
+              className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidShieldReady ? "opacity-100" : "opacity-0"}`}
               style={fluidShieldStyle}
+              draggable={false}
             />
           </div>
           {showTagline && (

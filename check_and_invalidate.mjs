@@ -27,7 +27,7 @@ if (target?.Id) {
         "/image-assets/shield_lastframe.webp",
         "/image-assets/staticinsureitlogo.webp",
         "/image-assets/heroimage1.webp",
-        "/image-assets/heroimage_mobile.webp",
+        "/image-assets/heroimage_mobile_v5.webp",
         "/image-assets/team_highfive.webp",
       ]},
     },

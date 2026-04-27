@@ -931,7 +931,8 @@ export default function Landing() {
           }}
         >
           {/* Layer 1 — <picture> for responsive static image (SEO + fallback).
-              Mobile phones (≤640px) get heroimage_mobile.webp (portrait, 173KB).
+              Mobile phones (≤640px) get heroimage_mobile_v5.webp (a 720×1560
+              still pulled from the mobile hero video at 5.9s, ~195 KB).
               Desktop/tablet get heroimage1.webp (landscape). */}
           <picture className="w-full h-full">
             <source media="(max-width: 640px)" srcSet={heroImageMobile} />

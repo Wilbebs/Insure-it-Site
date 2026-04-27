@@ -91,9 +91,15 @@ export default function Logo({
     }
   }, [showTagline, size]);
 
-  const mobileShieldCss = "absolute left-1/2 w-[990px] h-auto pointer-events-none";
+  // `top` lives in the className so we can override it per-breakpoint.
+  // SE (375px) and base 17 (~393px) sit at -12px and look correct.
+  // Pro Max (~440px) was clipping the bottom of the wordmark, so for
+  // viewports ≥430px we shift the image up an extra 8px (more negative `top`)
+  // which slides the visible window down into the image and exposes the
+  // remaining wordmark pixels that were getting cut.
+  const mobileShieldCss =
+    "absolute left-1/2 w-[990px] h-auto pointer-events-none top-[-12px] min-[430px]:top-[-20px]";
   const mobileShieldStyle = {
-    top: "-12px",
     transform: "translateX(-50%) scale(1.85)",
     transformOrigin: "center center",
   };

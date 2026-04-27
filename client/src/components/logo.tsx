@@ -1,18 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
-const CDN = "https://d3gkfgi9drj9kb.cloudfront.net/image-assets";
-const logoImage = `${CDN}/staticinsureitlogo.webp`;
+import { useState, useEffect, useRef } from "react";
 
-// Animated WebP — works with proper alpha on every modern browser including
-// iOS Safari 14+. Replaces the previous VP8+alpha WebM, which Safari decoded
-// without honouring the alpha channel (showing a black rectangle).
-// v2: full-canvas frames (640×360, 33ms each, infinite loop). The v1 file
-// used sub-rectangle frame optimization which Chromium rendered as a frozen
-// still on frame 1 instead of looping. Bumping the filename forces edges to
-// drop the broken cached copy without needing a CloudFront invalidation.
-const shieldAnimated = `${CDN}/shield_animation_v2.webp`;
-const shieldStatic = `${CDN}/shield_lastframe.webp`;
+const CDN = "https://d3gkfgi9drj9kb.cloudfront.net";
+const CDN_IMG = `${CDN}/image-assets`;
+const CDN_VID = `${CDN}/video-assets`;
+
+const logoImage = `${CDN_IMG}/staticinsureitlogo.webp`;
+// Real video format with inter-frame compression — 1.2 MB and reliably loops on
+// every browser engine that decodes VP8+alpha (Chrome, Firefox, Edge, Android
+// WebView, etc). The WebKit family (iOS Safari + macOS Safari + every iOS
+// browser, since they all use WebKit) decodes VP8 but ignores the alpha channel,
+// painting a black rectangle. For those browsers we fall back to the static
+// shield via `useNoVideo()` below — they get a clean stationary logo instead of
+// the black box.
+const shieldVideo = `${CDN_VID}/shield_animation.webm`;
+const shieldStatic = `${CDN_IMG}/shield_lastframe.webp`;
 
 interface LogoProps {
   className?: string;
@@ -20,6 +23,22 @@ interface LogoProps {
   variant?: "default" | "white";
   showTagline?: boolean;
   size?: "small" | "large";
+}
+
+// Returns true on browsers whose video decoder strips the alpha channel from
+// VP8+alpha WebM (the WebKit family). On those, we never mount the <video>
+// element at all and let the static placeholder stay visible. On every other
+// browser we mount the video and animate normally. Defaults to `false` during
+// SSR / first paint so non-Safari clients aren't penalised with a flash of
+// static.
+function useNoVideo(): boolean {
+  const [noVideo, setNoVideo] = useState(false);
+  useEffect(() => {
+    const ua = navigator.userAgent;
+    const webkit = /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua);
+    setNoVideo(webkit);
+  }, []);
+  return noVideo;
 }
 
 export default function Logo({
@@ -32,6 +51,9 @@ export default function Logo({
   const fullTagline = "Life's Uncertain. Your Coverage Isn't.";
   const [fluidShieldReady, setFluidShieldReady] = useState(false);
   const [mobileShieldReady, setMobileShieldReady] = useState(false);
+  const fluidVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
+  const noVideo = useNoVideo();
 
   useEffect(() => {
     if (showTagline && size === "large") {
@@ -90,15 +112,20 @@ export default function Logo({
               fetchPriority="high"
               draggable={false}
             />
-            <img
-              src={shieldAnimated}
-              alt=""
-              aria-hidden="true"
-              onLoad={() => setMobileShieldReady(true)}
-              className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileShieldReady ? "opacity-100" : "opacity-0"}`}
-              style={mobileShieldStyle}
-              draggable={false}
-            />
+            {!noVideo && (
+              <video
+                ref={mobileVideoRef}
+                src={shieldVideo}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                onCanPlay={() => setMobileShieldReady(true)}
+                className={`${mobileShieldCss} z-10 transition-opacity duration-500 ${mobileShieldReady ? "opacity-100" : "opacity-0"}`}
+                style={mobileShieldStyle}
+              />
+            )}
           </div>
         </div>
 
@@ -116,15 +143,20 @@ export default function Logo({
               fetchPriority="high"
               draggable={false}
             />
-            <img
-              src={shieldAnimated}
-              alt=""
-              aria-hidden="true"
-              onLoad={() => setFluidShieldReady(true)}
-              className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidShieldReady ? "opacity-100" : "opacity-0"}`}
-              style={fluidShieldStyle}
-              draggable={false}
-            />
+            {!noVideo && (
+              <video
+                ref={fluidVideoRef}
+                src={shieldVideo}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                onCanPlay={() => setFluidShieldReady(true)}
+                className={`${fluidShieldCss} z-10 transition-opacity duration-500 ${fluidShieldReady ? "opacity-100" : "opacity-0"}`}
+                style={fluidShieldStyle}
+              />
+            )}
           </div>
           {showTagline && (
             <p className="mt-2 text-xl lg:text-2xl font-semibold italic tagline-shimmer select-none">

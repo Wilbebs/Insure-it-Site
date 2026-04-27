@@ -1,4 +1,22 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
+const SHIELD_VIDEO = "https://d3gkfgi9drj9kb.cloudfront.net/video-assets/shield_animation.webm";
+const SHIELD_STATIC = "https://d3gkfgi9drj9kb.cloudfront.net/image-assets/shield_lastframe.webp";
+
 export default function Loading() {
+  // WebKit (iOS Safari + macOS Safari + every iOS browser) decodes VP8 but
+  // ignores the alpha channel — it would paint a solid black rectangle behind
+  // the shield. On those clients we never mount the video and just show the
+  // static last-frame image. Defaults to false during SSR/first paint so other
+  // browsers aren't penalised with a flash of static.
+  const [noVideo, setNoVideo] = useState(false);
+  useEffect(() => {
+    const ua = navigator.userAgent;
+    setNoVideo(/AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua));
+  }, []);
+
   return (
     <div
       className="fixed inset-0 z-50 flex flex-col items-center justify-center"
@@ -9,18 +27,29 @@ export default function Loading() {
         backgroundSize: "22px 22px",
       }}
     >
-      {/* Shield animation directly on background — animated WebP plays
-          natively (with proper alpha) in every modern browser including
-          iOS Safari 14+. No <video> autoplay quirks. */}
       <div className="relative w-44 h-44 overflow-hidden flex items-center justify-center">
-        <img
-          src="https://d3gkfgi9drj9kb.cloudfront.net/image-assets/shield_animation_v2.webp"
-          alt=""
-          aria-hidden="true"
-          className="absolute w-[520px] h-auto pointer-events-none"
-          style={{ transform: "scale(1.55)", transformOrigin: "center center" }}
-          draggable={false}
-        />
+        {noVideo ? (
+          <img
+            src={SHIELD_STATIC}
+            alt=""
+            aria-hidden="true"
+            className="absolute w-[520px] h-auto pointer-events-none"
+            style={{ transform: "scale(1.55)", transformOrigin: "center center" }}
+            draggable={false}
+          />
+        ) : (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="absolute w-[520px] h-auto pointer-events-none"
+            style={{ transform: "scale(1.55)", transformOrigin: "center center" }}
+          >
+            <source src={SHIELD_VIDEO} type="video/webm" />
+          </video>
+        )}
       </div>
 
       <p className="text-slate-500 text-xs font-semibold tracking-[0.25em] uppercase animate-pulse mt-1">

@@ -14,7 +14,7 @@ const EZLYNX_QUOTE_URL =
   "https://www.agentinsure.com/compare/auto-insurance-home-insurance/insure/quote.aspx";
 
 const DESKTOP_NATURAL_WIDTH = 1024;
-const MOBILE_NATURAL_WIDTH = 480;
+const MOBILE_NATURAL_WIDTH = 720;
 const NATURAL_HEIGHT = 1500;
 const MOBILE_BREAKPOINT = 640;
 const DESKTOP_MODAL_MAX = 768;

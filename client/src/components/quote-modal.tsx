@@ -18,10 +18,15 @@ const NATURAL_HEIGHT = 1500;
 const MOBILE_BREAKPOINT = 640;
 const DESKTOP_MODAL_MAX = 768;
 const DESKTOP_MODAL_PADDING = 48;
+const MOBILE_HEADER_CROP = 130;
 
 function computeLayout() {
   if (typeof window === "undefined") {
-    return { scale: 1, naturalWidth: DESKTOP_NATURAL_WIDTH };
+    return {
+      scale: 1,
+      naturalWidth: DESKTOP_NATURAL_WIDTH,
+      headerCrop: 0,
+    };
   }
   const vw = window.innerWidth;
   const isMobile = vw < MOBILE_BREAKPOINT;
@@ -32,7 +37,8 @@ function computeLayout() {
     ? vw
     : Math.min(vw, DESKTOP_MODAL_MAX) - DESKTOP_MODAL_PADDING;
   const scale = Math.max(0.2, Math.min(1, available / naturalWidth));
-  return { scale, naturalWidth };
+  const headerCrop = isMobile ? MOBILE_HEADER_CROP : 0;
+  return { scale, naturalWidth, headerCrop };
 }
 
 interface QuoteModalProps {
@@ -43,9 +49,11 @@ interface QuoteModalProps {
 export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const { t } = useTranslation();
   const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [layout, setLayout] = useState<{ scale: number; naturalWidth: number }>(
-    () => computeLayout(),
-  );
+  const [layout, setLayout] = useState<{
+    scale: number;
+    naturalWidth: number;
+    headerCrop: number;
+  }>(() => computeLayout());
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -90,8 +98,8 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     }
   };
 
-  const { scale, naturalWidth } = layout;
-  const scaledHeight = Math.round(NATURAL_HEIGHT * scale);
+  const { scale, naturalWidth, headerCrop } = layout;
+  const scaledHeight = Math.round((NATURAL_HEIGHT - headerCrop) * scale);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -151,7 +159,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
               width: `${naturalWidth}px`,
               height: `${NATURAL_HEIGHT}px`,
               transformOrigin: "top left",
-              transform: `scale(${scale})`,
+              transform: `scale(${scale}) translateY(-${headerCrop}px)`,
             }}
             data-testid="iframe-ezlynx-quote"
           />

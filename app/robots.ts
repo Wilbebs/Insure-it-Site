@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://insureitgroup.net/sitemap.xml",
+    sitemap: "https://www.insureitgroup.net/sitemap.xml",
   };
 }

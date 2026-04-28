@@ -1,7 +1,11 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://insureitgroup.net";
+  // Use the www subdomain — apex DNS isn't configured, so URLs at the
+  // bare domain don't resolve. Advertising apex URLs (in sitemap, canonical,
+  // OG tags, etc.) caused Google's favicon service to fetch http://insureitgroup.net
+  // and silently fail, falling back to the default globe icon in search results.
+  const base = "https://www.insureitgroup.net";
   return [
     {
       url: base,

@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     "Meet the Hernandez family team behind Insure-it Group Corp. Serving Jacksonville, FL since 2013 with personalized insurance coverage and genuine care.",
   alternates: {
-    canonical: "https://insureitgroup.net/about",
+    canonical: "https://www.insureitgroup.net/about",
   },
   openGraph: {
     title: "About Us | Insure-it",
     description:
       "Meet the Hernandez family team behind Insure-it Group Corp. Serving Jacksonville, FL since 2013 with personalized insurance coverage and genuine care.",
-    url: "https://insureitgroup.net/about",
+    url: "https://www.insureitgroup.net/about",
     images: [
       {
         url: "/images/jax_beach_pier.webp",

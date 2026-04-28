@@ -20,9 +20,9 @@ const jsonLd = {
   name: "Insure IT Group Corp",
   description:
     "Family-owned independent insurance agency serving Jacksonville, FL since 2013.",
-  url: "https://insureitgroup.net",
-  logo: "https://insureitgroup.net/images/staticinsureitlogo_v2.webp",
-  image: "https://insureitgroup.net/images/heroimage1.webp",
+  url: "https://www.insureitgroup.net",
+  logo: "https://www.insureitgroup.net/images/staticinsureitlogo_v2.webp",
+  image: "https://www.insureitgroup.net/images/heroimage1.webp",
   telephone: "+19049090897",
   email: "Info@insureitgroup.net",
   foundingDate: "2013",
@@ -63,19 +63,23 @@ const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Insure IT Group Corp",
-  url: "https://insureitgroup.net",
+  url: "https://www.insureitgroup.net",
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: "https://insureitgroup.net/?q={search_term_string}",
+      urlTemplate: "https://www.insureitgroup.net/?q={search_term_string}",
     },
     "query-input": "required name=search_term_string",
   },
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://insureitgroup.net"),
+  // Apex (insureitgroup.net) DNS isn't configured — only www resolves. All
+  // crawler-facing URLs (canonical, OG, sitemap, JSON-LD) must point at www
+  // or Google's favicon service silently fails and the search result shows
+  // the default globe icon instead of our shield.
+  metadataBase: new URL("https://www.insureitgroup.net"),
   title: "Insure-it | Life\u2019s Uncertain. Your Coverage Isn\u2019t.",
   description:
     "Family-owned independent insurance agency in Jacksonville, FL since 2013. Personalized home, auto, flood, life and business coverage from agents who truly care.",
@@ -92,7 +96,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://insureitgroup.net",
+    url: "https://www.insureitgroup.net",
     siteName: "Insure IT Group Corp",
     title: "Insure-it | Life\u2019s Uncertain. Your Coverage Isn\u2019t.",
     description:
@@ -123,7 +127,7 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true },
   },
   alternates: {
-    canonical: "https://insureitgroup.net",
+    canonical: "https://www.insureitgroup.net",
   },
   // Favicons MUST be PNG/ICO. WebP favicons are silently ignored by Safari
   // (iOS + macOS) and by Google Search's favicon crawler, so the previous

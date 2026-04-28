@@ -439,6 +439,7 @@ const translations = {
       message: "Message",
       optional: "optional",
       messagePlaceholder: "Tell us about your insurance needs...",
+      loadingQuote: "Loading your quote form…",
     },
     chatbot: {
       welcomeMessage: "Hi! I'm Liz. I'll help connect you with our team. What type of coverage are you looking for?",
@@ -935,6 +936,7 @@ const translations = {
       message: "Mensaje",
       optional: "opcional",
       messagePlaceholder: "Cuéntenos sobre sus necesidades de seguro...",
+      loadingQuote: "Cargando tu formulario de cotización…",
     },
     chatbot: {
       welcomeMessage: "¡Hola! Soy Liz. Le ayudaré a conectarse con nuestro equipo. ¿Qué tipo de cobertura está buscando?",

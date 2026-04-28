@@ -34,7 +34,7 @@ This project is a professional insurance website built with React and Express, f
 - **About Us Page**: Company story and team.
 - **Navigation**: Glass morphism navbar with logo (animated WebM shield with WebKit fallback for static image).
 - **Hero Section**: Includes a draggable, frosted-glass "Window Card" and a device-responsive background video/image served via CDN.
-- **QuoteModal**: Contact form with S3 document upload.
+- **QuoteModal**: Embeds the EZLynx Consumer Quoting iframe (`https://www.agentinsure.com/compare/auto-insurance-home-insurance/insure/quote.aspx`) inside the existing Dialog shell. Glass styling and bilingual header are preserved. A loading overlay (spinner + `t.quote.loadingQuote` text) shows until the iframe `onLoad` fires, with an 8-second fallback timer for cross-origin cases. Iframe renders at native 1500px height; the modal scrolls. Mobile (≤640px) uses a fullscreen sheet (`max-sm:w-screen max-sm:h-[100dvh] max-sm:rounded-none`); desktop is `max-w-3xl max-h-[90vh]`. Iframe sandbox: `allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox`. The legacy handwritten form, schema, success state, and `/api/contact` mutation have been removed from this component (chatbot still uses `/api/contact` independently for its own lead capture).
 - **TestimonialsCarousel**: Auto-cycling and swipe-supported carousel.
 - **Parallax Backgrounds**: Implemented with transform-based CSS for cross-browser compatibility, including Safari/iOS.
 - **CI/CD**: GitHub Action for Lighthouse mobile performance checks (score > 85).

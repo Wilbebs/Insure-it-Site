@@ -12,8 +12,21 @@ import {
 const EZLYNX_QUOTE_URL =
   "https://www.agentinsure.com/compare/auto-insurance-home-insurance/insure/quote.aspx";
 
-const NATURAL_WIDTH = 768;
+const NATURAL_WIDTH = 1024;
 const NATURAL_HEIGHT = 1500;
+const MOBILE_BREAKPOINT = 640;
+const DESKTOP_MODAL_MAX = 768;
+const DESKTOP_MODAL_PADDING = 48;
+
+function computeScale() {
+  if (typeof window === "undefined") return 1;
+  const vw = window.innerWidth;
+  const available =
+    vw < MOBILE_BREAKPOINT
+      ? vw
+      : Math.min(vw, DESKTOP_MODAL_MAX) - DESKTOP_MODAL_PADDING;
+  return Math.max(0.2, Math.min(1, available / NATURAL_WIDTH));
+}
 
 interface QuoteModalProps {
   open: boolean;
@@ -23,8 +36,7 @@ interface QuoteModalProps {
 export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const { t } = useTranslation();
   const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [scale, setScale] = useState(1);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState<number>(() => computeScale());
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -51,20 +63,14 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
 
   useEffect(() => {
     if (!open) return;
-    const el = containerRef.current;
-    if (!el) return;
-
-    const update = () => {
-      const w = el.clientWidth;
-      if (w > 0) {
-        setScale(Math.min(1, w / NATURAL_WIDTH));
-      }
-    };
-
+    const update = () => setScale(computeScale());
     update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
+    window.addEventListener("resize", update);
+    window.addEventListener("orientationchange", update);
+    return () => {
+      window.removeEventListener("resize", update);
+      window.removeEventListener("orientationchange", update);
+    };
   }, [open]);
 
   const handleIframeLoad = () => {
@@ -108,7 +114,6 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         </DialogClose>
 
         <div
-          ref={containerRef}
           className="relative w-full min-w-0 overflow-hidden bg-white rounded-2xl max-sm:rounded-none"
           style={{ height: `${scaledHeight}px` }}
         >

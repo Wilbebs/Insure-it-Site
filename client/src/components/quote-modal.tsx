@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { useTranslation } from "./theme-provider";
+import Logo from "./logo";
 import {
   Dialog,
   DialogContent,
@@ -130,6 +131,13 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         >
           <X className="h-5 w-5" />
         </DialogClose>
+
+        <div
+          className="hidden max-sm:flex items-center justify-start px-4 py-3 bg-white border-b border-slate-100"
+          data-testid="header-quote-modal-mobile"
+        >
+          <Logo imgClassName="h-9" />
+        </div>
 
         <div
           className="relative w-full min-w-0 overflow-hidden bg-white rounded-2xl max-sm:rounded-none"

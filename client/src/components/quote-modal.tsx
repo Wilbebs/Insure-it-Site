@@ -91,6 +91,20 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     };
   }, [open]);
 
+  // Notify other floating widgets (chatbot, etc) that this modal is open so
+  // they can hide themselves and not overlap the iframe.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.dispatchEvent(
+      new CustomEvent("quote-modal-state", { detail: { open } }),
+    );
+    return () => {
+      window.dispatchEvent(
+        new CustomEvent("quote-modal-state", { detail: { open: false } }),
+      );
+    };
+  }, [open]);
+
   const handleIframeLoad = () => {
     setIframeLoaded(true);
     if (fallbackTimerRef.current) {

@@ -190,7 +190,18 @@ export default function ChatBot() {
   const [showWelcomeBubble, setShowWelcomeBubble] = useState(false);
   const [typedBubble, setTypedBubble] = useState("");
   const [socialOpen, setSocialOpen] = useState(false);
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const { t, language, toggleLanguage } = useTranslation();
+
+  // Hide while the QuoteModal is open so we don't overlap the EZLynx iframe.
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<{ open: boolean }>).detail;
+      setQuoteModalOpen(Boolean(detail?.open));
+    };
+    window.addEventListener("quote-modal-state", handler);
+    return () => window.removeEventListener("quote-modal-state", handler);
+  }, []);
 
   const PRESET_QA = [
     { question: t.chatbot.q1, answer: t.chatbot.a1, link: "" },
@@ -718,7 +729,7 @@ export default function ChatBot() {
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {isVisible && !quoteModalOpen && (
         <>
           <motion.div
             initial={{ opacity: 0, y: 100 }}

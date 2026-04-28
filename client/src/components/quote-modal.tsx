@@ -19,7 +19,7 @@ const NATURAL_HEIGHT = 1500;
 const MOBILE_BREAKPOINT = 640;
 const DESKTOP_MODAL_MAX = 768;
 const DESKTOP_MODAL_PADDING = 48;
-const MOBILE_HEADER_CROP = 100;
+const MOBILE_HEADER_CROP = 0;
 
 function computeLayout() {
   if (typeof window === "undefined") {

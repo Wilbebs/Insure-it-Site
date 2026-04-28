@@ -73,20 +73,20 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         </DialogHeader>
 
         <div className="relative w-full">
-          {!iframeLoaded && (
-            <div
-              className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/60 rounded-2xl z-10"
-              aria-hidden="true"
-            >
-              <div className="relative w-14 h-14">
-                <div className="absolute inset-0 rounded-full border-4 border-blue-100" />
-                <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-blue-500 animate-spin" />
-              </div>
-              <p className="text-slate-600 text-sm font-medium">
-                {t.quote.loadingQuote}
-              </p>
+          <div
+            className={`absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/60 rounded-2xl z-10 transition-opacity duration-500 ease-out ${
+              iframeLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
+            aria-hidden={iframeLoaded}
+          >
+            <div className="relative w-14 h-14">
+              <div className="absolute inset-0 rounded-full border-4 border-blue-100" />
+              <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-blue-500 animate-spin" />
             </div>
-          )}
+            <p className="text-slate-600 text-sm font-medium">
+              {t.quote.loadingQuote}
+            </p>
+          </div>
           <iframe
             src={EZLYNX_QUOTE_URL}
             title={t.quote.dialogTitle}

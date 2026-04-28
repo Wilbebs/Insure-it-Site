@@ -19,7 +19,7 @@ const NATURAL_HEIGHT = 1500;
 const MOBILE_BREAKPOINT = 640;
 const DESKTOP_MODAL_MAX = 768;
 const DESKTOP_MODAL_PADDING = 48;
-const MOBILE_HEADER_CROP = 130;
+const MOBILE_HEADER_CROP = 100;
 
 function computeLayout() {
   if (typeof window === "undefined") {
@@ -133,7 +133,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         </DialogClose>
 
         <div
-          className="hidden max-sm:flex items-center justify-start px-4 py-3 bg-white border-b border-slate-100"
+          className="hidden max-sm:flex sticky top-0 z-50 items-center justify-start px-4 py-3 bg-white/95 backdrop-blur-sm border-b border-slate-100 shadow-sm"
           data-testid="header-quote-modal-mobile"
         >
           <Logo imgClassName="h-9" />

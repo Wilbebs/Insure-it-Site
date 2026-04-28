@@ -97,7 +97,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
 
         <div
           ref={containerRef}
-          className="relative w-full overflow-hidden bg-white rounded-2xl"
+          className="relative w-full min-w-0 overflow-hidden bg-white rounded-2xl"
           style={{ height: `${NATURAL_HEIGHT * scale}px` }}
         >
           <div

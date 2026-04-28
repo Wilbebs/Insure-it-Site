@@ -12,20 +12,27 @@ import {
 const EZLYNX_QUOTE_URL =
   "https://www.agentinsure.com/compare/auto-insurance-home-insurance/insure/quote.aspx";
 
-const NATURAL_WIDTH = 1024;
+const DESKTOP_NATURAL_WIDTH = 1024;
+const MOBILE_NATURAL_WIDTH = 480;
 const NATURAL_HEIGHT = 1500;
 const MOBILE_BREAKPOINT = 640;
 const DESKTOP_MODAL_MAX = 768;
 const DESKTOP_MODAL_PADDING = 48;
 
-function computeScale() {
-  if (typeof window === "undefined") return 1;
+function computeLayout() {
+  if (typeof window === "undefined") {
+    return { scale: 1, naturalWidth: DESKTOP_NATURAL_WIDTH };
+  }
   const vw = window.innerWidth;
-  const available =
-    vw < MOBILE_BREAKPOINT
-      ? vw
-      : Math.min(vw, DESKTOP_MODAL_MAX) - DESKTOP_MODAL_PADDING;
-  return Math.max(0.2, Math.min(1, available / NATURAL_WIDTH));
+  const isMobile = vw < MOBILE_BREAKPOINT;
+  const naturalWidth = isMobile
+    ? MOBILE_NATURAL_WIDTH
+    : DESKTOP_NATURAL_WIDTH;
+  const available = isMobile
+    ? vw
+    : Math.min(vw, DESKTOP_MODAL_MAX) - DESKTOP_MODAL_PADDING;
+  const scale = Math.max(0.2, Math.min(1, available / naturalWidth));
+  return { scale, naturalWidth };
 }
 
 interface QuoteModalProps {
@@ -36,7 +43,9 @@ interface QuoteModalProps {
 export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const { t } = useTranslation();
   const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [scale, setScale] = useState<number>(() => computeScale());
+  const [layout, setLayout] = useState<{ scale: number; naturalWidth: number }>(
+    () => computeLayout(),
+  );
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -63,7 +72,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
 
   useEffect(() => {
     if (!open) return;
-    const update = () => setScale(computeScale());
+    const update = () => setLayout(computeLayout());
     update();
     window.addEventListener("resize", update);
     window.addEventListener("orientationchange", update);
@@ -81,6 +90,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     }
   };
 
+  const { scale, naturalWidth } = layout;
   const scaledHeight = Math.round(NATURAL_HEIGHT * scale);
 
   return (
@@ -138,7 +148,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
             sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox"
             className="block border-0 bg-white"
             style={{
-              width: `${NATURAL_WIDTH}px`,
+              width: `${naturalWidth}px`,
               height: `${NATURAL_HEIGHT}px`,
               transformOrigin: "top left",
               transform: `scale(${scale})`,

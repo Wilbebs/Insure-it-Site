@@ -53,10 +53,10 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="light-glass-modal custom-scrollbar max-w-3xl max-h-[90vh] overflow-y-auto backdrop-blur-[20px] border shadow-2xl rounded-3xl max-sm:w-screen max-sm:h-[100dvh] max-sm:max-w-none max-sm:max-h-none max-sm:rounded-none max-sm:p-4"
+        className="custom-scrollbar max-w-3xl max-h-[90vh] overflow-y-auto border shadow-2xl rounded-3xl max-sm:w-screen max-sm:h-[100dvh] max-sm:max-w-none max-sm:max-h-none max-sm:rounded-none max-sm:p-4"
         style={{
-          background: "hsla(210, 40%, 98%, 0.85)",
-          borderColor: "hsla(210, 40%, 88%, 0.3)",
+          background: "#ffffff",
+          borderColor: "hsla(210, 40%, 88%, 0.5)",
         }}
         aria-describedby="quote-form-description"
       >
@@ -74,7 +74,7 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
 
         <div className="relative w-full">
           <div
-            className={`absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/60 rounded-2xl z-10 transition-opacity duration-500 ease-out ${
+            className={`absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white rounded-2xl z-10 transition-opacity duration-500 ease-out ${
               iframeLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
             }`}
             aria-hidden={iframeLoaded}

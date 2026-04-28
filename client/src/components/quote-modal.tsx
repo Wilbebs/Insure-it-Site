@@ -10,6 +10,9 @@ import {
 const EZLYNX_QUOTE_URL =
   "https://www.agentinsure.com/compare/auto-insurance-home-insurance/insure/quote.aspx";
 
+const NATURAL_WIDTH = 720;
+const NATURAL_HEIGHT = 1500;
+
 interface QuoteModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -18,6 +21,8 @@ interface QuoteModalProps {
 export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const { t } = useTranslation();
   const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [scale, setScale] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -40,6 +45,24 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         fallbackTimerRef.current = null;
       }
     };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const w = el.clientWidth;
+      if (w > 0) {
+        setScale(Math.min(1, w / NATURAL_WIDTH));
+      }
+    };
+
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, [open]);
 
   const handleIframeLoad = () => {
@@ -72,7 +95,11 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
           </p>
         </DialogHeader>
 
-        <div className="relative w-full">
+        <div
+          ref={containerRef}
+          className="relative w-full overflow-hidden bg-white rounded-2xl"
+          style={{ height: `${NATURAL_HEIGHT * scale}px` }}
+        >
           <div
             className={`absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white rounded-2xl z-10 transition-opacity duration-500 ease-out ${
               iframeLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
@@ -92,8 +119,13 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
             title={t.quote.dialogTitle}
             onLoad={handleIframeLoad}
             sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-            className="w-full block border-0 rounded-2xl bg-white"
-            style={{ height: "1500px" }}
+            className="block border-0 bg-white"
+            style={{
+              width: `${NATURAL_WIDTH}px`,
+              height: `${NATURAL_HEIGHT}px`,
+              transformOrigin: "top left",
+              transform: `scale(${scale})`,
+            }}
             data-testid="iframe-ezlynx-quote"
           />
         </div>

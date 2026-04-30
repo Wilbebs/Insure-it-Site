@@ -14,12 +14,12 @@ export default function ClientCenter() {
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-muted dot-pattern flex flex-col">
+    <div className="min-h-screen bg-muted flex flex-col">
       <Navigation />
 
-      <main className="flex-1 flex flex-col pt-24 sm:pt-28 pb-24 sm:pb-24">
+      <main className="flex-1 flex flex-col pt-12 sm:pt-16 pb-24 sm:pb-24">
         <div
-          className="relative w-full bg-muted dot-pattern px-4 sm:px-8 py-6 sm:py-8"
+          className="relative w-full max-w-[1040px] mx-auto bg-muted dot-pattern px-4 sm:px-6 py-6 sm:py-8"
           data-testid="client-center-portal-wrapper"
         >
           <iframe

@@ -26,7 +26,7 @@ export default function ClientCenter() {
             src={CLIENT_PORTAL_URL}
             name="EZLynx Customer Service Portal"
             title="EZLynx Customer Service Portal"
-            className="w-full block border-0 h-[1300px] sm:h-[760px] bg-white rounded-2xl sm:rounded-3xl shadow-2xl ring-1 ring-slate-200"
+            className="w-full max-w-[940px] mx-auto block border-0 h-[1300px] sm:h-[760px] bg-white rounded-2xl sm:rounded-3xl shadow-2xl ring-1 ring-slate-200"
             data-testid="client-center-iframe"
           />
           <noscript>

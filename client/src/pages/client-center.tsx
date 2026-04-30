@@ -18,49 +18,37 @@ export default function ClientCenter() {
     <div className="min-h-screen bg-white flex flex-col">
       <Navigation />
 
-      <main className="flex-1 flex flex-col pt-24 sm:pt-28">
-        <div
-          className="relative w-full bg-white"
-          data-testid="client-center-portal-wrapper"
-        >
-          <iframe
-            src={CLIENT_PORTAL_URL}
-            name="EZLynx Customer Service Portal"
-            title="EZLynx Customer Service Portal"
-            className="w-full block border-0 h-[calc(100vh-6rem)] sm:h-[calc(100vh-7rem)]"
-            data-testid="client-center-iframe"
-          />
-          <noscript>
-            <div className="p-6 text-center text-sm text-slate-600">
-              {t.clientCenter.iframeFallback}{" "}
-              <a
-                href={CLIENT_PORTAL_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 underline"
-              >
-                {t.clientCenter.fallbackLinkText}
-              </a>
-              .
-            </div>
-          </noscript>
+      <main className="flex-1 flex flex-col pt-28 sm:pt-32 pb-8 sm:pb-10">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div
+            className="relative w-full bg-white rounded-2xl sm:rounded-3xl shadow-xl ring-1 ring-slate-200 overflow-hidden"
+            data-testid="client-center-portal-wrapper"
+          >
+            <iframe
+              src={CLIENT_PORTAL_URL}
+              name="EZLynx Customer Service Portal"
+              title="EZLynx Customer Service Portal"
+              className="w-full block border-0 h-[calc(100vh-10rem)] sm:h-[calc(100vh-11rem)]"
+              data-testid="client-center-iframe"
+            />
+            <noscript>
+              <div className="p-6 text-center text-sm text-slate-600">
+                {t.clientCenter.iframeFallback}{" "}
+                <a
+                  href={CLIENT_PORTAL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  {t.clientCenter.fallbackLinkText}
+                </a>
+                .
+              </div>
+            </noscript>
+          </div>
         </div>
 
-        <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
-          <p className="text-center text-xs text-slate-500 mb-5">
-            {t.clientCenter.iframeFallback}{" "}
-            <a
-              href={CLIENT_PORTAL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline font-medium"
-              data-testid="client-center-fallback-link"
-            >
-              {t.clientCenter.fallbackLinkText}
-            </a>
-            .
-          </p>
-
+        <div className="container mx-auto px-4 sm:px-6 pt-8 sm:pt-10">
           <div className="mx-auto max-w-2xl rounded-2xl bg-gradient-to-br from-blue-50 via-white to-slate-50 ring-1 ring-slate-200 px-5 py-4 sm:px-6 sm:py-5 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5">
             <div className="flex items-center gap-3 text-center sm:text-left">
               <div className="hidden sm:flex w-10 h-10 rounded-full bg-blue-100 items-center justify-center flex-shrink-0">

@@ -37,7 +37,7 @@ export default function Navigation() {
       <nav 
         className={`fixed left-1/2 transform -translate-x-1/2 z-50 glass-nav py-4 hidden lg:block transition-all duration-500 ease-in-out ${
           isScrolled 
-            ? 'top-4 rounded-full pl-4 pr-6 max-w-[calc(100vw-1rem)]' 
+            ? 'top-4 rounded-full pl-4 pr-8 max-w-[calc(100vw-1rem)]' 
             : 'top-0 rounded-none w-full px-4 sm:px-8'
         }`}
         data-testid="main-navigation"

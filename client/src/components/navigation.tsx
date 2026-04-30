@@ -40,10 +40,12 @@ export default function Navigation() {
             ? 'top-4 rounded-full pl-6 pr-8' 
             : 'top-0 rounded-none w-full px-4 sm:px-8'
         }`}
-        style={isScrolled && socialHovered ? { paddingRight: '4rem' } : undefined}
+        style={isScrolled && socialHovered ? { paddingRight: '5rem' } : undefined}
         data-testid="main-navigation"
       >
-        <div className="flex items-center justify-between w-full gap-12">
+        <div className={`flex items-center justify-between w-full transition-all duration-500 ${
+          isScrolled ? 'gap-6' : 'gap-12'
+        }`}>
           {/* Left side: Logo */}
           <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative flex-shrink-0" data-testid="link-home">
             <Logo />

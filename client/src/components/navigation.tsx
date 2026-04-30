@@ -40,7 +40,6 @@ export default function Navigation() {
             ? 'top-4 rounded-full pl-4 pr-6 max-w-[calc(100vw-1rem)]' 
             : 'top-0 rounded-none w-full px-4 sm:px-8'
         }`}
-        style={isScrolled && socialHovered ? { paddingRight: '9rem' } : undefined}
         data-testid="main-navigation"
       >
         <div className={`flex items-center justify-between w-full transition-all duration-500 ${
@@ -94,7 +93,7 @@ export default function Navigation() {
 
           {/* Right side: Social Media Links + Theme Toggle */}
           <div
-            className={`flex items-center flex-shrink-0 transition-all duration-300 ease-in-out ${
+            className={`flex items-center flex-shrink-0 transition-all duration-500 ease-in-out ${
               isScrolled && !socialHovered ? '-space-x-6' : 'gap-2'
             }`}
             onMouseEnter={() => isScrolled && setSocialHovered(true)}
@@ -136,25 +135,31 @@ export default function Navigation() {
               <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
             </a>
 
-            {/* Language Toggle - visible when full-sized or when social icons are hovered */}
-            {(!isScrolled || socialHovered) && (
-              <button
-                onClick={toggleLanguage}
-                className={`relative px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'ml-1' : 'ml-6'}`}
-                data-testid="language-toggle"
-                aria-label={t.nav.switchLang}
-              >
-                <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
-                  {language === "en" ? "EN" : "ES"}
-                </span>
-                <img
-                  src={language === "en" ? usaFlagIcon : spainFlagIcon}
-                  alt=""
-                  aria-hidden="true"
-                  className="absolute -top-1 -left-1 w-5 h-5 object-contain rounded-full drop-shadow-sm"
-                />
-              </button>
-            )}
+            {/* Language Toggle - always rendered; opacity + max-width collapse it when scrolled+!hovered so the whole nav animates as a single 500ms motion */}
+            <button
+              onClick={toggleLanguage}
+              className={`relative rounded-full bg-white/90 hover:bg-primary group shadow-md hover:shadow-lg transition-all duration-500 ease-in-out ${
+                isScrolled
+                  ? socialHovered
+                    ? 'opacity-100 ml-1 px-3 py-1.5 max-w-[80px]'
+                    : 'opacity-0 ml-0 px-0 py-0 max-w-0 pointer-events-none'
+                  : 'opacity-100 ml-6 px-3 py-1.5 max-w-[80px]'
+              }`}
+              data-testid="language-toggle"
+              aria-label={t.nav.switchLang}
+              tabIndex={isScrolled && !socialHovered ? -1 : 0}
+              aria-hidden={isScrolled && !socialHovered}
+            >
+              <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300 whitespace-nowrap">
+                {language === "en" ? "EN" : "ES"}
+              </span>
+              <img
+                src={language === "en" ? usaFlagIcon : spainFlagIcon}
+                alt=""
+                aria-hidden="true"
+                className="absolute -top-1 -left-1 w-5 h-5 object-contain rounded-full drop-shadow-sm"
+              />
+            </button>
           </div>
         </div>
       </nav>

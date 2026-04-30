@@ -1010,7 +1010,7 @@ export default function Landing() {
                 {/* App-window card */}
                 <div
                   ref={cardInnerRef}
-                  className="relative bg-white/30 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/40 overflow-hidden"
+                  className="relative bg-white/60 sm:bg-white/30 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/40 overflow-hidden"
                 >
                   {/* Window title bar — macOS-style traffic lights; drag handle on desktop */}
                   <div

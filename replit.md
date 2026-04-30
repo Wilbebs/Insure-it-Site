@@ -20,7 +20,7 @@ This project is a professional insurance website built with React and Express, o
 - **Styling**: TailwindCSS 3 + Shadcn/ui for a clean, minimal design inspired by Ricci Insurance.
 - **Animations**: Framer Motion for dynamic UI elements.
 - **State Management**: TanStack React Query v5 for efficient server state handling.
-- **UI/UX Decisions**: Glass-morphism navigation, device-responsive hero section with a draggable "Window Card," and auto-cycling testimonials carousel.
+- **UI/UX Decisions**: Glass-morphism navigation (scrolled-pill + full-width-bar dual mode; tighter `gap-3` between groups and `gap-2` between center nav links at lg breakpoint, looser `gap-6` / `gap-3` at xl+ to keep the language toggle inside the pill on iPad-landscape and small-laptop widths), device-responsive hero section with a draggable "Window Card," and auto-cycling testimonials carousel.
 - **QuoteModal**: Integrates the EZLynx Consumer Quoting iframe, optimized for responsiveness across devices with custom scaling and header cropping for improved user experience.
 - **Client Center Page**: Embeds the EZLynx Customer Service portal within a custom layout featuring a full-bleed polka dot background and a floating "Not a client yet?" CTA.
 - **Mobile Optimization**: Conditional rendering of hero video/image, optimized image formats (WebP), and client-side font loading for improved Lighthouse scores.

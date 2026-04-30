@@ -1,5 +1,9 @@
 "use client";
 
+import { useState } from "react";
+import { ShieldCheck, ArrowRight } from "lucide-react";
+import Navigation from "@/components/navigation";
+import QuoteModal from "@/components/quote-modal";
 import { useTranslation } from "@/components/theme-provider";
 
 const CLIENT_PORTAL_URL =
@@ -7,32 +11,65 @@ const CLIENT_PORTAL_URL =
 
 export default function ClientCenter() {
   const { t } = useTranslation();
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
 
   return (
-    <div className="fixed inset-0 bg-white">
-      <iframe
-        src={CLIENT_PORTAL_URL}
-        name="EZLynx Customer Service Portal"
-        title="EZLynx Customer Service Portal"
-        className="w-full h-full border-0 block"
-        data-testid="client-center-iframe"
-      />
-      <noscript>
-        <div className="absolute inset-0 flex items-center justify-center p-6 text-center text-sm text-slate-600 bg-white">
-          <p>
-            {t.clientCenter.iframeFallback}{" "}
-            <a
-              href={CLIENT_PORTAL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 underline"
-            >
-              {t.clientCenter.fallbackLinkText}
-            </a>
-            .
-          </p>
+    <div className="min-h-screen bg-muted dot-pattern flex flex-col">
+      <Navigation />
+
+      <main className="flex-1 flex flex-col pt-28 sm:pt-32 pb-32 sm:pb-28">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div
+            className="relative w-full bg-white rounded-2xl sm:rounded-3xl shadow-2xl ring-1 ring-slate-200 overflow-hidden mx-auto max-w-6xl"
+            data-testid="client-center-portal-wrapper"
+          >
+            <iframe
+              src={CLIENT_PORTAL_URL}
+              name="EZLynx Customer Service Portal"
+              title="EZLynx Customer Service Portal"
+              className="w-full block border-0 h-[calc(100vh-14rem)] sm:h-[calc(100vh-13rem)]"
+              data-testid="client-center-iframe"
+            />
+            <noscript>
+              <div className="absolute inset-0 flex items-center justify-center p-6 text-center text-sm text-slate-600 bg-white">
+                <p>
+                  {t.clientCenter.iframeFallback}{" "}
+                  <a
+                    href={CLIENT_PORTAL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline"
+                  >
+                    {t.clientCenter.fallbackLinkText}
+                  </a>
+                  .
+                </p>
+              </div>
+            </noscript>
+          </div>
         </div>
-      </noscript>
+      </main>
+
+      <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-40 w-[calc(100vw-2rem)] max-w-xl px-2 pointer-events-none">
+        <div className="pointer-events-auto rounded-full bg-white/95 backdrop-blur-md ring-1 ring-slate-200 shadow-2xl px-4 py-2.5 sm:px-5 sm:py-3 flex items-center justify-center gap-3 sm:gap-4">
+          <div className="hidden sm:flex w-8 h-8 rounded-full bg-blue-100 items-center justify-center flex-shrink-0">
+            <ShieldCheck className="w-4 h-4 text-blue-600" />
+          </div>
+          <h2 className="text-sm sm:text-base font-semibold text-slate-900 leading-tight">
+            {t.clientCenter.newToInsureIt}
+          </h2>
+          <button
+            onClick={() => setQuoteModalOpen(true)}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all whitespace-nowrap"
+            data-testid="client-center-get-quote-cta"
+          >
+            {t.clientCenter.getQuoteCta}
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+
+      <QuoteModal open={quoteModalOpen} onOpenChange={setQuoteModalOpen} />
     </div>
   );
 }

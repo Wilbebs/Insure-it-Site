@@ -17,36 +17,34 @@ export default function ClientCenter() {
     <div className="min-h-screen bg-muted dot-pattern flex flex-col">
       <Navigation />
 
-      <main className="flex-1 flex flex-col pt-28 sm:pt-32 pb-32 sm:pb-28">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div
-            className="relative w-full bg-white rounded-2xl sm:rounded-3xl shadow-2xl ring-1 ring-slate-200 overflow-hidden mx-auto max-w-6xl"
-            data-testid="client-center-portal-wrapper"
-          >
-            <iframe
-              src={CLIENT_PORTAL_URL}
-              name="EZLynx Customer Service Portal"
-              title="EZLynx Customer Service Portal"
-              className="w-full block border-0 h-[1300px] sm:h-[760px]"
-              data-testid="client-center-iframe"
-            />
-            <noscript>
-              <div className="absolute inset-0 flex items-center justify-center p-6 text-center text-sm text-slate-600 bg-white">
-                <p>
-                  {t.clientCenter.iframeFallback}{" "}
-                  <a
-                    href={CLIENT_PORTAL_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline"
-                  >
-                    {t.clientCenter.fallbackLinkText}
-                  </a>
-                  .
-                </p>
-              </div>
-            </noscript>
-          </div>
+      <main className="flex-1 flex flex-col pt-24 sm:pt-28 pb-24 sm:pb-24">
+        <div
+          className="relative w-full bg-muted dot-pattern overflow-hidden"
+          data-testid="client-center-portal-wrapper"
+        >
+          <iframe
+            src={CLIENT_PORTAL_URL}
+            name="EZLynx Customer Service Portal"
+            title="EZLynx Customer Service Portal"
+            className="w-full block border-0 h-[1300px] sm:h-[760px] bg-transparent"
+            data-testid="client-center-iframe"
+          />
+          <noscript>
+            <div className="absolute inset-0 flex items-center justify-center p-6 text-center text-sm text-slate-600 bg-white">
+              <p>
+                {t.clientCenter.iframeFallback}{" "}
+                <a
+                  href={CLIENT_PORTAL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  {t.clientCenter.fallbackLinkText}
+                </a>
+                .
+              </p>
+            </div>
+          </noscript>
         </div>
       </main>
 

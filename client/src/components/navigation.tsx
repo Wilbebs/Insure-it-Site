@@ -44,7 +44,7 @@ export default function Navigation() {
         data-testid="main-navigation"
       >
         <div className={`flex items-center justify-between w-full transition-all duration-500 ${
-          isScrolled ? 'gap-3' : 'gap-12'
+          isScrolled ? 'gap-6' : 'gap-12'
         }`}>
           {/* Left side: Logo */}
           <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative flex-shrink-0" data-testid="link-home">
@@ -56,7 +56,7 @@ export default function Navigation() {
 
           {/* Center Nav Links */}
           <div className={`flex items-center justify-center flex-1 transition-all duration-500 ${
-            isScrolled ? 'space-x-5' : 'space-x-8 xl:space-x-10'
+            isScrolled ? 'gap-3' : 'gap-6 xl:gap-8'
           }`}>
             <Link 
               href="/"
@@ -68,6 +68,7 @@ export default function Navigation() {
             >
               {t.nav.getQuoted}
             </Link>
+            <span className="text-slate-300 text-sm xl:text-base select-none" aria-hidden="true">|</span>
             <Link 
               href="/about"
               onClick={handleNavClick}
@@ -78,6 +79,7 @@ export default function Navigation() {
             >
               {t.nav.aboutUs}
             </Link>
+            <span className="text-slate-300 text-sm xl:text-base select-none" aria-hidden="true">|</span>
             <Link
               href="/client-center"
               onClick={handleNavClick}

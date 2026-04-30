@@ -18,7 +18,7 @@ export default function ClientCenter() {
     <div className="min-h-screen bg-white flex flex-col">
       <Navigation />
 
-      <main className="flex-1 flex flex-col">
+      <main className="flex-1 flex flex-col pt-24 sm:pt-28">
         <div
           className="relative w-full bg-white"
           data-testid="client-center-portal-wrapper"
@@ -27,7 +27,7 @@ export default function ClientCenter() {
             src={CLIENT_PORTAL_URL}
             name="EZLynx Customer Service Portal"
             title="EZLynx Customer Service Portal"
-            className="w-full block border-0 h-[calc(100vh-5rem)] sm:h-[calc(100vh-6rem)]"
+            className="w-full block border-0 h-[calc(100vh-6rem)] sm:h-[calc(100vh-7rem)]"
             data-testid="client-center-iframe"
           />
           <noscript>

@@ -18,16 +18,16 @@ export default function ClientCenter() {
       <Navigation />
 
       <main className="flex-1 flex flex-col pt-28 sm:pt-32 pb-32 sm:pb-28">
-        <div className="w-full px-4 sm:px-6">
+        <div className="container mx-auto px-4 sm:px-6">
           <div
-            className="relative w-full bg-white rounded-2xl sm:rounded-3xl shadow-2xl ring-1 ring-slate-200 overflow-hidden"
+            className="relative w-full bg-white rounded-2xl sm:rounded-3xl shadow-2xl ring-1 ring-slate-200 overflow-hidden mx-auto max-w-6xl"
             data-testid="client-center-portal-wrapper"
           >
             <iframe
               src={CLIENT_PORTAL_URL}
               name="EZLynx Customer Service Portal"
               title="EZLynx Customer Service Portal"
-              className="w-full block border-0 h-[calc(100vh-14rem)] sm:h-[calc(100vh-13rem)]"
+              className="w-full block border-0 h-[1100px] sm:h-[1200px]"
               data-testid="client-center-iframe"
             />
             <noscript>

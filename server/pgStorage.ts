@@ -226,7 +226,7 @@ export class PostgresStorage implements IStorage {
 
   async getPolicyApplications(): Promise<PolicyApplication[]> {
     const result = await pool.query('SELECT * FROM policy_applications ORDER BY submitted_at DESC');
-    return result.rows.map(row => ({
+    return result.rows.map((row: any) => ({
       ...row,
       documents: JSON.parse(row.documents || '[]'),
       submittedAt: row.submitted_at

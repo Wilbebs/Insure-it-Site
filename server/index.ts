@@ -1,14 +1,16 @@
 import dotenv from 'dotenv';
 import 'dotenv/config';
 dotenv.config();
-console.log('🔍 DATABASE_URL loaded:', process.env.DATABASE_URL ? 'YES' : 'NO');
+// RDS DB disabled — DATABASE_URL load check no longer needed for startup.
+// console.log('🔍 DATABASE_URL loaded:', process.env.DATABASE_URL ? 'YES' : 'NO');
 console.log('🔍 AWS_REGION loaded:', process.env.AWS_REGION ? 'YES' : 'NO');
 
 import express, { type Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import { registerRoutes } from "./routes";
 import { log } from "./logger";
-import { runMigrations } from "./migrate";
+// RDS DB disabled — startup migrations not run.
+// import { runMigrations } from "./migrate";
 import { generalApiLimiter } from "./security";
 import next from "next";
 import path from "path";
@@ -64,11 +66,12 @@ app.use((req, res, next) => {
 (async () => {
   await nextApp.prepare();
 
-  try {
-    await runMigrations();
-  } catch (err) {
-    console.warn('⚠️  DB unavailable at startup — skipping migrations, continuing anyway.');
-  }
+  // RDS DB disabled — startup migrations skipped.
+  // try {
+  //   await runMigrations();
+  // } catch (err) {
+  //   console.warn('⚠️  DB unavailable at startup — skipping migrations, continuing anyway.');
+  // }
 
   const server = await registerRoutes(app);
 

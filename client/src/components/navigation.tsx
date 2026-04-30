@@ -87,7 +87,7 @@ export default function Navigation() {
               }`}
               data-testid="nav-client-center"
             >
-              {t.nav.clientCenter}
+              {isScrolled ? t.nav.clientCenterShort : t.nav.clientCenter}
             </Link>
           </div>
 

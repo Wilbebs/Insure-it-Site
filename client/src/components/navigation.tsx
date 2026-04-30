@@ -37,14 +37,14 @@ export default function Navigation() {
       <nav 
         className={`fixed left-1/2 transform -translate-x-1/2 z-50 glass-nav py-4 hidden lg:block transition-all duration-500 ease-in-out ${
           isScrolled 
-            ? 'top-4 rounded-full pl-6 pr-8' 
+            ? 'top-4 rounded-full pl-4 pr-6 max-w-[calc(100vw-1rem)]' 
             : 'top-0 rounded-none w-full px-4 sm:px-8'
         }`}
-        style={isScrolled && socialHovered ? { paddingRight: '5rem' } : undefined}
+        style={isScrolled && socialHovered ? { paddingRight: '6rem' } : undefined}
         data-testid="main-navigation"
       >
         <div className={`flex items-center justify-between w-full transition-all duration-500 ${
-          isScrolled ? 'gap-6' : 'gap-12'
+          isScrolled ? 'gap-3' : 'gap-12'
         }`}>
           {/* Left side: Logo */}
           <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative flex-shrink-0" data-testid="link-home">
@@ -56,7 +56,7 @@ export default function Navigation() {
 
           {/* Center Nav Links */}
           <div className={`flex items-center justify-center flex-1 transition-all duration-500 ${
-            isScrolled ? 'space-x-8' : 'space-x-8 xl:space-x-10'
+            isScrolled ? 'space-x-5' : 'space-x-8 xl:space-x-10'
           }`}>
             <Link 
               href="/"

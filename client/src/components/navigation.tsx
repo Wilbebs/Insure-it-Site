@@ -40,7 +40,7 @@ export default function Navigation() {
             ? 'top-4 rounded-full pl-4 pr-6 max-w-[calc(100vw-1rem)]' 
             : 'top-0 rounded-none w-full px-4 sm:px-8'
         }`}
-        style={isScrolled && socialHovered ? { paddingRight: '6rem' } : undefined}
+        style={isScrolled && socialHovered ? { paddingRight: '9rem' } : undefined}
         data-testid="main-navigation"
       >
         <div className={`flex items-center justify-between w-full transition-all duration-500 ${

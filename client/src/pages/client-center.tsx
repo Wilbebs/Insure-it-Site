@@ -18,9 +18,9 @@ export default function ClientCenter() {
       <Navigation />
 
       <main className="flex-1 flex flex-col pt-28 sm:pt-32 pb-32 sm:pb-28">
-        <div className="container mx-auto px-4 sm:px-6">
+        <div className="w-full px-4 sm:px-6">
           <div
-            className="relative w-full bg-white rounded-2xl sm:rounded-3xl shadow-2xl ring-1 ring-slate-200 overflow-hidden mx-auto max-w-6xl"
+            className="relative w-full bg-white rounded-2xl sm:rounded-3xl shadow-2xl ring-1 ring-slate-200 overflow-hidden"
             data-testid="client-center-portal-wrapper"
           >
             <iframe
@@ -50,8 +50,8 @@ export default function ClientCenter() {
         </div>
       </main>
 
-      <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-40 w-[calc(100vw-2rem)] max-w-xl px-2 pointer-events-none">
-        <div className="pointer-events-auto rounded-full bg-white/95 backdrop-blur-md ring-1 ring-slate-200 shadow-2xl px-4 py-2.5 sm:px-5 sm:py-3 flex items-center justify-center gap-3 sm:gap-4">
+      <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-40 max-w-[calc(100vw-2rem)] pointer-events-none">
+        <div className="pointer-events-auto inline-flex w-auto rounded-full bg-white/95 backdrop-blur-md ring-1 ring-slate-200 shadow-2xl px-3 py-2 sm:px-4 sm:py-2.5 items-center gap-2 sm:gap-3">
           <div className="hidden sm:flex w-8 h-8 rounded-full bg-blue-100 items-center justify-center flex-shrink-0">
             <ShieldCheck className="w-4 h-4 text-blue-600" />
           </div>

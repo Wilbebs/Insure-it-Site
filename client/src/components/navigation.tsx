@@ -37,14 +37,13 @@ export default function Navigation() {
       <nav 
         className={`fixed left-1/2 transform -translate-x-1/2 z-50 glass-nav py-4 hidden lg:block transition-all duration-500 ease-in-out ${
           isScrolled 
-            ? 'top-4 rounded-full pl-4 pr-8 max-w-[calc(100vw-1rem)]' 
+            ? 'top-4 rounded-full pl-6 pr-8' 
             : 'top-0 rounded-none w-full px-4 sm:px-8'
         }`}
+        style={isScrolled && socialHovered ? { paddingRight: '4rem' } : undefined}
         data-testid="main-navigation"
       >
-        <div className={`flex items-center justify-between w-full transition-all duration-500 ${
-          isScrolled ? 'gap-3 xl:gap-6' : 'gap-6 xl:gap-12'
-        }`}>
+        <div className="flex items-center justify-between w-full gap-12">
           {/* Left side: Logo */}
           <Link href="/" onClick={handleNavClick} className="flex flex-col items-center group relative flex-shrink-0" data-testid="link-home">
             <Logo />
@@ -55,7 +54,7 @@ export default function Navigation() {
 
           {/* Center Nav Links */}
           <div className={`flex items-center justify-center flex-1 transition-all duration-500 ${
-            isScrolled ? 'gap-2 xl:gap-3' : 'gap-6 xl:gap-8'
+            isScrolled ? 'space-x-8' : 'space-x-8 xl:space-x-10'
           }`}>
             <Link 
               href="/"
@@ -67,7 +66,6 @@ export default function Navigation() {
             >
               {t.nav.getQuoted}
             </Link>
-            <span className="text-slate-300 text-sm xl:text-base select-none" aria-hidden="true">|</span>
             <Link 
               href="/about"
               onClick={handleNavClick}
@@ -78,22 +76,11 @@ export default function Navigation() {
             >
               {t.nav.aboutUs}
             </Link>
-            <span className="text-slate-300 text-sm xl:text-base select-none" aria-hidden="true">|</span>
-            <Link
-              href="/client-center"
-              onClick={handleNavClick}
-              className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
-                location === "/client-center" ? "text-blue-600" : "text-slate-800 hover:text-black"
-              }`}
-              data-testid="nav-client-center"
-            >
-              {isScrolled ? t.nav.clientCenterShort : t.nav.clientCenter}
-            </Link>
           </div>
 
           {/* Right side: Social Media Links + Theme Toggle */}
           <div
-            className={`flex items-center flex-shrink-0 transition-all duration-500 ease-in-out ${
+            className={`flex items-center flex-shrink-0 transition-all duration-300 ease-in-out ${
               isScrolled && !socialHovered ? '-space-x-6' : 'gap-2'
             }`}
             onMouseEnter={() => isScrolled && setSocialHovered(true)}
@@ -135,31 +122,25 @@ export default function Navigation() {
               <FaFacebook className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors duration-300" />
             </a>
 
-            {/* Language Toggle - always rendered; opacity + max-width collapse it when scrolled+!hovered so the whole nav animates as a single 500ms motion */}
-            <button
-              onClick={toggleLanguage}
-              className={`relative rounded-full bg-white/90 hover:bg-primary group shadow-md hover:shadow-lg transition-all duration-500 ease-in-out ${
-                isScrolled
-                  ? socialHovered
-                    ? 'opacity-100 ml-1 px-3 py-1.5 max-w-[80px]'
-                    : 'opacity-0 ml-0 px-0 py-0 max-w-0 pointer-events-none'
-                  : 'opacity-100 ml-6 px-3 py-1.5 max-w-[80px]'
-              }`}
-              data-testid="language-toggle"
-              aria-label={t.nav.switchLang}
-              tabIndex={isScrolled && !socialHovered ? -1 : 0}
-              aria-hidden={isScrolled && !socialHovered}
-            >
-              <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300 whitespace-nowrap">
-                {language === "en" ? "EN" : "ES"}
-              </span>
-              <img
-                src={language === "en" ? usaFlagIcon : spainFlagIcon}
-                alt=""
-                aria-hidden="true"
-                className="absolute -top-1 -left-1 w-5 h-5 object-contain rounded-full drop-shadow-sm"
-              />
-            </button>
+            {/* Language Toggle - visible when full-sized or when social icons are hovered */}
+            {(!isScrolled || socialHovered) && (
+              <button
+                onClick={toggleLanguage}
+                className={`relative px-3 py-1.5 rounded-full bg-white/90 hover:bg-primary transition-all duration-300 group shadow-md hover:shadow-lg ${isScrolled ? 'ml-1' : 'ml-6'}`}
+                data-testid="language-toggle"
+                aria-label={t.nav.switchLang}
+              >
+                <span className="text-sm font-bold text-slate-700 group-hover:text-white transition-colors duration-300">
+                  {language === "en" ? "EN" : "ES"}
+                </span>
+                <img
+                  src={language === "en" ? usaFlagIcon : spainFlagIcon}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute -top-1 -left-1 w-5 h-5 object-contain rounded-full drop-shadow-sm"
+                />
+              </button>
+            )}
           </div>
         </div>
       </nav>
@@ -204,17 +185,6 @@ export default function Navigation() {
               data-testid="nav-about-mobile"
             >
               {t.nav.aboutUs}
-            </Link>
-            <span className={`text-slate-300 ${isScrolled ? 'text-[10px]' : 'text-xs'}`}>|</span>
-            <Link
-              href="/client-center"
-              onClick={handleNavClick}
-              className={`transition-colors font-medium whitespace-nowrap ${isScrolled ? 'text-[10px]' : 'text-xs'} ${
-                location === "/client-center" ? "text-blue-600" : "text-slate-800 hover:text-black"
-              }`}
-              data-testid="nav-client-center-mobile"
-            >
-              {t.nav.clientCenterShort}
             </Link>
           </div>
 

@@ -126,6 +126,14 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         }}
         aria-describedby="quote-form-description"
       >
+        <div
+          className="hidden sm:block absolute top-4 left-4 z-10 pointer-events-none"
+          aria-hidden="true"
+          data-testid="logo-quote-modal-desktop"
+        >
+          <Logo imgClassName="h-8" />
+        </div>
+
         <DialogHeader className="pb-2 max-sm:sr-only">
           <DialogTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 text-center">
             {t.quote.dialogTitle}

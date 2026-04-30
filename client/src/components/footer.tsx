@@ -89,6 +89,16 @@ export default function Footer({ onGetQuote }: FooterProps) {
                   {t.footer.getQuote}
                 </button>
               </li>
+              <li>
+                <Link
+                  href="/client-center"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="hover:opacity-100 transition-opacity"
+                  data-testid="footer-link-client-center"
+                >
+                  {t.footer.clientCenter}
+                </Link>
+              </li>
             </ul>
           </div>
 

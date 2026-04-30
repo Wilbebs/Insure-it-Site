@@ -3,6 +3,8 @@ const translations = {
     nav: {
       getQuoted: "Home",
       aboutUs: "About Us",
+      clientCenter: "Client Center",
+      clientCenterShort: "Clients",
       switchLang: "Switch to Spanish",
     },
     hero: {
@@ -249,8 +251,18 @@ const translations = {
       home: "Home",
       aboutUs: "About Us",
       getQuote: "Get a Quote",
+      clientCenter: "Client Center",
       contactInfo: "Contact Info",
       copyright: "© 2025 Insure-it Group. All rights reserved.",
+    },
+    clientCenter: {
+      title: "Client Center",
+      subtitle: "Existing customer? Log in to view policies, request changes, and manage your account.",
+      portalNote: "Secure portal powered by EZLynx Customer Service.",
+      iframeFallback: "Your browser cannot display the secure portal. Please",
+      fallbackLinkText: "click here to open it in a new tab",
+      newToInsureIt: "Not a client yet?",
+      getQuoteCta: "Get a Quote",
     },
     about: {
       ourStory: "Our Story",
@@ -500,6 +512,8 @@ const translations = {
     nav: {
       getQuoted: "Inicio",
       aboutUs: "Sobre Nosotros",
+      clientCenter: "Centro de Clientes",
+      clientCenterShort: "Clientes",
       switchLang: "Cambiar a Inglés",
     },
     hero: {
@@ -746,8 +760,18 @@ const translations = {
       home: "Inicio",
       aboutUs: "Sobre Nosotros",
       getQuote: "Obtener Cotización",
+      clientCenter: "Centro de Clientes",
       contactInfo: "Información de Contacto",
       copyright: "© 2025 Insure-it Group. Todos los derechos reservados.",
+    },
+    clientCenter: {
+      title: "Centro de Clientes",
+      subtitle: "¿Ya es cliente? Inicie sesión para ver sus pólizas, solicitar cambios y administrar su cuenta.",
+      portalNote: "Portal seguro proporcionado por EZLynx Customer Service.",
+      iframeFallback: "Su navegador no puede mostrar el portal seguro. Por favor",
+      fallbackLinkText: "haga clic aquí para abrirlo en una nueva pestaña",
+      newToInsureIt: "¿Aún no es cliente?",
+      getQuoteCta: "Obtener Cotización",
     },
     about: {
       ourStory: "Nuestra Historia",

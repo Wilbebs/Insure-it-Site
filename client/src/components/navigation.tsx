@@ -76,6 +76,16 @@ export default function Navigation() {
             >
               {t.nav.aboutUs}
             </Link>
+            <Link
+              href="/client-center"
+              onClick={handleNavClick}
+              className={`transition-colors font-medium text-sm xl:text-base whitespace-nowrap ${
+                location === "/client-center" ? "text-blue-600" : "text-slate-800 hover:text-black"
+              }`}
+              data-testid="nav-client-center"
+            >
+              {t.nav.clientCenter}
+            </Link>
           </div>
 
           {/* Right side: Social Media Links + Theme Toggle */}
@@ -185,6 +195,17 @@ export default function Navigation() {
               data-testid="nav-about-mobile"
             >
               {t.nav.aboutUs}
+            </Link>
+            <span className={`text-slate-300 ${isScrolled ? 'text-[10px]' : 'text-xs'}`}>|</span>
+            <Link
+              href="/client-center"
+              onClick={handleNavClick}
+              className={`transition-colors font-medium whitespace-nowrap ${isScrolled ? 'text-[10px]' : 'text-xs'} ${
+                location === "/client-center" ? "text-blue-600" : "text-slate-800 hover:text-black"
+              }`}
+              data-testid="nav-client-center-mobile"
+            >
+              {t.nav.clientCenterShort}
             </Link>
           </div>
 

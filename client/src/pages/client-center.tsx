@@ -19,14 +19,14 @@ export default function ClientCenter() {
 
       <main className="flex-1 flex flex-col pt-12 sm:pt-16 pb-24 sm:pb-24">
         <div
-          className="relative w-full max-w-[1040px] mx-auto bg-muted dot-pattern px-4 sm:px-6 py-6 sm:py-8"
+          className="relative w-full max-w-[988px] mx-auto bg-muted dot-pattern px-4 sm:px-6 py-6 sm:py-8"
           data-testid="client-center-portal-wrapper"
         >
           <iframe
             src={CLIENT_PORTAL_URL}
             name="EZLynx Customer Service Portal"
             title="EZLynx Customer Service Portal"
-            className="w-full max-w-[940px] mx-auto block border-0 h-[1300px] sm:h-[760px] bg-white rounded-2xl sm:rounded-3xl shadow-2xl ring-1 ring-slate-200"
+            className="w-full max-w-[940px] mx-auto block border-0 h-[1240px] sm:h-[600px] bg-white rounded-2xl sm:rounded-3xl shadow-2xl ring-1 ring-slate-200"
             data-testid="client-center-iframe"
           />
           <noscript>

@@ -14,28 +14,32 @@ const EZLYNX_QUOTE_URL =
   "https://www.agentinsure.com/compare/auto-insurance-home-insurance/insure/quote.aspx";
 
 const DESKTOP_NATURAL_WIDTH = 1024;
-const DESKTOP_NATURAL_HEIGHT = 1500;
+const MOBILE_NATURAL_WIDTH = 720;
+const NATURAL_HEIGHT = 1500;
 const MOBILE_BREAKPOINT = 640;
 const DESKTOP_MODAL_MAX = 768;
 const DESKTOP_MODAL_PADDING = 48;
+const MOBILE_HEADER_CROP = 0;
 
-type Layout = {
-  isMobile: boolean;
-  scale: number;
-};
-
-function computeLayout(): Layout {
+function computeLayout() {
   if (typeof window === "undefined") {
-    return { isMobile: false, scale: 1 };
+    return {
+      scale: 1,
+      naturalWidth: DESKTOP_NATURAL_WIDTH,
+      headerCrop: 0,
+    };
   }
   const vw = window.innerWidth;
   const isMobile = vw < MOBILE_BREAKPOINT;
-  if (isMobile) {
-    return { isMobile: true, scale: 1 };
-  }
-  const available = Math.min(vw, DESKTOP_MODAL_MAX) - DESKTOP_MODAL_PADDING;
-  const scale = Math.max(0.2, Math.min(1, available / DESKTOP_NATURAL_WIDTH));
-  return { isMobile: false, scale };
+  const naturalWidth = isMobile
+    ? MOBILE_NATURAL_WIDTH
+    : DESKTOP_NATURAL_WIDTH;
+  const available = isMobile
+    ? vw
+    : Math.min(vw, DESKTOP_MODAL_MAX) - DESKTOP_MODAL_PADDING;
+  const scale = Math.max(0.2, Math.min(1, available / naturalWidth));
+  const headerCrop = isMobile ? MOBILE_HEADER_CROP : 0;
+  return { scale, naturalWidth, headerCrop };
 }
 
 interface QuoteModalProps {
@@ -46,7 +50,11 @@ interface QuoteModalProps {
 export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
   const { t } = useTranslation();
   const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [layout, setLayout] = useState<Layout>(() => computeLayout());
+  const [layout, setLayout] = useState<{
+    scale: number;
+    naturalWidth: number;
+    headerCrop: number;
+  }>(() => computeLayout());
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -105,13 +113,13 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
     }
   };
 
-  const { isMobile, scale } = layout;
-  const desktopScaledHeight = Math.round(DESKTOP_NATURAL_HEIGHT * scale);
+  const { scale, naturalWidth, headerCrop } = layout;
+  const scaledHeight = Math.round((NATURAL_HEIGHT - headerCrop) * scale);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="custom-scrollbar max-w-3xl max-h-[90vh] overflow-y-auto border shadow-2xl rounded-3xl max-sm:flex max-sm:flex-col max-sm:w-screen max-sm:max-w-[100vw] max-sm:h-[100dvh] max-sm:max-h-[100dvh] max-sm:rounded-none max-sm:border-0 max-sm:p-0 max-sm:gap-0 max-sm:overflow-hidden"
+        className="custom-scrollbar max-w-3xl max-h-[90vh] overflow-y-auto border shadow-2xl rounded-3xl max-sm:w-screen max-sm:max-w-[100vw] max-sm:h-[100dvh] max-sm:max-h-[100dvh] max-sm:rounded-none max-sm:border-0 max-sm:p-0 max-sm:gap-0"
         style={{
           background: "#ffffff",
           borderColor: "hsla(210, 40%, 88%, 0.5)",
@@ -139,15 +147,15 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
         </DialogClose>
 
         <div
-          className="hidden max-sm:flex shrink-0 items-center justify-start px-4 py-3 bg-white border-b border-slate-100 shadow-sm"
+          className="hidden max-sm:flex sticky top-0 z-50 items-center justify-start px-4 py-3 bg-white/95 backdrop-blur-sm border-b border-slate-100 shadow-sm"
           data-testid="header-quote-modal-mobile"
         >
           <Logo imgClassName="h-9" />
         </div>
 
         <div
-          className="relative w-full min-w-0 bg-white rounded-2xl overflow-hidden max-sm:rounded-none max-sm:flex-1 max-sm:min-h-0"
-          style={!isMobile ? { height: `${desktopScaledHeight}px` } : undefined}
+          className="relative w-full min-w-0 overflow-hidden bg-white rounded-2xl max-sm:rounded-none"
+          style={{ height: `${scaledHeight}px` }}
         >
           <div
             className={`absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white rounded-2xl max-sm:rounded-none z-10 transition-opacity duration-500 ease-out ${
@@ -163,31 +171,20 @@ export default function QuoteModal({ open, onOpenChange }: QuoteModalProps) {
               {t.quote.loadingQuote}
             </p>
           </div>
-          {isMobile ? (
-            <iframe
-              src={EZLYNX_QUOTE_URL}
-              title={t.quote.dialogTitle}
-              onLoad={handleIframeLoad}
-              sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-              className="block w-full h-full border-0 bg-white"
-              data-testid="iframe-ezlynx-quote"
-            />
-          ) : (
-            <iframe
-              src={EZLYNX_QUOTE_URL}
-              title={t.quote.dialogTitle}
-              onLoad={handleIframeLoad}
-              sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-              className="block border-0 bg-white"
-              style={{
-                width: `${DESKTOP_NATURAL_WIDTH}px`,
-                height: `${DESKTOP_NATURAL_HEIGHT}px`,
-                transformOrigin: "top left",
-                transform: `scale(${scale})`,
-              }}
-              data-testid="iframe-ezlynx-quote"
-            />
-          )}
+          <iframe
+            src={EZLYNX_QUOTE_URL}
+            title={t.quote.dialogTitle}
+            onLoad={handleIframeLoad}
+            sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+            className="block border-0 bg-white"
+            style={{
+              width: `${naturalWidth}px`,
+              height: `${NATURAL_HEIGHT}px`,
+              transformOrigin: "top left",
+              transform: `scale(${scale}) translateY(-${headerCrop}px)`,
+            }}
+            data-testid="iframe-ezlynx-quote"
+          />
         </div>
       </DialogContent>
     </Dialog>
